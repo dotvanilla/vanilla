@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/21/2019 8:51:21 PM
+    ;; build: 4/21/2019 8:59:18 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -58,7 +58,7 @@
     ;; String from 45 with 11 bytes in memory
     (data (i32.const 45) "Hello world\00")
     
-    
+    (global $arrayLength (mut i32) (i32.const 9999))
 
     ;; export from [arrayTest]
     
@@ -73,10 +73,11 @@
     
     (func $arrayDeclares  
         ;; Public Function arrayDeclares() As void
-        (local $len i32)
+        (local $syntax3 i32)
+    (local $len i32)
     (local $syntax1 i32)
     (local $syntax2 i32)
-    (local $syntax3 f64)
+    (set_local $syntax3 (call $new_array (i32.sub (get_global $arrayLength) (i32.const 5))))
     (set_local $len (i32.const 999))
     (set_local $syntax1 (call $new_array (i32.sub (get_local $len) (i32.const 1))))
     (set_local $syntax2 (call $array_push (call $array_push (call $array_push (call $array_push (call $new_array (i32.const -1)) (i32.const 23)) (i32.const 42)) (i32.const 42)) (i32.const 4)))

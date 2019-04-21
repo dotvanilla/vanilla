@@ -212,7 +212,9 @@ Namespace Symbols.Parser
             Dim type$
             Dim init As Expression = Nothing
 
-            For Each name As String In fieldNames.Select(Function(v) v.Identifier.Text)
+            For Each namedVar As ModifiedIdentifierSyntax In fieldNames
+                Dim name$ = namedVar.Identifier.objectName
+
                 If Not var.Initializer Is Nothing Then
                     init = var.Initializer.GetInitialize(symbols, Nothing)
                     type = name.AsType(var.AsClause, symbols, init.TypeInfer(symbols))
@@ -248,6 +250,19 @@ Namespace Symbols.Parser
                             End With
 
                             Call symbols.doArrayImports
+                        End If
+                    Else
+                        If Not namedVar.ArrayBounds Is Nothing Then
+                            ' 这是一个VB6版本的数组申明语法
+                            init = New Array With {
+                                .Type = type,
+                                .size = namedVar.ArrayBounds _
+                                    .Arguments _
+                                    .First _
+                                    .GetExpression _
+                                    .ValueExpression(symbols)
+                            }
+                            type = type & "[]"
                         End If
                     End If
 
