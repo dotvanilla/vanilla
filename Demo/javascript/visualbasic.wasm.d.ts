@@ -7,7 +7,11 @@ declare namespace WebAssembly {
         function push(array: number, obj: number): number;
         function pop(array: number): number;
         function indexOf(array: number, obj: number): number;
-        function create(): number;
+        /**
+         * @param size If this parameter is a negative value, then an empty
+         *      will be returns.
+        */
+        function create(size: number): number;
         function get(array: number, index: number): number;
         function set(array: number, index: number, value: number): number;
         function length(array: number): number;

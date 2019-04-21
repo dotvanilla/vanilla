@@ -48,12 +48,13 @@ Module arrayTest
     Declare Function debug Lib "console" Alias "log" (any As String()) As Integer
     Declare Function print Lib "console" Alias "log" (any As String) As Integer
 
+    Public arrayLength = 9999
+
     Public Sub arrayDeclares()
+        Dim syntax3(arrayLength - 5) As Double
         Dim len = 999
         Dim syntax1 As Double() = New Double(len - 1) {}
         Dim syntax2 As Double() = New Double() {23, 42, 42, 4}
-        Dim syntax3(len - 5) As Double
-
 
     End Sub
 

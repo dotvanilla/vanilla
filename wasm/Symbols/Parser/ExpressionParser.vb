@@ -120,14 +120,20 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
-            Dim bounds As Expression = newArray.ArrayBounds _
-                .Arguments _
-                .First _
-                .GetExpression _
-                .ValueExpression(symbols)
-            Dim type = AsTypeHandler.GetType(newArray.Type, symbols).TypeName
+            If newArray.ArrayBounds Is Nothing Then
+                Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
+                array.Type = AsTypeHandler.GetType(newArray.Type, symbols).TypeName
+                Return array
+            Else
+                Dim bounds As Expression = newArray.ArrayBounds _
+                    .Arguments _
+                    .First _
+                    .GetExpression _
+                    .ValueExpression(symbols)
+                Dim type = AsTypeHandler.GetType(newArray.Type, symbols).TypeName
 
-            Return New Array With {.size = bounds, .Type = type}
+                Return New Array With {.size = bounds, .Type = type}
+            End If
         End Function
 
         <Extension>

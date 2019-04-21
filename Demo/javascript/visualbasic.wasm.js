@@ -22,8 +22,17 @@ var WebAssembly;
             return a.indexOf(obj);
         }
         JsArray.indexOf = indexOf;
-        function create() {
-            return WebAssembly.ObjectManager.addObject([]);
+        /**
+         * @param size If this parameter is a negative value, then an empty
+         *      will be returns.
+        */
+        function create(size) {
+            if (!size || size == undefined || size <= 0) {
+                return WebAssembly.ObjectManager.addObject([]);
+            }
+            else {
+                return WebAssembly.ObjectManager.addObject(new Array(size));
+            }
         }
         JsArray.create = create;
         function get(array, index) {
