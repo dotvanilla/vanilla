@@ -74,11 +74,7 @@ Namespace Symbols.Parser
 
             If Not asClause Is Nothing Then
                 With GetAsType(asClause, symbols)
-                    If Types.Convert2Wasm.ContainsKey(.ByRef) Then
-                        type = Types.Convert2Wasm(.ByRef)
-                    Else
-                        type = .FullName
-                    End If
+                    type = .TypeName
                 End With
             ElseIf name.Last Like Patterns.TypeChar Then
                 type = Types.TypeCharWasm(name.Last)
@@ -89,6 +85,16 @@ Namespace Symbols.Parser
             End If
 
             Return type
+        End Function
+
+        <Extension> Public Function TypeName(type As Type) As String
+            With type
+                If Types.Convert2Wasm.ContainsKey(.ByRef) Then
+                    Return Types.Convert2Wasm(.ByRef)
+                Else
+                    Return .FullName
+                End If
+            End With
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

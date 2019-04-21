@@ -133,15 +133,15 @@ End Module"
 
     Sub FileTest()
         For Each file As String In {
-                    "E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\functionTest.vb",
-                "E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\incrementTest.vb",
-                "E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\arrayTest.vb",
-            "E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\nullreferenceTest.vb",
-            "E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\Stringstest.vb",
-            "E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\EnumTest.vb",
-            "E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\DeclareTest.vb",
-"E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\boolTest.vb",
-"E:\repo\xDoc\ts\Linq.ts\TsBuild\Wasm\test\ForLoopTest.vb"}
+                 "..\arrayTest.vb",
+                    "..\functionTest.vb",
+                "..\incrementTest.vb",
+            "..\nullreferenceTest.vb",
+            "..\Stringstest.vb",
+            "..\EnumTest.vb",
+            "..\DeclareTest.vb",
+"..\boolTest.vb",
+"..\ForLoopTest.vb"}
 
             Call filetest(file)
 

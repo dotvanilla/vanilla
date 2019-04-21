@@ -82,6 +82,8 @@ Namespace Symbols.Parser
                     Return DirectCast(value, CollectionInitializerSyntax).CreateArray(symbols)
                 Case GetType(ObjectCreationExpressionSyntax)
                     Return DirectCast(value, ObjectCreationExpressionSyntax).CreateObject(symbols)
+                Case GetType(ArrayCreationExpressionSyntax)
+                    Return DirectCast(value, ArrayCreationExpressionSyntax).CreateArray(symbols)
                 Case Else
                     Throw New NotImplementedException(value.GetType.FullName)
             End Select
@@ -114,6 +116,17 @@ Namespace Symbols.Parser
             Else
                 Throw New NotImplementedException
             End If
+        End Function
+
+        <Extension>
+        Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
+            Dim bounds As Expression = newArray.ArrayBounds _
+                .Arguments _
+                .First _
+                .GetExpression _
+                .ValueExpression(symbols)
+            Dim type = AsTypeHandler.GetType(newArray.Type, symbols).TypeName
+
         End Function
 
         <Extension>
