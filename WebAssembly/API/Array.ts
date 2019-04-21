@@ -21,8 +21,16 @@
             return a.indexOf(obj);
         }
 
-        export function create(): number {
-            return ObjectManager.addObject([]);
+        /**
+         * @param size If this parameter is a negative value, then an empty
+         *      will be returns.
+        */
+        export function create(size: number): number {
+            if (!size || size == undefined || size <= 0) {
+                return ObjectManager.addObject([]);
+            } else {
+                return ObjectManager.addObject(new Array(size));
+            }
         }
 
         export function get(array: number, index: number): number {

@@ -83,7 +83,7 @@ Namespace Symbols.JavaScriptImports
             .Name = "new_array",
             .Package = NameOf(Array),
             .Result = "i32",
-            .Parameters = {}
+            .Parameters = {New NamedValue(Of String)("size", "i32")}
         }
 
         Public ReadOnly Property GetArrayElement As New ImportSymbol With {

@@ -51,18 +51,15 @@ Namespace Symbols
     ''' <summary>
     ''' Expression for create an new array
     ''' </summary>
-    Public Class ArraySymbol : Inherits Expression
+    Public Class ArraySymbol : Inherits AbstractArray
 
-        ''' <summary>
-        ''' Element type name
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Type As String
         Public Property Initialize As Expression()
 
         Public Overrides Function ToSExpression() As String
             ' create array object in javascript runtime
-            Dim newArray As New FuncInvoke(JavaScriptImports.Array.NewArray.Name) With {.Parameters = {}}
+            Dim newArray As New FuncInvoke(JavaScriptImports.Array.NewArray.Name) With {
+                .Parameters = {New LiteralExpression With {.type = "i32", .value = -1}}
+            }
 
             If Initialize.IsNullOrEmpty Then
                 ' 空数组
@@ -87,6 +84,33 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
             Return Type
+        End Function
+    End Class
+
+    Public MustInherit Class AbstractArray : Inherits Expression
+
+        ''' <summary>
+        ''' Element type name
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Type As String
+
+    End Class
+
+    Public Class Array : Inherits AbstractArray
+
+        Public Property size As Expression
+
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+            Return Type
+        End Function
+
+        Public Overrides Function ToSExpression() As String
+            Dim newArray As New FuncInvoke(JavaScriptImports.NewArray.Name) With {
+                .Parameters = {size}
+            }
+
+            Return newArray.ToSExpression
         End Function
     End Class
 End Namespace

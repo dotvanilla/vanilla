@@ -127,6 +127,7 @@ Namespace Symbols.Parser
                 .ValueExpression(symbols)
             Dim type = AsTypeHandler.GetType(newArray.Type, symbols).TypeName
 
+            Return New Array With {.size = bounds, .Type = type}
         End Function
 
         <Extension>
