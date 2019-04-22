@@ -73,6 +73,17 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
+        Public ReadOnly Property PopArray As New ImportSymbol With {
+            .ImportObject = "pop",
+            .Name = "array_pop",
+            .[Module] = "array",
+            .Package = NameOf(Array),
+            .Result = "i32",
+            .Parameters = {
+                New NamedValue(Of String)("array", "i32")
+            }
+        }
+
         ''' <summary>
         ''' Create an new array and then returns the array intptr
         ''' </summary>
