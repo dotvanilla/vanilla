@@ -73,9 +73,17 @@ Namespace Symbols.Parser
             Dim type$
 
             If Not asClause Is Nothing Then
-                With GetAsType(asClause, symbols)
-                    type = .TypeName
-                End With
+                If TypeOf asClause Is SimpleAsClauseSyntax Then
+                    With GetAsType(asClause, symbols)
+                        type = .TypeName
+                    End With
+                ElseIf TypeOf asClause Is AsNewClauseSyntax Then
+                    Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
+
+                    type = AsTypeHandler.GetType([new].Type, symbols).TypeName
+                Else
+                    Throw New NotImplementedException
+                End If
             ElseIf name.Last Like Patterns.TypeChar Then
                 type = Types.TypeCharWasm(name.Last)
                 name = name.Substring(0, name.Length - 1)
@@ -145,6 +153,8 @@ Namespace Symbols.Parser
 
                 If define.Name = "List" Then
                     Return tokenType.MakeArrayType
+                ElseIf define.Name = "Dictionary" Then
+                    Return GetType(DictionaryBase)
                 Else
                     Throw New NotImplementedException
                 End If

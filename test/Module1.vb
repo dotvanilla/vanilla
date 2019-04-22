@@ -133,6 +133,7 @@ End Module"
 
     Sub FileTest()
         For Each file As String In {
+                "..\dictionarytest.vb",
                  "..\arrayTest.vb",
                     "..\functionTest.vb",
                 "..\incrementTest.vb",

@@ -5,6 +5,8 @@
             {"A", {56, 7, 56, 7}}
         }
 
+        table = New Dictionary(Of String, Double())
+
         table("GG") = {44, 44}
         table.Add("AAAAAAA", {345, 654, 6, 5465445})
 
