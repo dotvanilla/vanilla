@@ -95,7 +95,7 @@ Namespace Symbols.Parser
             Dim typeName$
 
             If TypeOf type Is GenericNameSyntax Then
-                Dim elementType As Type
+                Dim elementType As Type()
 
                 With DirectCast(type, GenericNameSyntax).GetGenericType(symbols)
                     typeName = .Name
@@ -104,11 +104,17 @@ Namespace Symbols.Parser
 
                 If typeName = "List" Then
                     ' array和list在javascript之中都是一样的
-                    typeName = Types.Convert2Wasm(elementType)
+                    typeName = elementType(Scan0).TypeName
 
                     Return New ArraySymbol With {
-                        .Type = typeName,
+                        .type = typeName,
                         .Initialize = {}
+                    }
+                ElseIf typeName = "Dictionary" Then
+                    Return New ArrayTable With {
+                        .initialVal = {},
+                        .key = elementType(Scan0).TypeName,
+                        .type = elementType(1).TypeName
                     }
                 Else
                     Throw New NotImplementedException

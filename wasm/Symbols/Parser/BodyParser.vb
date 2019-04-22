@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::11c4af43eeb79cd407c31c8752a4f3ac, Symbols\Parser\BodyParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+' 
+' Copyright (c) 2019 GCModeller Cloud Platform
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BodyParser
-    ' 
-    '         Function: AssignVariable, GetInitialize, LocalDeclare, (+2 Overloads) ParseDeclarator, ParseExpression
-    '                   ValueAssign, ValueReturn
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BodyParser
+' 
+'         Function: AssignVariable, GetInitialize, LocalDeclare, (+2 Overloads) ParseDeclarator, ParseExpression
+'                   ValueAssign, ValueReturn
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -225,21 +225,32 @@ Namespace Symbols.Parser
                     If TypeOf var.AsClause Is AsNewClauseSyntax Then
                         With DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression
                             Dim objNew = DirectCast(.ByRef, ObjectCreationExpressionSyntax).Initializer
+                            Dim objType = DirectCast(.ByRef, ObjectCreationExpressionSyntax).Type
 
                             If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
                                 With DirectCast(objNew, ObjectCollectionInitializerSyntax)
                                     Dim collection As ArraySymbol = .Initializer.CreateArray(symbols)
 
                                     If type = GetType(DictionaryBase).FullName Then
+                                        Dim genericTypes As Type() = DirectCast(objType, GenericNameSyntax) _
+                                            .TypeArgumentList _
+                                            .Arguments _
+                                            .Select(Function(T)
+                                                        Return AsTypeHandler.GetType(T, symbols)
+                                                    End Function) _
+                                            .ToArray
+
                                         With New ArrayTable
                                             .initialVal = collection _
                                                 .Initialize _
                                                 .Select(Function(i)
-                                                            With DirectCast(init, ArraySymbol)
+                                                            With DirectCast(i, ArraySymbol)
                                                                 Return (.Initialize(0), .Initialize(1))
                                                             End With
                                                         End Function) _
                                                 .ToArray
+                                            .key = genericTypes(0).TypeName
+                                            .type = genericTypes(1).TypeName
 
                                             init = .ByRef
                                         End With
@@ -273,10 +284,10 @@ Namespace Symbols.Parser
 
                         If TypeOf init Is ArraySymbol Then
                             With DirectCast(init, ArraySymbol)
-                                .Type = type.Trim("["c, "]"c)
+                                .type = type.Trim("["c, "]"c)
 
-                                If .Type = GetType(String).FullName Then
-                                    .Type = "char*"
+                                If .type = GetType(String).FullName Then
+                                    .type = "char*"
                                 End If
                             End With
 
@@ -286,7 +297,7 @@ Namespace Symbols.Parser
                         If Not namedVar.ArrayBounds Is Nothing Then
                             ' 这是一个VB6版本的数组申明语法
                             init = New Array With {
-                                .Type = type,
+                                .type = type,
                                 .size = namedVar.ArrayBounds _
                                     .Arguments _
                                     .First _

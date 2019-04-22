@@ -123,12 +123,14 @@ Namespace Symbols.Parser
         }
 
         <Extension>
-        Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of Type)
+        Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of Type())
             Dim TypeName = generic.objectName
             Dim types = generic.TypeArgumentList.Arguments
-            Dim elementType = AsTypeHandler.GetType(types.First, symbols)
+            Dim elementType As Type() = types _
+                .Select(Function(T) AsTypeHandler.GetType(T, symbols)) _
+                .ToArray
 
-            Return New NamedValue(Of Type) With {
+            Return New NamedValue(Of Type()) With {
                 .Name = TypeName,
                 .Value = elementType
             }
@@ -151,9 +153,11 @@ Namespace Symbols.Parser
                 Dim define = generic.GetGenericType(symbols)
                 Dim tokenType = define.Value
 
+                ' 在javascript之中 array 和 list是一样的
                 If define.Name = "List" Then
-                    Return tokenType.MakeArrayType
+                    Return tokenType(Scan0).MakeArrayType
                 ElseIf define.Name = "Dictionary" Then
+                    ' 字典对象在javascript之中则是一个任意的object
                     Return GetType(DictionaryBase)
                 Else
                     Throw New NotImplementedException

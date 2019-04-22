@@ -179,10 +179,16 @@ Public Class Types
         Dim rightIsI32 As Boolean = rightTypeInfer = "i32"
         Dim isArrayType As Boolean = IsArray(left)
 
+        ' is any type in typescript
         If left = "object" OrElse left = "any" OrElse left = GetType(Object).FullName Then
             ' 可以传递任意类型给左边
             Return right
         ElseIf left Like stringType AndAlso rightTypeInfer Like stringType Then
+            Return right
+        End If
+
+        ' is a javascript object table
+        If left = GetType(DictionaryBase).FullName AndAlso TypeOf right Is ArrayTable Then
             Return right
         End If
 
@@ -195,6 +201,7 @@ Public Class Types
         ElseIf left = booleanType AndAlso rightIsI32 Then
             Return right
         ElseIf isArrayType AndAlso (TypeOf right Is ArraySymbol OrElse TypeOf right Is Symbols.Array) Then
+            ' is javascript array type
             Return right
         End If
 
