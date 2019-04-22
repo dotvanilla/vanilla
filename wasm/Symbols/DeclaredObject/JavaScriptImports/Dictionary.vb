@@ -2,6 +2,9 @@
 
 Namespace Symbols.JavaScriptImports
 
+    ''' <summary>
+    ''' The javascript any object api
+    ''' </summary>
     Public Module Dictionary
 
         ''' <summary>

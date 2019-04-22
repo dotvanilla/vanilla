@@ -55,6 +55,9 @@ Imports Wasm.Symbols.Parser
 
 Namespace Symbols.JavaScriptImports
 
+    ''' <summary>
+    ''' The javascript array api
+    ''' </summary>
     Public Module Array
 
         ''' <summary>

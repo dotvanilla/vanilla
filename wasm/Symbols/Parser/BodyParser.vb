@@ -224,11 +224,28 @@ Namespace Symbols.Parser
 
                     If TypeOf var.AsClause Is AsNewClauseSyntax Then
                         With DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression
-                            Dim objnew = DirectCast(.ByRef, ObjectCreationExpressionSyntax).Initializer
+                            Dim objNew = DirectCast(.ByRef, ObjectCreationExpressionSyntax).Initializer
 
-                            If TypeOf objnew Is ObjectCollectionInitializerSyntax Then
-                                With DirectCast(objnew, ObjectCollectionInitializerSyntax)
-                                    init = .Initializer.CreateArray(symbols)
+                            If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
+                                With DirectCast(objNew, ObjectCollectionInitializerSyntax)
+                                    Dim collection As ArraySymbol = .Initializer.CreateArray(symbols)
+
+                                    If type = GetType(DictionaryBase).FullName Then
+                                        With New ArrayTable
+                                            .initialVal = collection _
+                                                .Initialize _
+                                                .Select(Function(i)
+                                                            With DirectCast(init, ArraySymbol)
+                                                                Return (.Initialize(0), .Initialize(1))
+                                                            End With
+                                                        End Function) _
+                                                .ToArray
+
+                                            init = .ByRef
+                                        End With
+                                    Else
+                                        Throw New NotImplementedException
+                                    End If
                                 End With
                             Else
                                 Throw New NotImplementedException
