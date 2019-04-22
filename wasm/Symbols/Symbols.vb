@@ -132,6 +132,10 @@ Namespace Symbols
             Reference = funcName
         End Sub
 
+        Sub New(target As FuncSignature)
+            Reference = target.Name
+        End Sub
+
         Public Overrides Function ToSExpression() As String
             Dim arguments = Parameters _
                 .Select(Function(a)
@@ -248,9 +252,7 @@ Namespace Symbols
         End Function
     End Class
 
-    Public Class GetGlobalVariable : Inherits Expression
-
-        Public Property var As String
+    Public Class GetGlobalVariable : Inherits GetLocalVariable
 
         Sub New()
         End Sub
@@ -294,10 +296,24 @@ Namespace Symbols
             End Get
         End Property
 
+        ''' <summary>
+        ''' Is javascript array
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsArray As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Types.IsArray(type)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Is javascript object
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsObject As Boolean
+            Get
+                Return type = GetType(DictionaryBase).FullName OrElse TypeOf init Is ArrayTable
             End Get
         End Property
 

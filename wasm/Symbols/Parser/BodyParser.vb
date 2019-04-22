@@ -119,8 +119,27 @@ Namespace Symbols.Parser
                         arraySymbol, index, assign.Right.ValueExpression(symbols)
                     }
                 }
+            ElseIf TypeOf assign.Left Is MemberAccessExpressionSyntax Then
+                Dim left = DirectCast(assign.Left, MemberAccessExpressionSyntax)
+                Dim right = assign.Right.ValueExpression(symbols)
+                Dim objName = left.Expression.ToString
+                Dim memberName = left.Name.objectName
+
+                If symbols.GetUnderlyingType(objName) = GetType(DictionaryBase).FullName Then
+                    Dim key = symbols.StringConstant(memberName)
+
+                    Return New FuncInvoke(JavaScriptImports.Dictionary.SetValue) With {
+                        .Parameters = {
+                            symbols.GetObjectReference(objName),
+                            key, right
+                        }
+                    }
+                Else
+                    Throw New NotImplementedException
+                End If
+
             Else
-                Throw New NotImplementedException
+                Throw New NotImplementedException(assign.Left.GetType.FullName)
             End If
         End Function
 

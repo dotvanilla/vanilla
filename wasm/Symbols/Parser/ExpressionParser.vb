@@ -323,7 +323,7 @@ Namespace Symbols.Parser
                     .ToArray
             End If
 
-            Return New FuncInvoke(funcDeclare.Name) With {
+            Return New FuncInvoke(funcDeclare) With {
                 .Parameters = arguments
             }
         End Function

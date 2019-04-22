@@ -20,7 +20,7 @@ Namespace Symbols.JavaScriptImports
             .Parameters = {
                 New NamedValue(Of String)("table", "i32"),
                 New NamedValue(Of String)("key", "i32"),
-                New NamedValue(Of String)("value", "i32")
+                New NamedValue(Of String)("value", "any")
             }
         }
 

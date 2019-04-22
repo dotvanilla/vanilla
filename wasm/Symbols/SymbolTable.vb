@@ -293,6 +293,15 @@ Namespace Symbols
                         End Select
                     ElseIf contextObj.type Like Types.stringType Then
                         Return getStringInternal(name)
+                    ElseIf contextObj.IsObject Then
+                        Call Me.addRequired(JavaScriptImports.Dictionary.Create)
+                        Call Me.addRequired(JavaScriptImports.Dictionary.GetValue)
+                        Call Me.addRequired(JavaScriptImports.Dictionary.RemoveValue)
+                        Call Me.addRequired(JavaScriptImports.Dictionary.SetValue)
+
+                        Select Case name
+                            Case "Add" : Return functionList(JavaScriptImports.Dictionary.SetValue.Name)
+                        End Select
                     Else
                         Throw New NotImplementedException
                     End If
@@ -328,11 +337,24 @@ Namespace Symbols
             Return locals(name.Trim("$"c))
         End Function
 
+        ''' <summary>
+        ''' Get type of the variable
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns></returns>
         Public Function GetUnderlyingType(name As String) As String
             If IsLocal(name) Then
                 Return GetObjectSymbol(name).type
             Else
                 Return GetGlobal(name)
+            End If
+        End Function
+
+        Public Function GetObjectReference(name As String) As GetLocalVariable
+            If IsLocal(name) Then
+                Return New GetLocalVariable(name)
+            Else
+                Return New GetGlobalVariable(name)
             End If
         End Function
 

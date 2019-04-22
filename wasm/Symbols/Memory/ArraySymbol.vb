@@ -57,7 +57,7 @@ Namespace Symbols
 
         Public Overrides Function ToSExpression() As String
             ' create array object in javascript runtime
-            Dim newArray As New FuncInvoke(JavaScriptImports.Array.NewArray.Name) With {
+            Dim newArray As New FuncInvoke(JavaScriptImports.Array.NewArray) With {
                 .Parameters = {New LiteralExpression With {.type = "i32", .value = -1}}
             }
 
@@ -109,7 +109,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Dim newArray As New FuncInvoke(JavaScriptImports.NewArray.Name) With {
+            Dim newArray As New FuncInvoke(JavaScriptImports.NewArray) With {
                 .Parameters = {size}
             }
 
@@ -136,7 +136,7 @@ Namespace Symbols
 
         Public Overrides Function ToSExpression() As String
             ' create new table
-            Dim newTable As New FuncInvoke(JavaScriptImports.Dictionary.Create.Name) With {
+            Dim newTable As New FuncInvoke(JavaScriptImports.Dictionary.Create) With {
                 .Parameters = {}
             }
 
