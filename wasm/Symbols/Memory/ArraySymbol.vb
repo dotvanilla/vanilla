@@ -113,4 +113,52 @@ Namespace Symbols
             Return newArray.ToSExpression
         End Function
     End Class
+
+    Public Class ArrayTable : Inherits Expression
+
+        ''' <summary>
+        ''' Data type of array table key
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property key As String
+        ''' <summary>
+        ''' Data type of array table value
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property type As String
+
+        Public Property initialVal As (key As Expression, value As Expression)()
+
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+            Return type
+        End Function
+
+        Public Overrides Function ToSExpression() As String
+            ' create new table
+            Dim newTable As New FuncInvoke(JavaScriptImports.Dictionary.Create.Name) With {
+                .Parameters = {}
+            }
+
+            If initialVal.IsNullOrEmpty Then
+                Return newTable.ToSExpression
+            End If
+
+            Dim tableAppend = JavaScriptImports.Dictionary.SetValue.Name
+            Dim table As Expression = New FuncInvoke(tableAppend) With {
+                .Parameters = {
+                    newTable,
+                    initialVal(0).key,
+                    initialVal(0).value
+                }
+            }
+
+            For Each value In initialVal.Skip(1)
+                table = New FuncInvoke(tableAppend) With {
+                    .Parameters = {table, value.key, value.value}
+                }
+            Next
+
+            Return table.ToSExpression
+        End Function
+    End Class
 End Namespace

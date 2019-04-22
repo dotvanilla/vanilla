@@ -221,6 +221,20 @@ Namespace Symbols.Parser
                 Else
                     init = Nothing
                     type = name.AsType(var.AsClause, symbols)
+
+                    If TypeOf var.AsClause Is AsNewClauseSyntax Then
+                        With DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression
+                            Dim objnew = DirectCast(.ByRef, ObjectCreationExpressionSyntax).Initializer
+
+                            If TypeOf objnew Is ObjectCollectionInitializerSyntax Then
+                                With DirectCast(objnew, ObjectCollectionInitializerSyntax)
+                                    init = .Initializer.CreateArray(symbols)
+                                End With
+                            Else
+                                Throw New NotImplementedException
+                            End If
+                        End With
+                    End If
                 End If
 
                 If Not moduleName.StringEmpty Then

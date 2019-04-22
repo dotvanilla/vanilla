@@ -4,12 +4,16 @@ Namespace Symbols.JavaScriptImports
 
     Public Module Dictionary
 
+        ''' <summary>
+        ''' Set key-value and then returns the table hash code
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property SetValue As New ImportSymbol With {
             .ImportObject = "set",
             .[Module] = "table",
             .Name = "table_set",
             .Package = NameOf(Dictionary),
-            .Result = "void",
+            .Result = "i32",
             .Parameters = {
                 New NamedValue(Of String)("table", "i32"),
                 New NamedValue(Of String)("key", "i32"),

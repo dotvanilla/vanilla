@@ -2,7 +2,8 @@
 
     Sub addValues()
         Dim table As New Dictionary(Of String, Double()) From {
-            {"A", {56, 7, 56, 7}}
+            {"A", {56, 7, 56, 7}},
+            {"GGGGGG", {353, 53, 48593, 465, 46}}
         }
 
         table = New Dictionary(Of String, Double())
