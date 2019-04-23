@@ -145,7 +145,7 @@ declare namespace WebAssembly {
         function indexOf(input: number, find: number): number;
     }
 }
-declare namespace TypeScript {
+declare namespace vanilla {
     interface WebAssembly {
         instantiate(module: Uint8Array, dependencies: object): IWasm;
     }
@@ -159,7 +159,7 @@ declare namespace TypeScript {
         buffer: ArrayBuffer;
     }
 }
-declare namespace TypeScript {
+declare namespace vanilla {
     interface Config {
         /**
          * A lambda function for run your VisualBasic.NET application.
@@ -211,7 +211,7 @@ declare namespace TypeScript {
         array?: boolean;
     }
 }
-declare namespace TypeScript {
+declare namespace vanilla {
     interface IWasmFunc {
         (): void;
         /**
@@ -235,10 +235,22 @@ declare namespace TypeScript {
         function RunAssembly(module: string, opts: Config): void;
     }
 }
-declare namespace TypeScript {
+declare namespace vanilla {
+    class arrayReader extends memoryReader {
+        /**
+         * @param memory The memory buffer
+        */
+        constructor(memory: WasmMemory);
+        array(intPtr: number, type: string): number[];
+        private static sizeOf;
+        private static getReader;
+        toInt32(intPtr: number): number;
+    }
+}
+declare namespace vanilla {
     class memoryReader {
         protected buffer: ArrayBuffer;
-        constructor(bytechunks: TypeScript.WasmMemory);
+        constructor(bytechunks: WasmMemory);
         sizeOf(intPtr: number): number;
     }
     /**
@@ -255,15 +267,5 @@ declare namespace TypeScript {
         */
         readTextRaw(offset: number, length: number): string;
         readText(intPtr: number): string;
-    }
-    class arrayReader extends memoryReader {
-        /**
-         * @param memory The memory buffer
-        */
-        constructor(memory: WasmMemory);
-        array(intPtr: number, type: string): number[];
-        private static sizeOf;
-        private static getReader;
-        toInt32(intPtr: number): number;
     }
 }

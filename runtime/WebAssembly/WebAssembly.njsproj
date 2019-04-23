@@ -68,7 +68,10 @@
     <TypeScriptCompile Include="Wasm\Config.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Wasm\memoryReader.ts">
+    <TypeScriptCompile Include="Wasm\Memory\memoryReader.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Wasm\Memory\arrayReader.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Wasm\WebAssembly.ts" />
@@ -78,6 +81,7 @@
     <Folder Include="API\" />
     <Folder Include="API\text\" />
     <Folder Include="Wasm\" />
+    <Folder Include="Wasm\Memory\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

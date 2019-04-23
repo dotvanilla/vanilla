@@ -1,4 +1,4 @@
-﻿namespace TypeScript {
+﻿namespace vanilla {
 
     export interface WebAssembly {
 

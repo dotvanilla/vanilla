@@ -453,8 +453,8 @@ var WebAssembly;
         JsString.indexOf = indexOf;
     })(JsString = WebAssembly.JsString || (WebAssembly.JsString = {}));
 })(WebAssembly || (WebAssembly = {}));
-var TypeScript;
-(function (TypeScript) {
+var vanilla;
+(function (vanilla) {
     /**
      * The web assembly helper
     */
@@ -486,7 +486,7 @@ var TypeScript;
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
-                if (typeof TypeScript.logging == "object" && TypeScript.logging.outputEverything) {
+                if (typeof logging == "object" && logging.outputEverything) {
                     console.log("Load external WebAssembly module success!");
                     console.log(assembly);
                 }
@@ -622,46 +622,11 @@ var TypeScript;
             }
             return dependencies;
         }
-    })(Wasm = TypeScript.Wasm || (TypeScript.Wasm = {}));
-})(TypeScript || (TypeScript = {}));
-var TypeScript;
-(function (TypeScript) {
-    class memoryReader {
-        constructor(bytechunks) {
-            this.buffer = bytechunks.buffer;
-        }
-        sizeOf(intPtr) {
-            let buffer = new Uint8Array(this.buffer, intPtr);
-            let size = buffer.findIndex(b => b == 0);
-            return size;
-        }
-    }
-    TypeScript.memoryReader = memoryReader;
-    /**
-     * Read string helper from WebAssembly memory.
-    */
-    class stringReader extends memoryReader {
-        /**
-         * @param memory The memory buffer
-        */
-        constructor(memory) {
-            super(memory);
-            this.decoder = new TextDecoder();
-        }
-        /**
-         * Read text from WebAssembly memory buffer.
-        */
-        readTextRaw(offset, length) {
-            let str = new Uint8Array(this.buffer, offset, length);
-            let text = this.decoder.decode(str);
-            return text;
-        }
-        readText(intPtr) {
-            return this.readTextRaw(intPtr, this.sizeOf(intPtr));
-        }
-    }
-    TypeScript.stringReader = stringReader;
-    class arrayReader extends memoryReader {
+    })(Wasm = vanilla.Wasm || (vanilla.Wasm = {}));
+})(vanilla || (vanilla = {}));
+var vanilla;
+(function (vanilla) {
+    class arrayReader extends vanilla.memoryReader {
         /**
          * @param memory The memory buffer
         */
@@ -724,6 +689,44 @@ var TypeScript;
             return view.getInt32(0);
         }
     }
-    TypeScript.arrayReader = arrayReader;
-})(TypeScript || (TypeScript = {}));
+    vanilla.arrayReader = arrayReader;
+})(vanilla || (vanilla = {}));
+var vanilla;
+(function (vanilla) {
+    class memoryReader {
+        constructor(bytechunks) {
+            this.buffer = bytechunks.buffer;
+        }
+        sizeOf(intPtr) {
+            let buffer = new Uint8Array(this.buffer, intPtr);
+            let size = buffer.findIndex(b => b == 0);
+            return size;
+        }
+    }
+    vanilla.memoryReader = memoryReader;
+    /**
+     * Read string helper from WebAssembly memory.
+    */
+    class stringReader extends memoryReader {
+        /**
+         * @param memory The memory buffer
+        */
+        constructor(memory) {
+            super(memory);
+            this.decoder = new TextDecoder();
+        }
+        /**
+         * Read text from WebAssembly memory buffer.
+        */
+        readTextRaw(offset, length) {
+            let str = new Uint8Array(this.buffer, offset, length);
+            let text = this.decoder.decode(str);
+            return text;
+        }
+        readText(intPtr) {
+            return this.readTextRaw(intPtr, this.sizeOf(intPtr));
+        }
+    }
+    vanilla.stringReader = stringReader;
+})(vanilla || (vanilla = {}));
 //# sourceMappingURL=visualbasic.wasm.js.map

@@ -1,4 +1,4 @@
-﻿namespace TypeScript {
+﻿namespace vanilla {
 
     export interface IWasmFunc {
         (): void;
@@ -40,13 +40,23 @@
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
-                    if (typeof logging == "object" && logging.outputEverything) {
+                    if (showDebugMessage()) {
                         console.log("Load external WebAssembly module success!");
                         console.log(assembly);
                     }
 
                     opts.run(exportWasmApi(assembly));
                 });
+        }
+
+        export function showDebugMessage(): boolean {
+            if (typeof TypeScript == "object") {
+                if (typeof TypeScript.logging == "object" && TypeScript.logging.outputEverything) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         function exportWasmApi(assm: IWasm): object {
@@ -121,7 +131,7 @@
             return params;
         }
 
-        function createBytes(opts: Config): TypeScript.WasmMemory {
+        function createBytes(opts: Config): WasmMemory {
             let page = opts.page || { init: 10, max: 2048 };
             let config = { initial: page.init };
 
@@ -129,7 +139,7 @@
         }
 
         function ExecuteInternal(module: Uint8Array, opts: Config): IWasm {
-            var byteBuffer: TypeScript.WasmMemory = createBytes(opts);
+            var byteBuffer: WasmMemory = createBytes(opts);
             var dependencies = {
                 "global": {},
                 "env": {
