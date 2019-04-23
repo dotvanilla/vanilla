@@ -25,6 +25,18 @@
             console.error(Any(message));
         }
 
+        export function table(obj: number) {
+            console.table(Any(obj));
+        }
+
+        export function trace(message: number) {
+            console.trace(Any(message));
+        }
+
+        export function debug(message: number) {
+            console.debug(Any(message));
+        }
+
         function Any(intPtr: number): any {
             if (intPtr < 0) {
                 // 可能是一个指针，因为在这里指针都是小于零的
