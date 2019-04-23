@@ -1,4 +1,6 @@
-﻿namespace vanilla {
+﻿/// <reference path="memoryReader.ts" />
+
+namespace vanilla {
 
     export class arrayReader extends memoryReader {
 

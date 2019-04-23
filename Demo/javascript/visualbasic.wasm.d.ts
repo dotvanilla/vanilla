@@ -247,18 +247,6 @@ declare namespace vanilla {
     }
 }
 declare namespace vanilla {
-    class arrayReader extends memoryReader {
-        /**
-         * @param memory The memory buffer
-        */
-        constructor(memory: WasmMemory);
-        array(intPtr: number, type: string): number[];
-        private static sizeOf;
-        private static getReader;
-        toInt32(intPtr: number): number;
-    }
-}
-declare namespace vanilla {
     class memoryReader {
         protected buffer: ArrayBuffer;
         constructor(bytechunks: WasmMemory);
@@ -278,5 +266,17 @@ declare namespace vanilla {
         */
         readTextRaw(offset: number, length: number): string;
         readText(intPtr: number): string;
+    }
+}
+declare namespace vanilla {
+    class arrayReader extends memoryReader {
+        /**
+         * @param memory The memory buffer
+        */
+        constructor(memory: WasmMemory);
+        array(intPtr: number, type: string): number[];
+        private static sizeOf;
+        private static getReader;
+        toInt32(intPtr: number): number;
     }
 }
