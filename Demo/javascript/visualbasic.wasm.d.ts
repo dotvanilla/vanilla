@@ -75,6 +75,9 @@ declare namespace WebAssembly {
         function warn(message: number): void;
         function info(message: number): void;
         function error(message: number): void;
+        function table(obj: number): void;
+        function trace(message: number): void;
+        function debug(message: number): void;
     }
 }
 declare namespace WebAssembly {
@@ -85,6 +88,13 @@ declare namespace WebAssembly {
         function createElement(tag: number): number;
         function setAttribute(node: number, attr: number, value: number): void;
         function appendChild(parent: number, node: number): void;
+    }
+}
+declare namespace WebAssembly {
+    /**
+     * Url location api
+    */
+    module Location {
     }
 }
 declare namespace WebAssembly {

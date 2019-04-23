@@ -10,7 +10,7 @@
             let string: string = ObjectManager.readText(text);
             let substr: string = string.substr(from - 1, length);
 
-            return ObjectManager.addObject(substr);
+            return ObjectManager.addText(substr);
         }
 
         export function Len(text: number): number {
@@ -26,7 +26,7 @@
                 string = "";
             }
 
-            return ObjectManager.addObject(string);
+            return ObjectManager.addText(string);
         }
 
         export function LCase(text: number): number {
@@ -38,7 +38,7 @@
                 string = "";
             }
 
-            return ObjectManager.addObject(string);
+            return ObjectManager.addText(string);
         }
     }
 }

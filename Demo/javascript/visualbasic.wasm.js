@@ -1,4 +1,4 @@
-/// <reference path="../modules/linq.d.ts" />
+/// <reference path="../../modules/linq.d.ts" />
 var WebAssembly;
 (function (WebAssembly) {
     /**
@@ -217,6 +217,18 @@ var WebAssembly;
             console.error(Any(message));
         }
         Console.error = error;
+        function table(obj) {
+            console.table(Any(obj));
+        }
+        Console.table = table;
+        function trace(message) {
+            console.trace(Any(message));
+        }
+        Console.trace = trace;
+        function debug(message) {
+            console.debug(Any(message));
+        }
+        Console.debug = debug;
         function Any(intPtr) {
             if (intPtr < 0) {
                 // 可能是一个指针，因为在这里指针都是小于零的
@@ -290,7 +302,7 @@ var WebAssembly;
         function Mid(text, from, length) {
             let string = WebAssembly.ObjectManager.readText(text);
             let substr = string.substr(from - 1, length);
-            return WebAssembly.ObjectManager.addObject(substr);
+            return WebAssembly.ObjectManager.addText(substr);
         }
         Strings.Mid = Mid;
         function Len(text) {
@@ -305,7 +317,7 @@ var WebAssembly;
             else {
                 string = "";
             }
-            return WebAssembly.ObjectManager.addObject(string);
+            return WebAssembly.ObjectManager.addText(string);
         }
         Strings.UCase = UCase;
         function LCase(text) {
@@ -316,7 +328,7 @@ var WebAssembly;
             else {
                 string = "";
             }
-            return WebAssembly.ObjectManager.addObject(string);
+            return WebAssembly.ObjectManager.addText(string);
         }
         Strings.LCase = LCase;
     })(Strings = WebAssembly.Strings || (WebAssembly.Strings = {}));
