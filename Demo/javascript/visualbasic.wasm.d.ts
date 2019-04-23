@@ -37,7 +37,7 @@ declare namespace WebAssembly {
         /**
          * Load WebAssembly memory buffer into Javascript runtime.
         */
-        function load(bytes: TypeScript.WasmMemory): void;
+        function load(bytes: vanilla.WasmMemory): void;
         function printTextCache(): void;
         /**
          * Read text data from WebAssembly runtime its memory block
@@ -211,14 +211,24 @@ declare namespace vanilla {
         array?: boolean;
     }
 }
-declare namespace vanilla {
-    interface IWasmFunc {
-        (): void;
+declare namespace vanilla.Wasm {
+    module FunctionApi {
+        interface IWasmFunc {
+            (...param: any[]): void;
+            /**
+             * 当前的这个函数在WebAssembly导出来的函数的申明原型
+            */
+            WasmPrototype: () => any;
+        }
         /**
-         * 当前的这个函数在WebAssembly导出来的函数的申明原型
+         * 主要是创建一个对参数的封装函数，因为WebAssembly之中只有4中基础的数值类型
+         * 所以字符串，对象之类的都需要在这里进行封装之后才能够被传递进入WebAssembly
+         * 运行时环境之中
         */
-        WasmPrototype: () => any;
+        function buildApiFunc(func: object): IWasmFunc;
     }
+}
+declare namespace vanilla {
     /**
      * The web assembly helper
     */
@@ -233,6 +243,7 @@ declare namespace vanilla {
          *
         */
         function RunAssembly(module: string, opts: Config): void;
+        function showDebugMessage(): boolean;
     }
 }
 declare namespace vanilla {

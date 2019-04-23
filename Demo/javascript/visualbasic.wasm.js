@@ -94,7 +94,7 @@ var WebAssembly;
          * Load WebAssembly memory buffer into Javascript runtime.
         */
         function load(bytes) {
-            streamReader = new TypeScript.stringReader(bytes);
+            streamReader = new vanilla.stringReader(bytes);
             hashCode += 100;
         }
         ObjectManager.load = load;
@@ -455,6 +455,65 @@ var WebAssembly;
 })(WebAssembly || (WebAssembly = {}));
 var vanilla;
 (function (vanilla) {
+    var Wasm;
+    (function (Wasm) {
+        let FunctionApi;
+        (function (FunctionApi) {
+            /**
+             * 主要是创建一个对参数的封装函数，因为WebAssembly之中只有4中基础的数值类型
+             * 所以字符串，对象之类的都需要在这里进行封装之后才能够被传递进入WebAssembly
+             * 运行时环境之中
+            */
+            function buildApiFunc(func) {
+                let ObjMgr = WebAssembly.ObjectManager;
+                let api = function () {
+                    let intptr = func.apply(this, buildArguments(arguments));
+                    let result;
+                    if (ObjMgr.isText(intptr)) {
+                        result = ObjMgr.readText(intptr);
+                    }
+                    else if (!ObjMgr.isNull(intptr)) {
+                        result = ObjMgr.getObject(intptr);
+                    }
+                    else {
+                        result = intptr;
+                    }
+                    return result;
+                };
+                api.WasmPrototype = func;
+                return api;
+            }
+            FunctionApi.buildApiFunc = buildApiFunc;
+            function buildArguments(args) {
+                let params = [];
+                let value;
+                for (var i = 0; i < args.length; i++) {
+                    value = args[i];
+                    if (!value || typeof value == "undefined") {
+                        // zero intptr means nothing or value 0
+                        value = 0;
+                    }
+                    else if (typeof value == "string") {
+                        value = WebAssembly.ObjectManager.addText(value);
+                    }
+                    else if (typeof value == "object") {
+                        value = WebAssembly.ObjectManager.addObject(value);
+                    }
+                    else if (typeof value == "boolean") {
+                        value = value ? 1 : 0;
+                    }
+                    else {
+                        // do nothing
+                    }
+                    params.push(value);
+                }
+                return params;
+            }
+        })(FunctionApi = Wasm.FunctionApi || (Wasm.FunctionApi = {}));
+    })(Wasm = vanilla.Wasm || (vanilla.Wasm = {}));
+})(vanilla || (vanilla = {}));
+var vanilla;
+(function (vanilla) {
     /**
      * The web assembly helper
     */
@@ -486,7 +545,7 @@ var vanilla;
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
-                if (typeof logging == "object" && logging.outputEverything) {
+                if (showDebugMessage()) {
                     console.log("Load external WebAssembly module success!");
                     console.log(assembly);
                 }
@@ -494,13 +553,22 @@ var vanilla;
             });
         }
         Wasm.RunAssembly = RunAssembly;
+        function showDebugMessage() {
+            if (typeof TypeScript == "object") {
+                if (typeof TypeScript.logging == "object" && TypeScript.logging.outputEverything) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        Wasm.showDebugMessage = showDebugMessage;
         function exportWasmApi(assm) {
             let exports = assm.instance.exports;
             let api = {};
             for (let name in exports) {
                 let obj = exports[name];
                 if (typeof obj == "function") {
-                    obj = buildFunc(obj);
+                    obj = Wasm.FunctionApi.buildApiFunc(obj);
                 }
                 else {
                     // do nothing
@@ -508,55 +576,6 @@ var vanilla;
                 api[name] = obj;
             }
             return api;
-        }
-        /**
-         * 主要是创建一个对参数的封装函数，因为WebAssembly之中只有4中基础的数值类型
-         * 所以字符串，对象之类的都需要在这里进行封装之后才能够被传递进入WebAssembly
-         * 运行时环境之中
-        */
-        function buildFunc(func) {
-            let ObjMgr = WebAssembly.ObjectManager;
-            let api = function () {
-                let intptr = func.apply(this, buildArguments(arguments));
-                let result;
-                if (ObjMgr.isText(intptr)) {
-                    result = ObjMgr.readText(intptr);
-                }
-                else if (!ObjMgr.isNull(intptr)) {
-                    result = ObjMgr.getObject(intptr);
-                }
-                else {
-                    result = intptr;
-                }
-                return result;
-            };
-            api.WasmPrototype = func;
-            return api;
-        }
-        function buildArguments(args) {
-            let params = [];
-            let value;
-            for (var i = 0; i < args.length; i++) {
-                value = args[i];
-                if (!value || typeof value == "undefined") {
-                    // zero intptr means nothing or value 0
-                    value = 0;
-                }
-                else if (typeof value == "string") {
-                    value = WebAssembly.ObjectManager.addText(value);
-                }
-                else if (typeof value == "object") {
-                    value = WebAssembly.ObjectManager.addObject(value);
-                }
-                else if (typeof value == "boolean") {
-                    value = value ? 1 : 0;
-                }
-                else {
-                    // do nothing
-                }
-                params.push(value);
-            }
-            return params;
         }
         function createBytes(opts) {
             let page = opts.page || { init: 10, max: 2048 };

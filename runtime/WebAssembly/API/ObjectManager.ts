@@ -5,7 +5,7 @@
     */
     export module ObjectManager {
 
-        let streamReader: TypeScript.stringReader;
+        let streamReader: vanilla.stringReader;
         /**
          * 在这里主要是为了避免和内部的数值产生冲突
         */
@@ -16,8 +16,8 @@
         /**
          * Load WebAssembly memory buffer into Javascript runtime.
         */
-        export function load(bytes: TypeScript.WasmMemory): void {
-            streamReader = new TypeScript.stringReader(bytes);
+        export function load(bytes: vanilla.WasmMemory): void {
+            streamReader = new vanilla.stringReader(bytes);
             hashCode += 100;
         }
 
