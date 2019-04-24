@@ -191,6 +191,9 @@ Public Class Types
         If left = GetType(DictionaryBase).FullName AndAlso TypeOf right Is ArrayTable Then
             Return right
         End If
+        If rightIsI32 AndAlso IsArray(left) Then
+            Return right
+        End If
 
         If left = rightTypeInfer Then
             Return right

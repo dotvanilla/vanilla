@@ -158,9 +158,15 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function MemberExpression(ref As MemberAccessExpressionSyntax, symbols As SymbolTable) As Expression
-            Dim objName = ref.Expression.ToString
+            Dim objName = ref.Expression.ValueExpression(symbols)
             Dim memberName = ref.Name.objectName
             Dim [const] As EnumSymbol
+
+            If TypeOf ref.Expression Is SimpleNameSyntax Then
+
+            Else
+
+            End If
 
             If symbols.HaveEnumType(objName) Then
                 [const] = symbols.GetEnumType(objName)

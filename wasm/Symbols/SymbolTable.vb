@@ -301,6 +301,9 @@ Namespace Symbols
 
                         Select Case name
                             Case "Add" : Return functionList(JavaScriptImports.Dictionary.SetValue.Name)
+                            Case "Remove" : Return functionList(JavaScriptImports.Dictionary.RemoveValue.Name)
+                            Case Else
+                                Throw New NotImplementedException
                         End Select
                     Else
                         Throw New NotImplementedException
