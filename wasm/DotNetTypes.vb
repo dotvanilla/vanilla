@@ -1,4 +1,4 @@
-﻿Public Class DotNetTypes
+﻿Public Class DotNet
 
     ''' <summary>
     ''' <see cref="Integer"/>

@@ -206,15 +206,15 @@ Public Class Types
         End If
 
         Select Case left
-            Case "i32", "System.Int32"
+            Case "i32", DotNet.Integer
                 Return Types.CInt(right, symbols)
-            Case "i64", "System.Int64"
+            Case "i64", DotNet.Long
                 Return Types.CLng(right, symbols)
-            Case "f32", "System.Single"
+            Case "f32", DotNet.Single
                 Return Types.CSng(right, symbols)
-            Case "f64", "System.Double"
+            Case "f64", DotNet.Double
                 Return Types.CDbl(right, symbols)
-            Case "char*", "System.String", "System.Char"
+            Case "char*", DotNet.String, DotNet.Char
                 ' 左边是字符串类型，但是右边不是字符串或者整形数
                 ' 则说明是一个需要将目标转换为字符串的操作
                 Return right.AnyToString(symbols)
@@ -228,13 +228,13 @@ Public Class Types
         Dim operator$
 
         Select Case type
-            Case "i32", "System.Int32"
+            Case "i32", DotNet.Integer
                 Return exp
-            Case "i64", "System.Int64"
+            Case "i64", DotNet.Long
                 [operator] = "i32.wrap/i64"
-            Case "f32", "System.Single"
+            Case "f32", DotNet.Single
                 [operator] = "i32.trunc_s/f32"
-            Case "f64", "System.Double"
+            Case "f64", DotNet.Double
                 [operator] = "i32.trunc_s/f64"
             Case Else
                 Throw New NotImplementedException
@@ -248,13 +248,13 @@ Public Class Types
         Dim operator$
 
         Select Case type
-            Case "i32", "System.Int32"
+            Case "i32", DotNet.Integer
                 [operator] = "i64.extend_s/i32"
-            Case "i64", "System.Int64"
+            Case "i64", DotNet.Long
                 Return exp
-            Case "f32", "System.Single"
+            Case "f32", DotNet.Single
                 [operator] = "i64.trunc_s/f32"
-            Case "f64", "System.Double"
+            Case "f64", DotNet.Double
                 [operator] = "i64.trunc_s/f64"
             Case Else
                 Throw New NotImplementedException
@@ -268,13 +268,13 @@ Public Class Types
         Dim operator$
 
         Select Case type
-            Case "i32"
+            Case "i32", DotNet.Integer
                 [operator] = "f32.convert_s/i32"
-            Case "i64"
+            Case "i64", DotNet.Long
                 [operator] = "f32.convert_s/i64"
-            Case "f32"
+            Case "f32", DotNet.Single
                 Return exp
-            Case "f64"
+            Case "f64", DotNet.Double
                 [operator] = "f32.demote/f64"
             Case Else
                 Throw New NotImplementedException
@@ -288,13 +288,13 @@ Public Class Types
         Dim operator$
 
         Select Case type
-            Case "i32"
+            Case "i32", DotNet.Integer
                 [operator] = "f64.convert_s/i32"
-            Case "i64"
+            Case "i64", DotNet.Long
                 [operator] = "f64.convert_s/i64"
-            Case "f32"
+            Case "f32", DotNet.Single
                 [operator] = "f64.promote/f32"
-            Case "f64"
+            Case "f64", DotNet.Double
                 Return exp
             Case Else
                 Throw New NotImplementedException
