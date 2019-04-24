@@ -259,6 +259,24 @@ Namespace Symbols.Parser
                     funcName = DirectCast(reference, SimpleNameSyntax).objectName
                 Case GetType(IdentifierNameSyntax)
                     funcName = DirectCast(reference, IdentifierNameSyntax).objectName
+
+                    If symbols.IsAnyObject(funcName) Then
+                        Dim target = symbols.GetObjectSymbol(funcName)
+
+                        If target.type = GetType(DictionaryBase).FullName Then
+                            Return New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
+                                .Parameters = {
+                                    New GetLocalVariable(target.name),
+                                    invoke.ArgumentList _
+                                        .Arguments _
+                                        .First _
+                                        .Argument(symbols, New NamedValue(Of String)("key", "i32"))
+                                }
+                            }
+                        Else
+                            ' do nothing
+                        End If
+                    End If
                 Case GetType(MemberAccessExpressionSyntax)
                     Dim acc = DirectCast(reference, MemberAccessExpressionSyntax)
                     Dim isKeyAccess As Boolean = acc.OperatorToken.Text = "!"
@@ -273,6 +291,24 @@ Namespace Symbols.Parser
                         symbols,
                         isKeyAccess
                     )
+                Case GetType(InvocationExpressionSyntax)
+                    Dim acc = DirectCast(reference, InvocationExpressionSyntax).FunctionInvoke(symbols)
+
+                    If acc.TypeInfer(symbols) = "i32" Then
+                        ' 返回的是一个对象引用
+                        ' 在这里假设是一个数组
+                        Return New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
+                            .Parameters = {
+                                acc,
+                                invoke.ArgumentList _
+                                    .Arguments _
+                                    .First _
+                                    .Argument(symbols, ("index", "i32"))
+                            }
+                        }
+                    Else
+                        Throw New NotImplementedException
+                    End If
                 Case Else
                     Throw New NotImplementedException(reference.GetType.FullName)
             End Select

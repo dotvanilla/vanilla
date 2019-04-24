@@ -248,13 +248,13 @@ Public Class Types
         Dim operator$
 
         Select Case type
-            Case "i32"
+            Case "i32", "System.Int32"
                 [operator] = "i64.extend_s/i32"
-            Case "i64"
+            Case "i64", "System.Int64"
                 Return exp
-            Case "f32"
+            Case "f32", "System.Single"
                 [operator] = "i64.trunc_s/f32"
-            Case "f64"
+            Case "f64", "System.Double"
                 [operator] = "i64.trunc_s/f64"
             Case Else
                 Throw New NotImplementedException
