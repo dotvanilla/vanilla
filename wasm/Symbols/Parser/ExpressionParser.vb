@@ -261,12 +261,18 @@ Namespace Symbols.Parser
                     funcName = DirectCast(reference, IdentifierNameSyntax).objectName
                 Case GetType(MemberAccessExpressionSyntax)
                     Dim acc = DirectCast(reference, MemberAccessExpressionSyntax)
+                    Dim isKeyAccess As Boolean = acc.OperatorToken.Text = "!"
                     ' 模块或者变量名称
                     Dim target = acc.Expression
                     ' 目标函数名称
                     funcName$ = acc.Name.objectName
 
-                    Return target.ObjectInvoke(funcName, invoke.ArgumentList, symbols)
+                    Return target.ObjectInvoke(
+                        funcName,
+                        invoke.ArgumentList,
+                        symbols,
+                        isKeyAccess
+                    )
                 Case Else
                     Throw New NotImplementedException(reference.GetType.FullName)
             End Select
@@ -279,14 +285,16 @@ Namespace Symbols.Parser
         ''' 如果是本地变量，全局变量，常量，则可能是对象实例方法或者拓展方法
         ''' </summary>
         ''' <param name="target"></param>
-        ''' <param name="funcName$"></param>
+        ''' <param name="funcName"></param>
         ''' <param name="symbols"></param>
+        ''' <param name="isKeyAccess">如果这个参数为真的时候，表示为字典值得读取操作</param>
         ''' <returns></returns>
         <Extension>
         Public Function ObjectInvoke(target As ExpressionSyntax,
                                      funcName$,
                                      argumentList As ArgumentListSyntax,
-                                     symbols As SymbolTable) As Expression
+                                     symbols As SymbolTable,
+                                     isKeyAccess As Boolean) As Expression
 
             Dim argumentFirst As Expression = Nothing
             Dim funcDeclare As FuncSignature
@@ -300,16 +308,39 @@ Namespace Symbols.Parser
                 ' 模块静态引用或者对象实例引用
                 Dim name$ = DirectCast(target, IdentifierNameSyntax).objectName
 
-                funcDeclare = symbols.GetFunctionSymbol(name, funcName)
+                If isKeyAccess Then
+                    ' 当为字典键引用的时候，函数对象肯定是查找不到的
+                    Dim keyAccess As Expression = New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
+                        .Parameters = {
+                            target.ValueExpression(symbols),
+                            symbols.StringConstant(funcName)
+                        }
+                    }
 
-                If symbols.IsAnyObject(name) Then
-                    ' 是对对象实例的方法引用
-                    argumentFirst = target.ValueExpression(symbols)
-                    leftArguments = funcDeclare.Parameters.Skip(1).ToArray
-                ElseIf name Like symbols.ModuleNames Then
-                    ' 是对静态模块的方法引用
-                    argumentFirst = Nothing
-                    leftArguments = funcDeclare.Parameters
+                    ' 因为当前的表达式被判断是一个函数调用
+                    ' 所以字典的结果值应该是一个数组
+                    keyAccess = New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
+                        .Parameters = {
+                            keyAccess,
+                            argumentList.Arguments _
+                                .First _
+                                .Argument(symbols, New NamedValue(Of String)("i", "i32"))
+                        }
+                    }
+
+                    Return keyAccess
+                Else
+                    funcDeclare = symbols.GetFunctionSymbol(name, funcName)
+
+                    If symbols.IsAnyObject(name) Then
+                        ' 是对对象实例的方法引用
+                        argumentFirst = target.ValueExpression(symbols)
+                        leftArguments = funcDeclare.Parameters.Skip(1).ToArray
+                    ElseIf name Like symbols.ModuleNames Then
+                        ' 是对静态模块的方法引用
+                        argumentFirst = Nothing
+                        leftArguments = funcDeclare.Parameters
+                    End If
                 End If
             Else
                 Throw New NotImplementedException

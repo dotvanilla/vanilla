@@ -215,6 +215,22 @@ Namespace Symbols.Parser
                     If moduleName.StringEmpty Then
                         If Not [declare].init Is Nothing Then
                             Yield [declare].SetLocal
+
+                            If TypeOf [declare].init Is ArrayTable Then
+                                With DirectCast([declare].init, ArrayTable)
+                                    [declare].genericTypes = { .key, .type}
+                                End With
+                            ElseIf TypeOf [declare].init Is ArraySymbol Then
+                                With DirectCast([declare].init, ArraySymbol)
+                                    [declare].genericTypes = { .type}
+                                End With
+                            ElseIf TypeOf [declare].init Is Array Then
+                                With DirectCast([declare].init, Array)
+                                    [declare].genericTypes = { .type}
+                                End With
+                            Else
+                                [declare].genericTypes = {[declare].type}
+                            End If
                         End If
 
                         Call symbols.AddLocal([declare])

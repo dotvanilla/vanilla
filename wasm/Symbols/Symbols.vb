@@ -160,11 +160,29 @@ Namespace Symbols
                 End If
             Else
                 Dim func As FuncSignature
+                Dim obj As Expression
 
                 If Parameters.IsNullOrEmpty Then
                     func = symbolTable.GetFunctionSymbol(Nothing, Reference)
                 Else
-                    func = symbolTable.GetFunctionSymbol(Parameters(Scan0).TypeInfer(symbolTable), Reference)
+                    obj = Parameters(Scan0)
+
+                    ' 在这里需要对值元素类型为数组的字典引用进行一些额外的处理
+                    If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).Reference = JavaScriptImports.Dictionary.GetValue.Name Then
+                        Dim table = DirectCast(obj, FuncInvoke).Parameters(0)
+
+                        If TypeOf table Is GetLocalVariable Then
+                            Dim tableObj = symbolTable.GetObjectSymbol(DirectCast(table, GetLocalVariable).var)
+
+                            Throw New NotImplementedException
+                        Else
+                            Throw New NotImplementedException
+                        End If
+
+                        Throw New NotImplementedException
+                    Else
+                        func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), Reference)
+                    End If
                 End If
 
                 Return func.Result
@@ -333,6 +351,8 @@ Namespace Symbols
         ''' </summary>
         ''' <returns></returns>
         Public Property init As Expression
+
+        Public Property genericTypes As String()
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
             Return type
