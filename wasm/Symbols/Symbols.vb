@@ -174,7 +174,17 @@ Namespace Symbols
                         If TypeOf table Is GetLocalVariable Then
                             Dim tableObj = symbolTable.GetObjectSymbol(DirectCast(table, GetLocalVariable).var)
 
-                            Throw New NotImplementedException
+                            If TypeOf tableObj Is DeclareLocal Then
+                                With DirectCast(tableObj, DeclareLocal)
+                                    If Types.IsArray(.genericTypes(1)) Then
+                                        Return .genericTypes(1).Trim("["c, "]"c)
+                                    Else
+                                        Return .genericTypes(1)
+                                    End If
+                                End With
+                            Else
+                                Throw New NotImplementedException
+                            End If
                         Else
                             Throw New NotImplementedException
                         End If

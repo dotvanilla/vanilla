@@ -176,7 +176,7 @@ Public Class Types
     ''' <returns></returns>
     Public Shared Function [CType](left As String, right As Expression, symbols As SymbolTable) As Expression
         Dim rightTypeInfer$ = right.TypeInfer(symbols)
-        Dim rightIsI32 As Boolean = rightTypeInfer = "i32"
+        Dim rightIsI32 As Boolean = rightTypeInfer = "i32" OrElse rightTypeInfer = GetType(Integer).FullName
         Dim isArrayType As Boolean = IsArray(left)
 
         ' is any type in typescript
@@ -206,15 +206,15 @@ Public Class Types
         End If
 
         Select Case left
-            Case "i32"
+            Case "i32", "System.Int32"
                 Return Types.CInt(right, symbols)
-            Case "i64"
+            Case "i64", "System.Int64"
                 Return Types.CLng(right, symbols)
-            Case "f32"
+            Case "f32", "System.Single"
                 Return Types.CSng(right, symbols)
-            Case "f64"
+            Case "f64", "System.Double"
                 Return Types.CDbl(right, symbols)
-            Case "char*"
+            Case "char*", "System.String", "System.Char"
                 ' 左边是字符串类型，但是右边不是字符串或者整形数
                 ' 则说明是一个需要将目标转换为字符串的操作
                 Return right.AnyToString(symbols)
@@ -228,13 +228,13 @@ Public Class Types
         Dim operator$
 
         Select Case type
-            Case "i32"
+            Case "i32", "System.Int32"
                 Return exp
-            Case "i64"
+            Case "i64", "System.Int64"
                 [operator] = "i32.wrap/i64"
-            Case "f32"
+            Case "f32", "System.Single"
                 [operator] = "i32.trunc_s/f32"
-            Case "f64"
+            Case "f64", "System.Double"
                 [operator] = "i32.trunc_s/f64"
             Case Else
                 Throw New NotImplementedException
