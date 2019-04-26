@@ -1,10 +1,14 @@
 ﻿namespace vanilla {
 
+    export interface RunDelegate {
+        (assm: { AssemblyInfo: AssemblyInfo }): void;
+    }
+
     export interface Config {
         /**
          * A lambda function for run your VisualBasic.NET application.
         */
-        run: Delegate.Sub;
+        run: RunDelegate;
         /**
          * Your custom javascript api that imports for your VisualBasic app, like:
          * 

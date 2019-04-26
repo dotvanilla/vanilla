@@ -160,11 +160,35 @@ declare namespace vanilla {
     }
 }
 declare namespace vanilla {
+    /**
+     * The VisualBasic.NET application AssemblyInfo
+    */
+    class AssemblyInfo {
+        AssemblyTitle: string;
+        AssemblyDescription: string;
+        AssemblyCompany: string;
+        AssemblyProduct: string;
+        AssemblyCopyright: string;
+        AssemblyTrademark: string;
+        Guid: string;
+        AssemblyVersion: string;
+        AssemblyFileVersion: string;
+        constructor(AssemblyTitle: string, AssemblyDescription: string, AssemblyCompany: string, AssemblyProduct: string, AssemblyCopyright: string, AssemblyTrademark: string, Guid: string, AssemblyVersion: string, AssemblyFileVersion: string);
+        toString(): string;
+        static readAssemblyInfo(assm: IWasm): AssemblyInfo;
+    }
+}
+declare namespace vanilla {
+    interface RunDelegate {
+        (assm: {
+            AssemblyInfo: AssemblyInfo;
+        }): void;
+    }
     interface Config {
         /**
          * A lambda function for run your VisualBasic.NET application.
         */
-        run: Delegate.Sub;
+        run: RunDelegate;
         /**
          * Your custom javascript api that imports for your VisualBasic app, like:
          *

@@ -455,6 +455,33 @@ var WebAssembly;
 })(WebAssembly || (WebAssembly = {}));
 var vanilla;
 (function (vanilla) {
+    /**
+     * The VisualBasic.NET application AssemblyInfo
+    */
+    class AssemblyInfo {
+        constructor(AssemblyTitle, AssemblyDescription, AssemblyCompany, AssemblyProduct, AssemblyCopyright, AssemblyTrademark, Guid, AssemblyVersion, AssemblyFileVersion) {
+            this.AssemblyTitle = AssemblyTitle;
+            this.AssemblyDescription = AssemblyDescription;
+            this.AssemblyCompany = AssemblyCompany;
+            this.AssemblyProduct = AssemblyProduct;
+            this.AssemblyCopyright = AssemblyCopyright;
+            this.AssemblyTrademark = AssemblyTrademark;
+            this.Guid = Guid;
+            this.AssemblyVersion = AssemblyVersion;
+            this.AssemblyFileVersion = AssemblyFileVersion;
+        }
+        toString() {
+            return this.AssemblyTitle;
+        }
+        static readAssemblyInfo(assm) {
+            let webassm = assm.instance.exports;
+            return new AssemblyInfo(WebAssembly.ObjectManager.readText(webassm.AssemblyTitle()), WebAssembly.ObjectManager.readText(webassm.AssemblyDescription()), WebAssembly.ObjectManager.readText(webassm.AssemblyCompany()), WebAssembly.ObjectManager.readText(webassm.AssemblyProduct()), WebAssembly.ObjectManager.readText(webassm.AssemblyCopyright()), WebAssembly.ObjectManager.readText(webassm.AssemblyTrademark()), WebAssembly.ObjectManager.readText(webassm.Guid()), WebAssembly.ObjectManager.readText(webassm.AssemblyVersion()), WebAssembly.ObjectManager.readText(webassm.AssemblyFileVersion()));
+        }
+    }
+    vanilla.AssemblyInfo = AssemblyInfo;
+})(vanilla || (vanilla = {}));
+var vanilla;
+(function (vanilla) {
     var Wasm;
     (function (Wasm) {
         let FunctionApi;
@@ -564,7 +591,9 @@ var vanilla;
         Wasm.showDebugMessage = showDebugMessage;
         function exportWasmApi(assm) {
             let exports = assm.instance.exports;
-            let api = {};
+            let api = {
+                AssemblyInfo: vanilla.AssemblyInfo.readAssemblyInfo(assm)
+            };
             for (let name in exports) {
                 let obj = exports[name];
                 if (typeof obj == "function") {

@@ -50,9 +50,11 @@
             return false;
         }
 
-        function exportWasmApi(assm: IWasm): object {
+        function exportWasmApi(assm: IWasm): { AssemblyInfo: AssemblyInfo } {
             let exports = assm.instance.exports;
-            let api: object = {};
+            let api = {
+                AssemblyInfo: AssemblyInfo.readAssemblyInfo(assm)
+            };
 
             for (let name in exports) {
                 let obj = exports[name];
