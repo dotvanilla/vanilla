@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::3a8da851f1ca638cc0db64692163197a, Symbols\Parser\BlockParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BlockParser
-    ' 
-    '         Function: AutoDropValueStack, ctlGetLocal, DoLoop, DoWhile, ForLoop
-    '                   IfBlock, ParseBlockInternal, parseControlVariable, parseForLoopTest, (+2 Overloads) whileCondition
-    '                   whileLoopInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BlockParser
+' 
+'         Function: AutoDropValueStack, ctlGetLocal, DoLoop, DoWhile, ForLoop
+'                   IfBlock, ParseBlockInternal, parseControlVariable, parseForLoopTest, (+2 Overloads) whileCondition
+'                   whileLoopInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
+Imports Wasm.Compiler
 Imports Wasm.Symbols.Blocks
 
 Namespace Symbols.Parser
@@ -120,7 +121,7 @@ Namespace Symbols.Parser
             End If
 
             Yield New CommentText With {
-                .Text = forBlock.ForStatement.ToString
+                .text = forBlock.ForStatement.ToString
             }
 
             Dim block As New [Loop] With {
@@ -142,7 +143,7 @@ Namespace Symbols.Parser
             internal += New SetLocalVariable With {.var = controlVar.var, .value = doStep}
             internal += [next]
             internal += New CommentText With {
-                .Text = $"For Loop Next On {[next].BlockLabel}"
+                .text = $"For Loop Next On {[next].BlockLabel}"
             }
 
             block.Internal = internal
@@ -254,7 +255,7 @@ Namespace Symbols.Parser
             If [do].WhileOrUntilKeyword.ValueText = "Until" Then
                 Throw New NotImplementedException
             Else
-                Yield New CommentText With {.Text = doLoopBlock.DoStatement.ToString}
+                Yield New CommentText With {.text = doLoopBlock.DoStatement.ToString}
 
                 For Each line In condition.whileLoopInternal(doLoopBlock.Statements, symbols)
                     Yield line
@@ -270,7 +271,7 @@ Namespace Symbols.Parser
             }
             Dim internal As New List(Of Expression)
 
-            Yield New CommentText With {.Text = $"Start Do While Block {block.Guid}"}
+            Yield New CommentText With {.text = $"Start Do While Block {block.Guid}"}
 
             internal += New br_if With {
                 .BlockLabel = block.Guid,
@@ -282,7 +283,7 @@ Namespace Symbols.Parser
             block.Internal = internal
 
             Yield block
-            Yield New CommentText With {.Text = $"End Loop {block.LoopID}"}
+            Yield New CommentText With {.text = $"End Loop {block.LoopID}"}
         End Function
 
         <Extension>
