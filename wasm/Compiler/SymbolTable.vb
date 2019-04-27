@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::1838334ad16c0031890e9cbcce846202, Compiler\SymbolTable.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SymbolTable
-    ' 
-    '         Properties: currentFuncSymbol, currentModuleSymbol, memory, ModuleNames, NextGuid
-    '                     requires
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: AddFunctionDeclares, GetAllGlobals, GetAllImports, GetAllLocals, getArrayListInternal
-    '                   GetEnumType, GetFunctionSymbol, GetGlobal, GetObjectReference, GetObjectSymbol
-    '                   getStringInternal, GetUnderlyingType, HaveEnumType, IsAnyObject, IsLocal
-    '                   IsModuleFunction, stringContext
-    ' 
-    '         Sub: AddEnumType, AddGlobal, AddImports, (+2 Overloads) AddLocal, ClearLocals
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SymbolTable
+' 
+'         Properties: currentFuncSymbol, currentModuleSymbol, memory, ModuleNames, NextGuid
+'                     requires
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: AddFunctionDeclares, GetAllGlobals, GetAllImports, GetAllLocals, getArrayListInternal
+'                   GetEnumType, GetFunctionSymbol, GetGlobal, GetObjectReference, GetObjectSymbol
+'                   getStringInternal, GetUnderlyingType, HaveEnumType, IsAnyObject, IsLocal
+'                   IsModuleFunction, stringContext
+' 
+'         Sub: AddEnumType, AddGlobal, AddImports, (+2 Overloads) AddLocal, ClearLocals
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -222,8 +222,8 @@ Namespace Compiler
         ''' <param name="var"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGlobal(var As String) As TypeAbstract
-            Return globals(var).type
+        Public Function GetGlobal(var As String) As DeclareGlobal
+            Return globals(var)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -298,6 +298,13 @@ Namespace Compiler
                         ' 可能是类型之中所定义的静态方法
                         If True = stringContext(context) Then
                             Return getStringInternal(name)
+                        ElseIf context Like ModuleNames Then
+                            ' 模块变量或者方法的引用
+                            If Not globals.Values.FirstOrDefault(Function(g) g.Module = context AndAlso g.name = name) Is Nothing Then
+                                ' 这是一个模块变量的引用，则肯定不是函数
+                                ' 返回空值
+                                Return Nothing
+                            End If
                         Else
                             Throw New NotImplementedException
                         End If
@@ -359,20 +366,22 @@ Namespace Compiler
             If IsLocal(name) Then
                 Return GetObjectSymbol(name).type
             Else
-                Return GetGlobal(name)
+                Return GetGlobal(name).type
             End If
         End Function
 
         ''' <summary>
         ''' A unify method for get local or get global variable
         ''' </summary>
-        ''' <param name="name"></param>
+        ''' <param name="name">优先选取local</param>
         ''' <returns></returns>
         Public Function GetObjectReference(name As String) As GetLocalVariable
             If IsLocal(name) Then
                 Return New GetLocalVariable(name)
-            Else
+            ElseIf globals.ContainsKey(name) Then
                 Return New GetGlobalVariable(name)
+            Else
+                Return Nothing
             End If
         End Function
 

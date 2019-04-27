@@ -46,12 +46,14 @@
 Module ForLoopTest
 
     Dim zero As Long = 0
+    Dim delta As Integer = 3
 
     Public Function forloop() As Double
         Dim x As Double = 999
+        Dim delta As Single = 0.001
 
-        For i As Integer = zero To 100 Step 2
-            x += 0.01
+        For i As Integer = zero To 100 Step ForLoopTest.delta
+            x += delta
         Next
 
         Return x

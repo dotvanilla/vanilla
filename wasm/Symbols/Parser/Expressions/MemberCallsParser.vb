@@ -71,7 +71,7 @@ Namespace Symbols.Parser
                     .type = New TypeAbstract([const].type),
                     .value = [const].Members(memberName)
                 }
-            ElseIf Not symbols.IsAnyObject(objName) Then
+            ElseIf (Not symbols.IsAnyObject(objName)) AndAlso (Not objName Like symbols.ModuleNames) Then
                 Dim func = symbols.GetFunctionSymbol(Nothing, objName)
                 Dim funcValue As Expression = New FuncInvoke(func) With {.parameters = {}}
 
@@ -94,6 +94,13 @@ Namespace Symbols.Parser
                     Return New FuncInvoke(func) With {
                         .parameters = {obj}
                     }
+                ElseIf obj Is Nothing AndAlso objName Like symbols.ModuleNames Then
+                    Return symbols.GetGlobal(memberName).GetReference
+                Else
+                    ' 是引用的模块成员
+                    If TypeOf obj Is GetGlobalVariable Then
+                        Return obj
+                    End If
                 End If
 
                 Throw New NotImplementedException

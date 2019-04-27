@@ -63,6 +63,17 @@ Namespace Symbols
         ''' <returns></returns>
         Public Property [Module] As String Implements IDeclaredObject.Module
 
+        Public Function GetReference() As GetGlobalVariable
+            Return New GetGlobalVariable(name)
+        End Function
+
+        Public Function SetReference(value As Expression) As SetGlobalVariable
+            Return New SetGlobalVariable With {
+                .var = name,
+                .value = value
+            }
+        End Function
+
         Public Function AsLocal() As DeclareLocal
             Return New DeclareLocal With {
                 .name = name,
