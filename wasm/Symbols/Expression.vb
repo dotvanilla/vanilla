@@ -52,6 +52,12 @@ Namespace Symbols
     ''' </summary>
     Public MustInherit Class Expression
 
+        Public ReadOnly Property IsNumberLiteral As Boolean
+            Get
+                Return TypeOf Me Is LiteralExpression AndAlso TypeInfer(Nothing).type Like TypeExtensions.NumberOrders
+            End Get
+        End Property
+
         ''' <summary>
         ''' Get the webassembly data type of this expression that will be generated.
         ''' </summary>

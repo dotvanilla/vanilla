@@ -115,14 +115,26 @@ Namespace Symbols
             Return ";; " & text
         End Function
     End Class
+
+    ''' <summary>
+    ''' 常量值表达式
+    ''' </summary>
     Public Class LiteralExpression : Inherits Expression
 
         Public Property type As TypeAbstract
         Public Property value As String
 
+        ''' <summary>
+        ''' 返回常数的符号
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Sign As Integer
             Get
-                Return Math.Sign(Val(type))
+                If IsNumberLiteral Then
+                    Return Math.Sign(Double.Parse(value))
+                Else
+                    Throw New InvalidOperationException($"Constant value '{value}' is not numeric type!")
+                End If
             End Get
         End Property
 

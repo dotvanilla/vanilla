@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 
 Public Class TypeExtensions
 
-    Public Shared ReadOnly Property Orders As Index(Of TypeAlias) = {
+    Public Shared ReadOnly Property NumberOrders As Index(Of TypeAlias) = {
         TypeAlias.i32,
         TypeAlias.f32,
         TypeAlias.i64,
@@ -87,7 +87,11 @@ Public Class TypeExtensions
         {GetType(System.Void), "void"}
     }
 
-    Public Shared ReadOnly Property Operators As New Dictionary(Of String, String) From {
+    ''' <summary>
+    ''' VisualBasic.NET operator to webassembly operator name
+    ''' </summary>
+    ''' <returns></returns>
+    Public Shared ReadOnly Property wasmOpName As New Dictionary(Of String, String) From {
         {"+", "add"},
         {"-", "sub"},
         {"*", "mul"},
@@ -97,8 +101,12 @@ Public Class TypeExtensions
         {"<>", "ne"}
     }
 
-    Shared ReadOnly integerType As Index(Of String) = {"i32", "i64"}
-    Shared ReadOnly floatType As Index(Of String) = {"f32", "f64"}
+    Friend Shared ReadOnly unaryOp As Index(Of String) = {
+        wasmOpName("+"),
+        wasmOpName("-")
+    }
+    Friend Shared ReadOnly integerType As Index(Of String) = {"i32", "i64"}
+    Friend Shared ReadOnly floatType As Index(Of String) = {"f32", "f64"}
 
     Public Shared ReadOnly Property Comparison As Index(Of String) = {"f32", "f64", "i32", "i64"} _
         .Select(Function(type)

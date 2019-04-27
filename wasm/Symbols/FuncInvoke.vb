@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::d654447cdf828ff9424d654f698779a5, Symbols\FuncInvoke.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class FuncInvoke
-    ' 
-    '         Properties: [operator], parameters, refer
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: funcTypeInfer, ToSExpression, typeFromOperator, TypeInfer
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class FuncInvoke
+' 
+'         Properties: [operator], parameters, refer
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: funcTypeInfer, ToSExpression, typeFromOperator, TypeInfer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,6 +72,32 @@ Namespace Symbols
         ''' </summary>
         ''' <returns></returns>
         Public Property [operator] As Boolean
+
+        ''' <summary>
+        ''' 只有加减两种情况，并且第一个参数为零常数
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsUnary As Boolean
+            Get
+                If Not [operator] Then
+                    Return False
+                ElseIf parameters.Length = 0 Then
+                    Return False
+                ElseIf Not parameters(Scan0).IsNumberLiteral Then
+                    Return False
+                Else
+                    Dim first As LiteralExpression = parameters(Scan0)
+
+                    If Val(first.value) <> 0.0 Then
+                        Return False
+                    End If
+                End If
+
+                Dim op$ = refer.Split("."c).Last
+
+                Return op Like TypeExtensions.unaryOp
+            End Get
+        End Property
 
         Sub New()
         End Sub

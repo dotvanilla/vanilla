@@ -234,7 +234,7 @@ Namespace Symbols.Parser
 
             Return New FuncInvoke With {
                 .parameters = {left, right},
-                .refer = $"{left.type}.{TypeExtensions.Operators(op)}",
+                .refer = $"{left.type}.{TypeExtensions.wasmOpName(op)}",
                 .[operator] = True
             }
         End Function
@@ -613,8 +613,8 @@ Namespace Symbols.Parser
                 ' i32 -> f32 -> i64 -> f64
                 Dim lt = left.TypeInfer(symbols)
                 Dim rt = right.TypeInfer(symbols)
-                Dim li = TypeExtensions.Orders(lt.type)
-                Dim ri = TypeExtensions.Orders(rt.type)
+                Dim li = TypeExtensions.NumberOrders(lt.type)
+                Dim ri = TypeExtensions.NumberOrders(rt.type)
 
                 If li > ri Then
                     type = lt
@@ -628,8 +628,8 @@ Namespace Symbols.Parser
 
             Dim funcOpName$
 
-            If TypeExtensions.Operators.ContainsKey(op) Then
-                funcOpName = TypeExtensions.Operators(op)
+            If TypeExtensions.wasmOpName.ContainsKey(op) Then
+                funcOpName = TypeExtensions.wasmOpName(op)
                 funcOpName = $"{type}.{funcOpName}"
             Else
                 funcOpName = TypeExtensions.Compares(type.raw, op)
