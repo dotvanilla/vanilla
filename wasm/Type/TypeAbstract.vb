@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2edb8cf83d892cc5f0d1f450a8a4fca9, Type\TypeAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::c63f8292b64fcb34e431336ba7be73fe, Type\TypeAbstract.vb"
 
     ' Author:
     ' 
@@ -39,10 +39,15 @@
     ' Class TypeAbstract
     ' 
     '     Properties: f32, f64, generic, i32, i64
-    '                 isprimitive, raw, type, typefit, void
+    '                 iscollection, isprimitive, raw, type, typefit
+    '                 void
     ' 
     '     Constructor: (+4 Overloads) Sub New
-    '     Function: buildRaw, MakeArrayType, ToString
+    ' 
+    '     Function: buildRaw, MakeArrayType, MakeListType, ToString
+    ' 
+    '     Sub: fromFullName
+    ' 
     '     Operators: (+3 Overloads) <>, (+3 Overloads) =
     ' 
     ' /********************************************************************************/

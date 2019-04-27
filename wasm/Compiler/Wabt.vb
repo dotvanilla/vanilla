@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bea7b72dab71776624bebb4603e7bc7, Compiler\Wabt.vb"
+﻿#Region "Microsoft.VisualBasic::9f88765d63176ebdfb146b03d3024ea2, Compiler\Wabt.vb"
 
     ' Author:
     ' 
@@ -36,10 +36,11 @@
 
     ' Summaries:
 
-    ' Module Wabt
+    '     Module Wabt
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Compile, CompileWast, HexDump, saveTemp
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Compile, CompileWast, HexDump, saveTemp
+    ' 
     ' 
     ' /********************************************************************************/
 
