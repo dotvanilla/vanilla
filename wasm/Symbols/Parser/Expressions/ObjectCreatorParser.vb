@@ -59,36 +59,42 @@ Namespace Symbols.Parser
             Dim objType = DirectCast(newObj, ObjectCreationExpressionSyntax).Type
 
             If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
-                With DirectCast(objNew, ObjectCollectionInitializerSyntax)
-                    Dim collection As ArraySymbol = .Initializer.CreateArray(symbols)
+                Return DirectCast(objNew, ObjectCollectionInitializerSyntax).CreateCollection(type, symbols)
+            Else
+                Throw New NotImplementedException
+            End If
+        End Function
 
-                    If type = GetType(DictionaryBase).FullName Then
-                        Dim genericTypes As Type() = DirectCast(objType, GenericNameSyntax) _
-                            .TypeArgumentList _
-                            .Arguments _
-                            .Select(Function(T)
-                                        Return AsTypeHandler.GetType(T, symbols)
-                                    End Function) _
-                            .ToArray
+        <Extension>
+        Public Function CreateCollection(objNew As ObjectCollectionInitializerSyntax, objType As TypeAbstract, symbols As SymbolTable) As Expression
+            Dim collection As ArraySymbol = objNew.Initializer.CreateArray(symbols)
 
-                        With New ArrayTable
-                            .initialVal = collection _
-                                .Initialize _
-                                .Select(Function(i)
-                                            With DirectCast(i, ArraySymbol)
-                                                Return (.Initialize(0), .Initialize(1))
-                                            End With
-                                        End Function) _
-                                .ToArray
-                            .key = New TypeAbstract(genericTypes(0))
-                            .type = New TypeAbstract(genericTypes(1))
+            If objType = TypeAlias.table Then
+                'Dim genericTypes As Type() = DirectCast(objType, GenericNameSyntax) _
+                '    .TypeArgumentList _
+                '    .Arguments _
+                '    .Select(Function(T)
+                '                Return AsTypeHandler.GetType(T, symbols)
+                '            End Function) _
+                '    .ToArray
 
-                            Return .ByRef
-                        End With
-                    Else
-                        Throw New NotImplementedException
-                    End If
-                End With
+                'With New ArrayTable
+                '    .initialVal = collection _
+                '        .Initialize _
+                '        .Select(Function(i)
+                '                    With DirectCast(i, ArraySymbol)
+                '                        Return (.Initialize(0), .Initialize(1))
+                '                    End With
+                '                End Function) _
+                '        .ToArray
+                '    .key = New TypeAbstract(genericTypes(0))
+                '    .type = New TypeAbstract(genericTypes(1))
+
+                '    Return .ByRef
+                'End With
+                Throw New NotImplementedException
+            ElseIf objType = TypeAlias.list Then
+                Throw New NotImplementedException
             Else
                 Throw New NotImplementedException
             End If
@@ -96,8 +102,11 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function GetInitializeValue(objNew As ObjectCreationInitializerSyntax, objType As TypeAbstract, symbols As SymbolTable) As IEnumerable(Of Expression)
+            If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
+                Return DirectCast(objNew, ObjectCollectionInitializerSyntax).CreateCollection(objType, symbols)
+            End If
 
-            Throw New NotImplementedException
+            Throw New NotImplementedException(objNew.GetType.FullName)
         End Function
 
         <Extension>
@@ -116,7 +125,7 @@ Namespace Symbols.Parser
                 If typeName = "List" Then
                     ' array和list在javascript之中都是一样的
                     Return New ArraySymbol With {
-                        .type = New TypeAbstract(elementType(Scan0)).MakeArrayType,
+                        .type = New TypeAbstract(elementType(Scan0)).MakeListType,
                         .Initialize = create.Initializer _
                             .GetInitializeValue(.type, symbols) _
                             .ToArray

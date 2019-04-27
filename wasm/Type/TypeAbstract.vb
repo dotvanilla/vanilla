@@ -154,7 +154,7 @@ Public Class TypeAbstract
 
         If type Like singleElements Then
             Return type.Description
-        ElseIf type = TypeAlias.array Then
+        ElseIf type = TypeAlias.array OrElse type = TypeAlias.list Then
             If generic.IsNullOrEmpty Then
                 Return "any[]"
             Else
@@ -167,6 +167,10 @@ Public Class TypeAbstract
 
     Public Function MakeArrayType() As TypeAbstract
         Return New TypeAbstract(TypeAlias.array, Me)
+    End Function
+
+    Public Function MakeListType() As TypeAbstract
+        Return New TypeAbstract(TypeAlias.list, Me)
     End Function
 
     Public Overrides Function ToString() As String
