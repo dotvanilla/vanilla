@@ -77,7 +77,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Trim As New ImportSymbol With {
             .ImportObject = "trim",
             .[Module] = "string",
-            .Name = "string.trim",
+            .Name = "string_trim",
             .Package = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
@@ -129,7 +129,7 @@ Namespace Symbols.JavaScriptImports
         Public Function ToString(Optional type As String = "i32") As ImportSymbol
             Return New ImportSymbol With {
                 .ImportObject = "toString",
-                .Name = $"{type}.toString",
+                .Name = $"{type}_toString",
                 .[Module] = "string",
                 .Package = "string",
                 .result = New TypeAbstract(TypeAlias.string),
