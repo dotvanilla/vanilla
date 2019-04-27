@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::971b0bef5bd9f3fd75c546ebe619a8d5, Type\TypeAlias.vb"
+﻿#Region "Microsoft.VisualBasic::43c1b84fb564eaa1d55679e195aac2a1, Type\TypeAlias.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 ''' <summary>
 ''' The compiler type alias

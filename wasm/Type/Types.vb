@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6178c29893dfabda4cc96e23e9366b7b, Type\Types.vb"
+﻿#Region "Microsoft.VisualBasic::dc5799e47f1069d7e953357c689b2d82, Type\Types.vb"
 
     ' Author:
     ' 
@@ -83,4 +83,3 @@ Public Module Types
         End Select
     End Function
 End Module
-

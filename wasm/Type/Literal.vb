@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fee52a0280b7586b8654a35183c0637f, Type\Literal.vb"
+﻿#Region "Microsoft.VisualBasic::b2cc10dc0ab8c9affc236de447d5042c, Type\Literal.vb"
 
     ' Author:
     ' 
@@ -90,4 +90,3 @@ Public NotInheritable Class Literal
         }
     End Function
 End Class
-

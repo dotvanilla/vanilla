@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdc85676bca3b6f973ee5cf50f2339f8, Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::580b6de1bfe8082f803f8f39526333ef, Extensions.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     ' Module Extensions
     ' 
     '     Function: assmInfoModule, CreateModule, (+2 Overloads) CreateModuleFromProject, getModules, getString
-    '               isExportObject, (+3 Overloads) objectName, param, SolveStream
+    '               SolveStream
     ' 
     ' /********************************************************************************/
 
