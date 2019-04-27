@@ -116,6 +116,17 @@ Module CTypeHandle
                 Return right.AnyToString(symbols)
             Case TypeAlias.boolean
                 Return CTypeHandle.CBool(right, symbols)
+            Case TypeAlias.intptr
+                ' 左边是一个内存指针，则右边如果是非基础类型的话
+                ' 可以直接赋值
+                If rightTypeInfer.type Like TypeExtensions.NumberOrders Then
+                    ' 是基础类型
+                    ' 则抛出错误
+                    Throw New InvalidCastException
+                Else
+                    ' 不需要转换，直接赋值
+                    Return right
+                End If
             Case Else
                 Throw New InvalidCastException($"{rightTypeInfer} -> {left}")
         End Select

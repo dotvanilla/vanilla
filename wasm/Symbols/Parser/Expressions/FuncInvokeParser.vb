@@ -193,6 +193,10 @@ Namespace Symbols.Parser
                         ' 是对静态模块的方法引用
                         argumentFirst = Nothing
                         leftArguments = funcDeclare.parameters
+                    ElseIf symbols.IsModuleFunction(name) Then
+                        ' 方法生成值，然后再调用值对象的成员方法的
+                        argumentFirst = New FuncInvoke(name) With {.parameters = {}}
+                        leftArguments = funcDeclare.parameters.Skip(1).ToArray
                     End If
                 End If
             Else

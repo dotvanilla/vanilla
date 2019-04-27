@@ -239,6 +239,25 @@ Namespace Symbols
             Call locals.Clear()
         End Sub
 
+        Private Function stringContext(context As String) As Boolean
+            If context = Types.stringType Then
+                Return True
+            ElseIf functionList.ContainsKey(context) AndAlso functionList(context).result = TypeAlias.string Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 目标是否是模块内用户定义的一个函数？
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns></returns>
+        Public Function IsModuleFunction(name As String) As Boolean
+            Return functionList.ContainsKey(name)
+        End Function
+
         ''' <summary>
         ''' 因为VB.NET之中，数组的元素获取和函数调用的语法是一样的，所以假若没有找到目标函数
         ''' 但是在local之中找到了一个数组，则会返回数组元素获取的语法
@@ -275,7 +294,7 @@ Namespace Symbols
                         Return JavaScriptImports.GetArrayElement
                     ElseIf Not context.StringEmpty Then
                         ' 可能是类型之中所定义的静态方法
-                        If context Like Types.stringType Then
+                        If True = stringContext(context) Then
                             Return getStringInternal(name)
                         Else
                             Throw New NotImplementedException
