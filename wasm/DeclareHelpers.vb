@@ -110,6 +110,6 @@ Module DeclareHelpers
 
     <Extension>
     Friend Function objectName(name As SyntaxToken) As String
-        Return name.ValueText.Trim("["c, "]"c)
+        Return name.Text.Trim("["c, "]"c)
     End Function
 End Module
