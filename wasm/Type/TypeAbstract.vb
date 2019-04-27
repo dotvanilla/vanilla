@@ -1,6 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
-
-''' <summary>
+﻿''' <summary>
 ''' Type model in WebAssembly compiler
 ''' </summary>
 Public Class TypeAbstract
@@ -32,7 +30,20 @@ Public Class TypeAbstract
     End Sub
 
     Sub New(fullName As String)
-
+        Select Case fullName
+            Case "i32", "System.Int32"
+                type = TypeAlias.i32
+            Case "i64", "System.Int64"
+                type = TypeAlias.i64
+            Case "f32", "System.Single"
+                type = TypeAlias.f32
+            Case "f64", "System.Double"
+                type = TypeAlias.f64
+            Case "boolean", "System.Boolean"
+                type = TypeAlias.boolean
+            Case Else
+                Throw New NotImplementedException
+        End Select
     End Sub
 
     Sub New([alias] As TypeAlias, Optional generic$() = Nothing)

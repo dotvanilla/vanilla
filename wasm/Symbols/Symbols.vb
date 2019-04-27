@@ -108,7 +108,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Wasm.Symbols.Parser
 
 Namespace Symbols
 
@@ -162,9 +161,9 @@ Namespace Symbols
             If [operator] Then
                 If refer Like TypeExtensions.Comparison Then
                     ' WebAssembly comparison operator produce integer value
-                    Return "i32"
+                    Return New TypeAbstract(TypeAlias.i32)
                 Else
-                    Return refer.Split("."c).First
+                    Return New TypeAbstract(refer.Split("."c).First)
                 End If
             Else
                 Dim func As FuncSignature
