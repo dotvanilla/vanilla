@@ -187,6 +187,13 @@ Namespace Symbols.Parser
                     ' 可选参数的默认值是一个常量
                     If arg.Value = TypeAlias.string Then
                         arguments += symbols.StringConstant(arg.Description)
+                    ElseIf arg.Value = TypeAlias.boolean Then
+                        ' default value of boolean in VisualBasic.NET is True/False
+                        ' should translate to i32 1 or 0 in webassembly
+                        arguments += New LiteralExpression With {
+                            .type = arg.Value,
+                            .value = If(arg.Description.ParseBoolean, 1, 0)
+                        }
                     Else
                         arguments += New LiteralExpression With {
                             .type = arg.Value,

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/27/2019 5:34:32 PM
+    ;; build: 4/27/2019 5:37:55 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -57,8 +57,8 @@
     (func $calls  
         ;; Public Function calls() As void
         
-    (call $Main (i32.const 1) (i32.const -100) (i32.const True))
-    (call $Main (i32.const 38) (i32.const 999999) (i32.const True))
+    (call $Main (i32.const 1) (i32.const -100) (i32.const 1))
+    (call $Main (i32.const 38) (i32.const 999999) (i32.const 1))
     (drop (call $outputError ))
     )
     (func $extensionFunctiontest  
