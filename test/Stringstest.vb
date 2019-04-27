@@ -52,6 +52,12 @@ Module Stringstest
     Dim a = 99
     Dim b = 100
 
+    Public Sub stringmemberTest()
+        Dim lenPlus100 = b + Hello.Length
+
+
+    End Sub
+
     Public Function Main() As String
         Dim str As String = Hello() & " " & World()
         Dim format$ = $"let {a} + {b} / {C} = {a + b / C}"

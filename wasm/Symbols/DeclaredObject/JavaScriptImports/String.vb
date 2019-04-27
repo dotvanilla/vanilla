@@ -99,9 +99,11 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        Public Function GetStringMethod(name As String) As ImportSymbol
+        Public Function Method(name As String) As ImportSymbol
             Select Case name
                 Case "Length" : Return Length
+                Case "Replace" : Return Replace
+                Case "IndexOf" : Return IndexOf
                 Case Else
                     Throw New NotImplementedException
             End Select

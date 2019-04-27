@@ -275,7 +275,7 @@ Namespace Symbols
                         Return JavaScriptImports.GetArrayElement
                     ElseIf Not context.StringEmpty Then
                         ' 可能是类型之中所定义的静态方法
-                        If context Like TypeExtensions.stringType Then
+                        If context Like Types.stringType Then
                             Return getStringInternal(name)
                         Else
                             Throw New NotImplementedException
@@ -320,12 +320,9 @@ Namespace Symbols
         End Function
 
         Private Function getStringInternal(name As String) As FuncSignature
-            Select Case name
-                Case "Replace" : Return functionList(JavaScriptImports.String.Replace.Name)
-                Case "IndexOf" : Return functionList(JavaScriptImports.String.IndexOf.Name)
-                Case Else
-                    Throw New NotImplementedException
-            End Select
+            Dim Api As ImportSymbol = JavaScriptImports.String.Method(name)
+            Call addRequired(Api)
+            Return Api
         End Function
 
         Private Function typeMatch(a As NamedValue(Of TypeAbstract), type As TypeAlias) As Boolean

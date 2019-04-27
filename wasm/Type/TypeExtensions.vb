@@ -69,19 +69,11 @@ Public Class TypeExtensions
     }
 
     ''' <summary>
-    ''' String type in WebAssembly Compiler
-    ''' </summary>
-    ''' <returns></returns>
-    Public Shared ReadOnly Property stringType As Index(Of String) = {"char*", "char"}
-
-    Public Const booleanType$ = "boolean"
-
-    ''' <summary>
     ''' Webassembly之中，逻辑值是一个32位整型数
     ''' </summary>
     ''' <returns></returns>
     Public Shared ReadOnly Property Convert2Wasm As New Dictionary(Of Type, String) From {
-        {GetType(Boolean), booleanType},   ' True = 1, False = 0, 逻辑值在webassembly之中也是一个i32整形数
+        {GetType(Boolean), Types.booleanType},
         {GetType(Integer), "i32"},
         {GetType(Long), "i64"},
         {GetType(Single), "f32"},
