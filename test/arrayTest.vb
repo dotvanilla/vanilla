@@ -48,14 +48,20 @@ Module arrayTest
     Declare Function debug Lib "console" Alias "log" (any As String()) As Integer
     Declare Function print Lib "console" Alias "log" (any As String) As Integer
 
+
+    Declare Sub log Lib "console" Alias "log" (any As Object)
+
     Public arrayLength = 9999
 
     Public Sub arrayDeclares()
+        Dim syntax2 As Double() = New Double() {23, 42, 42, 4}
         Dim syntax3(arrayLength - 5) As Double
         Dim len = 999
         Dim syntax1 As Double() = New Double(len - 1) {}
-        Dim syntax2 As Double() = New Double() {23, 42, 42, 4}
 
+        Call log(syntax2)
+        Call log(syntax3)
+        Call log(syntax1)
     End Sub
 
     Public Function testListAdd()
@@ -63,6 +69,8 @@ Module arrayTest
 
         Call l.Add("yes")
         Call print(l(2))
+
+        Call log(l)
     End Function
 
     Public Function arrayLoop()
@@ -86,6 +94,6 @@ Module arrayTest
         Call debug(str)
         Call print(str(4))
 
-
+        Call log(str)
     End Function
 End Module

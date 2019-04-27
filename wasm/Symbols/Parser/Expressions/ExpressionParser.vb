@@ -127,9 +127,12 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
+            Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
+            Dim arrayType As TypeAbstract = New TypeAbstract(type).MakeArrayType
+
             If newArray.ArrayBounds Is Nothing Then
                 Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
-                array.type = New TypeAbstract(AsTypeHandler.GetType(newArray.Type, symbols))
+                array.type = arrayType
                 Return array
             Else
                 Dim bounds As Expression = newArray.ArrayBounds _
@@ -137,9 +140,11 @@ Namespace Symbols.Parser
                     .First _
                     .GetExpression _
                     .ValueExpression(symbols)
-                Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
 
-                Return New Array With {.size = bounds, .type = New TypeAbstract(type)}
+                Return New Array With {
+                    .size = bounds,
+                    .type = arrayType
+                }
             End If
         End Function
 
