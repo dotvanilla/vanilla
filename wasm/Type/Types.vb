@@ -2,7 +2,7 @@
 ''' <summary>
 ''' The compiler type alias
 ''' </summary>
-Public Enum Types As Integer
+Public Enum TypeAlias As Integer
     any
     i32
     i64
