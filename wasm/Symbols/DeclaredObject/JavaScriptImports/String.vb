@@ -122,9 +122,9 @@ Namespace Symbols.JavaScriptImports
                 .Name = $"{type}_toString",
                 .[Module] = "string",
                 .Package = "string",
-                .result = stringType,
+                .result = New TypeAbstract(TypeAlias.string),
                 .parameters = {
-                    New NamedValue(Of String)("s", type)
+                    New NamedValue(Of TypeAbstract)("s", New TypeAbstract(type))
                 }
             }
         End Function

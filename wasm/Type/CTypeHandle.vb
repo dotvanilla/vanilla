@@ -1,53 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::4c44434ad8cc6818dee12c7810510c83, Type\CTypeHandle.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CTypeHandle
-    ' 
-    '     Function: [CDbl], [CInt], [CLng], [CSng], [CType]
-    '               CTypeInvoke, (+2 Overloads) typefit
-    ' 
-    ' /********************************************************************************/
+' Module CTypeHandle
+' 
+'     Function: [CDbl], [CInt], [CLng], [CSng], [CType]
+'               CTypeInvoke, (+2 Overloads) typefit
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Wasm.Symbols
+Imports Wasm.Symbols.Parser
 
 ''' <summary>
 ''' Type cast operation in WebAssembly runtime
@@ -120,16 +121,16 @@ Module CTypeHandle
             Return right
         End If
 
-        Select Case left
-            Case "i32", DotNet.Integer
+        Select Case left.type
+            Case TypeAlias.i32
                 Return TypeExtensions.CInt(right, symbols)
-            Case "i64", DotNet.Long
+            Case TypeAlias.i64
                 Return TypeExtensions.CLng(right, symbols)
-            Case "f32", DotNet.Single
+            Case TypeAlias.f32
                 Return TypeExtensions.CSng(right, symbols)
-            Case "f64", DotNet.Double
+            Case TypeAlias.f64
                 Return TypeExtensions.CDbl(right, symbols)
-            Case "char*", DotNet.String, DotNet.Char
+            Case TypeAlias.string
                 ' 左边是字符串类型，但是右边不是字符串或者整形数
                 ' 则说明是一个需要将目标转换为字符串的操作
                 Return right.AnyToString(symbols)
@@ -142,14 +143,14 @@ Module CTypeHandle
         Dim type = exp.TypeInfer(symbols)
         Dim operator$
 
-        Select Case type
-            Case "i32", DotNet.Integer
+        Select Case type.type
+            Case TypeAlias.i32
                 Return exp
-            Case "i64", DotNet.Long
+            Case TypeAlias.i64
                 [operator] = "i32.wrap/i64"
-            Case "f32", DotNet.Single
+            Case TypeAlias.f32
                 [operator] = "i32.trunc_s/f32"
-            Case "f64", DotNet.Double
+            Case TypeAlias.f64
                 [operator] = "i32.trunc_s/f64"
             Case Else
                 Throw New NotImplementedException
@@ -162,14 +163,14 @@ Module CTypeHandle
         Dim type = exp.TypeInfer(symbols)
         Dim operator$
 
-        Select Case type
-            Case "i32", DotNet.Integer
+        Select Case type.type
+            Case TypeAlias.i32
                 [operator] = "i64.extend_s/i32"
-            Case "i64", DotNet.Long
+            Case TypeAlias.i64
                 Return exp
-            Case "f32", DotNet.Single
+            Case TypeAlias.f32
                 [operator] = "i64.trunc_s/f32"
-            Case "f64", DotNet.Double
+            Case TypeAlias.f64
                 [operator] = "i64.trunc_s/f64"
             Case Else
                 Throw New NotImplementedException
@@ -202,14 +203,14 @@ Module CTypeHandle
         Dim type = exp.TypeInfer(symbols)
         Dim operator$
 
-        Select Case type
-            Case "i32", DotNet.Integer
+        Select Case type.type
+            Case TypeAlias.i32
                 [operator] = "f64.convert_s/i32"
-            Case "i64", DotNet.Long
+            Case TypeAlias.i64
                 [operator] = "f64.convert_s/i64"
-            Case "f32", DotNet.Single
+            Case TypeAlias.f32
                 [operator] = "f64.promote/f32"
-            Case "f64", DotNet.Double
+            Case TypeAlias.f64
                 Return exp
             Case Else
                 Throw New NotImplementedException
