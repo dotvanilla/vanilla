@@ -72,13 +72,13 @@ Namespace Symbols
         ''' The function parameter name and parameter type
         ''' </summary>
         ''' <returns></returns>
-        Public Property Parameters As NamedValue(Of TypeAlias)()
+        Public Property Parameters As NamedValue(Of TypeAbstract)()
 
         ''' <summary>
         ''' 函数的返回值类型
         ''' </summary>
         ''' <returns></returns>
-        Public Property Result As TypeAlias
+        Public Property Result As TypeAbstract
 
         ''' <summary>
         ''' 当前的这个方法是否是一个被<see cref="ExtensionAttribute"/>所标记的拓展函数
@@ -95,7 +95,7 @@ Namespace Symbols
         Friend Sub New()
         End Sub
 
-        Friend Sub New(var As NamedValue(Of String))
+        Friend Sub New(var As NamedValue(Of TypeAbstract))
             Name = var.Name
             Result = var.Value
         End Sub

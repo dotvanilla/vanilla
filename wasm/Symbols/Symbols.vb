@@ -121,55 +121,63 @@ Namespace Symbols
         ''' Function reference string
         ''' </summary>
         ''' <returns></returns>
-        Public Property Reference As String
-        Public Property Parameters As Expression()
+        Public Property refer As String
+        ''' <summary>
+        ''' The argument value expression that passing to the target function
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property parameters As Expression()
+        ''' <summary>
+        ''' Is current function invoke is operator invoke?
+        ''' </summary>
+        ''' <returns></returns>
         Public Property [operator] As Boolean
 
         Sub New()
         End Sub
 
         Sub New(funcName As String)
-            Reference = funcName
+            refer = funcName
         End Sub
 
         Sub New(target As FuncSignature)
-            Reference = target.Name
+            refer = target.Name
         End Sub
 
         Public Overrides Function ToSExpression() As String
-            Dim arguments = Parameters _
+            Dim arguments = parameters _
                 .Select(Function(a)
                             Return a.ToSExpression
                         End Function) _
                 .JoinBy(" ")
 
             If [operator] Then
-                Return $"({Reference} {arguments})"
+                Return $"({refer} {arguments})"
             Else
-                Return $"(call ${Reference} {arguments})"
+                Return $"(call ${refer} {arguments})"
             End If
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             If [operator] Then
-                If Reference Like TypeExtensions.Comparison Then
+                If refer Like TypeExtensions.Comparison Then
                     ' WebAssembly comparison operator produce integer value
                     Return "i32"
                 Else
-                    Return Reference.Split("."c).First
+                    Return refer.Split("."c).First
                 End If
             Else
                 Dim func As FuncSignature
                 Dim obj As Expression
 
-                If Parameters.IsNullOrEmpty Then
-                    func = symbolTable.GetFunctionSymbol(Nothing, Reference)
+                If parameters.IsNullOrEmpty Then
+                    func = symbolTable.GetFunctionSymbol(Nothing, refer)
                 Else
-                    obj = Parameters(Scan0)
+                    obj = parameters(Scan0)
 
                     ' 在这里需要对值元素类型为数组的字典引用进行一些额外的处理
-                    If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).Reference = JavaScriptImports.Dictionary.GetValue.Name Then
-                        Dim table = DirectCast(obj, FuncInvoke).Parameters(0)
+                    If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).refer = JavaScriptImports.Dictionary.GetValue.Name Then
+                        Dim table = DirectCast(obj, FuncInvoke).parameters(0)
 
                         If TypeOf table Is GetLocalVariable Then
                             Dim tableObj = symbolTable.GetObjectSymbol(DirectCast(table, GetLocalVariable).var)
@@ -191,7 +199,7 @@ Namespace Symbols
 
                         Throw New NotImplementedException
                     Else
-                        func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), Reference)
+                        func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), refer)
                     End If
                 End If
 
@@ -204,7 +212,7 @@ Namespace Symbols
 
         Public Property Text As String
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return "void"
         End Function
 
@@ -236,7 +244,7 @@ Namespace Symbols
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
         End Function
     End Class
@@ -253,7 +261,7 @@ Namespace Symbols
             Return $"(get_local ${var})"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             If symbolTable Is Nothing Then
                 Return "i32"
             Else
@@ -275,7 +283,7 @@ Namespace Symbols
             End If
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return "void"
         End Function
     End Class
@@ -293,7 +301,7 @@ Namespace Symbols
             Return $"(get_global ${var})"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return symbolTable.GetGlobal(var)
         End Function
     End Class
@@ -304,7 +312,7 @@ Namespace Symbols
             Return $"(set_global ${var} {value})"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return "void"
         End Function
     End Class
@@ -355,7 +363,7 @@ Namespace Symbols
         Implements INamedValue
 
         Public Property name As String Implements INamedValue.Key
-        Public Property type As TypeAlias
+        Public Property type As TypeAbstract
         ''' <summary>
         ''' 初始值，对于全局变量而言，则必须要有一个初始值，全局变量默认的初始值为零
         ''' </summary>
@@ -364,7 +372,7 @@ Namespace Symbols
 
         Public Property genericTypes As String()
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
         End Function
     End Class
@@ -377,7 +385,7 @@ Namespace Symbols
             Return $"{Internal}"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return Internal.TypeInfer(symbolTable)
         End Function
     End Class

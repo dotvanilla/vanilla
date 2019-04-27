@@ -58,7 +58,7 @@ Namespace Symbols
         Public Overrides Function ToSExpression() As String
             ' create array object in javascript runtime
             Dim newArray As New FuncInvoke(JavaScriptImports.Array.NewArray) With {
-                .Parameters = {New LiteralExpression With {.type = "i32", .value = -1}}
+                .parameters = {New LiteralExpression With {.type = "i32", .value = -1}}
             }
 
             If Initialize.IsNullOrEmpty Then
@@ -68,13 +68,13 @@ Namespace Symbols
 
             Dim arrayPush$ = JavaScriptImports.PushArray.Name
             Dim array As Expression = New FuncInvoke(arrayPush) With {
-                .Parameters = {newArray, Initialize(Scan0)}
+                .parameters = {newArray, Initialize(Scan0)}
             }
 
             ' and then push elements into that new array
             For Each value As Expression In Initialize.Skip(1)
                 array = New FuncInvoke(arrayPush) With {
-                    .Parameters = {array, value}
+                    .parameters = {array, value}
                 }
             Next
 
@@ -110,7 +110,7 @@ Namespace Symbols
 
         Public Overrides Function ToSExpression() As String
             Dim newArray As New FuncInvoke(JavaScriptImports.NewArray) With {
-                .Parameters = {size}
+                .parameters = {size}
             }
 
             Return newArray.ToSExpression
@@ -137,7 +137,7 @@ Namespace Symbols
         Public Overrides Function ToSExpression() As String
             ' create new table
             Dim newTable As New FuncInvoke(JavaScriptImports.Dictionary.Create) With {
-                .Parameters = {}
+                .parameters = {}
             }
 
             If initialVal.IsNullOrEmpty Then
@@ -146,7 +146,7 @@ Namespace Symbols
 
             Dim tableAppend = JavaScriptImports.Dictionary.SetValue.Name
             Dim table As Expression = New FuncInvoke(tableAppend) With {
-                .Parameters = {
+                .parameters = {
                     newTable,
                     initialVal(0).key,
                     initialVal(0).value
@@ -155,7 +155,7 @@ Namespace Symbols
 
             For Each value In initialVal.Skip(1)
                 table = New FuncInvoke(tableAppend) With {
-                    .Parameters = {table, value.key, value.value}
+                    .parameters = {table, value.key, value.value}
                 }
             Next
 

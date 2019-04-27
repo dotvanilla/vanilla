@@ -178,8 +178,8 @@ Namespace Symbols.Parser
             ElseIf symbols.GetObjectSymbol(objName).IsArray AndAlso memberName = "Length" Then
                 ' 可能是获取数组长度
                 Return New FuncInvoke With {
-                    .Reference = JavaScriptImports.ArrayLength.Name,
-                    .Parameters = {
+                    .refer = JavaScriptImports.ArrayLength.Name,
+                    .parameters = {
                         New GetLocalVariable With {.var = objName}
                     }
                 }
@@ -190,8 +190,8 @@ Namespace Symbols.Parser
                 Call symbols.addRequired(api)
 
                 Return New FuncInvoke With {
-                    .Reference = api.Name,
-                    .Parameters = {
+                    .refer = api.Name,
+                    .parameters = {
                         New GetLocalVariable With {.var = objName}
                     }
                 }
@@ -224,8 +224,8 @@ Namespace Symbols.Parser
             }
 
             Return New FuncInvoke With {
-                .Parameters = {left, right},
-                .Reference = $"{left.type}.{TypeExtensions.Operators(op)}",
+                .parameters = {left, right},
+                .refer = $"{left.type}.{TypeExtensions.Operators(op)}",
                 .[operator] = True
             }
         End Function
@@ -271,7 +271,7 @@ Namespace Symbols.Parser
 
                         If target.type = GetType(DictionaryBase).FullName Then
                             Return New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
-                                .Parameters = {
+                                .parameters = {
                                     New GetLocalVariable(target.name),
                                     invoke.ArgumentList _
                                         .Arguments _
@@ -304,7 +304,7 @@ Namespace Symbols.Parser
                         ' 返回的是一个对象引用
                         ' 在这里假设是一个数组
                         Return New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
-                            .Parameters = {
+                            .parameters = {
                                 acc,
                                 invoke.ArgumentList _
                                     .Arguments _
@@ -353,7 +353,7 @@ Namespace Symbols.Parser
                 If isKeyAccess Then
                     ' 当为字典键引用的时候，函数对象肯定是查找不到的
                     Dim keyAccess As Expression = New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
-                        .Parameters = {
+                        .parameters = {
                             target.ValueExpression(symbols),
                             symbols.StringConstant(funcName)
                         }
@@ -362,7 +362,7 @@ Namespace Symbols.Parser
                     ' 因为当前的表达式被判断是一个函数调用
                     ' 所以字典的结果值应该是一个数组
                     keyAccess = New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
-                        .Parameters = {
+                        .parameters = {
                             keyAccess,
                             argumentList.Arguments _
                                 .First _
@@ -397,7 +397,7 @@ Namespace Symbols.Parser
             End If
 
             Return New FuncInvoke(funcDeclare) With {
-                .Parameters = arguments
+                .parameters = arguments
             }
         End Function
 
@@ -451,14 +451,14 @@ Namespace Symbols.Parser
                     .Argument(symbols, funcDeclare.Parameters.Last)
 
                 Return New FuncInvoke With {
-                    .Reference = funcDeclare.Name,
-                    .Parameters = {array, index}
+                    .refer = funcDeclare.Name,
+                    .parameters = {array, index}
                 }
             Else
                 Dim arguments = argumentList.fillParameters(funcDeclare.Parameters, symbols)
 
                 Return New FuncInvoke(funcName) With {
-                    .Parameters = arguments
+                    .parameters = arguments
                 }
             End If
         End Function
@@ -636,8 +636,8 @@ Namespace Symbols.Parser
 
             ' 需要根据类型来决定操作符函数的类型来源
             Return New FuncInvoke With {
-                .Parameters = {left, right},
-                .Reference = funcOpName,
+                .parameters = {left, right},
+                .refer = funcOpName,
                 .[operator] = True
             }
         End Function

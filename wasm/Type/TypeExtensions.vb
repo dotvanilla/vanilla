@@ -267,17 +267,17 @@ Public Class TypeExtensions
     End Function
 
     Public Shared Function [CSng](exp As Expression, symbols As SymbolTable) As Expression
-        Dim type = exp.TypeInfer(symbols)
+        Dim type As TypeAbstract = exp.TypeInfer(symbols)
         Dim operator$
 
-        Select Case type
-            Case "i32", DotNet.Integer
+        Select Case type.type
+            Case TypeAlias.i32
                 [operator] = "f32.convert_s/i32"
-            Case "i64", DotNet.Long
+            Case TypeAlias.i64
                 [operator] = "f32.convert_s/i64"
-            Case "f32", DotNet.Single
+            Case TypeAlias.f32
                 Return exp
-            Case "f64", DotNet.Double
+            Case TypeAlias.f64
                 [operator] = "f32.demote/f64"
             Case Else
                 Throw New NotImplementedException
@@ -309,9 +309,9 @@ Public Class TypeExtensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Shared Function CTypeInvoke(operator$, exp As Expression) As Expression
         Return New FuncInvoke With {
-            .Reference = [operator],
+            .refer = [operator],
             .[operator] = True,
-            .Parameters = {exp}
+            .parameters = {exp}
         }
     End Function
 

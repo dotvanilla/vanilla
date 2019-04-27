@@ -68,8 +68,8 @@ Namespace Symbols.Parser
             Call symbols.addRequired(append)
 
             Return New FuncInvoke With {
-                .Parameters = {left, right},
-                .Reference = append.Name,
+                .parameters = {left, right},
+                .refer = append.Name,
                 .[operator] = False
             }
         End Function
@@ -140,8 +140,8 @@ Namespace Symbols.Parser
             symbols.addRequired(toString)
             value = New FuncInvoke With {
                 .[operator] = False,
-                .Reference = toString.Name,
-                .Parameters = {value}
+                .refer = toString.Name,
+                .parameters = {value}
             }
 
             Return value

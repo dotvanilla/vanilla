@@ -115,7 +115,7 @@ Namespace Symbols.Parser
                 Call symbols.addRequired(JavaScriptImports.SetArrayElement)
 
                 Return New FuncInvoke(JavaScriptImports.SetArrayElement.Name) With {
-                    .Parameters = {
+                    .parameters = {
                         arraySymbol, index, assign.Right.ValueExpression(symbols)
                     }
                 }
@@ -129,7 +129,7 @@ Namespace Symbols.Parser
                     Dim key = symbols.StringConstant(memberName)
 
                     Return New FuncInvoke(JavaScriptImports.Dictionary.SetValue) With {
-                        .Parameters = {
+                        .parameters = {
                             symbols.GetObjectReference(objName),
                             key, right
                         }
