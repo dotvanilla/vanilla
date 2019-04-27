@@ -74,7 +74,7 @@ Namespace Symbols
             Return $"(export ""{Name}"" ({type} ${target}))"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             If type = "func" Then
                 Return symbolTable.GetFunctionSymbol(Nothing, target).Result
             Else

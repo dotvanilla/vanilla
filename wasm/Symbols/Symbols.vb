@@ -1,108 +1,108 @@
 ﻿#Region "Microsoft.VisualBasic::41d17fcc9f62acbfe29da2b80a22e951, Symbols\Symbols.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+' 
+' Copyright (c) 2019 GCModeller Cloud Platform
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class FuncInvoke
-    ' 
-    '         Properties: [operator], Parameters, Reference
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class CommentText
-    ' 
-    '         Properties: Text
-    ' 
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class LiteralExpression
-    ' 
-    '         Properties: Sign, type, value
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class GetLocalVariable
-    ' 
-    '         Properties: var
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class SetLocalVariable
-    ' 
-    '         Properties: value, var
-    ' 
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class GetGlobalVariable
-    ' 
-    '         Properties: var
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class SetGlobalVariable
-    ' 
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class DeclareLocal
-    ' 
-    '         Properties: IsArray, SetLocal
-    ' 
-    '         Function: ToSExpression
-    ' 
-    '     Class DeclareVariable
-    ' 
-    '         Properties: init, name, type
-    ' 
-    '         Function: TypeInfer
-    ' 
-    '     Class Parenthesized
-    ' 
-    '         Properties: Internal
-    ' 
-    '         Function: ToSExpression, TypeInfer
-    ' 
-    '     Class ReturnValue
-    ' 
-    '         Function: ToSExpression
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class FuncInvoke
+' 
+'         Properties: [operator], Parameters, Reference
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class CommentText
+' 
+'         Properties: Text
+' 
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class LiteralExpression
+' 
+'         Properties: Sign, type, value
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class GetLocalVariable
+' 
+'         Properties: var
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class SetLocalVariable
+' 
+'         Properties: value, var
+' 
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class GetGlobalVariable
+' 
+'         Properties: var
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class SetGlobalVariable
+' 
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class DeclareLocal
+' 
+'         Properties: IsArray, SetLocal
+' 
+'         Function: ToSExpression
+' 
+'     Class DeclareVariable
+' 
+'         Properties: init, name, type
+' 
+'         Function: TypeInfer
+' 
+'     Class Parenthesized
+' 
+'         Properties: Internal
+' 
+'         Function: ToSExpression, TypeInfer
+' 
+'     Class ReturnValue
+' 
+'         Function: ToSExpression
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -150,7 +150,7 @@ Namespace Symbols
             End If
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             If [operator] Then
                 If Reference Like TypeExtensions.Comparison Then
                     ' WebAssembly comparison operator produce integer value
@@ -204,7 +204,7 @@ Namespace Symbols
 
         Public Property Text As String
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
 
@@ -236,7 +236,7 @@ Namespace Symbols
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return type
         End Function
     End Class
@@ -253,7 +253,7 @@ Namespace Symbols
             Return $"(get_local ${var})"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             If symbolTable Is Nothing Then
                 Return "i32"
             Else
@@ -275,7 +275,7 @@ Namespace Symbols
             End If
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
     End Class
@@ -293,7 +293,7 @@ Namespace Symbols
             Return $"(get_global ${var})"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return symbolTable.GetGlobal(var)
         End Function
     End Class
@@ -304,7 +304,7 @@ Namespace Symbols
             Return $"(set_global ${var} {value})"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
     End Class
@@ -355,7 +355,7 @@ Namespace Symbols
         Implements INamedValue
 
         Public Property name As String Implements INamedValue.Key
-        Public Property type As String
+        Public Property type As TypeAlias
         ''' <summary>
         ''' 初始值，对于全局变量而言，则必须要有一个初始值，全局变量默认的初始值为零
         ''' </summary>
@@ -364,7 +364,7 @@ Namespace Symbols
 
         Public Property genericTypes As String()
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return type
         End Function
     End Class
@@ -377,7 +377,7 @@ Namespace Symbols
             Return $"{Internal}"
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return Internal.TypeInfer(symbolTable)
         End Function
     End Class

@@ -218,7 +218,7 @@ Namespace Symbols
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub AddGlobal(var$, type$, moduleName$, init As LiteralExpression)
+        Public Sub AddGlobal(var$, type As TypeAlias, moduleName$, init As LiteralExpression)
             Call globals.Add(var, New DeclareGlobal With {.name = var, .type = type, .init = init, .[Module] = moduleName})
         End Sub
 

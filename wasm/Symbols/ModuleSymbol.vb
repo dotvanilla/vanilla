@@ -102,7 +102,7 @@ Namespace Symbols
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "any"
         End Function
 

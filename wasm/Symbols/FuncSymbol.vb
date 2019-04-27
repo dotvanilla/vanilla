@@ -67,13 +67,18 @@ Namespace Symbols
         ''' </summary>
         ''' <returns></returns>
         Public Property Name As String Implements IKeyedEntity(Of String).Key
-        Public Property Parameters As NamedValue(Of String)()
+
+        ''' <summary>
+        ''' The function parameter name and parameter type
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Parameters As NamedValue(Of TypeAlias)()
 
         ''' <summary>
         ''' 函数的返回值类型
         ''' </summary>
         ''' <returns></returns>
-        Public Property Result As String
+        Public Property Result As TypeAlias
 
         ''' <summary>
         ''' 当前的这个方法是否是一个被<see cref="ExtensionAttribute"/>所标记的拓展函数
@@ -95,7 +100,7 @@ Namespace Symbols
             Result = var.Value
         End Sub
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return Result
         End Function
 
