@@ -234,7 +234,7 @@ Namespace Symbols
         Public ReadOnly Property IsArray As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return TypeExtensions.IsArray(type)
+                Return type.type = TypeAlias.array
             End Get
         End Property
 

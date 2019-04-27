@@ -281,35 +281,35 @@ Namespace Symbols
             Else
                 Dim func As FuncSignature = functionList.TryGetValue(name)
 
-                If Not func Is Nothing AndAlso typeMatch(func.parameters.First, contextObj.type) Then
-                    Return func
-                Else
-                    If contextObj.IsArray Then
-                        ' 可能是是一个List
-                        ' 将List的实例方法映射到javascript的array相关的api上面
-                        Select Case name
-                            Case "Add" : Return functionList(JavaScriptImports.Array.PushArray.Name)
-                            Case Else
-                                Throw New NotImplementedException
-                        End Select
-                    ElseIf contextObj.type Like TypeExtensions.stringType Then
-                        Return getStringInternal(name)
-                    ElseIf contextObj.IsObject Then
-                        Call Me.addRequired(JavaScriptImports.Dictionary.Create)
-                        Call Me.addRequired(JavaScriptImports.Dictionary.GetValue)
-                        Call Me.addRequired(JavaScriptImports.Dictionary.RemoveValue)
-                        Call Me.addRequired(JavaScriptImports.Dictionary.SetValue)
+                'If Not func Is Nothing AndAlso typeMatch(func.parameters.First, contextObj.type) Then
+                '    Return func
+                'Else
+                '    If contextObj.IsArray Then
+                '        ' 可能是是一个List
+                '        ' 将List的实例方法映射到javascript的array相关的api上面
+                '        Select Case name
+                '            Case "Add" : Return functionList(JavaScriptImports.Array.PushArray.Name)
+                '            Case Else
+                '                Throw New NotImplementedException
+                '        End Select
+                '    ElseIf contextObj.type Like TypeExtensions.stringType Then
+                '        Return getStringInternal(name)
+                '    ElseIf contextObj.IsObject Then
+                '        Call Me.addRequired(JavaScriptImports.Dictionary.Create)
+                '        Call Me.addRequired(JavaScriptImports.Dictionary.GetValue)
+                '        Call Me.addRequired(JavaScriptImports.Dictionary.RemoveValue)
+                '        Call Me.addRequired(JavaScriptImports.Dictionary.SetValue)
 
-                        Select Case name
-                            Case "Add" : Return functionList(JavaScriptImports.Dictionary.SetValue.Name)
-                            Case "Remove" : Return functionList(JavaScriptImports.Dictionary.RemoveValue.Name)
-                            Case Else
-                                Throw New NotImplementedException
-                        End Select
-                    Else
-                        Throw New NotImplementedException
-                    End If
-                End If
+                '        Select Case name
+                '            Case "Add" : Return functionList(JavaScriptImports.Dictionary.SetValue.Name)
+                '            Case "Remove" : Return functionList(JavaScriptImports.Dictionary.RemoveValue.Name)
+                '            Case Else
+                '                Throw New NotImplementedException
+                '        End Select
+                '    Else
+                '        Throw New NotImplementedException
+                '    End If
+                'End If
             End If
         End Function
 

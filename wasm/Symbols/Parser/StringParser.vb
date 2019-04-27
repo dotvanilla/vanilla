@@ -91,14 +91,13 @@ Namespace Symbols.Parser
         End Sub
 
         <Extension>
-        Friend Sub stringValue(symbols As SymbolTable, ByRef value As Object, ByRef type$)
+        Friend Sub stringValue(symbols As SymbolTable, ByRef value As Object)
             ' 是字符串类型，需要做额外的处理
             value = symbols.memory.AddString(value)
-            type = "char*"
 
             Call symbols.addRequired(JavaScriptImports.String.Replace)
             Call symbols.addRequired(JavaScriptImports.String.StringAppend)
-            Call symbols.addRequired(JavaScriptImports.String.StringLength)
+            Call symbols.addRequired(JavaScriptImports.String.Length)
             Call symbols.addRequired(JavaScriptImports.String.IndexOf)
         End Sub
 
@@ -117,13 +116,12 @@ Namespace Symbols.Parser
         Private Function getContent(str As InterpolatedStringContentSyntax, symbols As SymbolTable) As Expression
             If TypeOf str Is InterpolatedStringTextSyntax Then
                 Dim value As Object
-                Dim type$ = Nothing
 
                 value = DirectCast(str, InterpolatedStringTextSyntax).TextToken.ValueText
-                symbols.stringValue(value, type)
+                symbols.stringValue(value)
 
                 Return New LiteralExpression With {
-                    .type = Type,
+                    .type = New TypeAbstract(TypeAlias.string),
                     .value = value
                 }
             Else

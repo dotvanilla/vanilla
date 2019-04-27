@@ -104,7 +104,7 @@ Namespace Symbols
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return "any"
+            Return New TypeAbstract(TypeAlias.void)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

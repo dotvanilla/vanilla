@@ -102,7 +102,7 @@ Namespace Symbols.Parser
             If TypeOf control Is DeclareLocal Then
                 Yield New SetLocalVariable With {
                     .var = DirectCast(control, DeclareLocal).name,
-                    .value = TypeExtensions.CType(control.TypeInfer(symbols), init, symbols)
+                    .value = CTypeHandle.CType(control.TypeInfer(symbols), init, symbols)
                 }
             Else
                 Yield control

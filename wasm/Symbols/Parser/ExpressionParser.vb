@@ -560,7 +560,7 @@ Namespace Symbols.Parser
         Public Function StringConstant(memory As SymbolTable, str As String) As LiteralExpression
             Dim intPtr As Object = str
 
-            Call memory.stringValue(intPtr, Nothing)
+            Call memory.stringValue(intPtr)
 
             Return New LiteralExpression With {
                .type = New TypeAbstract("string"),

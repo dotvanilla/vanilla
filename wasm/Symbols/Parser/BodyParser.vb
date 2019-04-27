@@ -48,7 +48,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Symbols.JavaScriptImports
 
@@ -110,7 +109,7 @@ Namespace Symbols.Parser
                 Dim index As Expression = left.ArgumentList _
                     .Arguments _
                     .First _
-                    .Argument(symbols, New NamedValue(Of String)("a", "i32"))
+                    .Argument(symbols, "a".param("i32"))
                 Dim arraySymbol As New GetLocalVariable With {.var = arrayName}
 
                 Call symbols.addRequired(JavaScriptImports.SetArrayElement)
@@ -219,21 +218,21 @@ Namespace Symbols.Parser
                         If Not [declare].init Is Nothing Then
                             Yield [declare].SetLocal
 
-                            If TypeOf [declare].init Is ArrayTable Then
-                                With DirectCast([declare].init, ArrayTable)
-                                    [declare].genericTypes = { .key, .type}
-                                End With
-                            ElseIf TypeOf [declare].init Is ArraySymbol Then
-                                With DirectCast([declare].init, ArraySymbol)
-                                    [declare].genericTypes = { .type}
-                                End With
-                            ElseIf TypeOf [declare].init Is Array Then
-                                With DirectCast([declare].init, Array)
-                                    [declare].genericTypes = { .type}
-                                End With
-                            Else
-                                [declare].genericTypes = {[declare].type}
-                            End If
+                            'If TypeOf [declare].init Is ArrayTable Then
+                            '    With DirectCast([declare].init, ArrayTable)
+                            '        [declare].genericTypes = { .key, .type}
+                            '    End With
+                            'ElseIf TypeOf [declare].init Is ArraySymbol Then
+                            '    With DirectCast([declare].init, ArraySymbol)
+                            '        [declare].genericTypes = { .type}
+                            '    End With
+                            'ElseIf TypeOf [declare].init Is Array Then
+                            '    With DirectCast([declare].init, Array)
+                            '        [declare].genericTypes = { .type}
+                            '    End With
+                            'Else
+                            '    [declare].genericTypes = {[declare].type}
+                            'End If
                         End If
 
                         Call symbols.AddLocal([declare])
@@ -321,13 +320,13 @@ Namespace Symbols.Parser
                         init = CTypeHandle.CType(type, init, symbols)
 
                         If TypeOf init Is ArraySymbol Then
-                            With DirectCast(init, ArraySymbol)
-                                .type = type.Trim("["c, "]"c)
+                            'With DirectCast(init, ArraySymbol)
+                            '    .type = type.Trim("["c, "]"c)
 
-                                If .type = GetType(String).FullName Then
-                                    .type = "char*"
-                                End If
-                            End With
+                            '    If .type = GetType(String).FullName Then
+                            '        .type = "char*"
+                            '    End If
+                            'End With
 
                             Call symbols.doArrayImports
                         End If
@@ -342,7 +341,7 @@ Namespace Symbols.Parser
                                     .GetExpression _
                                     .ValueExpression(symbols)
                             }
-                            type = type & "[]"
+                            ' type = type & "[]"
                         End If
                     End If
 
@@ -356,11 +355,11 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function GetInitialize(init As EqualsValueSyntax, symbols As SymbolTable, type$) As Expression
+        Public Function GetInitialize(init As EqualsValueSyntax, symbols As SymbolTable, type As TypeAbstract) As Expression
             Dim val As ExpressionSyntax = init.Value
 
             If TypeOf val Is LiteralExpressionSyntax Then
-                If type.StringEmpty Then
+                If type Is Nothing Then
                     Return val.ValueExpression(symbols)
                 Else
                     With DirectCast(val, LiteralExpressionSyntax)

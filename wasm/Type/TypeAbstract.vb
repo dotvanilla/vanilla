@@ -118,4 +118,16 @@ Public Class TypeAbstract
     Public Shared Operator =(type As TypeAbstract, name$) As Boolean
         Return type.type.ToString = name
     End Operator
+
+    Public Shared Operator <>(type As TypeAbstract, another As TypeAbstract) As Boolean
+        Return Not type = another
+    End Operator
+
+    Public Shared Operator =(type As TypeAbstract, another As TypeAbstract) As Boolean
+        If type.type <> another.type Then
+            Return False
+        End If
+
+        Return True
+    End Operator
 End Class

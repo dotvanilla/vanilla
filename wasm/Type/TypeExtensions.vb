@@ -157,11 +157,6 @@ Public Class TypeExtensions
         End Select
     End Function
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function IsInteger(exp As Expression, symbols As SymbolTable) As Boolean
-        Return exp.TypeInfer(symbols) Like integerType
-    End Function
-
     Public Shared Function IsArray(type As String) As Boolean
         ' instr是从1开始的
         Dim p = InStr(type, "[]") - 1

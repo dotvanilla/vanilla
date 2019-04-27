@@ -137,13 +137,13 @@ Namespace Symbols
                         Dim tableObj = symbolTable.GetObjectSymbol(DirectCast(table, GetLocalVariable).var)
 
                         If TypeOf tableObj Is DeclareLocal Then
-                            With DirectCast(tableObj, DeclareLocal)
-                                If TypeExtensions.IsArray(.genericTypes(1)) Then
-                                    Return .genericTypes(1).Trim("["c, "]"c)
-                                Else
-                                    Return .genericTypes(1)
-                                End If
-                            End With
+                            'With DirectCast(tableObj, DeclareLocal)
+                            '    If TypeExtensions.IsArray(.genericTypes(1)) Then
+                            '        Return .genericTypes(1).Trim("["c, "]"c)
+                            '    Else
+                            '        Return .genericTypes(1)
+                            '    End If
+                            'End With
                         Else
                             Throw New NotImplementedException
                         End If
@@ -153,7 +153,7 @@ Namespace Symbols
 
                     Throw New NotImplementedException
                 Else
-                    func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), refer)
+                    ' func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), refer)
                 End If
             End If
 

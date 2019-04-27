@@ -63,7 +63,7 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        Public ReadOnly Property StringLength As New ImportSymbol With {
+        Public ReadOnly Property Length As New ImportSymbol With {
             .ImportObject = "length",
             .[Module] = "string",
             .Name = "string_length",
@@ -101,7 +101,7 @@ Namespace Symbols.JavaScriptImports
 
         Public Function GetStringMethod(name As String) As ImportSymbol
             Select Case name
-                Case "Length" : Return StringLength
+                Case "Length" : Return Length
                 Case Else
                     Throw New NotImplementedException
             End Select
