@@ -108,8 +108,23 @@ Module CTypeHandle
                 ' 左边是字符串类型，但是右边不是字符串或者整形数
                 ' 则说明是一个需要将目标转换为字符串的操作
                 Return right.AnyToString(symbols)
+            Case TypeAlias.boolean
+                Return CTypeHandle.CBool(right, symbols)
             Case Else
-                Throw New InvalidCastException($"{left} -> {rightTypeInfer}")
+                Throw New InvalidCastException($"{rightTypeInfer} -> {left}")
+        End Select
+    End Function
+
+    Public Function [CBool](exp As Expression, symbols As SymbolTable) As Expression
+        Dim type = exp.TypeInfer(symbols)
+        Dim operator$
+
+        Select Case type.type
+            Case TypeAlias.i32
+                ' 直接转换
+                Return exp
+            Case Else
+                Throw New NotImplementedException
         End Select
     End Function
 

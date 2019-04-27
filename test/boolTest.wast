@@ -1,11 +1,11 @@
-(module ;; Module boolTest
+(module ;; Module 
 
     ;; Auto-Generated VisualBasic.NET WebAssembly Code
     ;;
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/16/2019 12:01:44 AM
+    ;; build: 4/27/2019 4:18:45 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -20,8 +20,14 @@
     
     
 
-    (export "logical" (func $logical)) 
+    ;; export from [boolTest]
+    
+    (export "logical" (func $logical))
+    
+     
 
+    ;; functions in [boolTest]
+    
     (func $logical  (result i32)
         ;; Public Function logical() As i32
         (local $b i32)
@@ -29,10 +35,11 @@
     
     (if (get_local $b) 
         (then
-                    (return (i32.const 1))
+                    (drop (return (i32.const 1)))
         ) (else
-                    (return (i32.sub (i32.const 0) (i32.const 100)))
+                    (drop (return (i32.sub (i32.const 0) (i32.const 100))))
         )
     )
     (return (i32.const 0))
-    ))
+    )
+    )

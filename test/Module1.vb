@@ -74,6 +74,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "..\boolTest.vb",
                  "..\DeclareTest.vb",
                  "..\Stringstest.vb",
                  "..\EnumTest.vb",
@@ -82,7 +83,6 @@ Module treeTest
                     "..\functionTest.vb",
                 "..\incrementTest.vb",
             "..\nullreferenceTest.vb",
-"..\boolTest.vb",
 "..\ForLoopTest.vb"}
 
             Call filetest(file)
