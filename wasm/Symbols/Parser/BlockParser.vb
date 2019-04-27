@@ -140,6 +140,9 @@ Namespace Symbols.Parser
             internal += break
             internal += forBlock.Statements.ParseBlockInternal(symbols)
             ' 更新循环控制变量的值
+            internal += New CommentText With {
+                .text = $"For loop control step: {stepValue.ToSExpression}"
+            }
             internal += New SetLocalVariable With {.var = controlVar.var, .value = doStep}
             internal += [next]
             internal += New CommentText With {

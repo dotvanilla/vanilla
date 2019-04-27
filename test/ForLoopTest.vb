@@ -45,10 +45,12 @@
 
 Module ForLoopTest
 
+    Dim zero As Long = 0
+
     Public Function forloop() As Double
         Dim x As Double = 999
 
-        For i As Integer = 0 To 100 Step 2
+        For i As Integer = zero To 100 Step 2
             x += 0.01
         Next
 
