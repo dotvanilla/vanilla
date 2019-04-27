@@ -5,7 +5,9 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/27/2019 4:49:59 PM
+    ;; build: 4/27/2019 10:28:25 PM
+    ;; 
+    ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
