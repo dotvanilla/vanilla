@@ -75,6 +75,13 @@ Public Class TypeAbstract
         End Get
     End Property
 
+#Region "WebAssembly Primitive Types"
+    Public Shared ReadOnly Property i32 As New TypeAbstract("i32")
+    Public Shared ReadOnly Property i64 As New TypeAbstract("i64")
+    Public Shared ReadOnly Property f32 As New TypeAbstract("f32")
+    Public Shared ReadOnly Property f64 As New TypeAbstract("f64")
+#End Region
+
     Sub New(type As Type)
 
     End Sub

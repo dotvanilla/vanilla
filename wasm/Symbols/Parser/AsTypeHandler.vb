@@ -128,14 +128,14 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of Type())
-            Dim TypeName = generic.objectName
+            Dim typeName = generic.objectName
             Dim types = generic.TypeArgumentList.Arguments
             Dim elementType As Type() = types _
                 .Select(Function(T) AsTypeHandler.GetType(T, symbols)) _
                 .ToArray
 
             Return New NamedValue(Of Type()) With {
-                .Name = TypeName,
+                .Name = typeName,
                 .Value = elementType
             }
         End Function

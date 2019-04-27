@@ -143,7 +143,7 @@ Namespace Symbols
         ''' Data type of array table key
         ''' </summary>
         ''' <returns></returns>
-        Public Property key As String
+        Public Property key As TypeAbstract
 
         Public Property initialVal As (key As Expression, value As Expression)()
 

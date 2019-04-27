@@ -108,14 +108,14 @@ Namespace Symbols.Parser
                     typeName = elementType(Scan0).TypeName
 
                     Return New ArraySymbol With {
-                        .type = typeName,
+                        .type = New TypeAbstract(typeName),
                         .Initialize = {}
                     }
                 ElseIf typeName = "Dictionary" Then
                     Return New ArrayTable With {
                         .initialVal = {},
-                        .key = elementType(Scan0).TypeName,
-                        .type = elementType(1).TypeName
+                        .key = New TypeAbstract(elementType(Scan0)),
+                        .type = New TypeAbstract(elementType(1))
                     }
                 Else
                     Throw New NotImplementedException
@@ -129,7 +129,7 @@ Namespace Symbols.Parser
         Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
             If newArray.ArrayBounds Is Nothing Then
                 Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
-                array.Type = AsTypeHandler.GetType(newArray.Type, symbols).TypeName
+                array.type = New TypeAbstract(AsTypeHandler.GetType(newArray.Type, symbols))
                 Return array
             Else
                 Dim bounds As Expression = newArray.ArrayBounds _
@@ -137,9 +137,9 @@ Namespace Symbols.Parser
                     .First _
                     .GetExpression _
                     .ValueExpression(symbols)
-                Dim type = AsTypeHandler.GetType(newArray.Type, symbols).TypeName
+                Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
 
-                Return New Array With {.size = bounds, .Type = type}
+                Return New Array With {.size = bounds, .type = New TypeAbstract(type)}
             End If
         End Function
 
@@ -173,7 +173,7 @@ Namespace Symbols.Parser
                 [const] = symbols.GetEnumType(objName)
 
                 Return New LiteralExpression With {
-                    .type = [const].type,
+                    .type = New TypeAbstract([const].type),
                     .value = [const].Members(memberName)
                 }
             ElseIf symbols.GetObjectSymbol(objName).IsArray AndAlso memberName = "Length" Then
@@ -204,9 +204,9 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ValueCType(cast As CTypeExpressionSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = cast.Expression.ValueExpression(symbols)
-            Dim castToType As String = TypeExtensions.Convert2Wasm(cast.Type.GetType(symbols))
+            Dim castToType As New TypeAbstract(cast.Type.GetType(symbols))
 
-            Return TypeExtensions.CType(castToType, value, symbols)
+            Return CTypeHandle.CType(castToType, value, symbols)
         End Function
 
         ''' <summary>
@@ -246,13 +246,13 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function Argument(arg As ArgumentSyntax, symbols As SymbolTable, param As NamedValue(Of String)) As Expression
+        Public Function Argument(arg As ArgumentSyntax, symbols As SymbolTable, param As NamedValue(Of TypeAbstract)) As Expression
             Dim value As Expression = arg _
                 .GetExpression _
                 .ValueExpression(symbols)
-            Dim left$ = param.Value
+            Dim left As TypeAbstract = param.Value
 
-            Return TypeExtensions.CType(left, value, symbols)
+            Return CTypeHandle.CType(left, value, symbols)
         End Function
 
         <Extension>
@@ -277,7 +277,7 @@ Namespace Symbols.Parser
                                     invoke.ArgumentList _
                                         .Arguments _
                                         .First _
-                                        .Argument(symbols, New NamedValue(Of String)("key", "i32"))
+                                        .Argument(symbols, New NamedValue(Of TypeAbstract)("key", New TypeAbstract("i32")))
                                 }
                             }
                         Else
@@ -310,7 +310,7 @@ Namespace Symbols.Parser
                                 invoke.ArgumentList _
                                     .Arguments _
                                     .First _
-                                    .Argument(symbols, ("index", "i32"))
+                                    .Argument(symbols, ("index", New TypeAbstract("i32")))
                             }
                         }
                     Else
@@ -341,7 +341,7 @@ Namespace Symbols.Parser
 
             Dim argumentFirst As Expression = Nothing
             Dim funcDeclare As FuncSignature
-            Dim leftArguments As NamedValue(Of String)()
+            Dim leftArguments As NamedValue(Of TypeAbstract)()
 
             If TypeOf target Is LiteralExpressionSyntax Then
                 funcDeclare = symbols.GetFunctionSymbol(Nothing, funcName)
@@ -367,7 +367,7 @@ Namespace Symbols.Parser
                             keyAccess,
                             argumentList.Arguments _
                                 .First _
-                                .Argument(symbols, New NamedValue(Of String)("i", "i32"))
+                                .Argument(symbols, New NamedValue(Of TypeAbstract)("i", New TypeAbstract("i32")))
                         }
                     }
 
@@ -403,8 +403,8 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Private Function fillParameters(argumentList As ArgumentListSyntax, funcDeclare As NamedValue(Of String)(), symbols As SymbolTable) As Expression()
-            Dim arg As NamedValue(Of String)
+        Private Function fillParameters(argumentList As ArgumentListSyntax, funcDeclare As NamedValue(Of TypeAbstract)(), symbols As SymbolTable) As Expression()
+            Dim arg As NamedValue(Of TypeAbstract)
             Dim input As ArgumentSyntax = Nothing
             Dim arguments As New List(Of Expression)
             Dim invokeInputs As ArgumentSyntax()
@@ -465,10 +465,10 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Private Iterator Function ArgumentSequence(arguments As ArgumentListSyntax, define As NamedValue(Of String)()) As IEnumerable(Of ArgumentSyntax)
+        Private Iterator Function ArgumentSequence(arguments As ArgumentListSyntax, define As NamedValue(Of TypeAbstract)()) As IEnumerable(Of ArgumentSyntax)
             Dim input = arguments.Arguments.ToArray
             Dim a As ArgumentSyntax
-            Dim check As NamedValue(Of String)
+            Dim check As NamedValue(Of TypeAbstract)
 
             For i As Integer = 0 To define.Length - 1
                 a = input.ElementAtOrNull(i)
@@ -527,7 +527,7 @@ Namespace Symbols.Parser
         ''' <param name="memory">内存设备</param>
         ''' <returns></returns>
         <Extension>
-        Public Function ConstantExpression([const] As LiteralExpressionSyntax, wasmType$, memory As SymbolTable) As Expression
+        Public Function ConstantExpression([const] As LiteralExpressionSyntax, wasmType As TypeAbstract, memory As SymbolTable) As Expression
             Dim value As Object = [const].Token.Value
             Dim type As Type
 
@@ -542,11 +542,11 @@ Namespace Symbols.Parser
             If type Is GetType(String) OrElse type Is GetType(Char) Then
                 Return memory.StringConstant(value)
             ElseIf type Is GetType(Boolean) Then
-                wasmType = "i32"
+                wasmType = New TypeAbstract("i32")
                 value = If(DirectCast(value, Boolean), 1, 0)
             Else
-                If wasmType.StringEmpty Then
-                    wasmType = TypeExtensions.Convert2Wasm(type)
+                If wasmType Is Nothing Then
+                    wasmType = New TypeAbstract(type)
                 End If
             End If
 
@@ -559,12 +559,11 @@ Namespace Symbols.Parser
         <Extension>
         Public Function StringConstant(memory As SymbolTable, str As String) As LiteralExpression
             Dim intPtr As Object = str
-            Dim wasmType$ = Nothing
 
-            Call memory.stringValue(intPtr, wasmType)
+            Call memory.stringValue(intPtr, Nothing)
 
             Return New LiteralExpression With {
-               .type = wasmType,
+               .type = New TypeAbstract("string"),
                .value = intPtr
             }
         End Function
@@ -597,14 +596,14 @@ Namespace Symbols.Parser
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         Public Function BinaryStack(left As Expression, right As Expression, op$, symbols As SymbolTable) As Expression
-            Dim type$
+            Dim type As TypeAbstract
 
             If op = "/" Then
                 ' require type conversion if left and right is integer
                 ' 对于除法，必须要首先转换为浮点型才能够完成运算
-                left = TypeExtensions.CDbl(left, symbols)
-                right = TypeExtensions.CDbl(right, symbols)
-                type = "f64"
+                left = CTypeHandle.CDbl(left, symbols)
+                right = CTypeHandle.CDbl(right, symbols)
+                type = New TypeAbstract("f64")
             ElseIf op = "&" Then
                 Return symbols.StringAppend(left, right)
             Else
@@ -622,8 +621,8 @@ Namespace Symbols.Parser
                     type = rt
                 End If
 
-                left = TypeExtensions.CType(type, left, symbols)
-                right = TypeExtensions.CType(type, right, symbols)
+                left = CTypeHandle.CType(type, left, symbols)
+                right = CTypeHandle.CType(type, right, symbols)
             End If
 
             Dim funcOpName$
@@ -632,7 +631,7 @@ Namespace Symbols.Parser
                 funcOpName = TypeExtensions.Operators(op)
                 funcOpName = $"{type}.{funcOpName}"
             Else
-                funcOpName = TypeExtensions.Compares(type, op)
+                funcOpName = TypeExtensions.Compares(type.raw, op)
             End If
 
             ' 需要根据类型来决定操作符函数的类型来源
