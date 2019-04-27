@@ -138,6 +138,12 @@ Namespace Symbols
             End Get
         End Property
 
+        Public Overrides ReadOnly Property IsNothing As Boolean
+            Get
+                Return value = "0" AndAlso type.type = TypeAlias.any
+            End Get
+        End Property
+
         Sub New()
         End Sub
 

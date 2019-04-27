@@ -60,6 +60,16 @@ Namespace Symbols
             End Get
         End Property
 
+        Public Overridable ReadOnly Property IsNothing As Boolean
+            Get
+                If Not TypeOf Me Is LiteralExpression Then
+                    Return False
+                Else
+                    Return DirectCast(Me, LiteralExpression).IsNothing
+                End If
+            End Get
+        End Property
+
         ''' <summary>
         ''' Get the webassembly data type of this expression that will be generated.
         ''' </summary>

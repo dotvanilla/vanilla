@@ -93,6 +93,9 @@ Module CTypeHandle
         If left.type = TypeAlias.any Then
             ' left accept any type
             Return right
+        ElseIf right.IsNothing Then
+            ' nothing 可以赋值给任意类型
+            Return DefaultOf(left)
         End If
 
         Select Case left.type
@@ -113,6 +116,22 @@ Module CTypeHandle
             Case Else
                 Throw New InvalidCastException($"{rightTypeInfer} -> {left}")
         End Select
+    End Function
+
+    ''' <summary>
+    ''' 好像只需要直接返回零就可以了...
+    ''' </summary>
+    ''' <param name="type"></param>
+    ''' <returns></returns>
+    Public Function DefaultOf(type As TypeAbstract) As Expression
+        If type.isprimitive Then
+            Return New LiteralExpression With {.value = 0, .type = type}
+        ElseIf type = TypeAlias.boolean Then
+            ' 逻辑值默认为False
+            Return New LiteralExpression With {.value = 0, .type = type}
+        Else
+            Return New LiteralExpression With {.value = 0, .type = type}
+        End If
     End Function
 
     Public Function [CBool](exp As Expression, symbols As SymbolTable) As Expression

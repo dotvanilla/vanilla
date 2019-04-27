@@ -57,6 +57,10 @@ Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 
 Public Class TypeExtensions
 
+    ''' <summary>
+    ''' 在进行类型转换的是否，会需要使用这个索引来判断类型的优先度，同时，也可以使用这个索引来判断类型是否为基础类型
+    ''' </summary>
+    ''' <returns></returns>
     Public Shared ReadOnly Property NumberOrders As Index(Of TypeAlias) = {
         TypeAlias.i32,
         TypeAlias.f32,

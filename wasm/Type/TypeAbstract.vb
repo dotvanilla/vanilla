@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::b0882f3c0c96c4901a9d842011ca8800, Type\TypeAbstract.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class TypeAbstract
-    ' 
-    '     Properties: f32, f64, generic, i32, i64
-    '                 raw, type, typefit, void
-    ' 
-    '     Constructor: (+3 Overloads) Sub New
-    '     Function: ToString
-    '     Operators: (+2 Overloads) <>, (+2 Overloads) =
-    ' 
-    ' /********************************************************************************/
+' Class TypeAbstract
+' 
+'     Properties: f32, f64, generic, i32, i64
+'                 raw, type, typefit, void
+' 
+'     Constructor: (+3 Overloads) Sub New
+'     Function: ToString
+'     Operators: (+2 Overloads) <>, (+2 Overloads) =
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 ''' <summary>
 ''' Type model in WebAssembly compiler
 ''' </summary>
@@ -73,6 +74,16 @@ Public Class TypeAbstract
     Public ReadOnly Property typefit As String
         Get
             Return CTypeHandle.typefit(type)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 当前的类型是否是WebAssembly之中的4个基础类型
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property isprimitive As Boolean
+        Get
+            Return type Like TypeExtensions.NumberOrders
         End Get
     End Property
 
@@ -111,14 +122,27 @@ Public Class TypeAbstract
         End If
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Operator <>(type As TypeAbstract, name As TypeAlias) As Boolean
+        Return type.type <> name
+    End Operator
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Operator =(type As TypeAbstract, name As TypeAlias) As Boolean
+        Return type.type = name
+    End Operator
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Operator <>(type As TypeAbstract, name$) As Boolean
         Return type.type.ToString <> name
     End Operator
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Operator =(type As TypeAbstract, name$) As Boolean
         Return type.type.ToString = name
     End Operator
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Operator <>(type As TypeAbstract, another As TypeAbstract) As Boolean
         Return Not type = another
     End Operator
