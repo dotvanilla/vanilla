@@ -41,9 +41,15 @@ Public Class TypeAbstract
                 type = TypeAlias.f64
             Case "boolean", "System.Boolean"
                 type = TypeAlias.boolean
+            Case "void", "System.Void"
+                type = TypeAlias.void
+            Case "any", "System.Object"
+                type = TypeAlias.any
             Case Else
-                Throw New NotImplementedException
+                Throw New NotImplementedException(fullName)
         End Select
+
+        raw = fullName
     End Sub
 
     Sub New([alias] As TypeAlias, Optional generic$() = Nothing)

@@ -161,12 +161,20 @@ Namespace Symbols.Blocks
     ''' <summary>
     ''' 
     ''' </summary>
+    ''' <remarks>
+    ''' Your imported function $array_push has a return value of i32. You does not consume 
+    ''' this value in the then block. Your if block is declared as void or []. You need to 
+    ''' consume the i32 (for example with a drop) or change the return type of the if 
+    ''' expression to (result i32).
+    ''' 
+    ''' https://github.com/WebAssembly/wabt/issues/1067
+    ''' </remarks>
     Public Class drop : Inherits Expression
 
         Public Property expression As Expression
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
-            Return "void"
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return New TypeAbstract("void")
         End Function
 
         Public Overrides Function ToSExpression() As String

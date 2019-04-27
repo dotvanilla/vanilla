@@ -65,6 +65,11 @@
             End If
         End Function
 
+        ''' <summary>
+        ''' 这里还需要处理一般的函数调用以及数组或者字典的一些操作
+        ''' </summary>
+        ''' <param name="symbolTable"></param>
+        ''' <returns></returns>
         Private Function funcTypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Dim func As FuncSignature
             Dim obj As Expression
