@@ -48,7 +48,6 @@
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ApplicationServices.Development

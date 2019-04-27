@@ -90,7 +90,7 @@ Public Class TypeAbstract
 #End Region
 
     Sub New(type As Type)
-
+        Call Me.New(TypeExtensions.Convert2Wasm(type))
     End Sub
 
     Sub New(fullName As String)

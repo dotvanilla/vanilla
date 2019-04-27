@@ -50,7 +50,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
-Imports Wasm.Symbols
 
 ' how it works
 ' 
@@ -83,8 +82,8 @@ Public Class TypeExtensions
         {GetType(Long), "i64"},
         {GetType(Single), "f32"},
         {GetType(Double), "f64"},
-        {GetType(String), "char*"}, ' 实际上这是一个integer类型
-        {GetType(Char), "char"},
+        {GetType(String), "string"}, ' 实际上这是一个integer类型
+        {GetType(Char), "string"},
         {GetType(System.Void), "void"}
     }
 

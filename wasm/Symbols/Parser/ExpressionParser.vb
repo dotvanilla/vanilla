@@ -537,14 +537,14 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ConstantExpression([const] As LiteralExpressionSyntax, wasmType As TypeAbstract, memory As SymbolTable) As Expression
             Dim value As Object = [const].Token.Value
-            Dim type As Type
+            Dim type As TypeAbstract
 
             If value Is Nothing Then
                 ' 是空值常量，则直接返回整形数0表示空指针
                 value = 0
-                type = GetType(Integer)
+                type = New TypeAbstract(TypeAlias.any)
             Else
-                type = value.GetType
+                type = New TypeAbstract(value.GetType)
             End If
 
             If type Is GetType(String) OrElse type Is GetType(Char) Then
@@ -553,9 +553,7 @@ Namespace Symbols.Parser
                 wasmType = New TypeAbstract("i32")
                 value = If(DirectCast(value, Boolean), 1, 0)
             Else
-                If wasmType Is Nothing Then
-                    wasmType = New TypeAbstract(type)
-                End If
+                wasmType = type
             End If
 
             Return New LiteralExpression With {
