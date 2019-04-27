@@ -33,6 +33,14 @@ Module DeclareHelpers
         }
     End Function
 
+    <Extension>
+    Public Function param(name$, type As TypeAlias) As NamedValue(Of TypeAbstract)
+        Return New NamedValue(Of TypeAbstract) With {
+            .Name = name,
+            .Value = New TypeAbstract(type)
+        }
+    End Function
+
     ''' <summary>
     ''' S-Expression of the function parameter
     ''' </summary>

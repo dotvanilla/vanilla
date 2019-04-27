@@ -1,69 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::a59cc0f6bc1d2fa762bd6e42d677357e, Symbols\DeclaredObject\JavaScriptImports\String.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module [String]
-    ' 
-    '         Properties: IndexOf, Replace, StringAppend, StringLength
-    ' 
-    '         Function: GetStringMethod, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module [String]
+' 
+'         Properties: IndexOf, Replace, StringAppend, StringLength
+' 
+'         Function: GetStringMethod, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Symbols.JavaScriptImports
 
     Public Module [String]
-
-        Const stringType$ = "char*"
 
         Public ReadOnly Property StringAppend As New ImportSymbol With {
             .ImportObject = "add",
             .Name = "string_add",
             .Package = "string",
             .[Module] = "string",
-            .result = "char*",
+            .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
-                New NamedValue(Of String)("a", stringType),
-                New NamedValue(Of String)("b", stringType)
+                "a".param(TypeAlias.string),
+                "b".param(TypeAlias.string)
             }
         }
 
@@ -72,9 +68,9 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "string",
             .Name = "string_length",
             .Package = "string",
-            .result = "i32",
+            .result = TypeAbstract.i32,
             .parameters = {
-                New NamedValue(Of String)("text", stringType)
+                "text".param(TypeAlias.string)
             }
         }
 
@@ -83,11 +79,11 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "string",
             .Name = "string_replace",
             .Package = "string",
-            .result = "i32",
+            .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
-                New NamedValue(Of String)("input", stringType),
-                New NamedValue(Of String)("find", "i32"),
-                New NamedValue(Of String)("replacement", stringType)
+                "input".param(TypeAlias.string),
+                "find".param(TypeAlias.intptr),
+                "replacement".param(TypeAlias.string)
             }
         }
 
@@ -96,10 +92,10 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "string",
             .Name = "string_indexOf",
             .Package = "string",
-            .result = "i32",
+            .result = TypeAbstract.i32,
             .parameters = {
-                New NamedValue(Of String)("input", stringType),
-                New NamedValue(Of String)("find", stringType)
+                "input".param(TypeAlias.string),
+                "find".param(TypeAlias.string)
             }
         }
 
@@ -124,7 +120,7 @@ Namespace Symbols.JavaScriptImports
                 .Package = "string",
                 .result = New TypeAbstract(TypeAlias.string),
                 .parameters = {
-                    New NamedValue(Of TypeAbstract)("s", New TypeAbstract(type))
+                    "s".param(type)
                 }
             }
         End Function

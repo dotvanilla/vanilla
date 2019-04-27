@@ -123,13 +123,13 @@ Module CTypeHandle
 
         Select Case left.type
             Case TypeAlias.i32
-                Return TypeExtensions.CInt(right, symbols)
+                Return CTypeHandle.CInt(right, symbols)
             Case TypeAlias.i64
-                Return TypeExtensions.CLng(right, symbols)
+                Return CTypeHandle.CLng(right, symbols)
             Case TypeAlias.f32
-                Return TypeExtensions.CSng(right, symbols)
+                Return CTypeHandle.CSng(right, symbols)
             Case TypeAlias.f64
-                Return TypeExtensions.CDbl(right, symbols)
+                Return CTypeHandle.CDbl(right, symbols)
             Case TypeAlias.string
                 ' 左边是字符串类型，但是右边不是字符串或者整形数
                 ' 则说明是一个需要将目标转换为字符串的操作

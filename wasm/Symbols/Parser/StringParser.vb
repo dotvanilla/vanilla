@@ -136,7 +136,8 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function AnyToString(value As Expression, symbols As SymbolTable) As Expression
-            Dim toString = JavaScriptImports.String.ToString(value.TypeInfer(symbols))
+            Dim type$ = value.TypeInfer(symbols).typefit
+            Dim toString = JavaScriptImports.ToString(type)
 
             symbols.addRequired(toString)
             value = New FuncInvoke With {
