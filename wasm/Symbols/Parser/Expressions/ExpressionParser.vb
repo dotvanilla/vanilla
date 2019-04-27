@@ -176,6 +176,9 @@ Namespace Symbols.Parser
                 If func.TypeInfer(symbols).type = TypeAlias.string Then
                     Dim member = symbols.GetFunctionSymbol("string", memberName)
 
+                    Return New FuncInvoke(member) With {
+                        .parameters = {funcValue}
+                    }
                 End If
 
                 Throw New NotImplementedException
