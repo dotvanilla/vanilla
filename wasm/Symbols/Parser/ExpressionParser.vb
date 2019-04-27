@@ -157,17 +157,9 @@ Namespace Symbols.Parser
             Return array
         End Function
 
-        <Extension>
-        Public Function MemberExpression(ref As MemberAccessExpressionSyntax, symbols As SymbolTable) As Expression
-            Dim objName = ref.Expression.ValueExpression(symbols)
-            Dim memberName = ref.Name.objectName
+        Public Function EnumConstValue(ref As SimpleNameSyntax, symbols As SymbolTable, memberName$) As Expression
             Dim [const] As EnumSymbol
-
-            If TypeOf ref.Expression Is SimpleNameSyntax Then
-
-            Else
-
-            End If
+            Dim objName$ = ref.objectName
 
             If symbols.HaveEnumType(objName) Then
                 [const] = symbols.GetEnumType(objName)
@@ -176,29 +168,45 @@ Namespace Symbols.Parser
                     .type = New TypeAbstract([const].type),
                     .value = [const].Members(memberName)
                 }
-            ElseIf symbols.GetObjectSymbol(objName).IsArray AndAlso memberName = "Length" Then
-                ' 可能是获取数组长度
-                Return New FuncInvoke With {
-                    .refer = JavaScriptImports.ArrayLength.Name,
-                    .parameters = {
-                        New GetLocalVariable With {.var = objName}
-                    }
-                }
-            ElseIf symbols.GetObjectSymbol(objName).type Like TypeExtensions.stringType Then
-                ' 是字符串的一些对象方法
-                Dim api As ImportSymbol = JavaScriptImports.GetStringMethod(memberName)
-
-                Call symbols.addRequired(api)
-
-                Return New FuncInvoke With {
-                    .refer = api.Name,
-                    .parameters = {
-                        New GetLocalVariable With {.var = objName}
-                    }
-                }
             Else
-                Throw New NotImplementedException(ref.ToString)
+                Throw New NotImplementedException
             End If
+        End Function
+
+        <Extension>
+        Public Function MemberExpression(ref As MemberAccessExpressionSyntax, symbols As SymbolTable) As Expression
+            Dim objName = ref.Expression.ValueExpression(symbols)
+            Dim memberName = ref.Name.objectName
+
+            If TypeOf ref.Expression Is SimpleNameSyntax Then
+                Return EnumConstValue(ref.Expression, symbols, memberName)
+            Else
+                Throw New NotImplementedException
+            End If
+
+            'If symbols.GetObjectSymbol(objName).IsArray AndAlso memberName = "Length" Then
+            '    ' 可能是获取数组长度
+            '    Return New FuncInvoke With {
+            '        .refer = JavaScriptImports.ArrayLength.Name,
+            '        .parameters = {
+            '            New GetLocalVariable With {.var = objName}
+            '        }
+            '    }
+            'ElseIf symbols.GetObjectSymbol(objName).type Like TypeExtensions.stringType Then
+            '    ' 是字符串的一些对象方法
+            '    Dim api As ImportSymbol = JavaScriptImports.GetStringMethod(memberName)
+
+            '    Call symbols.addRequired(api)
+
+            '    Return New FuncInvoke With {
+            '        .refer = api.Name,
+            '        .parameters = {
+            '            New GetLocalVariable With {.var = objName}
+            '        }
+            '    }
+            'Else
+            '    Throw New NotImplementedException(ref.ToString)
+            'End If
         End Function
 
         <Extension>
