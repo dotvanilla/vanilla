@@ -101,5 +101,14 @@ Namespace Symbols.JavaScriptImports
             .result = New TypeAbstract(TypeAlias.table),
             .parameters = {}
         }
+
+        Public Function Method(name As String) As ImportSymbol
+            Select Case name
+                Case "Add" : Return Dictionary.SetValue
+                Case "Remove" : Return Dictionary.RemoveValue
+                Case Else
+                    Throw New NotImplementedException
+            End Select
+        End Function
     End Module
 End Namespace

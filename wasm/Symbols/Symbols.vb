@@ -246,16 +246,6 @@ Namespace Symbols
             End Get
         End Property
 
-        ''' <summary>
-        ''' Is javascript object
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property IsObject As Boolean
-            Get
-                Return type = GetType(DictionaryBase).FullName OrElse TypeOf init Is ArrayTable
-            End Get
-        End Property
-
         Public Overrides Function ToSExpression() As String
             Return $"(local ${name} {type.typefit})"
         End Function

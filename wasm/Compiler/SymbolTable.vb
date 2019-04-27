@@ -318,23 +318,19 @@ Namespace Compiler
                         Return getArrayListInternal(name)
                     ElseIf contextObj.type = TypeAlias.string Then
                         Return getStringInternal(name)
-                    ElseIf contextObj.IsObject Then
-                        Call Me.addRequired(JavaScriptImports.Dictionary.Create)
-                        Call Me.addRequired(JavaScriptImports.Dictionary.GetValue)
-                        Call Me.addRequired(JavaScriptImports.Dictionary.RemoveValue)
-                        Call Me.addRequired(JavaScriptImports.Dictionary.SetValue)
-
-                        Select Case name
-                            Case "Add" : Return functionList(JavaScriptImports.Dictionary.SetValue.Name)
-                            Case "Remove" : Return functionList(JavaScriptImports.Dictionary.RemoveValue.Name)
-                            Case Else
-                                Throw New NotImplementedException
-                        End Select
+                    ElseIf contextObj.type = TypeAlias.table Then
+                        Return getTableInternal(name)
                     Else
                         Throw New NotImplementedException
                     End If
                 End If
             End If
+        End Function
+
+        Private Function getTableInternal(name As String) As FuncSignature
+            Dim Api As ImportSymbol = JavaScriptImports.Dictionary.Method(name)
+            Call addRequired(Api)
+            Return Api
         End Function
 
         Private Function getArrayListInternal(name As String) As FuncSignature

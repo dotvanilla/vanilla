@@ -64,6 +64,9 @@ Public Enum TypeAlias As Integer
     [boolean]
     array
     list
+    ''' <summary>
+    ''' Javascript object
+    ''' </summary>
     table
     intptr
 End Enum
