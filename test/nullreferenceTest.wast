@@ -40,14 +40,14 @@
     ;; String from 14 with 1 bytes in memory
     (data (i32.const 14) "a\00")
 
-    ;; String from 16 with 1 bytes in memory
-    (data (i32.const 16) "b\00")
+    ;; String from 16 with 15 bytes in memory
+    (data (i32.const 16) " is not nothing\00")
 
-    ;; String from 18 with 1 bytes in memory
-    (data (i32.const 18) "a\00")
+    ;; String from 32 with 1 bytes in memory
+    (data (i32.const 32) "a\00")
 
-    ;; String from 20 with 1 bytes in memory
-    (data (i32.const 20) "b\00")
+    ;; String from 34 with 1 bytes in memory
+    (data (i32.const 34) "b\00")
     
     
 
@@ -70,8 +70,8 @@
         ;; Public Function test() As i32
         (local $node i32)
     (set_local $node (call $DOMbyId (call $i32_toString (i32.const 9))))
-    (drop (call $setAttr (get_local $node) (call $i32_toString (i32.const 14)) (call $i32_toString (i32.const 16))))
-    (drop (call $setAttr (i32.const 0) (call $i32_toString (i32.const 18)) (call $i32_toString (i32.const 20))))
+    (drop (call $setAttr (get_local $node) (call $i32_toString (i32.const 14)) (call $i32_toString (call $string_add (call $i32_toString (get_local $node)) (i32.const 16)))))
+    (drop (call $setAttr (i32.const 0) (call $i32_toString (i32.const 32)) (call $i32_toString (i32.const 34))))
     (return (i32.const 0))
     )
     )

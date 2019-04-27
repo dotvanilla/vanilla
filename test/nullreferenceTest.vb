@@ -60,7 +60,7 @@ Module nullreferenceTest
     Public Function test() As Integer
         Dim node = DOMbyId("test")
 
-        Call setAttr(node, "a", "b")
+        Call setAttr(node, "a", $"{node} is not nothing")
         ' Nothing means i32 pointer value is zero
         Call setAttr(Nothing, "a", "b")
 
