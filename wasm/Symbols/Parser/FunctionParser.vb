@@ -203,27 +203,24 @@ Namespace Symbols.Parser
                        Dim expression As [Variant](Of Expression, Expression()) = statement.ParseExpression(symbols)
 
                        If expression.GetUnderlyingType.IsInheritsFrom(GetType(Expression)) Then
-                           Dim line = expression.TryCast(Of Expression)
+                           expression = {expression.TryCast(Of Expression)}
+                       End If
 
+                       For Each line As Expression In expression.TryCast(Of Expression())
                            If Not TypeOf line Is ReturnValue AndAlso line.TypeInfer(symbols) <> "void" Then
+                               ' https://github.com/WebAssembly/wabt/issues/1067
+                               '
+                               ' required a drop if target produce values
                                Yield New drop With {.expression = line}
                            Else
                                Yield line
                            End If
-                       Else
-                           For Each line As Expression In expression.TryCast(Of Expression())
-                               If Not TypeOf line Is ReturnValue AndAlso line.TypeInfer(symbols) <> "void" Then
-                                   Yield New drop With {.expression = line}
-                               Else
-                                   Yield line
-                               End If
-                           Next
-                       End If
+                       Next
                    End Function
         End Function
 
-        Public Function ParseParameter(parameter As ParameterSyntax, symbols As SymbolTable) As NamedValue(Of String)
-            Dim name = parameter.Identifier.Identifier.Text
+        Public Function ParseParameter(parameter As ParameterSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)
+            Dim name = parameter.Identifier.Identifier.objectName
             Dim type As Type
             Dim default$ = Nothing
 
@@ -249,9 +246,9 @@ Namespace Symbols.Parser
                 End Select
             End If
 
-            Return New NamedValue(Of String) With {
+            Return New NamedValue(Of TypeAbstract) With {
                 .Name = name,
-                .Value = TypeExtensions.Convert2Wasm.TryGetValue(type, [default]:=type.FullName),
+                .Value = New TypeAbstract(type),
                 .Description = [default]
             }
         End Function
