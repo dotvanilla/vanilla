@@ -52,27 +52,29 @@
                     }
                 }
             } else {
-                setDebug(opt);
+                setConfigDebugger(opt);
             }
 
             return false;
         }
 
-        function setDebug(opt: boolean) {
-            var debug: any;
-            var host: any = (<any>window);
+        function setConfigDebugger(opt: boolean): void {
+            let host: {
+                TypeScript: {
+                    logging?: {
+                        outputEverything?: boolean
+                    }
+                }
+            } = (<any>window);
 
             if (typeof TypeScript != "object") {
-                host.TypeScript = debug = {};
-            } else {
-                debug = host.TypeScript;
+                host.TypeScript = {};
             }
-
             if (typeof TypeScript.logging != "object") {
                 host.TypeScript.logging = {};
             }
 
-            debug.outputEverything = opt;
+            host.TypeScript.logging.outputEverything = opt;
         }
 
         function exportWasmApi(assm: IWasm): { AssemblyInfo: AssemblyInfo } {
