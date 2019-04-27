@@ -100,7 +100,7 @@ Namespace Symbols
             Result = var.Value
         End Sub
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return Result
         End Function
 

@@ -56,7 +56,7 @@ Namespace Symbols
         ''' </summary>
         ''' <param name="symbolTable">local/global/function calls</param>
         ''' <returns></returns>
-        Public MustOverride Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public MustOverride Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
         Public MustOverride Function ToSExpression() As String
 
         ''' <summary>

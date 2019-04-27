@@ -28,6 +28,11 @@ Public Class TypeAbstract
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property generic As String()
+    ''' <summary>
+    ''' The raw definition: <see cref="System.Type.FullName"/>
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property raw As String
 
     Public Shared ReadOnly Property primitiveTypes As Index(Of TypeAlias) = {
         TypeAlias.f32,
@@ -50,6 +55,18 @@ Public Class TypeAbstract
             End If
         End Get
     End Property
+
+    Sub New(type As Type)
+
+    End Sub
+
+    Sub New(fullName As String)
+
+    End Sub
+
+    Sub New([alias] As TypeAlias, generic$())
+
+    End Sub
 
     Public Overrides Function ToString() As String
         If generic.IsNullOrEmpty Then
