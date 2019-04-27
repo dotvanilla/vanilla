@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::9384ff59f390e403520e4978d4566337, Symbols\Parser\ModuleParser.vb"
+﻿#Region "Microsoft.VisualBasic::279924e9edaaf27deb31901de651fe67, Symbols\Parser\ModuleParser.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

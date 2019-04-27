@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::988c1214d122615909354546b467c80f, Symbols\FuncSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::f1f99263a1bb3b06e2e7e52173f566c6, Symbols\FuncSymbol.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
@@ -37,7 +38,7 @@
 
     '     Class FuncSignature
     ' 
-    '         Properties: [Module], IsExtensionMethod, Name, Parameters, Result
+    '         Properties: [Module], IsExtensionMethod, Name, parameters, result
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToSExpression, ToString, TypeInfer

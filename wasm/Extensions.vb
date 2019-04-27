@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::96ce023f378ae3ebe4561daba5afc747, Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::cdc85676bca3b6f973ee5cf50f2339f8, Extensions.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

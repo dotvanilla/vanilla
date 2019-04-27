@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::c8af0259709762483dd415e7525a5fd3, Symbols\DeclaredObject\FuncSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::6856473c2ff4eab49ba854b250af3b1a, Symbols\DeclaredObject\FuncSymbol.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

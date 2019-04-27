@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::71f846b7310570fffa4fbba0aa67365e, Symbols\SymbolTable.vb"
+﻿#Region "Microsoft.VisualBasic::334f45eb66852fa020c82987fcea6475, Compiler\SymbolTable.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
@@ -42,8 +43,8 @@
     '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: AddFunctionDeclares, GetAllGlobals, GetAllImports, GetAllLocals, GetEnumType
-    '                   GetFunctionSymbol, GetGlobal, GetObjectSymbol, getStringInternal, GetUnderlyingType
-    '                   HaveEnumType, IsAnyObject, IsLocal, typeMatch
+    '                   GetFunctionSymbol, GetGlobal, GetObjectReference, GetObjectSymbol, getStringInternal
+    '                   GetUnderlyingType, HaveEnumType, IsAnyObject, IsLocal, typeMatch
     ' 
     '         Sub: AddEnumType, AddGlobal, AddImports, (+2 Overloads) AddLocal, ClearLocals
     ' 

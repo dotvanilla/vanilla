@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::39321d18de43faa8f0647e82a2a56e0a, Symbols\EnumSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::f3557d67981f95ac7ecd249f13ecdf7e, Symbols\EnumSymbol.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

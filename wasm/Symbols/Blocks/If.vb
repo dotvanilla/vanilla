@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::510308006f5231c2626c57071842b56a, Symbols\Blocks\If.vb"
+﻿#Region "Microsoft.VisualBasic::acacb417f9d7907d257585db04326f57, Symbols\Blocks\If.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

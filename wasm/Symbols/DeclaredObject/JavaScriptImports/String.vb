@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::0bd7149f52ca70175bd697f7ab8cb0a7, Symbols\DeclaredObject\JavaScriptImports\String.vb"
+﻿#Region "Microsoft.VisualBasic::a59cc0f6bc1d2fa762bd6e42d677357e, Symbols\DeclaredObject\JavaScriptImports\String.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::646afd3fd85ed0aab42b232d2264917a, Symbols\Blocks\Loop.vb"
+﻿#Region "Microsoft.VisualBasic::f072b3c0f558187397a47905aadc627a, Symbols\Blocks\Loop.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
@@ -62,6 +63,12 @@
     '     Class br_if
     ' 
     '         Properties: Condition
+    ' 
+    '         Function: ToSExpression, TypeInfer
+    ' 
+    '     Class drop
+    ' 
+    '         Properties: expression
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 

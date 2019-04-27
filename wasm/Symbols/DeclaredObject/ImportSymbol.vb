@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::12133842922ad58c59528582e4b134ac, Symbols\DeclaredObject\ImportSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::e00d9f5a5e9338c8b369c0f97c853af5, Symbols\DeclaredObject\ImportSymbol.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

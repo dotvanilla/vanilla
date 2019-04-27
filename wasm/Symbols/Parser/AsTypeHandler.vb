@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::b57d908aab150df1fe11f7bc0f2d2c77, Symbols\Parser\AsTypeHandler.vb"
+﻿#Region "Microsoft.VisualBasic::3ac18fab1adff4e736af85a9a66e276e, Symbols\Parser\AsTypeHandler.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
@@ -37,7 +38,7 @@
 
     '     Module AsTypeHandler
     ' 
-    '         Function: [GetType], AsType, GetAsType, GetGenericType
+    '         Function: [GetType], AsType, GetAsType, GetGenericType, TypeName
     ' 
     ' 
     ' /********************************************************************************/

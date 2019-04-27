@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::0520c103b6eb86734d5daf1db6b9d03d, Symbols\Memory\StringSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::d95597b481582b1cacc9344ddfb9fb9c, Symbols\Memory\StringSymbol.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::801bacf8c13fd0651a3716484c23394d, Symbols\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::64244a4c70354d5588f95bc557c0f679, Symbols\Expression.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

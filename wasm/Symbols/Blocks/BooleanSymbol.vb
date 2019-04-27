@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::f092648918183d2cb2f12135d171e695, Symbols\Blocks\BooleanSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::ab72466ff39f0e7d79abf38e59d6bd43, Symbols\Blocks\BooleanSymbol.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

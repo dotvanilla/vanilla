@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::77c37c2c17597063a0b13bea37f58ff8, Symbols\Parser\ExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::8ccbfcf288f9c50d7d785f3fbe7134fd, Symbols\Parser\ExpressionParser.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
@@ -37,7 +38,7 @@
 
     '     Module ExpressionParse
     ' 
-    '         Function: Argument, ArgumentSequence, (+2 Overloads) BinaryStack, ConstantExpression, CreateArray
+    '         Function: Argument, ArgumentSequence, (+2 Overloads) BinaryStack, ConstantExpression, (+2 Overloads) CreateArray
     '                   CreateObject, fillParameters, FunctionInvoke, InvokeFunction, MemberExpression
     '                   ObjectInvoke, ParenthesizedStack, ReferVariable, StringConstant, UnaryExpression
     '                   UnaryValue, ValueCType, ValueExpression
