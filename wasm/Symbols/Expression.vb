@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abc11b70e8690a7300c664231a802f41, Symbols\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::02f99476e5c1aef460f14f0a28e6a2df, Symbols\Expression.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class Expression
     ' 
-    '         Properties: IsLiteralNothing, IsNumberLiteral
+    '         Properties: IsLiteralNothing, IsNumberLiteral, KindText
     ' 
     '         Function: ToString
     ' 

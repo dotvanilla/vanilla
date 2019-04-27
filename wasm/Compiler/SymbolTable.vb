@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::077a24292fba1230363057356e05ecd0, Compiler\SymbolTable.vb"
+﻿#Region "Microsoft.VisualBasic::872f840b09a59c69537596a4bfa812c5, Compiler\SymbolTable.vb"
 
     ' Author:
     ' 
@@ -45,7 +45,8 @@
     ' 
     '         Function: AddFunctionDeclares, GetAllGlobals, GetAllImports, GetAllLocals, GetEnumType
     '                   GetFunctionSymbol, GetGlobal, GetObjectReference, GetObjectSymbol, getStringInternal
-    '                   GetUnderlyingType, HaveEnumType, IsAnyObject, IsLocal, typeMatch
+    '                   GetUnderlyingType, HaveEnumType, IsAnyObject, IsLocal, IsModuleFunction
+    '                   stringContext, typeMatch
     ' 
     '         Sub: AddEnumType, AddGlobal, AddImports, (+2 Overloads) AddLocal, ClearLocals
     ' 

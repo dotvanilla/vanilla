@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d39de5d5c28f7498007da5f4f4fb7075, Type\Types.vb"
+﻿#Region "Microsoft.VisualBasic::e7dda7d0e7b749300f0bc2cb10fab0b9, Type\Types.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '     Properties: [boolean], [string], primitiveTypes
     ' 
-    '     Function: ParseAliasName
+    '     Function: ArrayElement, ParseAliasName
     ' 
     ' /********************************************************************************/
 

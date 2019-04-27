@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::448317f08f5a9453684bb60f61296fb7, Type\CTypeHandle.vb"
+﻿#Region "Microsoft.VisualBasic::e8546c9cbfdc0765e72db4841819c421, Type\CTypeHandle.vb"
 
     ' Author:
     ' 
