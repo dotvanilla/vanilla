@@ -81,6 +81,12 @@ Public Class TypeAbstract
     Public Shared ReadOnly Property i64 As New TypeAbstract("i64")
     Public Shared ReadOnly Property f32 As New TypeAbstract("f32")
     Public Shared ReadOnly Property f64 As New TypeAbstract("f64")
+
+    ''' <summary>
+    ''' Expression returns no value
+    ''' </summary>
+    ''' <returns></returns>
+    Public Shared ReadOnly Property void As New TypeAbstract("void")
 #End Region
 
     Sub New(type As Type)

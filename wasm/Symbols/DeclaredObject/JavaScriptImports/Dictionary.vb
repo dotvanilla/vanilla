@@ -63,11 +63,11 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_set",
             .Package = NameOf(Dictionary),
-            .result = "i32",
+            .result = TypeAbstract.void,
             .parameters = {
-                New NamedValue(Of String)("table", "i32"),
-                New NamedValue(Of String)("key", "i32"),
-                New NamedValue(Of String)("value", "any")
+                "table".param(TypeAlias.table),
+                "key".param(TypeAlias.any),
+                "value".param(TypeAlias.any)
             }
         }
 
@@ -76,10 +76,10 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_get",
             .Package = NameOf(Dictionary),
-            .result = "i32",
+            .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
-                New NamedValue(Of String)("table", "i32"),
-                New NamedValue(Of String)("key", "i32")
+                "table".param(TypeAlias.table),
+                "key".param(TypeAlias.any)
             }
         }
 
@@ -88,10 +88,10 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_delete",
             .Package = NameOf(Dictionary),
-            .result = "void",
+            .result = TypeAbstract.void,
             .parameters = {
-                New NamedValue(Of String)("table", "i32"),
-                New NamedValue(Of String)("key", "i32")
+                 "table".param(TypeAlias.table),
+                 "key".param(TypeAlias.any)
             }
         }
 
@@ -100,7 +100,7 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_new",
             .Package = NameOf(Dictionary),
-            .result = "i32",
+            .result = New TypeAbstract(TypeAlias.table),
             .parameters = {}
         }
     End Module
