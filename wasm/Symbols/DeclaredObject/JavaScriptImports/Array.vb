@@ -128,10 +128,10 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        Public ReadOnly Property ArrayLength As New ImportSymbol With {
+        Public ReadOnly Property Length As New ImportSymbol With {
             .ImportObject = "length",
             .[Module] = "array",
-            .Name = "array_length",
+            .Name = "array.length",
             .Package = NameOf(Array),
             .result = TypeAbstract.i32,
             .parameters = {
@@ -150,6 +150,7 @@ Namespace Symbols.JavaScriptImports
                 Case "Add" : Return Array.PushArray
                 Case "Remove"
                     Throw New NotImplementedException
+                Case "Length" : Return Array.Length
                 Case Else
                     Throw New NotImplementedException
             End Select
@@ -160,7 +161,7 @@ Namespace Symbols.JavaScriptImports
             Call symbols.addRequired(JavaScriptImports.NewArray)
             Call symbols.addRequired(JavaScriptImports.PushArray)
             Call symbols.addRequired(JavaScriptImports.GetArrayElement)
-            Call symbols.addRequired(JavaScriptImports.ArrayLength)
+            Call symbols.addRequired(Array.Length)
         End Sub
     End Module
 End Namespace

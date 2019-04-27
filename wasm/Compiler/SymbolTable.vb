@@ -310,7 +310,7 @@ Namespace Symbols
                 If Not func Is Nothing AndAlso CTypeHandle.EqualOfType(func.parameters.First, contextObj.type) Then
                     Return func
                 Else
-                    If contextObj.type = TypeAlias.list Then
+                    If contextObj.type = TypeAlias.list OrElse contextObj.type = TypeAlias.array Then
                         ' 可能是是一个List
                         ' 将List的实例方法映射到javascript的array相关的api上面
                         Return getArrayListInternal(name)

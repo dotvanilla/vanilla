@@ -275,6 +275,17 @@ Namespace Symbols.Parser
                     End If
                 End If
 
+                If Not init Is Nothing Then
+                    Select Case init.GetType
+                        Case GetType(ArraySymbol)
+                            With DirectCast(init, ArraySymbol)
+                                If .type Is Nothing Then
+                                    .type = type
+                                End If
+                            End With
+                    End Select
+                End If
+
                 If Not moduleName.StringEmpty Then
                     If init Is Nothing Then
                         ' 默认是零

@@ -85,6 +85,15 @@ Namespace Symbols.Parser
 
                 Throw New NotImplementedException
             Else
+                ' 数组长度，属性，无参数的方法调用等
+                Dim func = symbols.GetFunctionSymbol(objName, memberName)
+
+                If Not func Is Nothing Then
+                    Return New FuncInvoke(func) With {
+                        .parameters = {New GetLocalVariable(objName)}
+                    }
+                End If
+
                 Throw New NotImplementedException
             End If
         End Function
