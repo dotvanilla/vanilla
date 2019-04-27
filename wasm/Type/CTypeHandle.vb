@@ -109,7 +109,7 @@ Module CTypeHandle
                 ' 则说明是一个需要将目标转换为字符串的操作
                 Return right.AnyToString(symbols)
             Case Else
-                Throw New NotImplementedException
+                Throw New InvalidCastException($"{left} -> {rightTypeInfer}")
         End Select
     End Function
 
