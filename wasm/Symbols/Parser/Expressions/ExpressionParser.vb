@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::643e9c63816782d61157fc044d0d5867, Symbols\Parser\ExpressionParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ExpressionParse
-    ' 
-    '         Function: Argument, ArgumentSequence, (+2 Overloads) BinaryStack, ConstantExpression, (+2 Overloads) CreateArray
-    '                   CreateObject, EnumConstValue, fillParameters, FunctionInvoke, InvokeFunction
-    '                   MemberExpression, ObjectInvoke, ParenthesizedStack, ReferVariable, StringConstant
-    '                   UnaryExpression, UnaryValue, ValueCType, ValueExpression
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ExpressionParse
+' 
+'         Function: Argument, ArgumentSequence, (+2 Overloads) BinaryStack, ConstantExpression, (+2 Overloads) CreateArray
+'                   CreateObject, EnumConstValue, fillParameters, FunctionInvoke, InvokeFunction
+'                   MemberExpression, ObjectInvoke, ParenthesizedStack, ReferVariable, StringConstant
+'                   UnaryExpression, UnaryValue, ValueCType, ValueExpression
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -53,6 +53,7 @@ Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Wasm.Symbols.Blocks
 
 Namespace Symbols.Parser
 
@@ -224,19 +225,28 @@ Namespace Symbols.Parser
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function UnaryExpression(unary As UnaryExpressionSyntax, symbols As SymbolTable) As FuncInvoke
-            Dim op$ = unary.OperatorToken.ValueText
+        Public Function UnaryExpression(unary As UnaryExpressionSyntax, symbols As SymbolTable) As Expression
+            Dim op As String = unary.OperatorToken.ValueText
             Dim right = unary.Operand.ValueExpression(symbols)
-            Dim left = New LiteralExpression With {
-                .type = right.TypeInfer(symbols),
-                .value = 0
-            }
 
-            Return New FuncInvoke With {
-                .parameters = {left, right},
-                .refer = $"{left.type}.{TypeExtensions.wasmOpName(op)}",
-                .[operator] = True
-            }
+            ' not 也是一个单目运算符
+            If op = "Not" Then
+                Return New BooleanSymbol With {
+                    .Condition = right,
+                    .[IsNot] = True
+                }
+            Else
+                Dim left = New LiteralExpression With {
+                   .type = right.TypeInfer(symbols),
+                   .value = 0
+                }
+
+                Return New FuncInvoke With {
+                    .parameters = {left, right},
+                    .refer = $"{left.type}.{TypeExtensions.wasmOpName(op)}",
+                    .[operator] = True
+                }
+            End If
         End Function
 
         ''' <summary>
@@ -289,9 +299,19 @@ Namespace Symbols.Parser
                 type = New TypeAbstract(value.GetType)
             End If
 
-            If type.type = TypeAlias.string Then
-                Return memory.StringConstant(value)
-            End If
+            Select Case type.type
+                Case TypeAlias.string
+                    Return memory.StringConstant(value)
+                Case TypeAlias.boolean
+                    ' 在常量下，逻辑值是i32 1 或者 0
+                    If value = True Then
+                        value = 1
+                    Else
+                        value = 0
+                    End If
+                Case Else
+                    ' do nothing
+            End Select
 
             Return New LiteralExpression With {
                 .type = type,
@@ -374,7 +394,12 @@ Namespace Symbols.Parser
 
             If TypeExtensions.wasmOpName.ContainsKey(op) Then
                 funcOpName = TypeExtensions.wasmOpName(op)
-                funcOpName = $"{type}.{funcOpName}"
+
+                If type = TypeAlias.boolean Then
+                    funcOpName = $"i32.{funcOpName}"
+                Else
+                    funcOpName = $"{type}.{funcOpName}"
+                End If
             Else
                 funcOpName = TypeExtensions.Compares(type.raw, op)
             End If

@@ -66,9 +66,13 @@ Module functionTest
     End Sub
 
 
-    Public Sub Main(Optional args As String = "This is the optional parameter value", Optional obj As Integer = -100)
+    Public Sub Main(Optional args As String = "This is the optional parameter value", Optional obj As Integer = -100, Optional f As Boolean = True)
+        Call print(False = f)
+        Call print(Not f)
         Call print(args)
         Call print(obj)
+        Call print(True)
+        Call print(args Is Nothing)
     End Sub
 
     Public Function outputError() As Single

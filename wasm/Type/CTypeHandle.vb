@@ -90,8 +90,11 @@ Module CTypeHandle
     Public Function [CType](left As TypeAbstract, right As Expression, symbols As SymbolTable) As Expression
         Dim rightTypeInfer As TypeAbstract = right.TypeInfer(symbols)
 
-        If left.type = TypeAlias.any Then
-            ' left accept any type
+        If left.type = TypeAlias.any OrElse left.type = rightTypeInfer.type Then
+            ' Conversion is not required when
+            '
+            ' 1. left accept any type
+            ' 2. left is the same type as right
             Return right
         ElseIf right.IsLiteralNothing Then
             ' nothing 可以赋值给任意类型

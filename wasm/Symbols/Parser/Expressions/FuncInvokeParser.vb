@@ -185,7 +185,7 @@ Namespace Symbols.Parser
 
                 If input Is Nothing Then
                     ' 可选参数的默认值是一个常量
-                    If arg.Value = "char*" Then
+                    If arg.Value = TypeAlias.string Then
                         arguments += symbols.StringConstant(arg.Description)
                     Else
                         arguments += New LiteralExpression With {

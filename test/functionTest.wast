@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/27/2019 5:06:59 PM
+    ;; build: 4/27/2019 5:34:32 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -29,14 +29,17 @@
 
     ;; Memory data for string constant
     
-    ;; String from 1 with 20 bytes in memory
-    (data (i32.const 1) "Another string value\00")
+    ;; String from 1 with 36 bytes in memory
+    (data (i32.const 1) "This is the optional parameter value\00")
 
-    ;; String from 22 with 12 bytes in memory
-    (data (i32.const 22) "345566777777\00")
+    ;; String from 38 with 20 bytes in memory
+    (data (i32.const 38) "Another string value\00")
 
-    ;; String from 35 with 15 bytes in memory
-    (data (i32.const 35) "this is message\00")
+    ;; String from 59 with 12 bytes in memory
+    (data (i32.const 59) "345566777777\00")
+
+    ;; String from 72 with 15 bytes in memory
+    (data (i32.const 72) "this is message\00")
     
     
 
@@ -54,25 +57,29 @@
     (func $calls  
         ;; Public Function calls() As void
         
-    (call $Main (i32.const This is the optional parameter value) (i32.const -100))
-    (call $Main (call $i32.toString (i32.const 1)) (i32.const 999999))
+    (call $Main (i32.const 1) (i32.const -100) (i32.const True))
+    (call $Main (i32.const 38) (i32.const 999999) (i32.const True))
     (drop (call $outputError ))
     )
     (func $extensionFunctiontest  
         ;; Public Function extensionFunctiontest() As void
         
-    (drop (call $print (i32.const 22)))
+    (drop (call $print (i32.const 59)))
     )
-    (func $Main (param $args i32) (param $obj i32) 
-        ;; Public Function Main(args As string, obj As i32) As void
+    (func $Main (param $args i32) (param $obj i32) (param $f i32) 
+        ;; Public Function Main(args As string, obj As i32, f As boolean) As void
         
-    (drop (call $print (call $i32.toString (get_local $args))))
+    (drop (call $print (call $i32.toString (i32.eq (i32.const 0) (get_local $f)))))
+    (drop (call $print (call $i32.toString (i32.eqz (get_local $f)))))
+    (drop (call $print (get_local $args)))
     (drop (call $print (call $i32.toString (get_local $obj))))
+    (drop (call $print (call $i32.toString (i32.const 1))))
+    (drop (call $print (call $i32.toString (i32.eq (get_local $args) (i32.const 0)))))
     )
     (func $outputError  (result f32)
         ;; Public Function outputError() As f32
         
-    (call $err (i32.const 35))
+    (call $err (i32.const 72))
     (return (f32.demote/f64 (f64.sub (f64.const 0) (f64.const 0.0001))))
     )
     )

@@ -81,6 +81,18 @@ Namespace Symbols.Blocks
             End If
         End Function
 
+        Public Shared Narrowing Operator CType(test As BooleanSymbol) As FuncInvoke
+            If test.IsNot Then
+                Return New FuncInvoke With {
+                    .[operator] = True,
+                    .refer = "i32.eqz",
+                    .parameters = {test.Condition}
+                }
+            Else
+                Return test.Condition
+            End If
+        End Operator
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function BinaryCompares(left As Expression, right As Expression, op$, symbols As SymbolTable) As BooleanSymbol
             Return New BooleanSymbol With {
