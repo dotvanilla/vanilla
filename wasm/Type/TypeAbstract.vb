@@ -139,19 +139,19 @@ Public Class TypeAbstract
         Me.raw = buildRaw(type, generic)
     End Sub
 
-    Shared ReadOnly otherSingles As TypeAlias() = {
-        TypeAlias.boolean,
-        TypeAlias.any,
-        TypeAlias.intptr,
-        TypeAlias.string,
-        TypeAlias.void
-    }
-    Shared ReadOnly singleElements As Index(Of TypeAlias) = TypeExtensions.NumberOrders _
-        .Objects _
-        .Join(otherSingles) _
-        .ToArray
-
     Private Shared Function buildRaw(type As TypeAlias, generic As TypeAbstract()) As String
+        Static otherSingles As TypeAlias() = {
+            TypeAlias.boolean,
+            TypeAlias.any,
+            TypeAlias.intptr,
+            TypeAlias.string,
+            TypeAlias.void
+        }
+        Static singleElements As Index(Of TypeAlias) = TypeExtensions.NumberOrders _
+            .Objects _
+            .Join(otherSingles) _
+            .ToArray
+
         If type Like singleElements Then
             Return type.Description
         ElseIf type = TypeAlias.array Then

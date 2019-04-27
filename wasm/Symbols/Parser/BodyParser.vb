@@ -351,15 +351,14 @@ Namespace Symbols.Parser
                     Else
                         If Not namedVar.ArrayBounds Is Nothing Then
                             ' 这是一个VB6版本的数组申明语法
-                            init = New Array With {
-                                .type = type,
-                                .size = namedVar.ArrayBounds _
-                                    .Arguments _
-                                    .First _
-                                    .GetExpression _
-                                    .ValueExpression(symbols)
-                            }
-                            ' type = type & "[]"
+                            type = type.MakeArrayType
+                            init = namedVar.ArrayBounds _
+                                .Arguments _
+                                .First _
+                                .GetExpression _
+                                .ValueExpression(symbols)
+
+                            init = New Array With {.type = type, .size = init}
                         End If
                     End If
 
