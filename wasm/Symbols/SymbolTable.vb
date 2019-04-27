@@ -268,7 +268,7 @@ Namespace Symbols
                         Return JavaScriptImports.GetArrayElement
                     ElseIf Not context.StringEmpty Then
                         ' 可能是类型之中所定义的静态方法
-                        If context Like Types.stringType Then
+                        If context Like TypeExtensions.stringType Then
                             Return getStringInternal(name)
                         Else
                             Throw New NotImplementedException
@@ -291,7 +291,7 @@ Namespace Symbols
                             Case Else
                                 Throw New NotImplementedException
                         End Select
-                    ElseIf contextObj.type Like Types.stringType Then
+                    ElseIf contextObj.type Like TypeExtensions.stringType Then
                         Return getStringInternal(name)
                     ElseIf contextObj.IsObject Then
                         Call Me.addRequired(JavaScriptImports.Dictionary.Create)
@@ -322,7 +322,7 @@ Namespace Symbols
         End Function
 
         Private Function typeMatch(a As NamedValue(Of String), type$) As Boolean
-            Dim targetIsArray As Boolean = Types.IsArray(type)
+            Dim targetIsArray As Boolean = TypeExtensions.IsArray(type)
 
             If a.Value = type Then
                 Return True

@@ -183,7 +183,7 @@ Namespace Symbols.Parser
                         New GetLocalVariable With {.var = objName}
                     }
                 }
-            ElseIf symbols.GetObjectSymbol(objName).type Like Types.stringType Then
+            ElseIf symbols.GetObjectSymbol(objName).type Like TypeExtensions.stringType Then
                 ' 是字符串的一些对象方法
                 Dim api As ImportSymbol = JavaScriptImports.GetStringMethod(memberName)
 
@@ -203,9 +203,9 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ValueCType(cast As CTypeExpressionSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = cast.Expression.ValueExpression(symbols)
-            Dim castToType As String = Types.Convert2Wasm(cast.Type.GetType(symbols))
+            Dim castToType As String = TypeExtensions.Convert2Wasm(cast.Type.GetType(symbols))
 
-            Return Types.CType(castToType, value, symbols)
+            Return TypeExtensions.CType(castToType, value, symbols)
         End Function
 
         ''' <summary>
@@ -225,7 +225,7 @@ Namespace Symbols.Parser
 
             Return New FuncInvoke With {
                 .Parameters = {left, right},
-                .Reference = $"{left.type}.{Types.Operators(op)}",
+                .Reference = $"{left.type}.{TypeExtensions.Operators(op)}",
                 .[operator] = True
             }
         End Function
@@ -251,7 +251,7 @@ Namespace Symbols.Parser
                 .ValueExpression(symbols)
             Dim left$ = param.Value
 
-            Return Types.CType(left, value, symbols)
+            Return TypeExtensions.CType(left, value, symbols)
         End Function
 
         <Extension>
@@ -545,7 +545,7 @@ Namespace Symbols.Parser
                 value = If(DirectCast(value, Boolean), 1, 0)
             Else
                 If wasmType.StringEmpty Then
-                    wasmType = Types.Convert2Wasm(type)
+                    wasmType = TypeExtensions.Convert2Wasm(type)
                 End If
             End If
 
@@ -601,8 +601,8 @@ Namespace Symbols.Parser
             If op = "/" Then
                 ' require type conversion if left and right is integer
                 ' 对于除法，必须要首先转换为浮点型才能够完成运算
-                left = Types.CDbl(left, symbols)
-                right = Types.CDbl(right, symbols)
+                left = TypeExtensions.CDbl(left, symbols)
+                right = TypeExtensions.CDbl(right, symbols)
                 type = "f64"
             ElseIf op = "&" Then
                 Return symbols.StringAppend(left, right)
@@ -612,8 +612,8 @@ Namespace Symbols.Parser
                 ' i32 -> f32 -> i64 -> f64
                 Dim lt = left.TypeInfer(symbols)
                 Dim rt = right.TypeInfer(symbols)
-                Dim li = Types.Orders.IndexOf(lt)
-                Dim ri = Types.Orders.IndexOf(rt)
+                Dim li = TypeExtensions.Orders.IndexOf(lt)
+                Dim ri = TypeExtensions.Orders.IndexOf(rt)
 
                 If li > ri Then
                     type = lt
@@ -621,17 +621,17 @@ Namespace Symbols.Parser
                     type = rt
                 End If
 
-                left = Types.CType(type, left, symbols)
-                right = Types.CType(type, right, symbols)
+                left = TypeExtensions.CType(type, left, symbols)
+                right = TypeExtensions.CType(type, right, symbols)
             End If
 
             Dim funcOpName$
 
-            If Types.Operators.ContainsKey(op) Then
-                funcOpName = Types.Operators(op)
+            If TypeExtensions.Operators.ContainsKey(op) Then
+                funcOpName = TypeExtensions.Operators(op)
                 funcOpName = $"{type}.{funcOpName}"
             Else
-                funcOpName = Types.Compares(type, op)
+                funcOpName = TypeExtensions.Compares(type, op)
             End If
 
             ' 需要根据类型来决定操作符函数的类型来源

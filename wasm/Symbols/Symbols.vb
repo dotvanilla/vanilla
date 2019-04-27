@@ -152,7 +152,7 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
             If [operator] Then
-                If Reference Like Types.Comparison Then
+                If Reference Like TypeExtensions.Comparison Then
                     ' WebAssembly comparison operator produce integer value
                     Return "i32"
                 Else
@@ -176,7 +176,7 @@ Namespace Symbols
 
                             If TypeOf tableObj Is DeclareLocal Then
                                 With DirectCast(tableObj, DeclareLocal)
-                                    If Types.IsArray(.genericTypes(1)) Then
+                                    If TypeExtensions.IsArray(.genericTypes(1)) Then
                                         Return .genericTypes(1).Trim("["c, "]"c)
                                     Else
                                         Return .genericTypes(1)
@@ -331,7 +331,7 @@ Namespace Symbols
         Public ReadOnly Property IsArray As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return Types.IsArray(type)
+                Return TypeExtensions.IsArray(type)
             End Get
         End Property
 

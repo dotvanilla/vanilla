@@ -91,7 +91,7 @@ Namespace Symbols.Parser
                 .GetFunctionSymbol(Nothing, symbols.CurrentSymbol) _
                 .Result
 
-            value = Types.CType(returnType, value, symbols)
+            value = TypeExtensions.CType(returnType, value, symbols)
 
             Return New ReturnValue With {
                 .Internal = value
@@ -172,7 +172,7 @@ Namespace Symbols.Parser
                     Throw New NotImplementedException
             End Select
 
-            Dim valueRight = Types.CType(typeL, right, symbols)
+            Dim valueRight = TypeExtensions.CType(typeL, right, symbols)
 
             If symbols.IsLocal(var) Then
                 Return New SetLocalVariable With {
@@ -315,7 +315,7 @@ Namespace Symbols.Parser
                     Call symbols.AddGlobal(name, type, moduleName, init)
                 Else
                     If Not init Is Nothing Then
-                        init = Types.CType(type, init, symbols)
+                        init = TypeExtensions.CType(type, init, symbols)
 
                         If TypeOf init Is ArraySymbol Then
                             With DirectCast(init, ArraySymbol)

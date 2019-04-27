@@ -92,7 +92,7 @@ Namespace Symbols
                 If .UnderlyingType Is Nothing Then
                     type = "i32"
                 Else
-                    type = Types.Convert2Wasm(AsTypeHandler.GetAsType(.UnderlyingType, Nothing))
+                    type = TypeExtensions.Convert2Wasm(AsTypeHandler.GetAsType(.UnderlyingType, Nothing))
                 End If
             End With
 

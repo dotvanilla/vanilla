@@ -61,9 +61,9 @@ Namespace Symbols.Parser
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function typefit(type As String) As String
-            type = type Or "i32".When((type Like Types.stringType) OrElse type = Types.booleanType)
+            type = type Or "i32".When((type Like TypeExtensions.stringType) OrElse type = TypeExtensions.booleanType)
 
-            If type Like Types.Orders Then
+            If type Like TypeExtensions.Orders Then
                 Return type
             ElseIf type = "void" Then
                 Return "void"

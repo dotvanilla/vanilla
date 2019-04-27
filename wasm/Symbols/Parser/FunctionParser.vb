@@ -81,7 +81,7 @@ Namespace Symbols.Parser
 
             Return New NamedValue(Of String) With {
                 .Name = name,
-                .Value = Types.Convert2Wasm(returns)
+                .Value = TypeExtensions.Convert2Wasm(returns)
             }
         End Function
 
@@ -92,7 +92,7 @@ Namespace Symbols.Parser
 
             Return New NamedValue(Of String) With {
                 .Name = name,
-                .Value = Types.Convert2Wasm(returns)
+                .Value = TypeExtensions.Convert2Wasm(returns)
             }
         End Function
 
@@ -247,7 +247,7 @@ Namespace Symbols.Parser
 
             Return New NamedValue(Of String) With {
                 .Name = name,
-                .Value = Types.Convert2Wasm.TryGetValue(type, [default]:=type.FullName),
+                .Value = TypeExtensions.Convert2Wasm.TryGetValue(type, [default]:=type.FullName),
                 .Description = [default]
             }
         End Function

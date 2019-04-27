@@ -320,7 +320,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DotNetTypes.vb" />
+    <Compile Include="Type\Types.vb" />
+    <Compile Include="Type\DotNetTypes.vb" />
     <Compile Include="Compiler\ModuleBuilder.vb" />
     <Compile Include="Compiler\wat2wasm.vb" />
     <Compile Include="Extensions.vb" />
@@ -372,7 +373,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Types.vb" />
+    <Compile Include="Type\TypeExtensions.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

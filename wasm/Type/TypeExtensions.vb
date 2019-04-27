@@ -57,7 +57,7 @@ Imports Wasm.Symbols.Parser
 ' 
 ' vb source => codeDOM => wast model => wast => wasm
 
-Public Class Types
+Public Class TypeExtensions
 
     Public Shared ReadOnly Property Orders As Index(Of String) = {"i32", "f32", "i64", "f64"}
 
@@ -210,13 +210,13 @@ Public Class Types
 
         Select Case left
             Case "i32", DotNet.Integer
-                Return Types.CInt(right, symbols)
+                Return TypeExtensions.CInt(right, symbols)
             Case "i64", DotNet.Long
-                Return Types.CLng(right, symbols)
+                Return TypeExtensions.CLng(right, symbols)
             Case "f32", DotNet.Single
-                Return Types.CSng(right, symbols)
+                Return TypeExtensions.CSng(right, symbols)
             Case "f64", DotNet.Double
-                Return Types.CDbl(right, symbols)
+                Return TypeExtensions.CDbl(right, symbols)
             Case "char*", DotNet.String, DotNet.Char
                 ' 左边是字符串类型，但是右边不是字符串或者整形数
                 ' 则说明是一个需要将目标转换为字符串的操作

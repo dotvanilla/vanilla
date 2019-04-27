@@ -85,7 +85,7 @@ Namespace Symbols.Parser
                     Throw New NotImplementedException
                 End If
             ElseIf name.Last Like Patterns.TypeChar Then
-                type = Types.TypeCharWasm(name.Last)
+                type = TypeExtensions.TypeCharWasm(name.Last)
                 name = name.Substring(0, name.Length - 1)
             Else
                 ' Throw New Exception("Object type is not supported in WebAssembly!")
@@ -97,8 +97,8 @@ Namespace Symbols.Parser
 
         <Extension> Public Function TypeName(type As Type) As String
             With type
-                If Types.Convert2Wasm.ContainsKey(.ByRef) Then
-                    Return Types.Convert2Wasm(.ByRef)
+                If TypeExtensions.Convert2Wasm.ContainsKey(.ByRef) Then
+                    Return TypeExtensions.Convert2Wasm(.ByRef)
                 Else
                     Return .FullName
                 End If
