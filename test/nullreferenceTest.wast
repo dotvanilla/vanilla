@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/27/2019 4:46:02 PM
+    ;; build: 4/27/2019 4:49:59 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -23,8 +23,8 @@
     (func $string_length (import "string" "length") (param $text i32) (result i32))
     ;; Declare Function string_indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
     (func $string_indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
-    ;; Declare Function i32_toString Lib "string" Alias "toString" (s As i32) As string
-    (func $i32_toString (import "string" "toString") (param $s i32) (result i32))
+    ;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
+    (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
@@ -63,15 +63,15 @@
     (func $noReturns  
         ;; Public Function noReturns() As void
         
-    (drop (call $print (call $i32_toString (i32.const 1))))
+    (drop (call $print (call $i32.toString (i32.const 1))))
     (drop (call $print (i32.const 0)))
     )
     (func $test  (result i32)
         ;; Public Function test() As i32
         (local $node i32)
-    (set_local $node (call $DOMbyId (call $i32_toString (i32.const 9))))
-    (drop (call $setAttr (get_local $node) (call $i32_toString (i32.const 14)) (call $i32_toString (call $string_add (call $i32_toString (get_local $node)) (i32.const 16)))))
-    (drop (call $setAttr (i32.const 0) (call $i32_toString (i32.const 32)) (call $i32_toString (i32.const 34))))
+    (set_local $node (call $DOMbyId (call $i32.toString (i32.const 9))))
+    (drop (call $setAttr (get_local $node) (call $i32.toString (i32.const 14)) (call $i32.toString (call $string_add (call $i32.toString (get_local $node)) (i32.const 16)))))
+    (drop (call $setAttr (i32.const 0) (call $i32.toString (i32.const 32)) (call $i32.toString (i32.const 34))))
     (return (i32.const 0))
     )
     )

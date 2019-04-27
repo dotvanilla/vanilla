@@ -115,12 +115,12 @@ Namespace Symbols.JavaScriptImports
         Public Function ToString(Optional type As String = "i32") As ImportSymbol
             Return New ImportSymbol With {
                 .ImportObject = "toString",
-                .Name = $"{type}_toString",
+                .Name = $"{type}.toString",
                 .[Module] = "string",
                 .Package = "string",
                 .result = New TypeAbstract(TypeAlias.string),
                 .parameters = {
-                    "s".param(type)
+                    "x".param(type)
                 }
             }
         End Function
