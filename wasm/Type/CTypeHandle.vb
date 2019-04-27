@@ -63,6 +63,8 @@ Module CTypeHandle
     Public Function typefit(type As TypeAlias) As String
         If type Like primitiveTypes Then
             Return type.ToString
+        ElseIf type = TypeAlias.void Then
+            Return "void"
         Else
             ' All of the non-primitive type is memory pointer
             Return "i32"

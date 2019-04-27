@@ -54,8 +54,8 @@ Namespace Symbols.Blocks
         Public Property [Then] As Expression()
         Public Property [Else] As Expression()
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
-            Return "void"
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return New TypeAbstract("void")
         End Function
 
         Public Overrides Function ToSExpression() As String

@@ -49,7 +49,6 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Wasm.Symbols.Parser
 
 Namespace Symbols
 
@@ -87,7 +86,7 @@ Namespace Symbols
         Sub New()
         End Sub
 
-        Sub New(ParamArray args As NamedValue(Of String)())
+        Sub New(ParamArray args As NamedValue(Of TypeAbstract)())
             parameters = args
         End Sub
 
@@ -95,12 +94,12 @@ Namespace Symbols
             Dim params$ = parameters _
                 .Select(Function(a) a.param) _
                 .JoinBy(" ")
-            Dim returnType$ = typefit(result)
+            Dim returnType$ = result.typefit
 
             If returnType = "void" Then
                 returnType = ""
             Else
-                returnType = $"(result {typefit(result)})"
+                returnType = $"(result {returnType})"
             End If
 
             Return $";; {VBDeclare}
@@ -111,7 +110,7 @@ Namespace Symbols
             Return ToSExpression()
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return result
         End Function
     End Class

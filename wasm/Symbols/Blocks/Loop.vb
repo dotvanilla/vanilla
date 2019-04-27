@@ -112,8 +112,8 @@ Namespace Symbols.Blocks
 
         Public Property LoopID As String
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
-            Return "void"
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return New TypeAbstract("void")
         End Function
 
         Public Overrides Function ToSExpression() As String
@@ -132,8 +132,8 @@ Namespace Symbols.Blocks
 
         Public Property BlockLabel As String
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
-            Return "void"
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return New TypeAbstract("void")
         End Function
 
         Public Overrides Function ToSExpression() As String
@@ -149,8 +149,8 @@ Namespace Symbols.Blocks
         ''' <returns></returns>
         Public Property Condition As BooleanSymbol
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
-            Return "void"
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return New TypeAbstract("void")
         End Function
 
         Public Overrides Function ToSExpression() As String
