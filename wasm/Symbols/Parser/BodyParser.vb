@@ -287,8 +287,8 @@ Namespace Symbols.Parser
                                                             End With
                                                         End Function) _
                                                 .ToArray
-                                            .key = genericTypes(0).TypeName
-                                            .type = genericTypes(1).TypeName
+                                            .key = New TypeAbstract(genericTypes(0))
+                                            .type = New TypeAbstract(genericTypes(1))
 
                                             init = .ByRef
                                         End With

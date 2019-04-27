@@ -52,7 +52,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Wasm.Symbols.Parser
 
 Namespace Symbols.JavaScriptImports
@@ -71,10 +70,10 @@ Namespace Symbols.JavaScriptImports
             .Name = "array_push",
             .[Module] = "array",
             .Package = NameOf(Array),
-            .result = "i32",
+            .result = New TypeAbstract(TypeAlias.array),
             .parameters = {
-                New NamedValue(Of String)("array", "i32"),
-                New NamedValue(Of String)("element", "object")
+                "array".param(TypeAlias.array),
+                "element".param(TypeAlias.any)
             }
         }
 
@@ -83,9 +82,9 @@ Namespace Symbols.JavaScriptImports
             .Name = "array_pop",
             .[Module] = "array",
             .Package = NameOf(Array),
-            .result = "i32",
+            .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
-                New NamedValue(Of String)("array", "i32")
+                "array".param(TypeAlias.array)
             }
         }
 
@@ -98,8 +97,10 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "new_array",
             .Package = NameOf(Array),
-            .result = "i32",
-            .parameters = {New NamedValue(Of String)("size", "i32")}
+            .result = New TypeAbstract(TypeAlias.array),
+            .parameters = {
+                "size".param("i32")
+            }
         }
 
         Public ReadOnly Property GetArrayElement As New ImportSymbol With {
@@ -107,10 +108,10 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array_get",
             .Package = NameOf(Array),
-            .result = "i32",
+            .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
-                New NamedValue(Of String)("array", "i32"),
-                New NamedValue(Of String)("index", "i32")
+                "array".param(TypeAlias.array),
+                "index".param("i32")
             }
         }
 
@@ -119,11 +120,11 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array_set",
             .Package = NameOf(Array),
-            .result = "i32",
+            .result = New TypeAbstract("void"),
             .parameters = {
-                New NamedValue(Of String)("array", "i32"),
-                New NamedValue(Of String)("index", "i32"),
-                New NamedValue(Of String)("value", "i32")
+                "array".param(TypeAlias.array),
+                "index".param("i32"),
+                "value".param("any")
             }
         }
 
@@ -132,9 +133,9 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array_length",
             .Package = NameOf(Array),
-            .result = "i32",
+            .result = TypeAbstract.i32,
             .parameters = {
-                New NamedValue(Of String)("array", "i32")
+                 "array".param(TypeAlias.array)
             }
         }
 

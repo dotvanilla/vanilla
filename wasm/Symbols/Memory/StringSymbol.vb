@@ -64,15 +64,15 @@ Namespace Symbols
         End Property
 
         Public Function SizeOf() As Expression
-            Return New LiteralExpression With {.type = "i32", .value = Length}
+            Return New LiteralExpression With {.type = TypeAbstract.i32, .value = Length}
         End Function
 
         Public Function [AddressOf]() As Expression
-            Return New LiteralExpression With {.type = "i32", .value = MemoryPtr}
+            Return New LiteralExpression With {.type = TypeAbstract.i32, .value = MemoryPtr}
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return TypeAlias.string
+            Return New TypeAbstract(TypeAlias.string)
         End Function
 
         Public Overrides Function ToSExpression() As String
