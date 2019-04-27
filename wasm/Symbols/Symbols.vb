@@ -246,17 +246,6 @@ Namespace Symbols
         End Property
 
         ''' <summary>
-        ''' Is javascript array
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property IsArray As Boolean
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return type.type = TypeAlias.array
-            End Get
-        End Property
-
-        ''' <summary>
         ''' Is javascript object
         ''' </summary>
         ''' <returns></returns>

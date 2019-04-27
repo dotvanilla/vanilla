@@ -55,6 +55,15 @@ Module arrayTest
 
     Dim xxl As List(Of String)
 
+    Public Function arrayLoop()
+        ' convert to string and display
+        Dim ints As Integer() = {1, 2, 3, 4, 5, 6, 7, 88}
+
+        For i As Integer = 0 To ints.Length
+            Call print(ints(i))
+        Next
+    End Function
+
     Public Function testListAdd()
         Dim l As List(Of String) = New List(Of String) From {"Hello", "World"}
 
@@ -76,15 +85,6 @@ Module arrayTest
         Call log(syntax3)
         Call log(syntax1)
     End Sub
-
-    Public Function arrayLoop()
-        ' convert to string and display
-        Dim ints As Integer() = {1, 2, 3, 4, 5, 6, 7, 88}
-
-        For i As Integer = 0 To ints.Length
-            Call print(ints(i))
-        Next
-    End Function
 
     Public Function createArray()
         Dim str As String() = {"333333", "AAAAA", "XXXXX", "534535", "asdajkfsdhjkf"}

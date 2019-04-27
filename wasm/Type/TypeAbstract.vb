@@ -91,6 +91,14 @@ Public Class TypeAbstract
         End Get
     End Property
 
+    Public ReadOnly Property iscollection As Boolean
+        Get
+            Return type = TypeAlias.array OrElse
+                type = TypeAlias.list OrElse
+                type = TypeAlias.table
+        End Get
+    End Property
+
 #Region "WebAssembly Primitive Types"
     Public Shared ReadOnly Property i32 As New TypeAbstract("i32")
     Public Shared ReadOnly Property i64 As New TypeAbstract("i64")
@@ -171,6 +179,12 @@ Public Class TypeAbstract
                 Return "any[]"
             Else
                 Return generic(Scan0).raw & "[]"
+            End If
+        ElseIf type = TypeAlias.table Then
+            If generic.IsNullOrEmpty Then
+                Return "[any]"
+            Else
+                Return $"[{generic(Scan0).raw}]"
             End If
         Else
             Throw New NotImplementedException

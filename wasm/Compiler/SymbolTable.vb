@@ -291,7 +291,7 @@ Namespace Symbols
                 If functionList.ContainsKey(name) Then
                     Return functionList(name)
                 Else
-                    If locals.ContainsKey(name) AndAlso locals(name).IsArray Then
+                    If locals.ContainsKey(name) AndAlso locals(name).type.iscollection Then
                         Return JavaScriptImports.GetArrayElement
                     ElseIf Not context.StringEmpty Then
                         ' 可能是类型之中所定义的静态方法
