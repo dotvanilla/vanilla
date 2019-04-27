@@ -1,55 +1,57 @@
-﻿Module DeclaratorParser
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="names"></param>
-    ''' <param name="symbols"></param>
-    ''' <param name="moduleName">这个参数是空值表示局部变量，反之表示为模块全局变量</param>
-    ''' <returns></returns>
-    <Extension>
-    Friend Iterator Function ParseDeclarator(names As IEnumerable(Of VariableDeclaratorSyntax),
-                                             symbols As SymbolTable,
-                                             moduleName$) As IEnumerable(Of Expression)
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
+Imports Wasm.Compiler
+Imports Wasm.Symbols.JavaScriptImports
 
-        For Each var As VariableDeclaratorSyntax In names
-            For Each [declare] As DeclareLocal In var.ParseDeclarator(symbols, moduleName)
-                If moduleName.StringEmpty Then
-                    If Not [declare].init Is Nothing Then
-                        Yield [declare].SetLocal
+Namespace Symbols.Parser
 
-                        'If TypeOf [declare].init Is ArrayTable Then
-                        '    With DirectCast([declare].init, ArrayTable)
-                        '        [declare].genericTypes = { .key, .type}
-                        '    End With
-                        'ElseIf TypeOf [declare].init Is ArraySymbol Then
-                        '    With DirectCast([declare].init, ArraySymbol)
-                        '        [declare].genericTypes = { .type}
-                        '    End With
-                        'ElseIf TypeOf [declare].init Is Array Then
-                        '    With DirectCast([declare].init, Array)
-                        '        [declare].genericTypes = { .type}
-                        '    End With
-                        'Else
-                        '    [declare].genericTypes = {[declare].type}
-                        'End If
+    Module DeclaratorParser
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="names"></param>
+        ''' <param name="symbols"></param>
+        ''' <param name="moduleName">这个参数是空值表示局部变量，反之表示为模块全局变量</param>
+        ''' <returns></returns>
+        <Extension>
+        Friend Iterator Function ParseDeclarator(names As IEnumerable(Of VariableDeclaratorSyntax),
+                                                 symbols As SymbolTable,
+                                                 moduleName$) As IEnumerable(Of Expression)
+
+            For Each var As VariableDeclaratorSyntax In names
+                For Each [declare] As DeclareLocal In var.ParseDeclarator(symbols, moduleName)
+                    If moduleName.StringEmpty Then
+                        If Not [declare].init Is Nothing Then
+                            Yield [declare].SetLocal
+                        End If
+
+                        Call symbols.AddLocal([declare])
                     End If
-
-                    Call symbols.AddLocal([declare])
-                End If
+                Next
             Next
-        Next
-    End Function
+        End Function
 
-    <Extension>
-    Friend Iterator Function ParseDeclarator(var As VariableDeclaratorSyntax,
-                                             symbols As SymbolTable,
-                                             moduleName As String) As IEnumerable(Of DeclareLocal)
-        Dim fieldNames = var.Names
-        Dim type As TypeAbstract = Nothing
-        Dim init As Expression = Nothing
+        <Extension>
+        Friend Function ParseDeclarator(var As VariableDeclaratorSyntax,
+                                        symbols As SymbolTable,
+                                        moduleName As String) As IEnumerable(Of DeclareLocal)
+            Dim fieldNames = var.Names
 
-        For Each namedVar As ModifiedIdentifierSyntax In fieldNames
+            Return fieldNames _
+                .Select(Function(namedVar)
+                            Return namedVar.ParserInternal(var, symbols, moduleName)
+                        End Function) _
+                .Where(Function(x) Not x Is Nothing) _
+                .ToArray
+        End Function
+
+        <Extension>
+        Private Function ParserInternal(namedVar As ModifiedIdentifierSyntax, var As VariableDeclaratorSyntax, symbols As SymbolTable, moduleName As String) As DeclareLocal
             Dim name$ = namedVar.Identifier.objectName
+            Dim type As TypeAbstract = Nothing
+            Dim init As Expression = Nothing
 
             If name.Last Like Patterns.TypeChar Then
                 type = New TypeAbstract(Patterns.TypeCharName(name.Last))
@@ -104,6 +106,8 @@
                 End If
 
                 Call symbols.AddGlobal(name, type, moduleName, init)
+
+                Return Nothing
             Else
                 If Not init Is Nothing Then
                     init = CTypeHandle.CType(type, init, symbols)
@@ -125,29 +129,29 @@
                     End If
                 End If
 
-                Yield New DeclareLocal With {
+                Return New DeclareLocal With {
                     .name = name,
                     .type = type,
                     .init = init
                 }
             End If
-        Next
-    End Function
+        End Function
 
-    <Extension>
-    Public Function GetInitialize(init As EqualsValueSyntax, symbols As SymbolTable, type As TypeAbstract) As Expression
-        Dim val As ExpressionSyntax = init.Value
+        <Extension>
+        Public Function GetInitialize(init As EqualsValueSyntax, symbols As SymbolTable, type As TypeAbstract) As Expression
+            Dim val As ExpressionSyntax = init.Value
 
-        If TypeOf val Is LiteralExpressionSyntax Then
-            If type Is Nothing Then
-                Return val.ValueExpression(symbols)
+            If TypeOf val Is LiteralExpressionSyntax Then
+                If type Is Nothing Then
+                    Return val.ValueExpression(symbols)
+                Else
+                    With DirectCast(val, LiteralExpressionSyntax)
+                        Return .ConstantExpression(type, symbols)
+                    End With
+                End If
             Else
-                With DirectCast(val, LiteralExpressionSyntax)
-                    Return .ConstantExpression(type, symbols)
-                End With
+                Return val.ValueExpression(symbols)
             End If
-        Else
-            Return val.ValueExpression(symbols)
-        End If
-    End Function
-End Module
+        End Function
+    End Module
+End Namespace
