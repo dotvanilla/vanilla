@@ -236,7 +236,10 @@ var WebAssembly;
         function Any(intPtr) {
             if (intPtr < 0) {
                 // 可能是一个指针，因为在这里指针都是小于零的
-                if (WebAssembly.ObjectManager.isNull(intPtr)) {
+                if (WebAssembly.ObjectManager.isText(intPtr)) {
+                    return WebAssembly.ObjectManager.readText(intPtr);
+                }
+                else if (WebAssembly.ObjectManager.isNull(intPtr)) {
                     // 是一个负数
                     return intPtr;
                 }

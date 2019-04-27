@@ -40,7 +40,9 @@
         function Any(intPtr: number): any {
             if (intPtr < 0) {
                 // 可能是一个指针，因为在这里指针都是小于零的
-                if (ObjectManager.isNull(intPtr)) {
+                if (ObjectManager.isText(intPtr)) {
+                    return ObjectManager.readText(intPtr);
+                } else if (ObjectManager.isNull(intPtr)) {
                     // 是一个负数
                     return intPtr;
                 } else {
