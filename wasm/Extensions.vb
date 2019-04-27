@@ -151,7 +151,7 @@ Public Module Extensions
             .Name = name,
             .Parameters = {},
             .[Module] = NameOf(AssemblyInfo),
-            .Result = "char*",
+            .Result = Types.string,
             .Body = {
                 New ReturnValue With {
                     .Internal = memory.StringConstant([string])
@@ -216,8 +216,8 @@ Public Module Extensions
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Friend Function param(a As NamedValue(Of String)) As String
-        Return $"(param ${a.Name} {typefit(a.Value)})"
+    Friend Function param(a As NamedValue(Of TypeAbstract)) As String
+        Return $"(param ${a.Name} {a.typefit})"
     End Function
 
     <Extension>

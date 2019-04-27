@@ -45,6 +45,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Symbols
 
@@ -54,22 +55,25 @@ Imports Wasm.Symbols
 Module CTypeHandle
 
     ''' <summary>
-    ''' 这个自动类型转换应该是仅在生成``S-Expression``的时候使用
+    ''' Convert type alias in compiler to WebAssembly primitive type.
+    ''' (这个自动类型转换应该是仅在生成``S-Expression``的时候使用)
     ''' </summary>
     ''' <param name="type"></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function typefit(type As String) As String
-        type = type Or "i32".When((type Like TypeExtensions.stringType) OrElse type = TypeExtensions.booleanType)
-
-        If type Like TypeExtensions.Orders Then
-            Return type
-        ElseIf type = "void" Then
-            Return "void"
+    Public Function typefit(type As TypeAlias) As String
+        If type Like primitiveTypes Then
+            Return type.ToString
         Else
-            ' all of the class object is memory pointer value
+            ' All of the non-primitive type is memory pointer
             Return "i32"
         End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function typefit(arg As NamedValue(Of TypeAbstract)) As String
+        Return arg.Value.typefit
     End Function
 
     ''' <summary>
