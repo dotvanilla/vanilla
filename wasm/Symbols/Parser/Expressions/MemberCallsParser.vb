@@ -87,10 +87,11 @@ Namespace Symbols.Parser
             Else
                 ' 数组长度，属性，无参数的方法调用等
                 Dim func = symbols.GetFunctionSymbol(objName, memberName)
+                Dim obj = symbols.GetObjectReference(objName)
 
                 If Not func Is Nothing Then
                     Return New FuncInvoke(func) With {
-                        .parameters = {New GetLocalVariable(objName)}
+                        .parameters = {obj}
                     }
                 End If
 

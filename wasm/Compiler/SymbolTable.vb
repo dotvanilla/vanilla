@@ -365,6 +365,11 @@ Namespace Symbols
             End If
         End Function
 
+        ''' <summary>
+        ''' A unify method for get local or get global variable
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns></returns>
         Public Function GetObjectReference(name As String) As GetLocalVariable
             If IsLocal(name) Then
                 Return New GetLocalVariable(name)
