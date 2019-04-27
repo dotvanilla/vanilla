@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/27/2019 5:37:55 PM
+    ;; build: 4/27/2019 5:40:36 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -70,6 +70,8 @@
         ;; Public Function Main(args As string, obj As i32, f As boolean) As void
         
     (drop (call $print (call $i32.toString (i32.eq (i32.const 0) (get_local $f)))))
+    (drop (call $print (call $i32.toString (i32.ne (i32.const 0) (get_local $f)))))
+    (drop (call $print (call $i32.toString (i32.eqz (i32.eq (i32.const 0) (get_local $f))))))
     (drop (call $print (call $i32.toString (i32.eqz (get_local $f)))))
     (drop (call $print (get_local $args)))
     (drop (call $print (call $i32.toString (get_local $obj))))
