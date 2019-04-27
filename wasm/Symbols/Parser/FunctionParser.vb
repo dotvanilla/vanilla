@@ -163,7 +163,10 @@ Namespace Symbols.Parser
                 .[Module] = moduleName,
                 .Locals = symbols _
                     .GetAllLocals _
-                    .Where(Function(v) Not v.name Like paramIndex) _
+                    .Where(Function(v)
+                               ' removes function parameters from declare locals
+                               Return Not v.name Like paramIndex
+                           End Function) _
                     .ToArray
             }
 

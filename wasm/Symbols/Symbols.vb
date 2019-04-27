@@ -210,19 +210,19 @@ Namespace Symbols
 
     Public Class CommentText : Inherits Expression
 
-        Public Property Text As String
+        Public Property text As String
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return "void"
+            Return New TypeAbstract(TypeAlias.void)
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return ";; " & Text
+            Return ";; " & text
         End Function
     End Class
     Public Class LiteralExpression : Inherits Expression
 
-        Public Property type As String
+        Public Property type As TypeAbstract
         Public Property value As String
 
         Public ReadOnly Property Sign As Integer
@@ -234,13 +234,13 @@ Namespace Symbols
         Sub New()
         End Sub
 
-        Sub New(value$, type$)
+        Sub New(value$, type As TypeAbstract)
             Me.type = type
             Me.value = value
         End Sub
 
         Public Overrides Function ToSExpression() As String
-            Return $"({typefit(type)}.const {value})"
+            Return $"({type.typefit}.const {value})"
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -263,7 +263,7 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             If symbolTable Is Nothing Then
-                Return "i32"
+                Return New TypeAbstract(TypeAlias.i32)
             Else
                 Return symbolTable.GetObjectSymbol(var).type
             End If
@@ -284,7 +284,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return "void"
+            Return New TypeAbstract(TypeAlias.void)
         End Function
     End Class
 
@@ -313,7 +313,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return "void"
+            Return New TypeAbstract(TypeAlias.void)
         End Function
     End Class
 
@@ -354,7 +354,7 @@ Namespace Symbols
         End Property
 
         Public Overrides Function ToSExpression() As String
-            Return $"(local ${name} {typefit(type)})"
+            Return $"(local ${name} {type.typefit})"
         End Function
 
     End Class

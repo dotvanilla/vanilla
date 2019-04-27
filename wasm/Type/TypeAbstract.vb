@@ -35,7 +35,7 @@ Public Class TypeAbstract
 
     End Sub
 
-    Sub New([alias] As TypeAlias, generic$())
+    Sub New([alias] As TypeAlias, Optional generic$() = Nothing)
         Me.type = [alias]
         Me.generic = generic
     End Sub
@@ -47,4 +47,12 @@ Public Class TypeAbstract
             Return $"{type.Description}(Of {generic.JoinBy(", ")})"
         End If
     End Function
+
+    Public Shared Operator <>(type As TypeAbstract, name$) As Boolean
+        Return type.type.ToString <> name
+    End Operator
+
+    Public Shared Operator =(type As TypeAbstract, name$) As Boolean
+        Return type.type.ToString = name
+    End Operator
 End Class
