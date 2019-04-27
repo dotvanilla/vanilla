@@ -321,7 +321,7 @@ Namespace Symbols
             End Select
         End Function
 
-        Private Function typeMatch(a As NamedValue(Of String), type$) As Boolean
+        Private Function typeMatch(a As NamedValue(Of String), type As TypeAlias) As Boolean
             Dim targetIsArray As Boolean = TypeExtensions.IsArray(type)
 
             If a.Value = type Then

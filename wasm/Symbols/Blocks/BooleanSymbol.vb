@@ -66,7 +66,7 @@ Namespace Symbols.Blocks
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "i32"
         End Function
 

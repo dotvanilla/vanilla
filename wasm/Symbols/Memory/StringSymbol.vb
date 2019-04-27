@@ -70,8 +70,8 @@ Namespace Symbols
             Return New LiteralExpression With {.type = "i32", .value = MemoryPtr}
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
-            Return "i32"
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+            Return TypeAlias.string
         End Function
 
         Public Overrides Function ToSExpression() As String

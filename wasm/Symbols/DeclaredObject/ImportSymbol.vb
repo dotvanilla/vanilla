@@ -111,7 +111,7 @@ Namespace Symbols
             Return ToSExpression()
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return Result
         End Function
     End Class

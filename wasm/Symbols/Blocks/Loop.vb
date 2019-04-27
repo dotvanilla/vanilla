@@ -112,7 +112,7 @@ Namespace Symbols.Blocks
 
         Public Property LoopID As String
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
 
@@ -132,7 +132,7 @@ Namespace Symbols.Blocks
 
         Public Property BlockLabel As String
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
 
@@ -149,7 +149,7 @@ Namespace Symbols.Blocks
         ''' <returns></returns>
         Public Property Condition As BooleanSymbol
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
 
@@ -165,7 +165,7 @@ Namespace Symbols.Blocks
 
         Public Property expression As Expression
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
 

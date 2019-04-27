@@ -82,7 +82,7 @@ Namespace Symbols
             Return array.ToSExpression
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return type
         End Function
     End Class
@@ -93,7 +93,7 @@ Namespace Symbols
         ''' Element type name or Data type of array table value
         ''' </summary>
         ''' <returns></returns>
-        Public Property type As String
+        Public Property type As TypeAlias
 
     End Class
 
@@ -104,7 +104,7 @@ Namespace Symbols
 
         Public Property size As Expression
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return type
         End Function
 
@@ -130,7 +130,7 @@ Namespace Symbols
 
         Public Property initialVal As (key As Expression, value As Expression)()
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return type
         End Function
 

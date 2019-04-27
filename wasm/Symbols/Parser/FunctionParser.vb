@@ -86,7 +86,7 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function FuncVariable(api As DeclareStatementSyntax, symbols As SymbolTable) As NamedValue(Of String)
+        Public Function FuncVariable(api As DeclareStatementSyntax, symbols As SymbolTable) As NamedValue(Of TypeAlias)
             Dim name As String = api.Identifier.objectName
             Dim returns As Type = GetAsType(api.AsClause, symbols)
 
@@ -104,13 +104,13 @@ Namespace Symbols.Parser
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ParseParameters(api As DeclarationStatementSyntax, symbols As SymbolTable) As NamedValue(Of String)()
+        Public Function ParseParameters(api As DeclarationStatementSyntax, symbols As SymbolTable) As NamedValue(Of TypeAlias)()
             Return DirectCast(api, MethodBaseSyntax).ParseParameters(symbols:=symbols).ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Function ParseParameters(method As MethodBaseSyntax, symbols As SymbolTable) As IEnumerable(Of NamedValue(Of String))
+        Private Function ParseParameters(method As MethodBaseSyntax, symbols As SymbolTable) As IEnumerable(Of NamedValue(Of TypeAlias))
             Return method.ParameterList _
                 .Parameters _
                 .Select(Function(p) ParseParameter(p, symbols))
@@ -124,7 +124,7 @@ Namespace Symbols.Parser
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ParseParameters(method As MethodBlockSyntax, symbols As SymbolTable) As NamedValue(Of String)()
+        Public Function ParseParameters(method As MethodBlockSyntax, symbols As SymbolTable) As NamedValue(Of TypeAlias)()
             Return method.BlockStatement.ParseParameters(symbols).ToArray
         End Function
 
@@ -143,7 +143,7 @@ Namespace Symbols.Parser
             ' using for return value ctype operation
             symbols.CurrentSymbol = funcVar.Name
 
-            For Each arg As NamedValue(Of String) In parameters
+            For Each arg As NamedValue(Of TypeAlias) In parameters
                 Call symbols.AddLocal(arg)
             Next
 

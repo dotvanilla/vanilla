@@ -54,7 +54,7 @@ Namespace Symbols.Blocks
         Public Property [Then] As Expression()
         Public Property [Else] As Expression()
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As String
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
             Return "void"
         End Function
 
