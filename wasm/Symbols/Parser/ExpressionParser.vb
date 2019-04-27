@@ -543,6 +543,8 @@ Namespace Symbols.Parser
                 ' 是空值常量，则直接返回整形数0表示空指针
                 value = 0
                 type = New TypeAbstract(TypeAlias.any)
+            ElseIf type Is Nothing Then
+                type = New TypeAbstract(value.GetType)
             End If
 
             If type.type = TypeAlias.string Then
@@ -550,7 +552,7 @@ Namespace Symbols.Parser
             End If
 
             Return New LiteralExpression With {
-                .type = wasmType,
+                .type = type,
                 .value = value
             }
         End Function
