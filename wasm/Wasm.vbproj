@@ -325,7 +325,7 @@
     <Compile Include="Symbols\Parser\Expressions\FuncInvokeParser.vb" />
     <Compile Include="Symbols\Parser\Expressions\MemberCallsParser.vb" />
     <Compile Include="Symbols\Parser\Expressions\ObjectCreatorParser.vb" />
-    <Compile Include="Symbols\Parser\DeclaratorParser.vb" />
+    <Compile Include="Symbols\Parser\Body\DeclaratorParser.vb" />
     <Compile Include="Type\Literal.vb" />
     <Compile Include="Type\Types.vb" />
     <Compile Include="Type\TypeAlias.vb" />
@@ -348,7 +348,7 @@
     <Compile Include="Symbols\Memory\Memory.vb" />
     <Compile Include="Symbols\Memory\StringSymbol.vb" />
     <Compile Include="Symbols\EnumSymbol.vb" />
-    <Compile Include="Symbols\Parser\BlockParser.vb" />
+    <Compile Include="Symbols\Parser\Body\BlockParser.vb" />
     <Compile Include="Symbols\Parser\AsTypeHandler.vb" />
     <Compile Include="Symbols\Parser\AttributeParser.vb" />
     <Compile Include="Symbols\Parser\StringParser.vb" />
@@ -359,7 +359,7 @@
     <Compile Include="Symbols\Expression.vb" />
     <Compile Include="Symbols\ExportSymbol.vb" />
     <Compile Include="Symbols\Parser\FunctionParser.vb" />
-    <Compile Include="Symbols\Parser\BodyParser.vb" />
+    <Compile Include="Symbols\Parser\Body\BodyParser.vb" />
     <Compile Include="Symbols\Parser\Expressions\ExpressionParser.vb" />
     <Compile Include="Type\CTypeHandle.vb" />
     <Compile Include="Symbols\Parser\BitConverter.vb" />
@@ -419,9 +419,7 @@
       <Name>VisualStudio</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Symbols\Parser\Body\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.13\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.13\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
