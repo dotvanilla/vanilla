@@ -60,12 +60,12 @@ Namespace Symbols
             End Get
         End Property
 
-        Public Overridable ReadOnly Property IsNothing As Boolean
+        Public Overridable ReadOnly Property IsLiteralNothing As Boolean
             Get
                 If Not TypeOf Me Is LiteralExpression Then
                     Return False
                 Else
-                    Return DirectCast(Me, LiteralExpression).IsNothing
+                    Return DirectCast(Me, LiteralExpression).IsLiteralNothing
                 End If
             End Get
         End Property

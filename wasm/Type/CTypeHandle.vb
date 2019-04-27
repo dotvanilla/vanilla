@@ -93,7 +93,7 @@ Module CTypeHandle
         If left.type = TypeAlias.any Then
             ' left accept any type
             Return right
-        ElseIf right.IsNothing Then
+        ElseIf right.IsLiteralNothing Then
             ' nothing 可以赋值给任意类型
             Return DefaultOf(left)
         End If
