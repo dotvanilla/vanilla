@@ -87,7 +87,7 @@ Namespace Symbols.Parser
                                     invoke.ArgumentList _
                                         .Arguments _
                                         .First _
-                                        .Argument(symbols, New NamedValue(Of TypeAbstract)("key", New TypeAbstract("i32")))
+                                        .Argument(symbols, "key".param("i32"))
                                 }
                             }
                         Else
@@ -120,7 +120,7 @@ Namespace Symbols.Parser
                                 invoke.ArgumentList _
                                     .Arguments _
                                     .First _
-                                    .Argument(symbols, ("index", New TypeAbstract("i32")))
+                                    .Argument(symbols, "index".param("i32"))
                             }
                         }
                     Else
@@ -177,7 +177,7 @@ Namespace Symbols.Parser
                             keyAccess,
                             argumentList.Arguments _
                                 .First _
-                                .Argument(symbols, New NamedValue(Of TypeAbstract)("i", New TypeAbstract("i32")))
+                                .Argument(symbols, "i".param("i32"))
                         }
                     }
 

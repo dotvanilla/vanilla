@@ -145,6 +145,16 @@ Namespace Symbols.JavaScriptImports
             Return TypeOf func Is ImportSymbol AndAlso func.Name Like arrayOp
         End Function
 
+        Public Function Method(name As String) As ImportSymbol
+            Select Case name
+                Case "Add" : Return Array.PushArray
+                Case "Remove"
+                    Throw New NotImplementedException
+                Case Else
+                    Throw New NotImplementedException
+            End Select
+        End Function
+
         <Extension>
         Public Sub doArrayImports(symbols As SymbolTable)
             Call symbols.addRequired(JavaScriptImports.NewArray)

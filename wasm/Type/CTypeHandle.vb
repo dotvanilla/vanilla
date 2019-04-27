@@ -55,6 +55,22 @@ Imports Wasm.Symbols.Parser
 ''' </summary>
 Module CTypeHandle
 
+    Public Function EqualOfType(a As NamedValue(Of TypeAbstract), type As TypeAbstract) As Boolean
+        'Dim targetIsArray As Boolean = TypeExtensions.IsArray(type)
+
+        'If a.Value = type Then
+        '    Return True
+        'ElseIf a.Value = GetType(System.Array).FullName AndAlso targetIsArray Then
+        '    Return True
+        'ElseIf a.Value = GetType(IList).Name AndAlso targetIsArray Then
+        '    Return True
+        'Else
+        '    Return False
+        'End If
+
+        Throw New NotImplementedException
+    End Function
+
     ''' <summary>
     ''' Convert type alias in compiler to WebAssembly primitive type.
     ''' (这个自动类型转换应该是仅在生成``S-Expression``的时候使用)

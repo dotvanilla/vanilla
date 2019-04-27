@@ -307,56 +307,44 @@ Namespace Symbols
             Else
                 Dim func As FuncSignature = functionList.TryGetValue(name)
 
-                'If Not func Is Nothing AndAlso typeMatch(func.parameters.First, contextObj.type) Then
-                '    Return func
-                'Else
-                '    If contextObj.IsArray Then
-                '        ' 可能是是一个List
-                '        ' 将List的实例方法映射到javascript的array相关的api上面
-                '        Select Case name
-                '            Case "Add" : Return functionList(JavaScriptImports.Array.PushArray.Name)
-                '            Case Else
-                '                Throw New NotImplementedException
-                '        End Select
-                '    ElseIf contextObj.type Like TypeExtensions.stringType Then
-                '        Return getStringInternal(name)
-                '    ElseIf contextObj.IsObject Then
-                '        Call Me.addRequired(JavaScriptImports.Dictionary.Create)
-                '        Call Me.addRequired(JavaScriptImports.Dictionary.GetValue)
-                '        Call Me.addRequired(JavaScriptImports.Dictionary.RemoveValue)
-                '        Call Me.addRequired(JavaScriptImports.Dictionary.SetValue)
+                If Not func Is Nothing AndAlso CTypeHandle.EqualOfType(func.parameters.First, contextObj.type) Then
+                    Return func
+                Else
+                    If contextObj.type = TypeAlias.list Then
+                        ' 可能是是一个List
+                        ' 将List的实例方法映射到javascript的array相关的api上面
+                        Return getArrayListInternal(name)
+                    ElseIf contextObj.type = TypeAlias.string Then
+                        Return getStringInternal(name)
+                    ElseIf contextObj.IsObject Then
+                        Call Me.addRequired(JavaScriptImports.Dictionary.Create)
+                        Call Me.addRequired(JavaScriptImports.Dictionary.GetValue)
+                        Call Me.addRequired(JavaScriptImports.Dictionary.RemoveValue)
+                        Call Me.addRequired(JavaScriptImports.Dictionary.SetValue)
 
-                '        Select Case name
-                '            Case "Add" : Return functionList(JavaScriptImports.Dictionary.SetValue.Name)
-                '            Case "Remove" : Return functionList(JavaScriptImports.Dictionary.RemoveValue.Name)
-                '            Case Else
-                '                Throw New NotImplementedException
-                '        End Select
-                '    Else
-                '        Throw New NotImplementedException
-                '    End If
-                'End If
+                        Select Case name
+                            Case "Add" : Return functionList(JavaScriptImports.Dictionary.SetValue.Name)
+                            Case "Remove" : Return functionList(JavaScriptImports.Dictionary.RemoveValue.Name)
+                            Case Else
+                                Throw New NotImplementedException
+                        End Select
+                    Else
+                        Throw New NotImplementedException
+                    End If
+                End If
             End If
+        End Function
+
+        Private Function getArrayListInternal(name As String) As FuncSignature
+            Dim Api As ImportSymbol = JavaScriptImports.Array.Method(name)
+            Call addRequired(Api)
+            Return Api
         End Function
 
         Private Function getStringInternal(name As String) As FuncSignature
             Dim Api As ImportSymbol = JavaScriptImports.String.Method(name)
             Call addRequired(Api)
             Return Api
-        End Function
-
-        Private Function typeMatch(a As NamedValue(Of TypeAbstract), type As TypeAlias) As Boolean
-            Dim targetIsArray As Boolean = TypeExtensions.IsArray(type)
-
-            If a.Value = type Then
-                Return True
-            ElseIf a.Value = GetType(System.Array).FullName AndAlso targetIsArray Then
-                Return True
-            ElseIf a.Value = GetType(IList).Name AndAlso targetIsArray Then
-                Return True
-            Else
-                Return False
-            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
