@@ -52,19 +52,27 @@
                     }
                 }
             } else {
-                let host = (<any>window);
-
-                if (typeof TypeScript != "object") {
-                    host.TypeScript = {};
-                }
-                if (typeof TypeScript.logging != "object") {
-                    host.TypeScript.logging = {};
-                }
-
-                host.TypeScript.logging.outputEverything = opt;
+                setDebug(opt);
             }
 
             return false;
+        }
+
+        function setDebug(opt: boolean) {
+            var debug: any;
+            var host: any = (<any>window);
+
+            if (typeof TypeScript != "object") {
+                host.TypeScript = debug = {};
+            } else {
+                debug = host.TypeScript;
+            }
+
+            if (typeof TypeScript.logging != "object") {
+                host.TypeScript.logging = {};
+            }
+
+            debug.outputEverything = opt;
         }
 
         function exportWasmApi(assm: IWasm): { AssemblyInfo: AssemblyInfo } {
