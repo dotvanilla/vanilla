@@ -206,7 +206,7 @@ Namespace Symbols.Parser
         <Extension>
         Private Sub parseImports(declares As IEnumerable(Of DeclareStatementSyntax), moduleName$, symbolTable As SymbolTable)
             For Each api As DeclareStatementSyntax In declares
-                Dim define As NamedValue(Of String) = api.FuncVariable(symbolTable)
+                Dim define As NamedValue(Of TypeAbstract) = api.FuncVariable(symbolTable)
                 Dim apiImports As New ImportSymbol(api.ParseParameters(symbolTable)) With {
                     .Name = define.Name,
                     .result = define.Value,

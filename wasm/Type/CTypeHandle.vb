@@ -86,7 +86,7 @@ Module CTypeHandle
     ''' </summary>
     ''' <param name="left"></param>
     ''' <returns></returns>
-    Public Function [CType](left As String, right As Expression, symbols As SymbolTable) As Expression
+    Public Function [CType](left As TypeAbstract, right As Expression, symbols As SymbolTable) As Expression
         Dim rightTypeInfer As TypeAbstract = right.TypeInfer(symbols)
         Dim rightIsI32 As Boolean = rightTypeInfer = "i32" OrElse rightTypeInfer = GetType(Integer).FullName
         Dim isArrayType As Boolean = IsArray(left)

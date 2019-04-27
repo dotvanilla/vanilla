@@ -70,26 +70,23 @@ Namespace Symbols.Parser
         ''' 当类型申明是空的时候，应该是从其初始化值得类型来推断申明的
         ''' </remarks>
         <Extension>
-        Public Function AsType(ByRef name$, [asClause] As AsClauseSyntax, symbols As SymbolTable, Optional initType$ = "f32") As String
-            Dim type$
+        Public Function AsType(ByRef name$, [asClause] As AsClauseSyntax, symbols As SymbolTable, Optional initType As TypeAbstract = Nothing) As TypeAbstract
+            Dim type As TypeAbstract
 
             If Not asClause Is Nothing Then
                 If TypeOf asClause Is SimpleAsClauseSyntax Then
-                    With GetAsType(asClause, symbols)
-                        type = .TypeName
-                    End With
+                    type = New TypeAbstract(GetAsType(asClause, symbols))
                 ElseIf TypeOf asClause Is AsNewClauseSyntax Then
                     Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
 
-                    type = AsTypeHandler.GetType([new].Type, symbols).TypeName
+                    type = New TypeAbstract(AsTypeHandler.GetType([new].Type, symbols))
                 Else
                     Throw New NotImplementedException
                 End If
             ElseIf name.Last Like Patterns.TypeChar Then
-                type = TypeExtensions.TypeCharWasm(name.Last)
+                type = New TypeAbstract(TypeExtensions.TypeCharWasm(name.Last))
                 name = name.Substring(0, name.Length - 1)
             Else
-                ' Throw New Exception("Object type is not supported in WebAssembly!")
                 type = initType
             End If
 

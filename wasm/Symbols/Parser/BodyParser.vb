@@ -88,11 +88,11 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ValueReturn(returnValue As ReturnStatementSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = returnValue.Expression.ValueExpression(symbols)
-            Dim returnType As String = symbols _
+            Dim returnType = symbols _
                 .GetFunctionSymbol(Nothing, symbols.CurrentSymbol) _
                 .result
 
-            value = TypeExtensions.CType(returnType, value, symbols)
+            value = CTypeHandle.CType(returnType, value, symbols)
 
             Return New ReturnValue With {
                 .Internal = value
@@ -149,7 +149,7 @@ Namespace Symbols.Parser
             Dim var = DirectCast(assign.Left, IdentifierNameSyntax).objectName
             Dim left As Expression
             Dim right = assign.Right.ValueExpression(symbols)
-            Dim typeL As String = symbols.GetUnderlyingType(var)
+            Dim typeLeft = symbols.GetUnderlyingType(var)
             Dim op$ = assign.OperatorToken.ValueText
 
             If symbols.IsLocal(var) Then
@@ -173,7 +173,7 @@ Namespace Symbols.Parser
                     Throw New NotImplementedException
             End Select
 
-            Dim valueRight = TypeExtensions.CType(typeL, right, symbols)
+            Dim valueRight = CTypeHandle.CType(typeLeft, right, symbols)
 
             If symbols.IsLocal(var) Then
                 Return New SetLocalVariable With {
@@ -194,6 +194,8 @@ Namespace Symbols.Parser
         ''' <param name="statement"></param>
         ''' <param name="symbols"></param>
         ''' <returns>May be contains multiple local variables</returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function LocalDeclare(statement As LocalDeclarationStatementSyntax, symbols As SymbolTable) As IEnumerable(Of Expression)
             Return statement.Declarators.ParseDeclarator(symbols, Nothing)
@@ -245,7 +247,7 @@ Namespace Symbols.Parser
                                                  symbols As SymbolTable,
                                                  moduleName As String) As IEnumerable(Of DeclareLocal)
             Dim fieldNames = var.Names
-            Dim type$
+            Dim type As TypeAbstract
             Dim init As Expression = Nothing
 
             For Each namedVar As ModifiedIdentifierSyntax In fieldNames
@@ -316,7 +318,7 @@ Namespace Symbols.Parser
                     Call symbols.AddGlobal(name, type, moduleName, init)
                 Else
                     If Not init Is Nothing Then
-                        init = TypeExtensions.CType(type, init, symbols)
+                        init = CTypeHandle.CType(type, init, symbols)
 
                         If TypeOf init Is ArraySymbol Then
                             With DirectCast(init, ArraySymbol)
