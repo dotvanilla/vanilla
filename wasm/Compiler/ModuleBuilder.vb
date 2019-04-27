@@ -52,39 +52,41 @@ Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
 Imports Wasm.Symbols.Parser
 
-Module ModuleBuilder
+Namespace Compiler
 
-    Public Function ToSExpression(m As ModuleSymbol) As String
-        Dim import$ = ""
-        Dim globals$ = ""
-        Dim internal$ = m _
-            .InternalFunctions _
-            .funcGroup _
-            .JoinBy(vbCrLf) _
-            .LineTokens _
-            .Select(Function(line) "    " & line) _
-            .JoinBy(ASCII.LF)
+    Module ModuleBuilder
 
-        If Not m.[Imports].IsNullOrEmpty Then
-            import = m.[Imports] _
-                .SafeQuery _
-                .Select(Function(i) i.ToSExpression) _
-                .JoinBy(ASCII.LF & "    ")
-        End If
-        If Not m.Globals.IsNullOrEmpty Then
-            globals = m.Globals _
-                .Select(Function(g) g.ToSExpression) _
-                .JoinBy(ASCII.LF & ASCII.LF)
-        End If
+        Public Function ToSExpression(m As ModuleSymbol) As String
+            Dim import$ = ""
+            Dim globals$ = ""
+            Dim internal$ = m _
+                .InternalFunctions _
+                .funcGroup _
+                .JoinBy(vbCrLf) _
+                .LineTokens _
+                .Select(Function(line) "    " & line) _
+                .JoinBy(ASCII.LF)
 
-        Dim wasmSummary As AssemblyInfo = GetType(ModuleSymbol).GetAssemblyDetails
-        Dim buildTime$ = File.GetLastWriteTime(GetType(ModuleSymbol).Assembly.Location)
-        Dim stringsData$ = m.Memory _
-            .Where(Function(oftype) TypeOf oftype Is StringSymbol) _
-            .Select(Function(s) s.ToSExpression) _
-            .JoinBy(ASCII.LF)
+            If Not m.[Imports].IsNullOrEmpty Then
+                import = m.[Imports] _
+                    .SafeQuery _
+                    .Select(Function(i) i.ToSExpression) _
+                    .JoinBy(ASCII.LF & "    ")
+            End If
+            If Not m.Globals.IsNullOrEmpty Then
+                globals = m.Globals _
+                    .Select(Function(g) g.ToSExpression) _
+                    .JoinBy(ASCII.LF & ASCII.LF)
+            End If
 
-        Return $"(module ;; Module {m.LabelName}
+            Dim wasmSummary As AssemblyInfo = GetType(ModuleSymbol).GetAssemblyDetails
+            Dim buildTime$ = File.GetLastWriteTime(GetType(ModuleSymbol).Assembly.Location)
+            Dim stringsData$ = m.Memory _
+                .Where(Function(oftype) TypeOf oftype Is StringSymbol) _
+                .Select(Function(s) s.ToSExpression) _
+                .JoinBy(ASCII.LF)
+
+            Return $"(module ;; Module {m.LabelName}
 
     ;; Auto-Generated VisualBasic.NET WebAssembly Code
     ;;
@@ -108,39 +110,40 @@ Module ModuleBuilder
     {m.Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
 
 {internal})"
-    End Function
+        End Function
 
-    <Extension>
-    Private Iterator Function exportGroup(exports As ExportSymbolExpression()) As IEnumerable(Of String)
-        Dim moduleGroup = exports.GroupBy(Function(api) api.Module).ToArray
+        <Extension>
+        Private Iterator Function exportGroup(exports As ExportSymbolExpression()) As IEnumerable(Of String)
+            Dim moduleGroup = exports.GroupBy(Function(api) api.Module).ToArray
 
-        For Each [module] In moduleGroup
-            Yield $";; export from [{[module].Key}]"
-            Yield ""
+            For Each [module] In moduleGroup
+                Yield $";; export from [{[module].Key}]"
+                Yield ""
 
-            For Each func As ExportSymbolExpression In [module]
-                Yield func.ToSExpression
+                For Each func As ExportSymbolExpression In [module]
+                    Yield func.ToSExpression
+                Next
+
+                Yield ""
+                Yield ""
             Next
+        End Function
 
-            Yield ""
-            Yield ""
-        Next
-    End Function
+        <Extension>
+        Private Iterator Function funcGroup(internal As FuncSymbol()) As IEnumerable(Of String)
+            Dim moduleGroups = internal.GroupBy(Function(f) f.Module).ToArray
 
-    <Extension>
-    Private Iterator Function funcGroup(internal As FuncSymbol()) As IEnumerable(Of String)
-        Dim moduleGroups = internal.GroupBy(Function(f) f.Module).ToArray
+            For Each [module] In moduleGroups
+                Yield $";; functions in [{[module].Key}]"
+                Yield ""
 
-        For Each [module] In moduleGroups
-            Yield $";; functions in [{[module].Key}]"
-            Yield ""
+                For Each func As FuncSymbol In [module]
+                    Yield func.ToSExpression
+                Next
 
-            For Each func As FuncSymbol In [module]
-                Yield func.ToSExpression
+                Yield ""
+                Yield ""
             Next
-
-            Yield ""
-            Yield ""
-        Next
-    End Function
-End Module
+        End Function
+    End Module
+End Namespace

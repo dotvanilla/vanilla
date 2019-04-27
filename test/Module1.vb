@@ -55,7 +55,7 @@
 
 #End Region
 
-Imports Wasm
+Imports Wasm.Compiler
 Imports Wasm.Symbols
 
 Module treeTest

@@ -1,8 +1,6 @@
-﻿Imports System.ComponentModel
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.CommandLine
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Wasm
+Imports Wasm.Compiler
 Imports Wasm.Symbols
 
 ''' <summary>
@@ -57,7 +55,7 @@ Module Program
             config.verbose = True
         End If
 
-        Return Wasm.Compile(moduleSymbol, config) _
+        Return Wasm.Compiler.Compile(moduleSymbol, config) _
             .SaveTo(out.ChangeSuffix("log")) _
             .CLICode
     End Function
