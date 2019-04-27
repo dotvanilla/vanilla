@@ -66,23 +66,23 @@
 000004d: 01                                        ; local index
 000004e: 41                                        ; i32.const
 000004f: e400                                      ; i32 literal
-0000051: 4a                                        ; i32.gt_s
+0000051: 48                                        ; i32.lt_s
 0000052: 0d                                        ; br_if
 0000053: 01                                        ; break depth
 0000054: 20                                        ; local.get
-0000055: 01                                        ; local index
-0000056: 41                                        ; i32.const
-0000057: 02                                        ; i32 literal
-0000058: 6a                                        ; i32.add
-0000059: 21                                        ; local.set
-000005a: 01                                        ; local index
-000005b: 20                                        ; local.get
-000005c: 00                                        ; local index
-000005d: 44                                        ; f64.const
-000005e: 7b14 ae47 e17a 843f                       ; f64 literal
-0000066: a0                                        ; f64.add
+0000055: 00                                        ; local index
+0000056: 44                                        ; f64.const
+0000057: 7b14 ae47 e17a 843f                       ; f64 literal
+000005f: a0                                        ; f64.add
+0000060: 21                                        ; local.set
+0000061: 00                                        ; local index
+0000062: 20                                        ; local.get
+0000063: 01                                        ; local index
+0000064: 41                                        ; i32.const
+0000065: 02                                        ; i32 literal
+0000066: 6a                                        ; i32.add
 0000067: 21                                        ; local.set
-0000068: 00                                        ; local index
+0000068: 01                                        ; local index
 0000069: 0c                                        ; br
 000006a: 00                                        ; break depth
 000006b: 0b                                        ; end
@@ -99,6 +99,6 @@
 0000020: 7302 0001 0302 0100 070b 0107 666f 726c 
 0000030: 6f6f 7000 000a 3a01 3802 017c 017f 41e7 
 0000040: 07b7 2100 4100 2101 0240 0340 2001 41e4 
-0000050: 004a 0d01 2001 4102 6a21 0120 0044 7b14 
-0000060: ae47 e17a 843f a021 000c 000b 0b20 000f 
+0000050: 0048 0d01 2000 447b 14ae 47e1 7a84 3fa0 
+0000060: 2100 2001 4102 6a21 010c 000b 0b20 000f 
 0000070: 0b                                      
