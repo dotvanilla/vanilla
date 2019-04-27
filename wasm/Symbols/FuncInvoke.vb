@@ -110,7 +110,7 @@ Namespace Symbols
             refer = target.Name
         End Sub
 
-        Public Function AsUnary() As LiteralExpression
+        Public Function AsUnary(type As TypeAbstract) As LiteralExpression
             If Not IsUnary Then
                 Throw New InvalidCastException
             End If
@@ -119,12 +119,17 @@ Namespace Symbols
                 ' 直接返回第二个参数
                 Return parameters(1)
             Else
+                Dim number$
+
                 ' 为第二个参数添加一个符号
                 With DirectCast(parameters(1), LiteralExpression)
-                    .value = "-" & .value
+                    number = "-" & .value
                 End With
 
-                Return parameters(1)
+                Return New LiteralExpression With {
+                    .type = type,
+                    .value = number
+                }
             End If
         End Function
 

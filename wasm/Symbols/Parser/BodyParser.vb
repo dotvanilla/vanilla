@@ -324,7 +324,7 @@ Namespace Symbols.Parser
                             ' 查看是否为单目运算
                             With DirectCast(init, FuncInvoke)
                                 If .IsUnary Then
-                                    init = .AsUnary
+                                    init = .AsUnary(type)
                                 End If
                             End With
                         Else

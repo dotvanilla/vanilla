@@ -45,17 +45,18 @@
 
 Module DeclareTest
 
+    Dim MN As Long = -99
     Dim E%, F&
-    Dim MN As Long = -99, L As Single = 90
+    Dim L As Single = 90
     Dim A, B, C As Double, GG As Single, Z&
 
     Private Function localDeclareTest() As Single
-        Dim XYY!
-        Dim MN As Long = -99, L As Single = 90
+        Dim XYY! = 888999
+        Dim MN2 As Long = -99, L As Single = 90
         Dim A, B, C As Double, GG As Single, Z&
         Dim E%, F&
 
-        Return (MN + L + A + B + C) * GG / Z * E * F
+        Return (MN / MN2 + L + A + B + C) * GG / Z * E * F
     End Function
 
 End Module
