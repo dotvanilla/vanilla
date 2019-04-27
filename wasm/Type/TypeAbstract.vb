@@ -155,7 +155,11 @@ Public Class TypeAbstract
         If type Like singleElements Then
             Return type.Description
         ElseIf type = TypeAlias.array Then
-            Return generic(Scan0).raw & "[]"
+            If generic.IsNullOrEmpty Then
+                Return "any[]"
+            Else
+                Return generic(Scan0).raw & "[]"
+            End If
         Else
             Throw New NotImplementedException
         End If

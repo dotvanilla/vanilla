@@ -271,45 +271,7 @@ Namespace Symbols.Parser
                     End If
 
                     If TypeOf var.AsClause Is AsNewClauseSyntax Then
-                        With DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression
-                            Dim objNew = DirectCast(.ByRef, ObjectCreationExpressionSyntax).Initializer
-                            Dim objType = DirectCast(.ByRef, ObjectCreationExpressionSyntax).Type
-
-                            If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
-                                With DirectCast(objNew, ObjectCollectionInitializerSyntax)
-                                    Dim collection As ArraySymbol = .Initializer.CreateArray(symbols)
-
-                                    If type = GetType(DictionaryBase).FullName Then
-                                        Dim genericTypes As Type() = DirectCast(objType, GenericNameSyntax) _
-                                            .TypeArgumentList _
-                                            .Arguments _
-                                            .Select(Function(T)
-                                                        Return AsTypeHandler.GetType(T, symbols)
-                                                    End Function) _
-                                            .ToArray
-
-                                        With New ArrayTable
-                                            .initialVal = collection _
-                                                .Initialize _
-                                                .Select(Function(i)
-                                                            With DirectCast(i, ArraySymbol)
-                                                                Return (.Initialize(0), .Initialize(1))
-                                                            End With
-                                                        End Function) _
-                                                .ToArray
-                                            .key = New TypeAbstract(genericTypes(0))
-                                            .type = New TypeAbstract(genericTypes(1))
-
-                                            init = .ByRef
-                                        End With
-                                    Else
-                                        Throw New NotImplementedException
-                                    End If
-                                End With
-                            Else
-                                Throw New NotImplementedException
-                            End If
-                        End With
+                        init = DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression.AsNewObject(type, symbols)
                     End If
                 End If
 
@@ -338,14 +300,6 @@ Namespace Symbols.Parser
                         init = CTypeHandle.CType(type, init, symbols)
 
                         If TypeOf init Is ArraySymbol Then
-                            'With DirectCast(init, ArraySymbol)
-                            '    .type = type.Trim("["c, "]"c)
-
-                            '    If .type = GetType(String).FullName Then
-                            '        .type = "char*"
-                            '    End If
-                            'End With
-
                             Call symbols.doArrayImports
                         End If
                     Else

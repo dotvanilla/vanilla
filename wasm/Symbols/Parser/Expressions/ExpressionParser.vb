@@ -91,41 +91,6 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function CreateObject(create As ObjectCreationExpressionSyntax, symbols As SymbolTable) As Expression
-            Dim type = create.Type
-            Dim typeName$
-
-            If TypeOf type Is GenericNameSyntax Then
-                Dim elementType As Type()
-
-                With DirectCast(type, GenericNameSyntax).GetGenericType(symbols)
-                    typeName = .Name
-                    elementType = .Value
-                End With
-
-                If typeName = "List" Then
-                    ' array和list在javascript之中都是一样的
-                    typeName = elementType(Scan0).TypeName
-
-                    Return New ArraySymbol With {
-                        .type = New TypeAbstract(typeName),
-                        .Initialize = {}
-                    }
-                ElseIf typeName = "Dictionary" Then
-                    Return New ArrayTable With {
-                        .initialVal = {},
-                        .key = New TypeAbstract(elementType(Scan0)),
-                        .type = New TypeAbstract(elementType(1))
-                    }
-                Else
-                    Throw New NotImplementedException
-                End If
-            Else
-                Throw New NotImplementedException
-            End If
-        End Function
-
-        <Extension>
         Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
             Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
             Dim arrayType As TypeAbstract = New TypeAbstract(type).MakeArrayType
