@@ -74,6 +74,17 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
+        Public ReadOnly Property Trim As New ImportSymbol With {
+            .ImportObject = "trim",
+            .[Module] = "string",
+            .Name = "string.trim",
+            .Package = "string",
+            .result = New TypeAbstract(TypeAlias.string),
+            .parameters = {
+                "s".param("string")
+            }
+        }
+
         Public ReadOnly Property Replace As New ImportSymbol With {
             .ImportObject = "replace",
             .[Module] = "string",
@@ -104,6 +115,7 @@ Namespace Symbols.JavaScriptImports
                 Case "Length" : Return Length
                 Case "Replace" : Return Replace
                 Case "IndexOf" : Return IndexOf
+                Case "Trim" : Return Trim
                 Case Else
                     Throw New NotImplementedException
             End Select

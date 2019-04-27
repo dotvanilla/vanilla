@@ -66,6 +66,16 @@ Namespace Symbols.Parser
         ''' 
         <Extension>
         Public Function ExpressionMember(obj As Expression, memberName$, symbols As SymbolTable) As Expression
+            Dim type As TypeAbstract = obj.TypeInfer(symbols)
+            Dim func = symbols.GetFunctionSymbol(type.type.Description, memberName)
+
+            If Not func Is Nothing AndAlso func.parameters.Length = 1 Then
+                ' func (obj)
+                Return New FuncInvoke(func) With {
+                    .parameters = {obj}
+                }
+            End If
+
             'If symbols.GetObjectSymbol(objName).IsArray AndAlso memberName = "Length" Then
             '    ' 可能是获取数组长度
             '    Return New FuncInvoke With {
@@ -89,6 +99,8 @@ Namespace Symbols.Parser
             'Else
             '    Throw New NotImplementedException(ref.ToString)
             'End If
+
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace
