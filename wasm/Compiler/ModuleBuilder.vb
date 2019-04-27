@@ -94,6 +94,8 @@ Namespace Compiler
     ;; 
     ;; version: {wasmSummary.AssemblyVersion}
     ;; build: {buildTime}
+    ;; 
+    ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
