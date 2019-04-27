@@ -50,8 +50,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Symbols.Parser
+
 ''' <summary>
 ''' Type model in WebAssembly compiler
 ''' </summary>
@@ -123,7 +125,45 @@ Public Class TypeAbstract
             .SafeQuery _
             .Select(Function(type) New TypeAbstract(type)) _
             .ToArray
+        Me.raw = buildRaw(type, Me.generic)
     End Sub
+
+    ''' <summary>
+    ''' array or generic list
+    ''' </summary>
+    ''' <param name="type"></param>
+    ''' <param name="element"></param>
+    Private Sub New(type As TypeAlias, element As TypeAbstract)
+        Me.type = type
+        Me.generic = {element}
+        Me.raw = buildRaw(type, generic)
+    End Sub
+
+    Shared ReadOnly otherSingles As TypeAlias() = {
+        TypeAlias.boolean,
+        TypeAlias.any,
+        TypeAlias.intptr,
+        TypeAlias.string,
+        TypeAlias.void
+    }
+    Shared ReadOnly singleElements As Index(Of TypeAlias) = TypeExtensions.NumberOrders _
+        .Objects _
+        .Join(otherSingles) _
+        .ToArray
+
+    Private Shared Function buildRaw(type As TypeAlias, generic As TypeAbstract()) As String
+        If type Like singleElements Then
+            Return type.Description
+        ElseIf type = TypeAlias.array Then
+            Return generic(Scan0).raw & "[]"
+        Else
+            Throw New NotImplementedException
+        End If
+    End Function
+
+    Public Function MakeArrayType() As TypeAbstract
+        Return New TypeAbstract(TypeAlias.array, Me)
+    End Function
 
     Public Overrides Function ToString() As String
         If generic.IsNullOrEmpty Then

@@ -70,6 +70,12 @@ Namespace Symbols
             End Get
         End Property
 
+        Public ReadOnly Property KindText As String
+            Get
+                Return MyClass.GetType.FullName
+            End Get
+        End Property
+
         ''' <summary>
         ''' Get the webassembly data type of this expression that will be generated.
         ''' </summary>
