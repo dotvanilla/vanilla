@@ -153,7 +153,7 @@ Namespace Symbols
 
                     Throw New NotImplementedException
                 Else
-                    ' func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), refer)
+                    func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable).type.Description, refer)
                 End If
             End If
 

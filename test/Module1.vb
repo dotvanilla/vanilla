@@ -72,6 +72,25 @@ Module treeTest
         Pause()
     End Sub
 
+    Sub FileTest()
+        For Each file As String In {
+                 "..\EnumTest.vb",
+                "..\dictionarytest.vb",
+                 "..\arrayTest.vb",
+                    "..\functionTest.vb",
+                "..\incrementTest.vb",
+            "..\nullreferenceTest.vb",
+            "..\Stringstest.vb",
+            "..\DeclareTest.vb",
+"..\boolTest.vb",
+"..\ForLoopTest.vb"}
+
+            Call filetest(file)
+
+            Pause()
+        Next
+    End Sub
+
     Sub Main()
 
         ' Call projectTest()
@@ -129,25 +148,6 @@ End Module"
         moduletest.HexDump(True).SaveTo(proj.ChangeSuffix("dmp"))
 
         Pause()
-    End Sub
-
-    Sub FileTest()
-        For Each file As String In {
-                "..\dictionarytest.vb",
-                 "..\arrayTest.vb",
-                    "..\functionTest.vb",
-                "..\incrementTest.vb",
-            "..\nullreferenceTest.vb",
-            "..\Stringstest.vb",
-            "..\EnumTest.vb",
-            "..\DeclareTest.vb",
-"..\boolTest.vb",
-"..\ForLoopTest.vb"}
-
-            Call filetest(file)
-
-            Pause()
-        Next
     End Sub
 
     Sub filetest(file As String)
