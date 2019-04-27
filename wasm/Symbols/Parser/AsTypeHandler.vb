@@ -105,6 +105,12 @@ Namespace Symbols.Parser
             End With
         End Function
 
+        ''' <summary>
+        ''' Parse type define from [``As Type``] expression.
+        ''' </summary>
+        ''' <param name="[as]">``As Type``</param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetAsType([as] As SimpleAsClauseSyntax, symbols As SymbolTable) As Type
             If [as] Is Nothing Then

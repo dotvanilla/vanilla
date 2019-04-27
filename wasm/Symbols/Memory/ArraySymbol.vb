@@ -58,7 +58,7 @@ Namespace Symbols
         Public Overrides Function ToSExpression() As String
             ' create array object in javascript runtime
             Dim newArray As New FuncInvoke(JavaScriptImports.Array.NewArray) With {
-                .parameters = {New LiteralExpression With {.type = "i32", .value = -1}}
+                .parameters = {Literal.i32(-1)}
             }
 
             If Initialize.IsNullOrEmpty Then
@@ -82,7 +82,7 @@ Namespace Symbols
             Return array.ToSExpression
         End Function
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
         End Function
     End Class
@@ -93,7 +93,7 @@ Namespace Symbols
         ''' Element type name or Data type of array table value
         ''' </summary>
         ''' <returns></returns>
-        Public Property type As TypeAlias
+        Public Property type As TypeAbstract
 
     End Class
 
@@ -104,7 +104,7 @@ Namespace Symbols
 
         Public Property size As Expression
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
         End Function
 
@@ -130,7 +130,7 @@ Namespace Symbols
 
         Public Property initialVal As (key As Expression, value As Expression)()
 
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
         End Function
 
