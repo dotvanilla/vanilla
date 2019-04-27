@@ -325,6 +325,7 @@
     <Compile Include="Symbols\Parser\Expressions\FuncInvokeParser.vb" />
     <Compile Include="Symbols\Parser\Expressions\MemberCallsParser.vb" />
     <Compile Include="Symbols\Parser\Expressions\ObjectCreatorParser.vb" />
+    <Compile Include="Symbols\Parser\DeclaratorParser.vb" />
     <Compile Include="Type\Literal.vb" />
     <Compile Include="Type\Types.vb" />
     <Compile Include="Type\TypeAlias.vb" />
@@ -418,7 +419,9 @@
       <Name>VisualStudio</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Symbols\Parser\Body\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.13\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.13\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
