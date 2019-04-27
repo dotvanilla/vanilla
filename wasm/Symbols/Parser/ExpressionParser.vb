@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4e4031f0db7578f03054c899ed2b429, Symbols\Parser\ExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::2a1f2a29144fa8eacb1c664361a032d1, Symbols\Parser\ExpressionParser.vb"
 
     ' Author:
     ' 
@@ -39,9 +39,9 @@
     '     Module ExpressionParse
     ' 
     '         Function: Argument, ArgumentSequence, (+2 Overloads) BinaryStack, ConstantExpression, (+2 Overloads) CreateArray
-    '                   CreateObject, fillParameters, FunctionInvoke, InvokeFunction, MemberExpression
-    '                   ObjectInvoke, ParenthesizedStack, ReferVariable, StringConstant, UnaryExpression
-    '                   UnaryValue, ValueCType, ValueExpression
+    '                   CreateObject, EnumConstValue, fillParameters, FunctionInvoke, InvokeFunction
+    '                   MemberExpression, ObjectInvoke, ParenthesizedStack, ReferVariable, StringConstant
+    '                   UnaryExpression, UnaryValue, ValueCType, ValueExpression
     ' 
     ' 
     ' /********************************************************************************/

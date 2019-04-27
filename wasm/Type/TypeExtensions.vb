@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1d1bde0d753e37aa78ce5873c14ffeb, Type\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::cdecb5a7af0cd696f24f959d572d67e0, Type\TypeExtensions.vb"
 
     ' Author:
     ' 
