@@ -110,6 +110,24 @@ Namespace Symbols
             refer = target.Name
         End Sub
 
+        Public Function AsUnary() As LiteralExpression
+            If Not IsUnary Then
+                Throw New InvalidCastException
+            End If
+
+            If refer.Split("."c).Last = "+"c Then
+                ' 直接返回第二个参数
+                Return parameters(1)
+            Else
+                ' 为第二个参数添加一个符号
+                With DirectCast(parameters(1), LiteralExpression)
+                    .value = "-" & .value
+                End With
+
+                Return parameters(1)
+            End If
+        End Function
+
         Public Overrides Function ToSExpression() As String
             Dim arguments = parameters _
                 .Select(Function(a)

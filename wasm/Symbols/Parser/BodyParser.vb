@@ -315,6 +315,13 @@ Namespace Symbols.Parser
                     ElseIf type <> init.TypeInfer(symbols) Then
                         If TypeOf init Is LiteralExpression Then
                             DirectCast(init, LiteralExpression).type = type
+                        ElseIf TypeOf init Is FuncInvoke Then
+                            ' 查看是否为单目运算
+                            With DirectCast(init, FuncInvoke)
+                                If .IsUnary Then
+                                    init = .AsUnary
+                                End If
+                            End With
                         Else
                             Throw New InvalidExpressionException("Global variable its initialize value only supports constant value!")
                         End If
