@@ -16,8 +16,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_set",
             .Package = NameOf(Dictionary),
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("table", "i32"),
                 New NamedValue(Of String)("key", "i32"),
                 New NamedValue(Of String)("value", "any")
@@ -29,8 +29,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_get",
             .Package = NameOf(Dictionary),
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("table", "i32"),
                 New NamedValue(Of String)("key", "i32")
             }
@@ -41,8 +41,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_delete",
             .Package = NameOf(Dictionary),
-            .Result = "void",
-            .Parameters = {
+            .result = "void",
+            .parameters = {
                 New NamedValue(Of String)("table", "i32"),
                 New NamedValue(Of String)("key", "i32")
             }
@@ -53,8 +53,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "table",
             .Name = "table_new",
             .Package = NameOf(Dictionary),
-            .Result = "i32",
-            .Parameters = {}
+            .result = "i32",
+            .parameters = {}
         }
     End Module
 End Namespace

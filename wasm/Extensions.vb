@@ -149,9 +149,9 @@ Public Module Extensions
     Private Function getString(memory As SymbolTable, name$, string$) As FuncSymbol
         Return New FuncSymbol() With {
             .Name = name,
-            .Parameters = {},
+            .parameters = {},
             .[Module] = NameOf(AssemblyInfo),
-            .Result = Types.string,
+            .result = Types.string,
             .Body = {
                 New ReturnValue With {
                     .Internal = memory.StringConstant([string])

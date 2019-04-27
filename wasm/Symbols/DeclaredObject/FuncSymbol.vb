@@ -52,7 +52,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports Wasm.Symbols.Parser
 
 Namespace Symbols
 
@@ -75,7 +74,7 @@ Namespace Symbols
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Friend Sub New(funcVar As NamedValue(Of String))
+        Friend Sub New(funcVar As NamedValue(Of TypeAbstract))
             Call MyBase.New(funcVar)
         End Sub
 
@@ -102,8 +101,8 @@ Namespace Symbols
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Dim params$ = Parameters.Select(Function(a) a.param).JoinBy(" ")
-            Dim result$ = CTypeParser.typefit(Me.Result)
+            Dim params$ = parameters.Select(Function(a) a.param).JoinBy(" ")
+            Dim result$ = Me.result.typefit
 
             If result = "void" Then
                 result = ""

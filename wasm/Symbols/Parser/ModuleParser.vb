@@ -208,7 +208,7 @@ Namespace Symbols.Parser
                 Dim define As NamedValue(Of String) = api.FuncVariable(symbolTable)
                 Dim apiImports As New ImportSymbol(api.ParseParameters(symbolTable)) With {
                     .Name = define.Name,
-                    .Result = define.Value,
+                    .result = define.Value,
                     .ImportObject = api.AliasName.Token.ValueText,
                     .Package = api.LibraryName.Token.ValueText,
                     .[Module] = moduleName,

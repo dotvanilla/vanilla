@@ -59,8 +59,8 @@ Namespace Symbols.JavaScriptImports
             .Name = "string_add",
             .Package = "string",
             .[Module] = "string",
-            .Result = "char*",
-            .Parameters = {
+            .result = "char*",
+            .parameters = {
                 New NamedValue(Of String)("a", stringType),
                 New NamedValue(Of String)("b", stringType)
             }
@@ -71,8 +71,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "string",
             .Name = "string_length",
             .Package = "string",
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("text", stringType)
             }
         }
@@ -82,8 +82,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "string",
             .Name = "string_replace",
             .Package = "string",
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("input", stringType),
                 New NamedValue(Of String)("find", "i32"),
                 New NamedValue(Of String)("replacement", stringType)
@@ -95,8 +95,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "string",
             .Name = "string_indexOf",
             .Package = "string",
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("input", stringType),
                 New NamedValue(Of String)("find", stringType)
             }
@@ -121,8 +121,8 @@ Namespace Symbols.JavaScriptImports
                 .Name = $"{type}_toString",
                 .[Module] = "string",
                 .Package = "string",
-                .Result = stringType,
-                .Parameters = {
+                .result = stringType,
+                .parameters = {
                     New NamedValue(Of String)("s", type)
                 }
             }

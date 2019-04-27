@@ -72,13 +72,13 @@ Namespace Symbols
         ''' The function parameter name and parameter type
         ''' </summary>
         ''' <returns></returns>
-        Public Property Parameters As NamedValue(Of TypeAbstract)()
+        Public Property parameters As NamedValue(Of TypeAbstract)()
 
         ''' <summary>
         ''' 函数的返回值类型
         ''' </summary>
         ''' <returns></returns>
-        Public Property Result As TypeAbstract
+        Public Property result As TypeAbstract
 
         ''' <summary>
         ''' 当前的这个方法是否是一个被<see cref="ExtensionAttribute"/>所标记的拓展函数
@@ -97,11 +97,11 @@ Namespace Symbols
 
         Friend Sub New(var As NamedValue(Of TypeAbstract))
             Name = var.Name
-            Result = var.Value
+            result = var.Value
         End Sub
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return Result
+            Return result
         End Function
 
         Public Overrides Function ToSExpression() As String
@@ -109,11 +109,11 @@ Namespace Symbols
         End Function
 
         Public Overrides Function ToString() As String
-            With Parameters _
+            With parameters _
                     .Select(Function(a) $"{a.Name} As {a.Value}") _
                     .JoinBy(", ")
 
-                Return $"Public Function {Name}({ .ByRef}) As {Result}"
+                Return $"Public Function {Name}({ .ByRef}) As {result}"
             End With
         End Function
     End Class

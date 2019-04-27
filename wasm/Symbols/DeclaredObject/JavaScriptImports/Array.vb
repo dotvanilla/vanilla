@@ -69,8 +69,8 @@ Namespace Symbols.JavaScriptImports
             .Name = "array_push",
             .[Module] = "array",
             .Package = NameOf(Array),
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("array", "i32"),
                 New NamedValue(Of String)("element", "object")
             }
@@ -81,8 +81,8 @@ Namespace Symbols.JavaScriptImports
             .Name = "array_pop",
             .[Module] = "array",
             .Package = NameOf(Array),
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("array", "i32")
             }
         }
@@ -96,8 +96,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "new_array",
             .Package = NameOf(Array),
-            .Result = "i32",
-            .Parameters = {New NamedValue(Of String)("size", "i32")}
+            .result = "i32",
+            .parameters = {New NamedValue(Of String)("size", "i32")}
         }
 
         Public ReadOnly Property GetArrayElement As New ImportSymbol With {
@@ -105,8 +105,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array_get",
             .Package = NameOf(Array),
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("array", "i32"),
                 New NamedValue(Of String)("index", "i32")
             }
@@ -117,8 +117,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array_set",
             .Package = NameOf(Array),
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("array", "i32"),
                 New NamedValue(Of String)("index", "i32"),
                 New NamedValue(Of String)("value", "i32")
@@ -130,8 +130,8 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array_length",
             .Package = NameOf(Array),
-            .Result = "i32",
-            .Parameters = {
+            .result = "i32",
+            .parameters = {
                 New NamedValue(Of String)("array", "i32")
             }
         }

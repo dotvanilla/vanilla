@@ -75,11 +75,11 @@ Namespace Symbols
 
         Public ReadOnly Property VBDeclare As String
             Get
-                With Parameters _
+                With parameters _
                     .Select(Function(a) $"{a.Name} As {a.Value}") _
                     .JoinBy(", ")
 
-                    Return $"Declare Function {Name} Lib ""{Package}"" Alias ""{ImportObject}"" ({ .ByRef}) As {Result}"
+                    Return $"Declare Function {Name} Lib ""{Package}"" Alias ""{ImportObject}"" ({ .ByRef}) As {result}"
                 End With
             End Get
         End Property
@@ -88,19 +88,19 @@ Namespace Symbols
         End Sub
 
         Sub New(ParamArray args As NamedValue(Of String)())
-            Parameters = args
+            parameters = args
         End Sub
 
         Public Overrides Function ToSExpression() As String
-            Dim params$ = Parameters _
+            Dim params$ = parameters _
                 .Select(Function(a) a.param) _
                 .JoinBy(" ")
-            Dim returnType$ = typefit(Result)
+            Dim returnType$ = typefit(result)
 
             If returnType = "void" Then
                 returnType = ""
             Else
-                returnType = $"(result {typefit(Result)})"
+                returnType = $"(result {typefit(result)})"
             End If
 
             Return $";; {VBDeclare}
@@ -112,7 +112,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAlias
-            Return Result
+            Return result
         End Function
     End Class
 End Namespace

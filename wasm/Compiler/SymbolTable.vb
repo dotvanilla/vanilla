@@ -151,7 +151,7 @@ Namespace Symbols
             For Each method In methods
                 With method.FuncVariable(Me)
                     functionList(.Name) = New FuncSignature(.ByRef) With {
-                        .Parameters = method.ParseParameters(Me),
+                        .parameters = method.ParseParameters(Me),
                         .[Module] = [module]
                     }
                 End With
@@ -213,17 +213,17 @@ Namespace Symbols
         ''' <param name="var"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGlobal(var As String) As String
+        Public Function GetGlobal(var As String) As TypeAbstract
             Return globals(var).type
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub AddGlobal(var$, type As TypeAlias, moduleName$, init As LiteralExpression)
+        Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As LiteralExpression)
             Call globals.Add(var, New DeclareGlobal With {.name = var, .type = type, .init = init, .[Module] = moduleName})
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub AddLocal([declare] As NamedValue(Of String))
+        Public Sub AddLocal([declare] As NamedValue(Of TypeAbstract))
             Call locals.Add([declare].Name, New DeclareLocal With {.name = [declare].Name, .type = [declare].Value})
         End Sub
 
@@ -280,7 +280,7 @@ Namespace Symbols
             Else
                 Dim func As FuncSignature = functionList.TryGetValue(name)
 
-                If Not func Is Nothing AndAlso typeMatch(func.Parameters.First, contextObj.type) Then
+                If Not func Is Nothing AndAlso typeMatch(func.parameters.First, contextObj.type) Then
                     Return func
                 Else
                     If contextObj.IsArray Then
@@ -345,7 +345,7 @@ Namespace Symbols
         ''' </summary>
         ''' <param name="name"></param>
         ''' <returns></returns>
-        Public Function GetUnderlyingType(name As String) As String
+        Public Function GetUnderlyingType(name As String) As TypeAbstract
             If IsLocal(name) Then
                 Return GetObjectSymbol(name).type
             Else

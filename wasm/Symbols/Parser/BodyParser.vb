@@ -89,7 +89,7 @@ Namespace Symbols.Parser
             Dim value As Expression = returnValue.Expression.ValueExpression(symbols)
             Dim returnType As String = symbols _
                 .GetFunctionSymbol(Nothing, symbols.CurrentSymbol) _
-                .Result
+                .result
 
             value = TypeExtensions.CType(returnType, value, symbols)
 

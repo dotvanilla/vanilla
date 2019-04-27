@@ -203,7 +203,7 @@ Namespace Symbols
                     End If
                 End If
 
-                Return func.Result
+                Return func.result
             End If
         End Function
     End Class

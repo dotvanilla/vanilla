@@ -345,7 +345,7 @@ Namespace Symbols.Parser
             If TypeOf target Is LiteralExpressionSyntax Then
                 funcDeclare = symbols.GetFunctionSymbol(Nothing, funcName)
                 argumentFirst = target.ValueExpression(symbols)
-                leftArguments = funcDeclare.Parameters.Skip(1).ToArray
+                leftArguments = funcDeclare.parameters.Skip(1).ToArray
             ElseIf TypeOf target Is IdentifierNameSyntax Then
                 ' 模块静态引用或者对象实例引用
                 Dim name$ = DirectCast(target, IdentifierNameSyntax).objectName
@@ -377,11 +377,11 @@ Namespace Symbols.Parser
                     If symbols.IsAnyObject(name) Then
                         ' 是对对象实例的方法引用
                         argumentFirst = target.ValueExpression(symbols)
-                        leftArguments = funcDeclare.Parameters.Skip(1).ToArray
+                        leftArguments = funcDeclare.parameters.Skip(1).ToArray
                     ElseIf name Like symbols.ModuleNames Then
                         ' 是对静态模块的方法引用
                         argumentFirst = Nothing
-                        leftArguments = funcDeclare.Parameters
+                        leftArguments = funcDeclare.parameters
                     End If
                 End If
             Else
@@ -448,14 +448,14 @@ Namespace Symbols.Parser
                 Dim index As Expression = argumentList _
                     .Arguments _
                     .First _
-                    .Argument(symbols, funcDeclare.Parameters.Last)
+                    .Argument(symbols, funcDeclare.parameters.Last)
 
                 Return New FuncInvoke With {
                     .refer = funcDeclare.Name,
                     .parameters = {array, index}
                 }
             Else
-                Dim arguments = argumentList.fillParameters(funcDeclare.Parameters, symbols)
+                Dim arguments = argumentList.fillParameters(funcDeclare.parameters, symbols)
 
                 Return New FuncInvoke(funcName) With {
                     .parameters = arguments

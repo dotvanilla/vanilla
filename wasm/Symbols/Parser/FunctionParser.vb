@@ -60,7 +60,7 @@ Namespace Symbols.Parser
     Module FunctionParser
 
         <Extension>
-        Public Function FuncVariable(method As MethodBlockSyntax, symbols As SymbolTable) As NamedValue(Of String)
+        Public Function FuncVariable(method As MethodBlockSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)
             Dim name As String = method.SubOrFunctionStatement.Identifier.objectName
             Dim returns As Type
 
@@ -79,20 +79,20 @@ Namespace Symbols.Parser
 
             End If
 
-            Return New NamedValue(Of String) With {
+            Return New NamedValue(Of TypeAbstract) With {
                 .Name = name,
-                .Value = TypeExtensions.Convert2Wasm(returns)
+                .Value = New TypeAbstract(returns)
             }
         End Function
 
         <Extension>
-        Public Function FuncVariable(api As DeclareStatementSyntax, symbols As SymbolTable) As NamedValue(Of TypeAlias)
+        Public Function FuncVariable(api As DeclareStatementSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)
             Dim name As String = api.Identifier.objectName
             Dim returns As Type = GetAsType(api.AsClause, symbols)
 
-            Return New NamedValue(Of String) With {
+            Return New NamedValue(Of TypeAbstract) With {
                 .Name = name,
-                .Value = TypeExtensions.Convert2Wasm(returns)
+                .Value = New TypeAbstract(returns)
             }
         End Function
 
@@ -104,13 +104,13 @@ Namespace Symbols.Parser
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ParseParameters(api As DeclarationStatementSyntax, symbols As SymbolTable) As NamedValue(Of TypeAlias)()
+        Public Function ParseParameters(api As DeclarationStatementSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)()
             Return DirectCast(api, MethodBaseSyntax).ParseParameters(symbols:=symbols).ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Function ParseParameters(method As MethodBaseSyntax, symbols As SymbolTable) As IEnumerable(Of NamedValue(Of TypeAlias))
+        Private Function ParseParameters(method As MethodBaseSyntax, symbols As SymbolTable) As IEnumerable(Of NamedValue(Of TypeAbstract))
             Return method.ParameterList _
                 .Parameters _
                 .Select(Function(p) ParseParameter(p, symbols))
@@ -124,7 +124,7 @@ Namespace Symbols.Parser
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ParseParameters(method As MethodBlockSyntax, symbols As SymbolTable) As NamedValue(Of TypeAlias)()
+        Public Function ParseParameters(method As MethodBlockSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)()
             Return method.BlockStatement.ParseParameters(symbols).ToArray
         End Function
 
@@ -142,8 +142,9 @@ Namespace Symbols.Parser
 
             ' using for return value ctype operation
             symbols.CurrentSymbol = funcVar.Name
-
-            For Each arg As NamedValue(Of TypeAlias) In parameters
+            ' the function parameter treated as local variable
+            ' in function body
+            For Each arg As NamedValue(Of TypeAbstract) In parameters
                 Call symbols.AddLocal(arg)
             Next
 
@@ -157,7 +158,7 @@ Namespace Symbols.Parser
                 .IteratesALL _
                 .ToArray
             Dim func As New FuncSymbol(funcVar) With {
-                .Parameters = parameters,
+                .parameters = parameters,
                 .Body = bodyExpressions,
                 .[Module] = moduleName,
                 .Locals = symbols _
@@ -166,7 +167,7 @@ Namespace Symbols.Parser
                     .ToArray
             }
 
-            If func.Result <> "void" Then
+            If func.result <> "void" Then
                 If func.Body.Length > 0 Then
                     If Not TypeOf func.Body.Last Is ReturnValue Then
                         Call func.addImplicitReturns
@@ -184,7 +185,7 @@ Namespace Symbols.Parser
         Private Sub addImplicitReturns(func As FuncSymbol)
             Dim implicitReturn As New ReturnValue With {
                 .Internal = New LiteralExpression With {
-                    .type = func.Result,
+                    .type = func.result,
                     .value = 0
                 }
             }
