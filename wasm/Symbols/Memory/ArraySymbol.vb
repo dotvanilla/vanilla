@@ -83,7 +83,7 @@ Namespace Symbols
                 Return newArray.ToSExpression
             End If
 
-            Dim arrayPush$ = JavaScriptImports.PushArray.Name
+            Dim arrayPush$ = JavaScriptImports.Push.Name
             Dim array As Expression = New FuncInvoke(arrayPush) With {
                 .parameters = {newArray, Initialize(Scan0)}
             }

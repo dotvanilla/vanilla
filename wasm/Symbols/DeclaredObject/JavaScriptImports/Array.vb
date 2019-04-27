@@ -65,9 +65,9 @@ Namespace Symbols.JavaScriptImports
         ''' Push element value into a given array and then returns the array intptr
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property PushArray As New ImportSymbol With {
+        Public ReadOnly Property Push As New ImportSymbol With {
             .ImportObject = "push",
-            .Name = "array_push",
+            .Name = "array.push",
             .[Module] = "array",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.array),
@@ -77,9 +77,9 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        Public ReadOnly Property PopArray As New ImportSymbol With {
+        Public ReadOnly Property Pop As New ImportSymbol With {
             .ImportObject = "pop",
-            .Name = "array_pop",
+            .Name = "array.pop",
             .[Module] = "array",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.any),
@@ -95,7 +95,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property NewArray As New ImportSymbol With {
             .ImportObject = "create",
             .[Module] = "array",
-            .Name = "new_array",
+            .Name = "array.new",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.array),
             .parameters = {
@@ -106,7 +106,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property GetArrayElement As New ImportSymbol With {
             .ImportObject = "get",
             .[Module] = "array",
-            .Name = "array_get",
+            .Name = "array.get",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
@@ -118,7 +118,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property SetArrayElement As New ImportSymbol With {
             .ImportObject = "set",
             .[Module] = "array",
-            .Name = "array_set",
+            .Name = "array.set",
             .Package = NameOf(Array),
             .result = New TypeAbstract("void"),
             .parameters = {
@@ -147,7 +147,7 @@ Namespace Symbols.JavaScriptImports
 
         Public Function Method(name As String) As ImportSymbol
             Select Case name
-                Case "Add" : Return Array.PushArray
+                Case "Add" : Return Array.Push
                 Case "Remove"
                     Throw New NotImplementedException
                 Case "Length" : Return Array.Length
@@ -159,7 +159,7 @@ Namespace Symbols.JavaScriptImports
         <Extension>
         Public Sub doArrayImports(symbols As SymbolTable)
             Call symbols.addRequired(JavaScriptImports.NewArray)
-            Call symbols.addRequired(JavaScriptImports.PushArray)
+            Call symbols.addRequired(JavaScriptImports.Push)
             Call symbols.addRequired(JavaScriptImports.GetArrayElement)
             Call symbols.addRequired(Array.Length)
         End Sub
