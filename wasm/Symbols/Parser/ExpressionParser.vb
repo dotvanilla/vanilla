@@ -607,6 +607,8 @@ Namespace Symbols.Parser
                 type = New TypeAbstract("f64")
             ElseIf op = "&" Then
                 Return symbols.StringAppend(left, right)
+            ElseIf op = "Is" Then
+                Return symbols.IsPredicate(left, right)
             Else
                 ' 其他的运算符则需要两边的类型保持一致
                 ' 往高位转换
@@ -641,6 +643,22 @@ Namespace Symbols.Parser
                 .refer = funcOpName,
                 .[operator] = True
             }
+        End Function
+
+        <Extension>
+        Public Function IsPredicate(symbols As SymbolTable, left As Expression, right As Expression) As Expression
+            If left.IsLiteralNothing OrElse right.IsLiteralNothing Then
+                ' xxx is nothing / nothing is xxx
+                ' 因为nothing总是i32类型，所以在这里应该生成的是是否等于i32 0的判断
+                Return New FuncInvoke With {
+                    .[operator] = True,
+                    .parameters = {left, right},
+                    .refer = TypeExtensions.Compares("i32", "=")
+                }
+            Else
+                ' a is b
+                Throw New NotImplementedException
+            End If
         End Function
     End Module
 End Namespace

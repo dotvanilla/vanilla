@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/27/2019 4:49:59 PM
+    ;; build: 4/27/2019 5:04:55 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -31,28 +31,41 @@
 
     ;; Memory data for string constant
     
-    ;; String from 1 with 7 bytes in memory
-    (data (i32.const 1) "Nothing\00")
+    ;; String from 1 with 9 bytes in memory
+    (data (i32.const 1) "Nothing 1\00")
 
-    ;; String from 9 with 4 bytes in memory
-    (data (i32.const 9) "test\00")
+    ;; String from 11 with 49 bytes in memory
+    (data (i32.const 11) "This message should never display on the console!\00")
 
-    ;; String from 14 with 1 bytes in memory
-    (data (i32.const 14) "a\00")
+    ;; String from 61 with 9 bytes in memory
+    (data (i32.const 61) "Nothing 2\00")
 
-    ;; String from 16 with 15 bytes in memory
-    (data (i32.const 16) " is not nothing\00")
+    ;; String from 71 with 57 bytes in memory
+    (data (i32.const 71) "This message is also should never display on the console!\00")
 
-    ;; String from 32 with 1 bytes in memory
-    (data (i32.const 32) "a\00")
+    ;; String from 129 with 7 bytes in memory
+    (data (i32.const 129) "Nothing\00")
 
-    ;; String from 34 with 1 bytes in memory
-    (data (i32.const 34) "b\00")
+    ;; String from 137 with 4 bytes in memory
+    (data (i32.const 137) "test\00")
+
+    ;; String from 142 with 1 bytes in memory
+    (data (i32.const 142) "a\00")
+
+    ;; String from 144 with 15 bytes in memory
+    (data (i32.const 144) " is not nothing\00")
+
+    ;; String from 160 with 1 bytes in memory
+    (data (i32.const 160) "a\00")
+
+    ;; String from 162 with 1 bytes in memory
+    (data (i32.const 162) "b\00")
     
-    
+    (global $nullString (mut i32) (i32.const 0))
 
     ;; export from [nullreferenceTest]
     
+    (export "isNothing" (func $isNothing))
     (export "noReturns" (func $noReturns))
     (export "test" (func $test))
     
@@ -60,18 +73,40 @@
 
     ;; functions in [nullreferenceTest]
     
+    (func $isNothing  
+        ;; Public Function isNothing() As void
+        
+    
+    (if (i32.eq (get_global $nullString) (i32.const 0)) 
+        (then
+                    (drop (call $print (call $i32.toString (i32.const 1))))
+        ) (else
+                    (drop (call $print (call $i32.toString (i32.const 11))))
+            (drop (call $print (call $i32.toString (get_global $nullString))))
+        )
+    )
+    
+    (if (i32.eq (i32.const 0) (get_global $nullString)) 
+        (then
+                    (drop (call $print (call $i32.toString (i32.const 61))))
+        ) (else
+                    (drop (call $print (call $i32.toString (i32.const 71))))
+            (drop (call $print (call $i32.toString (get_global $nullString))))
+        )
+    )
+    )
     (func $noReturns  
         ;; Public Function noReturns() As void
         
-    (drop (call $print (call $i32.toString (i32.const 1))))
+    (drop (call $print (call $i32.toString (i32.const 129))))
     (drop (call $print (i32.const 0)))
     )
     (func $test  (result i32)
         ;; Public Function test() As i32
         (local $node i32)
-    (set_local $node (call $DOMbyId (call $i32.toString (i32.const 9))))
-    (drop (call $setAttr (get_local $node) (call $i32.toString (i32.const 14)) (call $i32.toString (call $string_add (call $i32.toString (get_local $node)) (i32.const 16)))))
-    (drop (call $setAttr (i32.const 0) (call $i32.toString (i32.const 32)) (call $i32.toString (i32.const 34))))
+    (set_local $node (call $DOMbyId (call $i32.toString (i32.const 137))))
+    (drop (call $setAttr (get_local $node) (call $i32.toString (i32.const 142)) (call $i32.toString (call $string_add (call $i32.toString (get_local $node)) (i32.const 144)))))
+    (drop (call $setAttr (i32.const 0) (call $i32.toString (i32.const 160)) (call $i32.toString (i32.const 162))))
     (return (i32.const 0))
     )
     )
