@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::819d78d37d45478b04cb584b188c6578, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::b91916a96f38f40ae46f2486bafa2458, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,7 @@
     ' 
     '     Class LiteralExpression
     ' 
-    '         Properties: Sign, type, value
+    '         Properties: IsLiteralNothing, Sign, type, value
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToSExpression, TypeInfer

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef1c24ebb8ac8e6c13e1fdb2fe591766, Type\CTypeHandle.vb"
+﻿#Region "Microsoft.VisualBasic::448317f08f5a9453684bb60f61296fb7, Type\CTypeHandle.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@
 
     ' Module CTypeHandle
     ' 
-    '     Function: [CDbl], [CInt], [CLng], [CSng], [CType]
-    '               CTypeInvoke, (+2 Overloads) typefit
+    '     Function: [CBool], [CDbl], [CInt], [CLng], [CSng]
+    '               [CType], CTypeInvoke, DefaultOf, (+2 Overloads) typefit
     ' 
     ' /********************************************************************************/
 

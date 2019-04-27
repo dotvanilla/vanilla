@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::809d249f03c962a09818933f68b08afc, Symbols\Parser\BlockParser.vb"
+﻿#Region "Microsoft.VisualBasic::3a8da851f1ca638cc0db64692163197a, Symbols\Parser\BlockParser.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,9 @@
 
     '     Module BlockParser
     ' 
-    '         Function: ctlGetLocal, DoLoop, DoWhile, ForLoop, IfBlock
-    '                   ParseBlockInternal, parseControlVariable, parseForLoopTest, (+2 Overloads) whileCondition, whileLoopInternal
+    '         Function: AutoDropValueStack, ctlGetLocal, DoLoop, DoWhile, ForLoop
+    '                   IfBlock, ParseBlockInternal, parseControlVariable, parseForLoopTest, (+2 Overloads) whileCondition
+    '                   whileLoopInternal
     ' 
     ' 
     ' /********************************************************************************/
