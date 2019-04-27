@@ -103,7 +103,9 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function GetInitializeValue(objNew As ObjectCreationInitializerSyntax, objType As TypeAbstract, symbols As SymbolTable) As Expression
-            If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
+            If objNew Is Nothing Then
+                Return Nothing
+            ElseIf TypeOf objNew Is ObjectCollectionInitializerSyntax Then
                 Return DirectCast(objNew, ObjectCollectionInitializerSyntax).CreateCollection(objType, symbols)
             End If
 
@@ -128,7 +130,13 @@ Namespace Symbols.Parser
                     Dim listType As TypeAbstract = New TypeAbstract(elementType(Scan0)).MakeListType
                     Dim listValues As ArraySymbol = create.Initializer.GetInitializeValue(listType, symbols)
 
-                    Return listValues
+                    If listValues Is Nothing Then
+                        ' list没有集合元素的初始化语句
+                        ' 则只能够创建一个新的空数组
+                        Return New Array With {.type = listType, .size = Literal.i32(-1)}
+                    Else
+                        Return listValues
+                    End If
                 ElseIf typeName = "Dictionary" Then
                     Return New ArrayTable With {
                         .initialVal = {},

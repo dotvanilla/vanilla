@@ -86,6 +86,10 @@ Public Module Types
                 Return TypeAlias.intptr
             Case "string", "System.String", "System.Char", "String", "Char"
                 Return TypeAlias.string
+            Case "array", "System.Array"
+                Return TypeAlias.array
+            Case "list", "System.Collections.IList"
+                Return TypeAlias.list
             Case Else
                 Throw New NotImplementedException(fullName)
         End Select

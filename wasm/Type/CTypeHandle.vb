@@ -56,6 +56,12 @@ Imports Wasm.Symbols.Parser
 Module CTypeHandle
 
     Public Function EqualOfType(a As NamedValue(Of TypeAbstract), type As TypeAbstract) As Boolean
+        Dim typeOfa As TypeAbstract = a
+
+        If typeOfa.type = type.type Then
+            Return True
+        End If
+
         'Dim targetIsArray As Boolean = TypeExtensions.IsArray(type)
 
         'If a.Value = type Then

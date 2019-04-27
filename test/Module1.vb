@@ -93,7 +93,7 @@ Module treeTest
 
     Sub Main()
 
-        ' Call projectTest()
+        Call projectTest()
         ' Call documentApitest()
 
         '  Call Wasm.CompileWast("..\Demo\string.wast", "..\Demo\string.wasm")
@@ -139,7 +139,7 @@ End Module"
     End Sub
 
     Sub projectTest()
-        Dim proj$ = "E:\repo\xDoc\ts\Linq.ts\TsBuild\Demo\vbscript\base64\base64.vbproj"
+        Dim proj$ = "D:\repo\home\vbscripts\base64\base64.vbproj"
         Dim [moduletest] As ModuleSymbol = Wasm.CreateModuleFromProject(proj)
 
         Console.WriteLine(moduletest.ToSExpression)

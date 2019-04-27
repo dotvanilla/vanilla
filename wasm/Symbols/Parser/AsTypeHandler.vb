@@ -124,14 +124,6 @@ Namespace Symbols.Parser
             End If
         End Function
 
-        ''' <summary>
-        ''' Generic array type
-        ''' </summary>
-        ReadOnly arrayTypes As Index(Of String) = {
-            NameOf(System.Array),
-            NameOf(System.Collections.IList)
-        }
-
         <Extension>
         Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of Type())
             Dim typeName = generic.objectName
@@ -179,8 +171,10 @@ Namespace Symbols.Parser
                 If symbols.HaveEnumType(token) Then
                     Dim [const] As EnumSymbol = symbols.GetEnumType(token)
                     Return [const].UnderlyingType
-                ElseIf token Like arrayTypes Then
+                ElseIf token = "Array" Then
                     Return GetType(System.Array)
+                ElseIf token = "IList" Then
+                    Return GetType(System.Collections.IList)
                 Else
                     Throw New NotImplementedException
                 End If
