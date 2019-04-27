@@ -341,7 +341,7 @@ Namespace Symbols.Parser
 
             Dim argumentFirst As Expression = Nothing
             Dim funcDeclare As FuncSignature
-            Dim leftArguments As NamedValue(Of TypeAbstract)()
+            Dim leftArguments As NamedValue(Of TypeAbstract)() = Nothing
 
             If TypeOf target Is LiteralExpressionSyntax Then
                 funcDeclare = symbols.GetFunctionSymbol(Nothing, funcName)
@@ -612,8 +612,8 @@ Namespace Symbols.Parser
                 ' i32 -> f32 -> i64 -> f64
                 Dim lt = left.TypeInfer(symbols)
                 Dim rt = right.TypeInfer(symbols)
-                Dim li = TypeExtensions.Orders.IndexOf(lt)
-                Dim ri = TypeExtensions.Orders.IndexOf(rt)
+                Dim li = TypeExtensions.Orders(lt.type)
+                Dim ri = TypeExtensions.Orders(rt.type)
 
                 If li > ri Then
                     type = lt

@@ -58,7 +58,12 @@ Imports Wasm.Symbols
 
 Public Class TypeExtensions
 
-    Public Shared ReadOnly Property Orders As Index(Of String) = {"i32", "f32", "i64", "f64"}
+    Public Shared ReadOnly Property Orders As Index(Of TypeAlias) = {
+        TypeAlias.i32,
+        TypeAlias.f32,
+        TypeAlias.i64,
+        TypeAlias.f64
+    }
 
     ''' <summary>
     ''' String type in WebAssembly Compiler
