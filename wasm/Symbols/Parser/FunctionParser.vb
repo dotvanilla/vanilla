@@ -204,23 +204,8 @@ Namespace Symbols.Parser
 
         <Extension>
         Private Function runParser(symbols As SymbolTable) As Func(Of StatementSyntax, IEnumerable(Of Expression))
-            Return Iterator Function(statement As StatementSyntax)
-                       Dim expression As [Variant](Of Expression, Expression()) = statement.ParseExpression(symbols)
-
-                       If expression.GetUnderlyingType.IsInheritsFrom(GetType(Expression)) Then
-                           expression = {expression.TryCast(Of Expression)}
-                       End If
-
-                       For Each line As Expression In expression.TryCast(Of Expression())
-                           If Not TypeOf line Is ReturnValue AndAlso line.TypeInfer(symbols) <> "void" Then
-                               ' https://github.com/WebAssembly/wabt/issues/1067
-                               '
-                               ' required a drop if target produce values
-                               Yield New drop With {.expression = line}
-                           Else
-                               Yield line
-                           End If
-                       Next
+            Return Function(statement As StatementSyntax)
+                       Return statement.ParseExpression(symbols).AutoDropValueStack(symbols)
                    End Function
         End Function
 

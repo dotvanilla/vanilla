@@ -216,22 +216,28 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Friend Iterator Function ParseBlockInternal(block As IEnumerable(Of StatementSyntax), symbols As SymbolTable) As IEnumerable(Of Expression)
-            Dim lineSymbols As [Variant](Of Expression, Expression())
+        Public Iterator Function AutoDropValueStack(lineSymbols As [Variant](Of Expression, Expression()), symbols As SymbolTable) As IEnumerable(Of Expression)
+            If lineSymbols.GetUnderlyingType.IsInheritsFrom(GetType(Expression)) Then
+                lineSymbols = {lineSymbols.TryCast(Of Expression)}
+            End If
 
-            For Each statement As StatementSyntax In block
-                lineSymbols = statement.ParseExpression(symbols)
-
-                If lineSymbols.GetUnderlyingType.IsInheritsFrom(GetType(Expression)) Then
-                    lineSymbols = {lineSymbols.TryCast(Of Expression)}
+            For Each line In lineSymbols.TryCast(Of Expression())
+                If Not TypeOf line Is ReturnValue AndAlso line.TypeInfer(symbols) <> "void" Then
+                    ' https://github.com/WebAssembly/wabt/issues/1067
+                    '
+                    ' required a drop if target produce values
+                    Yield New drop With {.expression = line}
+                Else
+                    Yield line
                 End If
+            Next
+        End Function
 
-                For Each line In lineSymbols.TryCast(Of Expression())
-                    If Not TypeOf line Is ReturnValue AndAlso line.TypeInfer(symbols) <> "void" Then
-                        Yield New drop With {.expression = line}
-                    Else
-                        Yield line
-                    End If
+        <Extension>
+        Friend Iterator Function ParseBlockInternal(block As IEnumerable(Of StatementSyntax), symbols As SymbolTable) As IEnumerable(Of Expression)
+            For Each statement As StatementSyntax In block
+                For Each line As Expression In statement.ParseExpression(symbols).AutoDropValueStack(symbols)
+                    Yield line
                 Next
             Next
         End Function
