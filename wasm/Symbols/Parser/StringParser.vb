@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::100aae464f19179e6dbf2dba8a591fe9, Symbols\Parser\StringParser.vb"
+﻿#Region "Microsoft.VisualBasic::2a3264a3239b557118cefba673f44ff4, Symbols\Parser\StringParser.vb"
 
     ' Author:
     ' 
@@ -84,8 +84,8 @@ Namespace Symbols.Parser
         Public Sub addRequired(symbols As SymbolTable, symbol As ImportSymbol)
             Dim ref$ = symbol.Name
 
-            If Not ref Like symbols.Requires Then
-                symbols.Requires.Add(ref)
+            If Not ref Like symbols.requires Then
+                symbols.requires.Add(ref)
                 symbols.AddImports(symbol)
             End If
         End Sub

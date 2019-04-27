@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b147a98e7d4f53131ffe84bb3df6e37, Compiler\SymbolTable.vb"
+﻿#Region "Microsoft.VisualBasic::077a24292fba1230363057356e05ecd0, Compiler\SymbolTable.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Class SymbolTable
     ' 
-    '         Properties: CurrentSymbol, memory, ModuleNames, NextGuid, Requires
+    '         Properties: currentFuncSymbol, currentModuleSymbol, memory, ModuleNames, NextGuid
+    '                     requires
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
@@ -86,13 +87,18 @@ Namespace Symbols
         ''' 当前所进行解析的函数的名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property CurrentSymbol As String
+        Public Property currentFuncSymbol As String
+        ''' <summary>
+        ''' 当前的VisualBasic模块的名称
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property currentModuleSymbol() As String
 
         ''' <summary>
         ''' 为了满足基本的变成需求而自动添加的引用符号列表
         ''' </summary>
         ''' <returns></returns>
-        Public Property Requires As New Index(Of String)
+        Public Property requires As New Index(Of String)
 
         ''' <summary>
         ''' Generate a guid for loop controls

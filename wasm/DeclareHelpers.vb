@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f0781cd462b1725a0f46727c7bb8d4d, DeclareHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::733d9ff60cac89b3de05d58f81f093dc, DeclareHelpers.vb"
 
     ' Author:
     ' 

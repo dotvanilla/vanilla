@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3572f1c76209b2ed0724df6d475074b, Symbols\Parser\FunctionParser.vb"
+﻿#Region "Microsoft.VisualBasic::1e95ffdba701faeb3cf630c4bd81c8ef, Symbols\Parser\FunctionParser.vb"
 
     ' Author:
     ' 
@@ -142,7 +142,11 @@ Namespace Symbols.Parser
             Dim funcVar = method.FuncVariable(symbols)
 
             ' using for return value ctype operation
-            symbols.CurrentSymbol = funcVar.Name
+            symbols.currentFuncSymbol = funcVar.Name
+            ' using for distinguish function and global variables that 
+            ' between different VisualBasic modules
+            symbols.currentModuleSymbol = moduleName
+
             ' the function parameter treated as local variable
             ' in function body
             For Each arg As NamedValue(Of TypeAbstract) In parameters
