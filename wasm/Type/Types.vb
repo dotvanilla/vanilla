@@ -1,23 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 ''' <summary>
-''' The compiler type alias
-''' </summary>
-Public Enum TypeAlias As Integer
-    any
-    i32
-    i64
-    f32
-    f64
-    [string]
-    [boolean]
-    array
-    list
-    table
-    intptr
-End Enum
-
-''' <summary>
 ''' Type model in WebAssembly compiler
 ''' </summary>
 Public Class TypeAbstract
