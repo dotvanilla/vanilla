@@ -218,28 +218,21 @@ Namespace Symbols.Parser
         <Extension>
         Friend Iterator Function ParseBlockInternal(block As IEnumerable(Of StatementSyntax), symbols As SymbolTable) As IEnumerable(Of Expression)
             Dim lineSymbols As [Variant](Of Expression, Expression())
-            Dim expression As Expression
 
             For Each statement As StatementSyntax In block
                 lineSymbols = statement.ParseExpression(symbols)
 
                 If lineSymbols.GetUnderlyingType.IsInheritsFrom(GetType(Expression)) Then
-                    expression = lineSymbols.TryCast(Of Expression)
-
-                    If expression.TypeInfer(symbols) <> "void" Then
-                        Yield New drop With {.expression = expression}
-                    Else
-                        Yield expression
-                    End If
-                Else
-                    For Each line In lineSymbols.TryCast(Of Expression())
-                        If line.TypeInfer(symbols) <> "void" Then
-                            Yield New drop With {.expression = line}
-                        Else
-                            Yield line
-                        End If
-                    Next
+                    lineSymbols = {lineSymbols.TryCast(Of Expression)}
                 End If
+
+                For Each line In lineSymbols.TryCast(Of Expression())
+                    If Not TypeOf line Is ReturnValue AndAlso line.TypeInfer(symbols) <> "void" Then
+                        Yield New drop With {.expression = line}
+                    Else
+                        Yield line
+                    End If
+                Next
             Next
         End Function
 
