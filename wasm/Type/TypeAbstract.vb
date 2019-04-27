@@ -30,25 +30,7 @@ Public Class TypeAbstract
     End Sub
 
     Sub New(fullName As String)
-        Select Case fullName
-            Case "i32", "System.Int32"
-                type = TypeAlias.i32
-            Case "i64", "System.Int64"
-                type = TypeAlias.i64
-            Case "f32", "System.Single"
-                type = TypeAlias.f32
-            Case "f64", "System.Double"
-                type = TypeAlias.f64
-            Case "boolean", "System.Boolean"
-                type = TypeAlias.boolean
-            Case "void", "System.Void"
-                type = TypeAlias.void
-            Case "any", "System.Object"
-                type = TypeAlias.any
-            Case Else
-                Throw New NotImplementedException(fullName)
-        End Select
-
+        type = Types.ParseAliasName(fullName)
         raw = fullName
     End Sub
 

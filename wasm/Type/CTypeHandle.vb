@@ -46,11 +46,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Language
 Imports Wasm.Symbols
 
 ''' <summary>
-''' 
+''' Type cast operation in WebAssembly runtime
 ''' </summary>
 Module CTypeHandle
 

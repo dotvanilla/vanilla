@@ -12,4 +12,26 @@ Public Module Types
         TypeAlias.i64
     }
 
+    Public Function ParseAliasName(fullName As String) As TypeAlias
+        Select Case fullName
+            Case "i32", "System.Int32"
+                Return TypeAlias.i32
+            Case "i64", "System.Int64"
+                Return TypeAlias.i64
+            Case "f32", "System.Single"
+                Return TypeAlias.f32
+            Case "f64", "System.Double"
+                Return TypeAlias.f64
+            Case "boolean", "System.Boolean"
+                Return TypeAlias.boolean
+            Case "void", "System.Void"
+                Return TypeAlias.void
+            Case "any", "System.Object"
+                Return TypeAlias.any
+            Case "intptr", "System.IntPtr"
+                Return TypeAlias.intptr
+            Case Else
+                Throw New NotImplementedException(fullName)
+        End Select
+    End Function
 End Module

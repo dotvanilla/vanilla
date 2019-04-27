@@ -51,7 +51,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Wasm.Symbols
-Imports Wasm.Symbols.Parser
 
 ' how it works
 ' 
