@@ -50,6 +50,7 @@ Module DeclareTest
     Dim A, B, C As Double, GG As Single, Z&
 
     Private Function localDeclareTest() As Single
+        Dim XYY!
         Dim MN As Long = -99, L As Single = 90
         Dim A, B, C As Double, GG As Single, Z&
         Dim E%, F&

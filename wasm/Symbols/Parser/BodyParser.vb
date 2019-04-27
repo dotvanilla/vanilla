@@ -256,6 +256,8 @@ Namespace Symbols.Parser
                 If name.Last Like Patterns.TypeChar Then
                     type = New TypeAbstract(Patterns.TypeCharName(name.Last))
                     name = name.Substring(0, name.Length - 1)
+                Else
+                    type = Nothing
                 End If
 
                 If Not var.Initializer Is Nothing Then
@@ -263,7 +265,10 @@ Namespace Symbols.Parser
                     type = name.AsType(var.AsClause, symbols, init.TypeInfer(symbols))
                 Else
                     init = Nothing
-                    type = name.AsType(var.AsClause, symbols)
+
+                    If type Is Nothing Then
+                        type = name.AsType(var.AsClause, symbols)
+                    End If
 
                     If TypeOf var.AsClause Is AsNewClauseSyntax Then
                         With DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression
