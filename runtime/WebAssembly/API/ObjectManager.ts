@@ -25,6 +25,10 @@
             console.table(textCache);
         }
 
+        export function printObjectCache() {
+            console.table(hashTable);
+        }
+
         /**
          * Read text data from WebAssembly runtime its memory block
          * 

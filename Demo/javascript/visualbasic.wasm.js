@@ -102,6 +102,10 @@ var WebAssembly;
             console.table(textCache);
         }
         ObjectManager.printTextCache = printTextCache;
+        function printObjectCache() {
+            console.table(hashTable);
+        }
+        ObjectManager.printObjectCache = printObjectCache;
         /**
          * Read text data from WebAssembly runtime its memory block
          *
@@ -505,6 +509,12 @@ var vanilla;
                     else {
                         result = intptr;
                     }
+                    if (Wasm.showDebugMessage()) {
+                        console.log("Strings in WebAssembly memory:");
+                        WebAssembly.ObjectManager.printTextCache();
+                        console.log("Objects in WebAssembly memory:");
+                        WebAssembly.ObjectManager.printObjectCache();
+                    }
                     return result;
                 };
                 api.WasmPrototype = func;
@@ -572,19 +582,34 @@ var vanilla;
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
+                let exportAssm = exportWasmApi(assembly);
                 if (showDebugMessage()) {
                     console.log("Load external WebAssembly module success!");
                     console.log(assembly);
+                    console.log("VisualBasic.NET Project AssemblyInfo:");
+                    console.log(exportAssm.AssemblyInfo);
                 }
-                opts.run(exportWasmApi(assembly));
+                opts.run(exportAssm);
             });
         }
         Wasm.RunAssembly = RunAssembly;
-        function showDebugMessage() {
-            if (typeof TypeScript == "object") {
-                if (typeof TypeScript.logging == "object" && TypeScript.logging.outputEverything) {
-                    return true;
+        function showDebugMessage(opt) {
+            if (typeof opt != "boolean") {
+                if (typeof TypeScript == "object") {
+                    if (typeof TypeScript.logging == "object" && TypeScript.logging.outputEverything) {
+                        return true;
+                    }
                 }
+            }
+            else {
+                let host = window;
+                if (typeof TypeScript != "object") {
+                    host.TypeScript = {};
+                }
+                if (typeof TypeScript.logging != "object") {
+                    host.TypeScript.logging = {};
+                }
+                host.TypeScript.logging.outputEverything = opt;
             }
             return false;
         }

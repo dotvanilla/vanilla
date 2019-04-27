@@ -39,6 +39,7 @@ declare namespace WebAssembly {
         */
         function load(bytes: vanilla.WasmMemory): void;
         function printTextCache(): void;
+        function printObjectCache(): void;
         /**
          * Read text data from WebAssembly runtime its memory block
          *
@@ -267,7 +268,7 @@ declare namespace vanilla {
          *
         */
         function RunAssembly(module: string, opts: Config): void;
-        function showDebugMessage(): boolean;
+        function showDebugMessage(opt?: boolean): boolean;
     }
 }
 declare namespace vanilla {

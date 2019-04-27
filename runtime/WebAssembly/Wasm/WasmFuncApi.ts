@@ -30,6 +30,13 @@
                     result = intptr;
                 }
 
+                if (Wasm.showDebugMessage()) {
+                    console.log("Strings in WebAssembly memory:");
+                    WebAssembly.ObjectManager.printTextCache();
+                    console.log("Objects in WebAssembly memory:");
+                    WebAssembly.ObjectManager.printObjectCache();
+                }
+
                 return result;
             }
 

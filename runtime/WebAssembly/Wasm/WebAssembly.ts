@@ -31,20 +31,37 @@
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
+                    let exportAssm = exportWasmApi(assembly);
+
                     if (showDebugMessage()) {
                         console.log("Load external WebAssembly module success!");
                         console.log(assembly);
+                        console.log("VisualBasic.NET Project AssemblyInfo:");
+                        console.log(exportAssm.AssemblyInfo);
                     }
 
-                    opts.run(exportWasmApi(assembly));
+                    opts.run(exportAssm);
                 });
         }
 
-        export function showDebugMessage(): boolean {
-            if (typeof TypeScript == "object") {
-                if (typeof TypeScript.logging == "object" && TypeScript.logging.outputEverything) {
-                    return true;
+        export function showDebugMessage(opt?: boolean): boolean {
+            if (typeof opt != "boolean") {
+                if (typeof TypeScript == "object") {
+                    if (typeof TypeScript.logging == "object" && TypeScript.logging.outputEverything) {
+                        return true;
+                    }
                 }
+            } else {
+                let host = (<any>window);
+
+                if (typeof TypeScript != "object") {
+                    host.TypeScript = {};
+                }
+                if (typeof TypeScript.logging != "object") {
+                    host.TypeScript.logging = {};
+                }
+
+                host.TypeScript.logging.outputEverything = opt;
             }
 
             return false;
