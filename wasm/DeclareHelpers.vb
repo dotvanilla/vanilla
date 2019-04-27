@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::588f978116d2c4b34b3d5db79a9d264a, DeclareHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::8f0781cd462b1725a0f46727c7bb8d4d, DeclareHelpers.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Module DeclareHelpers
         Return name.ValueText.Trim("["c, "]"c)
     End Function
 End Module
-

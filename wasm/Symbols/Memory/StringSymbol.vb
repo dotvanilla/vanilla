@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d95597b481582b1cacc9344ddfb9fb9c, Symbols\Memory\StringSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::05a9bf0c5b30ee6e2a46f83956f783cb, Symbols\Memory\StringSymbol.vb"
 
     ' Author:
     ' 

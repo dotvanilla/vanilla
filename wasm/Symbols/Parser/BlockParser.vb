@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88d2687cb852e38105608c7c00f7229e, Symbols\Parser\BlockParser.vb"
+﻿#Region "Microsoft.VisualBasic::809d249f03c962a09818933f68b08afc, Symbols\Parser\BlockParser.vb"
 
     ' Author:
     ' 

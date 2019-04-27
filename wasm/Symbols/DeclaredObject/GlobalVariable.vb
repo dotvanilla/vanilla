@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2240359067e33c67e3526eac795875b, Symbols\DeclaredObject\GlobalVariable.vb"
+﻿#Region "Microsoft.VisualBasic::07fd84ea5eda17975eceadba80d0533e, Symbols\DeclaredObject\GlobalVariable.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10b9aba99f2d2df7eaf62c425b3ca8eb, Type\TypeAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::d43b47a24a78fd6ae2dae09cd58726a2, Type\TypeAbstract.vb"
 
     ' Author:
     ' 
@@ -39,11 +39,11 @@
     ' Class TypeAbstract
     ' 
     '     Properties: f32, f64, generic, i32, i64
-    '                 raw, type, typefit
+    '                 raw, type, typefit, void
     ' 
     '     Constructor: (+3 Overloads) Sub New
     '     Function: ToString
-    '     Operators: <>, =
+    '     Operators: (+2 Overloads) <>, (+2 Overloads) =
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64334efb13bb46be7fb973769c8e018c, Symbols\DeclaredObject\JavaScriptImports\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::f52eb113cc78ec243548228d130d2788, Symbols\DeclaredObject\JavaScriptImports\Dictionary.vb"
 
     ' Author:
     ' 
