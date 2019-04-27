@@ -89,35 +89,9 @@ Module CTypeHandle
     ''' <returns></returns>
     Public Function [CType](left As TypeAbstract, right As Expression, symbols As SymbolTable) As Expression
         Dim rightTypeInfer As TypeAbstract = right.TypeInfer(symbols)
-        Dim rightIsI32 As Boolean = rightTypeInfer = "i32" OrElse rightTypeInfer = GetType(Integer).FullName
-        Dim isArrayType As Boolean = IsArray(left)
 
-        ' is any type in typescript
-        If left = "object" OrElse left = "any" OrElse left = GetType(Object).FullName Then
-            ' 可以传递任意类型给左边
-            Return right
-        ElseIf left Like stringType AndAlso rightTypeInfer Like stringType Then
-            Return right
-        End If
-
-        ' is a javascript object table
-        If left = GetType(DictionaryBase).FullName AndAlso TypeOf right Is ArrayTable Then
-            Return right
-        End If
-        If rightIsI32 AndAlso IsArray(left) Then
-            Return right
-        End If
-
-        If left = rightTypeInfer Then
-            Return right
-        ElseIf left Like stringType AndAlso rightIsI32 Then
-            Return right
-        ElseIf rightTypeInfer Like stringType AndAlso left = "i32" Then
-            Return right
-        ElseIf left = booleanType AndAlso rightIsI32 Then
-            Return right
-        ElseIf isArrayType AndAlso (TypeOf right Is ArraySymbol OrElse TypeOf right Is Symbols.Array) Then
-            ' is javascript array type
+        If left.type = TypeAlias.any Then
+            ' left accept any type
             Return right
         End If
 

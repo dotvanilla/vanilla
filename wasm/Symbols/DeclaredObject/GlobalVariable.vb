@@ -72,7 +72,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return $"(global ${name} (mut {CTypeParser.typefit(type)}) {init.ToSExpression})"
+            Return $"(global ${name} (mut {type.typefit}) {init.ToSExpression})"
         End Function
     End Class
 End Namespace
