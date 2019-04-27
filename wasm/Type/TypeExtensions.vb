@@ -88,7 +88,8 @@ Public Class TypeExtensions
         {GetType(Double), "f64"},
         {GetType(String), "string"}, ' 实际上这是一个integer类型
         {GetType(Char), "string"},
-        {GetType(System.Void), "void"}
+        {GetType(System.Void), "void"},
+        {GetType(Object), "any"}
     }
 
     ''' <summary>
