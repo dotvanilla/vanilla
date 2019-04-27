@@ -48,53 +48,61 @@
             End If
         End Function
 
+        Private Shared Function typeFromOperator(refer As String) As TypeAbstract
+            If refer Like TypeExtensions.Comparison Then
+                ' WebAssembly comparison operator produce integer value
+                Return New TypeAbstract(TypeAlias.i32)
+            Else
+                Return New TypeAbstract(refer.Split("."c).First)
+            End If
+        End Function
+
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             If [operator] Then
-                If refer Like TypeExtensions.Comparison Then
-                    ' WebAssembly comparison operator produce integer value
-                    Return New TypeAbstract(TypeAlias.i32)
-                Else
-                    Return New TypeAbstract(refer.Split("."c).First)
-                End If
+                Return typeFromOperator(refer)
             Else
-                Dim func As FuncSignature
-                Dim obj As Expression
+                Return funcTypeInfer(symbolTable)
+            End If
+        End Function
 
-                If parameters.IsNullOrEmpty Then
-                    func = symbolTable.GetFunctionSymbol(Nothing, refer)
-                Else
-                    obj = parameters(Scan0)
+        Private Function funcTypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Dim func As FuncSignature
+            Dim obj As Expression
 
-                    ' 在这里需要对值元素类型为数组的字典引用进行一些额外的处理
-                    If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).refer = JavaScriptImports.Dictionary.GetValue.Name Then
-                        Dim table = DirectCast(obj, FuncInvoke).parameters(0)
+            If parameters.IsNullOrEmpty Then
+                func = symbolTable.GetFunctionSymbol(Nothing, refer)
+            Else
+                obj = parameters(Scan0)
 
-                        If TypeOf table Is GetLocalVariable Then
-                            Dim tableObj = symbolTable.GetObjectSymbol(DirectCast(table, GetLocalVariable).var)
+                ' 在这里需要对值元素类型为数组的字典引用进行一些额外的处理
+                If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).refer = JavaScriptImports.Dictionary.GetValue.Name Then
+                    Dim table = DirectCast(obj, FuncInvoke).parameters(0)
 
-                            If TypeOf tableObj Is DeclareLocal Then
-                                With DirectCast(tableObj, DeclareLocal)
-                                    If TypeExtensions.IsArray(.genericTypes(1)) Then
-                                        Return .genericTypes(1).Trim("["c, "]"c)
-                                    Else
-                                        Return .genericTypes(1)
-                                    End If
-                                End With
-                            Else
-                                Throw New NotImplementedException
-                            End If
+                    If TypeOf table Is GetLocalVariable Then
+                        Dim tableObj = symbolTable.GetObjectSymbol(DirectCast(table, GetLocalVariable).var)
+
+                        If TypeOf tableObj Is DeclareLocal Then
+                            With DirectCast(tableObj, DeclareLocal)
+                                If TypeExtensions.IsArray(.genericTypes(1)) Then
+                                    Return .genericTypes(1).Trim("["c, "]"c)
+                                Else
+                                    Return .genericTypes(1)
+                                End If
+                            End With
                         Else
                             Throw New NotImplementedException
                         End If
-
-                        Throw New NotImplementedException
                     Else
-                        func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), refer)
+                        Throw New NotImplementedException
                     End If
-                End If
 
-                Return func.result
+                    Throw New NotImplementedException
+                Else
+                    func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable), refer)
+                End If
             End If
+
+            Return func.result
         End Function
     End Class
 End Namespace
