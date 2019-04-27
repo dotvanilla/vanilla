@@ -165,7 +165,7 @@ Namespace Symbols.Parser
 
                 ' 在javascript之中 array 和 list是一样的
                 If define.Name = "List" Then
-                    Return tokenType(Scan0).MakeArrayType
+                    Return GetType(System.Collections.Generic.List(Of )).MakeGenericType(tokenType(Scan0))
                 ElseIf define.Name = "Dictionary" Then
                     ' 字典对象在javascript之中则是一个任意的object
                     Return GetType(DictionaryBase)

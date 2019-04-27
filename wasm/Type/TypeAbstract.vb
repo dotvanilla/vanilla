@@ -105,18 +105,30 @@ Public Class TypeAbstract
 #End Region
 
     Sub New(type As Type)
-        Call Me.New(type.TypeName)
+        Dim isList As Boolean = type.IsInheritsFrom(GetType(List(Of )), strict:=False)
+
+        If isList Then
+            Me.type = TypeAlias.list
+            Me.generic = {New TypeAbstract(type.GenericTypeArguments(Scan0))}
+            Me.raw = buildRaw(TypeAlias.list, generic)
+        Else
+            Call fromFullName(type.TypeName)
+        End If
+    End Sub
+
+    Private Sub fromFullName(fullName As String)
+        If TypeExtensions.IsArray(fullName) Then
+            _type = TypeAlias.array
+            _generic = {Types.ArrayElement(fullName)}
+        Else
+            _type = Types.ParseAliasName(fullName)
+        End If
+
+        _raw = fullName
     End Sub
 
     Sub New(fullName As String)
-        If TypeExtensions.IsArray(fullName) Then
-            type = TypeAlias.array
-            generic = {Types.ArrayElement(fullName)}
-        Else
-            type = Types.ParseAliasName(fullName)
-        End If
-
-        raw = fullName
+        Call fromFullName(fullName)
     End Sub
 
     Sub New([alias] As TypeAlias, Optional generic$() = Nothing)

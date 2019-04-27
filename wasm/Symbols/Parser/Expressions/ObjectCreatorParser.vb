@@ -94,14 +94,15 @@ Namespace Symbols.Parser
                 'End With
                 Throw New NotImplementedException
             ElseIf objType = TypeAlias.list Then
-                Throw New NotImplementedException
+                collection.type = objType
+                Return collection
             Else
                 Throw New NotImplementedException
             End If
         End Function
 
         <Extension>
-        Public Function GetInitializeValue(objNew As ObjectCreationInitializerSyntax, objType As TypeAbstract, symbols As SymbolTable) As IEnumerable(Of Expression)
+        Public Function GetInitializeValue(objNew As ObjectCreationInitializerSyntax, objType As TypeAbstract, symbols As SymbolTable) As Expression
             If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
                 Return DirectCast(objNew, ObjectCollectionInitializerSyntax).CreateCollection(objType, symbols)
             End If
@@ -124,12 +125,10 @@ Namespace Symbols.Parser
 
                 If typeName = "List" Then
                     ' array和list在javascript之中都是一样的
-                    Return New ArraySymbol With {
-                        .type = New TypeAbstract(elementType(Scan0)).MakeListType,
-                        .Initialize = create.Initializer _
-                            .GetInitializeValue(.type, symbols) _
-                            .ToArray
-                    }
+                    Dim listType As TypeAbstract = New TypeAbstract(elementType(Scan0)).MakeListType
+                    Dim listValues As ArraySymbol = create.Initializer.GetInitializeValue(listType, symbols)
+
+                    Return listValues
                 ElseIf typeName = "Dictionary" Then
                     Return New ArrayTable With {
                         .initialVal = {},

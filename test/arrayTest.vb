@@ -53,6 +53,19 @@ Module arrayTest
 
     Public arrayLength = 9999
 
+    Dim xxl As List(Of String)
+
+    Public Function testListAdd()
+        Dim l As List(Of String) = New List(Of String) From {"Hello", "World"}
+
+        xxl = l
+
+        Call l.Add("yes")
+        Call print(l(2))
+
+        Call log(l)
+    End Function
+
     Public Sub arrayDeclares()
         Dim syntax2 As Double() = New Double() {23, 42, 42, 4}
         Dim syntax3(arrayLength - 5) As Double
@@ -63,15 +76,6 @@ Module arrayTest
         Call log(syntax3)
         Call log(syntax1)
     End Sub
-
-    Public Function testListAdd()
-        Dim l As List(Of String) = New List(Of String) From {"Hello", "World"}
-
-        Call l.Add("yes")
-        Call print(l(2))
-
-        Call log(l)
-    End Function
 
     Public Function arrayLoop()
         ' convert to string and display
