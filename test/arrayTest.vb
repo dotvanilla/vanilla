@@ -54,10 +54,15 @@ Module arrayTest
     Public arrayLength = 9999
 
     Dim xxl As List(Of String)
+    Dim ints2 As Integer()
 
     Public Function arrayLoop()
         ' convert to string and display
         Dim ints As Integer() = {1, 2, 3, 4, 5, 6, 7, 88}
+
+        ints2 = ints
+
+        Call print(ints2.Length)
 
         For i As Integer = 0 To ints.Length
             Call print(ints(i))

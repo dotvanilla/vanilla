@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/27/2019 8:33:42 PM
+    ;; build: 4/27/2019 8:36:00 PM
 
     ;; imports must occur before all non-import definitions
 
@@ -72,6 +72,8 @@
 
 (global $xxl (mut i32) (i32.const 0))
 
+(global $ints2 (mut i32) (i32.const 0))
+
     ;; export from [arrayTest]
     
     (export "arrayLoop" (func $arrayLoop))
@@ -88,6 +90,8 @@
         (local $ints i32)
     (local $i i32)
     (set_local $ints (call $array_push (call $array_push (call $array_push (call $array_push (call $array_push (call $array_push (call $array_push (call $array_push (call $new_array (i32.const -1)) (i32.const 1)) (i32.const 2)) (i32.const 3)) (i32.const 4)) (i32.const 5)) (i32.const 6)) (i32.const 7)) (i32.const 88)))
+    (set_global $ints2 (get_local $ints))
+    (drop (call $print (call $i32.toString (call $array.length (get_global $ints2)))))
     (set_local $i (i32.const 0))
     ;; For i As Integer = 0 To ints.Length
     
