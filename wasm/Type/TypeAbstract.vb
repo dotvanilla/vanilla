@@ -109,7 +109,7 @@ Public Class TypeAbstract
     Sub New(fullName As String)
         If TypeExtensions.IsArray(fullName) Then
             type = TypeAlias.array
-
+            generic = {Types.ArrayElement(fullName)}
         Else
             type = Types.ParseAliasName(fullName)
         End If

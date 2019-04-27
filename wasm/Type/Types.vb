@@ -90,4 +90,8 @@ Public Module Types
                 Throw New NotImplementedException(fullName)
         End Select
     End Function
+
+    Public Function ArrayElement(fullName As String) As TypeAbstract
+        Return New TypeAbstract(TypeExtensions.ArrayElement(fullName))
+    End Function
 End Module

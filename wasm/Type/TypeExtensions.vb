@@ -178,6 +178,17 @@ Public Class TypeExtensions
         Return p = lastIndex
     End Function
 
+    ''' <summary>
+    ''' get array element type name
+    ''' </summary>
+    ''' <param name="fullName"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function ArrayElement(fullName As String) As String
+        Return fullName.Substring(Scan0, fullName.Length - 2)
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function TypeCharWasm(c As Char) As String
         Return Convert2Wasm(Scripting.GetType(Patterns.TypeCharName(c)))
