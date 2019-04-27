@@ -1,55 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::e4d3d28cf265ca13d0226c82f6c71e79, Type\TypeAbstract.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class TypeAbstract
-    ' 
-    '     Properties: f32, f64, generic, i32, i64
-    '                 isprimitive, raw, type, typefit, void
-    ' 
-    '     Constructor: (+3 Overloads) Sub New
-    '     Function: ToString
-    '     Operators: (+3 Overloads) <>, (+3 Overloads) =
-    ' 
-    ' /********************************************************************************/
+' Class TypeAbstract
+' 
+'     Properties: f32, f64, generic, i32, i64
+'                 isprimitive, raw, type, typefit, void
+' 
+'     Constructor: (+3 Overloads) Sub New
+'     Function: ToString
+'     Operators: (+3 Overloads) <>, (+3 Overloads) =
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Wasm.Symbols.Parser
 ''' <summary>
 ''' Type model in WebAssembly compiler
 ''' </summary>
@@ -60,7 +62,7 @@ Public Class TypeAbstract
     ''' Generic type arguments in VisualBasic.NET language.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property generic As String()
+    Public ReadOnly Property generic As TypeAbstract()
     ''' <summary>
     ''' The raw definition: <see cref="System.Type.FullName"/>
     ''' </summary>
@@ -101,17 +103,26 @@ Public Class TypeAbstract
 #End Region
 
     Sub New(type As Type)
-        Call Me.New(TypeExtensions.Convert2Wasm(type))
+        Call Me.New(type.TypeName)
     End Sub
 
     Sub New(fullName As String)
-        type = Types.ParseAliasName(fullName)
+        If TypeExtensions.IsArray(fullName) Then
+            type = TypeAlias.array
+
+        Else
+            type = Types.ParseAliasName(fullName)
+        End If
+
         raw = fullName
     End Sub
 
     Sub New([alias] As TypeAlias, Optional generic$() = Nothing)
         Me.type = [alias]
-        Me.generic = generic
+        Me.generic = generic _
+            .SafeQuery _
+            .Select(Function(type) New TypeAbstract(type)) _
+            .ToArray
     End Sub
 
     Public Overrides Function ToString() As String

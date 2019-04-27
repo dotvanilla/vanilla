@@ -93,6 +93,12 @@ Namespace Symbols.Parser
             Return type
         End Function
 
+        ''' <summary>
+        ''' 如果目标存在于<see cref="TypeExtensions.Convert2Wasm"/>，则返回对应的类型别名
+        ''' 否则则返回类型的全名称<see cref="System.Type.FullName"/>
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
         <Extension> Public Function TypeName(type As Type) As String
             With type
                 If TypeExtensions.Convert2Wasm.ContainsKey(.ByRef) Then

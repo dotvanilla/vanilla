@@ -74,6 +74,9 @@ Namespace Symbols.Parser
                 Return New FuncInvoke(func) With {
                     .parameters = {obj}
                 }
+            Else
+                ' object field
+
             End If
 
             'If symbols.GetObjectSymbol(objName).IsArray AndAlso memberName = "Length" Then
