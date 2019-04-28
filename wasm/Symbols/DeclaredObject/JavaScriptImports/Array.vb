@@ -68,7 +68,7 @@ Namespace Symbols.JavaScriptImports
         ''' <returns></returns>
         Public ReadOnly Property Push As New ImportSymbol With {
             .ImportObject = "push",
-            .Name = "array_push",
+            .Name = "array.push",
             .[Module] = "array",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.array),
@@ -80,7 +80,7 @@ Namespace Symbols.JavaScriptImports
 
         Public ReadOnly Property Pop As New ImportSymbol With {
             .ImportObject = "pop",
-            .Name = "array_pop",
+            .Name = "array.pop",
             .[Module] = "array",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.any),
@@ -96,7 +96,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property NewArray As New ImportSymbol With {
             .ImportObject = "create",
             .[Module] = "array",
-            .Name = "array_new",
+            .Name = "array.new",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.array),
             .parameters = {
@@ -107,7 +107,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property GetArrayElement As New ImportSymbol With {
             .ImportObject = "get",
             .[Module] = "array",
-            .Name = "array_get",
+            .Name = "array.get",
             .Package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
@@ -119,7 +119,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property SetArrayElement As New ImportSymbol With {
             .ImportObject = "set",
             .[Module] = "array",
-            .Name = "array_set",
+            .Name = "array.set",
             .Package = NameOf(Array),
             .result = New TypeAbstract("void"),
             .parameters = {
@@ -132,7 +132,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Length As New ImportSymbol With {
             .ImportObject = "length",
             .[Module] = "array",
-            .Name = "array_length",
+            .Name = "array.length",
             .Package = NameOf(Array),
             .result = TypeAbstract.i32,
             .parameters = {
