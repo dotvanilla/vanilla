@@ -51,7 +51,6 @@ Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
-Imports Wasm.Symbols.Parser
 
 Namespace Compiler
 
