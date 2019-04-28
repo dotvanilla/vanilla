@@ -16,6 +16,12 @@
 End Module
 
 Module module2
+
+    Public Sub Runapp()
+        Call Modulemethod_test.calls()
+    End Sub
+
+
     Public Function test(gg As String) As String()
         Return {gg, gg & "ddddd"}
     End Function

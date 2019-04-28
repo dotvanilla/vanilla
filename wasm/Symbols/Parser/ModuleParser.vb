@@ -151,7 +151,9 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ParseDeclares(main As ModuleBlockSyntax, symbols As SymbolTable, enums As EnumSymbol()) As SymbolTable
             Dim symbolTable As SymbolTable = symbols.Join(main, enums)
-            Dim moduleName$ = main.ModuleStatement.Identifier.objectName
+            Dim moduleName As String = main.ModuleStatement _
+                .Identifier _
+                .objectName
 
             ' 添加declare导入
             Call main.Members _

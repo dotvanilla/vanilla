@@ -48,7 +48,11 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Private Function ParserInternal(namedVar As ModifiedIdentifierSyntax, var As VariableDeclaratorSyntax, symbols As SymbolTable, moduleName As String) As DeclareLocal
+        Private Function ParserInternal(namedVar As ModifiedIdentifierSyntax,
+                                        var As VariableDeclaratorSyntax,
+                                        symbols As SymbolTable,
+                                        moduleName As String) As DeclareLocal
+
             Dim name$ = namedVar.Identifier.objectName
             Dim type As TypeAbstract = Nothing
             Dim init As Expression = Nothing
