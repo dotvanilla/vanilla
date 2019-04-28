@@ -176,7 +176,7 @@ Namespace Symbols.Parser
                 ElseIf token = "IList" Then
                     Return GetType(System.Collections.IList)
                 Else
-                    Throw New NotImplementedException
+                    Throw New TypeAccessException($"Target type '{token}' is not defined!")
                 End If
             End If
         End Function
