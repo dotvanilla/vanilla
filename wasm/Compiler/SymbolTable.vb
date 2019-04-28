@@ -60,6 +60,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Symbols
 Imports Wasm.Symbols.Parser
 
@@ -70,13 +71,13 @@ Namespace Compiler
     ''' </summary>
     Public Class SymbolTable
 
-        Dim functionList As New Dictionary(Of String, FuncSignature)
+        Dim functionList As New Dictionary(Of String, ModuleOf)
         Dim locals As New Dictionary(Of String, DeclareLocal)
         Dim uid As VBInteger = 666
         ''' <summary>
         ''' [name => type]
         ''' </summary>
-        Dim globals As New Dictionary(Of String, DeclareGlobal)
+        Dim globals As New Dictionary(Of String, ModuleOf)
         Dim enumConstants As New Dictionary(Of String, EnumSymbol)
 
         ''' <summary>
@@ -119,11 +120,14 @@ Namespace Compiler
         ''' <returns></returns>
         Public ReadOnly Property ModuleNames As Index(Of String)
             Get
-                Dim globals = Me.globals _
-                    .Values _
-                    .Select(Function(g) g.Module) _
+                Dim globals = Me.globals.Values _
+                    .Select(Function(g) g.ModuleLabels) _
+                    .IteratesALL _
                     .AsList
-                Dim funcs = functionList.Values.Select(Function(f) f.Module)
+                Dim funcs As IEnumerable(Of String) =
+                    functionList.Values _
+                    .Select(Function(f) f.ModuleLabels) _
+                    .IteratesALL
 
                 Return globals + funcs
             End Get
@@ -193,7 +197,7 @@ Namespace Compiler
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetAllGlobals() As IEnumerable(Of DeclareGlobal)
-            Return globals.Values
+            Return globals.Values.IteratesALL.OfType(Of DeclareGlobal)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -222,8 +226,8 @@ Namespace Compiler
         ''' <param name="var"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGlobal(var As String) As DeclareGlobal
-            Return globals(var)
+        Public Function GetGlobal(var$, module$) As DeclareGlobal
+            Return globals(var).FindSymbol([module])
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -244,7 +248,7 @@ Namespace Compiler
         Private Function stringContext(context As String) As Boolean
             If context = Types.stringType Then
                 Return True
-            ElseIf functionList.ContainsKey(context) AndAlso functionList(context).result = TypeAlias.string Then
+            ElseIf functionList.ContainsKey(context) AndAlso functionList(context).OfType(Of FuncSignature).First.result = TypeAlias.string Then
                 Return True
             Else
                 Return False
@@ -280,7 +284,7 @@ Namespace Compiler
                 If contextObj Is Nothing Then
                     With globals.TryGetValue(context)
                         If Not .IsNothing Then
-                            contextObj = .AsLocal
+                            contextObj = DirectCast(.First, DeclareGlobal).AsLocal
                         End If
                     End With
                 End If
