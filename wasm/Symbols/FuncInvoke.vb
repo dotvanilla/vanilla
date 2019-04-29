@@ -64,7 +64,7 @@ Namespace Symbols
         ''' Function reference string, [funcName => module/type]
         ''' </summary>
         ''' <returns></returns>
-        Public Property refer As NamedValue(Of String)
+        Public Property refer As ReferenceSymbol
         ''' <summary>
         ''' The argument value expression that passing to the target function
         ''' </summary>
@@ -96,7 +96,7 @@ Namespace Symbols
                     End If
                 End If
 
-                Dim op$ = refer.Name.Split("."c).Last
+                Dim op$ = refer.Symbol.Split("."c).Last
 
                 Return op Like TypeExtensions.unaryOp
             End Get
@@ -106,16 +106,18 @@ Namespace Symbols
         End Sub
 
         Sub New(module$, funcName As String)
-            refer = New NamedValue(Of String) With {
-                .Name = funcName,
-                .Value = [module]
+            refer = New ReferenceSymbol With {
+                .Symbol = funcName,
+                .[Module] = [module],
+                .IsOperator = False
             }
         End Sub
 
         Sub New(target As FuncSignature)
-            refer = New NamedValue(Of String) With {
-                .Name = target.Name,
-                .Value = target.Module
+            refer = New ReferenceSymbol With {
+                .Symbol = target.Name,
+                .[Module] = target.Module,
+                .IsOperator = False
             }
         End Sub
 
@@ -124,7 +126,7 @@ Namespace Symbols
                 Throw New InvalidCastException
             End If
 
-            If refer.Name.Split("."c).Last = "add" Then
+            If refer.Symbol.Split("."c).Last = "add" Then
                 ' 直接返回第二个参数
                 Return parameters(1)
             Else
@@ -167,7 +169,7 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             If [operator] Then
-                Return typeFromOperator(refer)
+                Return typeFromOperator(refer.Symbol)
             Else
                 Return funcTypeInfer(symbolTable)
             End If
@@ -183,12 +185,12 @@ Namespace Symbols
             Dim obj As Expression
 
             If parameters.IsNullOrEmpty Then
-                func = symbolTable.GetFunctionSymbol(Nothing, refer)
+                func = symbolTable.GetFunctionSymbol(refer.Module, refer.Symbol)
             Else
                 obj = parameters(Scan0)
 
                 ' 在这里需要对值元素类型为数组的字典引用进行一些额外的处理
-                If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).refer = JavaScriptImports.Dictionary.GetValue.Name Then
+                If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).refer.Symbol = JavaScriptImports.Dictionary.GetValue.Name Then
                     Dim table = DirectCast(obj, FuncInvoke).parameters(0)
 
                     If TypeOf table Is GetLocalVariable Then
@@ -211,11 +213,11 @@ Namespace Symbols
 
                     Throw New NotImplementedException
                 Else
-                    If refer.Value Like symbolTable.ModuleNames Then
-                        func = symbolTable.FindModuleMemberFunction(refer.Value, refer.Name)
+                    If refer.Module Like symbolTable.ModuleNames Then
+                        func = symbolTable.FindModuleMemberFunction(refer.Module, refer.Symbol)
                     Else
                         Dim context$ = obj.TypeInfer(symbolTable).type.Description
-                        func = symbolTable.GetFunctionSymbol(context, refer)
+                        func = symbolTable.GetFunctionSymbol(context, refer.Symbol)
                     End If
                 End If
             End If
