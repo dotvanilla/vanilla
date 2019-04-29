@@ -88,7 +88,7 @@ Namespace Symbols.Parser
         Public Function ValueReturn(returnValue As ReturnStatementSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = returnValue.Expression.ValueExpression(symbols)
             Dim returnType = symbols _
-                .GetFunctionSymbol(Nothing, symbols.currentFuncSymbol) _
+                .GetFunctionSymbol(symbols.currentModuleSymbol, symbols.currentFuncSymbol) _
                 .result
 
             value = CTypeHandle.CType(returnType, value, symbols)

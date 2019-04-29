@@ -60,6 +60,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Symbols
 Imports Wasm.Symbols.Parser
@@ -95,7 +96,7 @@ Namespace Compiler
         ''' 当前的VisualBasic模块的名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property currentModuleSymbol() As String
+        Public Property currentModuleSymbol() As DefaultValue(Of String)
 
         ''' <summary>
         ''' 为了满足基本的变成需求而自动添加的引用符号列表
@@ -294,7 +295,7 @@ Namespace Compiler
 
             If contextObj Is Nothing Then
                 If functionList.ContainsKey(name) Then
-                    Return functionList(name)
+                    Return functionList(name).FindSymbol(currentModuleSymbol)
                 Else
                     If locals.ContainsKey(name) AndAlso locals(name).type.iscollection Then
                         Return JavaScriptImports.GetArrayElement
@@ -304,10 +305,22 @@ Namespace Compiler
                             Return getStringInternal(name)
                         ElseIf context Like ModuleNames Then
                             ' 模块变量或者方法的引用
-                            If Not globals.Values.FirstOrDefault(Function(g) g.Module = context AndAlso g.name = name) Is Nothing Then
-                                ' 这是一个模块变量的引用，则肯定不是函数
-                                ' 返回空值
+
+                            If globals.ContainsKey(name) AndAlso Not globals(name).FindSymbol(context) Is Nothing Then
+                                ' 因为需要查找的是函数对象
+                                ' 但是在这里却找到了一个全局变量，所以需要返回空值
                                 Return Nothing
+                            End If
+
+                            ' 接下来则尝试查找模块方法
+                            If functionList.ContainsKey(name) Then
+                                Dim moduleFunc As FuncSignature = functionList(name).FindSymbol(context)
+
+                                If moduleFunc Is Nothing Then
+                                    Return Nothing
+                                Else
+                                    Return moduleFunc
+                                End If
                             End If
                         Else
                             Throw New NotImplementedException
@@ -317,7 +330,7 @@ Namespace Compiler
                     End If
                 End If
             Else
-                Dim func As FuncSignature = functionList.TryGetValue(name)
+                Dim func As FuncSignature = functionList.TryGetValue(name).FindSymbol(currentFuncSymbol)
 
                 If Not func Is Nothing AndAlso CTypeHandle.EqualOfType(func.parameters.First, contextObj.type) Then
                     Return func
@@ -370,7 +383,7 @@ Namespace Compiler
             If IsLocal(name) Then
                 Return GetObjectSymbol(name).type
             Else
-                Return GetGlobal(name).type
+                Return GetGlobal(name, currentModuleSymbol).type
             End If
         End Function
 

@@ -27,6 +27,11 @@ Namespace Compiler
             Call modules.Add(symbol.Module, symbol)
         End Sub
 
+        ''' <summary>
+        ''' 查找失败则返回一个空值
+        ''' </summary>
+        ''' <param name="moduleLabel"></param>
+        ''' <returns></returns>
         Public Function FindSymbol(moduleLabel As String) As IDeclaredObject
             Return modules.TryGetValue(moduleLabel)
         End Function
