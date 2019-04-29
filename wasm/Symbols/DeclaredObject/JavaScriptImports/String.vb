@@ -51,7 +51,11 @@ Namespace Symbols.JavaScriptImports
 
     Public Module [String]
 
-        Public ReadOnly Property StringAppend As New ImportSymbol With {
+        ''' <summary>
+        ''' string append operator: a &amp; b
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Append As New ImportSymbol With {
             .ImportObject = "add",
             .Name = "string.add",
             .Package = "string",

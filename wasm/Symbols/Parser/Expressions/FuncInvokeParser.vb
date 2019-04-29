@@ -284,7 +284,7 @@ Namespace Symbols.Parser
                     .Argument(symbols, funcDeclare.parameters.Last)
 
                 Return New FuncInvoke With {
-                    .refer = funcDeclare.Name,
+                    .refer = funcDeclare,
                     .parameters = {array, index}
                 }
             Else

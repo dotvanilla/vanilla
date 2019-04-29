@@ -15,5 +15,13 @@ Namespace Symbols
                 Return [Module] & "." & Symbol
             End If
         End Function
+
+        Public Shared Widening Operator CType(func As FuncSignature) As ReferenceSymbol
+            Return New ReferenceSymbol With {
+                .IsOperator = False,
+                .[Module] = func.Module,
+                .Symbol = func.Name
+            }
+        End Operator
     End Class
 End Namespace

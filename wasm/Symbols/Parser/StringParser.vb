@@ -64,14 +64,14 @@ Namespace Symbols.Parser
         ''' <returns></returns>
         <Extension>
         Public Function StringAppend(symbols As SymbolTable, left As Expression, right As Expression) As Expression
-            Dim append = JavaScriptImports.String.StringAppend
+            Dim append = JavaScriptImports.String.Append
 
             ' try add required imports symbol
             Call symbols.addRequired(append)
 
             Return New FuncInvoke With {
                 .parameters = {left, right},
-                .refer = append.Name,
+                .refer = append,
                 .[operator] = False
             }
         End Function
@@ -97,7 +97,7 @@ Namespace Symbols.Parser
             value = symbols.memory.AddString(value)
 
             Call symbols.addRequired(JavaScriptImports.String.Replace)
-            Call symbols.addRequired(JavaScriptImports.String.StringAppend)
+            Call symbols.addRequired(JavaScriptImports.String.Append)
             Call symbols.addRequired(JavaScriptImports.String.Length)
             Call symbols.addRequired(JavaScriptImports.String.IndexOf)
         End Sub

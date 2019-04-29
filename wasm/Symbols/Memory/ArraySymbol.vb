@@ -85,7 +85,7 @@ Namespace Symbols
                 Return newArray.ToSExpression
             End If
 
-            Dim arrayPush$ = JavaScriptImports.Push.Name
+            Dim arrayPush = JavaScriptImports.Push
             Dim array As Expression = New FuncInvoke(arrayPush) With {
                 .parameters = {newArray, Initialize(Scan0)}
             }
@@ -163,7 +163,7 @@ Namespace Symbols
                 Return newTable.ToSExpression
             End If
 
-            Dim tableAppend = JavaScriptImports.Dictionary.SetValue.Name
+            Dim tableAppend = JavaScriptImports.Dictionary.SetValue
             Dim table As Expression = New FuncInvoke(tableAppend) With {
                 .parameters = {
                     newTable,

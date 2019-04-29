@@ -155,10 +155,14 @@ Namespace Symbols.Parser
                    .type = right.TypeInfer(symbols),
                    .value = 0
                 }
+                Dim opFunc As New ReferenceSymbol With {
+                    .IsOperator = True,
+                    .Symbol = $"{left.type}.{TypeExtensions.wasmOpName(op)}"
+                }
 
                 Return New FuncInvoke With {
                     .parameters = {left, right},
-                    .refer = $"{left.type}.{TypeExtensions.wasmOpName(op)}",
+                    .refer = opFunc,
                     .[operator] = True
                 }
             End If
@@ -322,7 +326,10 @@ Namespace Symbols.Parser
             ' 需要根据类型来决定操作符函数的类型来源
             Return New FuncInvoke With {
                 .parameters = {left, right},
-                .refer = funcOpName,
+                .refer = New ReferenceSymbol With {
+                    .Symbol = funcOpName,
+                    .IsOperator = True
+                },
                 .[operator] = True
             }
         End Function
@@ -335,7 +342,10 @@ Namespace Symbols.Parser
                 Return New FuncInvoke With {
                     .[operator] = True,
                     .parameters = {left, right},
-                    .refer = TypeExtensions.Compares("i32", "=")
+                    .refer = New ReferenceSymbol With {
+                        .Symbol = TypeExtensions.Compares("i32", "="),
+                        .IsOperator = True
+                    }
                 }
             Else
                 ' a is b

@@ -114,7 +114,7 @@ Namespace Symbols.Parser
 
                 Call symbols.addRequired(JavaScriptImports.SetArrayElement)
 
-                Return New FuncInvoke(JavaScriptImports.SetArrayElement.Name) With {
+                Return New FuncInvoke(JavaScriptImports.SetArrayElement) With {
                     .parameters = {
                         arraySymbol, index, assign.Right.ValueExpression(symbols)
                     }
