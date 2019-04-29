@@ -173,7 +173,7 @@ Module CTypeHandle
 
     Public Function [CBool](exp As Expression, symbols As SymbolTable) As Expression
         Dim type = exp.TypeInfer(symbols)
-        Dim operator$
+        Dim operator$ = Nothing
 
         Select Case type.type
             Case TypeAlias.i32
