@@ -320,7 +320,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compiler\ModuleOf.vb" />
+    <Compile Include="Compiler\Link\FindSymbols.vb" />
+    <Compile Include="Compiler\Link\ModuleOf.vb" />
     <Compile Include="DeclareHelpers.vb" />
     <Compile Include="Symbols\FuncInvoke.vb" />
     <Compile Include="Symbols\Parser\Expressions\FuncInvokeParser.vb" />
@@ -354,7 +355,7 @@
     <Compile Include="Symbols\Parser\AttributeParser.vb" />
     <Compile Include="Symbols\Parser\StringParser.vb" />
     <Compile Include="Symbols\Parser\ModuleParser.vb" />
-    <Compile Include="Compiler\SymbolTable.vb" />
+    <Compile Include="Compiler\Link\SymbolTable.vb" />
     <Compile Include="Symbols\DeclaredObject\ImportSymbol.vb" />
     <Compile Include="Symbols\FuncSymbol.vb" />
     <Compile Include="Symbols\Expression.vb" />
