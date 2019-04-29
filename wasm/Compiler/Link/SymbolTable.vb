@@ -231,16 +231,6 @@ Namespace Compiler
             Return locals.ContainsKey(var)
         End Function
 
-        ''' <summary>
-        ''' Get global variable type
-        ''' </summary>
-        ''' <param name="var"></param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGlobal(var$, module$) As DeclareGlobal
-            Return globals(var).FindSymbol([module])
-        End Function
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As LiteralExpression)
             Call globals.Add(var, New DeclareGlobal With {.name = var, .type = type, .init = init, .[Module] = moduleName})
@@ -397,7 +387,7 @@ Namespace Compiler
             If IsLocal(name) Then
                 Return GetObjectSymbol(name).type
             Else
-                Return GetGlobal(name, currentModuleLabel).type
+                Return FindModuleGlobal(Nothing, name).type
             End If
         End Function
 

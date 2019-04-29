@@ -216,7 +216,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return symbolTable.GetGlobal(var, symbolTable.currentModuleLabel).type
+            Return symbolTable.FindModuleGlobal(Nothing, var).type
         End Function
     End Class
 

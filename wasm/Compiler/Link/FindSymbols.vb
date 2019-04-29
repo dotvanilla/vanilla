@@ -19,6 +19,13 @@ Namespace Compiler
             End If
         End Function
 
+        ''' <summary>
+        ''' Get global variable type
+        ''' </summary>
+        ''' <param name="symbols"></param>
+        ''' <param name="context$"></param>
+        ''' <param name="name$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function FindModuleGlobal(symbols As SymbolTable, context$, name$) As DeclareGlobal
             Dim ref = symbols.globals.TryGetValue(name)
