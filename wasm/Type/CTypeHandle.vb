@@ -267,7 +267,10 @@ Module CTypeHandle
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Function CTypeInvoke(operator$, exp As Expression) As Expression
         Return New FuncInvoke With {
-            .refer = [operator],
+            .refer = New ReferenceSymbol With {
+                .IsOperator = True,
+                .Symbol = [operator]
+            },
             .[operator] = True,
             .parameters = {exp}
         }

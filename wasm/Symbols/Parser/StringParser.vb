@@ -141,7 +141,7 @@ Namespace Symbols.Parser
             symbols.addRequired(toString)
             value = New FuncInvoke With {
                 .[operator] = False,
-                .refer = toString.Name,
+                .refer = toString,
                 .parameters = {value}
             }
 

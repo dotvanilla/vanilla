@@ -86,7 +86,10 @@ Namespace Symbols.Blocks
             If test.IsNot Then
                 Return New FuncInvoke With {
                     .[operator] = True,
-                    .refer = "i32.eqz",
+                    .refer = New ReferenceSymbol With {
+                        .Symbol = "i32.eqz",
+                        .IsOperator = True
+                    },
                     .parameters = {test.Condition}
                 }
             Else
