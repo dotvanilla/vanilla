@@ -72,14 +72,18 @@ Namespace Compiler
     ''' </summary>
     Public Class SymbolTable
 
-        Dim functionList As New Dictionary(Of String, ModuleOf)
-        Dim locals As New Dictionary(Of String, DeclareLocal)
-        Dim uid As VBInteger = 666
         ''' <summary>
         ''' [name => type]
         ''' </summary>
-        Dim globals As New Dictionary(Of String, ModuleOf)
-        Dim enumConstants As New Dictionary(Of String, EnumSymbol)
+        Friend ReadOnly globals As New Dictionary(Of String, ModuleOf)
+        ''' <summary>
+        ''' 包含模块成员函数以及所导入的外部函数
+        ''' </summary>
+        Friend ReadOnly functionList As New Dictionary(Of String, ModuleOf)
+        Friend ReadOnly enumConstants As New Dictionary(Of String, EnumSymbol)
+
+        Dim locals As New Dictionary(Of String, DeclareLocal)
+        Dim uid As VBInteger = 666
 
         ''' <summary>
         ''' 这个内存对象是全局范围内的
