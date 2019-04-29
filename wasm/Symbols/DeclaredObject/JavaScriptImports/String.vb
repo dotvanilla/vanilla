@@ -53,7 +53,7 @@ Namespace Symbols.JavaScriptImports
 
         Public ReadOnly Property StringAppend As New ImportSymbol With {
             .ImportObject = "add",
-            .Name = "string_add",
+            .Name = "string.add",
             .Package = "string",
             .[Module] = "string",
             .result = New TypeAbstract(TypeAlias.string),
@@ -66,7 +66,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Length As New ImportSymbol With {
             .ImportObject = "length",
             .[Module] = "string",
-            .Name = "string_length",
+            .Name = "string.length",
             .Package = "string",
             .result = TypeAbstract.i32,
             .parameters = {
@@ -77,7 +77,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Trim As New ImportSymbol With {
             .ImportObject = "trim",
             .[Module] = "string",
-            .Name = "string_trim",
+            .Name = "string.trim",
             .Package = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
@@ -88,7 +88,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Replace As New ImportSymbol With {
             .ImportObject = "replace",
             .[Module] = "string",
-            .Name = "string_replace",
+            .Name = "string.replace",
             .Package = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
@@ -101,7 +101,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property IndexOf As New ImportSymbol With {
             .ImportObject = "indexOf",
             .[Module] = "string",
-            .Name = "string_indexOf",
+            .Name = "string.indexOf",
             .Package = "string",
             .result = TypeAbstract.i32,
             .parameters = {
@@ -129,7 +129,7 @@ Namespace Symbols.JavaScriptImports
         Public Function ToString(Optional type As String = "i32") As ImportSymbol
             Return New ImportSymbol With {
                 .ImportObject = "toString",
-                .Name = $"{type}_toString",
+                .Name = $"{type}.toString",
                 .[Module] = "string",
                 .Package = "string",
                 .result = New TypeAbstract(TypeAlias.string),

@@ -1,53 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::4b84d451eb0651fcb1b2498f89454337, Symbols\FuncInvoke.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class FuncInvoke
-    ' 
-    '         Properties: [operator], IsUnary, parameters, refer
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: AsUnary, funcTypeInfer, ToSExpression, typeFromOperator, TypeInfer
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class FuncInvoke
+' 
+'         Properties: [operator], IsUnary, parameters, refer
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: AsUnary, funcTypeInfer, ToSExpression, typeFromOperator, TypeInfer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Wasm.Compiler
 
 Namespace Symbols
@@ -60,10 +61,10 @@ Namespace Symbols
     Public Class FuncInvoke : Inherits Expression
 
         ''' <summary>
-        ''' Function reference string
+        ''' Function reference string, [funcName => module/type]
         ''' </summary>
         ''' <returns></returns>
-        Public Property refer As String
+        Public Property refer As NamedValue(Of String)
         ''' <summary>
         ''' The argument value expression that passing to the target function
         ''' </summary>
@@ -95,7 +96,7 @@ Namespace Symbols
                     End If
                 End If
 
-                Dim op$ = refer.Split("."c).Last
+                Dim op$ = refer.Name.Split("."c).Last
 
                 Return op Like TypeExtensions.unaryOp
             End Get
@@ -104,12 +105,18 @@ Namespace Symbols
         Sub New()
         End Sub
 
-        Sub New(funcName As String)
-            refer = funcName
+        Sub New(module$, funcName As String)
+            refer = New NamedValue(Of String) With {
+                .Name = funcName,
+                .Value = [module]
+            }
         End Sub
 
         Sub New(target As FuncSignature)
-            refer = target.Name
+            refer = New NamedValue(Of String) With {
+                .Name = target.Name,
+                .Value = target.Module
+            }
         End Sub
 
         Public Function AsUnary(type As TypeAbstract) As LiteralExpression
@@ -117,7 +124,7 @@ Namespace Symbols
                 Throw New InvalidCastException
             End If
 
-            If refer.Split("."c).Last = "+"c Then
+            If refer.Name.Split("."c).Last = "add" Then
                 ' 直接返回第二个参数
                 Return parameters(1)
             Else
@@ -204,8 +211,12 @@ Namespace Symbols
 
                     Throw New NotImplementedException
                 Else
-                    Dim context$ = obj.TypeInfer(symbolTable).type.Description
-                    func = symbolTable.GetFunctionSymbol(context, refer)
+                    If refer.Value Like symbolTable.ModuleNames Then
+                        func = symbolTable.FindModuleMemberFunction(refer.Value, refer.Name)
+                    Else
+                        Dim context$ = obj.TypeInfer(symbolTable).type.Description
+                        func = symbolTable.GetFunctionSymbol(context, refer)
+                    End If
                 End If
             End If
 

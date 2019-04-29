@@ -59,7 +59,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property SetValue As New ImportSymbol With {
             .ImportObject = "set",
             .[Module] = "table",
-            .Name = "table_set",
+            .Name = "table.set",
             .Package = NameOf(Dictionary),
             .result = TypeAbstract.void,
             .parameters = {
@@ -72,7 +72,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property GetValue As New ImportSymbol With {
             .ImportObject = "get",
             .[Module] = "table",
-            .Name = "table_get",
+            .Name = "table.get",
             .Package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
@@ -84,7 +84,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property RemoveValue As New ImportSymbol With {
             .ImportObject = "delete",
             .[Module] = "table",
-            .Name = "table_delete",
+            .Name = "table.delete",
             .Package = NameOf(Dictionary),
             .result = TypeAbstract.void,
             .parameters = {
@@ -96,7 +96,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Create As New ImportSymbol With {
             .ImportObject = "create",
             .[Module] = "table",
-            .Name = "table_new",
+            .Name = "table.new",
             .Package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.table),
             .parameters = {}

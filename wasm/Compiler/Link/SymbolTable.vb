@@ -279,7 +279,7 @@ Namespace Compiler
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFunctionSymbol(context$, name$) As FuncSignature
-            Return Me.FindTypeMethod(context, name)
+            Return Me.FindTypeMethod(context Or currentModuleLabel, name)
 
             'Dim contextObj As DeclareLocal = Nothing
 
