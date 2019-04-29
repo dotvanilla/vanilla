@@ -145,7 +145,7 @@ Namespace Symbols.Parser
             symbols.currentFuncSymbol = funcVar.Name
             ' using for distinguish function and global variables that 
             ' between different VisualBasic modules
-            symbols.currentModuleSymbol = moduleName
+            symbols.currentModuleLabel = moduleName
 
             ' the function parameter treated as local variable
             ' in function body

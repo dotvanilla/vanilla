@@ -204,7 +204,8 @@ Namespace Symbols
 
                     Throw New NotImplementedException
                 Else
-                    func = symbolTable.GetFunctionSymbol(obj.TypeInfer(symbolTable).type.Description, refer)
+                    Dim context$ = obj.TypeInfer(symbolTable).type.Description
+                    func = symbolTable.GetFunctionSymbol(context, refer)
                 End If
             End If
 

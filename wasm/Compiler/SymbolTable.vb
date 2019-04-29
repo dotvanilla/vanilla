@@ -96,7 +96,7 @@ Namespace Compiler
         ''' 当前的VisualBasic模块的名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property currentModuleSymbol() As DefaultValue(Of String)
+        Public Property currentModuleLabel() As DefaultValue(Of String)
 
         ''' <summary>
         ''' 为了满足基本的变成需求而自动添加的引用符号列表
@@ -301,7 +301,11 @@ Namespace Compiler
 
             If contextObj Is Nothing Then
                 If functionList.ContainsKey(name) Then
-                    Return functionList(name).FindSymbol(currentModuleSymbol)
+                    If context Like ModuleNames Then
+                        Return functionList(name).FindSymbol(context)
+                    Else
+                        Return functionList(name).FindSymbol(currentModuleLabel)
+                    End If
                 Else
                     If locals.ContainsKey(name) AndAlso locals(name).type.iscollection Then
                         Return JavaScriptImports.GetArrayElement
@@ -389,7 +393,7 @@ Namespace Compiler
             If IsLocal(name) Then
                 Return GetObjectSymbol(name).type
             Else
-                Return GetGlobal(name, currentModuleSymbol).type
+                Return GetGlobal(name, currentModuleLabel).type
             End If
         End Function
 
