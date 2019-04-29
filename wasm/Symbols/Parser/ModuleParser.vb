@@ -113,14 +113,15 @@ Namespace Symbols.Parser
             Dim project As ModuleBlockSyntax() = vbcode.Members _
                 .OfType(Of ModuleBlockSyntax) _
                 .ToArray
-            Dim symbolTable As SymbolTable = Nothing
+            Dim enums As EnumSymbol()
 
             For Each main As ModuleBlockSyntax In project
-                symbolTable = main.ParseDeclares(symbols, vbcode.ParseEnums)
+                enums = vbcode.ParseEnums
+                symbols = main.ParseDeclares(symbols, enums)
             Next
 
             ' 解析成员函数的具体定义内容
-            Return project.CreateModule(symbolTable, Nothing)
+            Return project.CreateModule(symbols, Nothing)
         End Function
 
         <Extension>

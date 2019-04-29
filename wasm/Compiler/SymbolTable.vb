@@ -164,10 +164,16 @@ Namespace Compiler
         Public Function AddFunctionDeclares(methods As IEnumerable(Of MethodBlockSyntax), module$) As SymbolTable
             For Each method In methods
                 With method.FuncVariable(Me)
-                    functionList(.Name) = New FuncSignature(.ByRef) With {
+                    Dim func As New FuncSignature(.ByRef) With {
                         .parameters = method.ParseParameters(Me),
                         .[Module] = [module]
                     }
+
+                    If functionList.ContainsKey(.Name) Then
+                        functionList(.Name).Add(func)
+                    Else
+                        functionList(.Name) = func
+                    End If
                 End With
             Next
 
