@@ -210,9 +210,20 @@ Namespace Symbols.Parser
                     .ToArray
             End If
 
-            Return New FuncInvoke(funcDeclare) With {
-                .parameters = arguments
-            }
+            Return funcDeclare.FunctionInvoke(arguments)
+        End Function
+
+        <Extension>
+        Public Function FunctionInvoke(func As FuncSignature, arguments As Expression()) As Expression
+            If TypeOf func Is ImportSymbol Then
+                Return New FuncInvoke(DirectCast(func, ImportSymbol)) With {
+                    .parameters = arguments
+                }
+            Else
+                Return New FuncInvoke(func) With {
+                    .parameters = arguments
+                }
+            End If
         End Function
 
         <Extension>
@@ -285,9 +296,7 @@ Namespace Symbols.Parser
             Else
                 Dim arguments = argumentList.fillParameters(funcDeclare.parameters, symbols)
 
-                Return New FuncInvoke(funcDeclare) With {
-                    .parameters = arguments
-                }
+                Return funcDeclare.FunctionInvoke(arguments)
             End If
         End Function
 

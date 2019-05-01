@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 2:34:47 PM
+    ;; build: 5/1/2019 3:12:29 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -13,12 +13,12 @@
 
     ;; Declare Function Print Lib "console" Alias "log" (text As string) As i32
     (func $Stringstest.Print (import "console" "log") (param $text i32) (result i32))
-    ;; Declare Function string.length Lib "string" Alias "length" (text As string) As i32
-    (func $string.length (import "string" "length") (param $text i32) (result i32))
     ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
     (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
     ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
     (func $string.add (import "string" "add") (param $a i32) (param $b i32) (result i32))
+    ;; Declare Function string.length Lib "string" Alias "length" (text As string) As i32
+    (func $string.length (import "string" "length") (param $text i32) (result i32))
     ;; Declare Function string.indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
     (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
     ;; Declare Function string.trim Lib "string" Alias "trim" (s As string) As string
@@ -78,9 +78,9 @@
         ;; Public Function stringmemberTest() As void
         (local $length i64)
     (local $lenPlus100 i64)
+    (drop (call $Stringstest.Print (call $f64.toString (f64.add (get_global $Stringstest.C) (f64.convert_s/i32 (call $string.string.length (call $string.string.trim (call $string.string.replace (call $Stringstest.Hello ) (i32.const 1) (i32.const 0)))))))))
     (set_local $length (i64.extend_s/i32 (call $string.length (call $Stringstest.Hello ))))
     (set_local $lenPlus100 (i64.add (i64.extend_s/i32 (get_global $Stringstest.b)) (get_local $length)))
-    (drop (call $Stringstest.Print (call $f64.toString (f64.add (get_global $Stringstest.C) (f64.convert_s/i32 (call $string.string.length (call $string.string.trim (call $string.string.replace (call $Stringstest.Hello ) (i32.const 1) (i32.const 0)))))))))
     )
     (func $Stringstest.Main  (result i32)
         ;; Public Function Main() As string

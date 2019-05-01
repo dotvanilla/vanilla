@@ -59,10 +59,12 @@ Module Stringstest
     Dim b As Integer = 100
 
     Public Sub stringmemberTest()
+        Call Print(C + Hello.Replace("AAA", Nothing).Trim.Length)
+
         Dim length As Long = Hello.Length
         Dim lenPlus100 = b + length
 
-        Call Print(C + Hello.Replace("AAA", Nothing).Trim.Length)
+
     End Sub
 
     Public Function Main() As String

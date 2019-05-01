@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9459b3f736c6faaa4cbde06b57826c87, Symbols\Blocks\BooleanSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::9dcf9e0cc23e585f8518503a5f193e60, Symbols\Blocks\BooleanSymbol.vb"
 
     ' Author:
     ' 

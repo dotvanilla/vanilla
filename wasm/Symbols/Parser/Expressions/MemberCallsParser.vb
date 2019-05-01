@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e68958bb7eddcf082f44b67b18803ff, Symbols\Parser\Expressions\MemberCallsParser.vb"
+﻿#Region "Microsoft.VisualBasic::460f5840832896b62c5f563afea71af9, Symbols\Parser\Expressions\MemberCallsParser.vb"
 
     ' Author:
     ' 
@@ -73,21 +73,13 @@ Namespace Symbols.Parser
                 }
             ElseIf (Not symbols.IsAnyObject(objName)) AndAlso (Not objName Like symbols.ModuleNames) Then
                 Dim func = symbols.GetFunctionSymbol(Nothing, objName)
-                Dim funcValue As Expression = New FuncInvoke(func) With {.parameters = {}}
+                Dim funcValue As Expression = func.FunctionInvoke({})
 
                 ' 可能是一个拓展函数或者函数返回值的成员调用
                 If func.TypeInfer(symbols).type = TypeAlias.string Then
                     Dim member = symbols.FindTypeMethod(New TypeAbstract("string"), memberName)
 
-                    If TypeOf member Is ImportSymbol Then
-                        Return New FuncInvoke(DirectCast(member, ImportSymbol)) With {
-                            .parameters = {funcValue}
-                        }
-                    Else
-                        Return New FuncInvoke(member) With {
-                            .parameters = {funcValue}
-                        }
-                    End If
+                    Return member.FunctionInvoke({funcValue})
                 End If
 
                 Throw New NotImplementedException
@@ -156,7 +148,10 @@ Namespace Symbols.Parser
             If TypeOf ref.Expression Is SimpleNameSyntax Then
                 Return SimpleMember(ref.Expression, symbols, memberName)
             Else
-                Return ref.Expression.ValueExpression(symbols).ExpressionMember(memberName, symbols)
+                Dim obj As Expression = ref.Expression.ValueExpression(symbols)
+                Dim memberAccess As Expression = obj.ExpressionMember(memberName, symbols)
+
+                Return memberAccess
             End If
         End Function
 
@@ -172,9 +167,7 @@ Namespace Symbols.Parser
 
             If Not func Is Nothing AndAlso func.parameters.Length = 1 Then
                 ' func (obj)
-                Return New FuncInvoke(func) With {
-                    .parameters = {obj}
-                }
+                Return func.FunctionInvoke({obj})
             Else
                 ' object field
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66ea3d3df4d6255319b047c7ff3fe004, Type\TypeEquality.vb"
+﻿#Region "Microsoft.VisualBasic::59375d8569b15d8dbe516197c0b4724d, Type\TypeEquality.vb"
 
     ' Author:
     ' 

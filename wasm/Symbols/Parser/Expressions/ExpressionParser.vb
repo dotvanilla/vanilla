@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1454ef4ea22ab5c9e00c05957538b630, Symbols\Parser\Expressions\ExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::b33c7ea9751ec3067c6c945f062bc548, Symbols\Parser\Expressions\ExpressionParser.vb"
 
     ' Author:
     ' 
@@ -36,11 +36,10 @@
 
     ' Summaries:
 
-    '     Module ExpressionParse
+    '     Module ExpressionParser
     ' 
-    '         Function: [TryCast], (+2 Overloads) BinaryStack, ConstantExpression, (+2 Overloads) CreateArray, IsPredicate
-    '                   ParenthesizedStack, ReferVariable, StringConstant, UnaryExpression, UnaryValue
-    '                   ValueCType, ValueExpression
+    '         Function: [TryCast], ConstantExpression, (+2 Overloads) CreateArray, ParenthesizedStack, ReferVariable
+    '                   StringConstant, UnaryExpression, UnaryValue, ValueCType, ValueExpression
     ' 
     ' 
     ' /********************************************************************************/
