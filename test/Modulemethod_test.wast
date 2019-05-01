@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 11:21:52 AM
+    ;; build: 5/1/2019 11:48:30 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -64,13 +64,22 @@
     ;; String from 90 with 5 bytes in memory
     (data (i32.const 90) "ddddd\00")
     
-    
+    (global $Modulemethod_test.auniqueSymbol (mut i32) (i32.const 0))
+
+(global $Modulemethod_test.ANonUniqueSymbol (mut i32) (i32.const 0))
+
+(global $module2.ANonUniqueSymbol (mut i32) (i32.const 0))
 
     ;; export from [Modulemethod_test]
     
     (export "Modulemethod_test.arraytypeInferTest" (func $Modulemethod_test.arraytypeInferTest))
     (export "Modulemethod_test.test" (func $Modulemethod_test.test))
     (export "Modulemethod_test.calls" (func $Modulemethod_test.calls))
+    
+    
+    ;; export from [unqiueTest]
+    
+    (export "unqiueTest.test" (func $unqiueTest.test))
     
     
     ;; export from [module2]
@@ -106,6 +115,19 @@
     )
     
     
+    ;; functions in [unqiueTest]
+    
+    (func $unqiueTest.test  
+        ;; Public Function test() As void
+        (local $a i32)
+    (local $b i32)
+    (local $c i32)
+    (set_local $a (get_global $Modulemethod_test.auniqueSymbol))
+    (set_local $b (get_global $module2.ANonUniqueSymbol))
+    (set_local $c (get_global $Modulemethod_test.ANonUniqueSymbol))
+    )
+    
+    
     ;; functions in [module2]
     
     (func $module2.ThisIsAInternalFunction  (result i32)
@@ -118,6 +140,12 @@
         
     (call $Modulemethod_test.calls )
     (drop (call $module2.ThisIsAInternalFunction ))
+    )
+    (func $module2.returnANonUniqueSymbol  (result i32)
+        ;; Public Function returnANonUniqueSymbol() As array(Of i32)
+        (local $a i32)
+    (set_local $a (get_global $Modulemethod_test.ANonUniqueSymbol))
+    (return (get_global $module2.ANonUniqueSymbol))
     )
     (func $module2.test (param $gg i32) (result i32)
         ;; Public Function test(gg As string) As array(Of string)
