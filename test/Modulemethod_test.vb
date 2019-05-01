@@ -54,6 +54,10 @@
 
 Module Modulemethod_test
 
+    Public auniqueSymbol As String()
+
+    Public ANonUniqueSymbol As Integer
+
     Public Function arraytypeInferTest() As Long()
         Return {2342, 34, 322, 343}
     End Function
@@ -78,7 +82,21 @@ Module Modulemethod_test
 
 End Module
 
+Module unqiueTest
+
+    Public Sub test()
+
+        Dim a = auniqueSymbol
+        Dim b = module2.ANonUniqueSymbol
+        Dim c = Modulemethod_test.ANonUniqueSymbol
+
+    End Sub
+
+End Module
+
 Module module2
+
+    Public ANonUniqueSymbol As Integer()
 
     Private Function ThisIsAInternalFunction() As Object
         Return "This is a internal function too"
@@ -88,6 +106,12 @@ Module module2
         Call Modulemethod_test.calls()
         Call ThisIsAInternalFunction()
     End Sub
+
+    Private Function returnANonUniqueSymbol() As Integer()
+        Dim a = Modulemethod_test.ANonUniqueSymbol
+
+        Return ANonUniqueSymbol
+    End Function
 
     Public Function test(gg As String) As String()
         Return {gg, gg & "ddddd"}

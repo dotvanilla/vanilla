@@ -233,7 +233,18 @@ Namespace Compiler
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As LiteralExpression)
-            Call globals.Add(var, New DeclareGlobal With {.name = var, .type = type, .init = init, .[Module] = moduleName})
+            Dim [global] As New DeclareGlobal With {
+                .name = var,
+                .type = type,
+                .init = init,
+                .[Module] = moduleName
+            }
+
+            If Not globals.ContainsKey(var) Then
+                Call globals.Add(var, New ModuleOf())
+            End If
+
+            Call globals(var).Add([global])
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

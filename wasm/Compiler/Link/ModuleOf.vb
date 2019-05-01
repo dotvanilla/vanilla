@@ -92,6 +92,9 @@ Namespace Compiler
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
         Sub New(symbol As IDeclaredObject)
             Add(symbol)
             SymbolName = symbol.Key
