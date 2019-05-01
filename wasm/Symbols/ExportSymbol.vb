@@ -59,7 +59,7 @@ Namespace Symbols
         ''' 在对象进行导出的时候对外的名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property Name As String
+        Public Property Name As String Implements IKeyedEntity(Of String).Key
         ''' <summary>
         ''' 导出对象的类型，一般为``func``函数类型
         ''' </summary>
@@ -69,7 +69,7 @@ Namespace Symbols
         ''' 目标对象在模块内部的引用名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property target As String Implements IKeyedEntity(Of String).Key
+        Public Property target As ReferenceSymbol
         Public Property [Module] As String Implements IDeclaredObject.Module
 
         Public Overrides Function ToSExpression() As String
@@ -78,7 +78,7 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             If type = "func" Then
-                Return symbolTable.GetFunctionSymbol(Nothing, target).result
+                Return symbolTable.GetFunctionSymbol(target).result
             Else
                 Throw New NotImplementedException
             End If

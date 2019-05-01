@@ -138,7 +138,7 @@ Public Module Extensions
                             Return New ExportSymbolExpression With {
                                 .[Module] = func.Module,
                                 .Name = func.Name,
-                                .target = func.Name,
+                                .target = func,
                                 .type = "func"
                             }
                         End Function) _

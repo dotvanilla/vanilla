@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 10:05:14 AM
+    ;; build: 5/1/2019 10:13:24 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -48,7 +48,7 @@
     (func $arraytypeInferTest  (result i32)
         ;; Public Function arraytypeInferTest() As array(Of i64)
         
-    (return (call $array.array.push (call $array.array.push (call $array.array.push (call $array.array.push (call $array.array.new (i32.const -1)) (i64.const 2342)) (i64.const 34)) (i64.const 322)) (i64.const 343)))
+    (return (call $array.push (call $array.push (call $array.push (call $array.push (call $array.new (i32.const -1)) (i64.const 2342)) (i64.const 34)) (i64.const 322)) (i64.const 343)))
     )
     (func $test  (result i32)
         ;; Public Function test() As i32
@@ -73,6 +73,6 @@
     (func $test (param $gg i32) (result i32)
         ;; Public Function test(gg As string) As array(Of string)
         
-    (return (call $array.array.push (call $array.array.push (call $array.array.new (i32.const -1)) (get_local $gg)) (call $string.string.add (get_local $gg) (i32.const 30))))
+    (return (call $array.push (call $array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.string.add (get_local $gg) (i32.const 30))))
     )
     )

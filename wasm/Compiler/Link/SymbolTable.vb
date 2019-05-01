@@ -265,6 +265,11 @@ Namespace Compiler
             Return functionList.ContainsKey(name)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetFunctionSymbol(func As ReferenceSymbol) As FuncSignature
+            Return Me.FindModuleMemberFunction(func.Module, func.Symbol)
+        End Function
+
         ''' <summary>
         ''' 因为VB.NET之中，数组的元素获取和函数调用的语法是一样的，所以假若没有找到目标函数
         ''' 但是在local之中找到了一个数组，则会返回数组元素获取的语法

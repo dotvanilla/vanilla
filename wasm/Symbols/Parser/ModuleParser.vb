@@ -190,7 +190,7 @@ Namespace Symbols.Parser
                 If method.SubOrFunctionStatement.isExportObject Then
                     exports += New ExportSymbolExpression With {
                         .Name = functions.Last.Name.Trim("$"c),
-                        .target = functions.Last.Name,
+                        .target = functions.Last,
                         .type = "func",
                         .[Module] = moduleName
                     }
