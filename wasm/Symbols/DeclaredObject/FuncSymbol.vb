@@ -84,7 +84,7 @@ Namespace Symbols
         ''' 所以构建函数体的时候流程会有些复杂
         ''' </summary>
         ''' <returns></returns>
-        Private Function buildBody() As String
+        Protected Function buildBody() As String
             ' 先声明变量，然后再逐步赋值
             Dim declareLocals$()
             Dim body As New List(Of String)
