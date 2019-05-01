@@ -5,13 +5,22 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 10:37:49 AM
+    ;; build: 5/1/2019 10:41:36 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
-    
+    ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
+    (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
+    ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
+    (func $string.add (import "string" "add") (param $a i32) (param $b i32) (result i32))
+    ;; Declare Function string.length Lib "string" Alias "length" (text As string) As i32
+    (func $string.length (import "string" "length") (param $text i32) (result i32))
+    ;; Declare Function string.indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
+    (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
+    ;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
+    (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)

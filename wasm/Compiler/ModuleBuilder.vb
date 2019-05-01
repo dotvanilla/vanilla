@@ -59,8 +59,7 @@ Namespace Compiler
         Public Function ToSExpression(m As ModuleSymbol) As String
             Dim import$ = ""
             Dim globals$ = ""
-            Dim internal$ = m _
-                .InternalFunctions _
+            Dim internal$ = m.InternalFunctions _
                 .funcGroup _
                 .JoinBy(vbCrLf) _
                 .LineTokens _

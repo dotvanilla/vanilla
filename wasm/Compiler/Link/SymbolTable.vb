@@ -203,7 +203,7 @@ Namespace Compiler
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetAllImports() As IEnumerable(Of ImportSymbol)
-            Return functionList.Values.OfType(Of ImportSymbol)
+            Return functionList.Values.IteratesALL.OfType(Of ImportSymbol)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
