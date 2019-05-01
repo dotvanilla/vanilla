@@ -622,6 +622,7 @@ var vanilla;
         }
         function exportWasmApi(assm) {
             let exports = assm.instance.exports;
+            console.log(exports);
             let api = {
                 AssemblyInfo: vanilla.AssemblyInfo.readAssemblyInfo(assm)
             };

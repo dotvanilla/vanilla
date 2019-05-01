@@ -79,9 +79,12 @@
 
         function exportWasmApi(assm: IWasm): { AssemblyInfo: AssemblyInfo } {
             let exports = assm.instance.exports;
+            console.log(exports);
             let api = {
                 AssemblyInfo: AssemblyInfo.readAssemblyInfo(assm)
             };
+
+          
 
             for (let name in exports) {
                 let obj = exports[name];

@@ -1,0 +1,3 @@
+﻿namespace vanilla.Wasm.Application {
+
+}
