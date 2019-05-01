@@ -84,8 +84,37 @@ Namespace Symbols.Parser
                     Return DirectCast(value, ObjectCreationExpressionSyntax).CreateObject(symbols)
                 Case GetType(ArrayCreationExpressionSyntax)
                     Return DirectCast(value, ArrayCreationExpressionSyntax).CreateArray(symbols)
+                Case GetType(PredefinedCastExpressionSyntax)
+                    Return DirectCast(value, PredefinedCastExpressionSyntax).trycast(symbols)
                 Case Else
                     Throw New NotImplementedException(value.GetType.FullName)
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' CInt, CLng, CSng, etc
+        ''' </summary>
+        ''' <param name="cast"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function [TryCast](cast As PredefinedCastExpressionSyntax, symbols As SymbolTable) As Expression
+            Dim value As Expression = cast.Expression.ValueExpression(symbols)
+            Dim castTo$ = cast.Keyword.ValueText
+
+            Select Case castTo
+                Case "CInt"
+                    Return CTypeHandle.CInt(value, symbols)
+                Case "CDbl"
+                    Return CTypeHandle.CDbl(value, symbols)
+                Case "CLng"
+                    Return CTypeHandle.CLng(value, symbols)
+                Case "CSng"
+                    Return CTypeHandle.CSng(value, symbols)
+                Case "CBool"
+                    Return CTypeHandle.CBool(value, symbols)
+                Case Else
+                    Throw New NotImplementedException
             End Select
         End Function
 

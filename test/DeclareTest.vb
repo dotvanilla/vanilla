@@ -50,6 +50,7 @@ Module DeclareTest
     Dim E%, F&
     Dim L As Single = 90
     Dim A, B, C As Double, GG As Single, Z&
+    Dim uniqueGlobalName As String
 
     Private Function localDeclareTest() As Single
         Dim XYY! = 888999 + DeclareTest.A
@@ -60,7 +61,11 @@ Module DeclareTest
         Dim E%, F&
 
         C = 5000
+
+        ' set global test 1
         DeclareTest.C = C * (DeclareTest.C + 1)
+        ' set global test 2
+        uniqueGlobalName = $"Hello: {C}"
 
         ' this should be true
         Dim globalNameRefere = (MN + DeclareTest.MN) = MN * 2
