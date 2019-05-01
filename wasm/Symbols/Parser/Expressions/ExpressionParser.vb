@@ -203,9 +203,7 @@ Namespace Symbols.Parser
                     .var = var
                 }
             Else
-                Return New GetGlobalVariable With {
-                    .var = var
-                }
+                Return symbols.FindModuleGlobal(Nothing, var).GetReference
             End If
         End Function
 

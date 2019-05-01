@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 11:33:14 AM
+    ;; build: 5/1/2019 11:38:17 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -38,7 +38,7 @@
     (local $i i32)
     (set_local $x (f64.const 999))
     (set_local $delta (f32.const 0.001))
-    (set_local $i (i32.wrap/i64 (get_global $.zero)))
+    (set_local $i (i32.wrap/i64 (get_global $ForLoopTest.zero)))
     ;; For i As Integer = zero To 100 Step ForLoopTest.delta
     
     (block $block_9a020000 
