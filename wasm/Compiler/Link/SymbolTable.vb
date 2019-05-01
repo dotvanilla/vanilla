@@ -379,24 +379,6 @@ Namespace Compiler
             'End If
         End Function
 
-        Private Function getTableInternal(name As String) As FuncSignature
-            Dim Api As ImportSymbol = JavaScriptImports.Dictionary.Method(name)
-            Call addRequired(Api)
-            Return Api
-        End Function
-
-        Private Function getArrayListInternal(name As String) As FuncSignature
-            Dim Api As ImportSymbol = JavaScriptImports.Array.Method(name)
-            Call addRequired(Api)
-            Return Api
-        End Function
-
-        Private Function getStringInternal(name As String) As FuncSignature
-            Dim Api As ImportSymbol = JavaScriptImports.String.Method(name)
-            Call addRequired(Api)
-            Return Api
-        End Function
-
         ''' <summary>
         ''' 获取一个局部变量
         ''' </summary>

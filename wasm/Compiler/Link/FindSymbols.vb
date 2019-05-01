@@ -1,54 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::08046e2b4b3ca1dbb3d8cc23c4f69b5f, Compiler\Link\FindSymbols.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FindSymbols
-    ' 
-    '         Function: FindEnumValue, findMethodByFirstSignature, FindModuleGlobal, FindModuleMemberFunction, FindTypeMethod
-    '                   handleStringMethods
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FindSymbols
+' 
+'         Function: FindEnumValue, findMethodByFirstSignature, FindModuleGlobal, FindModuleMemberFunction, FindTypeMethod
+'                   handleStringMethods
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Symbols
+Imports Wasm.Symbols.Parser
 
 Namespace Compiler
 
@@ -127,12 +128,18 @@ Namespace Compiler
             End If
 
             Dim typeContext As TypeAbstract
+            Dim func As FuncSignature
 
             If Not contextObj Is Nothing Then
                 ' 找到了变量，则转换为类型
                 typeContext = contextObj.TypeInfer(symbols)
                 ' 函数调用时从一个存在的变量对象开始的
-                Return symbols.findMethodByFirstSignature(typeContext, name, True)
+                func = symbols.findMethodByFirstSignature(typeContext, name, True)
+
+                If Not func Is Nothing Then
+                    Return func
+                End If
+
             ElseIf context Like symbols.ModuleNames Then
                 ' 模块方法引用
                 Return symbols.FindModuleMemberFunction(context, name)
@@ -160,7 +167,6 @@ Namespace Compiler
                                Return f.parameters(Scan0).Value.Equals(typeContext)
                            End Function) _
                     .ToArray
-                Dim func As FuncSignature
 
                 If funcs.Length > 1 Then
                     ' 默认是当前模块的优先？
@@ -198,6 +204,11 @@ Namespace Compiler
                                Return TypeEquality.Test.Equals(typeContext, func.parameters(Scan0).Value)
                            End If
                        End Function
+
+            If Not symbols.functionList.ContainsKey(name) Then
+                Return Nothing
+            End If
+
             Dim funcs As FuncSignature() = symbols.functionList(name) _
                 .Select(Function(o) DirectCast(o, FuncSignature)) _
                 .Where(test) _
@@ -220,8 +231,24 @@ Namespace Compiler
         End Function
 
         <Extension>
-        Private Function handleStringMethods(symbols As SymbolTable, name As String) As FuncSignature
+        Private Function handleTableMethods(symbols As SymbolTable, name As String) As FuncSignature
+            Dim Api As ImportSymbol = JavaScriptImports.Dictionary.Method(name)
+            Call symbols.addRequired(Api)
+            Return Api
+        End Function
 
+        <Extension>
+        Private Function handleArrayListMethods(symbols As SymbolTable, name As String) As FuncSignature
+            Dim Api As ImportSymbol = JavaScriptImports.Array.Method(name)
+            Call symbols.addRequired(Api)
+            Return Api
+        End Function
+
+        <Extension>
+        Private Function handleStringMethods(symbols As SymbolTable, name As String) As FuncSignature
+            Dim Api = JavaScriptImports.String.Method(name)
+            Call symbols.addRequired(Api)
+            Return Api
         End Function
     End Module
 End Namespace
