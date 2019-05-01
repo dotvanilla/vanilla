@@ -70,7 +70,13 @@ Namespace Symbols
             Return load("f64", intptr)
         End Function
 
-        Private Function load(type$, intptr As [Variant](Of Integer, Expression)) As Expression
+        ''' <summary>
+        ''' 从内存之中读取指定位置的字节块，然后返回对应的数值
+        ''' </summary>
+        ''' <param name="type">只有4种基础的数据类型</param>
+        ''' <param name="intptr">内存的位置</param>
+        ''' <returns></returns>
+        Public Function load(type$, intptr As [Variant](Of Integer, Expression)) As Expression
             Dim [addressOf] As Expression
 
             If intptr Like GetType(Integer) Then
@@ -89,6 +95,30 @@ Namespace Symbols
             }
         End Function
 
+        ''' <summary>
+        ''' 将数据写入指定位置的内存之中
+        ''' </summary>
+        ''' <param name="type$"></param>
+        ''' <param name="intptr"></param>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        Public Function save(type$, intptr As [Variant](Of Integer, Expression), value As Expression) As Expression
+            Dim [addressOf] As Expression
 
+            If intptr Like GetType(Integer) Then
+                [addressOf] = Literal.i32(intptr)
+            Else
+                [addressOf] = intptr.TryCast(Of Expression)
+            End If
+
+            Return New FuncInvoke With {
+                .[operator] = True,
+                .parameters = {[addressOf], value},
+                .refer = New ReferenceSymbol With {
+                    .Symbol = $"{type}.store",
+                    .Type = SymbolType.Operator
+                }
+            }
+        End Function
     End Module
 End Namespace
