@@ -111,7 +111,7 @@ Namespace Symbols
                 result = $"(result {result})"
             End If
 
-            Return $"(func ${Name} {params} {result}
+            Return $"(func ${[Module]}.{Name} {params} {result}
     ;; {VBDeclare}
     {buildBody()}
 )"
