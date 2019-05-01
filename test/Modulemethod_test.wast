@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 10:17:34 AM
+    ;; build: 5/1/2019 10:37:49 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -59,7 +59,7 @@
         ;; Public Function calls() As void
         
     (drop (call $Modulemethod_test.test ))
-    (drop (call $module2.test (call $string.string.add (call $string.string.add (i32.const 1) (call $string.i32.toString (call $Modulemethod_test.test ))) (i32.const 13))))
+    (drop (call $module2.test (call $string.add (call $string.add (i32.const 1) (call $i32.toString (call $Modulemethod_test.test ))) (i32.const 13))))
     )
     
     
@@ -73,6 +73,6 @@
     (func $module2.test (param $gg i32) (result i32)
         ;; Public Function test(gg As string) As array(Of string)
         
-    (return (call $array.push (call $array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.string.add (get_local $gg) (i32.const 30))))
+    (return (call $array.push (call $array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.add (get_local $gg) (i32.const 30))))
     )
     )
