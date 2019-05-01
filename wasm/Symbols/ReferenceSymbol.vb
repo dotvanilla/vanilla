@@ -66,8 +66,14 @@ Namespace Symbols
         Public Property Type As SymbolType
 
         Public Overrides Function ToString() As String
-            If Type = SymbolType.Operator OrElse Type = SymbolType.Api Then
+            If Type = SymbolType.Operator Then
                 Return Symbol
+            ElseIf Type = SymbolType.Api Then
+                If [Module].StringEmpty Then
+                    Return Symbol
+                Else
+                    Return [Module] & "." & Symbol
+                End If
             Else
                 Return [Module] & "." & Symbol
             End If
@@ -84,7 +90,7 @@ Namespace Symbols
         Public Shared Widening Operator CType(func As ImportSymbol) As ReferenceSymbol
             Return New ReferenceSymbol With {
                 .Type = SymbolType.Api,
-                .[Module] = func.Module,
+                .[Module] = If(func.DefinedInModule, func.Module, Nothing),
                 .Symbol = func.Name
             }
         End Operator

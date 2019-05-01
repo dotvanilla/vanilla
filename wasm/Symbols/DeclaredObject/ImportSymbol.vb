@@ -74,6 +74,12 @@ Namespace Symbols
         ''' <returns></returns>
         Public Property ImportObject As String
 
+        ''' <summary>
+        ''' 这个Api是在用户代码之中定义的
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property DefinedInModule As Boolean = True
+
         Public ReadOnly Property VBDeclare As String
             Get
                 With parameters _
@@ -97,6 +103,11 @@ Namespace Symbols
                 .Select(Function(a) a.param) _
                 .JoinBy(" ")
             Dim returnType$ = result.typefit
+            Dim ref As New ReferenceSymbol With {
+                .[Module] = If(DefinedInModule, [Module], Nothing),
+                .Symbol = Name,
+                .Type = SymbolType.Api
+            }
 
             If returnType = "void" Then
                 returnType = ""
@@ -105,7 +116,7 @@ Namespace Symbols
             End If
 
             Return $";; {VBDeclare}
-    (func ${Name} (import ""{Package}"" ""{ImportObject}"") {params} {returnType})"
+    (func ${ref} (import ""{Package}"" ""{ImportObject}"") {params} {returnType})"
         End Function
 
         Public Overrides Function ToString() As String

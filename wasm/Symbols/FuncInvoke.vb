@@ -123,7 +123,7 @@ Namespace Symbols
         Sub New(target As ImportSymbol)
             refer = New ReferenceSymbol With {
                 .Symbol = target.Name,
-                .[Module] = target.Module,
+                .[Module] = If(target.DefinedInModule, target.Module, Nothing),
                 .Type = SymbolType.Api
             }
         End Sub
@@ -192,8 +192,11 @@ Namespace Symbols
             Dim obj As Expression
 
             If parameters.IsNullOrEmpty Then
+                ' 参数是空的，则直接查找函数的返回值
                 func = symbolTable.GetFunctionSymbol(refer.Module, refer.Symbol)
             Else
+                ' 如果参数不是空的，则可能是用户定义的类型的方法
+                ' 或者是拓展函数调用
                 obj = parameters(Scan0)
 
                 ' 在这里需要对值元素类型为数组的字典引用进行一些额外的处理
@@ -222,6 +225,10 @@ Namespace Symbols
                 Else
                     If refer.Module Like symbolTable.ModuleNames Then
                         func = symbolTable.FindModuleMemberFunction(refer.Module, refer.Symbol)
+                    ElseIf refer.Type = SymbolType.Api AndAlso refer.Module.StringEmpty Then
+                        ' 是外部导入的Api，但是没有模块名称
+                        ' 则说明是内部定义的Api函数
+                        Return InternalApiReturnType(refer)
                     Else
                         Dim context$ = obj.TypeInfer(symbolTable).type.Description
                         func = symbolTable.GetFunctionSymbol(context, refer.Symbol)
@@ -230,6 +237,21 @@ Namespace Symbols
             End If
 
             Return func.result
+        End Function
+
+        Private Shared Function InternalApiReturnType(refer As ReferenceSymbol) As TypeAbstract
+            Dim tokens As String() = refer.Symbol.Split("."c)
+
+            Select Case tokens(Scan0)
+                Case "string"
+                    Select Case tokens(1)
+                        Case "add" : Return New TypeAbstract(TypeAlias.string)
+                        Case Else
+                            Throw New NotImplementedException(refer.Symbol)
+                    End Select
+                Case Else
+                    Throw New NotImplementedException(refer.Symbol)
+            End Select
         End Function
     End Class
 End Namespace

@@ -70,6 +70,7 @@ Namespace Symbols.JavaScriptImports
             Get
                 Return New ImportSymbol With {
                     .ImportObject = "push",
+                    .DefinedInModule = False,
                     .Name = $"{ofElement.type}_array.push",
                     .[Module] = "array",
                     .Package = NameOf(Array),
@@ -86,6 +87,7 @@ Namespace Symbols.JavaScriptImports
             Get
                 Return New ImportSymbol With {
                     .ImportObject = "pop",
+                    .DefinedInModule = False,
                     .Name = $"{ofElement.type}_array.pop",
                     .[Module] = "array",
                     .Package = NameOf(Array),
@@ -103,6 +105,7 @@ Namespace Symbols.JavaScriptImports
         ''' <returns></returns>
         Public ReadOnly Property NewArray As New ImportSymbol With {
             .ImportObject = "create",
+            .DefinedInModule = False,
             .[Module] = "array",
             .Name = "array.new",
             .Package = NameOf(Array),
@@ -117,6 +120,7 @@ Namespace Symbols.JavaScriptImports
                 Return New ImportSymbol With {
                     .ImportObject = "get",
                     .[Module] = "array",
+                    .DefinedInModule = False,
                     .Name = $"{ofElement.type}_array.get",
                     .Package = NameOf(Array),
                     .result = New TypeAbstract(ofElement),
@@ -133,6 +137,7 @@ Namespace Symbols.JavaScriptImports
                 Return New ImportSymbol With {
                     .ImportObject = "set",
                     .[Module] = "array",
+                    .DefinedInModule = False,
                     .Name = $"{ofElement.type}_array.set",
                     .Package = NameOf(Array),
                     .result = New TypeAbstract("void"),
@@ -148,6 +153,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Length As New ImportSymbol With {
             .ImportObject = "length",
             .[Module] = "array",
+            .DefinedInModule = False,
             .Name = "array.length",
             .Package = NameOf(Array),
             .result = TypeAbstract.i32,

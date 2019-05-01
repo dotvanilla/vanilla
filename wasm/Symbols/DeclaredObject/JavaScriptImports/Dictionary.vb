@@ -62,6 +62,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "set",
             .[Module] = "table",
             .Name = "table.set",
+            .DefinedInModule = False,
             .Package = NameOf(Dictionary),
             .result = TypeAbstract.void,
             .parameters = {
@@ -75,6 +76,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "get",
             .[Module] = "table",
             .Name = "table.get",
+            .DefinedInModule = False,
             .Package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
@@ -87,6 +89,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "delete",
             .[Module] = "table",
             .Name = "table.delete",
+            .DefinedInModule = False,
             .Package = NameOf(Dictionary),
             .result = TypeAbstract.void,
             .parameters = {
@@ -99,6 +102,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "create",
             .[Module] = "table",
             .Name = "table.new",
+            .DefinedInModule = False,
             .Package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.table),
             .parameters = {}

@@ -59,6 +59,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "add",
             .Name = "string.add",
             .Package = "string",
+            .DefinedInModule = False,
             .[Module] = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
@@ -71,6 +72,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "length",
             .[Module] = "string",
             .Name = "string.length",
+            .DefinedInModule = False,
             .Package = "string",
             .result = TypeAbstract.i32,
             .parameters = {
@@ -82,6 +84,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "trim",
             .[Module] = "string",
             .Name = "string.trim",
+            .DefinedInModule = False,
             .Package = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
@@ -93,6 +96,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "replace",
             .[Module] = "string",
             .Name = "string.replace",
+            .DefinedInModule = False,
             .Package = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
@@ -106,6 +110,7 @@ Namespace Symbols.JavaScriptImports
             .ImportObject = "indexOf",
             .[Module] = "string",
             .Name = "string.indexOf",
+            .DefinedInModule = False,
             .Package = "string",
             .result = TypeAbstract.i32,
             .parameters = {
@@ -135,6 +140,7 @@ Namespace Symbols.JavaScriptImports
                 .ImportObject = "toString",
                 .Name = $"{type}.toString",
                 .[Module] = "string",
+                .DefinedInModule = False,
                 .Package = "string",
                 .result = New TypeAbstract(TypeAlias.string),
                 .parameters = {
