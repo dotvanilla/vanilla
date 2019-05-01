@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::d9a5009f3802876246a9289863860202, test\ForLoopTest.vb"
+﻿#Region "Microsoft.VisualBasic::35db3a612b7a196e5a554f529e0d6742, ForLoopTest.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

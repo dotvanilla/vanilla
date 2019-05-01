@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::e560017e0f6e60295e765414531bfba1, test\EnumTest.vb"
+﻿#Region "Microsoft.VisualBasic::3baaa1d6ec9c5f4640ff10b670a4002a, EnumTest.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::c0a01abc0eb6aaa5bf584c2e4fc9f446, test\functionTest.vb"
+﻿#Region "Microsoft.VisualBasic::1f9b32ff2092269cccc46ba830af4ef4, functionTest.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
@@ -37,7 +38,9 @@
 
     ' Module functionTest
     ' 
-    '     Function: calls, extensionFunctiontest, Main
+    '     Function: outputError
+    ' 
+    '     Sub: calls, extensionFunctiontest, Main
     ' 
     ' /********************************************************************************/
 

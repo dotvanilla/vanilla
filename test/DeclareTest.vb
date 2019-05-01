@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::47470b12bac6bbfd3c35ca22caabab11, test\DeclareTest.vb"
+﻿#Region "Microsoft.VisualBasic::1f2e0596a2927ca1aaa634de04b87179, DeclareTest.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License

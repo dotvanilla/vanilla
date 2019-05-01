@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c63f8292b64fcb34e431336ba7be73fe, Type\TypeAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::2dfad44a7967be53f06c2cdbef65a9b1, Type\TypeAbstract.vb"
 
     ' Author:
     ' 
@@ -42,7 +42,7 @@
     '                 iscollection, isprimitive, raw, type, typefit
     '                 void
     ' 
-    '     Constructor: (+4 Overloads) Sub New
+    '     Constructor: (+5 Overloads) Sub New
     ' 
     '     Function: buildRaw, MakeArrayType, MakeListType, ToString
     ' 

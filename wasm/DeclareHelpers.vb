@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::733d9ff60cac89b3de05d58f81f093dc, DeclareHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::cc35c9421bcc4046cbb1aed75cfc3352, DeclareHelpers.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     ' Module DeclareHelpers
     ' 
-    '     Function: isExportObject, (+3 Overloads) objectName, (+3 Overloads) param
+    '     Function: isExportObject, (+3 Overloads) objectName, (+4 Overloads) param
     ' 
     ' /********************************************************************************/
 

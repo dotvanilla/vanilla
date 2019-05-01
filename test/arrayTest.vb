@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::51186935b8d3bc8316db0daa84a1e32f, test\arrayTest.vb"
+﻿#Region "Microsoft.VisualBasic::170874e829875fe4c0173caec63f72fb, arrayTest.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
@@ -38,6 +39,8 @@
     ' Module arrayTest
     ' 
     '     Function: arrayLoop, createArray, testListAdd
+    ' 
+    '     Sub: arrayDeclares
     ' 
     ' /********************************************************************************/
 

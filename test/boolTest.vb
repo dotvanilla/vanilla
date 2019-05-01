@@ -1,11 +1,12 @@
-﻿#Region "Microsoft.VisualBasic::3e86b298e88d7a3d1b979cbdb2604987, test\boolTest.vb"
+﻿#Region "Microsoft.VisualBasic::3e86b298e88d7a3d1b979cbdb2604987, boolTest.vb"
 
     ' Author:
     ' 
     '       xieguigang (I@xieguigang.me)
     '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
     ' 
-    ' Copyright (c) 2019 GCModeller Cloud Platform
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
     ' 
     ' 
     ' MIT License
