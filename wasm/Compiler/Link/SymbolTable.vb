@@ -218,7 +218,11 @@ Namespace Compiler
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddImports(api As FuncSignature)
-            functionList.Add(api.Name, api)
+            If Not functionList.ContainsKey(api.Name) Then
+                Call functionList.Add(api.Name, New ModuleOf)
+            End If
+
+            Call functionList(api.Name).Add(api)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
