@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 3:12:29 PM
+    ;; build: 5/1/2019 3:27:31 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -78,7 +78,7 @@
         ;; Public Function stringmemberTest() As void
         (local $length i64)
     (local $lenPlus100 i64)
-    (drop (call $Stringstest.Print (call $f64.toString (f64.add (get_global $Stringstest.C) (f64.convert_s/i32 (call $string.string.length (call $string.string.trim (call $string.string.replace (call $Stringstest.Hello ) (i32.const 1) (i32.const 0)))))))))
+    (drop (call $Stringstest.Print (call $f64.toString (f64.add (get_global $Stringstest.C) (f64.convert_s/i32 (call $string.length (call $string.trim (call $string.replace (call $Stringstest.Hello ) (i32.const 1) (i32.const 0)))))))))
     (set_local $length (i64.extend_s/i32 (call $string.length (call $Stringstest.Hello ))))
     (set_local $lenPlus100 (i64.add (i64.extend_s/i32 (get_global $Stringstest.b)) (get_local $length)))
     )

@@ -246,7 +246,8 @@ Namespace Symbols
             Select Case tokens(Scan0)
                 Case "string"
                     Select Case tokens(1)
-                        Case "add" : Return New TypeAbstract(TypeAlias.string)
+                        Case "add", "replace", "trim"
+                            Return New TypeAbstract(TypeAlias.string)
                         Case "length" : Return New TypeAbstract(TypeAlias.i32)
                         Case Else
                             Throw New NotImplementedException(refer.Symbol)
