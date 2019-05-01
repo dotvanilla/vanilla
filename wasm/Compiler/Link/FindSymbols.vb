@@ -151,7 +151,7 @@ Namespace Compiler
                 typeContext = New TypeAbstract(context)
             End If
 
-
+            Return symbols.FindTypeMethod(typeContext, name)
         End Function
 
 

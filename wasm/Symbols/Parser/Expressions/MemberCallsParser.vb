@@ -162,7 +162,7 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ExpressionMember(obj As Expression, memberName$, symbols As SymbolTable) As Expression
             Dim type As TypeAbstract = obj.TypeInfer(symbols)
-            Dim func = symbols.GetFunctionSymbol(type.type.Description, memberName)
+            Dim func = symbols.FindTypeMethod(type, memberName)
 
             If Not func Is Nothing AndAlso func.parameters.Length = 1 Then
                 ' func (obj)
