@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3972df29112ec06e292c95d0fc09e014, Symbols\Parser\Expressions\FuncInvokeParser.vb"
+﻿#Region "Microsoft.VisualBasic::e8bbc43f6379174a09295bf0cbe45d33, Symbols\Parser\Expressions\FuncInvokeParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module FuncInvokeParser
     ' 
-    '         Function: Argument, ArgumentSequence, fillParameters, FunctionInvoke, InvokeFunction
+    '         Function: Argument, ArgumentSequence, fillParameters, (+2 Overloads) FunctionInvoke, InvokeFunction
     '                   ObjectInvoke, OptionalDefault
     ' 
     ' 
