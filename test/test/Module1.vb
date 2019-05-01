@@ -97,7 +97,9 @@ Module treeTest
 
     Sub Main()
 
-        ' Call projectTest()
+        ' Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
+        Call projectTest("D:\vanilla\test\demo_proj\HelloWorld.vbproj")
+
         ' Call documentApitest()
 
         '  Call Wasm.CompileWast("..\Demo\string.wast", "..\Demo\string.wasm")
@@ -142,8 +144,7 @@ End Module"
         Pause()
     End Sub
 
-    Sub projectTest()
-        Dim proj$ = "D:\repo\home\vbscripts\base64\base64.vbproj"
+    Sub projectTest(proj As String)
         Dim [moduletest] As ModuleSymbol = Wasm.CreateModuleFromProject(proj)
 
         Console.WriteLine(moduletest.ToSExpression)

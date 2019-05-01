@@ -1,42 +1,48 @@
-(module ;; Module 
+(module ;; Module HelloWorld
 
     ;; Auto-Generated VisualBasic.NET WebAssembly Code
     ;;
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/17/2019 11:48:58 PM
+    ;; build: 5/1/2019 8:51:24 PM
+    ;; 
+    ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
-    ;; Declare Function log Lib "console" Alias "log" (message As char*) As i32
-    (func $log (import "console" "log") (param $message i32) (result i32))
-    ;; Declare Function warn Lib "console" Alias "warn" (message As char*) As i32
-    (func $warn (import "console" "warn") (param $message i32) (result i32))
-    ;; Declare Function info Lib "console" Alias "info" (message As char*) As i32
-    (func $info (import "console" "info") (param $message i32) (result i32))
-    ;; Declare Function error Lib "console" Alias "error" (message As char*) As i32
-    (func $error (import "console" "error") (param $message i32) (result i32))
-    ;; Declare Function DOMById Lib "document" Alias "getElementById" (id As char*) As i32
-    (func $DOMById (import "document" "getElementById") (param $id i32) (result i32))
-    ;; Declare Function setText Lib "document" Alias "writeElementText" (node As i32, text As char*) As i32
-    (func $setText (import "document" "writeElementText") (param $node i32) (param $text i32) (result i32))
-    ;; Declare Function createElement Lib "document" Alias "createElement" (tagName As char*) As i32
-    (func $createElement (import "document" "createElement") (param $tagName i32) (result i32))
-    ;; Declare Function setAttribute Lib "document" Alias "setAttribute" (node As i32, attr As char*, value As char*) As i32
-    (func $setAttribute (import "document" "setAttribute") (param $node i32) (param $attr i32) (param $value i32) (result i32))
-    ;; Declare Function appendChild Lib "document" Alias "appendChild" (parent As i32, node As i32) As i32
-    (func $appendChild (import "document" "appendChild") (param $parent i32) (param $node i32) (result i32))
-    ;; Declare Function Exp Lib "Math" Alias "exp" (x As f64) As f64
-    (func $Exp (import "Math" "exp") (param $x f64) (result f64))
-    ;; Declare Function i32.toString Lib "string" Alias "toString" (s As i32) As char*
-    (func $i32.toString (import "string" "toString") (param $s i32) (result i32))
-    ;; Declare Function string.add Lib "string" Alias "add" (a As char*, b As char*) As char*
+    ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
+    (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
+    ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
     (func $string.add (import "string" "add") (param $a i32) (param $b i32) (result i32))
-    ;; Declare Function f64.toString Lib "string" Alias "toString" (s As f64) As char*
-    (func $f64.toString (import "string" "toString") (param $s f64) (result i32))
-    ;; Declare Function char*.toString Lib "string" Alias "toString" (s As char*) As char*
-    (func $char*.toString (import "string" "toString") (param $s i32) (result i32))
+    ;; Declare Function string.length Lib "string" Alias "length" (text As string) As i32
+    (func $string.length (import "string" "length") (param $text i32) (result i32))
+    ;; Declare Function string.indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
+    (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
+    ;; Declare Function log Lib "console" Alias "log" (message As string) As i32
+    (func $console.log (import "console" "log") (param $message i32) (result i32))
+    ;; Declare Function warn Lib "console" Alias "warn" (message As string) As i32
+    (func $console.warn (import "console" "warn") (param $message i32) (result i32))
+    ;; Declare Function info Lib "console" Alias "info" (message As string) As i32
+    (func $console.info (import "console" "info") (param $message i32) (result i32))
+    ;; Declare Function error Lib "console" Alias "error" (message As string) As i32
+    (func $console.error (import "console" "error") (param $message i32) (result i32))
+    ;; Declare Function DOMById Lib "document" Alias "getElementById" (id As string) As i32
+    (func $document.DOMById (import "document" "getElementById") (param $id i32) (result i32))
+    ;; Declare Function setText Lib "document" Alias "writeElementText" (node As i32, text As string) As i32
+    (func $document.setText (import "document" "writeElementText") (param $node i32) (param $text i32) (result i32))
+    ;; Declare Function createElement Lib "document" Alias "createElement" (tagName As string) As i32
+    (func $document.createElement (import "document" "createElement") (param $tagName i32) (result i32))
+    ;; Declare Function setAttribute Lib "document" Alias "setAttribute" (node As i32, attr As string, value As string) As i32
+    (func $document.setAttribute (import "document" "setAttribute") (param $node i32) (param $attr i32) (param $value i32) (result i32))
+    ;; Declare Function appendChild Lib "document" Alias "appendChild" (parent As i32, node As i32) As i32
+    (func $document.appendChild (import "document" "appendChild") (param $parent i32) (param $node i32) (result i32))
+    ;; Declare Function Exp Lib "Math" Alias "exp" (x As f64) As f64
+    (func $Math.Exp (import "Math" "exp") (param $x f64) (result f64))
+    ;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
+    (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
+    ;; Declare Function f64.toString Lib "string" Alias "toString" (x As f64) As string
+    (func $f64.toString (import "string" "toString") (param $x f64) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
@@ -91,119 +97,128 @@
     ;; String from 302 with 6 bytes in memory
     (data (i32.const 302) "result\00")
 
-    ;; String from 309 with 37 bytes in memory
-    (data (i32.const 309) "The calculation result of PoissonPDF(\00")
+    ;; String from 309 with 6 bytes in memory
+    (data (i32.const 309) "result\00")
 
-    ;; String from 347 with 2 bytes in memory
-    (data (i32.const 347) ", \00")
+    ;; String from 316 with 37 bytes in memory
+    (data (i32.const 316) "The calculation result of PoissonPDF(\00")
 
-    ;; String from 350 with 5 bytes in memory
-    (data (i32.const 350) ") is \00")
+    ;; String from 354 with 2 bytes in memory
+    (data (i32.const 354) ", \00")
 
-    ;; String from 356 with 1 bytes in memory
-    (data (i32.const 356) "!\00")
+    ;; String from 357 with 5 bytes in memory
+    (data (i32.const 357) ") is \00")
 
-    ;; String from 358 with 6 bytes in memory
-    (data (i32.const 358) "result\00")
+    ;; String from 363 with 1 bytes in memory
+    (data (i32.const 363) "!\00")
 
-    ;; String from 365 with 5 bytes in memory
-    (data (i32.const 365) "style\00")
+    ;; String from 365 with 6 bytes in memory
+    (data (i32.const 365) "result\00")
 
-    ;; String from 371 with 25 bytes in memory
-    (data (i32.const 371) "color: green; font-size: \00")
+    ;; String from 372 with 5 bytes in memory
+    (data (i32.const 372) "style\00")
 
-    ;; String from 397 with 11 bytes in memory
-    (data (i32.const 397) "HelloWorld!\00")
+    ;; String from 378 with 24 bytes in memory
+    (data (i32.const 378) "color: blue; font-size: \00")
 
-    ;; String from 409 with 80 bytes in memory
-    (data (i32.const 409) "A hello world demo project for VisualBasic.NET WebAssembly compiler and runtime.\00")
+    ;; String from 403 with 20 bytes in memory
+    (data (i32.const 403) "; background-color: \00")
 
-    ;; String from 490 with 10 bytes in memory
-    (data (i32.const 490) "xieguigang\00")
+    ;; String from 424 with 1 bytes in memory
+    (data (i32.const 424) ";\00")
 
-    ;; String from 501 with 10 bytes in memory
-    (data (i32.const 501) "HelloWorld\00")
+    ;; String from 426 with 11 bytes in memory
+    (data (i32.const 426) "HelloWorld!\00")
 
-    ;; String from 512 with 20 bytes in memory
-    (data (i32.const 512) "Copyright © MIT 2019\00")
+    ;; String from 438 with 80 bytes in memory
+    (data (i32.const 438) "A hello world demo project for VisualBasic.NET WebAssembly compiler and runtime.\00")
 
-    ;; String from 533 with 11 bytes in memory
-    (data (i32.const 533) "HelloWorld!\00")
+    ;; String from 519 with 10 bytes in memory
+    (data (i32.const 519) "xieguigang\00")
 
-    ;; String from 545 with 36 bytes in memory
-    (data (i32.const 545) "8750377f-b6e7-4fb5-886b-4c3fa451ec4c\00")
+    ;; String from 530 with 10 bytes in memory
+    (data (i32.const 530) "HelloWorld\00")
 
-    ;; String from 582 with 13 bytes in memory
-    (data (i32.const 582) "123.34.0.5466\00")
+    ;; String from 541 with 20 bytes in memory
+    (data (i32.const 541) "Copyright © MIT 2019\00")
 
-    ;; String from 596 with 9 bytes in memory
-    (data (i32.const 596) "1.0.99.78\00")
+    ;; String from 562 with 11 bytes in memory
+    (data (i32.const 562) "HelloWorld!\00")
+
+    ;; String from 574 with 36 bytes in memory
+    (data (i32.const 574) "8750377f-b6e7-4fb5-886b-4c3fa451ec4c\00")
+
+    ;; String from 611 with 13 bytes in memory
+    (data (i32.const 611) "123.34.0.5466\00")
+
+    ;; String from 625 with 9 bytes in memory
+    (data (i32.const 625) "1.0.99.78\00")
     
-    (global $helloWorld (mut i32) (i32.const 1))
+    (global $App.helloWorld (mut i32) (i32.const 1))
 
-(global $note (mut i32) (i32.const 14))
+(global $App.note (mut i32) (i32.const 14))
 
-(global $note2 (mut i32) (i32.const 69))
+(global $App.note2 (mut i32) (i32.const 69))
 
-    ;; export from [App]
+    ;; export from VB.NET module: [App]
     
-    (export "RunApp" (func $RunApp))
-    
-    
-    ;; export from [Math]
-    
-    (export "PoissonPDF" (func $PoissonPDF))
-    (export "DisplayResult" (func $DisplayResult))
+    (export "App.RunApp" (func $App.RunApp))
     
     
-    ;; export from [AssemblyInfo]
+    ;; export from VB.NET module: [Math]
     
-    (export "AssemblyTitle" (func $AssemblyTitle))
-    (export "AssemblyDescription" (func $AssemblyDescription))
-    (export "AssemblyCompany" (func $AssemblyCompany))
-    (export "AssemblyProduct" (func $AssemblyProduct))
-    (export "AssemblyCopyright" (func $AssemblyCopyright))
-    (export "AssemblyTrademark" (func $AssemblyTrademark))
-    (export "Guid" (func $Guid))
-    (export "AssemblyVersion" (func $AssemblyVersion))
-    (export "AssemblyFileVersion" (func $AssemblyFileVersion))
+    (export "Math.PoissonPDF" (func $Math.PoissonPDF))
+    (export "Math.DisplayResult" (func $Math.DisplayResult))
+    
+    
+    ;; export from VB.NET module: [AssemblyInfo]
+    
+    (export "AssemblyInfo.AssemblyTitle" (func $AssemblyInfo.AssemblyTitle))
+    (export "AssemblyInfo.AssemblyDescription" (func $AssemblyInfo.AssemblyDescription))
+    (export "AssemblyInfo.AssemblyCompany" (func $AssemblyInfo.AssemblyCompany))
+    (export "AssemblyInfo.AssemblyProduct" (func $AssemblyInfo.AssemblyProduct))
+    (export "AssemblyInfo.AssemblyCopyright" (func $AssemblyInfo.AssemblyCopyright))
+    (export "AssemblyInfo.AssemblyTrademark" (func $AssemblyInfo.AssemblyTrademark))
+    (export "AssemblyInfo.Guid" (func $AssemblyInfo.Guid))
+    (export "AssemblyInfo.AssemblyVersion" (func $AssemblyInfo.AssemblyVersion))
+    (export "AssemblyInfo.AssemblyFileVersion" (func $AssemblyInfo.AssemblyFileVersion))
     
      
 
     ;; functions in [App]
     
-    (func $RunApp  (result i32)
+    (func $App.RunApp  (result i32)
         ;; Public Function RunApp() As i32
         (local $textNode i32)
     (local $notes i32)
     (local $message1 i32)
     (local $message2 i32)
-    (set_local $textNode (call $DOMById (i32.const 91)))
-    (set_local $notes (call $DOMById (i32.const 96)))
-    (set_local $message1 (call $createElement (i32.const 102)))
-    (set_local $message2 (call $createElement (i32.const 104)))
-    (call $setText (get_local $textNode) (get_global $helloWorld))
-    (call $setText (get_local $message1) (get_global $note))
-    (call $setText (get_local $message2) (get_global $note2))
-    (call $appendChild (get_local $notes) (get_local $message1))
-    (call $appendChild (get_local $notes) (get_local $message2))
-    (call $setAttribute (get_local $notes) (i32.const 106) (i32.const 112))
-    (call $setAttribute (get_local $message1) (i32.const 141) (i32.const 147))
-    (call $setAttribute (get_local $message2) (i32.const 175) (i32.const 181))
-    (call $log (i32.const 211))
-    (call $warn (get_global $note))
-    (call $info (get_global $note2))
-    (call $error (i32.const 245))
+    (set_local $textNode (call $document.DOMById (i32.const 91)))
+    (set_local $notes (call $document.DOMById (i32.const 96)))
+    (set_local $message1 (call $document.createElement (i32.const 102)))
+    (set_local $message2 (call $document.createElement (i32.const 104)))
+    (drop (call $document.setText (get_local $textNode) (get_global $App.helloWorld)))
+    (drop (call $document.setText (get_local $message1) (get_global $App.note)))
+    (drop (call $document.setText (get_local $message2) (get_global $App.note2)))
+    (drop (call $document.appendChild (get_local $notes) (get_local $message1)))
+    (drop (call $document.appendChild (get_local $notes) (get_local $message2)))
+    (drop (call $document.setAttribute (get_local $notes) (i32.const 106) (i32.const 112)))
+    (drop (call $document.setAttribute (get_local $message1) (i32.const 141) (i32.const 147)))
+    (drop (call $document.setAttribute (get_local $message2) (i32.const 175) (i32.const 181)))
+    (drop (call $console.log (i32.const 211)))
+    (drop (call $console.warn (get_global $App.note)))
+    (drop (call $console.info (get_global $App.note2)))
+    (drop (call $console.error (i32.const 245)))
     (return (i32.const 0))
     )
     
     
     ;; functions in [Math]
     
-    (func $PoissonPDF (param $k i32) (param $lambda f64) (result f64)
+    (func $Math.PoissonPDF (param $k i32) (param $lambda f64) (result f64)
         ;; Public Function PoissonPDF(k As i32, lambda As f64) As f64
         (local $result f64)
-    (set_local $result (call $Exp (f64.sub (f64.const 0) (get_local $lambda))))
+    (set_local $result (call $Math.Exp (f64.sub (f64.const 0) (get_local $lambda))))
     ;; Start Do While Block block_9a020000
     
     (block $block_9a020000 
@@ -219,61 +234,74 @@
     ;; End Loop loop_9b020000
     (return (get_local $result))
     )
-    (func $DisplayResult (param $k i32) (param $lambda f64) (param $fontsize i32) (result i32)
-        ;; Public Function DisplayResult(k As i32, lambda As f64, fontsize As char*) As i32
+    (func $Math.DisplayResult (param $k i32) (param $lambda f64) (param $fontsize i32) (param $background i32) (result i32)
+        ;; Public Function DisplayResult(k As i32, lambda As f64, fontsize As string, background As string) As i32
         (local $pdf f64)
-    (set_local $pdf (call $PoissonPDF (get_local $k) (get_local $lambda)))
-    (call $setText (call $DOMById (i32.const 302)) (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 309) (call $i32.toString (get_local $k))) (i32.const 347)) (call $f64.toString (get_local $lambda))) (i32.const 350)) (call $f64.toString (get_local $pdf))) (i32.const 356)))
-    (call $setAttribute (call $DOMById (i32.const 358)) (i32.const 365) (call $string.add (i32.const 371) (call $char*.toString (get_local $fontsize))))
+    (set_local $pdf (call $Math.PoissonPDF (get_local $k) (get_local $lambda)))
+    (drop (call $console.warn (get_local $fontsize)))
+    (drop (call $console.log (call $i32.toString (call $document.DOMById (i32.const 302)))))
+    (drop (call $document.setText (call $document.DOMById (i32.const 309)) (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 316) (call $i32.toString (get_local $k))) (i32.const 354)) (call $f64.toString (get_local $lambda))) (i32.const 357)) (call $f64.toString (get_local $pdf))) (i32.const 363))))
+    (drop (call $document.setAttribute (call $document.DOMById (i32.const 365)) (i32.const 372) (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 378) (call $i32.toString (get_local $fontsize))) (i32.const 403)) (call $i32.toString (get_local $background))) (i32.const 424))))
     (return (i32.const 0))
     )
     
     
     ;; functions in [AssemblyInfo]
     
-    (func $AssemblyTitle  (result i32)
-        ;; Public Function AssemblyTitle() As char*
+    (func $AssemblyInfo.AssemblyTitle  (result i32)
+        ;; Public Function AssemblyTitle() As string
         
-    (return (i32.const 397))
+    (return (i32.const 426))
     )
-    (func $AssemblyDescription  (result i32)
-        ;; Public Function AssemblyDescription() As char*
+    (func $AssemblyInfo.AssemblyDescription  (result i32)
+        ;; Public Function AssemblyDescription() As string
         
-    (return (i32.const 409))
+    (return (i32.const 438))
     )
-    (func $AssemblyCompany  (result i32)
-        ;; Public Function AssemblyCompany() As char*
+    (func $AssemblyInfo.AssemblyCompany  (result i32)
+        ;; Public Function AssemblyCompany() As string
         
-    (return (i32.const 490))
+    (return (i32.const 519))
     )
-    (func $AssemblyProduct  (result i32)
-        ;; Public Function AssemblyProduct() As char*
+    (func $AssemblyInfo.AssemblyProduct  (result i32)
+        ;; Public Function AssemblyProduct() As string
         
-    (return (i32.const 501))
+    (return (i32.const 530))
     )
-    (func $AssemblyCopyright  (result i32)
-        ;; Public Function AssemblyCopyright() As char*
+    (func $AssemblyInfo.AssemblyCopyright  (result i32)
+        ;; Public Function AssemblyCopyright() As string
         
-    (return (i32.const 512))
+    (return (i32.const 541))
     )
-    (func $AssemblyTrademark  (result i32)
-        ;; Public Function AssemblyTrademark() As char*
+    (func $AssemblyInfo.AssemblyTrademark  (result i32)
+        ;; Public Function AssemblyTrademark() As string
         
-    (return (i32.const 533))
+    (return (i32.const 562))
     )
-    (func $Guid  (result i32)
-        ;; Public Function Guid() As char*
+    (func $AssemblyInfo.Guid  (result i32)
+        ;; Public Function Guid() As string
         
-    (return (i32.const 545))
+    (return (i32.const 574))
     )
-    (func $AssemblyVersion  (result i32)
-        ;; Public Function AssemblyVersion() As char*
+    (func $AssemblyInfo.AssemblyVersion  (result i32)
+        ;; Public Function AssemblyVersion() As string
         
-    (return (i32.const 582))
+    (return (i32.const 611))
     )
-    (func $AssemblyFileVersion  (result i32)
-        ;; Public Function AssemblyFileVersion() As char*
+    (func $AssemblyInfo.AssemblyFileVersion  (result i32)
+        ;; Public Function AssemblyFileVersion() As string
         
-    (return (i32.const 596))
+    (return (i32.const 625))
     )
-    )
+    
+
+;; Application Initialize
+;; 
+;; Sub New
+(func $Application_SubNew
+
+)
+
+(start $Application_SubNew)
+
+)
