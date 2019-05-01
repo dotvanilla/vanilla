@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 1:40:03 PM
+    ;; build: 5/1/2019 5:55:45 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -70,19 +70,19 @@
 
 (global $module2.ANonUniqueSymbol (mut i32) (i32.const 0))
 
-    ;; export from [Modulemethod_test]
+    ;; export from VB.NET module: [Modulemethod_test]
     
     (export "Modulemethod_test.arraytypeInferTest" (func $Modulemethod_test.arraytypeInferTest))
     (export "Modulemethod_test.test" (func $Modulemethod_test.test))
     (export "Modulemethod_test.calls" (func $Modulemethod_test.calls))
     
     
-    ;; export from [unqiueTest]
+    ;; export from VB.NET module: [unqiueTest]
     
     (export "unqiueTest.test" (func $unqiueTest.test))
     
     
-    ;; export from [module2]
+    ;; export from VB.NET module: [module2]
     
     (export "module2.Runapp" (func $module2.Runapp))
     (export "module2.test" (func $module2.test))
