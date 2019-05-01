@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 11:17:11 AM
+    ;; build: 5/1/2019 11:21:52 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -21,6 +21,12 @@
     (func $i32_array.set (import "Array" "set") (param $array i32) (param $index i32) (param $value i32) )
     ;; Declare Function array.length Lib "Array" Alias "length" (array As array) As i32
     (func $array.length (import "Array" "length") (param $array i32) (result i32))
+    ;; Declare Function i64_array.push Lib "Array" Alias "push" (array As array, element As i64) As array
+    (func $i64_array.push (import "Array" "push") (param $array i32) (param $element i64) (result i32))
+    ;; Declare Function i64_array.get Lib "Array" Alias "get" (array As array, index As i32) As i64
+    (func $i64_array.get (import "Array" "get") (param $array i32) (param $index i32) (result i64))
+    ;; Declare Function i64_array.set Lib "Array" Alias "set" (array As array, index As i32, value As i64) As void
+    (func $i64_array.set (import "Array" "set") (param $array i32) (param $index i32) (param $value i64) )
     ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
     (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
     ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
@@ -73,7 +79,7 @@
     (func $Modulemethod_test.arraytypeInferTest  (result i32)
         ;; Public Function arraytypeInferTest() As array(Of i64)
         
-    (return (call $array_array.push (call $array_array.push (call $array_array.push (call $array_array.push (call $array.new (i32.const -1)) (i64.const 2342)) (i64.const 34)) (i64.const 322)) (i64.const 343)))
+    (return (call $i64_array.push (call $i64_array.push (call $i64_array.push (call $i64_array.push (call $array.new (i32.const -1)) (i64.const 2342)) (i64.const 34)) (i64.const 322)) (i64.const 343)))
     )
     (func $Modulemethod_test.test  (result i32)
         ;; Public Function test() As i32
@@ -98,6 +104,6 @@
     (func $module2.test (param $gg i32) (result i32)
         ;; Public Function test(gg As string) As array(Of string)
         
-    (return (call $array_array.push (call $array_array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.add (get_local $gg) (i32.const 30))))
+    (return (call $string_array.push (call $string_array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.add (get_local $gg) (i32.const 30))))
     )
     )
