@@ -69,7 +69,12 @@ Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeA
         End If
 
         If x.type Like arrayList AndAlso x.type = y.type Then
-            Return Equals(x.generic(Scan0), y.generic(Scan0))
+            If x.generic.IsNullOrEmpty Then
+                ' 是一个通用的list列表
+                Return True
+            Else
+                Return Equals(x.generic(Scan0), y.generic(Scan0))
+            End If
         End If
 
         Return True

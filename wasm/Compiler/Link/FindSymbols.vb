@@ -203,7 +203,7 @@ Namespace Compiler
                            If func.parameters.IsNullOrEmpty Then
                                Return False
                            Else
-                               Return TypeEquality.Test.Equals(typeContext, func.parameters(Scan0).Value)
+                               Return TypeEquality.Test.Equals(func.parameters(Scan0).Value, typeContext)
                            End If
                        End Function
 
