@@ -118,6 +118,7 @@ Namespace Symbols.Parser
                             Return value.ValueExpression(symbols)
                         End Function) _
                 .ToArray
+            Dim types = elements.Select(Function(e) e.TypeInfer(symbols)).TopMostFrequent(Function(t1, t2) t1.type = t2.type)
             Dim array As New ArraySymbol With {
                 .Initialize = elements
             }
