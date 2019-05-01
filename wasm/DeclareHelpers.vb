@@ -80,6 +80,14 @@ Module DeclareHelpers
     End Function
 
     <Extension>
+    Public Function param(name$, type As TypeAbstract) As NamedValue(Of TypeAbstract)
+        Return New NamedValue(Of TypeAbstract) With {
+            .Name = name,
+            .Value = type
+        }
+    End Function
+
+    <Extension>
     Public Function param(name$, type As TypeAlias) As NamedValue(Of TypeAbstract)
         Return New NamedValue(Of TypeAbstract) With {
             .Name = name,

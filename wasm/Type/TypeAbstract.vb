@@ -129,6 +129,16 @@ Public Class TypeAbstract
         End If
     End Sub
 
+    ''' <summary>
+    ''' Object value copy
+    ''' </summary>
+    ''' <param name="type"></param>
+    Sub New(type As TypeAbstract)
+        Me.generic = type.generic.SafeQuery.Select(Function(gr) New TypeAbstract(gr)).ToArray
+        Me.type = type.type
+        Me.raw = type.raw
+    End Sub
+
     Private Sub fromFullName(fullName As String)
         If TypeExtensions.IsArray(fullName) Then
             _type = TypeAlias.array

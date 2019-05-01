@@ -66,28 +66,36 @@ Namespace Symbols.JavaScriptImports
         ''' Push element value into a given array and then returns the array intptr
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Push As New ImportSymbol With {
-            .ImportObject = "push",
-            .Name = "array.push",
-            .[Module] = "array",
-            .Package = NameOf(Array),
-            .result = New TypeAbstract(TypeAlias.array),
-            .parameters = {
-                "array".param(TypeAlias.array),
-                "element".param(TypeAlias.any)
-            }
-        }
+        Public ReadOnly Property Push(ofElement As TypeAbstract) As ImportSymbol
+            Get
+                Return New ImportSymbol With {
+                    .ImportObject = "push",
+                    .Name = $"{ofElement.type}_array.push",
+                    .[Module] = "array",
+                    .Package = NameOf(Array),
+                    .result = New TypeAbstract(TypeAlias.array),
+                    .parameters = {
+                        "array".param(TypeAlias.array),
+                        "element".param(New TypeAbstract(ofElement))
+                    }
+                }
+            End Get
+        End Property
 
-        Public ReadOnly Property Pop As New ImportSymbol With {
-            .ImportObject = "pop",
-            .Name = "array.pop",
-            .[Module] = "array",
-            .Package = NameOf(Array),
-            .result = New TypeAbstract(TypeAlias.any),
-            .parameters = {
-                "array".param(TypeAlias.array)
-            }
-        }
+        Public ReadOnly Property Pop(ofElement As TypeAbstract) As ImportSymbol
+            Get
+                Return New ImportSymbol With {
+                    .ImportObject = "pop",
+                    .Name = $"{ofElement.type}_array.pop",
+                    .[Module] = "array",
+                    .Package = NameOf(Array),
+                    .result = New TypeAbstract(ofElement.type),
+                    .parameters = {
+                        "array".param(TypeAlias.array)
+                    }
+                }
+            End Get
+        End Property
 
         ''' <summary>
         ''' Create an new array and then returns the array intptr
@@ -104,30 +112,38 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        Public ReadOnly Property GetArrayElement As New ImportSymbol With {
-            .ImportObject = "get",
-            .[Module] = "array",
-            .Name = "array.get",
-            .Package = NameOf(Array),
-            .result = New TypeAbstract(TypeAlias.any),
-            .parameters = {
-                "array".param(TypeAlias.array),
-                "index".param("i32")
-            }
-        }
+        Public ReadOnly Property GetArrayElement(ofElement As TypeAbstract) As ImportSymbol
+            Get
+                Return New ImportSymbol With {
+                    .ImportObject = "get",
+                    .[Module] = "array",
+                    .Name = $"{ofElement.type}_array.get",
+                    .Package = NameOf(Array),
+                    .result = New TypeAbstract(ofElement),
+                    .parameters = {
+                        "array".param(TypeAlias.array),
+                        "index".param("i32")
+                    }
+                }
+            End Get
+        End Property
 
-        Public ReadOnly Property SetArrayElement As New ImportSymbol With {
-            .ImportObject = "set",
-            .[Module] = "array",
-            .Name = "array.set",
-            .Package = NameOf(Array),
-            .result = New TypeAbstract("void"),
-            .parameters = {
-                "array".param(TypeAlias.array),
-                "index".param("i32"),
-                "value".param("any")
-            }
-        }
+        Public ReadOnly Property SetArrayElement(ofElement As TypeAbstract) As ImportSymbol
+            Get
+                Return New ImportSymbol With {
+                    .ImportObject = "set",
+                    .[Module] = "array",
+                    .Name = $"{ofElement.type}_array.set",
+                    .Package = NameOf(Array),
+                    .result = New TypeAbstract("void"),
+                    .parameters = {
+                        "array".param(TypeAlias.array),
+                        "index".param("i32"),
+                        "value".param(New TypeAbstract(ofElement))
+                    }
+                }
+            End Get
+        End Property
 
         Public ReadOnly Property Length As New ImportSymbol With {
             .ImportObject = "length",
@@ -140,28 +156,31 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        ReadOnly arrayOp As Index(Of String) = {GetArrayElement.Name, SetArrayElement.Name}
+        ' ReadOnly arrayOp As Index(Of String) = {GetArrayElement.Name, SetArrayElement.Name}
 
         Public Function IsArrayOperation(func As FuncSignature) As Boolean
-            Return TypeOf func Is ImportSymbol AndAlso func.Name Like arrayOp
+            ' Return TypeOf func Is ImportSymbol AndAlso func.Name Like arrayOp
+            Throw New NotImplementedException
         End Function
 
         Public Function Method(name As String) As ImportSymbol
-            Select Case name
-                Case "Add" : Return Array.Push
-                Case "Remove"
-                    Throw New NotImplementedException
-                Case "Length" : Return Array.Length
-                Case Else
-                    Throw New NotImplementedException
-            End Select
+            'Select Case name
+            '    Case "Add" : Return Array.Push
+            '    Case "Remove"
+            '        Throw New NotImplementedException
+            '    Case "Length" : Return Array.Length
+            '    Case Else
+            '        Throw New NotImplementedException
+            'End Select
+
+            Throw New NotImplementedException
         End Function
 
         <Extension>
-        Public Sub doArrayImports(symbols As SymbolTable)
+        Public Sub doArrayImports(symbols As SymbolTable, ofElement As TypeAbstract)
             Call symbols.addRequired(JavaScriptImports.NewArray)
-            Call symbols.addRequired(JavaScriptImports.Push)
-            Call symbols.addRequired(JavaScriptImports.GetArrayElement)
+            Call symbols.addRequired(JavaScriptImports.Push(ofElement))
+            Call symbols.addRequired(JavaScriptImports.GetArrayElement(ofElement))
             Call symbols.addRequired(Array.Length)
         End Sub
     End Module
