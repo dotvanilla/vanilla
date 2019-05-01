@@ -109,7 +109,7 @@ Namespace Symbols
             refer = New ReferenceSymbol With {
                 .Symbol = funcName,
                 .[Module] = [module],
-                .IsOperator = False
+                .Type = SymbolType.Func
             }
         End Sub
 
@@ -117,7 +117,15 @@ Namespace Symbols
             refer = New ReferenceSymbol With {
                 .Symbol = target.Name,
                 .[Module] = target.Module,
-                .IsOperator = False
+                .Type = SymbolType.Func
+            }
+        End Sub
+
+        Sub New(target As ImportSymbol)
+            refer = New ReferenceSymbol With {
+                .Symbol = target.Name,
+                .[Module] = target.Module,
+                .Type = SymbolType.Api
             }
         End Sub
 

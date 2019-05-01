@@ -88,7 +88,7 @@ Namespace Symbols.Blocks
                     .[operator] = True,
                     .refer = New ReferenceSymbol With {
                         .Symbol = "i32.eqz",
-                        .IsOperator = True
+                        .Type = SymbolType.Operator
                     },
                     .parameters = {test.Condition}
                 }

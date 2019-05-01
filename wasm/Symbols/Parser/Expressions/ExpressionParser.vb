@@ -160,7 +160,7 @@ Namespace Symbols.Parser
                    .value = 0
                 }
                 Dim opFunc As New ReferenceSymbol With {
-                    .IsOperator = True,
+                    .Type = SymbolType.Operator,
                     .Symbol = $"{left.type}.{TypeExtensions.wasmOpName(op)}"
                 }
 
@@ -332,7 +332,7 @@ Namespace Symbols.Parser
                 .parameters = {left, right},
                 .refer = New ReferenceSymbol With {
                     .Symbol = funcOpName,
-                    .IsOperator = True
+                    .Type = SymbolType.Operator
                 },
                 .[operator] = True
             }
@@ -348,7 +348,7 @@ Namespace Symbols.Parser
                     .parameters = {left, right},
                     .refer = New ReferenceSymbol With {
                         .Symbol = TypeExtensions.Compares("i32", "="),
-                        .IsOperator = True
+                        .Type = SymbolType.Operator
                     }
                 }
             Else

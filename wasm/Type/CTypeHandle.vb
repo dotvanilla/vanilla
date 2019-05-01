@@ -295,7 +295,7 @@ Module CTypeHandle
     Private Function CTypeInvoke(operator$, exp As Expression) As Expression
         Return New FuncInvoke With {
             .refer = New ReferenceSymbol With {
-                .IsOperator = True,
+                .Type = SymbolType.Operator,
                 .Symbol = [operator]
             },
             .[operator] = True,
