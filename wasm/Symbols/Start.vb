@@ -7,6 +7,13 @@ Namespace Symbols
     ''' </summary>
     Public Class Start : Inherits FuncSymbol
 
+        Sub New(moduleLabel As String)
+            Me.Module = moduleLabel
+            Me.Name = "new"
+            Me.parameters = {}
+            Me.result = TypeAbstract.void
+        End Sub
+
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return TypeAbstract.void
         End Function

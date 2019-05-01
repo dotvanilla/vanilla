@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::c4e5be2765e3f693df0ccad41e2f8dcf, Symbols\Parser\FunctionParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FunctionParser
-    ' 
-    '         Function: (+2 Overloads) FuncVariable, ParseFunction, ParseParameter, (+3 Overloads) ParseParameters, runParser
-    ' 
-    '         Sub: addImplicitReturns
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FunctionParser
+' 
+'         Function: (+2 Overloads) FuncVariable, ParseFunction, ParseParameter, (+3 Overloads) ParseParameters, runParser
+' 
+'         Sub: addImplicitReturns
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -154,25 +154,12 @@ Namespace Symbols.Parser
             Next
 
             Dim paramIndex As Index(Of String) = parameters.Keys
-            Dim runParser = symbols.runParser
-            Dim bodyExpressions As Expression() = body _
-                .ExceptType(Of EndBlockStatementSyntax) _
-                .Select(Function(s)
-                            Return runParser(s)
-                        End Function) _
-                .IteratesALL _
-                .ToArray
+            Dim funcBody = body.FunctionBody(paramIndex, symbols)
             Dim func As New FuncSymbol(funcVar) With {
                 .parameters = parameters,
-                .Body = bodyExpressions,
+                .Body = funcBody.body,
                 .[Module] = moduleName,
-                .Locals = symbols _
-                    .GetAllLocals _
-                    .Where(Function(v)
-                               ' removes function parameters from declare locals
-                               Return Not v.name Like paramIndex
-                           End Function) _
-                    .ToArray
+                .Locals = funcBody.locals
             }
 
             If func.result <> "void" Then
@@ -187,6 +174,30 @@ Namespace Symbols.Parser
             End If
 
             Return func
+        End Function
+
+        <Extension>
+        Friend Function FunctionBody(bodyStatements As StatementSyntax(),
+                                     paramIndex As Index(Of String),
+                                     symbols As SymbolTable) As (locals As DeclareLocal(), body As Expression())
+
+            Dim runParser As Func(Of StatementSyntax, IEnumerable(Of Expression)) = symbols.runParser
+            Dim funcBody As Expression() = bodyStatements _
+                .ExceptType(Of EndBlockStatementSyntax) _
+                .Select(Function(s)
+                            Return runParser(s)
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+            Dim locals As DeclareLocal() = symbols _
+                .GetAllLocals _
+                .Where(Function(v)
+                           ' removes function parameters from declare locals
+                           Return Not v.name Like paramIndex
+                       End Function) _
+                .ToArray
+
+            Return (locals, funcBody)
         End Function
 
         <Extension>

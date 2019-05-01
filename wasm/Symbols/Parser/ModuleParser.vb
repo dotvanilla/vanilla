@@ -185,6 +185,7 @@ Namespace Symbols.Parser
 
             For Each method In main.Members.OfType(Of MethodBlockSyntax)
                 functions += method.ParseFunction(moduleName, symbolTable)
+                symbolTable.currentModuleLabel = moduleName
                 symbolTable.ClearLocals()
 
                 If method.SubOrFunctionStatement.isExportObject Then
@@ -197,14 +198,34 @@ Namespace Symbols.Parser
                 End If
             Next
 
+            Dim start As Start = main.Members _
+                .OfType(Of ConstructorBlockSyntax) _
+                .FirstOrDefault _
+                .parseConstructor(symbolTable)
+
             Return New ModuleSymbol With {
                 .InternalFunctions = functions,
                 .LabelName = moduleName,
                 .Exports = exports,
                 .[Imports] = symbolTable.GetAllImports.ToArray,
                 .Globals = symbolTable.GetAllGlobals.ToArray,
-                .Memory = symbolTable
+                .Memory = symbolTable,
+                .Start = start
             }
+        End Function
+
+        <Extension>
+        Private Function parseConstructor(ctor As ConstructorBlockSyntax, symbols As SymbolTable) As Start
+            If ctor Is Nothing Then
+                Return New Start(symbols.currentModuleLabel)
+            Else
+                Dim body = ctor.Statements.ToArray.FunctionBody({}, symbols)
+
+                Return New Start(symbols.currentModuleLabel) With {
+                    .Body = body.body,
+                    .Locals = body.locals
+                }
+            End If
         End Function
 
         <Extension>
