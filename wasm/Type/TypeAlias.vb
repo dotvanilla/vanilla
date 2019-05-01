@@ -62,7 +62,13 @@ Public Enum TypeAlias As Integer
     f64
     [string]
     [boolean]
+    ''' <summary>
+    ''' Fix length array in WebAssembly runtime
+    ''' </summary>
     array
+    ''' <summary>
+    ''' Array list in javascript runtime
+    ''' </summary>
     list
     ''' <summary>
     ''' Javascript object

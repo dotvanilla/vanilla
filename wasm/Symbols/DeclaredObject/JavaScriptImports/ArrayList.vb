@@ -73,9 +73,9 @@ Namespace Symbols.JavaScriptImports
                     .Name = $"{ofElement.type}_array.push",
                     .[Module] = "array",
                     .Package = NameOf(Array),
-                    .result = New TypeAbstract(TypeAlias.array),
+                    .result = New TypeAbstract(TypeAlias.list),
                     .parameters = {
-                        "array".param(TypeAlias.array),
+                        "array".param(TypeAlias.list),
                         "element".param(New TypeAbstract(ofElement))
                     }
                 }
@@ -92,7 +92,7 @@ Namespace Symbols.JavaScriptImports
                     .Package = NameOf(Array),
                     .result = New TypeAbstract(ofElement.type),
                     .parameters = {
-                        "array".param(TypeAlias.array)
+                        "array".param(TypeAlias.list)
                     }
                 }
             End Get
@@ -108,7 +108,7 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array.new",
             .Package = NameOf(Array),
-            .result = New TypeAbstract(TypeAlias.array),
+            .result = New TypeAbstract(TypeAlias.list),
             .parameters = {
                 "size".param("i32")
             }
@@ -124,7 +124,7 @@ Namespace Symbols.JavaScriptImports
                     .Package = NameOf(Array),
                     .result = New TypeAbstract(ofElement),
                     .parameters = {
-                        "array".param(TypeAlias.array),
+                        "array".param(TypeAlias.list),
                         "index".param("i32")
                     }
                 }
@@ -141,7 +141,7 @@ Namespace Symbols.JavaScriptImports
                     .Package = NameOf(Array),
                     .result = New TypeAbstract("void"),
                     .parameters = {
-                        "array".param(TypeAlias.array),
+                        "array".param(TypeAlias.list),
                         "index".param("i32"),
                         "value".param(New TypeAbstract(ofElement))
                     }
@@ -157,7 +157,7 @@ Namespace Symbols.JavaScriptImports
             .Package = NameOf(Array),
             .result = TypeAbstract.i32,
             .parameters = {
-                 "array".param(TypeAlias.array)
+                 "array".param(TypeAlias.list)
             }
         }
 

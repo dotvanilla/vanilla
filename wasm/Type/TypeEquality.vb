@@ -48,7 +48,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Wasm
 
 Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeAbstract)
 
