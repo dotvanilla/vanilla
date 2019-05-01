@@ -78,27 +78,14 @@
         }
 
         function exportWasmApi(assm: IWasm): { AssemblyInfo: AssemblyInfo } {
-            let exports = assm.instance.exports;
-            console.log(exports);
-            let api = {
-                AssemblyInfo: AssemblyInfo.readAssemblyInfo(assm)
-            };
+            let assmInfo: AssemblyInfo = AssemblyInfo.readAssemblyInfo(assm);
+            let exports: {
+                AssemblyInfo: AssemblyInfo
+            } = Application.BuildAppModules(assm.instance.exports);
 
-          
+            exports.AssemblyInfo = assmInfo;
 
-            for (let name in exports) {
-                let obj = exports[name];
-
-                if (typeof obj == "function") {
-                    obj = FunctionApi.buildApiFunc(obj);
-                } else {
-                    // do nothing
-                }
-
-                api[name] = obj;
-            }
-
-            return api;
+            return exports;
         }
 
         function createBytes(opts: Config): WasmMemory {

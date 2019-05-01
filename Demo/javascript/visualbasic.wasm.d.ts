@@ -236,23 +236,6 @@ declare namespace vanilla {
         array?: boolean;
     }
 }
-declare namespace vanilla.Wasm {
-    module FunctionApi {
-        interface IWasmFunc {
-            (...param: any[]): void;
-            /**
-             * 当前的这个函数在WebAssembly导出来的函数的申明原型
-            */
-            WasmPrototype: () => any;
-        }
-        /**
-         * 主要是创建一个对参数的封装函数，因为WebAssembly之中只有4中基础的数值类型
-         * 所以字符串，对象之类的都需要在这里进行封装之后才能够被传递进入WebAssembly
-         * 运行时环境之中
-        */
-        function buildApiFunc(func: object): IWasmFunc;
-    }
-}
 declare namespace vanilla {
     /**
      * The web assembly helper
@@ -269,6 +252,34 @@ declare namespace vanilla {
         */
         function RunAssembly(module: string, opts: Config): void;
         function showDebugMessage(opt?: boolean): boolean;
+    }
+}
+declare namespace vanilla.Wasm.Application {
+    /**
+     * Create the VisualBasic.NET application module
+    */
+    function BuildAppModules(wasm: object): any;
+}
+declare namespace vanilla.Wasm.Application {
+    interface IWasmFunc {
+        (...param: any[]): void;
+        /**
+         * 当前的这个函数在WebAssembly导出来的函数的申明原型
+        */
+        WasmPrototype: () => any;
+    }
+}
+declare namespace vanilla.Wasm.Application {
+    /**
+     * A helper module for create function wrapper
+    */
+    module FunctionApi {
+        /**
+         * 主要是创建一个对参数的封装函数，因为WebAssembly之中只有4中基础的数值类型
+         * 所以字符串，对象之类的都需要在这里进行封装之后才能够被传递进入WebAssembly
+         * 运行时环境之中
+        */
+        function buildApiFunc(func: object): IWasmFunc;
     }
 }
 declare namespace vanilla {

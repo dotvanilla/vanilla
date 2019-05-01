@@ -1,5 +1,8 @@
 ﻿namespace vanilla.Wasm.Application {
 
+    /**
+     * A helper module for create function wrapper
+    */
     export module FunctionApi {
 
         /**

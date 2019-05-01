@@ -24,17 +24,23 @@
 
         public static readAssemblyInfo(assm: IWasm): AssemblyInfo {
             let webassm: any = assm.instance.exports;
+            let readText = function (name: string) {
+                let ref: string = `AssemblyInfo.${name}`;
+                let out = webassm[ref];
+
+                return WebAssembly.ObjectManager.readText(out());
+            }
 
             return new AssemblyInfo(
-                WebAssembly.ObjectManager.readText(webassm.AssemblyTitle()),
-                WebAssembly.ObjectManager.readText(webassm.AssemblyDescription()),
-                WebAssembly.ObjectManager.readText(webassm.AssemblyCompany()),
-                WebAssembly.ObjectManager.readText(webassm.AssemblyProduct()),
-                WebAssembly.ObjectManager.readText(webassm.AssemblyCopyright()),
-                WebAssembly.ObjectManager.readText(webassm.AssemblyTrademark()),
-                WebAssembly.ObjectManager.readText(webassm.Guid()),
-                WebAssembly.ObjectManager.readText(webassm.AssemblyVersion()),
-                WebAssembly.ObjectManager.readText(webassm.AssemblyFileVersion())
+                readText("AssemblyTitle"),
+                readText("AssemblyDescription"),
+                readText("AssemblyCompany"),
+                readText("AssemblyProduct"),
+                readText("AssemblyCopyright"),
+                readText("AssemblyTrademark"),
+                readText("Guid"),
+                readText("AssemblyVersion"),
+                readText("AssemblyFileVersion")
             );
         }
     }
