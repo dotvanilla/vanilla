@@ -118,7 +118,7 @@ Namespace Compiler
             Dim moduleGroup = exports.GroupBy(Function(api) api.Module).ToArray
 
             For Each [module] In moduleGroup
-                Yield $";; export from [{[module].Key}]"
+                Yield $";; export from VB.NET module: [{[module].Key}]"
                 Yield ""
 
                 For Each func As ExportSymbolExpression In [module]
