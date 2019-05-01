@@ -187,7 +187,7 @@ Namespace Symbols.Parser
                     funcDeclare = symbols.GetFunctionSymbol(name, funcName)
 
                     If symbols.IsAnyObject(name) Then
-                        ' 是对对象实例的方法引用
+                        ' 是对对象实例的方法或者拓展函数引用
                         argumentFirst = target.ValueExpression(symbols)
                         leftArguments = funcDeclare.parameters.Skip(1).ToArray
                     ElseIf name Like symbols.ModuleNames Then
@@ -196,7 +196,7 @@ Namespace Symbols.Parser
                         leftArguments = funcDeclare.parameters
                     ElseIf symbols.IsModuleFunction(name) Then
                         ' 方法生成值，然后再调用值对象的成员方法的
-                        argumentFirst = New FuncInvoke(name) With {.parameters = {}}
+                        argumentFirst = New FuncInvoke(symbols.currentModuleLabel, name) With {.parameters = {}}
                         leftArguments = funcDeclare.parameters.Skip(1).ToArray
                     End If
                 End If
@@ -290,7 +290,7 @@ Namespace Symbols.Parser
             Else
                 Dim arguments = argumentList.fillParameters(funcDeclare.parameters, symbols)
 
-                Return New FuncInvoke(funcName) With {
+                Return New FuncInvoke(symbols.currentModuleLabel, funcName) With {
                     .parameters = arguments
                 }
             End If
