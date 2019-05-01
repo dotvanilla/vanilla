@@ -55,7 +55,7 @@ Imports Wasm.Symbols.JavaScriptImports
 
 Namespace Symbols.Parser
 
-    Module ExpressionParse
+    Module ExpressionParser
 
         <Extension>
         Public Function ValueExpression(value As ExpressionSyntax, symbols As SymbolTable) As Expression
@@ -85,7 +85,7 @@ Namespace Symbols.Parser
                 Case GetType(ArrayCreationExpressionSyntax)
                     Return DirectCast(value, ArrayCreationExpressionSyntax).CreateArray(symbols)
                 Case GetType(PredefinedCastExpressionSyntax)
-                    Return DirectCast(value, PredefinedCastExpressionSyntax).trycast(symbols)
+                    Return DirectCast(value, PredefinedCastExpressionSyntax).TryCast(symbols)
                 Case Else
                     Throw New NotImplementedException(value.GetType.FullName)
             End Select
