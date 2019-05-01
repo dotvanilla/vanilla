@@ -48,7 +48,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Wasm.Compiler
 
 Namespace Symbols

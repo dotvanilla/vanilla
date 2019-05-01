@@ -82,13 +82,12 @@ Namespace Symbols.Parser
                         Dim target = symbols.GetObjectSymbol(funcName)
 
                         If target.type = GetType(DictionaryBase).FullName Then
+                            Dim key As Expression = invoke.ArgumentList.FirstArgument(symbols, "key".param("i32"))
+
                             Return New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
                                 .parameters = {
                                     New GetLocalVariable(target.name),
-                                    invoke.ArgumentList _
-                                        .Arguments _
-                                        .First _
-                                        .Argument(symbols, "key".param("i32"))
+                                    key
                                 }
                             }
                         Else
@@ -113,15 +112,12 @@ Namespace Symbols.Parser
                     Dim acc = DirectCast(reference, InvocationExpressionSyntax).FunctionInvoke(symbols)
 
                     If acc.TypeInfer(symbols) = "i32" Then
+                        Dim index As Expression = invoke.ArgumentList.FirstArgument(symbols, "index".param("i32"))
                         ' 返回的是一个对象引用
                         ' 在这里假设是一个数组
                         Return New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
                             .parameters = {
-                                acc,
-                                invoke.ArgumentList _
-                                    .Arguments _
-                                    .First _
-                                    .Argument(symbols, "index".param("i32"))
+                                acc, index
                             }
                         }
                     Else
@@ -176,9 +172,7 @@ Namespace Symbols.Parser
                     keyAccess = New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
                         .parameters = {
                             keyAccess,
-                            argumentList.Arguments _
-                                .First _
-                                .Argument(symbols, "i".param("i32"))
+                            argumentList.FirstArgument(symbols, "i".param("i32"))
                         }
                     }
 
@@ -278,10 +272,7 @@ Namespace Symbols.Parser
             If JavaScriptImports.Array.IsArrayOperation(funcDeclare) Then
                 ' 是一个数组元素的读取操作
                 Dim array = New GetLocalVariable With {.var = funcName}
-                Dim index As Expression = argumentList _
-                    .Arguments _
-                    .First _
-                    .Argument(symbols, funcDeclare.parameters.Last)
+                Dim index As Expression = argumentList.FirstArgument(symbols, funcDeclare.parameters.Last)
 
                 Return New FuncInvoke With {
                     .refer = funcDeclare,
