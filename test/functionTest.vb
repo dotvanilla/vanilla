@@ -48,17 +48,22 @@
 
 Imports System.Runtime.CompilerServices
 
+Module ExportAPiModule
+
+
+    Public Declare Sub err Lib "console" Alias "error" (message As Object)
+End Module
+
 Module functionTest
 
     <Extension>
-    Declare Function print Lib "console" Alias "log" (info As String) As Integer
-    Declare Sub err Lib "console" Alias "error" (message As Object)
+    Public Declare Function print Lib "console" Alias "log" (info As String) As Integer
 
     Public Sub calls()
 
         ' use default
         Call Main()
-        Call Main(obj:=999999, args:="Another string value")
+        Call Main(obj:=99999.9, args:="Another string value")
 
         Call outputError()
 
