@@ -55,13 +55,13 @@ Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 ' 
 ' vb source => codeDOM => wast model => wast => wasm
 
-Public Class TypeExtensions
+Module TypeExtensions
 
     ''' <summary>
     ''' 在进行类型转换的是否，会需要使用这个索引来判断类型的优先度，同时，也可以使用这个索引来判断类型是否为基础类型
     ''' </summary>
     ''' <returns></returns>
-    Public Shared ReadOnly Property NumberOrders As Index(Of TypeAlias) = {
+    Public ReadOnly Property NumberOrders As Index(Of TypeAlias) = {
         TypeAlias.i32,
         TypeAlias.f32,
         TypeAlias.i64,
@@ -72,7 +72,7 @@ Public Class TypeExtensions
     ''' Webassembly之中，逻辑值是一个32位整型数
     ''' </summary>
     ''' <returns></returns>
-    Public Shared ReadOnly Property Convert2Wasm As New Dictionary(Of Type, String) From {
+    Public ReadOnly Property Convert2Wasm As New Dictionary(Of Type, String) From {
         {GetType(Boolean), Types.booleanType},
         {GetType(Integer), "i32"},
         {GetType(Long), "i64"},
@@ -88,7 +88,7 @@ Public Class TypeExtensions
     ''' VisualBasic.NET operator to webassembly operator name
     ''' </summary>
     ''' <returns></returns>
-    Public Shared ReadOnly Property wasmOpName As New Dictionary(Of String, String) From {
+    Public ReadOnly Property wasmOpName As New Dictionary(Of String, String) From {
         {"+", "add"},
         {"-", "sub"},
         {"*", "mul"},
@@ -98,14 +98,14 @@ Public Class TypeExtensions
         {"<>", "ne"}
     }
 
-    Friend Shared ReadOnly unaryOp As Index(Of String) = {
+    Friend ReadOnly unaryOp As Index(Of String) = {
         wasmOpName("+"),
         wasmOpName("-")
     }
-    Friend Shared ReadOnly integerType As Index(Of String) = {"i32", "i64"}
-    Friend Shared ReadOnly floatType As Index(Of String) = {"f32", "f64"}
+    Friend ReadOnly integerType As Index(Of String) = {"i32", "i64"}
+    Friend ReadOnly floatType As Index(Of String) = {"f32", "f64"}
 
-    Public Shared ReadOnly Property Comparison As Index(Of String) = {"f32", "f64", "i32", "i64"} _
+    Public ReadOnly Property Comparison As Index(Of String) = {"f32", "f64", "i32", "i64"} _
         .Select(Function(type)
                     Return {">", ">=", "<", "<=", "="}.Select(Function(op) Compares(type, op))
                 End Function) _
@@ -121,7 +121,7 @@ Public Class TypeExtensions
     ''' <remarks>
     ''' 
     ''' </remarks>
-    Public Shared Function Compares(type$, op$) As String
+    Public Function Compares(type$, op$) As String
         Select Case op
             Case ">"
                 If type Like integerType Then
@@ -181,7 +181,7 @@ Public Class TypeExtensions
         End Select
     End Function
 
-    Public Shared Function IsArray(type As String) As Boolean
+    Public Function IsArray(type As String) As Boolean
         ' instr是从1开始的
         Dim p = InStr(type, "[]") - 1
         Dim lastIndex = (type.Length - 2)
@@ -196,12 +196,12 @@ Public Class TypeExtensions
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function ArrayElement(fullName As String) As String
+    Public Function ArrayElement(fullName As String) As String
         Return fullName.Substring(Scan0, fullName.Length - 2)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function TypeCharWasm(c As Char) As String
+    Public Function TypeCharWasm(c As Char) As String
         Return Convert2Wasm(Scripting.GetType(Patterns.TypeCharName(c)))
     End Function
-End Class
+End Module

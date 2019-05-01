@@ -126,6 +126,16 @@ Module CTypeHandle
         Return right
     End Function
 
+    Public Function IsDirectCastCapable(left As TypeAlias, right As TypeAlias) As Boolean
+        If left.ToString Like integerType Then
+            Return right.ToString Like integerType
+        ElseIf left.ToString Like floatType Then
+            Return right.ToString Like floatType
+        End If
+
+        Return False
+    End Function
+
     ''' <summary>
     ''' ``CType`` operator to webassembly 
     ''' ``Datatype conversions, truncations, reinterpretations, promotions, and demotions`` feature.
@@ -148,7 +158,7 @@ Module CTypeHandle
         ElseIf right.IsLiteralNothing Then
             ' nothing 可以赋值给任意类型
             Return DefaultOf(left)
-        ElseIf TypeOf right Is LiteralExpression Then
+        ElseIf TypeOf right Is LiteralExpression AndAlso IsDirectCastCapable(left.type, rightTypeInfer.type) Then
             ' 如果是常数表达式的话，则直接修改常数表达式的类型
             Return New LiteralExpression With {
                 .type = left,

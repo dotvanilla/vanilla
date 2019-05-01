@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 12:47:26 PM
+    ;; build: 5/1/2019 12:57:27 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -39,7 +39,7 @@
     
     (if (i32.mul (get_local $b) (get_global $boolTest.b2)) 
         (then
-                    (return (i32.const 1))
+                    (return (i32.trunc_s/f64 (f64.const 1.5)))
         ) (else
                     (return (i32.sub (i32.const 0) (i32.const 100)))
         )

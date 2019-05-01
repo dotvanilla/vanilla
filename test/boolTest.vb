@@ -55,7 +55,7 @@ Module boolTest
         Dim b As Boolean = CSng(Random()) >= (threshold + 0.1)
 
         If b And b2 Then
-            Return 1
+            Return 1.5
         Else
             Return -100
         End If
