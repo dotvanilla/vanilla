@@ -173,17 +173,15 @@ Namespace Symbols.JavaScriptImports
             Throw New NotImplementedException
         End Function
 
-        Public Function Method(name As String) As ImportSymbol
-            'Select Case name
-            '    Case "Add" : Return Array.Push
-            '    Case "Remove"
-            '        Throw New NotImplementedException
-            '    Case "Length" : Return Array.Length
-            '    Case Else
-            '        Throw New NotImplementedException
-            'End Select
-
-            Throw New NotImplementedException
+        Public Function Method(name As String, ofElement As TypeAbstract) As ImportSymbol
+            Select Case name
+                Case "Add" : Return Array.Push(ofElement)
+                Case "Remove"
+                    Throw New NotImplementedException
+                Case "Length" : Return Array.Length
+                Case Else
+                    Throw New NotImplementedException
+            End Select
         End Function
 
         <Extension>

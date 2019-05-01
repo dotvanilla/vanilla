@@ -150,6 +150,8 @@ Namespace Compiler
 
             If typeContext.type = TypeAlias.string Then
                 Return symbols.handleStringMethods(name)
+            ElseIf typeContext.type = TypeAlias.array OrElse typeContext.type = TypeAlias.list Then
+                Return symbols.handleArrayListMethods(name, typeContext)
             End If
 
             ' 接着按照类型查找函数
@@ -238,8 +240,8 @@ Namespace Compiler
         End Function
 
         <Extension>
-        Private Function handleArrayListMethods(symbols As SymbolTable, name As String) As FuncSignature
-            Dim Api As ImportSymbol = JavaScriptImports.Array.Method(name)
+        Private Function handleArrayListMethods(symbols As SymbolTable, name$, typeContext As TypeAbstract) As FuncSignature
+            Dim Api As ImportSymbol = JavaScriptImports.Array.Method(name, typeContext.generic(Scan0))
             Call symbols.addRequired(Api)
             Return Api
         End Function
