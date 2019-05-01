@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17ef702e472ba99a96b8a476abca569c, Compiler\ModuleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::629726c3d42fbd66a6356296f955ea09, Compiler\ModuleBuilder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module ModuleBuilder
     ' 
-    '         Function: exportGroup, funcGroup, ToSExpression
+    '         Function: exportGroup, funcGroup, starter, ToSExpression
     ' 
     ' 
     ' /********************************************************************************/
@@ -110,7 +110,27 @@ Namespace Compiler
 
     {m.Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
 
-{internal})"
+{internal}
+
+;; Application Initialize
+;; 
+;; Sub New
+(func $Application_SubNew
+{m.starter}
+)
+
+(start $Application_SubNew)
+
+)"
+        End Function
+
+        <Extension>
+        Private Function starter([module] As ModuleSymbol) As String
+            If [module].Start Is Nothing Then
+                Return ""
+            Else
+                Return [module].Start.ToSExpression
+            End If
         End Function
 
         <Extension>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7add9745b4ff01b5f37d2aeba47bfa4d, Symbols\Parser\BitConverter.vb"
+﻿#Region "Microsoft.VisualBasic::36217a0e95e44317b19aa20d4986a108, Symbols\Start.vb"
 
     ' Author:
     ' 
@@ -36,21 +36,38 @@
 
     ' Summaries:
 
-    '     Module BitConverter
+    '     Class Start
     ' 
-    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace Symbols.Parser
+Imports Wasm.Compiler
+
+Namespace Symbols
 
     ''' <summary>
-    ''' WebAssembly Linear Memory Accesses
+    ''' Start符号相当于VB.NET模块的``Sub New``构造函数
     ''' </summary>
-    Module BitConverter
+    Public Class Start : Inherits FuncSymbol
 
-    End Module
+        Sub New(moduleLabel As String)
+            Me.Module = moduleLabel
+            Me.Name = "new"
+            Me.parameters = {}
+            Me.result = TypeAbstract.void
+        End Sub
+
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return TypeAbstract.void
+        End Function
+
+        Public Overrides Function ToSExpression() As String
+            Return MyBase.buildBody
+        End Function
+    End Class
 End Namespace

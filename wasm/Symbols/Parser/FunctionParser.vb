@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4e5be2765e3f693df0ccad41e2f8dcf, Symbols\Parser\FunctionParser.vb"
+﻿#Region "Microsoft.VisualBasic::c335551fd652759b4685a859b1ddf4ca, Symbols\Parser\FunctionParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Module FunctionParser
     ' 
-    '         Function: (+2 Overloads) FuncVariable, ParseFunction, ParseParameter, (+3 Overloads) ParseParameters, runParser
+    '         Function: FunctionBody, (+2 Overloads) FuncVariable, ParseFunction, ParseParameter, (+3 Overloads) ParseParameters
+    '                   runParser
     ' 
     '         Sub: addImplicitReturns
     ' 
@@ -154,25 +155,12 @@ Namespace Symbols.Parser
             Next
 
             Dim paramIndex As Index(Of String) = parameters.Keys
-            Dim runParser = symbols.runParser
-            Dim bodyExpressions As Expression() = body _
-                .ExceptType(Of EndBlockStatementSyntax) _
-                .Select(Function(s)
-                            Return runParser(s)
-                        End Function) _
-                .IteratesALL _
-                .ToArray
+            Dim funcBody = body.FunctionBody(paramIndex, symbols)
             Dim func As New FuncSymbol(funcVar) With {
                 .parameters = parameters,
-                .Body = bodyExpressions,
+                .Body = funcBody.body,
                 .[Module] = moduleName,
-                .Locals = symbols _
-                    .GetAllLocals _
-                    .Where(Function(v)
-                               ' removes function parameters from declare locals
-                               Return Not v.name Like paramIndex
-                           End Function) _
-                    .ToArray
+                .Locals = funcBody.locals
             }
 
             If func.result <> "void" Then
@@ -187,6 +175,30 @@ Namespace Symbols.Parser
             End If
 
             Return func
+        End Function
+
+        <Extension>
+        Friend Function FunctionBody(bodyStatements As StatementSyntax(),
+                                     paramIndex As Index(Of String),
+                                     symbols As SymbolTable) As (locals As DeclareLocal(), body As Expression())
+
+            Dim runParser As Func(Of StatementSyntax, IEnumerable(Of Expression)) = symbols.runParser
+            Dim funcBody As Expression() = bodyStatements _
+                .ExceptType(Of EndBlockStatementSyntax) _
+                .Select(Function(s)
+                            Return runParser(s)
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+            Dim locals As DeclareLocal() = symbols _
+                .GetAllLocals _
+                .Where(Function(v)
+                           ' removes function parameters from declare locals
+                           Return Not v.name Like paramIndex
+                       End Function) _
+                .ToArray
+
+            Return (locals, funcBody)
         End Function
 
         <Extension>

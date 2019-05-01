@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc7407a84ac2be75323c7ef2a1a7a124, Symbols\DeclaredObject\FuncSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::2dae2e98c7cfef81f0bbd0b2c8049626, Symbols\DeclaredObject\FuncSymbol.vb"
 
     ' Author:
     ' 
@@ -84,7 +84,7 @@ Namespace Symbols
         ''' 所以构建函数体的时候流程会有些复杂
         ''' </summary>
         ''' <returns></returns>
-        Private Function buildBody() As String
+        Protected Function buildBody() As String
             ' 先声明变量，然后再逐步赋值
             Dim declareLocals$()
             Dim body As New List(Of String)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::159d02b159ff20eeef3559ab7d1d1d62, Symbols\ModuleSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::99da9aeeb33fc18d71f746dc64eba14d, Symbols\ModuleSymbol.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     '     Class ModuleSymbol
     ' 
     '         Properties: [Imports], Exports, Globals, InternalFunctions, LabelName
-    '                     Memory
+    '                     Memory, Start
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateModule, GenericEnumerator, GetEnumerator, Join, ToSExpression
@@ -67,6 +67,12 @@ Namespace Symbols
         Public Property Memory As Memory
 
         ''' <summary>
+        ''' 模块的``Sub New``构造函数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Start As Start
+
+        ''' <summary>
         ''' The module name label
         ''' </summary>
         ''' <returns></returns>
@@ -87,6 +93,11 @@ Namespace Symbols
             End If
             If Not part.Memory Is Nothing Then
                 Memory = part.Memory
+            End If
+            If Start Is Nothing Then
+                Start = part.Start
+            Else
+                Start = part.Start
             End If
 
             Return Me
