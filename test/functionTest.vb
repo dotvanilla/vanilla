@@ -52,6 +52,13 @@ Module ExportAPiModule
 
 
     Public Declare Sub err Lib "console" Alias "error" (message As Object)
+
+    Public Function outputError() As Long
+        Call err("this is message")
+
+        Return -10.0001
+    End Function
+
 End Module
 
 Module functionTest
@@ -66,6 +73,8 @@ Module functionTest
         Call Main(obj:=99999.9, args:="Another string value")
 
         Call outputError()
+
+        Dim x = outputError() + ExportAPiModule.outputError
 
     End Sub
 
@@ -86,6 +95,7 @@ Module functionTest
     End Sub
 
     Public Function outputError() As Single
+        ' this err api should reference to ExportAPiModule
         Call err("this is message")
 
         Return -0.0001

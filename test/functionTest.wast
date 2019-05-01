@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 12:57:27 PM
+    ;; build: 5/1/2019 1:10:28 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -31,20 +31,28 @@
 
     ;; Memory data for string constant
     
-    ;; String from 1 with 36 bytes in memory
-    (data (i32.const 1) "This is the optional parameter value\00")
+    ;; String from 1 with 15 bytes in memory
+    (data (i32.const 1) "this is message\00")
 
-    ;; String from 38 with 20 bytes in memory
-    (data (i32.const 38) "Another string value\00")
+    ;; String from 17 with 36 bytes in memory
+    (data (i32.const 17) "This is the optional parameter value\00")
 
-    ;; String from 59 with 12 bytes in memory
-    (data (i32.const 59) "345566777777\00")
+    ;; String from 54 with 20 bytes in memory
+    (data (i32.const 54) "Another string value\00")
 
-    ;; String from 72 with 15 bytes in memory
-    (data (i32.const 72) "this is message\00")
+    ;; String from 75 with 12 bytes in memory
+    (data (i32.const 75) "345566777777\00")
+
+    ;; String from 88 with 15 bytes in memory
+    (data (i32.const 88) "this is message\00")
     
     
 
+    ;; export from [ExportAPiModule]
+    
+    (export "ExportAPiModule.outputError" (func $ExportAPiModule.outputError))
+    
+    
     ;; export from [functionTest]
     
     (export "functionTest.calls" (func $functionTest.calls))
@@ -54,19 +62,30 @@
     
      
 
+    ;; functions in [ExportAPiModule]
+    
+    (func $ExportAPiModule.outputError  (result i64)
+        ;; Public Function outputError() As i64
+        
+    (call $ExportAPiModule.err (i32.const 1))
+    (return (i64.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 10.0001))))
+    )
+    
+    
     ;; functions in [functionTest]
     
     (func $functionTest.calls  
         ;; Public Function calls() As void
-        
-    (call $functionTest.Main (i32.const 1) (i32.const -100) (i32.const 1))
-    (call $functionTest.Main (i32.const 38) (i32.trunc_s/f64 (f64.const 99999.9)) (i32.const 1))
+        (local $x i64)
+    (call $functionTest.Main (i32.const 17) (i32.const -100) (i32.const 1))
+    (call $functionTest.Main (i32.const 54) (i32.trunc_s/f64 (f64.const 99999.9)) (i32.const 1))
     (drop (call $functionTest.outputError ))
+    (set_local $x (i64.add (i64.trunc_s/f32 (call $functionTest.outputError )) (call $ExportAPiModule.outputError )))
     )
     (func $functionTest.extensionFunctiontest  
         ;; Public Function extensionFunctiontest() As void
         
-    (drop (call $functionTest.print (i32.const 59)))
+    (drop (call $functionTest.print (i32.const 75)))
     )
     (func $functionTest.Main (param $args i32) (param $obj i32) (param $f i32) 
         ;; Public Function Main(args As string, obj As i32, f As boolean) As void
@@ -83,7 +102,7 @@
     (func $functionTest.outputError  (result f32)
         ;; Public Function outputError() As f32
         
-    (call $functionTest.err (i32.const 72))
+    (call $functionTest.err (i32.const 88))
     (return (f32.demote/f64 (f64.sub (f64.const 0) (f64.const 0.0001))))
     )
     )

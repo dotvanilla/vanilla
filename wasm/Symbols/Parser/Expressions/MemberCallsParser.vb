@@ -88,20 +88,34 @@ Namespace Symbols.Parser
             Else
                 ' 数组长度，属性，无参数的方法调用等
                 Dim func = symbols.GetFunctionSymbol(objName, memberName)
-                Dim obj = symbols.GetObjectReference(objName)
 
                 If Not func Is Nothing Then
-                    Return New FuncInvoke(func) With {
-                        .parameters = {obj}
-                    }
-                ElseIf obj Is Nothing AndAlso objName Like symbols.ModuleNames Then
-                    ' 在这里objName是一个模块名称
-                    ' 所以objName会作为对象查找的context
-                    Return symbols.FindModuleGlobal(objName, memberName).GetReference
+                    ' 可能是模块的成员函数
+                    ' 也可能是拓展函数
+                    If symbols.IsAnyObject(objName) Then
+                        Return New FuncInvoke(func) With {
+                           .parameters = {symbols.GetObjectReference(objName)}
+                        }
+                    ElseIf objName Like symbols.ModuleNames Then
+                        ' 是一个无参数的模块成员函数调用
+                        Return New FuncInvoke(func) With {
+                           .parameters = {}
+                        }
+                    Else
+                        Throw New NotImplementedException
+                    End If
                 Else
-                    ' 是引用的模块成员
-                    If TypeOf obj Is GetGlobalVariable Then
-                        Return obj
+                    Dim obj = symbols.GetObjectReference(objName)
+
+                    If obj Is Nothing AndAlso objName Like symbols.ModuleNames Then
+                        ' 在这里objName是一个模块名称
+                        ' 所以objName会作为对象查找的context
+                        Return symbols.FindModuleGlobal(objName, memberName).GetReference
+                    Else
+                        ' 是引用的模块成员
+                        If TypeOf obj Is GetGlobalVariable Then
+                            Return obj
+                        End If
                     End If
                 End If
 
