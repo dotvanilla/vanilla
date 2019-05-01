@@ -51,14 +51,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Parser
 
 Namespace Symbols.JavaScriptImports
 
     ''' <summary>
-    ''' The javascript array api
+    ''' The javascript array list api
     ''' </summary>
     Public Module Array
 
