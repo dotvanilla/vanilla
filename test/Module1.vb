@@ -75,6 +75,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                  "..\Stringstest.vb",
                 "..\Modulemethod_test.vb",
                     "..\functionTest.vb",
                   "..\boolTest.vb",
@@ -83,7 +84,6 @@ Module treeTest
                 "..\ForLoopTest.vb",
                 "..\ClassTest.vb",
                  "..\arrayTest.vb",
-                 "..\Stringstest.vb",
                  "..\EnumTest.vb",
                 "..\dictionarytest.vb",
                 "..\incrementTest.vb"}
@@ -96,7 +96,7 @@ Module treeTest
 
     Sub Main()
 
-        Call projectTest()
+        ' Call projectTest()
         ' Call documentApitest()
 
         '  Call Wasm.CompileWast("..\Demo\string.wast", "..\Demo\string.wasm")
