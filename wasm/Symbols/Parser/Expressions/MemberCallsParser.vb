@@ -95,7 +95,9 @@ Namespace Symbols.Parser
                         .parameters = {obj}
                     }
                 ElseIf obj Is Nothing AndAlso objName Like symbols.ModuleNames Then
-                    Return symbols.FindModuleGlobal(memberName, objName).GetReference
+                    ' 在这里objName是一个模块名称
+                    ' 所以objName会作为对象查找的context
+                    Return symbols.FindModuleGlobal(objName, memberName).GetReference
                 Else
                     ' 是引用的模块成员
                     If TypeOf obj Is GetGlobalVariable Then

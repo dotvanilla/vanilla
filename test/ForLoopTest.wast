@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 4/28/2019 1:21:07 AM
+    ;; build: 5/1/2019 11:29:14 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -25,19 +25,19 @@
 
     ;; export from [ForLoopTest]
     
-    (export "forloop" (func $forloop))
+    (export "ForLoopTest.forloop" (func $ForLoopTest.forloop))
     
      
 
     ;; functions in [ForLoopTest]
     
-    (func $forloop  (result f64)
+    (func $ForLoopTest.forloop  (result f64)
         ;; Public Function forloop() As f64
         (local $x f64)
     (local $delta f32)
     (local $i i32)
-    (set_local $x (f64.convert_s/i32 (i32.const 999)))
-    (set_local $delta (f32.demote/f64 (f64.const 0.001)))
+    (set_local $x (f64.const 999))
+    (set_local $delta (f32.const 0.001))
     (set_local $i (i32.wrap/i64 (get_global $zero)))
     ;; For i As Integer = zero To 100 Step ForLoopTest.delta
     
