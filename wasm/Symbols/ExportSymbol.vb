@@ -73,7 +73,7 @@ Namespace Symbols
         Public Property [Module] As String Implements IDeclaredObject.Module
 
         Public Overrides Function ToSExpression() As String
-            Return $"(export ""{Name}"" ({type} ${target}))"
+            Return $"(export ""{target.Module}.{Name}"" ({type} ${target}))"
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract

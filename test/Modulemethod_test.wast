@@ -5,12 +5,20 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 10:41:36 AM
+    ;; build: 5/1/2019 10:46:29 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
+    ;; Declare Function array.new Lib "Array" Alias "create" (size As i32) As array
+    (func $array.new (import "Array" "create") (param $size i32) (result i32))
+    ;; Declare Function array.push Lib "Array" Alias "push" (array As array, element As any) As array
+    (func $array.push (import "Array" "push") (param $array i32) (param $element i32) (result i32))
+    ;; Declare Function array.get Lib "Array" Alias "get" (array As array, index As i32) As any
+    (func $array.get (import "Array" "get") (param $array i32) (param $index i32) (result i32))
+    ;; Declare Function array.length Lib "Array" Alias "length" (array As array) As i32
+    (func $array.length (import "Array" "length") (param $array i32) (result i32))
     ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
     (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
     ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
@@ -40,15 +48,15 @@
 
     ;; export from [Modulemethod_test]
     
-    (export "arraytypeInferTest" (func $Modulemethod_test.arraytypeInferTest))
-    (export "test" (func $Modulemethod_test.test))
-    (export "calls" (func $Modulemethod_test.calls))
+    (export "Modulemethod_test.arraytypeInferTest" (func $Modulemethod_test.arraytypeInferTest))
+    (export "Modulemethod_test.test" (func $Modulemethod_test.test))
+    (export "Modulemethod_test.calls" (func $Modulemethod_test.calls))
     
     
     ;; export from [module2]
     
-    (export "Runapp" (func $module2.Runapp))
-    (export "test" (func $module2.test))
+    (export "module2.Runapp" (func $module2.Runapp))
+    (export "module2.test" (func $module2.test))
     
      
 

@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::675de1a4f711829036a19eee857f090a, Symbols\Parser\Expressions\ExpressionParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ExpressionParse
-    ' 
-    '         Function: (+2 Overloads) BinaryStack, ConstantExpression, (+2 Overloads) CreateArray, IsPredicate, ParenthesizedStack
-    '                   ReferVariable, StringConstant, UnaryExpression, UnaryValue, ValueCType
-    '                   ValueExpression
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ExpressionParse
+' 
+'         Function: (+2 Overloads) BinaryStack, ConstantExpression, (+2 Overloads) CreateArray, IsPredicate, ParenthesizedStack
+'                   ReferVariable, StringConstant, UnaryExpression, UnaryValue, ValueCType
+'                   ValueExpression
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,6 +51,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Blocks
+Imports Wasm.Symbols.JavaScriptImports
 
 Namespace Symbols.Parser
 
@@ -93,6 +94,9 @@ Namespace Symbols.Parser
             Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
             Dim arrayType As TypeAbstract = New TypeAbstract(type).MakeArrayType
 
+            ' 导入数组操作所需要的外部api
+            Call symbols.doArrayImports
+
             If newArray.ArrayBounds Is Nothing Then
                 Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
                 array.type = arrayType
@@ -125,6 +129,9 @@ Namespace Symbols.Parser
                 .Initialize = elements,
                 .type = elementType.MakeArrayType
             }
+
+            ' 导入数组操作所需要的外部api
+            Call symbols.doArrayImports
 
             Return array
         End Function
