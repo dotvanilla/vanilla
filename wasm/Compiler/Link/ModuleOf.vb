@@ -65,6 +65,27 @@ Namespace Compiler
         ReadOnly modules As New Dictionary(Of String, IDeclaredObject)
 
         Public ReadOnly Property SymbolName As String Implements IReadOnlyId.Identity
+
+        Public ReadOnly Property IsUnique As Boolean
+            Get
+                Return modules.Count = 1
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 如果目标不是在模块之间唯一的话，则属性返回空值
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property GetUniqueSymbol As IDeclaredObject
+            Get
+                If Not IsUnique Then
+                    Return Nothing
+                Else
+                    Return modules.Values.First
+                End If
+            End Get
+        End Property
+
         Public ReadOnly Property ModuleLabels As IEnumerable(Of String)
             Get
                 Return modules.Keys

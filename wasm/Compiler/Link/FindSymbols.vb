@@ -56,12 +56,20 @@ Namespace Compiler
     ''' </summary>
     Module FindSymbols
 
+        ' 查找的规则如下
+        '
+        ' 1. 假若目标名称是惟一的。则可以不依赖于模块名称
+        ' 2. 假若目标名称在模块之间不唯一，则需要依赖于模块名称来查找，但是模块名称为空的话，则表示为当前模块
+
         <Extension>
         Public Function FindModuleMemberFunction(symbols As SymbolTable, context$, name$) As FuncSignature
-            Dim funcs = symbols.functionList.TryGetValue(name)
+            Dim funcs As ModuleOf = symbols.functionList.TryGetValue(name)
 
+            ' 没有找到目标函数
             If funcs Is Nothing Then
                 Return Nothing
+            ElseIf funcs.IsUnique Then
+                Return funcs.GetUniqueSymbol
             Else
                 Return funcs.FindSymbol(context Or symbols.currentModuleLabel)
             End If
@@ -80,6 +88,8 @@ Namespace Compiler
 
             If ref Is Nothing Then
                 Return Nothing
+            ElseIf ref.IsUnique Then
+                Return ref.GetUniqueSymbol
             Else
                 Return ref.FindSymbol(context Or symbols.currentModuleLabel)
             End If
