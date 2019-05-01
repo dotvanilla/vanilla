@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2bdc3a0862461fff556a973c76211f23, Symbols\Parser\Expressions\MemberCallsParser.vb"
+﻿#Region "Microsoft.VisualBasic::8e68958bb7eddcf082f44b67b18803ff, Symbols\Parser\Expressions\MemberCallsParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module MemberCallsParser
     ' 
-    '         Function: ExpressionMember, MemberExpression, SimpleMember
+    '         Function: ExpressionMember, InvokeMemberFunc, MemberExpression, SimpleMember
     ' 
     ' 
     ' /********************************************************************************/

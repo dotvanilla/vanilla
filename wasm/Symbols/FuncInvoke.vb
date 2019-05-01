@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::377e15d4b22e91b5fc03a2823ad70606, Symbols\FuncInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::0c7e4197204b7ba89453c91dc2d8cfce, Symbols\FuncInvoke.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,8 @@
     '         Properties: [operator], IsUnary, parameters, refer
     ' 
     '         Constructor: (+4 Overloads) Sub New
-    '         Function: AsUnary, funcTypeInfer, ToSExpression, typeFromOperator, TypeInfer
+    '         Function: AsUnary, funcTypeInfer, InternalApiReturnType, ToSExpression, typeFromOperator
+    '                   TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

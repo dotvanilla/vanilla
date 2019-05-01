@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27ab8013462f392d5cf2c7330eb73115, Symbols\DeclaredObject\ImportSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::a7f39402cf3254f81535fa2179268bd6, Symbols\DeclaredObject\ImportSymbol.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class ImportSymbol
     ' 
-    '         Properties: ImportObject, Package, VBDeclare
+    '         Properties: DefinedInModule, ImportObject, Package, VBDeclare
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToSExpression, ToString, TypeInfer

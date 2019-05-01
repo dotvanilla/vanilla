@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d36037a1dc149368b1d8354e047d70a, Symbols\Parser\Body\BodyParser.vb"
+﻿#Region "Microsoft.VisualBasic::3ca25f4c4ecb8334a0a47d97c33c1e62, Symbols\Parser\Body\BodyParser.vb"
 
     ' Author:
     ' 

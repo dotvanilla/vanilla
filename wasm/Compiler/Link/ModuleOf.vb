@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e70aad017cd00f4316f50a7c65d19ba, Compiler\Link\ModuleOf.vb"
+﻿#Region "Microsoft.VisualBasic::2d14af26c10d5986567115b5891ac649, Compiler\Link\ModuleOf.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
 
     '     Class ModuleOf
     ' 
-    '         Properties: ModuleLabels, SymbolName
+    '         Properties: GetUniqueSymbol, IsUnique, ModuleLabels, SymbolName
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: FindSymbol, GetEnumerator, IEnumerable_GetEnumerator, ToString
     ' 

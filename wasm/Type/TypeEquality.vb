@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::104c68500879cf63b53d8a02ec2932df, Type\TypeEquality.vb"
+﻿#Region "Microsoft.VisualBasic::66ea3d3df4d6255319b047c7ff3fe004, Type\TypeEquality.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     '     Properties: Test
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: Equals, GetHashCode
+    '     Function: Equals, GetHashCode, IsTargetType
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b61bf24aad0c63748234c0bb0130a9f1, Compiler\Link\FindSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::08046e2b4b3ca1dbb3d8cc23c4f69b5f, Compiler\Link\FindSymbols.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Module FindSymbols
     ' 
-    '         Function: FindEnumValue, FindModuleGlobal, FindModuleMemberFunction, FindTypeMethod, handleStringMethods
+    '         Function: FindEnumValue, findMethodByFirstSignature, FindModuleGlobal, FindModuleMemberFunction, FindTypeMethod
+    '                   handleStringMethods
     ' 
     ' 
     ' /********************************************************************************/
