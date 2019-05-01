@@ -90,20 +90,7 @@ Namespace Symbols.Parser
                 Dim func = symbols.GetFunctionSymbol(objName, memberName)
 
                 If Not func Is Nothing Then
-                    ' 可能是模块的成员函数
-                    ' 也可能是拓展函数
-                    If symbols.IsAnyObject(objName) Then
-                        Return New FuncInvoke(func) With {
-                           .parameters = {symbols.GetObjectReference(objName)}
-                        }
-                    ElseIf objName Like symbols.ModuleNames Then
-                        ' 是一个无参数的模块成员函数调用
-                        Return New FuncInvoke(func) With {
-                           .parameters = {}
-                        }
-                    Else
-                        Throw New NotImplementedException
-                    End If
+                    Return func.InvokeMemberFunc(objName, symbols)
                 Else
                     Dim obj = symbols.GetObjectReference(objName)
 
@@ -119,6 +106,33 @@ Namespace Symbols.Parser
                     End If
                 End If
 
+                Throw New NotImplementedException
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 无参数的成员函数或者模块函数调用语法
+        ''' 
+        ''' 虽然是无参数，但是可能会存在可选默认参数，在这里需要做下额外的处理
+        ''' </summary>
+        ''' <param name="func"></param>
+        ''' <param name="objName"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function InvokeMemberFunc(func As FuncSignature, objName$, symbols As SymbolTable) As Expression
+            ' 可能是模块的成员函数
+            ' 也可能是拓展函数
+            If symbols.IsAnyObject(objName) Then
+                Return New FuncInvoke(func) With {
+                   .parameters = {symbols.GetObjectReference(objName)}
+                }
+            ElseIf objName Like symbols.ModuleNames Then
+                ' 是一个无参数的模块成员函数调用
+                Return New FuncInvoke(func) With {
+                   .parameters = {}
+                }
+            Else
                 Throw New NotImplementedException
             End If
         End Function
