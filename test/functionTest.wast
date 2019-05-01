@@ -5,16 +5,16 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 1:10:28 PM
+    ;; build: 5/1/2019 1:16:39 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
-    ;; Declare Function err Lib "console" Alias "error" (message As any) As void
-    (func $ExportAPiModule.err (import "console" "error") (param $message i32) )
     ;; Declare Function print Lib "console" Alias "log" (info As string) As i32
     (func $functionTest.print (import "console" "log") (param $info i32) (result i32))
+    ;; Declare Function err Lib "console" Alias "error" (message As any) As void
+    (func $ExportAPiModule.err (import "console" "error") (param $message i32) )
     ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
     (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
     ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
@@ -48,32 +48,28 @@
     
     
 
+    ;; export from [functionTest]
+    
+    (export "functionTest.outputError" (func $functionTest.outputError))
+    (export "functionTest.calls" (func $functionTest.calls))
+    (export "functionTest.extensionFunctiontest" (func $functionTest.extensionFunctiontest))
+    (export "functionTest.Main" (func $functionTest.Main))
+    
+    
     ;; export from [ExportAPiModule]
     
     (export "ExportAPiModule.outputError" (func $ExportAPiModule.outputError))
     
-    
-    ;; export from [functionTest]
-    
-    (export "functionTest.calls" (func $functionTest.calls))
-    (export "functionTest.extensionFunctiontest" (func $functionTest.extensionFunctiontest))
-    (export "functionTest.Main" (func $functionTest.Main))
-    (export "functionTest.outputError" (func $functionTest.outputError))
-    
      
 
-    ;; functions in [ExportAPiModule]
-    
-    (func $ExportAPiModule.outputError  (result i64)
-        ;; Public Function outputError() As i64
-        
-    (call $ExportAPiModule.err (i32.const 1))
-    (return (i64.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 10.0001))))
-    )
-    
-    
     ;; functions in [functionTest]
     
+    (func $functionTest.outputError  (result f32)
+        ;; Public Function outputError() As f32
+        
+    (call $ExportAPiModule.err (i32.const 1))
+    (return (f32.demote/f64 (f64.sub (f64.const 0) (f64.const 0.0001))))
+    )
     (func $functionTest.calls  
         ;; Public Function calls() As void
         (local $x i64)
@@ -99,10 +95,14 @@
     (drop (call $functionTest.print (call $i32.toString (i32.const 1))))
     (drop (call $functionTest.print (call $i32.toString (i32.eq (get_local $args) (i32.const 0)))))
     )
-    (func $functionTest.outputError  (result f32)
-        ;; Public Function outputError() As f32
+    
+    
+    ;; functions in [ExportAPiModule]
+    
+    (func $ExportAPiModule.outputError  (result i64)
+        ;; Public Function outputError() As i64
         
-    (call $functionTest.err (i32.const 88))
-    (return (f32.demote/f64 (f64.sub (f64.const 0) (f64.const 0.0001))))
+    (call $ExportAPiModule.err (i32.const 88))
+    (return (i64.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 10.0001))))
     )
     )

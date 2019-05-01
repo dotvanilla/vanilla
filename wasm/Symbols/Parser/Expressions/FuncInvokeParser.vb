@@ -285,7 +285,7 @@ Namespace Symbols.Parser
             Else
                 Dim arguments = argumentList.fillParameters(funcDeclare.parameters, symbols)
 
-                Return New FuncInvoke(symbols.currentModuleLabel, funcName) With {
+                Return New FuncInvoke(funcDeclare) With {
                     .parameters = arguments
                 }
             End If

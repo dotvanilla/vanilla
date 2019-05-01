@@ -48,23 +48,17 @@
 
 Imports System.Runtime.CompilerServices
 
-Module ExportAPiModule
-
-
-    Public Declare Sub err Lib "console" Alias "error" (message As Object)
-
-    Public Function outputError() As Long
-        Call err("this is message")
-
-        Return -10.0001
-    End Function
-
-End Module
-
 Module functionTest
 
     <Extension>
     Public Declare Function print Lib "console" Alias "log" (info As String) As Integer
+
+    Public Function outputError() As Single
+        ' this err api should reference to ExportAPiModule
+        Call err("this is message")
+
+        Return -0.0001
+    End Function
 
     Public Sub calls()
 
@@ -93,12 +87,17 @@ Module functionTest
         Call print(True)
         Call print(args Is Nothing)
     End Sub
+End Module
 
-    Public Function outputError() As Single
-        ' this err api should reference to ExportAPiModule
+Module ExportAPiModule
+
+
+    Public Declare Sub err Lib "console" Alias "error" (message As Object)
+
+    Public Function outputError() As Long
         Call err("this is message")
 
-        Return -0.0001
+        Return -10.0001
     End Function
 
 End Module
