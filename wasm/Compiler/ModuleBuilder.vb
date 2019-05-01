@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c854db5e8fd5378516965f2c682f1c6, Compiler\ModuleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::3ebcbbd1f5c1bd1ab0f7b5d6e51071e9, Compiler\ModuleBuilder.vb"
 
     ' Author:
     ' 

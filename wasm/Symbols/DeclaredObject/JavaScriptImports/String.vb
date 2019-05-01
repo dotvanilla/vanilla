@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f4f582ec74b16a212a21206d3292455, Symbols\DeclaredObject\JavaScriptImports\String.vb"
+﻿#Region "Microsoft.VisualBasic::286971519c46bb8728d4a63c31d531ac, Symbols\DeclaredObject\JavaScriptImports\String.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module [String]
     ' 
-    '         Properties: IndexOf, Length, Replace, StringAppend, Trim
+    '         Properties: Append, IndexOf, Length, Replace, Trim
     ' 
     '         Function: Method, ToString
     ' 

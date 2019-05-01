@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da754c4d54cb96cb92cb3c915b8435aa, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::3a370346f8c2a5daef9c0e0020bb50d0, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -73,7 +73,7 @@
     ' 
     '     Class DeclareLocal
     ' 
-    '         Properties: IsObject, SetLocal
+    '         Properties: SetLocal
     ' 
     '         Function: ToSExpression
     ' 

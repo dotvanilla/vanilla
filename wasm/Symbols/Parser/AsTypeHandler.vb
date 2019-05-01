@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7efd7a440b3bb80666d8ec9fc9eea3a6, Symbols\Parser\AsTypeHandler.vb"
+﻿#Region "Microsoft.VisualBasic::86eeadc2bf7f7d9176647a9f0f49697e, Symbols\Parser\AsTypeHandler.vb"
 
     ' Author:
     ' 

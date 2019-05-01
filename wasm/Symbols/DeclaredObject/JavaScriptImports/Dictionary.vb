@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dd94f23ecd242379050a598204eb9c5, Symbols\DeclaredObject\JavaScriptImports\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::b9ff6f0efdf7537eafce89f770cb374f, Symbols\DeclaredObject\JavaScriptImports\Dictionary.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,8 @@
     '     Module Dictionary
     ' 
     '         Properties: Create, GetValue, RemoveValue, SetValue
+    ' 
+    '         Function: Method
     ' 
     ' 
     ' /********************************************************************************/
