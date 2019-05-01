@@ -159,6 +159,10 @@ Namespace Symbols.JavaScriptImports
         ' ReadOnly arrayOp As Index(Of String) = {GetArrayElement.Name, SetArrayElement.Name}
 
         Public Function IsArrayOperation(func As FuncSignature) As Boolean
+            If func.Module <> NameOf(Array) OrElse Not TypeOf func Is ImportSymbol Then
+                Return False
+            End If
+
             ' Return TypeOf func Is ImportSymbol AndAlso func.Name Like arrayOp
             Throw New NotImplementedException
         End Function
