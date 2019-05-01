@@ -94,6 +94,11 @@ Namespace Symbols
             If Not part.Memory Is Nothing Then
                 Memory = part.Memory
             End If
+            If Start Is Nothing Then
+                Start = part.Start
+            Else
+
+            End If
 
             Return Me
         End Function
