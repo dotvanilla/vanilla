@@ -242,12 +242,24 @@ Namespace Symbols
 
         Private Shared Function InternalApiReturnType(refer As ReferenceSymbol) As TypeAbstract
             Dim tokens As String() = refer.Symbol.Split("."c)
+            Dim typeToken = tokens(0).Split("_"c)
+            Dim type$ = typeToken.Last
+            Dim genericType$ = typeToken.First
 
-            Select Case tokens(Scan0)
+            Select Case type
                 Case "string"
                     Select Case tokens(1)
                         Case "add", "replace", "trim"
                             Return New TypeAbstract(TypeAlias.string)
+                        Case "length", "indexOf"
+                            Return New TypeAbstract(TypeAlias.i32)
+                        Case Else
+                            Throw New NotImplementedException(refer.Symbol)
+                    End Select
+                Case "array"
+                    Select Case tokens(1)
+                        Case "push"
+                            Return New TypeAbstract(type).MakeArrayType
                         Case "length" : Return New TypeAbstract(TypeAlias.i32)
                         Case Else
                             Throw New NotImplementedException(refer.Symbol)

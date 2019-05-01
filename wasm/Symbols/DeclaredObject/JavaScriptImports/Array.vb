@@ -178,7 +178,8 @@ Namespace Symbols.JavaScriptImports
                 Case "Add" : Return Array.Push(ofElement)
                 Case "Remove"
                     Throw New NotImplementedException
-                Case "Length" : Return Array.Length
+                Case "Length", "Count"
+                    Return Array.Length
                 Case Else
                     Throw New NotImplementedException
             End Select
