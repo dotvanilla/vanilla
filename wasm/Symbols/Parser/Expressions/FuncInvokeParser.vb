@@ -287,11 +287,14 @@ Namespace Symbols.Parser
             If funcDeclare Is Nothing AndAlso symbols.IsAnyObject(funcName) Then
                 ' 可能是一个数组元素的获取语法
                 Dim var = symbols.GetObjectReference(funcName)
+                Dim type As TypeAbstract = var.TypeInfer(symbols)
 
-                If var.TypeInfer(symbols) = TypeAlias.array Then
+                If type = TypeAlias.array OrElse type = TypeAlias.list Then
                     ' 是一个数组元素的读取操作
                     Dim array As Expression = var
-                    Dim index As Expression = argumentList.FirstArgument(symbols, funcDeclare.parameters.Last)
+                    Dim index As Expression = argumentList.FirstArgument(symbols, "index".param("i32"))
+
+                    funcDeclare = JavaScriptImports.Array.GetArrayElement(type.generic(Scan0))
 
                     Return funcDeclare.FunctionInvoke({array, index})
                 Else
