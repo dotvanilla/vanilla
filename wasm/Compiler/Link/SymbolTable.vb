@@ -412,6 +412,9 @@ Namespace Compiler
             If IsLocal(name) Then
                 Return GetObjectSymbol(name).type
             Else
+                ' 因为名称的来源不确定
+                ' 所以在这里将context设置为空
+                ' 则findmoduleglobal函数会自动根据规则执行搜索
                 Return FindModuleGlobal(Nothing, name).type
             End If
         End Function

@@ -143,11 +143,16 @@ Namespace Symbols.Parser
                 If objName Like symbols.ModuleNames Then
                     ' 是对一个模块全局变量的引用
                     Dim [global] = symbols.FindModuleGlobal(objName, memberName)
+                    Dim rightValue As Expression = CTypeHandle.CType(
+                        left:=[global].TypeInfer(symbols),
+                        right:=right,
+                        symbols:=symbols
+                    )
 
                     Return New SetGlobalVariable With {
                         .[module] = [global].Module,
                         .var = [global].name,
-                        .value = CTypeHandle.CType([global].TypeInfer(symbols), right, symbols)
+                        .value = rightValue
                     }
 
                 ElseIf symbols.GetUnderlyingType(objName) = GetType(DictionaryBase).FullName Then
@@ -205,9 +210,14 @@ Namespace Symbols.Parser
                     .value = valueRight
                 }
             Else
+                ' 在这里的全局变量没有添加模块名称引用
+                ' 则需要重新查找一遍
+                Dim [global] As DeclareGlobal = symbols.FindModuleGlobal(Nothing, var)
+
                 Return New SetGlobalVariable With {
                     .var = var,
-                    .value = valueRight
+                    .value = valueRight,
+                    .[module] = [global].Module
                 }
             End If
         End Function

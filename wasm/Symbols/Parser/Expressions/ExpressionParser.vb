@@ -165,6 +165,12 @@ Namespace Symbols.Parser
             Return array
         End Function
 
+        ''' <summary>
+        ''' CType(..., ...)
+        ''' </summary>
+        ''' <param name="cast"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function ValueCType(cast As CTypeExpressionSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = cast.Expression.ValueExpression(symbols)
