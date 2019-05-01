@@ -110,7 +110,27 @@ Namespace Compiler
 
     {m.Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
 
-{internal})"
+{internal}
+
+;; Application Initialize
+;; 
+;; Sub New
+(func $Application_SubNew
+{m.starter}
+)
+
+(start $Application_SubNew)
+
+)"
+        End Function
+
+        <Extension>
+        Private Function starter([module] As ModuleSymbol) As String
+            If [module].Start Is Nothing Then
+                Return ""
+            Else
+                Return [module].Start.ToSExpression
+            End If
         End Function
 
         <Extension>

@@ -67,6 +67,12 @@ Namespace Symbols
         Public Property Memory As Memory
 
         ''' <summary>
+        ''' 模块的``Sub New``构造函数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Start As Start
+
+        ''' <summary>
         ''' The module name label
         ''' </summary>
         ''' <returns></returns>
