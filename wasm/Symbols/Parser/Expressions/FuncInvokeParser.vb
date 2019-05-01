@@ -110,12 +110,13 @@ Namespace Symbols.Parser
                     )
                 Case GetType(InvocationExpressionSyntax)
                     Dim acc = DirectCast(reference, InvocationExpressionSyntax).FunctionInvoke(symbols)
+                    Dim accType As TypeAbstract = acc.TypeInfer(symbols)
 
-                    If acc.TypeInfer(symbols) = "i32" Then
+                    If accType = "i32" Then
                         Dim index As Expression = invoke.ArgumentList.FirstArgument(symbols, "index".param("i32"))
                         ' 返回的是一个对象引用
                         ' 在这里假设是一个数组
-                        Return New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
+                        Return New FuncInvoke(JavaScriptImports.Array.GetArrayElement(accType)) With {
                             .parameters = {
                                 acc, index
                             }
@@ -160,16 +161,19 @@ Namespace Symbols.Parser
 
                 If isKeyAccess Then
                     ' 当为字典键引用的时候，函数对象肯定是查找不到的
+                    ' 取得字典的结果值
                     Dim keyAccess As Expression = New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
                         .parameters = {
                             target.ValueExpression(symbols),
                             symbols.StringConstant(funcName)
                         }
                     }
+                    Dim getArrayElement = JavaScriptImports.Array.GetArrayElement(keyAccess.TypeInfer(symbols))
 
                     ' 因为当前的表达式被判断是一个函数调用
                     ' 所以字典的结果值应该是一个数组
-                    keyAccess = New FuncInvoke(JavaScriptImports.Array.GetArrayElement) With {
+                    ' 在这里将数组的元素取出来
+                    keyAccess = New FuncInvoke(getArrayElement) With {
                         .parameters = {
                             keyAccess,
                             argumentList.FirstArgument(symbols, "i".param("i32"))

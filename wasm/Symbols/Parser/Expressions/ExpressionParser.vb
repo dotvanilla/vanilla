@@ -95,7 +95,7 @@ Namespace Symbols.Parser
             Dim arrayType As TypeAbstract = New TypeAbstract(type).MakeArrayType
 
             ' 导入数组操作所需要的外部api
-            Call symbols.doArrayImports
+            Call symbols.doArrayImports(arrayType)
 
             If newArray.ArrayBounds Is Nothing Then
                 Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)

@@ -121,17 +121,17 @@ Namespace Symbols.Parser
             ElseIf TypeOf assign.Left Is InvocationExpressionSyntax Then
                 ' 对数组的赋值操作
                 Dim left = DirectCast(assign.Left, InvocationExpressionSyntax)
+                Dim right = assign.Right.ValueExpression(symbols)
                 Dim arrayName = DirectCast(left.Expression, IdentifierNameSyntax).objectName
                 Dim index As Expression = left.ArgumentList.FirstArgument(symbols, "a".param("i32"))
                 Dim arraySymbol As New GetLocalVariable With {
                     .var = arrayName
                 }
+                Dim arrayType As TypeAbstract = arraySymbol.TypeInfer(symbols)
 
-                Call symbols.addRequired(JavaScriptImports.SetArrayElement)
-
-                Return New FuncInvoke(JavaScriptImports.SetArrayElement) With {
+                Return New FuncInvoke(JavaScriptImports.SetArrayElement(arrayType)) With {
                     .parameters = {
-                        arraySymbol, index, assign.Right.ValueExpression(symbols)
+                        arraySymbol, index, right
                     }
                 }
             ElseIf TypeOf assign.Left Is MemberAccessExpressionSyntax Then

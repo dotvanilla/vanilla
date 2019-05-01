@@ -181,6 +181,7 @@ Namespace Symbols.JavaScriptImports
             Call symbols.addRequired(JavaScriptImports.NewArray)
             Call symbols.addRequired(JavaScriptImports.Push(ofElement))
             Call symbols.addRequired(JavaScriptImports.GetArrayElement(ofElement))
+            Call symbols.addRequired(JavaScriptImports.SetArrayElement(ofElement))
             Call symbols.addRequired(Array.Length)
         End Sub
     End Module

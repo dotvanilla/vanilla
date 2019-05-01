@@ -164,7 +164,7 @@ Namespace Symbols.Parser
                     init = CTypeHandle.CType(type, init, symbols)
 
                     If TypeOf init Is ArraySymbol Then
-                        Call symbols.doArrayImports
+                        Call symbols.doArrayImports(DirectCast(init, ArraySymbol).type)
                     End If
                 Else
                     If Not namedVar.ArrayBounds Is Nothing Then
