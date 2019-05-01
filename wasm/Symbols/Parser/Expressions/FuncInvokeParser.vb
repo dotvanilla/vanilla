@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::e8bbc43f6379174a09295bf0cbe45d33, Symbols\Parser\Expressions\FuncInvokeParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FuncInvokeParser
-    ' 
-    '         Function: Argument, ArgumentSequence, fillParameters, (+2 Overloads) FunctionInvoke, InvokeFunction
-    '                   ObjectInvoke, OptionalDefault
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FuncInvokeParser
+' 
+'         Function: Argument, ArgumentSequence, fillParameters, (+2 Overloads) FunctionInvoke, InvokeFunction
+'                   ObjectInvoke, OptionalDefault
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -284,15 +284,19 @@ Namespace Symbols.Parser
         Public Function InvokeFunction(symbols As SymbolTable, funcName$, argumentList As ArgumentListSyntax) As Expression
             Dim funcDeclare = symbols.GetFunctionSymbol(Nothing, funcName)
 
-            If JavaScriptImports.Array.IsArrayOperation(funcDeclare) Then
-                ' 是一个数组元素的读取操作
-                Dim array = New GetLocalVariable With {.var = funcName}
-                Dim index As Expression = argumentList.FirstArgument(symbols, funcDeclare.parameters.Last)
+            If funcDeclare Is Nothing AndAlso symbols.IsAnyObject(funcName) Then
+                ' 可能是一个数组元素的获取语法
+                Dim var = symbols.GetObjectReference(funcName)
 
-                Return New FuncInvoke With {
-                    .refer = funcDeclare,
-                    .parameters = {array, index}
-                }
+                If var.TypeInfer(symbols) = TypeAlias.array Then
+                    ' 是一个数组元素的读取操作
+                    Dim array As Expression = var
+                    Dim index As Expression = argumentList.FirstArgument(symbols, funcDeclare.parameters.Last)
+
+                    Return funcDeclare.FunctionInvoke({array, index})
+                Else
+                    Throw New NotImplementedException
+                End If
             Else
                 Dim arguments = argumentList.fillParameters(funcDeclare.parameters, symbols)
 
