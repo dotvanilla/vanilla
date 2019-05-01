@@ -97,7 +97,7 @@ Namespace Symbols
             If Start Is Nothing Then
                 Start = part.Start
             Else
-
+                Start = part.Start
             End If
 
             Return Me
