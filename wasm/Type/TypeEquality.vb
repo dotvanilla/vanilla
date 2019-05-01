@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::091731117e896661e2f919acdaa360d9, Type\TypeEquality.vb"
+﻿#Region "Microsoft.VisualBasic::104c68500879cf63b53d8a02ec2932df, Type\TypeEquality.vb"
 
     ' Author:
     ' 
@@ -75,4 +75,3 @@ Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeA
         Return obj.GetHashCode
     End Function
 End Class
-
