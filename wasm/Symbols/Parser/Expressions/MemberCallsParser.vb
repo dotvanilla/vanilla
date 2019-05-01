@@ -122,14 +122,10 @@ Namespace Symbols.Parser
             ' 可能是模块的成员函数
             ' 也可能是拓展函数
             If symbols.IsAnyObject(objName) Then
-                Return New FuncInvoke(func) With {
-                   .parameters = {symbols.GetObjectReference(objName)}
-                }
+                Return func.FunctionInvoke({symbols.GetObjectReference(objName)})
             ElseIf objName Like symbols.ModuleNames Then
                 ' 是一个无参数的模块成员函数调用
-                Return New FuncInvoke(func) With {
-                   .parameters = {}
-                }
+                Return func.FunctionInvoke({})
             Else
                 Throw New NotImplementedException
             End If
