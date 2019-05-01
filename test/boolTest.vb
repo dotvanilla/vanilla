@@ -48,10 +48,13 @@ Module boolTest
 
     Public Declare Function Random Lib "Math" Alias "random" () As Double
 
-    Public Function logical() As Integer
-        Dim b As Boolean = Random() >= 0.5
+    Dim b2 As Boolean = True
+    Dim threshold As Single = 0.5
 
-        If b Then
+    Public Function logical() As Integer
+        Dim b As Boolean = CSng(Random()) >= (threshold + 0.1)
+
+        If b And b2 Then
             Return 1
         Else
             Return -100
