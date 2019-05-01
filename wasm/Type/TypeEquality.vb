@@ -59,6 +59,10 @@ Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeA
     Private Sub New()
     End Sub
 
+    Public Shared Function IsTargetType(target As TypeAbstract) As Func(Of TypeAbstract, Boolean)
+        Return Function(other) Test.Equals(target, other)
+    End Function
+
     Public Overloads Function Equals(x As TypeAbstract, y As TypeAbstract) As Boolean Implements IEqualityComparer(Of TypeAbstract).Equals
         If x.type <> y.type Then
             Return False

@@ -67,7 +67,7 @@ Namespace Symbols
         ''' 其还存在一个<see cref="[Module]"/>标记其在VB工程项目之中的模块名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property Package As String Implements IDeclaredObject.Module
+        Public Property Package As String
         ''' <summary>
         ''' 这个函数对象在外部模块之中的名称字符串
         ''' </summary>

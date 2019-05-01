@@ -5,12 +5,14 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 1:16:39 PM
+    ;; build: 5/1/2019 1:40:03 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
+    ;; Declare Function print Lib "console" Alias "log" (info As string, color As string, size As i64) As i32
+    (func $optionalParameterTest.print (import "console" "log") (param $info i32) (param $color i32) (param $size i64) (result i32))
     ;; Declare Function print Lib "console" Alias "log" (info As string) As i32
     (func $functionTest.print (import "console" "log") (param $info i32) (result i32))
     ;; Declare Function err Lib "console" Alias "error" (message As any) As void
@@ -31,23 +33,55 @@
 
     ;; Memory data for string constant
     
-    ;; String from 1 with 15 bytes in memory
-    (data (i32.const 1) "this is message\00")
+    ;; String from 1 with 5 bytes in memory
+    (data (i32.const 1) "Hello\00")
 
-    ;; String from 17 with 36 bytes in memory
-    (data (i32.const 17) "This is the optional parameter value\00")
+    ;; String from 7 with 5 bytes in memory
+    (data (i32.const 7) "green\00")
 
-    ;; String from 54 with 20 bytes in memory
-    (data (i32.const 54) "Another string value\00")
+    ;; String from 13 with 5 bytes in memory
+    (data (i32.const 13) "green\00")
 
-    ;; String from 75 with 12 bytes in memory
-    (data (i32.const 75) "345566777777\00")
+    ;; String from 19 with 6 bytes in memory
+    (data (i32.const 19) "909090\00")
 
-    ;; String from 88 with 15 bytes in memory
-    (data (i32.const 88) "this is message\00")
+    ;; String from 26 with 5 bytes in memory
+    (data (i32.const 26) "green\00")
+
+    ;; String from 32 with 4 bytes in memory
+    (data (i32.const 32) "size\00")
+
+    ;; String from 37 with 5 bytes in memory
+    (data (i32.const 37) "green\00")
+
+    ;; String from 43 with 8 bytes in memory
+    (data (i32.const 43) "not sure\00")
+
+    ;; String from 52 with 3 bytes in memory
+    (data (i32.const 52) "red\00")
+
+    ;; String from 56 with 15 bytes in memory
+    (data (i32.const 56) "this is message\00")
+
+    ;; String from 72 with 36 bytes in memory
+    (data (i32.const 72) "This is the optional parameter value\00")
+
+    ;; String from 109 with 20 bytes in memory
+    (data (i32.const 109) "Another string value\00")
+
+    ;; String from 130 with 12 bytes in memory
+    (data (i32.const 130) "345566777777\00")
+
+    ;; String from 143 with 15 bytes in memory
+    (data (i32.const 143) "this is message\00")
     
     
 
+    ;; export from [optionalParameterTest]
+    
+    (export "optionalParameterTest.calls" (func $optionalParameterTest.calls))
+    
+    
     ;; export from [functionTest]
     
     (export "functionTest.outputError" (func $functionTest.outputError))
@@ -62,26 +96,42 @@
     
      
 
+    ;; functions in [optionalParameterTest]
+    
+    (func $optionalParameterTest.calls  
+        ;; Public Function calls() As void
+        (local $obj i32)
+    (set_local $obj (i32.const 1))
+    (drop (call $optionalParameterTest.print (get_local $obj) (i32.const 7) (i64.const 99)))
+    (drop (call $optionalParameterTest.print (get_local $obj) (i32.const 13) (i64.extend_s/i32 (i32.sub (i32.const 0) (i32.const 99)))))
+    (drop (call $optionalParameterTest.print (call $string.add (get_local $obj) (i32.const 19)) (i32.const 26) (i64.const 99)))
+    (drop (call $optionalParameterTest.print (i32.const 32) (i32.const 37) (i64.const 88)))
+    (drop (call $optionalParameterTest.print (i32.const 43) (i32.const 52) (i64.trunc_s/f64 (f64.const 77.555))))
+    )
+    
+    
     ;; functions in [functionTest]
     
     (func $functionTest.outputError  (result f32)
         ;; Public Function outputError() As f32
         
-    (call $ExportAPiModule.err (i32.const 1))
+    (call $ExportAPiModule.err (i32.const 56))
     (return (f32.demote/f64 (f64.sub (f64.const 0) (f64.const 0.0001))))
     )
     (func $functionTest.calls  
         ;; Public Function calls() As void
         (local $x i64)
-    (call $functionTest.Main (i32.const 17) (i32.const -100) (i32.const 1))
-    (call $functionTest.Main (i32.const 54) (i32.trunc_s/f64 (f64.const 99999.9)) (i32.const 1))
+    (call $functionTest.Main (i32.const 72) (i32.const -100) (i32.const 1))
+    (call $functionTest.Main (i32.const 109) (i32.trunc_s/f64 (f64.const 99999.9)) (i32.const 1))
     (drop (call $functionTest.outputError ))
     (set_local $x (i64.add (i64.trunc_s/f32 (call $functionTest.outputError )) (call $ExportAPiModule.outputError )))
+    (call $optionalParameterTest.calls )
+    (call $functionTest.calls )
     )
     (func $functionTest.extensionFunctiontest  
         ;; Public Function extensionFunctiontest() As void
         
-    (drop (call $functionTest.print (i32.const 75)))
+    (drop (call $functionTest.print (i32.const 130)))
     )
     (func $functionTest.Main (param $args i32) (param $obj i32) (param $f i32) 
         ;; Public Function Main(args As string, obj As i32, f As boolean) As void
@@ -102,7 +152,7 @@
     (func $ExportAPiModule.outputError  (result i64)
         ;; Public Function outputError() As i64
         
-    (call $ExportAPiModule.err (i32.const 88))
+    (call $ExportAPiModule.err (i32.const 143))
     (return (i64.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 10.0001))))
     )
     )

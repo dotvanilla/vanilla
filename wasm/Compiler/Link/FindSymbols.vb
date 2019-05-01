@@ -130,6 +130,8 @@ Namespace Compiler
             If Not contextObj Is Nothing Then
                 ' 找到了变量，则转换为类型
                 typeContext = contextObj.TypeInfer(symbols)
+                ' 函数调用时从一个存在的变量对象开始的
+                Return symbols.findMethodByFirstSignature(typeContext, name, True)
             ElseIf context Like symbols.ModuleNames Then
                 ' 模块方法引用
                 Return symbols.FindModuleMemberFunction(context, name)
@@ -171,6 +173,48 @@ Namespace Compiler
                 End If
 
                 Return func
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="symbols"></param>
+        ''' <param name="typeContext">函数的第一个参数所要求的类型</param>
+        ''' <param name="name">函数名</param>
+        ''' <param name="callFromObj"> 
+        ''' 这个函数调用是否是从一个存在的对象实例开始的，是的话则可能是拓展函数或者类型实例的成员函数
+        ''' 
+        ''' 如果是拓展函数，则优先从当前模块进行查找
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function findMethodByFirstSignature(symbols As SymbolTable, typeContext As TypeAbstract, name$, callFromObj As Boolean) As FuncSignature
+            Dim test = Function(func As FuncSignature)
+                           If func.parameters.IsNullOrEmpty Then
+                               Return False
+                           Else
+                               Return TypeEquality.Test.Equals(typeContext, func.parameters(Scan0).Value)
+                           End If
+                       End Function
+            Dim funcs As FuncSignature() = symbols.functionList(name) _
+                .Select(Function(o) DirectCast(o, FuncSignature)) _
+                .Where(test) _
+                .ToArray
+
+            If funcs.IsNullOrEmpty Then
+                Return Nothing
+            ElseIf funcs.Length = 1 Then
+                Return funcs(Scan0)
+            Else
+                ' 有多个函数，则优先选取当前模块的拓展函数
+                Dim currFuncs = funcs.Where(Function(f) f.Module = symbols.currentModuleLabel).ToArray
+
+                If currFuncs.IsNullOrEmpty Then
+                    Throw New NotImplementedException
+                Else
+                    Return currFuncs(Scan0)
+                End If
             End If
         End Function
 

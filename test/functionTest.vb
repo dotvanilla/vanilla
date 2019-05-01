@@ -48,6 +48,27 @@
 
 Imports System.Runtime.CompilerServices
 
+Module optionalParameterTest
+
+    <Extension>
+    Public Declare Function print Lib "console" Alias "log" (info As String, Optional color$ = "green", Optional size& = 99) As Integer
+
+    Sub calls()
+
+        Dim obj$ = "Hello"
+
+        Call obj.print
+        Call obj.print(size:=-99)
+
+        Call print(obj & "909090")
+
+        Call "size".print(size:=88)
+        Call "not sure".print(size:=77.555, color:="red")
+
+    End Sub
+
+End Module
+
 Module functionTest
 
     <Extension>
@@ -91,27 +112,6 @@ Module functionTest
         Call print(True)
         Call print(args Is Nothing)
     End Sub
-End Module
-
-Module optionalParameterTest
-
-    <Extension>
-    Public Declare Function print Lib "console" Alias "log" (info As String, Optional color$ = "green", Optional size& = 99) As Integer
-
-    Sub calls()
-
-        Dim obj$ = "Hello"
-
-        Call obj.print
-        Call obj.print(size:=-99)
-
-        Call print(obj & "909090")
-
-        Call "size".print(size:=88)
-        Call "not sure".print(size:=77.555, color:="red")
-
-    End Sub
-
 End Module
 
 Module ExportAPiModule
