@@ -68,5 +68,9 @@ Public Enum TypeAlias As Integer
     ''' Javascript object
     ''' </summary>
     table
+
+    ''' <summary>
+    ''' 所有用户自定义的引用类型
+    ''' </summary>
     intptr
 End Enum

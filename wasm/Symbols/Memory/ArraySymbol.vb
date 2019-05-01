@@ -74,6 +74,15 @@ Namespace Symbols
 
         Public Property Initialize As Expression()
 
+        Default Public Property Item(i As Integer) As Expression
+            Get
+                Return Initialize(i)
+            End Get
+            Set(value As Expression)
+                Initialize(i) = value
+            End Set
+        End Property
+
         Public Overrides Function ToSExpression() As String
             ' create array object in javascript runtime
             Dim newArray As New FuncInvoke(JavaScriptImports.Array.NewArray) With {

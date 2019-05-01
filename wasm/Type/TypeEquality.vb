@@ -1,9 +1,14 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Wasm
 
-Public Class TypeEquality : Implements IEqualityComparer(Of TypeAbstract)
+Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeAbstract)
 
     ReadOnly arrayList As Index(Of TypeAlias) = {TypeAlias.array, TypeAlias.list}
+
+    Public Shared ReadOnly Property Test As New TypeEquality
+
+    Private Sub New()
+    End Sub
 
     Public Overloads Function Equals(x As TypeAbstract, y As TypeAbstract) As Boolean Implements IEqualityComparer(Of TypeAbstract).Equals
         If x.type <> y.type Then

@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::a421f9483ffc775bb60f12848dbd594d, Type\CTypeHandle.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CTypeHandle
-    ' 
-    '     Function: [CBool], [CDbl], [CInt], [CLng], [CSng]
-    '               [CType], CTypeInvoke, DefaultOf, EqualOfType, (+2 Overloads) typefit
-    ' 
-    ' /********************************************************************************/
+' Module CTypeHandle
+' 
+'     Function: [CBool], [CDbl], [CInt], [CLng], [CSng]
+'               [CType], CTypeInvoke, DefaultOf, EqualOfType, (+2 Overloads) typefit
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -103,6 +103,25 @@ Module CTypeHandle
     End Function
 
     ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="leftGeneric">左边的数组表达式的元素的类型</param>
+    ''' <param name="right"></param>
+    ''' <param name="symbols"></param>
+    ''' <returns></returns>
+    Public Function CastArray(leftGeneric As TypeAbstract, right As ArraySymbol, symbols As SymbolTable) As Expression
+        For i As Integer = 0 To right.Initialize.Length - 1
+            ' cast each array element
+            right(i) = [CType](leftGeneric, right(i), symbols)
+        Next
+
+        ' change the type of the expression in right side
+        right.type = leftGeneric.MakeArrayType
+
+        Return right
+    End Function
+
+    ''' <summary>
     ''' ``CType`` operator to webassembly 
     ''' ``Datatype conversions, truncations, reinterpretations, promotions, and demotions`` feature.
     ''' 
@@ -113,7 +132,9 @@ Module CTypeHandle
     Public Function [CType](left As TypeAbstract, right As Expression, symbols As SymbolTable) As Expression
         Dim rightTypeInfer As TypeAbstract = right.TypeInfer(symbols)
 
-        If left.type = TypeAlias.any OrElse left.type = rightTypeInfer.type Then
+        If left.type = TypeAlias.array AndAlso TypeOf right Is ArraySymbol Then
+            Return CastArray(left.generic(Scan0), right, symbols)
+        ElseIf left.type = TypeAlias.any OrElse left.type = rightTypeInfer.type Then
             ' Conversion is not required when
             '
             ' 1. left accept any type
@@ -122,6 +143,12 @@ Module CTypeHandle
         ElseIf right.IsLiteralNothing Then
             ' nothing 可以赋值给任意类型
             Return DefaultOf(left)
+        ElseIf TypeOf right Is LiteralExpression Then
+            ' 如果是常数表达式的话，则直接修改常数表达式的类型
+            Return New LiteralExpression With {
+                .type = left,
+                .value = DirectCast(right, LiteralExpression).value
+            }
         End If
 
         Select Case left.type
