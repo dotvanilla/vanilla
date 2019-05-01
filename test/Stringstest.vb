@@ -56,10 +56,11 @@ Module Stringstest
 
     Dim C# = 8888888888888
     Dim a = 99
-    Dim b = 100
+    Dim b As Integer = 100
 
     Public Sub stringmemberTest()
-        Dim lenPlus100 = b + Hello.Length
+        Dim length As Long = Hello.Length
+        Dim lenPlus100 = b + length
 
         Call Print(C + Hello.Replace("AAA", Nothing).Trim.Length)
     End Sub

@@ -77,11 +77,17 @@ Namespace Symbols.Parser
 
                 ' 可能是一个拓展函数或者函数返回值的成员调用
                 If func.TypeInfer(symbols).type = TypeAlias.string Then
-                    Dim member = symbols.GetFunctionSymbol("string", memberName)
+                    Dim member = symbols.FindTypeMethod(New TypeAbstract("string"), memberName)
 
-                    Return New FuncInvoke(member) With {
-                        .parameters = {funcValue}
-                    }
+                    If TypeOf member Is ImportSymbol Then
+                        Return New FuncInvoke(DirectCast(member, ImportSymbol)) With {
+                            .parameters = {funcValue}
+                        }
+                    Else
+                        Return New FuncInvoke(member) With {
+                            .parameters = {funcValue}
+                        }
+                    End If
                 End If
 
                 Throw New NotImplementedException
