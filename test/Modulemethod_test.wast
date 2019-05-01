@@ -55,8 +55,14 @@
     ;; String from 13 with 16 bytes in memory
     (data (i32.const 13) "8sdjkfsdhfsdfsdf\00")
 
-    ;; String from 30 with 5 bytes in memory
-    (data (i32.const 30) "ddddd\00")
+    ;; String from 30 with 27 bytes in memory
+    (data (i32.const 30) "This is a internal function\00")
+
+    ;; String from 58 with 31 bytes in memory
+    (data (i32.const 58) "This is a internal function too\00")
+
+    ;; String from 90 with 5 bytes in memory
+    (data (i32.const 90) "ddddd\00")
     
     
 
@@ -91,19 +97,31 @@
         
     (drop (call $Modulemethod_test.test ))
     (drop (call $module2.test (call $string.add (call $string.add (i32.const 1) (call $i32.toString (call $Modulemethod_test.test ))) (i32.const 13))))
+    (drop (call $Modulemethod_test.ThisIsAInternalFunction ))
+    )
+    (func $Modulemethod_test.ThisIsAInternalFunction  (result i32)
+        ;; Public Function ThisIsAInternalFunction() As any
+        
+    (return (i32.const 30))
     )
     
     
     ;; functions in [module2]
     
+    (func $module2.ThisIsAInternalFunction  (result i32)
+        ;; Public Function ThisIsAInternalFunction() As any
+        
+    (return (i32.const 58))
+    )
     (func $module2.Runapp  
         ;; Public Function Runapp() As void
         
     (call $Modulemethod_test.calls )
+    (drop (call $module2.ThisIsAInternalFunction ))
     )
     (func $module2.test (param $gg i32) (result i32)
         ;; Public Function test(gg As string) As array(Of string)
         
-    (return (call $string_array.push (call $string_array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.add (get_local $gg) (i32.const 30))))
+    (return (call $string_array.push (call $string_array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.add (get_local $gg) (i32.const 90))))
     )
     )

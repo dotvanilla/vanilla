@@ -15,14 +15,24 @@
     Public Sub calls()
         Call test()
         Call module2.test($"34546734853{test()}8sdjkfsdhfsdfsdf")
+        Call ThisIsAInternalFunction()
     End Sub
+
+    Private Function ThisIsAInternalFunction() As Object
+        Return "This is a internal function"
+    End Function
 
 End Module
 
 Module module2
 
+    Private Function ThisIsAInternalFunction() As Object
+        Return "This is a internal function too"
+    End Function
+
     Public Sub Runapp()
         Call Modulemethod_test.calls()
+        Call ThisIsAInternalFunction()
     End Sub
 
     Public Function test(gg As String) As String()
