@@ -100,7 +100,7 @@ Namespace Symbols.Blocks
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function BinaryCompares(left As Expression, right As Expression, op$, symbols As SymbolTable) As BooleanSymbol
             Return New BooleanSymbol With {
-                .Condition = ExpressionParse.BinaryStack(left, right, op, symbols)
+                .Condition = BinaryOperatorParser.BinaryStack(left, right, op, symbols)
             }
         End Function
 

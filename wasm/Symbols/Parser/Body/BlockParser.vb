@@ -135,7 +135,7 @@ Namespace Symbols.Parser
             Dim [next] As New br With {.BlockLabel = block.LoopID}
             Dim internal As New List(Of Expression)
             Dim controlVar = control.ctlGetLocal
-            Dim doStep = ExpressionParse.BinaryStack(controlVar, stepValue, "+", symbols)
+            Dim doStep = BinaryOperatorParser.BinaryStack(controlVar, stepValue, "+", symbols)
 
             internal += break
             internal += forBlock.Statements.ParseBlockInternal(symbols)
