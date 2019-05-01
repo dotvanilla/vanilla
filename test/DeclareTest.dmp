@@ -114,52 +114,51 @@
 0000096: ac                                        ; i64.extend_i32_s
 0000097: 21                                        ; local.set
 0000098: 01                                        ; local index
-0000099: 41                                        ; i32.const
-000009a: da00                                      ; i32 literal
-000009c: b2                                        ; f32.convert_i32_s
-000009d: 21                                        ; local.set
-000009e: 02                                        ; local index
-000009f: 23                                        ; global.get
-00000a0: 00                                        ; global index
-00000a1: b9                                        ; f64.convert_i64_s
-00000a2: 20                                        ; local.get
-00000a3: 01                                        ; local index
-00000a4: b9                                        ; f64.convert_i64_s
-00000a5: a3                                        ; f64.div
-00000a6: 20                                        ; local.get
-00000a7: 02                                        ; local index
-00000a8: bb                                        ; f64.promote_f32
-00000a9: a0                                        ; f64.add
-00000aa: 20                                        ; local.get
-00000ab: 03                                        ; local index
-00000ac: a0                                        ; f64.add
-00000ad: 20                                        ; local.get
-00000ae: 04                                        ; local index
-00000af: a0                                        ; f64.add
-00000b0: 20                                        ; local.get
-00000b1: 05                                        ; local index
-00000b2: a0                                        ; f64.add
-00000b3: 20                                        ; local.get
-00000b4: 06                                        ; local index
-00000b5: bb                                        ; f64.promote_f32
-00000b6: a2                                        ; f64.mul
-00000b7: 20                                        ; local.get
-00000b8: 07                                        ; local index
-00000b9: b9                                        ; f64.convert_i64_s
-00000ba: a3                                        ; f64.div
-00000bb: 20                                        ; local.get
-00000bc: 08                                        ; local index
-00000bd: b7                                        ; f64.convert_i32_s
-00000be: a2                                        ; f64.mul
-00000bf: 20                                        ; local.get
-00000c0: 09                                        ; local index
-00000c1: b9                                        ; f64.convert_i64_s
-00000c2: a2                                        ; f64.mul
-00000c3: b6                                        ; f32.demote_f64
-00000c4: 0f                                        ; return
-00000c5: 0b                                        ; end
-0000077: 4e                                        ; FIXUP func body size
-0000075: 50                                        ; FIXUP section size
+0000099: 43                                        ; f32.const
+000009a: 0000 b442                                 ; f32 literal
+000009e: 21                                        ; local.set
+000009f: 02                                        ; local index
+00000a0: 23                                        ; global.get
+00000a1: 00                                        ; global index
+00000a2: b9                                        ; f64.convert_i64_s
+00000a3: 20                                        ; local.get
+00000a4: 01                                        ; local index
+00000a5: b9                                        ; f64.convert_i64_s
+00000a6: a3                                        ; f64.div
+00000a7: 20                                        ; local.get
+00000a8: 02                                        ; local index
+00000a9: bb                                        ; f64.promote_f32
+00000aa: a0                                        ; f64.add
+00000ab: 20                                        ; local.get
+00000ac: 03                                        ; local index
+00000ad: a0                                        ; f64.add
+00000ae: 20                                        ; local.get
+00000af: 04                                        ; local index
+00000b0: a0                                        ; f64.add
+00000b1: 20                                        ; local.get
+00000b2: 05                                        ; local index
+00000b3: a0                                        ; f64.add
+00000b4: 20                                        ; local.get
+00000b5: 06                                        ; local index
+00000b6: bb                                        ; f64.promote_f32
+00000b7: a2                                        ; f64.mul
+00000b8: 20                                        ; local.get
+00000b9: 07                                        ; local index
+00000ba: b9                                        ; f64.convert_i64_s
+00000bb: a3                                        ; f64.div
+00000bc: 20                                        ; local.get
+00000bd: 08                                        ; local index
+00000be: b7                                        ; f64.convert_i32_s
+00000bf: a2                                        ; f64.mul
+00000c0: 20                                        ; local.get
+00000c1: 09                                        ; local index
+00000c2: b9                                        ; f64.convert_i64_s
+00000c3: a2                                        ; f64.mul
+00000c4: b6                                        ; f32.demote_f64
+00000c5: 0f                                        ; return
+00000c6: 0b                                        ; end
+0000077: 4f                                        ; FIXUP func body size
+0000075: 51                                        ; FIXUP section size
 ;; dump
 0000000: 0061 736d 0100 0000 0105 0160 0001 7d02 
 0000010: 1301 0365 6e76 0a62 7974 6563 6875 6e6b 
@@ -168,9 +167,9 @@
 0000040: b442 0b7c 0144 0000 0000 0000 0000 0b7c 
 0000050: 0144 0000 0000 0000 0000 0b7c 0144 0000 
 0000060: 0000 0000 0000 0b7d 0143 0000 0000 0b7e 
-0000070: 0142 000b 0a50 014e 0801 7d01 7e01 7d03 
+0000070: 0142 000b 0a51 014f 0801 7d01 7e01 7d03 
 0000080: 7c01 7d01 7e01 7f01 7e43 700a 5949 2100 
-0000090: 4100 41e3 006b ac21 0141 da00 b221 0223 
-00000a0: 00b9 2001 b9a3 2002 bba0 2003 a020 04a0 
-00000b0: 2005 a020 06bb a220 07b9 a320 08b7 a220 
-00000c0: 09b9 a2b6 0f0b                          
+0000090: 4100 41e3 006b ac21 0143 0000 b442 2102 
+00000a0: 2300 b920 01b9 a320 02bb a020 03a0 2004 
+00000b0: a020 05a0 2006 bba2 2007 b9a3 2008 b7a2 
+00000c0: 2009 b9a2 b60f 0b                       
