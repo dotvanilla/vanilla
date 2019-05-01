@@ -140,7 +140,17 @@ Namespace Symbols.Parser
                 Dim objName = left.Expression.ToString
                 Dim memberName = left.Name.objectName
 
-                If symbols.GetUnderlyingType(objName) = GetType(DictionaryBase).FullName Then
+                If objName Like symbols.ModuleNames Then
+                    ' 是对一个模块全局变量的引用
+                    Dim [global] = symbols.FindModuleGlobal(objName, memberName)
+
+                    Return New SetGlobalVariable With {
+                        .[module] = [global].Module,
+                        .var = [global].name,
+                        .value = CTypeHandle.CType([global].TypeInfer(symbols), right, symbols)
+                    }
+
+                ElseIf symbols.GetUnderlyingType(objName) = GetType(DictionaryBase).FullName Then
                     Dim key = symbols.StringConstant(memberName)
 
                     Return New FuncInvoke(JavaScriptImports.Dictionary.SetValue) With {

@@ -53,9 +53,17 @@
     (local $Z i64)
     (local $E i32)
     (local $F i64)
+    (local $globalNameRefere i32)
     (set_local $XYY (f32.const 888999))
     (set_local $MN2 (i64.extend_s/i32 (i32.sub (i32.const 0) (i32.const 99))))
     (set_local $L (f32.const 90))
+    (set_local $globalNameRefere (i64.eq (i64.add (get_global $DeclareTest.MN) (get_global $DeclareTest.MN)) (i64.mul (get_global $DeclareTest.MN) (i64.const 2))))
+    
+    (if (i32.eqz (get_local $globalNameRefere)) 
+        (then
+                    (return (f32.convert_s/i32 (i32.sub (i32.const 0) (i32.const 100))))
+        ) 
+    )
     (return (f32.demote/f64 (f64.mul (f64.mul (f64.div (f64.mul (f64.add (f64.add (f64.add (f64.add (f64.div (f64.convert_s/i64 (get_global $DeclareTest.MN)) (f64.convert_s/i64 (get_local $MN2))) (f64.promote/f32 (get_local $L))) (get_local $A)) (get_local $B)) (get_local $C)) (f64.promote/f32 (get_local $GG))) (f64.convert_s/i64 (get_local $Z))) (f64.convert_s/i32 (get_local $E))) (f64.convert_s/i64 (get_local $F)))))
     )
     )

@@ -52,12 +52,25 @@ Module DeclareTest
     Dim A, B, C As Double, GG As Single, Z&
 
     Private Function localDeclareTest() As Single
-        Dim XYY! = 888999
+        Dim XYY! = 888999 + DeclareTest.A
         Dim MN2 As Long = -99, L As Single = 90
-        Dim A, B, C As Double, GG As Single, Z&
+        Dim A, B, C As Double
+        Dim GG As Single = DeclareTest.GG
+        Dim Z! = DeclareTest.Z * 99
         Dim E%, F&
 
-        Return (MN / MN2 + L + A + B + C) * GG / Z * E * F
+        C = 5000
+        DeclareTest.C = C * (DeclareTest.C + 1)
+
+        ' this should be true
+        Dim globalNameRefere = (MN + DeclareTest.MN) = MN * 2
+
+        If Not globalNameRefere Then
+            ' this value should never returns
+            Return -100
+        End If
+
+        Return (MN / MN2 + L + (A * DeclareTest.B) + B + C) * GG / Z * E * F / CLng(DeclareTest.C)
     End Function
 
 End Module
