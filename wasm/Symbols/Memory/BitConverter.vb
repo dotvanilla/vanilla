@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::669a4214be2e13b9f4e1a4c80593e985, Symbols\Memory\BitConverter.vb"
+﻿#Region "Microsoft.VisualBasic::e92a1b38c47ee8b73c7b2c92974ebd6c, Symbols\Memory\BitConverter.vb"
 
     ' Author:
     ' 
@@ -39,6 +39,7 @@
     '     Module BitConverter
     ' 
     '         Function: load, Loadf32, Loadf64, Loadi32, Loadi64
+    '                   save
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cfec9e34b9ed15867f7b13a992ec489, Symbols\Parser\ModuleParser.vb"
+﻿#Region "Microsoft.VisualBasic::1bb77a043edeb196e6db5ec9a544063f, Symbols\Parser\ModuleParser.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@
 
     '     Module ModuleParser
     ' 
-    '         Function: (+2 Overloads) CreateModule, CreateModuleInternal, CreateUnitModule, Join, ParseDeclares
-    '                   parseEnums, ParseEnums
+    '         Function: AsConstructor, (+2 Overloads) CreateModule, CreateModuleInternal, CreateUnitModule, Join
+    '                   ParseDeclares, parseEnums, ParseEnums
     ' 
     '         Sub: parseGlobals, parseImports
     ' 
@@ -201,7 +201,7 @@ Namespace Symbols.Parser
             Dim start As Start = main.Members _
                 .OfType(Of ConstructorBlockSyntax) _
                 .FirstOrDefault _
-                .parseConstructor(symbolTable)
+                .AsConstructor(symbolTable)
 
             Return New ModuleSymbol With {
                 .InternalFunctions = functions,
@@ -215,15 +215,15 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Private Function parseConstructor(ctor As ConstructorBlockSyntax, symbols As SymbolTable) As Start
+        Private Function AsConstructor(ctor As ConstructorBlockSyntax, symbols As SymbolTable) As Start
             If ctor Is Nothing Then
                 Return New Start(symbols.currentModuleLabel)
             Else
-                Dim body = ctor.Statements.ToArray.FunctionBody({}, symbols)
+                Dim moduleNew = ctor.Statements.ToArray.FunctionBody({}, symbols)
 
                 Return New Start(symbols.currentModuleLabel) With {
-                    .Body = body.body,
-                    .Locals = body.locals
+                    .Body = moduleNew.body,
+                    .Locals = moduleNew.locals
                 }
             End If
         End Function

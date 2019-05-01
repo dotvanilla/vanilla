@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17ef702e472ba99a96b8a476abca569c, Compiler\ModuleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::629726c3d42fbd66a6356296f955ea09, Compiler\ModuleBuilder.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module ModuleBuilder
     ' 
-    '         Function: exportGroup, funcGroup, ToSExpression
+    '         Function: exportGroup, funcGroup, starter, ToSExpression
     ' 
     ' 
     ' /********************************************************************************/

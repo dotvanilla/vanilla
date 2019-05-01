@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::159d02b159ff20eeef3559ab7d1d1d62, Symbols\ModuleSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::99da9aeeb33fc18d71f746dc64eba14d, Symbols\ModuleSymbol.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     '     Class ModuleSymbol
     ' 
     '         Properties: [Imports], Exports, Globals, InternalFunctions, LabelName
-    '                     Memory
+    '                     Memory, Start
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateModule, GenericEnumerator, GetEnumerator, Join, ToSExpression
