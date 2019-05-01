@@ -83,4 +83,23 @@ Namespace Symbols
     (data (i32.const {MemoryPtr}) ""{[string]}\00"")"
         End Function
     End Class
+
+    Public Class ArrayBlock : Inherits Expression
+
+        Public Property type As TypeAbstract
+        Public Property memoryPtr As Integer
+        Public Property length As Integer
+
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return type
+        End Function
+
+        ''' <summary>
+        ''' 返回的是内存之中的首位置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToSExpression() As String
+            Return Literal.i32(memoryPtr).ToSExpression
+        End Function
+    End Class
 End Namespace
