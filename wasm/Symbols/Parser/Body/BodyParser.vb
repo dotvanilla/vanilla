@@ -169,7 +169,7 @@ Namespace Symbols.Parser
             If symbols.IsLocal(var) Then
                 left = New GetLocalVariable(var)
             Else
-                left = New GetGlobalVariable(var)
+                left = New GetGlobalVariable(symbols.currentModuleLabel, var)
             End If
 
             Select Case op

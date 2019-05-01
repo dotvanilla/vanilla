@@ -62,7 +62,7 @@ Namespace Symbols
         Public Property [Module] As String Implements IDeclaredObject.Module
 
         Public Function GetReference() As GetGlobalVariable
-            Return New GetGlobalVariable(name)
+            Return New GetGlobalVariable([Module], name)
         End Function
 
         Public Function SetReference(value As Expression) As SetGlobalVariable
@@ -81,7 +81,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return $"(global ${name} (mut {type.typefit}) {init.ToSExpression})"
+            Return $"(global ${[Module]}.{name} (mut {type.typefit}) {init.ToSExpression})"
         End Function
     End Class
 End Namespace

@@ -414,7 +414,7 @@ Namespace Compiler
             If IsLocal(name) Then
                 Return New GetLocalVariable(name)
             ElseIf globals.ContainsKey(name) Then
-                Return New GetGlobalVariable(name)
+                Return New GetGlobalVariable(currentModuleLabel, name)
             Else
                 Return Nothing
             End If

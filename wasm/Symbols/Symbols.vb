@@ -204,26 +204,31 @@ Namespace Symbols
 
     Public Class GetGlobalVariable : Inherits GetLocalVariable
 
+        Public Property [module] As String
+
         Sub New()
         End Sub
 
-        Sub New(name As String)
-            var = name
+        Sub New(module$, name As String)
+            Me.var = name
+            Me.module = [module]
         End Sub
 
         Public Overrides Function ToSExpression() As String
-            Return $"(get_global ${var})"
+            Return $"(get_global ${[module]}.{var})"
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return symbolTable.FindModuleGlobal(Nothing, var).type
+            Return symbolTable.FindModuleGlobal([module], var).type
         End Function
     End Class
 
     Public Class SetGlobalVariable : Inherits SetLocalVariable
 
+        Public Property [module] As String
+
         Public Overrides Function ToSExpression() As String
-            Return $"(set_global ${var} {value})"
+            Return $"(set_global ${[module]}.{var} {value})"
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
