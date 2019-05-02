@@ -60,7 +60,7 @@ Namespace Compiler
     ''' <remarks>
     ''' https://webassembly.github.io/wabt/doc/wat2wasm.1.html
     ''' </remarks>
-    Public Class wat2wasm
+    Public Class Wat2wasm
 
         ''' <summary>
         ''' Use multiple times for more info
@@ -178,8 +178,8 @@ Namespace Compiler
             Return Me.GetCLI
         End Function
 
-        Public Shared Widening Operator CType(output As String) As wat2wasm
-            Return New wat2wasm With {.output = output.GetFullPath}
+        Public Shared Widening Operator CType(output As String) As Wat2wasm
+            Return New Wat2wasm With {.output = output.GetFullPath}
         End Operator
 
     End Class

@@ -107,7 +107,7 @@ Namespace Compiler
         ''' This function returns the compiler standard output
         ''' </returns>
         <Extension>
-        Public Function Compile([module] As ModuleSymbol, config As wat2wasm) As String
+        Public Function Compile([module] As ModuleSymbol, config As Wat2wasm) As String
             With New IORedirectFile(wat2wasm, $"{saveTemp([module]).CLIPath} {config}", debug:=False)
                 Call .Run()
                 Return .StandardOutput
@@ -119,7 +119,7 @@ Namespace Compiler
         ''' </summary>
         ''' <param name="wast">The file text</param>
         ''' <returns></returns>
-        Public Function CompileWast(wast As String, config As wat2wasm) As String
+        Public Function CompileWast(wast As String, config As Wat2wasm) As String
             With New IORedirectFile(wat2wasm, $"{saveTemp(wast).CLIPath} {config}", debug:=False)
                 Call config.output.ParentPath.MkDIR
                 Call .Run()
@@ -130,7 +130,7 @@ Namespace Compiler
 
         <Extension>
         Public Function HexDump([module] As ModuleSymbol, Optional verbose As Boolean = False) As String
-            Dim config As New wat2wasm With {
+            Dim config As New Wat2wasm With {
                 .verbose = verbose,
                 .dumpModule = True,
                 .debugParser = True
