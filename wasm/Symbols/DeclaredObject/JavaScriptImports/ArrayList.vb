@@ -131,7 +131,7 @@ Namespace Symbols.JavaScriptImports
             End Get
         End Property
 
-        Public ReadOnly Property SetArrayElement(ofElement As TypeAbstract) As ImportSymbol
+        Public ReadOnly Property SetElement(ofElement As TypeAbstract) As ImportSymbol
             Get
                 Return New ImportSymbol With {
                     .ImportObject = "set",
@@ -189,7 +189,7 @@ Namespace Symbols.JavaScriptImports
             Call symbols.addRequired(JavaScriptImports.NewArray)
             Call symbols.addRequired(JavaScriptImports.Push(ofElement))
             Call symbols.addRequired(JavaScriptImports.GetArrayElement(ofElement))
-            Call symbols.addRequired(JavaScriptImports.SetArrayElement(ofElement))
+            Call symbols.addRequired(JavaScriptImports.SetElement(ofElement))
             Call symbols.addRequired(Array.Length)
         End Sub
     End Module

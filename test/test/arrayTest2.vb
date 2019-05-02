@@ -14,4 +14,12 @@
         Next
     End Sub
 
+    Sub setValueTest(x As Integer)
+
+        data(x + 1) = x * 2
+
+        print(data(x * 99))
+
+    End Sub
+
 End Module
