@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f08f6d02df5d2ca6744afd598179454, Symbols\FuncSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::2f08f6d02df5d2ca6744afd598179454, Symbols\FunctionSymbol\FuncSignature.vb"
 
     ' Author:
     ' 

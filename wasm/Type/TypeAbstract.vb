@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dfad44a7967be53f06c2cdbef65a9b1, Type\TypeAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::6a081b145ddfbe19a67f234405f23957, Type\TypeAbstract.vb"
 
     ' Author:
     ' 

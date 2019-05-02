@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99da9aeeb33fc18d71f746dc64eba14d, Symbols\ModuleSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::94cd2ede2c4259b7a635b942213660d7, Symbols\ModuleSymbol.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Compiler
+Imports Wasm.Compiler.SExpression
 Imports Wasm.Symbols.Parser
 
 Namespace Symbols

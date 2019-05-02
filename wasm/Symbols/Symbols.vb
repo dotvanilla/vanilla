@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba6dcd42b99ca10d76e229962733b17e, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::7abd104d59a9f52ca3523c92c547a134, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -40,6 +40,7 @@
     ' 
     '         Properties: text
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToSExpression, TypeInfer
     ' 
     '     Class LiteralExpression
@@ -104,7 +105,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Text
 Imports Wasm.Compiler
+Imports Wasm.Compiler.SExpression
 
 Namespace Symbols
 
@@ -306,7 +309,18 @@ Namespace Symbols
     Public Class ReturnValue : Inherits Parenthesized
 
         Public Overrides Function ToSExpression() As String
-            Return $"(return {Internal.ToSExpression})"
+            Dim sexp$
+
+            If TypeOf Internal Is ArrayBlock Then
+                sexp = DirectCast(Internal, ArrayBlock) _
+                    .arrayInitialize _
+                    .JoinBy(ASCII.LF)
+                sexp = sexp & ASCII.LF & $"(return {Internal.ToSExpression})"
+            Else
+                sexp = $"(return {Internal.ToSExpression})"
+            End If
+
+            Return sexp
         End Function
     End Class
 End Namespace

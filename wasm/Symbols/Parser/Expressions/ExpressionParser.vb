@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b33c7ea9751ec3067c6c945f062bc548, Symbols\Parser\Expressions\ExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::76fcd960086a401c5b254848bb3e75b8, Symbols\Parser\Expressions\ExpressionParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module ExpressionParser
     ' 
-    '         Function: [TryCast], ConstantExpression, (+2 Overloads) CreateArray, ParenthesizedStack, ReferVariable
+    '         Function: [TryCast], ConstantExpression, CreateArray, ParenthesizedStack, ReferVariable
     '                   StringConstant, UnaryExpression, UnaryValue, ValueCType, ValueExpression
     ' 
     ' 
@@ -119,45 +119,7 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
-            Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
-            Dim arrayType As TypeAbstract = New TypeAbstract(type).MakeArrayType
-
-            ' 导入数组操作所需要的外部api
-            ' Call symbols.doArrayImports(arrayType)
-
-            If newArray.ArrayBounds Is Nothing Then
-                Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
-                Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(arrayType.generic(Scan0), array.Initialize.Length)
-                Dim save As New List(Of Expression)
-                Dim size As Integer = sizeOf(arrayType.generic(Scan0))
-                Dim byteType$ = array.type.typefit
-                Dim intptr As Integer = arrayBlock.memoryPtr
-
-                For Each element In array.Initialize
-                    save += BitConverter.save(byteType, intptr, element)
-                    intptr += size
-                Next
-
-                arrayBlock.elements = save
-
-                Return arrayBlock
-            Else
-                Dim bounds As Expression = newArray.ArrayBounds _
-                    .Arguments _
-                    .First _
-                    .GetExpression _
-                    .ValueExpression(symbols)
-
-                Return New Array With {
-                    .size = bounds,
-                    .type = arrayType
-                }
-            End If
-        End Function
-
-        <Extension>
-        Public Function CreateArray(newArray As CollectionInitializerSyntax, symbols As SymbolTable) As Expression
+        Public Function CreateArray(newArray As CollectionInitializerSyntax, symbols As SymbolTable) As ArraySymbol
             Dim elements = newArray.Initializers _
                 .Select(Function(value)
                             Return value.ValueExpression(symbols)

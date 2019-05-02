@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d3625b3470c1f7c4472d32d88dbe02b, Type\TypeEquality.vb"
+﻿#Region "Microsoft.VisualBasic::73cb270c51eef5928e02dc6cd347c6f4, Compiler\SExpression\Extensions.vb"
 
     ' Author:
     ' 
@@ -36,50 +36,36 @@
 
     ' Summaries:
 
-    ' Class TypeEquality
+    '     Module Extensions
     ' 
-    '     Properties: Test
+    '         Function: arrayInitialize
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Equals, GetHashCode, IsTargetType
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports System.Runtime.CompilerServices
+Imports Wasm.Symbols
 
-Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeAbstract)
+Namespace Compiler.SExpression
 
-    ReadOnly arrayList As Index(Of TypeAlias) = {TypeAlias.array, TypeAlias.list}
+    ''' <summary>
+    ''' Helper for some special type when generate S-Expression
+    ''' </summary>
+    Public Module Extensions
 
-    Public Shared ReadOnly Property Test As New TypeEquality
+        <Extension>
+        Public Iterator Function arrayInitialize(array As ArrayBlock) As IEnumerable(Of String)
+            Yield New CommentText("")
+            Yield New CommentText($"Save {array.length} array element data to memory:")
+            Yield New CommentText($"Array memory block begin at location: {array.memoryPtr}")
 
-    Private Sub New()
-    End Sub
+            For Each element As Expression In array
+                Yield element.ToSExpression
+            Next
 
-    Public Shared Function IsTargetType(target As TypeAbstract) As Func(Of TypeAbstract, Boolean)
-        Return Function(other) Test.Equals(target, other)
-    End Function
-
-    Public Overloads Function Equals(x As TypeAbstract, y As TypeAbstract) As Boolean Implements IEqualityComparer(Of TypeAbstract).Equals
-        If x.type <> y.type Then
-            Return False
-        End If
-
-        If x.type Like arrayList AndAlso x.type = y.type Then
-            If x.generic.IsNullOrEmpty Then
-                ' 是一个通用的list列表
-                Return True
-            Else
-                Return Equals(x.generic(Scan0), y.generic(Scan0))
-            End If
-        End If
-
-        Return True
-    End Function
-
-    Public Overloads Function GetHashCode(obj As TypeAbstract) As Integer Implements IEqualityComparer(Of TypeAbstract).GetHashCode
-        Return obj.GetHashCode
-    End Function
-End Class
+            Yield New CommentText("Assign array memory data to another expression")
+        End Function
+    End Module
+End Namespace

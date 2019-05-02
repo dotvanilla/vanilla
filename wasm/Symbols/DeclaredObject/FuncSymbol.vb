@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dae2e98c7cfef81f0bbd0b2c8049626, Symbols\DeclaredObject\FuncSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::1867a4579cf1d5574ef4524ecac707a7, Symbols\DeclaredObject\FuncSymbol.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Wasm.Compiler.SExpression
 
 Namespace Symbols
 
@@ -113,18 +114,6 @@ Namespace Symbols
             Next
 
             Return declareLocals.JoinBy(ASCII.LF) & ASCII.LF & body.JoinBy(ASCII.LF)
-        End Function
-
-        Private Iterator Function arrayInitialize(array As ArrayBlock) As IEnumerable(Of String)
-            Yield New CommentText("")
-            Yield New CommentText($"Save {array.length} array element data to memory:")
-            Yield New CommentText($"Array memory block begin at location: {array.memoryPtr}")
-
-            For Each element As Expression In array
-                Yield element.ToSExpression
-            Next
-
-            Yield New CommentText("Assign array memory data to another expression")
         End Function
 
         Public Overrides Function ToSExpression() As String
