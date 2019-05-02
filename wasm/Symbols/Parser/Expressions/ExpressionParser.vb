@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c00ec60f9b3190af2d3dfe0956953797, Symbols\Parser\Expressions\ExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::76fcd960086a401c5b254848bb3e75b8, Symbols\Parser\Expressions\ExpressionParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module ExpressionParser
     ' 
-    '         Function: [TryCast], ConstantExpression, (+2 Overloads) CreateArray, ParenthesizedStack, ReferVariable
+    '         Function: [TryCast], ConstantExpression, CreateArray, ParenthesizedStack, ReferVariable
     '                   StringConstant, UnaryExpression, UnaryValue, ValueCType, ValueExpression
     ' 
     ' 
