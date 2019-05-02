@@ -82,7 +82,7 @@ Namespace Symbols
         ''' <param name="ofElement"></param>
         ''' <param name="size"></param>
         ''' <returns></returns>
-        Public Function AllocateArrayBlock(ofElement As TypeAbstract, size As Integer) As Integer
+        Public Function AllocateArrayBlock(ofElement As TypeAbstract, size As Integer) As ArrayBlock
             Dim array As New ArrayBlock With {
                 .length = size,
                 .type = ofElement.MakeArrayType,
@@ -101,7 +101,7 @@ Namespace Symbols
                 Me.offset += 4 * size + 1
             End If
 
-            Return array.memoryPtr
+            Return array
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator

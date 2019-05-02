@@ -128,20 +128,20 @@ Namespace Symbols.Parser
 
             If newArray.ArrayBounds Is Nothing Then
                 Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
-                Dim intptr = symbols.memory.AllocateArrayBlock(arrayType.generic(Scan0), array.Initialize.Length)
+                Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(arrayType.generic(Scan0), array.Initialize.Length)
                 Dim save As New List(Of Expression)
                 Dim size As Integer = sizeOf(arrayType.generic(Scan0))
                 Dim byteType$ = array.type.typefit
+                Dim intptr As Integer = arrayBlock.memoryPtr
 
                 For Each element In array.Initialize
                     save += BitConverter.save(byteType, intptr, element)
                     intptr += size
                 Next
 
-                array.type = arrayType
-                array.Initialize = save
+                arrayBlock.elements = save
 
-                Return array
+                Return arrayBlock
             Else
                 Dim bounds As Expression = newArray.ArrayBounds _
                     .Arguments _

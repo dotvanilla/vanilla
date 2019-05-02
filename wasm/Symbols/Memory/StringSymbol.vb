@@ -89,6 +89,7 @@ Namespace Symbols
         Public Property type As TypeAbstract
         Public Property memoryPtr As Integer
         Public Property length As Integer
+        Public Property elements As Expression()
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
