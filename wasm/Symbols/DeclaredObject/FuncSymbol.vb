@@ -95,10 +95,36 @@ Namespace Symbols
                 .ToArray
 
             For Each line In Me.Body
-                body += line.ToSExpression
+                ' 在这里会需要额外的处理一下数组的初始化？
+                If TypeOf line Is SetLocalVariable OrElse TypeOf line Is SetGlobalVariable Then
+                    ' 数组初始化之后肯定需要赋值给某一个变量的
+                    Dim value = DirectCast(line, SetLocalVariable).value
+
+                    ' 先初始化
+                    If TypeOf value Is ArrayBlock Then
+                        body += arrayInitialize(value)
+                    End If
+
+                    ' 最后再将指针或者值得数据赋值
+                    body += line.ToSExpression
+                Else
+                    body += line.ToSExpression
+                End If
             Next
 
             Return declareLocals.JoinBy(ASCII.LF) & ASCII.LF & body.JoinBy(ASCII.LF)
+        End Function
+
+        Private Iterator Function arrayInitialize(array As ArrayBlock) As IEnumerable(Of String)
+            Yield New CommentText("")
+            Yield New CommentText($"Save {array.length} array element data to memory:")
+            Yield New CommentText($"Array memory block begin at location: {array.memoryPtr}")
+
+            For Each element As Expression In array
+                Yield element.ToSExpression
+            Next
+
+            Yield New CommentText("Assign array memory data to another expression")
         End Function
 
         Public Overrides Function ToSExpression() As String

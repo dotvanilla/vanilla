@@ -85,6 +85,7 @@ Namespace Symbols
     End Class
 
     Public Class ArrayBlock : Inherits Expression
+        Implements IEnumerable(Of Expression)
 
         Public Property type As TypeAbstract
         Public Property memoryPtr As Integer
@@ -101,6 +102,16 @@ Namespace Symbols
         ''' <returns></returns>
         Public Overrides Function ToSExpression() As String
             Return Literal.i32(memoryPtr).ToSExpression
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
+            For Each x As Expression In elements
+                Yield x
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
         End Function
     End Class
 End Namespace

@@ -89,8 +89,6 @@ Namespace Symbols
                 .memoryPtr = offset
             }
 
-            Me.buffer += array
-
             If ofElement.type = TypeAlias.f64 OrElse ofElement.type = TypeAlias.i64 Then
                 ' 8 bytes
                 ' zero terminated
