@@ -50,7 +50,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.TypeInfo
 
-Namespace Symbols
+Namespace Symbols.MemoryObject
 
     ''' <summary>
     ''' WebAssembly Linear Memory Accesses

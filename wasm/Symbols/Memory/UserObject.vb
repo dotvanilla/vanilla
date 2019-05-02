@@ -48,7 +48,7 @@
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols
+Namespace Symbols.MemoryObject
 
     ''' <summary>
     ''' 一个用户自定义类型的实例对象

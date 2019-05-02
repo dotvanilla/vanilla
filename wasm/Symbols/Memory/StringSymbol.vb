@@ -50,7 +50,7 @@
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols
+Namespace Symbols.MemoryObject
 
     ''' <summary>
     ''' 因为wasm不支持字符串，但是支持内存对象，所以字符串使用的是一个i32类型的内存地址来表示

@@ -51,7 +51,7 @@
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols
+Namespace Symbols.MemoryObject
 
     Public Class ArrayBlock : Inherits Expression
         Implements IEnumerable(Of Expression)
