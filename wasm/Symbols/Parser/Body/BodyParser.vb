@@ -93,7 +93,12 @@ Namespace Symbols.Parser
                 .GetFunctionSymbol(symbols.currentModuleLabel, symbols.currentFuncSymbol) _
                 .result
 
-            value = CTypeHandle.CType(returnType, value, symbols)
+            If returnType = TypeAlias.array AndAlso TypeOf value Is ArraySymbol Then
+                ' 需要在这里生成写入数组元素对象到内存之中的表达式
+
+            Else
+                value = CTypeHandle.CType(returnType, value, symbols)
+            End If
 
             Return New ReturnValue With {
                 .Internal = value
@@ -112,42 +117,6 @@ Namespace Symbols.Parser
         <Extension>
         Public Function FirstArgument(args As SeparatedSyntaxList(Of ArgumentSyntax), symbols As SymbolTable, define As NamedValue(Of TypeAbstract)) As Expression
             Return args.First.Argument(symbols, define)
-        End Function
-
-        ''' <summary>
-        ''' 对列表或者数组的某一个元素进行赋值操作
-        ''' </summary>
-        ''' <param name="left"></param>
-        ''' <param name="right"></param>
-        ''' <param name="symbols"></param>
-        ''' <returns></returns>
-        <Extension>
-        Private Function setArrayListElement(left As InvocationExpressionSyntax, right As Expression, symbols As SymbolTable) As Expression
-            Dim arrayName = DirectCast(left.Expression, IdentifierNameSyntax).objectName
-            Dim index As Expression = left.ArgumentList.FirstArgument(symbols, "a".param("i32"))
-            Dim arraySymbol = symbols.GetObjectReference(arrayName)
-            Dim arrayType As TypeAbstract = arraySymbol.TypeInfer(symbols)
-            Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
-
-            If arrayType = TypeAlias.array Then
-                ' 从webassembly内存之中读取数据
-                ' 对于数组对象而言，其值是一个内存区块的起始位置来的
-                Dim intptr As Expression = arraySymbol
-                ' 然后位置的偏移量则是index索引，乘上元素的大小
-                Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
-                Dim save As Expression
-
-                ' 然后得到实际的内存中的位置
-                intptr = ArrayBlock.IndexOffset(intptr, offset)
-                ' 最后使用load读取内存数据
-                save = BitConverter.save(ofElement, intptr, CTypeHandle.CType(ofElement, right, symbols))
-
-                Return save
-            Else
-                Return JavaScriptImports _
-                    .SetElement(ofElement) _
-                    .FunctionInvoke({arraySymbol, index, right})
-            End If
         End Function
 
         <Extension>

@@ -36,6 +36,7 @@
     
     (export "arrayTest2.readTest" (func $arrayTest2.readTest))
     (export "arrayTest2.setValueTest" (func $arrayTest2.setValueTest))
+    (export "arrayTest2.returnArrayTest" (func $arrayTest2.returnArrayTest))
     
      
 
@@ -68,6 +69,11 @@
         
     (f64.store (i32.add (get_global $arrayTest2.data) (i32.mul (i32.add (get_local $x) (i32.const 1)) (i32.const 8))) (f64.convert_s/i32 (i32.mul (get_local $x) (i32.const 2))))
     (call $arrayTest2.print (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (i32.mul (get_local $x) (i32.const 99)) (i32.const 8)))))
+    )
+    (func $arrayTest2.returnArrayTest  (result i32)
+        ;; Public Function returnArrayTest() As array(Of i32)
+        
+    (return (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $array.new (i32.const -1)) (i32.const 0)) (i32.const 35)) (i32.const 78345)) (i32.const 34)) (i32.const 534)) (i32.const 53)))
     )
     
 
