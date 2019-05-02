@@ -166,7 +166,7 @@ Namespace Compiler
         Public Function FindTypeMethod(symbols As SymbolTable, context As TypeAbstract, name$) As FuncSignature
             If context.type = TypeAlias.string Then
                 Return symbols.handleStringMethods(name)
-            ElseIf context.type = TypeAlias.list OrElse context.type = TypeAlias.array Then
+            ElseIf context.type = TypeAlias.list Then
                 Return symbols.handleArrayListMethods(name, context)
             ElseIf context.type = TypeAlias.table Then
                 Return symbols.handleTableMethods(name, context)
