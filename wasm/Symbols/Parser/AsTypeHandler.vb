@@ -78,8 +78,9 @@ Namespace Symbols.Parser
                     type = New TypeAbstract(GetAsType(asClause, symbols))
                 ElseIf TypeOf asClause Is AsNewClauseSyntax Then
                     Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
+                    Dim objType As Type = AsTypeHandler.GetType([new].Type, symbols)
 
-                    type = New TypeAbstract(AsTypeHandler.GetType([new].Type, symbols))
+                    type = New TypeAbstract(objType)
                 Else
                     Throw New NotImplementedException
                 End If
