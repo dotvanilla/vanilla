@@ -48,6 +48,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 
