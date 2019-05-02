@@ -90,6 +90,7 @@ Namespace Symbols.Parser
             Dim intptr As Integer = arrayBlock.memoryPtr
 
             For Each element In array.Initialize
+                element = CTypeHandle.CType(ofElement, element, symbols)
                 save += BitConverter.save(byteType, intptr, element)
                 intptr += size
             Next
