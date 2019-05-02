@@ -314,13 +314,13 @@ Namespace Symbols
             If TypeOf Internal Is ArrayBlock Then
                 sexp = DirectCast(Internal, ArrayBlock) _
                     .arrayInitialize _
-                    .Join({Internal.ToSExpression}) _
                     .JoinBy(ASCII.LF)
+                sexp = sexp & ASCII.LF & $"(return {Internal.ToSExpression})"
             Else
-                sexp = Internal.ToSExpression
+                sexp = $"(return {Internal.ToSExpression})"
             End If
 
-            Return $"(return {sexp})"
+            Return sexp
         End Function
     End Class
 End Namespace
