@@ -47,6 +47,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.Symbols
 
 Namespace TypeInfo
 
@@ -78,10 +79,19 @@ Namespace TypeInfo
             End If
 
             If IsUserDefined Then
-                Throw New NotImplementedException
+                Return New TypeAbstract(TypeAlias.intptr, asReference(symbols))
             Else
                 Return New TypeAbstract(type:=raw.TryCast(Of Type))
             End If
+        End Function
+
+        ''' <summary>
+        ''' 在这里主要是从符号表之中获取得到模块以及名称的引用
+        ''' </summary>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        Private Function asReference(symbols As SymbolTable) As ReferenceSymbol
+            Return New ReferenceSymbol With {.Symbol = raw, .Type = SymbolType.Type}
         End Function
 
         Public Function MakeArrayType() As RawType

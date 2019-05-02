@@ -59,6 +59,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Compiler
+Imports Wasm.Symbols
 Imports Wasm.Symbols.Parser
 
 Namespace TypeInfo
@@ -148,6 +149,12 @@ Namespace TypeInfo
             Me.raw = type.raw
         End Sub
 
+        Sub New([alias] As TypeAlias, ref As ReferenceSymbol)
+            Me.generic = {}
+            Me.type = [alias]
+            Me.raw = ref.ToString
+        End Sub
+
         Private Sub fromFullName(fullName As String)
             If TypeExtensions.IsArray(fullName) Then
                 _type = TypeAlias.array
@@ -166,9 +173,9 @@ Namespace TypeInfo
         Sub New([alias] As TypeAlias, Optional generic$() = Nothing)
             Me.type = [alias]
             Me.generic = generic _
-            .SafeQuery _
-            .Select(Function(type) New TypeAbstract(type)) _
-            .ToArray
+                .SafeQuery _
+                .Select(Function(type) New TypeAbstract(type)) _
+                .ToArray
             Me.raw = buildRaw(type, Me.generic)
         End Sub
 

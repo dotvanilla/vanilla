@@ -121,5 +121,9 @@ Namespace Symbols
         ''' 是一个全局变量
         ''' </summary>
         GlobalVariable
+        ''' <summary>
+        ''' 引用的是一个用户自定义的类型
+        ''' </summary>
+        Type
     End Enum
 End Namespace
