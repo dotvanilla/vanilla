@@ -113,11 +113,18 @@ Namespace Symbols.Parser
             Dim project As ModuleBlockSyntax() = vbcode.Members _
                 .OfType(Of ModuleBlockSyntax) _
                 .ToArray
+            Dim classTypes As ClassBlockSyntax() = vbcode.Members _
+                .OfType(Of ClassBlockSyntax) _
+                .ToArray
             Dim enums As EnumSymbol()
 
             For Each main As ModuleBlockSyntax In project
                 enums = vbcode.ParseEnums
                 symbols = main.ParseDeclares(symbols, enums)
+            Next
+
+            For Each type As ClassBlockSyntax In classTypes
+                symbols.AddClass(type.Parse(symbols))
             Next
 
             ' 解析成员函数的具体定义内容
