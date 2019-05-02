@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a8677c1d87adbe1ad6ab28231d8ec9e, Symbols\EnumSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::7d30905e1029afac0d47aa90471d4c4b, Symbols\EnumSymbol.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     '         Properties: [Module], Members, Name, type, UnderlyingType
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
+    '         Function: ToString, wasmUnderlying
     ' 
     ' 
     ' /********************************************************************************/
