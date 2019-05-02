@@ -126,7 +126,7 @@ Namespace Symbols
         ''' <returns></returns>
         Private Function wasmUnderlying([declare] As AsClauseSyntax) As String
             Dim raw As RawType = AsTypeHandler.GetAsType([declare], Nothing)
-            Dim wasm As String = raw.WebAssemblyType.typefit
+            Dim wasm As String = raw.WebAssembly(Nothing).typefit
 
             Return wasm
         End Function
