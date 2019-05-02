@@ -96,6 +96,14 @@ Namespace Symbols
             }
         End Function
 
+        Public Function load(type As TypeAbstract, intptr As [Variant](Of Integer, Expression)) As Expression
+            Return load(type.typefit, intptr)
+        End Function
+
+        Public Function save(type As TypeAbstract, intptr As [Variant](Of Integer, Expression), value As Expression) As Expression
+            Return save(type.typefit, intptr, value)
+        End Function
+
         ''' <summary>
         ''' 将数据写入指定位置的内存之中
         ''' </summary>
