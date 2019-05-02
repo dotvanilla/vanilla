@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::c03c1821e2863c9e1f8e605206137135, Compiler\Link\SymbolTable.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class SymbolTable
-    ' 
-    '         Properties: currentFuncSymbol, currentModuleLabel, memory, ModuleNames, NextGuid
-    '                     requires
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: AddFunctionDeclares, GetAllGlobals, GetAllImports, GetAllLocals, GetEnumType
-    '                   (+2 Overloads) GetFunctionSymbol, GetObjectReference, GetObjectSymbol, GetUnderlyingType, HaveEnumType
-    '                   IsAnyObject, IsLocal, IsModuleFunction, stringContext
-    ' 
-    '         Sub: AddEnumType, AddGlobal, AddImports, (+2 Overloads) AddLocal, ClearLocals
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class SymbolTable
+' 
+'         Properties: currentFuncSymbol, currentModuleLabel, memory, ModuleNames, NextGuid
+'                     requires
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: AddFunctionDeclares, GetAllGlobals, GetAllImports, GetAllLocals, GetEnumType
+'                   (+2 Overloads) GetFunctionSymbol, GetObjectReference, GetObjectSymbol, GetUnderlyingType, HaveEnumType
+'                   IsAnyObject, IsLocal, IsModuleFunction, stringContext
+' 
+'         Sub: AddEnumType, AddGlobal, AddImports, (+2 Overloads) AddLocal, ClearLocals
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Symbols
+Imports Wasm.Symbols.MemoryObject
 Imports Wasm.Symbols.Parser
 Imports Wasm.TypeInfo
 
@@ -81,6 +82,7 @@ Namespace Compiler
         ''' </summary>
         Friend ReadOnly functionList As New Dictionary(Of String, ModuleOf)
         Friend ReadOnly enumConstants As New Dictionary(Of String, EnumSymbol)
+        Friend ReadOnly userClass As New Dictionary(Of String, ClassMeta)
 
         Dim locals As New Dictionary(Of String, DeclareLocal)
         Dim uid As VBInteger = 666
@@ -156,6 +158,18 @@ Namespace Compiler
         Public Sub AddEnumType(type As EnumSymbol)
             Call enumConstants.Add(type.Name, type)
         End Sub
+
+        Public Sub AddClass(type As ClassMeta)
+            Call userClass.Add(type.ClassName, type)
+        End Sub
+
+        Public Function HaveClass(name As String) As Boolean
+            Return userClass.ContainsKey(name)
+        End Function
+
+        Public Function GetClassType(type As String) As ClassMeta
+            Return userClass(type)
+        End Function
 
         Public Function HaveEnumType(type As String) As Boolean
             Return enumConstants.ContainsKey(type)
