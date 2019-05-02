@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a15555a9e7121b66eb9970d5edf32f07, Symbols\Parser\Expressions\ObjectCreatorParser.vb"
+﻿#Region "Microsoft.VisualBasic::3528c301d527a3553fac0a023a890fa1, Symbols\Parser\Expressions\ObjectCreatorParser.vb"
 
     ' Author:
     ' 

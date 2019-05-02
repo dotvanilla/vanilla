@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8efce75e3090c2e201fc79e42e7c103, Symbols\Memory\StringSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::2e957fe1007f347075ad8d1ad577fc69, Symbols\Memory\StringSymbol.vb"
 
     ' Author:
     ' 
@@ -41,12 +41,6 @@
     '         Properties: [string], Length, MemoryPtr
     ' 
     '         Function: [AddressOf], SizeOf, ToSExpression, TypeInfer
-    ' 
-    '     Class ArrayBlock
-    ' 
-    '         Properties: elements, length, memoryPtr, type
-    ' 
-    '         Function: GetEnumerator, IEnumerable_GetEnumerator, IndexOffset, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bdf4d83ac1f3112e690e239f8daa519f, Symbols\Memory\ArraySymbol.vb"
+﻿#Region "Microsoft.VisualBasic::bdf4d83ac1f3112e690e239f8daa519f, Symbols\ArrayListSymbol.vb"
 
     ' Author:
     ' 
