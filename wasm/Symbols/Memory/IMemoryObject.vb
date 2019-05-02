@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7941e7d759b4e9cd55bc02f901ab330, Type\TypeAlias.vb"
+﻿#Region "Microsoft.VisualBasic::ea0f4f094e737a0b6ce41c9833aeca96, Symbols\Memory\IMemoryObject.vb"
 
     ' Author:
     ' 
@@ -36,47 +36,39 @@
 
     ' Summaries:
 
-    ' Enum TypeAlias
+    '     Class IMemoryObject
     ' 
-    '     [boolean], [string], any, array, f32
-    '     f64, i32, i64, intptr, list
-    '     table
+    '         Properties: memoryPtr
     ' 
-    '  
-    ' 
+    '         Function: [AddressOf]
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-''' <summary>
-''' The compiler type alias
-''' </summary>
-Public Enum TypeAlias As Integer
-    void = -1
-    any
-    i32
-    i64
-    f32
-    f64
-    [string]
-    [boolean]
-    ''' <summary>
-    ''' Fix length array in WebAssembly runtime
-    ''' </summary>
-    array
-    ''' <summary>
-    ''' Array list in javascript runtime
-    ''' </summary>
-    list
-    ''' <summary>
-    ''' Javascript object
-    ''' </summary>
-    table
+Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
-    ''' <summary>
-    ''' 所有用户自定义的引用类型
-    ''' </summary>
-    intptr
-End Enum
+Namespace Symbols.MemoryObject
+
+    Public MustInherit Class IMemoryObject : Inherits Expression
+
+        ''' <summary>
+        ''' 这个对象在内存之中的起始位置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property memoryPtr As Integer
+
+        ''' <summary>
+        ''' 这个对象在内存之中的起始位置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function [AddressOf]() As LiteralExpression
+            Return New LiteralExpression With {
+                .type = TypeAbstract.i32,
+                .value = memoryPtr
+            }
+        End Function
+    End Class
+End Namespace

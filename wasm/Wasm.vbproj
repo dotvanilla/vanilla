@@ -325,6 +325,9 @@
     <Compile Include="Compiler\SExpression\Extensions.vb" />
     <Compile Include="DeclareHelpers.vb" />
     <Compile Include="Symbols\FunctionSymbol\DelegateSymbol.vb" />
+    <Compile Include="Symbols\Memory\ArrayBlock.vb" />
+    <Compile Include="Symbols\Memory\IMemoryObject.vb" />
+    <Compile Include="Symbols\Memory\UserObject.vb" />
     <Compile Include="Symbols\Parser\Expressions\ArrayExpressionParser.vb" />
     <Compile Include="Symbols\Start.vb" />
     <Compile Include="Symbols\Parser\Expressions\BinaryOperatorParser.vb" />
@@ -335,10 +338,11 @@
     <Compile Include="Symbols\Parser\Expressions\ObjectCreatorParser.vb" />
     <Compile Include="Symbols\Parser\Body\DeclaratorParser.vb" />
     <Compile Include="Type\Literal.vb" />
+    <Compile Include="Type\Models\RawType.vb" />
     <Compile Include="Type\TypeEquality.vb" />
     <Compile Include="Type\Types.vb" />
-    <Compile Include="Type\TypeAlias.vb" />
-    <Compile Include="Type\TypeAbstract.vb" />
+    <Compile Include="Type\Models\TypeAlias.vb" />
+    <Compile Include="Type\Models\TypeAbstract.vb" />
     <Compile Include="Compiler\SExpression\ModuleBuilder.vb" />
     <Compile Include="Compiler\wat2wasm.vb" />
     <Compile Include="Extensions.vb" />
@@ -353,8 +357,8 @@
     <Compile Include="Symbols\DeclaredObject\JavaScriptImports\String.vb" />
     <Compile Include="Symbols\DeclaredObject\JavaScriptImports\NamespaceDoc.vb" />
     <Compile Include="Symbols\DeclaredObject\JavaScriptImports\Math.vb" />
-    <Compile Include="Symbols\Memory\ArraySymbol.vb" />
-    <Compile Include="Symbols\Memory\Memory.vb" />
+    <Compile Include="Symbols\ArrayListSymbol.vb" />
+    <Compile Include="Compiler\Link\Memory.vb" />
     <Compile Include="Symbols\Memory\StringSymbol.vb" />
     <Compile Include="Symbols\EnumSymbol.vb" />
     <Compile Include="Symbols\Parser\Body\BlockParser.vb" />
@@ -401,6 +405,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Designer.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

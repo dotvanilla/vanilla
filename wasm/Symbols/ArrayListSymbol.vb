@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2e1a6268a2b9aa078c9cbf85182c245, Symbols\Memory\ArraySymbol.vb"
+﻿#Region "Microsoft.VisualBasic::bdf4d83ac1f3112e690e239f8daa519f, Symbols\ArrayListSymbol.vb"
 
     ' Author:
     ' 
@@ -64,6 +64,7 @@
 #End Region
 
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73f321d83f9ca7744ce1aba54349393e, Symbols\Parser\Body\DeclaratorParser.vb"
+﻿#Region "Microsoft.VisualBasic::bc9b58eacb445222f3c9a4b9ab2d3b1c, Symbols\Parser\Body\DeclaratorParser.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Wasm.Compiler
 Imports Wasm.Symbols.JavaScriptImports
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f1c0eae1cb3f6d4fbe02c324f2d4b0a, Symbols\Parser\Expressions\ArrayExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::d631c79f48268d8ff74681757642eaac, Symbols\Parser\Expressions\ArrayExpressionParser.vb"
 
     ' Author:
     ' 
@@ -49,6 +49,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.Symbols.MemoryObject
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 
@@ -57,7 +59,7 @@ Namespace Symbols.Parser
         <Extension>
         Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
             Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
-            Dim arrayType As TypeAbstract = New TypeAbstract(type).MakeArrayType
+            Dim arrayType As TypeAbstract = New TypeAbstract(type, symbols).MakeArrayType
 
             ' 导入数组操作所需要的外部api
             ' Call symbols.doArrayImports(arrayType)

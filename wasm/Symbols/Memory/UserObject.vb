@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e57243df331aff8823e357124153b109, Symbols\Blocks\If.vb"
+﻿#Region "Microsoft.VisualBasic::e428ce89e8cf6b5c7d478351bf3185af, Symbols\Memory\UserObject.vb"
 
     ' Author:
     ' 
@@ -36,9 +36,9 @@
 
     ' Summaries:
 
-    '     Class IfBlock
+    '     Class UserObject
     ' 
-    '         Properties: [Else], [Then], Condition
+    '         Properties: UnderlyingType
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 
@@ -50,33 +50,22 @@
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Blocks
+Namespace Symbols.MemoryObject
 
-    Public Class IfBlock : Inherits AbstractBlock
+    ''' <summary>
+    ''' The user object abstract model.
+    ''' 一个用户自定义类型的实例对象
+    ''' </summary>
+    Public Class UserObject : Inherits IMemoryObject
 
-        Public Property Condition As BooleanSymbol
-        Public Property [Then] As Expression()
-        Public Property [Else] As Expression()
+        Public Property UnderlyingType As TypeAbstract
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return New TypeAbstract("void")
+            Return UnderlyingType
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Dim else$ = ""
-
-            If Not Me.Else.IsNullOrEmpty Then
-                [else] = $"(else
-        {Block.InternalBlock(Me.[Else], "        ")}
-    )"
-            End If
-
-            Return $"
-(if {Condition} 
-    (then
-        {Block.InternalBlock([Then], "        ")}
-    ) {[else]}
-)"
+            Return Me.AddressOf.ToSExpression
         End Function
     End Class
 End Namespace

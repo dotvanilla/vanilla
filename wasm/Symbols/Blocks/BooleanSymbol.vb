@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dcf9e0cc23e585f8518503a5f193e60, Symbols\Blocks\BooleanSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::27d71a346fa1f16882c08a1fb78041f5, Symbols\Blocks\BooleanSymbol.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@
 Imports System.Runtime.CompilerServices
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Parser
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Blocks
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc0be52a774088da5d2b95f7184553e8, Symbols\Blocks\Loop.vb"
+﻿#Region "Microsoft.VisualBasic::498f7aec5c6e68ee7c3a581202f3223e, Symbols\Blocks\Loop.vb"
 
     ' Author:
     ' 
@@ -81,6 +81,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Blocks
 

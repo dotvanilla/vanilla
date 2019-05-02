@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76fcd960086a401c5b254848bb3e75b8, Symbols\Parser\Expressions\ExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::6fe8633066ace4904b4ca4b9cec0d73a, Symbols\Parser\Expressions\ExpressionParser.vb"
 
     ' Author:
     ' 
@@ -52,6 +52,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Blocks
 Imports Wasm.Symbols.JavaScriptImports
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 
@@ -148,7 +149,8 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ValueCType(cast As CTypeExpressionSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = cast.Expression.ValueExpression(symbols)
-            Dim castToType As New TypeAbstract(cast.Type.GetType(symbols))
+            Dim raw As RawType = cast.Type.GetType(symbols)
+            Dim castToType As New TypeAbstract(raw, symbols)
 
             Return CTypeHandle.CType(castToType, value, symbols)
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7abd104d59a9f52ca3523c92c547a134, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::1418e722c180f2ce8189288a123f2dd4, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -108,6 +108,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Compiler
 Imports Wasm.Compiler.SExpression
+Imports Wasm.Symbols.MemoryObject
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

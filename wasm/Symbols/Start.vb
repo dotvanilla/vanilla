@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36217a0e95e44317b19aa20d4986a108, Symbols\Start.vb"
+﻿#Region "Microsoft.VisualBasic::639f4af68ed75be2cf583035e49d3cf9, Symbols\Start.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@
 #End Region
 
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86eeadc2bf7f7d9176647a9f0f49697e, Symbols\Parser\AsTypeHandler.vb"
+﻿#Region "Microsoft.VisualBasic::e9c50fd3a83d58e353379e3fdb1fcac7, Symbols\Parser\AsTypeHandler.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Module AsTypeHandler
     ' 
-    '         Function: [GetType], AsType, GetAsType, GetGenericType, TypeName
+    '         Function: [GetType], AsType, GetAsType, GetGenericType, listOf
+    '                   TypeName
     ' 
     ' 
     ' /********************************************************************************/
@@ -51,6 +52,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 
@@ -75,11 +77,12 @@ Namespace Symbols.Parser
 
             If Not asClause Is Nothing Then
                 If TypeOf asClause Is SimpleAsClauseSyntax Then
-                    type = New TypeAbstract(GetAsType(asClause, symbols))
+                    type = New TypeAbstract(GetAsType(asClause, symbols), symbols)
                 ElseIf TypeOf asClause Is AsNewClauseSyntax Then
                     Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
+                    Dim objType As RawType = AsTypeHandler.GetType([new].Type, symbols)
 
-                    type = New TypeAbstract(AsTypeHandler.GetType([new].Type, symbols))
+                    type = New TypeAbstract(objType, symbols)
                 Else
                     Throw New NotImplementedException
                 End If
@@ -116,7 +119,7 @@ Namespace Symbols.Parser
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetAsType([as] As SimpleAsClauseSyntax, symbols As SymbolTable) As Type
+        Public Function GetAsType([as] As SimpleAsClauseSyntax, symbols As SymbolTable) As RawType
             If [as] Is Nothing Then
                 Return GetType(System.Void)
             Else
@@ -125,21 +128,36 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of Type())
+        Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of RawType())
             Dim typeName = generic.objectName
             Dim types = generic.TypeArgumentList.Arguments
-            Dim elementType As Type() = types _
+            Dim elementType As RawType() = types _
                 .Select(Function(T) AsTypeHandler.GetType(T, symbols)) _
                 .ToArray
 
-            Return New NamedValue(Of Type()) With {
+            Return New NamedValue(Of RawType()) With {
                 .Name = typeName,
                 .Value = elementType
             }
         End Function
 
+        ''' <summary>
+        ''' 创建一个泛型列表类型
+        ''' </summary>
+        ''' <param name="element"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function [GetType](asType As TypeSyntax, symbols As SymbolTable) As Type
+        Private Function listOf(element As RawType) As RawType
+            Dim ilist As Type = GetType(System.Collections.Generic.List(Of ))
+            Dim raw As RawType = element.AsGeneric(container:=ilist)
+
+            Return raw
+        End Function
+
+        <Extension>
+        Public Function [GetType](asType As TypeSyntax, symbols As SymbolTable) As RawType
             If TypeOf asType Is PredefinedTypeSyntax Then
                 Dim type = DirectCast(asType, PredefinedTypeSyntax)
                 Dim token$ = type.Keyword.objectName
@@ -147,7 +165,7 @@ Namespace Symbols.Parser
                 Return Scripting.GetType(token)
             ElseIf TypeOf asType Is ArrayTypeSyntax Then
                 Dim type = DirectCast(asType, ArrayTypeSyntax)
-                Dim tokenType As Type = [GetType](type.ElementType, symbols)
+                Dim tokenType As RawType = [GetType](type.ElementType, symbols)
 
                 Return tokenType.MakeArrayType
             ElseIf TypeOf asType Is GenericNameSyntax Then
@@ -157,7 +175,7 @@ Namespace Symbols.Parser
 
                 ' 在javascript之中 array 和 list是一样的
                 If define.Name = "List" Then
-                    Return GetType(System.Collections.Generic.List(Of )).MakeGenericType(tokenType(Scan0))
+                    Return tokenType(Scan0).listOf
                 ElseIf define.Name = "Dictionary" Then
                     ' 字典对象在javascript之中则是一个任意的object
                     Return GetType(DictionaryBase)
@@ -176,7 +194,8 @@ Namespace Symbols.Parser
                 ElseIf token = "IList" Then
                     Return GetType(System.Collections.IList)
                 Else
-                    Throw New TypeAccessException($"Target type '{token}' is not defined!")
+                    ' 用户的自定义类型
+                    Return token
                 End If
             End If
         End Function

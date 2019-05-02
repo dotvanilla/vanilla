@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::356e0cceb9411c39c8a4d08420f16240, Symbols\DeclaredObject\JavaScriptImports\ArrayList.vb"
+﻿#Region "Microsoft.VisualBasic::45674428d64f9c61650038b278899ff1, Symbols\DeclaredObject\JavaScriptImports\ArrayList.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@
 Imports System.Runtime.CompilerServices
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Parser
+Imports Wasm.TypeInfo
 
 Namespace Symbols.JavaScriptImports
 

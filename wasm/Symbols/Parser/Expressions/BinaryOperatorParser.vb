@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9628546cc330d18ffb45b630810ef4a7, Symbols\Parser\Expressions\BinaryOperatorParser.vb"
+﻿#Region "Microsoft.VisualBasic::f3fddfcf827b7176d414f844c5001493, Symbols\Parser\Expressions\BinaryOperatorParser.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

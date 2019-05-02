@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7f39402cf3254f81535fa2179268bd6, Symbols\DeclaredObject\ImportSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::a5a7ac74225cba6610da6c70b0bd801b, Symbols\DeclaredObject\ImportSymbol.vb"
 
     ' Author:
     ' 
@@ -51,6 +51,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

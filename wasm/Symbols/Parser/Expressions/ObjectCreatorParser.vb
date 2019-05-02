@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e85e5ee2d25a6bd405992f45ab39481, Symbols\Parser\Expressions\ObjectCreatorParser.vb"
+﻿#Region "Microsoft.VisualBasic::3528c301d527a3553fac0a023a890fa1, Symbols\Parser\Expressions\ObjectCreatorParser.vb"
 
     ' Author:
     ' 
@@ -49,6 +49,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
 Imports Wasm.Symbols.JavaScriptImports
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 
@@ -57,11 +58,12 @@ Namespace Symbols.Parser
         <Extension>
         Public Function AsNewObject(newObj As NewExpressionSyntax, ByRef type As TypeAbstract, symbols As SymbolTable) As Expression
             Dim objNew = DirectCast(newObj, ObjectCreationExpressionSyntax).Initializer
-            Dim objType = DirectCast(newObj, ObjectCreationExpressionSyntax).Type
+            Dim objType As RawType = DirectCast(newObj, ObjectCreationExpressionSyntax).Type.GetType(symbols)
 
             If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
                 Return DirectCast(objNew, ObjectCollectionInitializerSyntax).CreateCollection(type, symbols)
             Else
+                ' 创建用户自定义类型的对象实例
                 Throw New NotImplementedException
             End If
         End Function
@@ -126,7 +128,7 @@ Namespace Symbols.Parser
 
         <Extension>
         Private Function CreateCollectionObject(create As ObjectCreationExpressionSyntax, type As TypeSyntax, symbols As SymbolTable) As Expression
-            Dim elementType As Type()
+            Dim elementType As RawType()
             Dim typeName$
 
             With DirectCast(type, GenericNameSyntax).GetGenericType(symbols)
@@ -136,7 +138,7 @@ Namespace Symbols.Parser
 
             If typeName = "List" Then
                 ' array和list在javascript之中都是一样的
-                Dim listType As TypeAbstract = New TypeAbstract(elementType(Scan0)).MakeListType
+                Dim listType As TypeAbstract = elementType(Scan0).WebAssembly(symbols).MakeListType
                 Dim listValues As ArraySymbol = create _
                     .Initializer _
                     .GetInitializeValue(listType, symbols)
@@ -153,8 +155,8 @@ Namespace Symbols.Parser
             ElseIf typeName = "Dictionary" Then
                 Return New ArrayTable With {
                     .initialVal = {},
-                    .key = New TypeAbstract(elementType(Scan0)),
-                    .type = New TypeAbstract(elementType(1))
+                    .key = elementType(Scan0).WebAssembly(symbols),
+                    .type = elementType(1).WebAssembly(symbols)
                 }
             Else
                 Throw New NotImplementedException

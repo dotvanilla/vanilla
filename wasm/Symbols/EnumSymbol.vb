@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bf049f55b35e8f8fcfb71c00caf93b9, Symbols\EnumSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::7d30905e1029afac0d47aa90471d4c4b, Symbols\EnumSymbol.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     '         Properties: [Module], Members, Name, type, UnderlyingType
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
+    '         Function: ToString, wasmUnderlying
     ' 
     ' 
     ' /********************************************************************************/
@@ -51,6 +51,7 @@
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Wasm.Symbols.Parser
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 
@@ -95,7 +96,7 @@ Namespace Symbols
                 If .UnderlyingType Is Nothing Then
                     type = "i32"
                 Else
-                    type = TypeExtensions.Convert2Wasm(AsTypeHandler.GetAsType(.UnderlyingType, Nothing))
+                    type = wasmUnderlying(.UnderlyingType)
                 End If
             End With
 
@@ -117,6 +118,18 @@ Namespace Symbols
                 Members.Add(memberName, value)
             Next
         End Sub
+
+        ''' <summary>
+        ''' 枚举类型肯定不是用户自定义类型
+        ''' </summary>
+        ''' <param name="[declare]"></param>
+        ''' <returns></returns>
+        Private Function wasmUnderlying([declare] As AsClauseSyntax) As String
+            Dim raw As RawType = AsTypeHandler.GetAsType([declare], Nothing)
+            Dim wasm As String = raw.WebAssembly(Nothing).typefit
+
+            Return wasm
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"Dim {Name} As {type}"

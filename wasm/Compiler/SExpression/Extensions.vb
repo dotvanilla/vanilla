@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73cb270c51eef5928e02dc6cd347c6f4, Compiler\SExpression\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::dd2167666b319221d59b2b07b1cd3c1a, Compiler\SExpression\Extensions.vb"
 
     ' Author:
     ' 
@@ -47,6 +47,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Wasm.Symbols
+Imports Wasm.Symbols.MemoryObject
 
 Namespace Compiler.SExpression
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bfbddaf35263df10c039c49d136b611, Symbols\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::5c7efe49685c4108ca5ac6f78aed9235, Symbols\Expression.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@
 #End Region
 
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

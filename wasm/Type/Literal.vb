@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2cc10dc0ab8c9affc236de447d5042c, Type\Literal.vb"
+﻿#Region "Microsoft.VisualBasic::51999ebc14f6304166914d8d00057341, Type\Literal.vb"
 
     ' Author:
     ' 
@@ -36,10 +36,11 @@
 
     ' Summaries:
 
-    ' Class Literal
+    '     Class Literal
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: bool, f32, f64, i32, i64
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: bool, f32, f64, i32, i64
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -47,46 +48,49 @@
 
 Imports Wasm.Symbols
 
-''' <summary>
-''' Helpers for create literal expression
-''' </summary>
-Public NotInheritable Class Literal
+Namespace TypeInfo
 
-    Private Sub New()
-    End Sub
+    ''' <summary>
+    ''' Helpers for create literal expression
+    ''' </summary>
+    Public NotInheritable Class Literal
 
-    Public Shared Function i32(i As Integer) As LiteralExpression
-        Return New LiteralExpression With {
-            .type = New TypeAbstract("i32"),
-            .value = i
-        }
-    End Function
+        Private Sub New()
+        End Sub
 
-    Public Shared Function i64(i As Long) As LiteralExpression
-        Return New LiteralExpression With {
-            .type = New TypeAbstract("i64"),
-            .value = i
-        }
-    End Function
+        Public Shared Function i32(i As Integer) As LiteralExpression
+            Return New LiteralExpression With {
+                .type = New TypeAbstract("i32"),
+                .value = i
+            }
+        End Function
 
-    Public Shared Function f32(s As Single) As LiteralExpression
-        Return New LiteralExpression With {
-            .type = New TypeAbstract("f32"),
-            .value = s
-        }
-    End Function
+        Public Shared Function i64(i As Long) As LiteralExpression
+            Return New LiteralExpression With {
+                .type = New TypeAbstract("i64"),
+                .value = i
+            }
+        End Function
 
-    Public Shared Function f64(f As Double) As LiteralExpression
-        Return New LiteralExpression With {
-            .type = New TypeAbstract("f64"),
-            .value = f
-        }
-    End Function
+        Public Shared Function f32(s As Single) As LiteralExpression
+            Return New LiteralExpression With {
+                .type = New TypeAbstract("f32"),
+                .value = s
+            }
+        End Function
 
-    Public Shared Function bool(b As Boolean) As LiteralExpression
-        Return New LiteralExpression With {
-            .type = New TypeAbstract(GetType(Boolean)),
-            .value = If(b, 1, 0)
-        }
-    End Function
-End Class
+        Public Shared Function f64(f As Double) As LiteralExpression
+            Return New LiteralExpression With {
+                .type = New TypeAbstract("f64"),
+                .value = f
+            }
+        End Function
+
+        Public Shared Function bool(b As Boolean) As LiteralExpression
+            Return New LiteralExpression With {
+                .type = New TypeAbstract(GetType(Boolean)),
+                .value = If(b, 1, 0)
+            }
+        End Function
+    End Class
+End Namespace

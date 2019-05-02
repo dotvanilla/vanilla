@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7c52a65c7c9a177f74d6d53f3ed2da5, Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2861c2c3fa20042bc630f33834514c19, Extensions.vb"
 
     ' Author:
     ' 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Compiler
 Imports Wasm.Symbols
 Imports Wasm.Symbols.Parser
+Imports Wasm.TypeInfo
 Imports Vbproj = Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.Project
 
 Public Module Extensions

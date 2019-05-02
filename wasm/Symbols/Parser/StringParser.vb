@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d577f069b00ddcfbb1c407d2aa3dba2b, Symbols\Parser\StringParser.vb"
+﻿#Region "Microsoft.VisualBasic::e9e6679ba34ae5a5e99c3c499c60074e, Symbols\Parser\StringParser.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

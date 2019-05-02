@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a71c6b1e5ead0e64c76fa915240db8d0, Compiler\SExpression\ModuleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::f67661cdb2f7f48705fdd73e8fade50c, Compiler\SExpression\ModuleBuilder.vb"
 
     ' Author:
     ' 
@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
+Imports Wasm.Symbols.MemoryObject
 
 Namespace Compiler.SExpression
 

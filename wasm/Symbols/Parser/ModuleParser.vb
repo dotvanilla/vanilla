@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bb77a043edeb196e6db5ec9a544063f, Symbols\Parser\ModuleParser.vb"
+﻿#Region "Microsoft.VisualBasic::e8d8d4b29f83d450811542bf91148b6e, Symbols\Parser\ModuleParser.vb"
 
     ' Author:
     ' 
@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Parser
-
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

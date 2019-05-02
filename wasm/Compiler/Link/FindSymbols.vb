@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab006d3d91aec009c0eb55a89bb6b0f6, Compiler\Link\FindSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::d31d0d48fe368f65943f4766671c2556, Compiler\Link\FindSymbols.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Symbols
 Imports Wasm.Symbols.Parser
+Imports Wasm.TypeInfo
 
 Namespace Compiler
 
@@ -166,7 +167,7 @@ Namespace Compiler
         Public Function FindTypeMethod(symbols As SymbolTable, context As TypeAbstract, name$) As FuncSignature
             If context.type = TypeAlias.string Then
                 Return symbols.handleStringMethods(name)
-            ElseIf context.type = TypeAlias.list OrElse context.type = TypeAlias.array Then
+            ElseIf context.type = TypeAlias.list Then
                 Return symbols.handleArrayListMethods(name, context)
             ElseIf context.type = TypeAlias.table Then
                 Return symbols.handleTableMethods(name, context)
@@ -192,16 +193,16 @@ Namespace Compiler
 
             If funcs.Length > 1 Then
                 ' 默认是当前模块的优先？
-                Func = funcs.FirstOrDefault(Function(f) f.Module = symbols.currentModuleLabel)
+                func = funcs.FirstOrDefault(Function(f) f.Module = symbols.currentModuleLabel)
 
-                If Func Is Nothing Then
-                    Func = funcs.First
+                If func Is Nothing Then
+                    func = funcs.First
                 End If
             Else
-                Func = funcs.FirstOrDefault
+                func = funcs.FirstOrDefault
             End If
 
-            Return Func
+            Return func
         End Function
 
         ''' <summary>

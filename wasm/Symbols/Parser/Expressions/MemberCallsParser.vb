@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4e0897fc31b26eef6a93947d5256620, Symbols\Parser\Expressions\MemberCallsParser.vb"
+﻿#Region "Microsoft.VisualBasic::551ea7b35795dcc6c239234f34ea6d7f, Symbols\Parser\Expressions\MemberCallsParser.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

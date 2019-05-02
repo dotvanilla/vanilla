@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f08f6d02df5d2ca6744afd598179454, Symbols\FunctionSymbol\FuncSignature.vb"
+﻿#Region "Microsoft.VisualBasic::2331cde725ecfba3f6affe75ae95a6e7, Symbols\FunctionSymbol\FuncSignature.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

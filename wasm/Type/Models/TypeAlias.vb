@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e57243df331aff8823e357124153b109, Symbols\Blocks\If.vb"
+﻿#Region "Microsoft.VisualBasic::6535f48d4f407f5de6e0efed7327af3a, Type\Models\TypeAlias.vb"
 
     ' Author:
     ' 
@@ -36,47 +36,54 @@
 
     ' Summaries:
 
-    '     Class IfBlock
+    '     Enum TypeAlias
     ' 
-    '         Properties: [Else], [Then], Condition
+    '         [boolean], [string], any, array, f32
+    '         f64, i32, i64, intptr, list
+    '         table
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '  
+    ' 
+    ' 
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Wasm.Compiler
-Imports Wasm.TypeInfo
+Namespace TypeInfo
 
-Namespace Symbols.Blocks
+    ''' <summary>
+    ''' The compiler type alias
+    ''' </summary>
+    Public Enum TypeAlias As Integer
+        ''' <summary>
+        ''' Function or expression have no value returns
+        ''' </summary>
+        void = -1
+        any
+        i32
+        i64
+        f32
+        f64
+        [string]
+        [boolean]
+        ''' <summary>
+        ''' Fix length array in WebAssembly runtime
+        ''' </summary>
+        array
+        ''' <summary>
+        ''' Array list in javascript runtime
+        ''' </summary>
+        list
+        ''' <summary>
+        ''' Javascript object
+        ''' </summary>
+        table
 
-    Public Class IfBlock : Inherits AbstractBlock
-
-        Public Property Condition As BooleanSymbol
-        Public Property [Then] As Expression()
-        Public Property [Else] As Expression()
-
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return New TypeAbstract("void")
-        End Function
-
-        Public Overrides Function ToSExpression() As String
-            Dim else$ = ""
-
-            If Not Me.Else.IsNullOrEmpty Then
-                [else] = $"(else
-        {Block.InternalBlock(Me.[Else], "        ")}
-    )"
-            End If
-
-            Return $"
-(if {Condition} 
-    (then
-        {Block.InternalBlock([Then], "        ")}
-    ) {[else]}
-)"
-        End Function
-    End Class
+        ''' <summary>
+        ''' 所有用户自定义的引用类型
+        ''' </summary>
+        intptr
+    End Enum
 End Namespace

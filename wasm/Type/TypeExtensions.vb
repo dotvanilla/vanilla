@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebf939a286ccd502657eb836a3963134, Type\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::c3eb8a3e101342c6fde24b0f346636c8, Type\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -36,11 +36,12 @@
 
     ' Summaries:
 
-    ' Module TypeExtensions
+    '     Module TypeExtensions
     ' 
-    '     Properties: Comparison, Convert2Wasm, i32Add, NumberOrders, wasmOpName
+    '         Properties: Comparison, Convert2Wasm, i32Add, NumberOrders, wasmOpName
     ' 
-    '     Function: ArrayElement, Compares, IsArray, TypeCharWasm
+    '         Function: ArrayElement, Compares, IsArray, TypeCharWasm
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -56,162 +57,165 @@ Imports Wasm.Symbols
 ' 
 ' vb source => codeDOM => wast model => wast => wasm
 
-Module TypeExtensions
+Namespace TypeInfo
 
-    ''' <summary>
-    ''' 在进行类型转换的是否，会需要使用这个索引来判断类型的优先度，同时，也可以使用这个索引来判断类型是否为基础类型
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property NumberOrders As Index(Of TypeAlias) = {
-        TypeAlias.i32,
-        TypeAlias.f32,
-        TypeAlias.i64,
-        TypeAlias.f64
-    }
+    Module TypeExtensions
 
-    ''' <summary>
-    ''' Webassembly之中，逻辑值是一个32位整型数
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property Convert2Wasm As New Dictionary(Of Type, String) From {
-        {GetType(Boolean), Types.booleanType},
-        {GetType(Integer), "i32"},
-        {GetType(Long), "i64"},
-        {GetType(Single), "f32"},
-        {GetType(Double), "f64"},
-        {GetType(String), "string"}, ' 实际上这是一个integer类型
-        {GetType(Char), "string"},
-        {GetType(System.Void), "void"},
-        {GetType(Object), "any"}
-    }
+        ''' <summary>
+        ''' 在进行类型转换的是否，会需要使用这个索引来判断类型的优先度，同时，也可以使用这个索引来判断类型是否为基础类型
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property NumberOrders As Index(Of TypeAlias) = {
+            TypeAlias.i32,
+            TypeAlias.f32,
+            TypeAlias.i64,
+            TypeAlias.f64
+        }
 
-    ''' <summary>
-    ''' VisualBasic.NET operator to webassembly operator name
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property wasmOpName As New Dictionary(Of String, String) From {
-        {"+", "add"},
-        {"-", "sub"},
-        {"*", "mul"},
-        {"/", "div"},
-        {"^", "$pow"},
-        {"=", "eq"},
-        {"<>", "ne"}
-    }
+        ''' <summary>
+        ''' Webassembly之中，逻辑值是一个32位整型数
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Convert2Wasm As New Dictionary(Of Type, String) From {
+            {GetType(Boolean), Types.booleanType},
+            {GetType(Integer), "i32"},
+            {GetType(Long), "i64"},
+            {GetType(Single), "f32"},
+            {GetType(Double), "f64"},
+            {GetType(String), "string"}, ' 实际上这是一个integer类型
+            {GetType(Char), "string"},
+            {GetType(System.Void), "void"},
+            {GetType(Object), "any"}
+        }
 
-    ''' <summary>
-    ''' i32的加法运算
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property i32Add As New ReferenceSymbol With {
-        .Symbol = $"i32.{wasmOpName("+")}",
-        .Type = SymbolType.Operator
-    }
+        ''' <summary>
+        ''' VisualBasic.NET operator to webassembly operator name
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property wasmOpName As New Dictionary(Of String, String) From {
+            {"+", "add"},
+            {"-", "sub"},
+            {"*", "mul"},
+            {"/", "div"},
+            {"^", "$pow"},
+            {"=", "eq"},
+            {"<>", "ne"}
+        }
 
-    Friend ReadOnly unaryOp As Index(Of String) = {
-        wasmOpName("+"),
-        wasmOpName("-")
-    }
-    Friend ReadOnly integerType As Index(Of String) = {"i32", "i64"}
-    Friend ReadOnly floatType As Index(Of String) = {"f32", "f64"}
+        ''' <summary>
+        ''' i32的加法运算
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property i32Add As New ReferenceSymbol With {
+            .Symbol = $"i32.{wasmOpName("+")}",
+            .Type = SymbolType.Operator
+        }
 
-    Public ReadOnly Property Comparison As Index(Of String) = {"f32", "f64", "i32", "i64"} _
-        .Select(Function(type)
-                    Return {">", ">=", "<", "<=", "="}.Select(Function(op) Compares(type, op))
-                End Function) _
-        .IteratesALL _
-        .ToArray
+        Friend ReadOnly unaryOp As Index(Of String) = {
+            wasmOpName("+"),
+            wasmOpName("-")
+        }
+        Friend ReadOnly integerType As Index(Of String) = {"i32", "i64"}
+        Friend ReadOnly floatType As Index(Of String) = {"f32", "f64"}
 
-    ''' <summary>
-    ''' 值比较函数返回的是一个整型数
-    ''' </summary>
-    ''' <param name="type"></param>
-    ''' <param name="op"></param>
-    ''' <returns></returns>
-    ''' <remarks>
-    ''' 
-    ''' </remarks>
-    Public Function Compares(type$, op$) As String
-        Select Case op
-            Case ">"
-                If type Like integerType Then
-                    Return $"{type}.gt_s"
-                Else
-                    Return $"{type}.gt"
-                End If
-            Case ">="
-                If type Like integerType Then
-                    Return $"{type}.ge_s"
-                Else
-                    Return $"{type}.ge"
-                End If
-            Case "<"
-                If type Like integerType Then
-                    Return $"{type}.lt_s"
-                Else
-                    Return $"{type}.lt"
-                End If
-            Case "<="
-                If type Like integerType Then
-                    Return $"{type}.le_s"
-                Else
-                    Return $"{type}.le"
-                End If
-            Case "="
-                If type Like integerType OrElse type Like floatType Then
-                    Return $"{type}.eq"
-                Else
-                    Throw New NotImplementedException
-                End If
-            Case Else
-                If type = "i32" Then
-                    ' 有一些位相关的操作只能够执行在i32上面
-                    Select Case op
-                        Case "<<" : Return "i32.shl"
-                        Case ">>" : Return "i32.shr_s"
-                        Case "And" : Return "i32.and"
-                        Case "Or" : Return "i32.or"
-                        Case Else
-                            Throw New NotImplementedException
-                    End Select
-                ElseIf type = "boolean" Then
-                    Select Case op
-                        Case "And"
-                            ' 逻辑与是乘法操作
-                            Return $"i32.{wasmOpName("*")}"
-                        Case "Or"
-                            ' 逻辑或是加法操作
-                            Return $"i32.{wasmOpName("+")}"
-                        Case Else
-                            Throw New NotImplementedException
-                    End Select
-                Else
-                    Throw New NotImplementedException
-                End If
-        End Select
-    End Function
+        Public ReadOnly Property Comparison As Index(Of String) = {"f32", "f64", "i32", "i64"} _
+            .Select(Function(type)
+                        Return {">", ">=", "<", "<=", "="}.Select(Function(op) Compares(type, op))
+                    End Function) _
+            .IteratesALL _
+            .ToArray
 
-    Public Function IsArray(type As String) As Boolean
-        ' instr是从1开始的
-        Dim p = InStr(type, "[]") - 1
-        Dim lastIndex = (type.Length - 2)
+        ''' <summary>
+        ''' 值比较函数返回的是一个整型数
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <param name="op"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 
+        ''' </remarks>
+        Public Function Compares(type$, op$) As String
+            Select Case op
+                Case ">"
+                    If type Like integerType Then
+                        Return $"{type}.gt_s"
+                    Else
+                        Return $"{type}.gt"
+                    End If
+                Case ">="
+                    If type Like integerType Then
+                        Return $"{type}.ge_s"
+                    Else
+                        Return $"{type}.ge"
+                    End If
+                Case "<"
+                    If type Like integerType Then
+                        Return $"{type}.lt_s"
+                    Else
+                        Return $"{type}.lt"
+                    End If
+                Case "<="
+                    If type Like integerType Then
+                        Return $"{type}.le_s"
+                    Else
+                        Return $"{type}.le"
+                    End If
+                Case "="
+                    If type Like integerType OrElse type Like floatType Then
+                        Return $"{type}.eq"
+                    Else
+                        Throw New NotImplementedException
+                    End If
+                Case Else
+                    If type = "i32" Then
+                        ' 有一些位相关的操作只能够执行在i32上面
+                        Select Case op
+                            Case "<<" : Return "i32.shl"
+                            Case ">>" : Return "i32.shr_s"
+                            Case "And" : Return "i32.and"
+                            Case "Or" : Return "i32.or"
+                            Case Else
+                                Throw New NotImplementedException
+                        End Select
+                    ElseIf type = "boolean" Then
+                        Select Case op
+                            Case "And"
+                                ' 逻辑与是乘法操作
+                                Return $"i32.{wasmOpName("*")}"
+                            Case "Or"
+                                ' 逻辑或是加法操作
+                                Return $"i32.{wasmOpName("+")}"
+                            Case Else
+                                Throw New NotImplementedException
+                        End Select
+                    Else
+                        Throw New NotImplementedException
+                    End If
+            End Select
+        End Function
 
-        Return p = lastIndex
-    End Function
+        Public Function IsArray(type As String) As Boolean
+            ' instr是从1开始的
+            Dim p = InStr(type, "[]") - 1
+            Dim lastIndex = (type.Length - 2)
 
-    ''' <summary>
-    ''' get array element type name
-    ''' </summary>
-    ''' <param name="fullName"></param>
-    ''' <returns></returns>
-    ''' 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function ArrayElement(fullName As String) As String
-        Return fullName.Substring(Scan0, fullName.Length - 2)
-    End Function
+            Return p = lastIndex
+        End Function
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function TypeCharWasm(c As Char) As String
-        Return Convert2Wasm(Scripting.GetType(Patterns.TypeCharName(c)))
-    End Function
-End Module
+        ''' <summary>
+        ''' get array element type name
+        ''' </summary>
+        ''' <param name="fullName"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ArrayElement(fullName As String) As String
+            Return fullName.Substring(Scan0, fullName.Length - 2)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TypeCharWasm(c As Char) As String
+            Return Convert2Wasm(Scripting.GetType(Patterns.TypeCharName(c)))
+        End Function
+    End Module
+End Namespace

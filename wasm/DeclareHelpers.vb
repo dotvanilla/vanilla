@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc35c9421bcc4046cbb1aed75cfc3352, DeclareHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::fe92d9e6b94f77aa784c8b051bd7e60f, DeclareHelpers.vb"
 
     ' Author:
     ' 
@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Wasm.TypeInfo
 
 Module DeclareHelpers
 

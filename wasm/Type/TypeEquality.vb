@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d3625b3470c1f7c4472d32d88dbe02b, Type\TypeEquality.vb"
+﻿#Region "Microsoft.VisualBasic::22e07ef978842fd2eac17581e1edc0c0, Type\TypeEquality.vb"
 
     ' Author:
     ' 
@@ -36,12 +36,13 @@
 
     ' Summaries:
 
-    ' Class TypeEquality
+    '     Class TypeEquality
     ' 
-    '     Properties: Test
+    '         Properties: Test
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Equals, GetHashCode, IsTargetType
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Equals, GetHashCode, IsTargetType
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -49,37 +50,40 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
-Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeAbstract)
+Namespace TypeInfo
 
-    ReadOnly arrayList As Index(Of TypeAlias) = {TypeAlias.array, TypeAlias.list}
+    Public NotInheritable Class TypeEquality : Implements IEqualityComparer(Of TypeAbstract)
 
-    Public Shared ReadOnly Property Test As New TypeEquality
+        ReadOnly arrayList As Index(Of TypeAlias) = {TypeAlias.array, TypeAlias.list}
 
-    Private Sub New()
-    End Sub
+        Public Shared ReadOnly Property Test As New TypeEquality
 
-    Public Shared Function IsTargetType(target As TypeAbstract) As Func(Of TypeAbstract, Boolean)
-        Return Function(other) Test.Equals(target, other)
-    End Function
+        Private Sub New()
+        End Sub
 
-    Public Overloads Function Equals(x As TypeAbstract, y As TypeAbstract) As Boolean Implements IEqualityComparer(Of TypeAbstract).Equals
-        If x.type <> y.type Then
-            Return False
-        End If
+        Public Shared Function IsTargetType(target As TypeAbstract) As Func(Of TypeAbstract, Boolean)
+            Return Function(other) Test.Equals(target, other)
+        End Function
 
-        If x.type Like arrayList AndAlso x.type = y.type Then
-            If x.generic.IsNullOrEmpty Then
-                ' 是一个通用的list列表
-                Return True
-            Else
-                Return Equals(x.generic(Scan0), y.generic(Scan0))
+        Public Overloads Function Equals(x As TypeAbstract, y As TypeAbstract) As Boolean Implements IEqualityComparer(Of TypeAbstract).Equals
+            If x.type <> y.type Then
+                Return False
             End If
-        End If
 
-        Return True
-    End Function
+            If x.type Like arrayList AndAlso x.type = y.type Then
+                If x.generic.IsNullOrEmpty Then
+                    ' 是一个通用的list列表
+                    Return True
+                Else
+                    Return Equals(x.generic(Scan0), y.generic(Scan0))
+                End If
+            End If
 
-    Public Overloads Function GetHashCode(obj As TypeAbstract) As Integer Implements IEqualityComparer(Of TypeAbstract).GetHashCode
-        Return obj.GetHashCode
-    End Function
-End Class
+            Return True
+        End Function
+
+        Public Overloads Function GetHashCode(obj As TypeAbstract) As Integer Implements IEqualityComparer(Of TypeAbstract).GetHashCode
+            Return obj.GetHashCode
+        End Function
+    End Class
+End Namespace

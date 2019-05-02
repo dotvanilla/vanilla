@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7f08acc5121ffa39528cfa6ff224d7a, Symbols\DeclaredObject\JavaScriptImports\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::9425e6c9721563495e68516ad9d7fcf3, Symbols\DeclaredObject\JavaScriptImports\Dictionary.vb"
 
     ' Author:
     ' 
@@ -46,6 +46,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports Wasm.TypeInfo
 
 Namespace Symbols.JavaScriptImports
 

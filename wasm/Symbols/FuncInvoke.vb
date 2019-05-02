@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e700fbcba5b2d9e5675ee9bec7befb4c, Symbols\FuncInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::aadbcbb386a7b943b04c9c18b6eb891b, Symbols\FuncInvoke.vb"
 
     ' Author:
     ' 
@@ -50,6 +50,7 @@
 #End Region
 
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

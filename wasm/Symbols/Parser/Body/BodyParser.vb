@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c24a2e8de3a22cd34137c8abe8fcf1c, Symbols\Parser\Body\BodyParser.vb"
+﻿#Region "Microsoft.VisualBasic::220e114d9fb94c96e44bb1a35b04b34e, Symbols\Parser\Body\BodyParser.vb"
 
     ' Author:
     ' 
@@ -52,6 +52,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b22611ec5373d895ed975be768d94484, Symbols\Memory\BitConverter.vb"
+﻿#Region "Microsoft.VisualBasic::f640a494a50d8ff5655d964a68643864, Symbols\Memory\BitConverter.vb"
 
     ' Author:
     ' 
@@ -38,17 +38,19 @@
 
     '     Module BitConverter
     ' 
-    '         Function: (+2 Overloads) load, Loadf32, Loadf64, Loadi32, Loadi64
-    '                   (+2 Overloads) save
+    '         Function: [addressOf], (+2 Overloads) load, Loadf32, Loadf64, Loadi32
+    '                   Loadi64, (+2 Overloads) save
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Wasm.TypeInfo
 
-Namespace Symbols
+Namespace Symbols.MemoryObject
 
     ''' <summary>
     ''' WebAssembly Linear Memory Accesses
@@ -78,17 +80,9 @@ Namespace Symbols
         ''' <param name="intptr">内存的位置</param>
         ''' <returns></returns>
         Public Function load(type$, intptr As [Variant](Of Integer, Expression)) As Expression
-            Dim [addressOf] As Expression
-
-            If intptr Like GetType(Integer) Then
-                [addressOf] = Literal.i32(intptr)
-            Else
-                [addressOf] = intptr.TryCast(Of Expression)
-            End If
-
             Return New FuncInvoke With {
                 .[operator] = True,
-                .parameters = {[addressOf]},
+                .parameters = {intptr.[addressOf]()},
                 .refer = New ReferenceSymbol With {
                     .Symbol = $"{type}.load",
                     .Type = SymbolType.Operator
@@ -104,6 +98,15 @@ Namespace Symbols
             Return save(type.typefit, intptr, value)
         End Function
 
+        <Extension>
+        Private Function [addressOf](intptr As [Variant](Of Integer, Expression)) As Expression
+            If intptr Like GetType(Integer) Then
+                Return Literal.i32(intptr)
+            Else
+                Return intptr.TryCast(Of Expression)
+            End If
+        End Function
+
         ''' <summary>
         ''' 将数据写入指定位置的内存之中
         ''' </summary>
@@ -112,17 +115,9 @@ Namespace Symbols
         ''' <param name="value"></param>
         ''' <returns></returns>
         Public Function save(type$, intptr As [Variant](Of Integer, Expression), value As Expression) As Expression
-            Dim [addressOf] As Expression
-
-            If intptr Like GetType(Integer) Then
-                [addressOf] = Literal.i32(intptr)
-            Else
-                [addressOf] = intptr.TryCast(Of Expression)
-            End If
-
             Return New FuncInvoke With {
                 .[operator] = True,
-                .parameters = {[addressOf], value},
+                .parameters = {intptr.[addressOf](), value},
                 .refer = New ReferenceSymbol With {
                     .Symbol = $"{type}.store",
                     .Type = SymbolType.Operator

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b4f149767e5feb6cad0c1e7f8ce2387, Symbols\Parser\Body\BlockParser.vb"
+﻿#Region "Microsoft.VisualBasic::f8d2a15438531c0b832fe12e1d290cce, Symbols\Parser\Body\BlockParser.vb"
 
     ' Author:
     ' 
@@ -53,6 +53,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Blocks
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

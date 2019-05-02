@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1867a4579cf1d5574ef4524ecac707a7, Symbols\DeclaredObject\FuncSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::23401ae8fb5f906e377b6a2e9f0c394a, Symbols\DeclaredObject\FuncSymbol.vb"
 
     ' Author:
     ' 
@@ -54,6 +54,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Compiler.SExpression
+Imports Wasm.Symbols.MemoryObject
+Imports Wasm.TypeInfo
 
 Namespace Symbols
 

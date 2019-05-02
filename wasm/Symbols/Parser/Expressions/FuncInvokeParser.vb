@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::748109a6c5dd7e24cb36a7837caf893e, Symbols\Parser\Expressions\FuncInvokeParser.vb"
+﻿#Region "Microsoft.VisualBasic::1f7992f81d6669cb6bac03c0226057f8, Symbols\Parser\Expressions\FuncInvokeParser.vb"
 
     ' Author:
     ' 
@@ -51,6 +51,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Parser
 

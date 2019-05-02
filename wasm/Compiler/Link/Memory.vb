@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d95fee23fdf62ed3ac6618da6aca08cf, Symbols\Memory\Memory.vb"
+﻿#Region "Microsoft.VisualBasic::95b10d488dd49e0ce20cd5d0e67e789f, Compiler\Link\Memory.vb"
 
     ' Author:
     ' 
@@ -46,8 +46,11 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
+Imports Wasm.Symbols
+Imports Wasm.Symbols.MemoryObject
+Imports Wasm.TypeInfo
 
-Namespace Symbols
+Namespace Compiler
 
     ''' <summary>
     ''' The WebAssembly memory buffer device

@@ -11,7 +11,7 @@
     Function returnArrayTest() As Single()
         Dim x As Double = data(1)
 
-        Return {x, 0, 35, 78345, 34, 534, 53}
+        Return {x, 0, 35, 78345, 34, 534, 53, data.Length}
     End Function
 
     Function readTest() As Single

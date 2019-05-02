@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a605036bd10c9e90c5cfb14605f1524, Symbols\ExportSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::a275c513db154282bf33578d8c9ba3c4, Symbols\Memory\ArrayBlock.vb"
 
     ' Author:
     ' 
@@ -36,53 +36,70 @@
 
     ' Summaries:
 
-    '     Class ExportSymbolExpression
+    '     Class ArrayBlock
     ' 
-    '         Properties: [Module], Name, target, type
+    '         Properties: elements, length, type
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, IndexOffset, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols
+Namespace Symbols.MemoryObject
 
-    Public Class ExportSymbolExpression : Inherits Expression
-        Implements IDeclaredObject
+    Public Class ArrayBlock : Inherits IMemoryObject
+        Implements IEnumerable(Of Expression)
 
         ''' <summary>
-        ''' 在对象进行导出的时候对外的名称
+        ''' ``ArrayOf``, 这个类型不是元素类型，而是一个完整的数组类型的定义 
         ''' </summary>
         ''' <returns></returns>
-        Public Property Name As String Implements IKeyedEntity(Of String).Key
-        ''' <summary>
-        ''' 导出对象的类型，一般为``func``函数类型
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property type As String
-        ''' <summary>
-        ''' 目标对象在模块内部的引用名称
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property target As ReferenceSymbol
-        Public Property [Module] As String Implements IDeclaredObject.Module
-
-        Public Overrides Function ToSExpression() As String
-            Return $"(export ""{target.Module}.{Name}"" ({type} ${target}))"
-        End Function
+        Public Property type As TypeAbstract
+        Public Property length As Integer
+        Public Property elements As Expression()
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            If type = "func" Then
-                Return symbolTable.GetFunctionSymbol(target).result
-            Else
-                Throw New NotImplementedException
-            End If
+            Return type
+        End Function
+
+        ''' <summary>
+        ''' 返回的是内存之中的首位置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToSExpression() As String
+            Return Literal.i32(memoryPtr).ToSExpression
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
+            For Each x As Expression In elements
+                Yield x
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
+        End Function
+
+        ''' <summary>
+        ''' 返回读写数组元素的内存的位置表达式
+        ''' </summary>
+        ''' <param name="array"></param>
+        ''' <param name="offset"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 因为array对象和i32对象之间不方便直接相加，所以在这里单独使用这个函数来计算实际的内存位置
+        ''' </remarks>
+        Public Shared Function IndexOffset(array As Expression, offset As Expression) As Expression
+            Return New FuncInvoke() With {
+                .[operator] = True,
+                .parameters = {array, offset},
+                .refer = i32Add
+            }
         End Function
     End Class
 End Namespace
