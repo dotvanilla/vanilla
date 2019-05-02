@@ -176,16 +176,10 @@ Namespace Symbols.Parser
         <Extension>
         Private Function AssignVariable(symbols As SymbolTable, assign As AssignmentStatementSyntax) As Expression
             Dim var = DirectCast(assign.Left, IdentifierNameSyntax).objectName
-            Dim left As Expression
             Dim right = assign.Right.ValueExpression(symbols)
             Dim typeLeft = symbols.GetUnderlyingType(var)
             Dim op$ = assign.OperatorToken.ValueText
-
-            If symbols.IsLocal(var) Then
-                left = New GetLocalVariable(var)
-            Else
-                left = New GetGlobalVariable(symbols.currentModuleLabel, var)
-            End If
+            Dim left As Expression = symbols.GetObjectReference(var)
 
             Select Case op
                 Case "*="
