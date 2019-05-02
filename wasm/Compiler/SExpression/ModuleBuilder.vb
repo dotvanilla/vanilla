@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
 
-Namespace Compiler
+Namespace Compiler.SExpression
 
     Module ModuleBuilder
 
