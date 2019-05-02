@@ -8,11 +8,18 @@
 
     Declare Function print Lib "console" Alias "log" (x As Double)
 
-    Sub readTest()
+    Function readTest() As Single
+
+        Dim x As Long = data(9999)
+
+
+
         For i As Integer = 0 To data.Length - 1
             print(data(i))
         Next
-    End Sub
+
+        Return x
+    End Function
 
     Sub setValueTest(x As Integer)
 

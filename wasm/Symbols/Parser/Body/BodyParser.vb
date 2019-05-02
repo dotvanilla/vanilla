@@ -140,7 +140,7 @@ Namespace Symbols.Parser
                 ' 然后得到实际的内存中的位置
                 intptr = ArrayBlock.IndexOffset(intptr, offset)
                 ' 最后使用load读取内存数据
-                save = BitConverter.save(ofElement, intptr, right)
+                save = BitConverter.save(ofElement, intptr, CTypeHandle.CType(ofElement, right, symbols))
 
                 Return save
             Else

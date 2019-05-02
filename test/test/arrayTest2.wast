@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/2/2019 11:37:26 AM
+    ;; build: 5/2/2019 11:54:00 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -35,14 +35,17 @@
     ;; export from VB.NET module: [arrayTest2]
     
     (export "arrayTest2.readTest" (func $arrayTest2.readTest))
+    (export "arrayTest2.setValueTest" (func $arrayTest2.setValueTest))
     
      
 
     ;; functions in [arrayTest2]
     
-    (func $arrayTest2.readTest  
-        ;; Public Function readTest() As void
-        (local $i i32)
+    (func $arrayTest2.readTest  (result f32)
+        ;; Public Function readTest() As f32
+        (local $x i64)
+    (local $i i32)
+    (set_local $x (i64.trunc_s/f64 (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (i32.const 9999) (i32.const 8))))))
     (set_local $i (i32.const 0))
     ;; For i As Integer = 0 To data.Length - 1
     
@@ -58,6 +61,13 @@
     
         )
     )
+    (return (f32.convert_s/i64 (get_local $x)))
+    )
+    (func $arrayTest2.setValueTest (param $x i32) 
+        ;; Public Function setValueTest(x As i32) As void
+        
+    (f64.store (i32.add (get_global $arrayTest2.data) (i32.mul (i32.add (get_local $x) (i32.const 1)) (i32.const 8))) (f64.convert_s/i32 (i32.mul (get_local $x) (i32.const 2))))
+    (call $arrayTest2.print (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (i32.mul (get_local $x) (i32.const 99)) (i32.const 8)))))
     )
     
 
