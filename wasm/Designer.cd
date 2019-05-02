@@ -1,0 +1,560 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Wasm.Compiler.ModuleOf" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="57.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Link\ModuleOf.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Wasm.Compiler.SymbolTable" Collapsed="true">
+    <Position X="56" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\Link\SymbolTable.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Compiler.wat2wasm" Collapsed="true">
+    <Position X="61.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Compiler\wat2wasm.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.My.MySettings" Collapsed="true">
+    <Position X="59.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.BooleanSymbol" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Symbols\Blocks\BooleanSymbol.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.IfBlock" Collapsed="true">
+    <Position X="34.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAADAAABAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Blocks\If.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.AbstractBlock" Collapsed="true">
+    <Position X="35.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Blocks\Loop.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.Block" Collapsed="true">
+    <Position X="36.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Symbols\Blocks\Loop.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.[Loop]" Collapsed="true">
+    <Position X="36.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAACAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Symbols\Blocks\Loop.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.br" Collapsed="true">
+    <Position X="47.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAACAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Blocks\Loop.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.br_if" Collapsed="true">
+    <Position X="47.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAABAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Blocks\Loop.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Blocks.drop" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAACAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Blocks\Loop.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.FuncSymbol" Collapsed="true">
+    <Position X="14" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAABACCAAABAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Symbols\DeclaredObject\FuncSymbol.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.DeclareGlobal" Collapsed="true">
+    <Position X="29.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAGAAAAAAACAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\DeclaredObject\GlobalVariable.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.ImportSymbol" Collapsed="true">
+    <Position X="16.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAABEAAAQACCAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Symbols\DeclaredObject\ImportSymbol.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.EnumSymbol" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="52.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAACACEAAAAAAQAAAABAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Symbols\EnumSymbol.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Wasm.Symbols.ExportSymbolExpression" Collapsed="true">
+    <Position X="43.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAADAIAAAAASAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\ExportSymbol.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.Expression" Collapsed="true">
+    <Position X="25.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAhEAAACAACAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Symbols\Expression.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.FuncInvoke" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAABAAAAAACCAAABQQAAAAAAAAACAQAA=</HashCode>
+      <FileName>Symbols\FuncInvoke.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.DelegateSymbol" Collapsed="true">
+    <Position X="11.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\FunctionSymbol\DelegateSymbol.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.FuncSignature" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAADEBAAAAASAQAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Symbols\FunctionSymbol\FuncSignature.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.ArraySymbol" Collapsed="true">
+    <Position X="23" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQBAAAAAAACEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Memory\ArraySymbol.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.AbstractArray" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Memory\ArraySymbol.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Array" Collapsed="true">
+    <Position X="25.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAIAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Memory\ArraySymbol.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.ArrayTable" Collapsed="true">
+    <Position X="27.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAEAACAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Memory\ArraySymbol.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.Memory" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="56" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAABAAIAAAAIAAAAAAAAAEAABAAAAAAAA=</HashCode>
+      <FileName>Symbols\Memory\Memory.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Wasm.Symbols.StringSymbol" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAgAAgAADAAAAAAAAAAAAAAAAIAEA=</HashCode>
+      <FileName>Symbols\Memory\StringSymbol.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.ArrayBlock" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACBBAAEAAAACAAAABgAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Memory\StringSymbol.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.ModuleSymbol" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAACQAABhAABAAAAKAAAAAAEACAgAACAAAAAA=</HashCode>
+      <FileName>Symbols\ModuleSymbol.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.ReferenceSymbol" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="54.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Symbols\ReferenceSymbol.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Wasm.Symbols.Start" Collapsed="true">
+    <Position X="14" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Start.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.CommentText" Collapsed="true">
+    <Position X="41" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.LiteralExpression" Collapsed="true">
+    <Position X="45.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABBAAAACAACAAAABACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.GetLocalVariable" Collapsed="true">
+    <Position X="50" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAABAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.SetLocalVariable" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAABAAAAAAACAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.GetGlobalVariable" Collapsed="true">
+    <Position X="50" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAgACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.SetGlobalVariable" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAgACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.DeclareLocal" Collapsed="true">
+    <Position X="32" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.DeclareVariable" Collapsed="true">
+    <Position X="30.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAABAAAAAAAAAAAAFAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Wasm.Symbols.Parenthesized" Collapsed="true">
+    <Position X="38.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAIAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.ReturnValue" Collapsed="true">
+    <Position X="38.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Symbols.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.Symbols.JavaScriptImports.NamespaceDoc" Collapsed="true">
+    <Position X="61.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\DeclaredObject\JavaScriptImports\NamespaceDoc.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.TypeInfo.Literal" Collapsed="true">
+    <Position X="54.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAABAgAAAAAAgQ=</HashCode>
+      <FileName>Type\Literal.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.TypeInfo.RawType" Collapsed="true">
+    <Position X="52.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Type\Models\RawType.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.TypeInfo.TypeAbstract" Collapsed="true">
+    <Position X="57.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAQgIAACCAABEAAAAAAgAAAIJAABABAgAAAAACgQ=</HashCode>
+      <FileName>Type\Models\TypeAbstract.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wasm.TypeInfo.TypeEquality" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="59.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgIAAAAgAAAAAAIAAAAAACAAAAAA=</HashCode>
+      <FileName>Type\TypeEquality.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Wasm.Symbols.IDeclaredObject" Collapsed="true">
+    <Position X="52.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\DeclaredObject\IDeclaredObject.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Wasm.Symbols.SymbolType" Collapsed="true">
+    <Position X="52.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQACAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAgAAA=</HashCode>
+      <FileName>Symbols\ReferenceSymbol.vb</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Wasm.TypeInfo.TypeAlias" Collapsed="true">
+    <Position X="54.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAiAAgAAAAABAAAggAAAAAAAAAIAABAgAAAAAAgQ=</HashCode>
+      <FileName>Type\Models\TypeAlias.vb</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Module Name="Wasm.Compiler.FindSymbols" Collapsed="true">
+    <Position X="59.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgBAAAAAAgABAAABAAAAECAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Compiler\Link\FindSymbols.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Compiler.Wabt" Collapsed="true">
+    <Position X="61.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BQAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAQAAEA=</HashCode>
+      <FileName>Compiler\Wabt.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Compiler.SExpression.Extensions" Collapsed="true">
+    <Position X="56" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Compiler\SExpression\Extensions.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Compiler.SExpression.ModuleBuilder" Collapsed="true">
+    <Position X="57.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Compiler\SExpression\ModuleBuilder.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.DeclareHelpers" Collapsed="true">
+    <Position X="61.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAACAAAIAAAAAA=</HashCode>
+      <FileName>DeclareHelpers.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Extensions" Collapsed="true">
+    <Position X="57.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAQIAAAQQAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Extensions.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.My.Resources.Resources" Collapsed="true">
+    <Position X="54.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAACAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.My.MySettingsProperty" Collapsed="true">
+    <Position X="61.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.BitConverter" Collapsed="true">
+    <Position X="52.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAICAAAAAAAAAAAAAAAAAAAQDAAAgCAAAAAA=</HashCode>
+      <FileName>Symbols\Memory\BitConverter.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.JavaScriptImports.Array" Collapsed="true">
+    <Position X="54.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIABAAAgAABAAACAAAAAAAgCAAAACEA=</HashCode>
+      <FileName>Symbols\DeclaredObject\JavaScriptImports\ArrayList.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.JavaScriptImports.Dictionary" Collapsed="true">
+    <Position X="52.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAgAAAAAgAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\DeclaredObject\JavaScriptImports\Dictionary.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.JavaScriptImports.Math" Collapsed="true">
+    <Position X="54.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\DeclaredObject\JavaScriptImports\Math.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.JavaScriptImports.[String]" Collapsed="true">
+    <Position X="52.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAgAAEAAAgAABAAAAAAQAAAAAAAAAAACA=</HashCode>
+      <FileName>Symbols\DeclaredObject\JavaScriptImports\String.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.AsTypeHandler" Collapsed="true">
+    <Position X="57.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAgIIACAAAAAA=</HashCode>
+      <FileName>Symbols\Parser\AsTypeHandler.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.AttributeParser" Collapsed="true">
+    <Position X="59.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Parser\AttributeParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.BlockParser" Collapsed="true">
+    <Position X="54.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IoAAIAAAAAAAAAAAgAQAAAABAAACAAACgAAAAAgAAAA=</HashCode>
+      <FileName>Symbols\Parser\Body\BlockParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.BodyParser" Collapsed="true">
+    <Position X="56" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAADBAAAAAAAAAAAAIABACAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Parser\Body\BodyParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.DeclaratorParser" Collapsed="true">
+    <Position X="59.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAABAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Symbols\Parser\Body\DeclaratorParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.ArrayExpressionParser" Collapsed="true">
+    <Position X="56" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAAAAAAAAAEAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Parser\Expressions\ArrayExpressionParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.BinaryOperatorParser" Collapsed="true">
+    <Position X="61.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Symbols\Parser\Expressions\BinaryOperatorParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.ExpressionParser" Collapsed="true">
+    <Position X="54.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAAAAAAAoAEEAAAAAAAAAAgAAAAAAAAAIwAAA=</HashCode>
+      <FileName>Symbols\Parser\Expressions\ExpressionParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.FuncInvokeParser" Collapsed="true">
+    <Position X="61.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAYABAAAAAAAAAAAAAAAIAAAAIAQAAA=</HashCode>
+      <FileName>Symbols\Parser\Expressions\FuncInvokeParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.MemberCallsParser" Collapsed="true">
+    <Position X="56" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAQAACAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Symbols\Parser\Expressions\MemberCallsParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.ObjectCreatorParser" Collapsed="true">
+    <Position X="52.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAgAAgAAAAAAQCAAAAA=</HashCode>
+      <FileName>Symbols\Parser\Expressions\ObjectCreatorParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.FunctionParser" Collapsed="true">
+    <Position X="52.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABAAAAAAAAIAAAAAAAAABAAAABAAAAIA=</HashCode>
+      <FileName>Symbols\Parser\FunctionParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.ModuleParser" Collapsed="true">
+    <Position X="59.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAQAAAAgAEAAAAAIAAAACAACAAgAgAABAAAA=</HashCode>
+      <FileName>Symbols\Parser\ModuleParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.Symbols.Parser.StringParser" Collapsed="true">
+    <Position X="56" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAgABAAAAAAAAACAAAAAAAIAAAgAAA=</HashCode>
+      <FileName>Symbols\Parser\StringParser.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.TypeInfo.CTypeHandle" Collapsed="true">
+    <Position X="57.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAEAAEABBBAAAAAABEAIAI=</HashCode>
+      <FileName>Type\CTypeHandle.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.TypeInfo.TypeExtensions" Collapsed="true">
+    <Position X="57.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQACAAAAJQAiAAAAQgAAAAAAgQAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Type\TypeExtensions.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="Wasm.TypeInfo.Types" Collapsed="true">
+    <Position X="59.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAgAAAAQAACABgAAAAIAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Type\Types.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
