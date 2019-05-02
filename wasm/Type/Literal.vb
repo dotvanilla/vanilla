@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2cc10dc0ab8c9affc236de447d5042c, Type\Literal.vb"
+﻿#Region "Microsoft.VisualBasic::51999ebc14f6304166914d8d00057341, Type\Literal.vb"
 
     ' Author:
     ' 
@@ -36,10 +36,11 @@
 
     ' Summaries:
 
-    ' Class Literal
+    '     Class Literal
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: bool, f32, f64, i32, i64
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: bool, f32, f64, i32, i64
+    ' 
     ' 
     ' /********************************************************************************/
 

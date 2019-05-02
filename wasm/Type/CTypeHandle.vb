@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a64f545220c5d9cfdc52e4a27c80d4fb, Type\CTypeHandle.vb"
+﻿#Region "Microsoft.VisualBasic::f7bffbeb627f7815f55cbbd157e4a5a6, Type\CTypeHandle.vb"
 
     ' Author:
     ' 
@@ -36,11 +36,12 @@
 
     ' Summaries:
 
-    ' Module CTypeHandle
+    '     Module CTypeHandle
     ' 
-    '     Function: [CBool], [CDbl], [CInt], [CLng], [CSng]
-    '               [CType], CastArray, CTypeInvoke, DefaultOf, EqualOfType
-    '               IsDirectCastCapable, (+2 Overloads) typefit
+    '         Function: [CBool], [CDbl], [CInt], [CLng], [CSng]
+    '                   [CType], CastArray, CTypeInvoke, DefaultOf, EqualOfType
+    '                   IsDirectCastCapable, (+2 Overloads) typefit
+    ' 
     ' 
     ' /********************************************************************************/
 

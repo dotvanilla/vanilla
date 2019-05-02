@@ -1,48 +1,48 @@
-﻿#Region "Microsoft.VisualBasic::76fcd960086a401c5b254848bb3e75b8, Symbols\Parser\Expressions\ExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::fba7783de2dec26d58cd8943f95b4c95, Symbols\Parser\Expressions\ExpressionParser.vb"
 
-' Author:
-' 
-'       xieguigang (I@xieguigang.me)
-'       asuka (evia@lilithaf.me)
-'       wasm project (developer@vanillavb.app)
-' 
-' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-' 
-' 
-' MIT License
-' 
-' 
-' Permission is hereby granted, free of charge, to any person obtaining a copy
-' of this software and associated documentation files (the "Software"), to deal
-' in the Software without restriction, including without limitation the rights
-' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-' copies of the Software, and to permit persons to whom the Software is
-' furnished to do so, subject to the following conditions:
-' 
-' The above copyright notice and this permission notice shall be included in all
-' copies or substantial portions of the Software.
-' 
-' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-' SOFTWARE.
+    ' Author:
+    ' 
+    '       xieguigang (I@xieguigang.me)
+    '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
+    ' 
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+    ' 
+    ' 
+    ' MIT License
+    ' 
+    ' 
+    ' Permission is hereby granted, free of charge, to any person obtaining a copy
+    ' of this software and associated documentation files (the "Software"), to deal
+    ' in the Software without restriction, including without limitation the rights
+    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    ' copies of the Software, and to permit persons to whom the Software is
+    ' furnished to do so, subject to the following conditions:
+    ' 
+    ' The above copyright notice and this permission notice shall be included in all
+    ' copies or substantial portions of the Software.
+    ' 
+    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    ' SOFTWARE.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module ExpressionParser
-' 
-'         Function: [TryCast], ConstantExpression, CreateArray, ParenthesizedStack, ReferVariable
-'                   StringConstant, UnaryExpression, UnaryValue, ValueCType, ValueExpression
-' 
-' 
-' /********************************************************************************/
+    '     Module ExpressionParser
+    ' 
+    '         Function: [TryCast], ConstantExpression, CreateArray, ParenthesizedStack, ReferVariable
+    '                   StringConstant, UnaryExpression, UnaryValue, ValueCType, ValueExpression
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
