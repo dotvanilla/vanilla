@@ -58,11 +58,12 @@ Namespace Symbols.Parser
         <Extension>
         Public Function AsNewObject(newObj As NewExpressionSyntax, ByRef type As TypeAbstract, symbols As SymbolTable) As Expression
             Dim objNew = DirectCast(newObj, ObjectCreationExpressionSyntax).Initializer
-            Dim objType = DirectCast(newObj, ObjectCreationExpressionSyntax).Type
+            Dim objType As RawType = DirectCast(newObj, ObjectCreationExpressionSyntax).Type.GetType(symbols)
 
             If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
                 Return DirectCast(objNew, ObjectCollectionInitializerSyntax).CreateCollection(type, symbols)
             Else
+                ' 创建用户自定义类型的对象实例
                 Throw New NotImplementedException
             End If
         End Function
