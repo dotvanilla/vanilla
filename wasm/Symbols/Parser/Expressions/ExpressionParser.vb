@@ -119,7 +119,7 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function CreateArray(newArray As CollectionInitializerSyntax, symbols As SymbolTable) As Expression
+        Public Function CreateArray(newArray As CollectionInitializerSyntax, symbols As SymbolTable) As ArraySymbol
             Dim elements = newArray.Initializers _
                 .Select(Function(value)
                             Return value.ValueExpression(symbols)

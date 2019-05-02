@@ -95,7 +95,7 @@ Namespace Symbols.Parser
 
             If returnType = TypeAlias.array AndAlso TypeOf value Is ArraySymbol Then
                 ' 需要在这里生成写入数组元素对象到内存之中的表达式
-
+                value = DirectCast(value, ArraySymbol).writeArray(symbols, returnType)
             Else
                 value = CTypeHandle.CType(returnType, value, symbols)
             End If

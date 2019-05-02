@@ -63,21 +63,9 @@ Namespace Symbols.Parser
             ' Call symbols.doArrayImports(arrayType)
 
             If newArray.ArrayBounds Is Nothing Then
-                Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
-                Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(arrayType.generic(Scan0), array.Initialize.Length)
-                Dim save As New List(Of Expression)
-                Dim size As Integer = sizeOf(arrayType.generic(Scan0))
-                Dim byteType$ = array.type.typefit
-                Dim intptr As Integer = arrayBlock.memoryPtr
-
-                For Each element In array.Initialize
-                    save += BitConverter.save(byteType, intptr, element)
-                    intptr += size
-                Next
-
-                arrayBlock.elements = save
-
-                Return arrayBlock
+                Return newArray.Initializer _
+                    .CreateArray(symbols) _
+                    .writeArray(symbols, arrayType)
             Else
                 Dim bounds As Expression = newArray.ArrayBounds _
                     .Arguments _
@@ -90,6 +78,25 @@ Namespace Symbols.Parser
                     .type = arrayType
                 }
             End If
+        End Function
+
+        <Extension>
+        Friend Function writeArray(array As ArraySymbol, symbols As SymbolTable, arrayType As TypeAbstract) As Expression
+            Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
+            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, array.Initialize.Length)
+            Dim save As New List(Of Expression)
+            Dim size As Integer = sizeOf(ofElement)
+            Dim byteType$ = array.type.typefit
+            Dim intptr As Integer = arrayBlock.memoryPtr
+
+            For Each element In array.Initialize
+                save += BitConverter.save(byteType, intptr, element)
+                intptr += size
+            Next
+
+            arrayBlock.elements = save
+
+            Return arrayBlock
         End Function
 
         ''' <summary>
