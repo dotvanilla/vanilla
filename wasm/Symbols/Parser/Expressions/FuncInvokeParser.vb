@@ -79,19 +79,21 @@ Namespace Symbols.Parser
                     funcName = DirectCast(reference, IdentifierNameSyntax).objectName
 
                     If symbols.IsAnyObject(funcName) Then
-                        Dim target = symbols.GetObjectSymbol(funcName)
+                        Dim target = symbols.GetObjectReference(funcName)
+                        Dim targetType As TypeAbstract = symbols.GetUnderlyingType(funcName)
 
-                        If target.type = GetType(DictionaryBase).FullName Then
-                            Dim key As Expression = invoke.ArgumentList.FirstArgument(symbols, "key".param("i32"))
+                        If targetType = TypeAlias.table Then
+                            Dim key As Expression = invoke _
+                                .ArgumentList _
+                                .FirstArgument(symbols, "key".param("i32"))
 
-                            Return New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
-                                .parameters = {
-                                    New GetLocalVariable(target.name),
-                                    key
-                                }
-                            }
+                            Return JavaScriptImports.Dictionary.GetValue.FunctionInvoke({target, key})
+                        ElseIf targetType = TypeAlias.array OrElse targetType = TypeAlias.list Then
+                            ' 数组或者列表的索引语法
+                            Return symbols.arrayListIndexer(target, invoke.ArgumentList, targetType)
                         Else
-                            ' do nothing
+                            ' 对象的索引语法 
+                            Throw New NotImplementedException
                         End If
                     End If
                 Case GetType(MemberAccessExpressionSyntax)
@@ -113,14 +115,7 @@ Namespace Symbols.Parser
                     Dim accType As TypeAbstract = acc.TypeInfer(symbols)
 
                     If accType = "i32" Then
-                        Dim index As Expression = invoke.ArgumentList.FirstArgument(symbols, "index".param("i32"))
-                        ' 返回的是一个对象引用
-                        ' 在这里假设是一个数组
-                        Return New FuncInvoke(JavaScriptImports.Array.GetArrayElement(accType)) With {
-                            .parameters = {
-                                acc, index
-                            }
-                        }
+                        Return symbols.arrayListIndexer(acc, invoke.ArgumentList, accType)
                     Else
                         Throw New NotImplementedException
                     End If
@@ -129,6 +124,44 @@ Namespace Symbols.Parser
             End Select
 
             Return symbols.InvokeFunction(funcName, invoke.ArgumentList)
+        End Function
+
+        ''' <summary>
+        ''' array和list都是统一使用数字索引来获取元素值的
+        ''' </summary>
+        ''' <param name="symbols"></param>
+        ''' <param name="target"></param>
+        ''' <param name="targetType"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function arrayListIndexer(symbols As SymbolTable, target As Expression, args As ArgumentListSyntax, targetType As TypeAbstract) As Expression
+            Dim ofElement As TypeAbstract = targetType.generic(Scan0)
+            ' 数组或者列表的数字索引
+            Dim index As Expression = args.FirstArgument(symbols, "index".param("i32"))
+
+            If targetType = TypeAlias.array Then
+                ' 从webassembly内存之中读取数据
+                ' 对于数组对象而言，其值是一个内存区块的起始位置来的
+                Dim intptr As Expression = target
+                ' 然后位置的偏移量则是index索引，乘上元素的大小
+                Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
+                Dim read As Expression
+
+                ' 然后得到实际的内存中的位置
+                intptr = ArrayBlock.IndexOffset(intptr, offset)
+                ' 最后使用load读取内存数据
+                read = BitConverter.load(ofElement, intptr)
+
+                Return read
+            Else
+                ' 从javascript内存之中读取数据
+
+                ' 返回的是一个对象引用
+                ' 在这里假设是一个数组
+                Return JavaScriptImports.Array _
+                    .GetArrayElement(ofElement) _
+                    .FunctionInvoke({target, index})
+            End If
         End Function
 
         ''' <summary>

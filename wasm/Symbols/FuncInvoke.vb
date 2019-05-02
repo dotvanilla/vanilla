@@ -170,6 +170,9 @@ Namespace Symbols
             If refer Like TypeExtensions.Comparison Then
                 ' WebAssembly comparison operator produce integer value
                 Return New TypeAbstract(TypeAlias.i32)
+            ElseIf refer.Split("."c).Last = "store" Then
+                ' 写内存操作符没有返回值
+                Return TypeAbstract.void
             Else
                 Return New TypeAbstract(refer.Split("."c).First)
             End If

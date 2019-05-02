@@ -98,9 +98,7 @@ Public Class TypeAbstract
 
     Public ReadOnly Property iscollection As Boolean
         Get
-            Return type = TypeAlias.array OrElse
-                type = TypeAlias.list OrElse
-                type = TypeAlias.table
+            Return type = TypeAlias.list OrElse type = TypeAlias.table
         End Get
     End Property
 

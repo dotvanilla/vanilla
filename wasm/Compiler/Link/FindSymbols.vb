@@ -166,8 +166,10 @@ Namespace Compiler
         Public Function FindTypeMethod(symbols As SymbolTable, context As TypeAbstract, name$) As FuncSignature
             If context.type = TypeAlias.string Then
                 Return symbols.handleStringMethods(name)
-            ElseIf context.type = TypeAlias.array OrElse context.type = TypeAlias.list Then
+            ElseIf context.type = TypeAlias.list OrElse context.type = TypeAlias.array Then
                 Return symbols.handleArrayListMethods(name, context)
+            ElseIf context.type = TypeAlias.table Then
+                Return symbols.handleTableMethods(name, context)
             End If
 
             ' 接着按照类型查找函数
@@ -250,7 +252,7 @@ Namespace Compiler
         End Function
 
         <Extension>
-        Private Function handleTableMethods(symbols As SymbolTable, name As String) As FuncSignature
+        Private Function handleTableMethods(symbols As SymbolTable, name As String, typeContext As TypeAbstract) As FuncSignature
             Dim Api As ImportSymbol = JavaScriptImports.Dictionary.Method(name)
             Call symbols.addRequired(Api)
             Return Api

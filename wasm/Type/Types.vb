@@ -66,6 +66,23 @@ Public Module Types
         TypeAlias.i64
     }
 
+    Public Function sizeOf(type As TypeAbstract) As Integer
+        Return sizeOf(type.type)
+    End Function
+
+    Public Function sizeOf(type As TypeAlias) As Integer
+        Select Case type
+            Case TypeAlias.any, TypeAlias.array, TypeAlias.intptr, TypeAlias.list, TypeAlias.string, TypeAlias.table
+                Return 4
+            Case TypeAlias.f32, TypeAlias.i32, TypeAlias.boolean
+                Return 4
+            Case TypeAlias.f64, TypeAlias.i64
+                Return 8
+            Case Else
+                Throw New NotImplementedException(type.Description)
+        End Select
+    End Function
+
     Public Function ParseAliasName(fullName As String) As TypeAlias
         Select Case fullName
             Case "i32", "System.Int32", "Integer"

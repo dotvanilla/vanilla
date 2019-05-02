@@ -51,14 +51,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Parser
 
 Namespace Symbols.JavaScriptImports
 
     ''' <summary>
-    ''' The javascript array api
+    ''' The javascript array list api
     ''' </summary>
     Public Module Array
 
@@ -74,9 +73,9 @@ Namespace Symbols.JavaScriptImports
                     .Name = $"{ofElement.type}_array.push",
                     .[Module] = "array",
                     .Package = NameOf(Array),
-                    .result = New TypeAbstract(TypeAlias.array),
+                    .result = New TypeAbstract(TypeAlias.list),
                     .parameters = {
-                        "array".param(TypeAlias.array),
+                        "array".param(TypeAlias.list),
                         "element".param(New TypeAbstract(ofElement))
                     }
                 }
@@ -93,7 +92,7 @@ Namespace Symbols.JavaScriptImports
                     .Package = NameOf(Array),
                     .result = New TypeAbstract(ofElement.type),
                     .parameters = {
-                        "array".param(TypeAlias.array)
+                        "array".param(TypeAlias.list)
                     }
                 }
             End Get
@@ -109,7 +108,7 @@ Namespace Symbols.JavaScriptImports
             .[Module] = "array",
             .Name = "array.new",
             .Package = NameOf(Array),
-            .result = New TypeAbstract(TypeAlias.array),
+            .result = New TypeAbstract(TypeAlias.list),
             .parameters = {
                 "size".param("i32")
             }
@@ -125,14 +124,14 @@ Namespace Symbols.JavaScriptImports
                     .Package = NameOf(Array),
                     .result = New TypeAbstract(ofElement),
                     .parameters = {
-                        "array".param(TypeAlias.array),
+                        "array".param(TypeAlias.list),
                         "index".param("i32")
                     }
                 }
             End Get
         End Property
 
-        Public ReadOnly Property SetArrayElement(ofElement As TypeAbstract) As ImportSymbol
+        Public ReadOnly Property SetElement(ofElement As TypeAbstract) As ImportSymbol
             Get
                 Return New ImportSymbol With {
                     .ImportObject = "set",
@@ -142,7 +141,7 @@ Namespace Symbols.JavaScriptImports
                     .Package = NameOf(Array),
                     .result = New TypeAbstract("void"),
                     .parameters = {
-                        "array".param(TypeAlias.array),
+                        "array".param(TypeAlias.list),
                         "index".param("i32"),
                         "value".param(New TypeAbstract(ofElement))
                     }
@@ -158,7 +157,7 @@ Namespace Symbols.JavaScriptImports
             .Package = NameOf(Array),
             .result = TypeAbstract.i32,
             .parameters = {
-                 "array".param(TypeAlias.array)
+                 "array".param(TypeAlias.list)
             }
         }
 
@@ -190,7 +189,7 @@ Namespace Symbols.JavaScriptImports
             Call symbols.addRequired(JavaScriptImports.NewArray)
             Call symbols.addRequired(JavaScriptImports.Push(ofElement))
             Call symbols.addRequired(JavaScriptImports.GetArrayElement(ofElement))
-            Call symbols.addRequired(JavaScriptImports.SetArrayElement(ofElement))
+            Call symbols.addRequired(JavaScriptImports.SetElement(ofElement))
             Call symbols.addRequired(Array.Length)
         End Sub
     End Module

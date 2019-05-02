@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::3ca25f4c4ecb8334a0a47d97c33c1e62, Symbols\Parser\Body\BodyParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BodyParser
-    ' 
-    '         Function: AssignVariable, (+2 Overloads) FirstArgument, LocalDeclare, ParseExpression, ValueAssign
-    '                   ValueReturn
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BodyParser
+' 
+'         Function: AssignVariable, (+2 Overloads) FirstArgument, LocalDeclare, ParseExpression, ValueAssign
+'                   ValueReturn
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -114,6 +114,42 @@ Namespace Symbols.Parser
             Return args.First.Argument(symbols, define)
         End Function
 
+        ''' <summary>
+        ''' 对列表或者数组的某一个元素进行赋值操作
+        ''' </summary>
+        ''' <param name="left"></param>
+        ''' <param name="right"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function setArrayListElement(left As InvocationExpressionSyntax, right As Expression, symbols As SymbolTable) As Expression
+            Dim arrayName = DirectCast(left.Expression, IdentifierNameSyntax).objectName
+            Dim index As Expression = left.ArgumentList.FirstArgument(symbols, "a".param("i32"))
+            Dim arraySymbol = symbols.GetObjectReference(arrayName)
+            Dim arrayType As TypeAbstract = arraySymbol.TypeInfer(symbols)
+            Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
+
+            If arrayType = TypeAlias.array Then
+                ' 从webassembly内存之中读取数据
+                ' 对于数组对象而言，其值是一个内存区块的起始位置来的
+                Dim intptr As Expression = arraySymbol
+                ' 然后位置的偏移量则是index索引，乘上元素的大小
+                Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
+                Dim save As Expression
+
+                ' 然后得到实际的内存中的位置
+                intptr = ArrayBlock.IndexOffset(intptr, offset)
+                ' 最后使用load读取内存数据
+                save = BitConverter.save(ofElement, intptr, CTypeHandle.CType(ofElement, right, symbols))
+
+                Return save
+            Else
+                Return JavaScriptImports _
+                    .SetElement(ofElement) _
+                    .FunctionInvoke({arraySymbol, index, right})
+            End If
+        End Function
+
         <Extension>
         Public Function ValueAssign(assign As AssignmentStatementSyntax, symbols As SymbolTable) As Expression
             If TypeOf assign.Left Is IdentifierNameSyntax Then
@@ -122,18 +158,8 @@ Namespace Symbols.Parser
                 ' 对数组的赋值操作
                 Dim left = DirectCast(assign.Left, InvocationExpressionSyntax)
                 Dim right = assign.Right.ValueExpression(symbols)
-                Dim arrayName = DirectCast(left.Expression, IdentifierNameSyntax).objectName
-                Dim index As Expression = left.ArgumentList.FirstArgument(symbols, "a".param("i32"))
-                Dim arraySymbol As New GetLocalVariable With {
-                    .var = arrayName
-                }
-                Dim arrayType As TypeAbstract = arraySymbol.TypeInfer(symbols)
 
-                Return New FuncInvoke(JavaScriptImports.SetArrayElement(arrayType)) With {
-                    .parameters = {
-                        arraySymbol, index, right
-                    }
-                }
+                Return left.setArrayListElement(right, symbols)
             ElseIf TypeOf assign.Left Is MemberAccessExpressionSyntax Then
                 Dim left = DirectCast(assign.Left, MemberAccessExpressionSyntax)
                 Dim right = assign.Right.ValueExpression(symbols)
@@ -176,16 +202,10 @@ Namespace Symbols.Parser
         <Extension>
         Private Function AssignVariable(symbols As SymbolTable, assign As AssignmentStatementSyntax) As Expression
             Dim var = DirectCast(assign.Left, IdentifierNameSyntax).objectName
-            Dim left As Expression
             Dim right = assign.Right.ValueExpression(symbols)
             Dim typeLeft = symbols.GetUnderlyingType(var)
             Dim op$ = assign.OperatorToken.ValueText
-
-            If symbols.IsLocal(var) Then
-                left = New GetLocalVariable(var)
-            Else
-                left = New GetGlobalVariable(symbols.currentModuleLabel, var)
-            End If
+            Dim left As Expression = symbols.GetObjectReference(var)
 
             Select Case op
                 Case "*="

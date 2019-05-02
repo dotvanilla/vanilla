@@ -76,6 +76,32 @@ Namespace Symbols
             Return buffer.MemoryPtr
         End Function
 
+        ''' <summary>
+        ''' 为数组分配内存位置，然后返回数组在内存之中的起始位置
+        ''' </summary>
+        ''' <param name="ofElement"></param>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
+        Public Function AllocateArrayBlock(ofElement As TypeAbstract, size As Integer) As ArrayBlock
+            Dim array As New ArrayBlock With {
+                .length = size,
+                .type = ofElement.MakeArrayType,
+                .memoryPtr = offset
+            }
+
+            If ofElement.type = TypeAlias.f64 OrElse ofElement.type = TypeAlias.i64 Then
+                ' 8 bytes
+                ' zero terminated
+                Me.offset += 8 * size + 1
+            Else
+                ' other elements(f32/i32) and intptr(i32) type, 4 bytes
+                ' zero terminated
+                Me.offset += 4 * size + 1
+            End If
+
+            Return array
+        End Function
+
         Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
             For Each data As Expression In buffer
                 Yield data

@@ -112,6 +112,13 @@ Namespace Symbols
 
         Public Property text As String
 
+        Sub New()
+        End Sub
+
+        Sub New([rem] As String)
+            text = [rem]
+        End Sub
+
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract(TypeAlias.void)
         End Function
@@ -119,6 +126,10 @@ Namespace Symbols
         Public Overrides Function ToSExpression() As String
             Return ";; " & text
         End Function
+
+        Public Shared Narrowing Operator CType([rem] As CommentText) As String
+            Return [rem].ToSExpression
+        End Operator
     End Class
 
     ''' <summary>
