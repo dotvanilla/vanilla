@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::427a02c536beb6c4914b7095031b1b9d, Symbols\Memory\ArrayBlock.vb"
+﻿#Region "Microsoft.VisualBasic::a275c513db154282bf33578d8c9ba3c4, Symbols\Memory\ArrayBlock.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class ArrayBlock
     ' 
-    '         Properties: elements, length, memoryPtr, type
+    '         Properties: elements, length, type
     ' 
     '         Function: GetEnumerator, IEnumerable_GetEnumerator, IndexOffset, ToSExpression, TypeInfer
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d37f50ba5111b1ae51750ba755913ec, Symbols\Memory\UserObject.vb"
+﻿#Region "Microsoft.VisualBasic::e428ce89e8cf6b5c7d478351bf3185af, Symbols\Memory\UserObject.vb"
 
     ' Author:
     ' 
@@ -38,6 +38,8 @@
 
     '     Class UserObject
     ' 
+    '         Properties: UnderlyingType
+    ' 
     '         Function: ToSExpression, TypeInfer
     ' 
     ' 
@@ -51,6 +53,7 @@ Imports Wasm.TypeInfo
 Namespace Symbols.MemoryObject
 
     ''' <summary>
+    ''' The user object abstract model.
     ''' 一个用户自定义类型的实例对象
     ''' </summary>
     Public Class UserObject : Inherits IMemoryObject
