@@ -53,14 +53,16 @@ Namespace Symbols.MemoryObject
     ''' <summary>
     ''' 一个用户自定义类型的实例对象
     ''' </summary>
-    Public Class UserObject : Inherits Expression
+    Public Class UserObject : Inherits IMemoryObject
+
+        Public Property UnderlyingType As TypeAbstract
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Throw New NotImplementedException()
+            Return UnderlyingType
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Throw New NotImplementedException()
+            Return Me.AddressOf.ToSExpression
         End Function
     End Class
 End Namespace

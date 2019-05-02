@@ -52,11 +52,14 @@ Imports Wasm.TypeInfo
 
 Namespace Symbols.MemoryObject
 
-    Public Class ArrayBlock : Inherits Expression
+    Public Class ArrayBlock : Inherits IMemoryObject
         Implements IEnumerable(Of Expression)
 
+        ''' <summary>
+        ''' ``ArrayOf``, 这个类型不是元素类型，而是一个完整的数组类型的定义 
+        ''' </summary>
+        ''' <returns></returns>
         Public Property type As TypeAbstract
-        Public Property memoryPtr As Integer
         Public Property length As Integer
         Public Property elements As Expression()
 

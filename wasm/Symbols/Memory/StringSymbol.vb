@@ -55,10 +55,9 @@ Namespace Symbols.MemoryObject
     ''' <summary>
     ''' 因为wasm不支持字符串，但是支持内存对象，所以字符串使用的是一个i32类型的内存地址来表示
     ''' </summary>
-    Public Class StringSymbol : Inherits Expression
+    Public Class StringSymbol : Inherits IMemoryObject
 
         Public Property [string] As String
-        Public Property MemoryPtr As Integer
 
         Public ReadOnly Property Length As Integer
             Get
@@ -68,10 +67,6 @@ Namespace Symbols.MemoryObject
 
         Public Function SizeOf() As Expression
             Return New LiteralExpression With {.type = TypeAbstract.i32, .value = Length}
-        End Function
-
-        Public Function [AddressOf]() As Expression
-            Return New LiteralExpression With {.type = TypeAbstract.i32, .value = MemoryPtr}
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
