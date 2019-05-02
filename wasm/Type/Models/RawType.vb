@@ -101,7 +101,7 @@ Namespace TypeInfo
         End Function
 
         Public Function AsGeneric(container As Type) As RawType
-            ' Return GetType(System.Collections.Generic.List(Of )).MakeGenericType(element)
+            Return container.MakeGenericType(raw.TryCast(Of Type))
         End Function
 
         Public Overrides Function ToString() As String
