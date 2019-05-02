@@ -80,7 +80,7 @@ Namespace TypeInfo
             If IsUserDefined Then
                 Throw New NotImplementedException
             Else
-                Return New TypeAbstract(type:=raw)
+                Return New TypeAbstract(type:=raw.TryCast(Of Type))
             End If
         End Function
 
