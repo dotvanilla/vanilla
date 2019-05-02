@@ -5,12 +5,16 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/2/2019 11:01:16 AM
+    ;; build: 5/2/2019 11:37:26 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
+    ;; Declare Function print Lib "console" Alias "log" (x As f64) As void
+    (func $arrayTest2.print (import "console" "log") (param $x f64) )
+    ;; Declare Function array.length Lib "Array" Alias "length" (array As list) As i32
+    (func $array.length (import "Array" "length") (param $array i32) (result i32))
     ;; Declare Function array.new Lib "Array" Alias "create" (size As i32) As list
     (func $array.new (import "Array" "create") (param $size i32) (result i32))
     ;; Declare Function i32_array.push Lib "Array" Alias "push" (array As list, element As i32) As list
@@ -19,8 +23,6 @@
     (func $i32_array.get (import "Array" "get") (param $array i32) (param $index i32) (result i32))
     ;; Declare Function i32_array.set Lib "Array" Alias "set" (array As list, index As i32, value As i32) As void
     (func $i32_array.set (import "Array" "set") (param $array i32) (param $index i32) (param $value i32) )
-    ;; Declare Function array.length Lib "Array" Alias "length" (array As list) As i32
-    (func $array.length (import "Array" "length") (param $array i32) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
@@ -30,9 +32,34 @@
     
     (global $arrayTest2.data (mut i32) (i32.const 0))
 
+    ;; export from VB.NET module: [arrayTest2]
+    
+    (export "arrayTest2.readTest" (func $arrayTest2.readTest))
+    
      
 
-
+    ;; functions in [arrayTest2]
+    
+    (func $arrayTest2.readTest  
+        ;; Public Function readTest() As void
+        (local $i i32)
+    (set_local $i (i32.const 0))
+    ;; For i As Integer = 0 To data.Length - 1
+    
+    (block $block_9a020000 
+        (loop $loop_9b020000
+    
+                    (br_if $block_9a020000 (i32.gt_s (get_local $i) (i32.sub (call $array.length (get_global $arrayTest2.data)) (i32.const 1))))
+            (call $arrayTest2.print (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (get_local $i) (i32.const 8)))))
+            ;; For loop control step: (i32.const 1)
+            (set_local $i (i32.add (get_local $i) (i32.const 1)))
+            (br $loop_9b020000)
+            ;; For Loop Next On loop_9b020000
+    
+        )
+    )
+    )
+    
 
 ;; Application Initialize
 ;; 
