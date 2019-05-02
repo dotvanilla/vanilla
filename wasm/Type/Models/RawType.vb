@@ -56,6 +56,30 @@ Namespace TypeInfo
 
         Dim raw As [Variant](Of String, Type)
 
+        ''' <summary>
+        ''' 是否是用户自定义的类型?
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsUserDefined As Boolean
+            Get
+                Return raw Like GetType(String)
+            End Get
+        End Property
+
+        Public ReadOnly Property WebAssemblyType As TypeAbstract
+            Get
+                Throw New NotImplementedException
+            End Get
+        End Property
+
+        Public Function MakeArrayType() As RawType
+            Throw New NotImplementedException
+        End Function
+
+        Public Function AsGeneric(container As Type) As RawType
+            ' Return GetType(System.Collections.Generic.List(Of )).MakeGenericType(element)
+        End Function
+
         Public Overrides Function ToString() As String
             If raw Like GetType(String) Then
                 Return raw

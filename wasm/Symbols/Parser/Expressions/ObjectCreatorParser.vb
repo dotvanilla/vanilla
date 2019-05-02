@@ -127,7 +127,7 @@ Namespace Symbols.Parser
 
         <Extension>
         Private Function CreateCollectionObject(create As ObjectCreationExpressionSyntax, type As TypeSyntax, symbols As SymbolTable) As Expression
-            Dim elementType As Type()
+            Dim elementType As RawType()
             Dim typeName$
 
             With DirectCast(type, GenericNameSyntax).GetGenericType(symbols)

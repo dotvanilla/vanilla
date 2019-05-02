@@ -80,7 +80,7 @@ Namespace Symbols.Parser
                     type = New TypeAbstract(GetAsType(asClause, symbols))
                 ElseIf TypeOf asClause Is AsNewClauseSyntax Then
                     Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
-                    Dim objType As Type = AsTypeHandler.GetType([new].Type, symbols)
+                    Dim objType As RawType = AsTypeHandler.GetType([new].Type, symbols)
 
                     type = New TypeAbstract(objType)
                 Else
@@ -119,7 +119,7 @@ Namespace Symbols.Parser
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetAsType([as] As SimpleAsClauseSyntax, symbols As SymbolTable) As Type
+        Public Function GetAsType([as] As SimpleAsClauseSyntax, symbols As SymbolTable) As RawType
             If [as] Is Nothing Then
                 Return GetType(System.Void)
             Else
@@ -128,14 +128,14 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of Type())
+        Public Function GetGenericType(generic As GenericNameSyntax, symbols As SymbolTable) As NamedValue(Of RawType())
             Dim typeName = generic.objectName
             Dim types = generic.TypeArgumentList.Arguments
-            Dim elementType As Type() = types _
+            Dim elementType As RawType() = types _
                 .Select(Function(T) AsTypeHandler.GetType(T, symbols)) _
                 .ToArray
 
-            Return New NamedValue(Of Type()) With {
+            Return New NamedValue(Of RawType()) With {
                 .Name = typeName,
                 .Value = elementType
             }
@@ -149,8 +149,11 @@ Namespace Symbols.Parser
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Private Function listOf(element As Type) As Type
-            Return GetType(System.Collections.Generic.List(Of )).MakeGenericType(element)
+        Private Function listOf(element As RawType) As RawType
+            Dim ilist As Type = GetType(System.Collections.Generic.List(Of ))
+            Dim raw As RawType = element.AsGeneric(container:=ilist)
+
+            Return raw
         End Function
 
         <Extension>
@@ -162,7 +165,7 @@ Namespace Symbols.Parser
                 Return Scripting.GetType(token)
             ElseIf TypeOf asType Is ArrayTypeSyntax Then
                 Dim type = DirectCast(asType, ArrayTypeSyntax)
-                Dim tokenType As Type = [GetType](type.ElementType, symbols)
+                Dim tokenType As RawType = [GetType](type.ElementType, symbols)
 
                 Return tokenType.MakeArrayType
             ElseIf TypeOf asType Is GenericNameSyntax Then

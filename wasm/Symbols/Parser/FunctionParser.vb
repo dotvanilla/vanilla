@@ -65,7 +65,7 @@ Namespace Symbols.Parser
         <Extension>
         Public Function FuncVariable(method As MethodBlockSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)
             Dim name As String = method.SubOrFunctionStatement.Identifier.objectName
-            Dim returns As Type
+            Dim returns As RawType
 
             If method.SubOrFunctionStatement.SubOrFunctionKeyword.Text = "Sub" Then
                 returns = GetType(System.Void)
@@ -91,7 +91,7 @@ Namespace Symbols.Parser
         <Extension>
         Public Function FuncVariable(api As DeclareStatementSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)
             Dim name As String = api.Identifier.objectName
-            Dim returns As Type = GetAsType(api.AsClause, symbols)
+            Dim returns As RawType = GetAsType(api.AsClause, symbols)
 
             Return New NamedValue(Of TypeAbstract) With {
                 .Name = name,
@@ -224,7 +224,7 @@ Namespace Symbols.Parser
 
         Public Function ParseParameter(parameter As ParameterSyntax, symbols As SymbolTable) As NamedValue(Of TypeAbstract)
             Dim name = parameter.Identifier.Identifier.objectName
-            Dim type As Type
+            Dim type As RawType
             Dim default$ = Nothing
 
             If parameter.AsClause Is Nothing Then
