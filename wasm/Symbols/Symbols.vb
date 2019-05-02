@@ -288,8 +288,6 @@ Namespace Symbols
         ''' <returns></returns>
         Public Property init As Expression
 
-        Public Property genericTypes As String()
-
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
         End Function

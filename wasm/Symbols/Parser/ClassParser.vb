@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols.MemoryObject
 
@@ -11,9 +12,46 @@ Namespace Symbols.Parser
     Module ClassParser
 
         <Extension>
-        Public Function Parse(type As ClassBlockSyntax, symbols As SymbolTable, Optional namespace$ = Nothing) As ClassMeta
-            Dim name$ = type.ClassStatement.Identifier.objectName
+        Public Function Parse(type As ClassBlockSyntax, symbolTable As SymbolTable, Optional namespace$ = Nothing) As ClassMeta
+            Dim className$ = type.ClassStatement.Identifier.objectName
+            Dim functions As New List(Of FuncSymbol)
+            Dim fieldList As New List(Of DeclareGlobal)
+            Dim local As DeclareLocal
+            Dim fieldInitialize As New List(Of Expression)
 
+            For Each field As FieldDeclarationSyntax In type _
+                .Members _
+                .OfType(Of FieldDeclarationSyntax)
+
+                fieldInitialize += field.Declarators _
+                    .ParseDeclarator(symbolTable, Nothing) _
+                    .ToArray
+
+                For Each variable As DeclareLocal In symbolTable.GetAllLocals
+                    local = DirectCast(variable, DeclareLocal)
+                    fieldList += New DeclareGlobal With {
+                        .init = local.init,
+                        .[Module] = className,
+                        .name = local.name,
+                        .type = local.type
+                    }
+                Next
+
+                Call symbolTable.ClearLocals()
+            Next
+
+            For Each method In type.Members.OfType(Of MethodBlockSyntax)
+                functions += method.ParseFunction(className, symbolTable)
+                symbolTable.currentModuleLabel = className
+                symbolTable.ClearLocals()
+            Next
+
+            Return New ClassMeta With {
+                .Methods = functions,
+                .ClassName = className,
+                .[Module] = [namespace],
+                .Fields = fieldList
+            }
         End Function
 
         <Extension>

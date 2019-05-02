@@ -55,7 +55,7 @@ Imports test.moduleContainer.name1
 Namespace moduleContainer.name1
     Public Class ClassTest
 
-        Dim fieldName As String
+        Dim fieldName As String = "55555"
 
         Public Property arrayProperty As Double()
 
