@@ -104,12 +104,12 @@ Namespace Symbols.Parser
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function CreateModule(vbcode As [Variant](Of FileInfo, String), Optional symbols As SymbolTable = Nothing) As ModuleSymbol
-            Return CreateUnitModule(VisualBasicSyntaxTree.ParseText(vbcode.SolveStream).GetRoot, symbols)
+        Public Function CreateModule(vbcode As [Variant](Of FileInfo, String)) As ModuleSymbol
+            Return CreateUnitModule(VisualBasicSyntaxTree.ParseText(vbcode.SolveStream).GetRoot)
         End Function
 
         <Extension>
-        Public Function CreateUnitModule(vbcode As CompilationUnitSyntax, Optional symbols As SymbolTable = Nothing) As ModuleSymbol
+        Public Function CreateUnitModule(vbcode As CompilationUnitSyntax) As ModuleSymbol
             Dim project As ModuleBlockSyntax() = vbcode.Members _
                 .OfType(Of ModuleBlockSyntax) _
                 .ToArray
@@ -117,22 +117,23 @@ Namespace Symbols.Parser
                 .OfType(Of ClassBlockSyntax) _
                 .ToArray
             Dim enums As EnumSymbol()
-
-            For Each main As ModuleBlockSyntax In project
-                enums = vbcode.ParseEnums
-                symbols = main.ParseDeclares(symbols, enums)
-            Next
+            Dim symbols As New SymbolTable
 
             For Each type As ClassBlockSyntax In classTypes
-                symbols.AddClass(type.Parse(symbols))
+                Symbols.AddClass(type.Parse(Symbols))
             Next
 
             For Each container As NamespaceBlockSyntax In vbcode.Members.OfType(Of NamespaceBlockSyntax)
-                symbols.AddClass(container.EnumerateTypes(symbols))
+                Symbols.AddClass(container.EnumerateTypes(Symbols))
+            Next
+
+            For Each main As ModuleBlockSyntax In project
+                enums = vbcode.ParseEnums
+                Symbols = main.ParseDeclares(Symbols, enums)
             Next
 
             ' 解析成员函数的具体定义内容
-            Return project.CreateModule(symbols, Nothing)
+            Return project.CreateModule(Symbols, Nothing)
         End Function
 
         <Extension>
