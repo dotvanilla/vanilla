@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85f54aa41dc2bb2b124d010c9a0b774a, Symbols\DelegateSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::85f54aa41dc2bb2b124d010c9a0b774a, Symbols\FunctionSymbol\DelegateSymbol.vb"
 
     ' Author:
     ' 
