@@ -77,12 +77,12 @@ Namespace Symbols.Parser
 
             If Not asClause Is Nothing Then
                 If TypeOf asClause Is SimpleAsClauseSyntax Then
-                    type = New TypeAbstract(GetAsType(asClause, symbols))
+                    type = New TypeAbstract(GetAsType(asClause, symbols), symbols)
                 ElseIf TypeOf asClause Is AsNewClauseSyntax Then
                     Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
                     Dim objType As RawType = AsTypeHandler.GetType([new].Type, symbols)
 
-                    type = New TypeAbstract(objType)
+                    type = New TypeAbstract(objType, symbols)
                 Else
                     Throw New NotImplementedException
                 End If

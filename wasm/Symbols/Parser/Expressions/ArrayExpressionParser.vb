@@ -58,7 +58,7 @@ Namespace Symbols.Parser
         <Extension>
         Public Function CreateArray(newArray As ArrayCreationExpressionSyntax, symbols As SymbolTable) As Expression
             Dim type = AsTypeHandler.GetType(newArray.Type, symbols)
-            Dim arrayType As TypeAbstract = New TypeAbstract(type).MakeArrayType
+            Dim arrayType As TypeAbstract = New TypeAbstract(type, symbols).MakeArrayType
 
             ' 导入数组操作所需要的外部api
             ' Call symbols.doArrayImports(arrayType)

@@ -84,7 +84,7 @@ Namespace Symbols.Parser
 
             Return New NamedValue(Of TypeAbstract) With {
                 .Name = name,
-                .Value = New TypeAbstract(returns)
+                .Value = New TypeAbstract(returns, symbols)
             }
         End Function
 
@@ -95,7 +95,7 @@ Namespace Symbols.Parser
 
             Return New NamedValue(Of TypeAbstract) With {
                 .Name = name,
-                .Value = New TypeAbstract(returns)
+                .Value = New TypeAbstract(returns, symbols)
             }
         End Function
 
@@ -251,7 +251,7 @@ Namespace Symbols.Parser
 
             Return New NamedValue(Of TypeAbstract) With {
                 .Name = name,
-                .Value = New TypeAbstract(type),
+                .Value = New TypeAbstract(type, symbols),
                 .Description = [default]
             }
         End Function

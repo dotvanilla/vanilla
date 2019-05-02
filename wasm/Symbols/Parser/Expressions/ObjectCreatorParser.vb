@@ -137,7 +137,7 @@ Namespace Symbols.Parser
 
             If typeName = "List" Then
                 ' array和list在javascript之中都是一样的
-                Dim listType As TypeAbstract = New TypeAbstract(elementType(Scan0)).MakeListType
+                Dim listType As TypeAbstract = elementType(Scan0).WebAssembly(symbols).MakeListType
                 Dim listValues As ArraySymbol = create _
                     .Initializer _
                     .GetInitializeValue(listType, symbols)
@@ -154,8 +154,8 @@ Namespace Symbols.Parser
             ElseIf typeName = "Dictionary" Then
                 Return New ArrayTable With {
                     .initialVal = {},
-                    .key = New TypeAbstract(elementType(Scan0)),
-                    .type = New TypeAbstract(elementType(1))
+                    .key = elementType(Scan0).WebAssembly(symbols),
+                    .type = elementType(1).WebAssembly(symbols)
                 }
             Else
                 Throw New NotImplementedException

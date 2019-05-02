@@ -149,7 +149,8 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ValueCType(cast As CTypeExpressionSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = cast.Expression.ValueExpression(symbols)
-            Dim castToType As New TypeAbstract(cast.Type.GetType(symbols))
+            Dim raw As RawType = cast.Type.GetType(symbols)
+            Dim castToType As New TypeAbstract(raw, symbols)
 
             Return CTypeHandle.CType(castToType, value, symbols)
         End Function
