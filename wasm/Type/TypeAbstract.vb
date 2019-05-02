@@ -59,197 +59,203 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Symbols.Parser
 
-''' <summary>
-''' Type model in WebAssembly compiler
-''' </summary>
-Public Class TypeAbstract
-
-    Public ReadOnly Property type As TypeAlias
-    ''' <summary>
-    ''' Generic type arguments in VisualBasic.NET language.
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property generic As TypeAbstract()
-    ''' <summary>
-    ''' The raw definition: <see cref="System.Type.FullName"/>
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property raw As String
+Namespace TypeInfo
 
     ''' <summary>
-    ''' Type symbol for generate S-Expression.
+    ''' Type model in WebAssembly compiler
     ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property typefit As String
-        Get
-            Return CTypeHandle.typefit(type)
-        End Get
-    End Property
+    Public Class TypeAbstract
 
-    ''' <summary>
-    ''' 当前的类型是否是WebAssembly之中的4个基础类型
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property isprimitive As Boolean
-        Get
-            Return type Like TypeExtensions.NumberOrders
-        End Get
-    End Property
+        Public ReadOnly Property type As TypeAlias
+        ''' <summary>
+        ''' Generic type arguments in VisualBasic.NET language.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property generic As TypeAbstract()
+        ''' <summary>
+        ''' The raw definition: <see cref="System.Type.FullName"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property raw As String
 
-    Public ReadOnly Property iscollection As Boolean
-        Get
-            Return type = TypeAlias.list OrElse type = TypeAlias.table
-        End Get
-    End Property
+        ''' <summary>
+        ''' Type symbol for generate S-Expression.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property typefit As String
+            Get
+                Return CTypeHandle.typefit(type)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 当前的类型是否是WebAssembly之中的4个基础类型
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property isprimitive As Boolean
+            Get
+                Return type Like TypeExtensions.NumberOrders
+            End Get
+        End Property
+
+        Public ReadOnly Property iscollection As Boolean
+            Get
+                Return type = TypeAlias.list OrElse type = TypeAlias.table
+            End Get
+        End Property
 
 #Region "WebAssembly Primitive Types"
-    Public Shared ReadOnly Property i32 As New TypeAbstract("i32")
-    Public Shared ReadOnly Property i64 As New TypeAbstract("i64")
-    Public Shared ReadOnly Property f32 As New TypeAbstract("f32")
-    Public Shared ReadOnly Property f64 As New TypeAbstract("f64")
+        Public Shared ReadOnly Property i32 As New TypeAbstract("i32")
+        Public Shared ReadOnly Property i64 As New TypeAbstract("i64")
+        Public Shared ReadOnly Property f32 As New TypeAbstract("f32")
+        Public Shared ReadOnly Property f64 As New TypeAbstract("f64")
 
-    ''' <summary>
-    ''' Expression returns no value
-    ''' </summary>
-    ''' <returns></returns>
-    Public Shared ReadOnly Property void As New TypeAbstract("void")
+        ''' <summary>
+        ''' Expression returns no value
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared ReadOnly Property void As New TypeAbstract("void")
 #End Region
 
-    Sub New(type As Type)
-        Dim isList As Boolean = type.IsInheritsFrom(GetType(List(Of )), strict:=False)
+        Sub New(type As Type)
+            Dim isList As Boolean = type.IsInheritsFrom(GetType(List(Of )), strict:=False)
 
-        If isList Then
-            Me.type = TypeAlias.list
-            Me.generic = {New TypeAbstract(type.GenericTypeArguments(Scan0))}
-            Me.raw = buildRaw(TypeAlias.list, generic)
-        Else
-            Call fromFullName(type.TypeName)
-        End If
-    End Sub
+            If isList Then
+                Me.type = TypeAlias.list
+                Me.generic = {New TypeAbstract(type.GenericTypeArguments(Scan0))}
+                Me.raw = buildRaw(TypeAlias.list, generic)
+            Else
+                Call fromFullName(type.TypeName)
+            End If
+        End Sub
 
-    ''' <summary>
-    ''' Object value copy
-    ''' </summary>
-    ''' <param name="type"></param>
-    Sub New(type As TypeAbstract)
-        Me.generic = type.generic.SafeQuery.Select(Function(gr) New TypeAbstract(gr)).ToArray
-        Me.type = type.type
-        Me.raw = type.raw
-    End Sub
+        ''' <summary>
+        ''' Object value copy
+        ''' </summary>
+        ''' <param name="type"></param>
+        Sub New(type As TypeAbstract)
+            Me.generic = type.generic _
+                .SafeQuery _
+                .Select(Function(gr) New TypeAbstract(gr)) _
+                .ToArray
+            Me.type = type.type
+            Me.raw = type.raw
+        End Sub
 
-    Private Sub fromFullName(fullName As String)
-        If TypeExtensions.IsArray(fullName) Then
-            _type = TypeAlias.array
-            _generic = {Types.ArrayElement(fullName)}
-        Else
-            _type = Types.ParseAliasName(fullName)
-        End If
+        Private Sub fromFullName(fullName As String)
+            If TypeExtensions.IsArray(fullName) Then
+                _type = TypeAlias.array
+                _generic = {Types.ArrayElement(fullName)}
+            Else
+                _type = Types.ParseAliasName(fullName)
+            End If
 
-        _raw = fullName
-    End Sub
+            _raw = fullName
+        End Sub
 
-    Sub New(fullName As String)
-        Call fromFullName(fullName)
-    End Sub
+        Sub New(fullName As String)
+            Call fromFullName(fullName)
+        End Sub
 
-    Sub New([alias] As TypeAlias, Optional generic$() = Nothing)
-        Me.type = [alias]
-        Me.generic = generic _
+        Sub New([alias] As TypeAlias, Optional generic$() = Nothing)
+            Me.type = [alias]
+            Me.generic = generic _
             .SafeQuery _
             .Select(Function(type) New TypeAbstract(type)) _
             .ToArray
-        Me.raw = buildRaw(type, Me.generic)
-    End Sub
+            Me.raw = buildRaw(type, Me.generic)
+        End Sub
 
-    ''' <summary>
-    ''' array or generic list
-    ''' </summary>
-    ''' <param name="type"></param>
-    ''' <param name="element"></param>
-    Private Sub New(type As TypeAlias, element As TypeAbstract)
-        Me.type = type
-        Me.generic = {element}
-        Me.raw = buildRaw(type, generic)
-    End Sub
+        ''' <summary>
+        ''' array or generic list
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <param name="element"></param>
+        Private Sub New(type As TypeAlias, element As TypeAbstract)
+            Me.type = type
+            Me.generic = {element}
+            Me.raw = buildRaw(type, generic)
+        End Sub
 
-    Private Shared Function buildRaw(type As TypeAlias, generic As TypeAbstract()) As String
-        Static otherSingles As TypeAlias() = {
-            TypeAlias.boolean,
-            TypeAlias.any,
-            TypeAlias.intptr,
-            TypeAlias.string,
-            TypeAlias.void
-        }
-        Static singleElements As Index(Of TypeAlias) = TypeExtensions.NumberOrders _
-            .Objects _
-            .Join(otherSingles) _
-            .ToArray
+        Private Shared Function buildRaw(type As TypeAlias, generic As TypeAbstract()) As String
+            Static otherSingles As TypeAlias() = {
+                TypeAlias.boolean,
+                TypeAlias.any,
+                TypeAlias.intptr,
+                TypeAlias.string,
+                TypeAlias.void
+            }
+            Static singleElements As Index(Of TypeAlias) = TypeExtensions.NumberOrders _
+                .Objects _
+                .Join(otherSingles) _
+                .ToArray
 
-        If type Like singleElements Then
-            Return type.Description
-        ElseIf type = TypeAlias.array OrElse type = TypeAlias.list Then
-            If generic.IsNullOrEmpty Then
-                Return "any[]"
+            If type Like singleElements Then
+                Return type.Description
+            ElseIf type = TypeAlias.array OrElse type = TypeAlias.list Then
+                If generic.IsNullOrEmpty Then
+                    Return "any[]"
+                Else
+                    Return generic(Scan0).raw & "[]"
+                End If
+            ElseIf type = TypeAlias.table Then
+                If generic.IsNullOrEmpty Then
+                    Return "[any]"
+                Else
+                    Return $"[{generic(Scan0).raw}]"
+                End If
             Else
-                Return generic(Scan0).raw & "[]"
+                Throw New NotImplementedException
             End If
-        ElseIf type = TypeAlias.table Then
+        End Function
+
+        Public Function MakeArrayType() As TypeAbstract
+            Return New TypeAbstract(TypeAlias.array, Me)
+        End Function
+
+        Public Function MakeListType() As TypeAbstract
+            Return New TypeAbstract(TypeAlias.list, Me)
+        End Function
+
+        Public Overrides Function ToString() As String
             If generic.IsNullOrEmpty Then
-                Return "[any]"
+                Return type.Description
             Else
-                Return $"[{generic(Scan0).raw}]"
+                Return $"{type.Description}(Of {generic.JoinBy(", ")})"
             End If
-        Else
-            Throw New NotImplementedException
-        End If
-    End Function
+        End Function
 
-    Public Function MakeArrayType() As TypeAbstract
-        Return New TypeAbstract(TypeAlias.array, Me)
-    End Function
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator <>(type As TypeAbstract, name As TypeAlias) As Boolean
+            Return type.type <> name
+        End Operator
 
-    Public Function MakeListType() As TypeAbstract
-        Return New TypeAbstract(TypeAlias.list, Me)
-    End Function
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator =(type As TypeAbstract, name As TypeAlias) As Boolean
+            Return type.type = name
+        End Operator
 
-    Public Overrides Function ToString() As String
-        If generic.IsNullOrEmpty Then
-            Return type.Description
-        Else
-            Return $"{type.Description}(Of {generic.JoinBy(", ")})"
-        End If
-    End Function
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator <>(type As TypeAbstract, name$) As Boolean
+            Return type.type.ToString <> name
+        End Operator
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Operator <>(type As TypeAbstract, name As TypeAlias) As Boolean
-        Return type.type <> name
-    End Operator
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator =(type As TypeAbstract, name$) As Boolean
+            Return type.type.ToString = name
+        End Operator
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Operator =(type As TypeAbstract, name As TypeAlias) As Boolean
-        Return type.type = name
-    End Operator
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Operator <>(type As TypeAbstract, another As TypeAbstract) As Boolean
+            Return Not type = another
+        End Operator
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Operator <>(type As TypeAbstract, name$) As Boolean
-        Return type.type.ToString <> name
-    End Operator
+        Public Shared Operator =(type As TypeAbstract, another As TypeAbstract) As Boolean
+            If type.type <> another.type Then
+                Return False
+            End If
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Operator =(type As TypeAbstract, name$) As Boolean
-        Return type.type.ToString = name
-    End Operator
-
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Operator <>(type As TypeAbstract, another As TypeAbstract) As Boolean
-        Return Not type = another
-    End Operator
-
-    Public Shared Operator =(type As TypeAbstract, another As TypeAbstract) As Boolean
-        If type.type <> another.type Then
-            Return False
-        End If
-
-        Return True
-    End Operator
-End Class
+            Return True
+        End Operator
+    End Class
+End Namespace

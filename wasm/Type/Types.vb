@@ -48,71 +48,74 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
-Public Module Types
+Namespace TypeInfo
 
-    Public ReadOnly Property [string] As New TypeAbstract(TypeAlias.string, {})
-    Public ReadOnly Property [boolean] As New TypeAbstract(TypeAlias.boolean, {})
+    Public Module Types
 
-    ''' <summary>
-    ''' True = 1, False = 0, 逻辑值在webassembly之中也是一个i32整形数
-    ''' </summary>
-    Public Const booleanType$ = "boolean"
-    Public Const stringType$ = "string"
+        Public ReadOnly Property [string] As New TypeAbstract(TypeAlias.string, {})
+        Public ReadOnly Property [boolean] As New TypeAbstract(TypeAlias.boolean, {})
 
-    Public ReadOnly Property primitiveTypes As Index(Of TypeAlias) = {
-        TypeAlias.f32,
-        TypeAlias.f64,
-        TypeAlias.i32,
-        TypeAlias.i64
-    }
+        ''' <summary>
+        ''' True = 1, False = 0, 逻辑值在webassembly之中也是一个i32整形数
+        ''' </summary>
+        Public Const booleanType$ = "boolean"
+        Public Const stringType$ = "string"
 
-    Public Function sizeOf(type As TypeAbstract) As Integer
-        Return sizeOf(type.type)
-    End Function
+        Public ReadOnly Property primitiveTypes As Index(Of TypeAlias) = {
+            TypeAlias.f32,
+            TypeAlias.f64,
+            TypeAlias.i32,
+            TypeAlias.i64
+        }
 
-    Public Function sizeOf(type As TypeAlias) As Integer
-        Select Case type
-            Case TypeAlias.any, TypeAlias.array, TypeAlias.intptr, TypeAlias.list, TypeAlias.string, TypeAlias.table
-                Return 4
-            Case TypeAlias.f32, TypeAlias.i32, TypeAlias.boolean
-                Return 4
-            Case TypeAlias.f64, TypeAlias.i64
-                Return 8
-            Case Else
-                Throw New NotImplementedException(type.Description)
-        End Select
-    End Function
+        Public Function sizeOf(type As TypeAbstract) As Integer
+            Return sizeOf(type.type)
+        End Function
 
-    Public Function ParseAliasName(fullName As String) As TypeAlias
-        Select Case fullName
-            Case "i32", "System.Int32", "Integer"
-                Return TypeAlias.i32
-            Case "i64", "System.Int64", "Long"
-                Return TypeAlias.i64
-            Case "f32", "System.Single", "Single"
-                Return TypeAlias.f32
-            Case "f64", "System.Double", "Double"
-                Return TypeAlias.f64
-            Case "boolean", "System.Boolean", "Boolean"
-                Return TypeAlias.boolean
-            Case "void", "System.Void"
-                Return TypeAlias.void
-            Case "any", "System.Object", "Object"
-                Return TypeAlias.any
-            Case "intptr", "System.IntPtr"
-                Return TypeAlias.intptr
-            Case "string", "System.String", "System.Char", "String", "Char"
-                Return TypeAlias.string
-            Case "array", "System.Array"
-                Return TypeAlias.array
-            Case "list", "System.Collections.IList"
-                Return TypeAlias.list
-            Case Else
-                Throw New NotImplementedException(fullName)
-        End Select
-    End Function
+        Public Function sizeOf(type As TypeAlias) As Integer
+            Select Case type
+                Case TypeAlias.any, TypeAlias.array, TypeAlias.intptr, TypeAlias.list, TypeAlias.string, TypeAlias.table
+                    Return 4
+                Case TypeAlias.f32, TypeAlias.i32, TypeAlias.boolean
+                    Return 4
+                Case TypeAlias.f64, TypeAlias.i64
+                    Return 8
+                Case Else
+                    Throw New NotImplementedException(type.Description)
+            End Select
+        End Function
 
-    Public Function ArrayElement(fullName As String) As TypeAbstract
-        Return New TypeAbstract(TypeExtensions.ArrayElement(fullName))
-    End Function
-End Module
+        Public Function ParseAliasName(fullName As String) As TypeAlias
+            Select Case fullName
+                Case "i32", "System.Int32", "Integer"
+                    Return TypeAlias.i32
+                Case "i64", "System.Int64", "Long"
+                    Return TypeAlias.i64
+                Case "f32", "System.Single", "Single"
+                    Return TypeAlias.f32
+                Case "f64", "System.Double", "Double"
+                    Return TypeAlias.f64
+                Case "boolean", "System.Boolean", "Boolean"
+                    Return TypeAlias.boolean
+                Case "void", "System.Void"
+                    Return TypeAlias.void
+                Case "any", "System.Object", "Object"
+                    Return TypeAlias.any
+                Case "intptr", "System.IntPtr"
+                    Return TypeAlias.intptr
+                Case "string", "System.String", "System.Char", "String", "Char"
+                    Return TypeAlias.string
+                Case "array", "System.Array"
+                    Return TypeAlias.array
+                Case "list", "System.Collections.IList"
+                    Return TypeAlias.list
+                Case Else
+                    Throw New NotImplementedException(fullName)
+            End Select
+        End Function
+
+        Public Function ArrayElement(fullName As String) As TypeAbstract
+            Return New TypeAbstract(TypeExtensions.ArrayElement(fullName))
+        End Function
+    End Module
+End Namespace
