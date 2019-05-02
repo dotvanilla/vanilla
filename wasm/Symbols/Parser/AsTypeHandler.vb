@@ -140,8 +140,20 @@ Namespace Symbols.Parser
             }
         End Function
 
+        ''' <summary>
+        ''' 创建一个泛型列表类型
+        ''' </summary>
+        ''' <param name="element"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function [GetType](asType As TypeSyntax, symbols As SymbolTable) As Type
+        Private Function listOf(element As Type) As Type
+            Return GetType(System.Collections.Generic.List(Of )).MakeGenericType(element)
+        End Function
+
+        <Extension>
+        Public Function [GetType](asType As TypeSyntax, symbols As SymbolTable) As RawType
             If TypeOf asType Is PredefinedTypeSyntax Then
                 Dim type = DirectCast(asType, PredefinedTypeSyntax)
                 Dim token$ = type.Keyword.objectName
@@ -159,7 +171,7 @@ Namespace Symbols.Parser
 
                 ' 在javascript之中 array 和 list是一样的
                 If define.Name = "List" Then
-                    Return GetType(System.Collections.Generic.List(Of )).MakeGenericType(tokenType(Scan0))
+                    Return tokenType(Scan0).listOf
                 ElseIf define.Name = "Dictionary" Then
                     ' 字典对象在javascript之中则是一个任意的object
                     Return GetType(DictionaryBase)
@@ -178,6 +190,7 @@ Namespace Symbols.Parser
                 ElseIf token = "IList" Then
                     Return GetType(System.Collections.IList)
                 Else
+                    ' 用户的自定义类型
                     Throw New TypeAccessException($"Target type '{token}' is not defined!")
                 End If
             End If
