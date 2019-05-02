@@ -163,6 +163,10 @@ Namespace Compiler
             Call userClass.Add(type.ClassName, type)
         End Sub
 
+        Public Sub AddClass(types As IEnumerable(Of ClassMeta))
+            types.DoEach(Sub(type) Call userClass.Add(type.ClassName, type))
+        End Sub
+
         Public Function HaveClass(name As String) As Boolean
             Return userClass.ContainsKey(name)
         End Function

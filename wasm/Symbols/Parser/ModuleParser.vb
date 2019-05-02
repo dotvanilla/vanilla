@@ -127,6 +127,10 @@ Namespace Symbols.Parser
                 symbols.AddClass(type.Parse(symbols))
             Next
 
+            For Each container As NamespaceBlockSyntax In vbcode.Members.OfType(Of NamespaceBlockSyntax)
+                symbols.AddClass(container.EnumerateTypes(symbols))
+            Next
+
             ' 解析成员函数的具体定义内容
             Return project.CreateModule(symbols, Nothing)
         End Function
