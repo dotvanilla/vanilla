@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::138debdf469563f7a36a69031f64df15, Symbols\DeclaredObject\JavaScriptImports\Array.vb"
+﻿#Region "Microsoft.VisualBasic::356e0cceb9411c39c8a4d08420f16240, Symbols\DeclaredObject\JavaScriptImports\ArrayList.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     '     Module Array
     ' 
     '         Properties: GetArrayElement, Length, NewArray, Pop, Push
-    '                     SetArrayElement
+    '                     SetElement
     ' 
     '         Function: IsArrayOperation, Method
     ' 

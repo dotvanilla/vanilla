@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dae2e98c7cfef81f0bbd0b2c8049626, Symbols\DeclaredObject\FuncSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::83501192d4e029710eb975bdce36d44d, Symbols\DeclaredObject\FuncSymbol.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,7 @@
     '         Properties: Body, Locals, VBDeclare
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: buildBody, ToSExpression, ToString
+    '         Function: arrayInitialize, buildBody, ToSExpression, ToString
     ' 
     ' 
     ' /********************************************************************************/

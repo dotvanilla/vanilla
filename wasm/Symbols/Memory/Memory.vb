@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a6ff568ce813cbb0a19aa39f75256a5, Symbols\Memory\Memory.vb"
+﻿#Region "Microsoft.VisualBasic::d95fee23fdf62ed3ac6618da6aca08cf, Symbols\Memory\Memory.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class Memory
     ' 
-    '         Function: AddString, GetEnumerator, IEnumerable_GetEnumerator
+    '         Function: AddString, AllocateArrayBlock, GetEnumerator, IEnumerable_GetEnumerator
     ' 
     ' 
     ' /********************************************************************************/
