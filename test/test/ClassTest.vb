@@ -57,7 +57,7 @@ Namespace moduleContainer.name1
 
         Dim fieldName As String = "55555"
 
-        Public Property arrayProperty As Double()
+        Public arrayProperty As Double()
 
         Public Overrides Function ToString() As String
             Dim s As String = ""

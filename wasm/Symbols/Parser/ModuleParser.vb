@@ -127,6 +127,9 @@ Namespace Symbols.Parser
                 Symbols.AddClass(container.EnumerateTypes(Symbols))
             Next
 
+            Call symbols.ClearLocals()
+            Call symbols.globals.Clear()
+
             For Each main As ModuleBlockSyntax In project
                 enums = vbcode.ParseEnums
                 Symbols = main.ParseDeclares(Symbols, enums)

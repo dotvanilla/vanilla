@@ -111,7 +111,8 @@ Namespace TypeInfo
                 Case "list", "System.Collections.IList"
                     Return TypeAlias.list
                 Case Else
-                    Throw New NotImplementedException(fullName)
+                    ' 其他的都是用户自定义的类型的指针类型
+                    Return TypeAlias.intptr
             End Select
         End Function
 

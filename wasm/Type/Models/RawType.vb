@@ -97,7 +97,11 @@ Namespace TypeInfo
         End Function
 
         Public Function MakeArrayType() As RawType
-            Throw New NotImplementedException
+            If IsUserDefined Then
+                Return raw.TryCast(Of String) & "[]"
+            Else
+                Return raw.TryCast(Of Type).MakeArrayType
+            End If
         End Function
 
         Public Function AsGeneric(container As Type) As RawType

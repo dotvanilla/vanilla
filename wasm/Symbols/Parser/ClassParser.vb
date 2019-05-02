@@ -16,7 +16,6 @@ Namespace Symbols.Parser
             Dim className$ = type.ClassStatement.Identifier.objectName
             Dim functions As New List(Of FuncSymbol)
             Dim fieldList As New List(Of DeclareGlobal)
-            Dim local As DeclareLocal
             Dim fieldInitialize As New List(Of Expression)
 
             For Each field As FieldDeclarationSyntax In type _
@@ -24,16 +23,15 @@ Namespace Symbols.Parser
                 .OfType(Of FieldDeclarationSyntax)
 
                 fieldInitialize += field.Declarators _
-                    .ParseDeclarator(symbolTable, Nothing) _
+                    .ParseDeclarator(symbolTable, className) _
                     .ToArray
 
-                For Each variable As DeclareLocal In symbolTable.GetAllLocals
-                    local = DirectCast(variable, DeclareLocal)
+                For Each globalField As DeclareGlobal In symbolTable.GetAllGlobals
                     fieldList += New DeclareGlobal With {
-                        .init = local.init,
+                        .init = globalField.init,
                         .[Module] = className,
-                        .name = local.name,
-                        .type = local.type
+                        .name = globalField.name,
+                        .type = globalField.type
                     }
                 Next
 
