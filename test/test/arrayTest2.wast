@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/2/2019 12:28:01 PM
+    ;; build: 5/2/2019 12:33:17 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -49,19 +49,19 @@
     ;; functions in [arrayTest2]
     
     (func $arrayTest2.returnArrayTest  (result i32)
-        ;; Public Function returnArrayTest() As array(Of i32)
+        ;; Public Function returnArrayTest() As array(Of f32)
         (local $x f64)
     (set_local $x (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (i32.const 1) (i32.const 8)))))
     ;; 
     ;; Save 7 array element data to memory:
     ;; Array memory block begin at location: 1
-    (i32.store (i32.const 1) (i32.trunc_s/f64 (get_local $x)))
-    (i32.store (i32.const 5) (i32.const 0))
-    (i32.store (i32.const 9) (i32.const 35))
-    (i32.store (i32.const 13) (i32.const 78345))
-    (i32.store (i32.const 17) (i32.const 34))
-    (i32.store (i32.const 21) (i32.const 534))
-    (i32.store (i32.const 25) (i32.const 53))
+    (f32.store (i32.const 1) (f32.demote/f64 (get_local $x)))
+    (f32.store (i32.const 5) (f32.convert_s/i32 (i32.const 0)))
+    (f32.store (i32.const 9) (f32.convert_s/i32 (i32.const 35)))
+    (f32.store (i32.const 13) (f32.convert_s/i32 (i32.const 78345)))
+    (f32.store (i32.const 17) (f32.convert_s/i32 (i32.const 34)))
+    (f32.store (i32.const 21) (f32.convert_s/i32 (i32.const 534)))
+    (f32.store (i32.const 25) (f32.convert_s/i32 (i32.const 53)))
     ;; Assign array memory data to another expression
     (return (i32.const 1))
     )
@@ -103,18 +103,18 @@
 ;; 
 ;; Save 12 array element data to memory:
 ;; Array memory block begin at location: 30
-(i32.store (i32.const 30) (f64.convert_s/i32 (i32.const 24)))
-(i32.store (i32.const 38) (f64.convert_s/i32 (i32.const 23)))
-(i32.store (i32.const 46) (f64.convert_s/i32 (i32.const 424)))
-(i32.store (i32.const 54) (f64.convert_s/i32 (i32.const 2423)))
-(i32.store (i32.const 62) (f64.convert_s/i32 (i32.const 4534)))
-(i32.store (i32.const 70) (f64.convert_s/i32 (i32.const 5353)))
-(i32.store (i32.const 78) (f64.convert_s/i32 (i32.const 55)))
-(i32.store (i32.const 86) (f64.convert_s/i32 (i32.const 55)))
-(i32.store (i32.const 94) (f64.convert_s/i32 (i32.const 55)))
-(i32.store (i32.const 102) (f64.convert_s/i32 (i32.const 55)))
-(i32.store (i32.const 110) (f64.convert_s/i32 (i32.const 5555)))
-(i32.store (i32.const 118) (f64.convert_s/i32 (i32.const 5)))
+(f64.store (i32.const 30) (f64.convert_s/i32 (i32.const 24)))
+(f64.store (i32.const 38) (f64.convert_s/i32 (i32.const 23)))
+(f64.store (i32.const 46) (f64.convert_s/i32 (i32.const 424)))
+(f64.store (i32.const 54) (f64.convert_s/i32 (i32.const 2423)))
+(f64.store (i32.const 62) (f64.convert_s/i32 (i32.const 4534)))
+(f64.store (i32.const 70) (f64.convert_s/i32 (i32.const 5353)))
+(f64.store (i32.const 78) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 86) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 94) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 102) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 110) (f64.convert_s/i32 (i32.const 5555)))
+(f64.store (i32.const 118) (f64.convert_s/i32 (i32.const 5)))
 ;; Assign array memory data to another expression
 (set_global $arrayTest2.data (i32.const 30))
 )

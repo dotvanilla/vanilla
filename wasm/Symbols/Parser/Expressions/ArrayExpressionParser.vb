@@ -86,7 +86,7 @@ Namespace Symbols.Parser
             Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, array.Initialize.Length)
             Dim save As New List(Of Expression)
             Dim size As Integer = sizeOf(ofElement)
-            Dim byteType$ = array.type.typefit
+            Dim byteType$ = ofElement.typefit
             Dim intptr As Integer = arrayBlock.memoryPtr
 
             For Each element In array.Initialize
