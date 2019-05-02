@@ -48,6 +48,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Blocks
 Imports Wasm.Symbols.JavaScriptImports
@@ -127,7 +128,19 @@ Namespace Symbols.Parser
 
             If newArray.ArrayBounds Is Nothing Then
                 Dim array As ArraySymbol = newArray.Initializer.CreateArray(symbols)
+                Dim intptr = symbols.memory.AllocateArrayBlock(arrayType.generic(Scan0), array.Initialize.Length)
+                Dim save As New List(Of Expression)
+                Dim size As Integer = sizeOf(arrayType.generic(Scan0))
+                Dim byteType$ = array.type.typefit
+
+                For Each element In array.Initialize
+                    save += BitConverter.save(byteType, intptr, element)
+                    intptr += size
+                Next
+
                 array.type = arrayType
+                array.Initialize = save
+
                 Return array
             Else
                 Dim bounds As Expression = newArray.ArrayBounds _
