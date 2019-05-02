@@ -148,7 +148,7 @@ Namespace Symbols.Parser
                 Dim read As Expression
 
                 ' 然后得到实际的内存中的位置
-                intptr = BinaryStack(intptr, offset, "+", symbols)
+                intptr = ArrayBlock.IndexOffset(intptr, offset)
                 ' 最后使用load读取内存数据
                 read = BitConverter.load(ofElement, intptr)
 
