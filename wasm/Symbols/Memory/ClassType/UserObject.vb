@@ -57,6 +57,7 @@ Namespace Symbols.MemoryObject
     ''' 一个用户自定义类型的实例对象
     ''' </summary>
     Public Class UserObject : Inherits Expression
+        Implements IEnumerable(Of Expression)
 
         Public Property memoryPtr As Expression
         Public Property UnderlyingType As TypeAbstract
@@ -70,6 +71,20 @@ Namespace Symbols.MemoryObject
 
         Public Overrides Function ToSExpression() As String
             Return Me.memoryPtr.ToSExpression
+        End Function
+
+        ''' <summary>
+        ''' 这个枚举函数返回的是初始化语句
+        ''' </summary>
+        ''' <returns></returns>
+        Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
+            For Each init As Expression In Initialize
+                Yield init
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
         End Function
     End Class
 End Namespace

@@ -70,6 +70,19 @@ Namespace Compiler.SExpression
             Yield New CommentText("Assign array memory data to another expression")
         End Function
 
+        <Extension>
+        Public Iterator Function objectInitialize(obj As UserObject) As IEnumerable(Of String)
+            Yield New CommentText("")
+            Yield New CommentText($"Initialize a object instance of [{obj.UnderlyingType.raw}]")
+            Yield New CommentText($"Object memory block begin at location: {obj.memoryPtr}")
+
+            For Each element As Expression In obj
+                Yield element.ToSExpression
+            Next
+
+            Yield New CommentText($"Initialize an object memory block with {obj.width} bytes data")
+        End Function
+
         ''' <summary>
         ''' 需要跳过最开始的字符串的位置
         ''' </summary>

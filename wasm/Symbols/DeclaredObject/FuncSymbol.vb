@@ -106,6 +106,8 @@ Namespace Symbols
                     ' 先初始化
                     If TypeOf value Is ArrayBlock Then
                         body += arrayInitialize(value)
+                    ElseIf TypeOf value Is UserObject Then
+                        body += objectInitialize(value)
                     End If
 
                     ' 最后再将指针或者值得数据赋值

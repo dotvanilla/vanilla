@@ -335,6 +335,11 @@ Namespace Symbols
                     .arrayInitialize _
                     .JoinBy(ASCII.LF)
                 sexp = sexp & ASCII.LF & $"(return {Internal.ToSExpression})"
+            ElseIf TypeOf Internal Is UserObject Then
+                sexp = DirectCast(Internal, UserObject) _
+                   .objectInitialize _
+                   .JoinBy(ASCII.LF)
+                sexp = sexp & ASCII.LF & $"(return {Internal.ToSExpression})"
             Else
                 sexp = $"(return {Internal.ToSExpression})"
             End If
