@@ -55,7 +55,16 @@ Namespace Symbols.MemoryObject
 
     Public Module ArrayBlockOperator
 
-
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="array"></param>
+        ''' <param name="symbols"></param>
+        ''' <param name="arrayType"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 在这里只是生成数组元素的内容，byte marks内容则在<see cref="ArrayBlock"/>的表达式迭代器部分完成
+        ''' </remarks>
         <Extension>
         Friend Function writeArray(array As ArraySymbol, symbols As SymbolTable, arrayType As TypeAbstract) As Expression
             Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
@@ -86,7 +95,8 @@ Namespace Symbols.MemoryObject
         Public Function GetArrayElement(target As Expression, index As Expression, ofElement As TypeAbstract, symbols As SymbolTable) As Expression
             ' 从webassembly内存之中读取数据
             ' 对于数组对象而言，其值是一个内存区块的起始位置来的
-            Dim intptr As Expression = target
+            ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
+            Dim intptr As Expression = BinaryStack(target, Literal.i32(4 + 4), "+", symbols)
             ' 然后位置的偏移量则是index索引，乘上元素的大小
             Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
             Dim read As Expression
@@ -103,7 +113,8 @@ Namespace Symbols.MemoryObject
         Public Function SetArrayElement(arraySymbol As GetLocalVariable, index As Expression, ofElement As TypeAbstract, right As Expression, symbols As SymbolTable) As Expression
             ' 从webassembly内存之中读取数据
             ' 对于数组对象而言，其值是一个内存区块的起始位置来的
-            Dim intptr As Expression = arraySymbol
+            ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
+            Dim intptr As Expression = BinaryStack(arraySymbol, Literal.i32(4 + 4), "+", symbols)
             ' 然后位置的偏移量则是index索引，乘上元素的大小
             Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
             Dim save As Expression
