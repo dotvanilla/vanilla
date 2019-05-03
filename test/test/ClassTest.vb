@@ -66,7 +66,7 @@ End Namespace
 
 Public Module Runtest
 
-    Declare Sub print Lib "console" Alias "log" (data As Object)
+    Declare Sub print Lib "console" Alias "log" (data As Double)
 
     Sub test()
 

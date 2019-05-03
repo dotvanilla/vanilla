@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 10:00:57 PM
+    ;; build: 5/3/2019 10:08:43 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -19,11 +19,16 @@
     (func $string.length (import "string" "length") (param $text i32) (result i32))
     ;; Declare Function string.indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
     (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
-    ;; Declare Function print Lib "console" Alias "log" (data As any) As void
-    (func $Runtest.print (import "console" "log") (param $data i32) )
+    ;; Declare Function print Lib "console" Alias "log" (data As f64) As void
+    (func $Runtest.print (import "console" "log") (param $data f64) )
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
+
+    ;; A global object manager for create user object in WebAssembly
+    ;; Its initialize value is the total size of the string data
+    ;; of this webassembly module
+    (global $global.ObjectManager (mut i32) (i32.const 0))
 
     ;; Memory data for string constant
     
