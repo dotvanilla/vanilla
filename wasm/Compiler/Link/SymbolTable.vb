@@ -159,9 +159,25 @@ Namespace Compiler
             Call enumConstants.Add(type.Name, type)
         End Sub
 
+        ''' <summary>
+        ''' 这个函数在往类型的字典之中添加类型定义的时候，还会把类型定义信息写入内存之中，并赋值<see cref="ClassMeta.memoryPtr"/>
+        ''' </summary>
+        ''' <param name="type"></param>
         Public Sub AddClass(type As ClassMeta)
-            Call userClass.Add(type.ClassName, type)
+            Dim intptr As Integer = memory.AddClassMeta(type)
+
+            userClass.Add(type.ClassName, type)
+            type.memoryPtr = intptr
         End Sub
+
+        ''' <summary>
+        ''' 通过class_id来查找用户的自定义类型
+        ''' </summary>
+        ''' <param name="class_id"></param>
+        ''' <returns></returns>
+        Public Function FindByClassId(class_id As Integer) As ClassMeta
+            Return userClass.Values.FirstOrDefault(Function(type) type.memoryPtr = class_id)
+        End Function
 
         Public Sub AddClass(types As IEnumerable(Of ClassMeta))
             types.DoEach(Sub(type) Call userClass.Add(type.ClassName, type))

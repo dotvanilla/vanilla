@@ -105,6 +105,15 @@ Namespace Compiler
             Return array
         End Function
 
+        ''' <summary>
+        ''' 添加类型定义的meta信息，然后返回class_id，即该自定义类型的内存之中的位置
+        ''' </summary>
+        ''' <param name="meta"></param>
+        ''' <returns></returns>
+        Public Function AddClassMeta(meta As ClassMeta) As Integer
+
+        End Function
+
         Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
             For Each data As Expression In buffer
                 Yield data

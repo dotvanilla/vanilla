@@ -30,31 +30,32 @@ Namespace Symbols.Parser
                 fieldInitialize += field.Declarators _
                     .ParseDeclarator(symbolTable, className) _
                     .ToArray
-
-                For Each globalField As DeclareGlobal In symbolTable.GetAllGlobals
-                    fieldList += New DeclareGlobal With {
-                        .init = globalField.init,
-                        .[Module] = className,
-                        .name = globalField.name,
-                        .type = globalField.type
-                    }
-                Next
-
-                Call symbolTable.ClearLocals()
             Next
 
+            For Each globalField As DeclareGlobal In symbolTable.GetAllGlobals
+                fieldList += New DeclareGlobal With {
+                    .init = globalField.init,
+                    .[Module] = className,
+                    .name = globalField.name,
+                    .type = globalField.type
+                }
+            Next
+
+            ' 目前暂时还不支持实例对象的method和property
             For Each method In type.Members.OfType(Of MethodBlockSyntax)
                 functions += method.ParseFunction(className, symbolTable)
                 symbolTable.currentModuleLabel = className
                 symbolTable.ClearLocals()
             Next
 
-            Return New ClassMeta With {
+            Dim meta As New ClassMeta With {
                 .Methods = functions,
                 .ClassName = className,
                 .[Module] = [namespace],
                 .Fields = fieldList
             }
+
+            Return meta
         End Function
 
         <Extension>
