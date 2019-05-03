@@ -8,6 +8,11 @@ Namespace Symbols.Parser
 
     ''' <summary>
     ''' Parser for class/structure
+    ''' 
+    ''' 在这个模块之中，class的解析类似于module的解析，但是会需要完成下面的一些改造
+    ''' 
+    ''' 1. 为类型的实例方法增加一个类型实例参数
+    ''' 2. 将方法之中的全局变量引用改造为实例对象的字段的引用
     ''' </summary>
     Module ClassParser
 

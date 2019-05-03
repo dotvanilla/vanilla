@@ -53,21 +53,13 @@
 Imports test.moduleContainer.name1
 
 Namespace moduleContainer.name1
-    Public Class ClassTest
+    Public Class CircleModel
 
-        Dim fieldName As String = "55555"
+        Public nodeName As String = "55555"
 
-        Public arrayProperty As Double()
-
-        Public Overrides Function ToString() As String
-            Dim s As String = ""
-
-            For i As Integer = 0 To arrayProperty.Length - 1
-                s = s & " " & arrayProperty(i)
-            Next
-
-            Return $"{fieldName}: {s}"
-        End Function
+        Public x As Integer
+        Public y As Integer
+        Public radius As Double
 
     End Class
 End Namespace
@@ -78,10 +70,10 @@ Public Module Runtest
 
     Sub test()
 
-        Dim s As New ClassTest With {.arrayProperty = {55, 55, 555, 5}}
+        Dim s As New CircleModel With {.radius = 100001, .x = -1, .y = 1, .nodeName = "{55, 55, 555, 5}"}
 
-        Call print(s.arrayProperty)
-        Call print("Object instance method test: " & s.ToString)
+        ' object field reference test
+        Call print(s.radius)
 
     End Sub
 
