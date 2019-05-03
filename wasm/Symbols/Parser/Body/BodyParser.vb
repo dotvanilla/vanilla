@@ -172,6 +172,7 @@ Namespace Symbols.Parser
                     intptr = ArrayBlock.IndexOffset(intptr, offset)
                     right = CTypeHandle.CType(fieldType, right, symbols)
 
+                    ' 只需要将数据写入指定的内存位置即可完成实例对象的字段的赋值操作
                     Return BitConverter.save(fieldType, intptr, right)
                 End If
 
