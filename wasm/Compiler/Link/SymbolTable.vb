@@ -180,7 +180,7 @@ Namespace Compiler
         End Function
 
         Public Sub AddClass(types As IEnumerable(Of ClassMeta))
-            types.DoEach(Sub(type) Call userClass.Add(type.ClassName, type))
+            types.DoEach(Sub(type) Call AddClass(type))
         End Sub
 
         Public Function HaveClass(name As String) As Boolean
