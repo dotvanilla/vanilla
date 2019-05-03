@@ -73,7 +73,8 @@ Namespace Symbols.MemoryObject
         ''' <returns></returns>
         Public ReadOnly Property sizeOf As Integer
             Get
-                Return 1 + 4 + Types.sizeOf(type) * length
+                ' class_id + length + elements
+                Return 4 + 4 + Types.sizeOf(type) * length
             End Get
         End Property
 
@@ -90,6 +91,14 @@ Namespace Symbols.MemoryObject
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
+            ' 在这里还需要写入一些基础信息
+            ' https://vanillavb.app/#array_impl
+            '
+            ' 类型枚举值
+
+            ' 数组的元素数量
+            Yield BitConverter.save("i32", memoryPtr + 1, Literal.i32(length))
+
             For Each x As Expression In elements
                 Yield x
             Next

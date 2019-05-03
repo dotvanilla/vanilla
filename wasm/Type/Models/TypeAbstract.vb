@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Compiler
 Imports Wasm.Symbols
 Imports Wasm.Symbols.Parser
+Imports r = System.Text.RegularExpressions.Regex
 
 Namespace TypeInfo
 
@@ -79,7 +80,30 @@ Namespace TypeInfo
         ''' The raw definition: <see cref="System.Type.FullName"/>
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 如果是用户的自定义类型的话，则在字符串的前面还存在一个前缀用来保存class_id
+        ''' 格式，例如：
+        ''' 
+        ''' ```
+        ''' [123]class_name
+        ''' ```
+        ''' </remarks>
         Public ReadOnly Property raw As String
+
+        ''' <summary>
+        ''' 注意，因为存在类型申明的meta信息的缘故，class_id永远都不会小于10，
+        ''' 所以从这个只读属性得到的class_id是小于10的话，则说明是基础类型或者object类型
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property class_id As Integer
+            Get
+                If type <> TypeAlias.intptr Then
+                    Return CInt(type)
+                Else
+                    Return r.Match(raw, "\[\d+\]", RegexICSng).Value.ParseInteger
+                End If
+            End Get
+        End Property
 
         ''' <summary>
         ''' Type symbol for generate S-Expression.

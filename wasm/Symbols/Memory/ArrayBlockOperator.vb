@@ -16,7 +16,8 @@ Namespace Symbols.MemoryObject
             Dim save As New List(Of Expression)
             Dim size As Integer = sizeOf(ofElement)
             Dim byteType$ = ofElement.typefit
-            Dim intptr As Integer = arrayBlock.memoryPtr
+            ' 在这里需要跳过数组前面的8个字节
+            Dim intptr As Integer = arrayBlock.memoryPtr + 4 + 4
 
             For Each element In array.Initialize
                 element = CTypeHandle.CType(ofElement, element, symbols)

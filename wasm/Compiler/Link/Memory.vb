@@ -105,18 +105,7 @@ Namespace Compiler
                 .memoryPtr = offset
             }
 
-            ' 1 byte   i32 4 bytes sizeof(type) bytes * length
-            ' byteMark length      elements....
-
-            If ofElement.type = TypeAlias.f64 OrElse ofElement.type = TypeAlias.i64 Then
-                ' 8 bytes
-                ' zero terminated
-                Me.offset += 8 * size + 1 + (4 + 1)
-            Else
-                ' other elements(f32/i32) and intptr(i32) type, 4 bytes
-                ' zero terminated
-                Me.offset += 4 * size + 1 + (4 + 1)
-            End If
+            Me.offset += array.sizeOf
 
             Return array
         End Function
