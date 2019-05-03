@@ -5,7 +5,7 @@ Imports Wasm.TypeInfo
 Namespace Symbols.MemoryObject
 
     ''' <summary>
-    ''' The class object meta data. 
+    ''' The class object meta data object model. 
     ''' </summary>
     Public Class ClassMeta : Inherits IMemoryObject
         Implements IDeclaredObject

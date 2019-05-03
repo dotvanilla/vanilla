@@ -110,8 +110,16 @@ Namespace Compiler
         ''' </summary>
         ''' <param name="meta"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' https://vanillavb.app/#class_impl
+        ''' </remarks>
         Public Function AddClassMeta(meta As ClassMeta) As Integer
+            Dim class_id As Integer = offset
 
+            ' 生成json数据模型，然后对json字符串进行base64序列化
+
+
+            Return class_id
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
