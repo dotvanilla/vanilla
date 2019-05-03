@@ -66,7 +66,7 @@ End Namespace
 
 Public Module Runtest
 
-    Declare Sub print Lib "console" Alias "log" (data As Double)
+    Declare Sub print Lib "console" Alias "log" (data As String)
 
     Sub test()
 
@@ -77,6 +77,9 @@ Public Module Runtest
 
         Dim c As CircleModel = returnObjecttest()
 
+        ' y should be zero
+
+        Call print(c.y)
     End Sub
 
     Private Function returnObjecttest(Optional radius As Long = 99999) As CircleModel

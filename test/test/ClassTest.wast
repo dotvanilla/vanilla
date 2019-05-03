@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 10:40:46 PM
+    ;; build: 5/3/2019 10:57:42 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -19,8 +19,12 @@
     (func $string.length (import "string" "length") (param $text i32) (result i32))
     ;; Declare Function string.indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
     (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
-    ;; Declare Function print Lib "console" Alias "log" (data As f64) As void
-    (func $Runtest.print (import "console" "log") (param $data f64) )
+    ;; Declare Function print Lib "console" Alias "log" (data As string) As void
+    (func $Runtest.print (import "console" "log") (param $data i32) )
+    ;; Declare Function f64.toString Lib "string" Alias "toString" (x As f64) As string
+    (func $f64.toString (import "string" "toString") (param $x f64) (result i32))
+    ;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
+    (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
@@ -28,7 +32,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 273))
+    (global $global.ObjectManager (mut i32) (i32.const 285))
 
     ;; Memory data for string constant
     
@@ -37,6 +41,9 @@
 
     ;; String from 256 with 16 bytes in memory
     (data (i32.const 256) "{55, 55, 555, 5}\00")
+
+    ;; String from 273 with 11 bytes in memory
+    (data (i32.const 273) "XXXXXXXXXX!\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -59,6 +66,7 @@
     (func $Runtest.test  
         ;; Public Function test() As void
         (local $s i32)
+    (local $c i32)
     
     ;; Initialize a object instance of [CircleModel]
     ;; Object memory block begin at location: (get_global $global.ObjectManager)
@@ -75,7 +83,27 @@
     ;; Initialize an object memory block with 20 bytes data
     
     (set_local $s (get_global $global.ObjectManager))
-    (call $Runtest.print (f64.load (i32.add (get_local $s) (i32.const 12))))
+    (call $Runtest.print (call $f64.toString (f64.load (i32.add (get_local $s) (i32.const 12)))))
+    (set_local $c (call $Runtest.returnObjecttest (i64.const 99999)))
+    (call $Runtest.print (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8)))))
+    )
+    (func $Runtest.returnObjecttest (param $radius i64) (result i32)
+        ;; Public Function returnObjecttest(radius As i64) As intptr
+        
+    
+    ;; Initialize a object instance of [CircleModel]
+    ;; Object memory block begin at location: (get_global $global.ObjectManager)
+    ;; set field [moduleContainer.name1.CircleModel::nodeName]
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 273))
+    ;; set field [moduleContainer.name1.CircleModel::radius]
+    (f64.store (i32.add (get_global $global.ObjectManager) (i32.const 12)) (f64.convert_s/i64 (get_local $radius)))
+    ;; set field [moduleContainer.name1.CircleModel::x]
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.wrap/i64 (i64.add (get_local $radius) (i64.const 1))))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 20)))
+    ;; Initialize an object memory block with 20 bytes data
+    
+    (return (get_global $global.ObjectManager))
     )
     
 
