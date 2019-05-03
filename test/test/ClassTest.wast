@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 11:11:50 PM
+    ;; build: 5/3/2019 11:13:36 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -61,7 +61,7 @@
     (data (i32.const 7) "eyJtZW1vcnlQdHIiOjcsIkNsYXNzIjoiQ2lyY2xlTW9kZWwiLCJGaWVsZHMiOnsibm9kZU5hbWUiOnsiZ2VuZXJpYyI6W119LCJ4Ijp7ImdlbmVyaWMiOltdfSwieSI6eyJnZW5lcmljIjpbXX0sInJhZGl1cyI6eyJnZW5lcmljIjpbXX19LCJNZXRob2RzIjp7fSwiTmFtZXNwYWNlIjoibW9kdWxlQ29udGFpbmVyLm5hbWUxIn0=\00")
 
     ;; Global variables in this module
-    
+    (global $Runtest.globalObject (mut i32) (i32.const 0))
 
     ;; Export methods of this module
     ;; export from VB.NET module: [Runtest]
@@ -98,6 +98,7 @@
     (call $Runtest.print (call $string.add (i32.const 279) (call $f64.toString (f64.add (f64.load (i32.add (get_local $s) (i32.const 12))) (f64.load (i32.add (get_local $c) (i32.const 12)))))))
     (i32.store (i32.add (get_local $c) (i32.const 8)) (i32.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 99.999))))
     (call $Runtest.print (call $string.add (i32.const 337) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
+    (set_global $Runtest.globalObject (call $Runtest.returnObjecttest (i64.const 777)))
     )
     (func $Runtest.returnObjecttest (param $radius i64) (result i32)
         ;; Public Function returnObjecttest(radius As i64) As intptr

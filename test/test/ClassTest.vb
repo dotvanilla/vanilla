@@ -68,6 +68,8 @@ Public Module Runtest
 
     Declare Sub print Lib "console" Alias "log" (data As String)
 
+    Dim globalObject As CircleModel
+
     Sub test()
 
         Dim s As New CircleModel With {.radius = 100001, .x = -1, .y = 1.0009, .nodeName = "{55, 55, 555, 5}"}
@@ -87,6 +89,9 @@ Public Module Runtest
         c.y = -99.999
 
         Call print($"y after update is {c.y}")
+
+
+        globalObject = returnObjecttest(777)
     End Sub
 
     Private Function returnObjecttest(Optional radius As Long = 99999) As CircleModel
