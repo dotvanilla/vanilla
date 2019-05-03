@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60ed0db79868732d2654826687d2938d, Symbols\Parser\Expressions\ObjectCreatorParser.vb"
+﻿#Region "Microsoft.VisualBasic::fc017f232a6347713841e318e4caa9e3, Symbols\Parser\Expressions\ObjectCreatorParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Module ObjectCreatorParser
     ' 
-    '         Function: AsNewObject, CreateCollection, CreateCollectionObject, CreateObject, GetInitializeValue
+    '         Function: AsNewObject, CreateCollection, CreateCollectionObject, CreateObject, createUserObject
+    '                   GetInitializeValue
     ' 
     ' 
     ' /********************************************************************************/
