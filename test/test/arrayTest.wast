@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 2:31:29 AM
+    ;; build: 5/4/2019 2:38:20 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -231,8 +231,29 @@
 ;; 
 ;; Sub New
 (func $Application_SubNew
+(local $arrayOffset_9f020000 i32)
 
-(set_global $arrayTest.ints2 (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $array.new (i32.const -1)) (i32.const 456)) (i32.const 2)) (i32.const 387)) (i32.const 456)) (i32.const 4641)) (i32.const 231)) (i32.const 23)) (i32.const 13)) (i32.const 1)) (i32.trunc_s/f64 (f64.const 2.3))))
+;; Save 10 array element data to memory:
+;; Array memory block begin at location: (get_global $global.ObjectManager)
+;; class_id/typealias_enum i32 data: (i32.const 1)/array(Of i32)
+(i32.store (get_global $global.ObjectManager) (i32.const 1))
+(i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 10))
+;; End of byte marks meta data, start write data blocks
+(set_local $arrayOffset_9f020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 0)) (i32.const 456))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 4)) (i32.const 2))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 8)) (i32.const 387))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 12)) (i32.const 456))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 16)) (i32.const 4641))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 20)) (i32.const 231))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 24)) (i32.const 23))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 28)) (i32.const 13))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 32)) (i32.const 1))
+(i32.store (i32.add (get_local $arrayOffset_9f020000) (i32.const 36)) (i32.trunc_s/f64 (f64.const 2.3)))
+;; Offset object manager with 48 bytes
+(set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 48)))
+;; Assign array memory data to another expression
+(set_global $arrayTest.ints2 (get_global $global.ObjectManager))
 )
 
 (start $Application_SubNew)
