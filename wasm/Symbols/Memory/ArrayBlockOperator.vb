@@ -74,11 +74,12 @@ Namespace Symbols.MemoryObject
             Dim byteType$ = ofElement.typefit
             ' 在这里需要跳过数组前面的8个字节
             Dim intptr As Expression = IMemoryObject.IndexOffset(arrayBlock.memoryPtr, 4 + 4)
+            Dim offset As Integer = 0
 
             For Each element In array.Initialize
                 element = CTypeHandle.CType(ofElement, element, symbols)
-                save += BitConverter.save(byteType, intptr, element)
-                intptr = IMemoryObject.IndexOffset(intptr, size)
+                save += BitConverter.save(byteType, IMemoryObject.IndexOffset(intptr, offset), element)
+                offset += size
             Next
 
             arrayBlock.elements = save
