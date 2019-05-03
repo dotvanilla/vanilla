@@ -59,6 +59,13 @@ Namespace Symbols.MemoryObject
         ''' <returns></returns>
         Public Property memoryPtr As Integer
 
+        Public Shared ReadOnly Property ObjectManager As New DeclareGlobal With {
+            .init = Literal.i32(1),
+            .[Module] = "global",
+            .name = NameOf(ObjectManager),
+            .type = TypeAbstract.i32
+        }
+
         ''' <summary>
         ''' 这个对象在内存之中的起始位置
         ''' </summary>

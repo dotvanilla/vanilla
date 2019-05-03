@@ -47,6 +47,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Compiler
 Imports Wasm.Symbols.JavaScriptImports
 Imports Wasm.Symbols.MemoryObject
@@ -64,11 +66,46 @@ Namespace Symbols.Parser
             If TypeOf objNew Is ObjectCollectionInitializerSyntax Then
                 Return DirectCast(objNew, ObjectCollectionInitializerSyntax).CreateCollection(type, symbols)
             Else
-                ' 创建用户自定义类型的对象实例
-                Dim obj As New UserObject
-                Dim objType As ClassMeta = symbols.GetClassType(rawType.WebAssembly(symbols).raw)
+                type = rawType.WebAssembly(symbols)
 
-                Throw New NotImplementedException
+                Dim objType As ClassMeta = symbols.GetClassType(type.raw)
+                Dim hashcode As Expression = New GetGlobalVariable(IMemoryObject.ObjectManager)
+                ' 创建用户自定义类型的对象实例
+                Dim obj As New UserObject With {
+                    .memoryPtr = hashcode,
+                    .UnderlyingType = type,
+                    .width = objType.FieldWidth,
+                    .Meta = objType
+                }
+
+                ' 初始化字段值
+                Dim initializer As New List(Of Expression)
+                Dim fieldName$
+                Dim fieldType As TypeAbstract
+                Dim initValue As Expression
+
+                For Each init As FieldInitializerSyntax In DirectCast(objNew, ObjectMemberInitializerSyntax).Initializers
+                    fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
+                    initValue = DirectCast(init, NamedFieldInitializerSyntax).Expression.ValueExpression(symbols)
+                    fieldType = objType(fieldName).type
+
+                    ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
+                    ' 所以下面的保存的位置值intptr不能够是累加的结果
+                    ' 而每次必须是从hashcode的位置处进行位移，才能够正常的读取结果值
+                    initializer += BitConverter.save(
+                        type:=fieldType,
+                        intptr:=ArrayBlock.IndexOffset(hashcode, sizeOf(fieldType)),
+                        value:=initValue
+                    )
+                Next
+
+                initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
+                    .value = ArrayBlock.IndexOffset(hashcode, obj.width)
+                }
+
+                Return obj.With(Sub(ByRef o)
+                                    o.Initialize = initializer
+                                End Sub)
             End If
         End Function
 

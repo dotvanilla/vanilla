@@ -85,6 +85,10 @@ Namespace Symbols.MemoryObject
             Yield GetEnumerator()
         End Function
 
+        Public Shared Function IndexOffset(array As Expression, offset As Integer) As Expression
+            Return IndexOffset(array, Literal.i32(offset))
+        End Function
+
         ''' <summary>
         ''' 返回读写数组元素的内存的位置表达式
         ''' </summary>

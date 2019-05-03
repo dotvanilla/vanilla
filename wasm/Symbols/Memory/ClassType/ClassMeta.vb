@@ -24,6 +24,12 @@ Namespace Symbols.MemoryObject
         ''' <returns></returns>
         Public Property Methods As FuncSymbol()
 
+        Default Public ReadOnly Property Field(name As String) As DeclareGlobal
+            Get
+                Return Fields.FirstOrDefault(Function(v) v.name = name)
+            End Get
+        End Property
+
         ''' <summary>
         ''' 对象实例在内存之中只有存储状态数据的字段栈位置，方法，属性之类的不需要加载到内存之中
         ''' 在这里为了方便内存分配而需要从这个属性得到计算的字段位宽来进行内存指针偏移量的计算
@@ -33,16 +39,8 @@ Namespace Symbols.MemoryObject
             Get
                 Return Aggregate field As DeclareGlobal
                        In Fields
-                       Let width = Function() As Integer
-                                       Select Case field.type.type
-                                           Case TypeAlias.f64, TypeAlias.i64
-                                               Return 8
-                                           Case Else
-                                               ' 字符串，数组，其他的类型都是i32整形数
-                                               Return 4
-                                       End Select
-                                   End Function
-                       Into Sum(width())
+                       Let width = sizeOf(field.type)
+                       Into Sum(width)
             End Get
         End Property
 

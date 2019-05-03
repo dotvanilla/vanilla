@@ -229,6 +229,10 @@ Namespace Symbols
         Sub New()
         End Sub
 
+        Sub New([global] As DeclareGlobal)
+            Call Me.New([global].Module, [global].name)
+        End Sub
+
         Sub New(module$, name As String)
             Me.var = name
             Me.module = [module]
@@ -246,6 +250,14 @@ Namespace Symbols
     Public Class SetGlobalVariable : Inherits SetLocalVariable
 
         Public Property [module] As String
+
+        Sub New()
+        End Sub
+
+        Sub New([global] As DeclareGlobal)
+            Me.var = [global].name
+            Me.module = [global].Module
+        End Sub
 
         Public Overrides Function ToSExpression() As String
             Return $"(set_global ${[module]}.{var} {value})"

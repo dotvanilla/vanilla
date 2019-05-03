@@ -56,16 +56,20 @@ Namespace Symbols.MemoryObject
     ''' The user object abstract model.
     ''' 一个用户自定义类型的实例对象
     ''' </summary>
-    Public Class UserObject : Inherits IMemoryObject
+    Public Class UserObject : Inherits Expression
 
+        Public Property memoryPtr As Expression
         Public Property UnderlyingType As TypeAbstract
+        Public Property Meta As ClassMeta
+        Public Property width As Integer
+        Public Property Initialize As Expression()
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return UnderlyingType
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return Me.AddressOf.ToSExpression
+            Return Me.memoryPtr.ToSExpression
         End Function
     End Class
 End Namespace
