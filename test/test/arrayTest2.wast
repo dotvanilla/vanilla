@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 2:13:14 AM
+    ;; build: 5/4/2019 2:17:00 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $arrayTest2.returnArrayTest  (result i32)
         ;; Public Function returnArrayTest() As array(Of f32)
         (local $x f64)
+    (local $arrayOffset_9a020000 i32)
     (set_local $x (f64.load (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.const 1) (i32.const 8)))))
     
     ;; Save 8 array element data to memory:
@@ -118,7 +119,7 @@
 ;; 
 ;; Sub New
 (func $Application_SubNew
-
+(local $arrayOffset_9d020000 i32)
 
 ;; Save 12 array element data to memory:
 ;; Array memory block begin at location: (get_global $global.ObjectManager)
