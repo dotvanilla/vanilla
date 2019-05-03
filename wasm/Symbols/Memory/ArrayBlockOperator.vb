@@ -91,7 +91,7 @@ Namespace Symbols.MemoryObject
             Select Case memberName
                 Case "Length"
                     ' 读取第二个i32数据块即可得到长度
-                    Dim intptr As Expression = BinaryStack(array, Literal.i32(4), "+", symbols)
+                    Dim intptr As Expression = ArrayBlock.IndexOffset(array, Literal.i32(4))
                     Dim counts As Expression = BitConverter.Loadi32(intptr)
 
                     Return counts
@@ -109,7 +109,7 @@ Namespace Symbols.MemoryObject
             ' 从webassembly内存之中读取数据
             ' 对于数组对象而言，其值是一个内存区块的起始位置来的
             ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
-            Dim intptr As Expression = BinaryStack(target, Literal.i32(4 + 4), "+", symbols)
+            Dim intptr As Expression = ArrayBlock.IndexOffset(target, Literal.i32(4 + 4))
             ' 然后位置的偏移量则是index索引，乘上元素的大小
             Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
             Dim read As Expression
@@ -132,7 +132,7 @@ Namespace Symbols.MemoryObject
             ' 从webassembly内存之中读取数据
             ' 对于数组对象而言，其值是一个内存区块的起始位置来的
             ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
-            Dim intptr As Expression = BinaryStack(arraySymbol, Literal.i32(4 + 4), "+", symbols)
+            Dim intptr As Expression = ArrayBlock.IndexOffset(arraySymbol, Literal.i32(4 + 4))
             ' 然后位置的偏移量则是index索引，乘上元素的大小
             Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
             Dim save As Expression
