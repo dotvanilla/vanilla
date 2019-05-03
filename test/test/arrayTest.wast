@@ -232,7 +232,7 @@
 ;; Sub New
 (func $Application_SubNew
 
-
+(set_global $arrayTest.ints2 (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $i32_array.push (call $array.new (i32.const -1)) (i32.const 456)) (i32.const 2)) (i32.const 387)) (i32.const 456)) (i32.const 4641)) (i32.const 231)) (i32.const 23)) (i32.const 13)) (i32.const 1)) (i32.trunc_s/f64 (f64.const 2.3))))
 )
 
 (start $Application_SubNew)

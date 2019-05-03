@@ -59,6 +59,10 @@ Module arrayTest
     Dim xxl As List(Of String)
     Dim ints2 As Integer()
 
+    Sub New()
+        ints2 = {456, 2, 387, 456, 4641, 231, 23, 13, 1, 2.3}
+    End Sub
+
     Public Function arrayLoop()
         ' convert to string and display
         Dim ints As Integer() = {1, 2, 3, 4, 5, 6, 7, 88}
