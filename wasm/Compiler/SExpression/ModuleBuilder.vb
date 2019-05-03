@@ -85,6 +85,7 @@ Namespace Compiler.SExpression
                 .Where(Function(oftype) TypeOf oftype Is StringSymbol) _
                 .Select(Function(s) s.ToSExpression) _
                 .JoinBy(ASCII.LF)
+            Dim objectManager As DeclareGlobal = m.Memory.InitializeObjectManager
 
             Return $"(module ;; Module {m.LabelName}
 
@@ -103,6 +104,11 @@ Namespace Compiler.SExpression
     
     ;; Only allows one memory block in each module
     (memory (import ""env"" ""bytechunks"") 1)
+
+    ;; A global object manager for create user object in WebAssembly
+    ;; Its initialize value is the total size of the string data
+    ;; of this webassembly module
+    {objectManager}
 
     ;; Memory data for string constant
     {stringsData}

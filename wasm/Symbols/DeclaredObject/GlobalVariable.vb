@@ -61,6 +61,20 @@ Namespace Symbols
         ''' <returns></returns>
         Public Property [Module] As String Implements IDeclaredObject.Module
 
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' Object data copy
+        ''' </summary>
+        ''' <param name="copy"></param>
+        Sub New(copy As DeclareGlobal)
+            Me.init = copy.init
+            Me.Module = copy.Module
+            Me.name = copy.name
+            Me.type = copy.type
+        End Sub
+
         Public Function GetReference() As GetGlobalVariable
             Return New GetGlobalVariable([Module], name)
         End Function

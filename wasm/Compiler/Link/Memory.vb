@@ -61,6 +61,16 @@ Namespace Compiler
         Dim offset As Integer = 1
 
         ''' <summary>
+        ''' 获取得到在WebAssembly之中的初始化大小
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property TotalSize As Integer
+            Get
+
+            End Get
+        End Property
+
+        ''' <summary>
         ''' 函数返回的是数据的内存位置
         ''' </summary>
         ''' <param name="str"></param>
