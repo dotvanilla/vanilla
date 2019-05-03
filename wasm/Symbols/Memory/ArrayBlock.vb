@@ -99,7 +99,7 @@ Namespace Symbols.MemoryObject
             ' 类型枚举值
             Yield BitConverter.save("i32", memoryPtr, class_id)
             ' 数组的元素数量
-            Yield BitConverter.save("i32", memoryPtr + 1, Literal.i32(length))
+            Yield BitConverter.save("i32", ArrayBlock.IndexOffset(memoryPtr, 4), Literal.i32(length))
 
             Yield New CommentText("End of byte marks meta data, start write data blocks")
 
