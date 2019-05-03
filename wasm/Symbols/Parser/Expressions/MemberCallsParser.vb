@@ -101,11 +101,28 @@ Namespace Symbols.Parser
                     Else
                         ' 是引用的模块成员
                         ' 引用的可能是实例对象的成员字段
-                        Return obj.GetMemberField(memberName, symbols)
+                        Return obj.tryGetMember(memberName, symbols)
                     End If
                 End If
 
                 Throw New NotImplementedException
+            End If
+        End Function
+
+        <Extension>
+        Private Function tryGetMember(obj As GetLocalVariable, memberName$, symbols As SymbolTable) As Expression
+            Dim type As TypeAbstract = obj.TypeInfer(symbols)
+
+            If type = TypeAlias.intptr Then
+                ' 用户自定义类型的成员引用
+                Return obj.GetMemberField(memberName, symbols)
+            Else
+                ' 可能是字符串长度，数组长度之类的函数引用
+                If type = TypeAlias.array Then
+                    Return obj.GetArrayMember(memberName, symbols)
+                Else
+                    Throw New NotImplementedException
+                End If
             End If
         End Function
 

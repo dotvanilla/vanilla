@@ -5,28 +5,22 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 5:55:45 PM
+    ;; build: 5/3/2019 11:48:29 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
     ;; imports must occur before all non-import definitions
 
-    ;; Declare Function array.new Lib "Array" Alias "create" (size As i32) As array
+    ;; Declare Function array.new Lib "Array" Alias "create" (size As i32) As list
     (func $array.new (import "Array" "create") (param $size i32) (result i32))
-    ;; Declare Function i32_array.push Lib "Array" Alias "push" (array As array, element As i32) As array
+    ;; Declare Function i32_array.push Lib "Array" Alias "push" (array As list, element As i32) As list
     (func $i32_array.push (import "Array" "push") (param $array i32) (param $element i32) (result i32))
-    ;; Declare Function i32_array.get Lib "Array" Alias "get" (array As array, index As i32) As i32
+    ;; Declare Function i32_array.get Lib "Array" Alias "get" (array As list, index As i32) As i32
     (func $i32_array.get (import "Array" "get") (param $array i32) (param $index i32) (result i32))
-    ;; Declare Function i32_array.set Lib "Array" Alias "set" (array As array, index As i32, value As i32) As void
+    ;; Declare Function i32_array.set Lib "Array" Alias "set" (array As list, index As i32, value As i32) As void
     (func $i32_array.set (import "Array" "set") (param $array i32) (param $index i32) (param $value i32) )
-    ;; Declare Function array.length Lib "Array" Alias "length" (array As array) As i32
+    ;; Declare Function array.length Lib "Array" Alias "length" (array As list) As i32
     (func $array.length (import "Array" "length") (param $array i32) (result i32))
-    ;; Declare Function i64_array.push Lib "Array" Alias "push" (array As array, element As i64) As array
-    (func $i64_array.push (import "Array" "push") (param $array i32) (param $element i64) (result i32))
-    ;; Declare Function i64_array.get Lib "Array" Alias "get" (array As array, index As i32) As i64
-    (func $i64_array.get (import "Array" "get") (param $array i32) (param $index i32) (result i64))
-    ;; Declare Function i64_array.set Lib "Array" Alias "set" (array As array, index As i32, value As i64) As void
-    (func $i64_array.set (import "Array" "set") (param $array i32) (param $index i32) (param $value i64) )
     ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
     (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
     ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
@@ -37,39 +31,50 @@
     (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
     ;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
     (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
-    ;; Declare Function string_array.push Lib "Array" Alias "push" (array As array, element As string) As array
+    ;; Declare Function string_array.push Lib "Array" Alias "push" (array As list, element As string) As list
     (func $string_array.push (import "Array" "push") (param $array i32) (param $element i32) (result i32))
-    ;; Declare Function string_array.get Lib "Array" Alias "get" (array As array, index As i32) As string
+    ;; Declare Function string_array.get Lib "Array" Alias "get" (array As list, index As i32) As string
     (func $string_array.get (import "Array" "get") (param $array i32) (param $index i32) (result i32))
-    ;; Declare Function string_array.set Lib "Array" Alias "set" (array As array, index As i32, value As string) As void
+    ;; Declare Function string_array.set Lib "Array" Alias "set" (array As list, index As i32, value As string) As void
     (func $string_array.set (import "Array" "set") (param $array i32) (param $index i32) (param $value i32) )
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
 
+    ;; A global object manager for create user object in WebAssembly
+    ;; Its initialize value is the total size of the string data
+    ;; of this webassembly module
+    (global $global.ObjectManager (mut i32) (i32.const 138))
+
     ;; Memory data for string constant
     
-    ;; String from 1 with 11 bytes in memory
-    (data (i32.const 1) "34546734853\00")
+    ;; String from 34 with 11 bytes in memory
+    (data (i32.const 34) "34546734853\00")
 
-    ;; String from 13 with 16 bytes in memory
-    (data (i32.const 13) "8sdjkfsdhfsdfsdf\00")
+    ;; String from 46 with 16 bytes in memory
+    (data (i32.const 46) "8sdjkfsdhfsdfsdf\00")
 
-    ;; String from 30 with 27 bytes in memory
-    (data (i32.const 30) "This is a internal function\00")
+    ;; String from 63 with 27 bytes in memory
+    (data (i32.const 63) "This is a internal function\00")
 
-    ;; String from 58 with 31 bytes in memory
-    (data (i32.const 58) "This is a internal function too\00")
+    ;; String from 91 with 31 bytes in memory
+    (data (i32.const 91) "This is a internal function too\00")
 
-    ;; String from 90 with 5 bytes in memory
-    (data (i32.const 90) "ddddd\00")
+    ;; String from 123 with 5 bytes in memory
+    (data (i32.const 123) "ddddd\00")
     
+    ;; Memory data for user defined class object its meta data
+    ;; all of these string is base64 encoded json object
+    
+
+    ;; Global variables in this module
     (global $Modulemethod_test.auniqueSymbol (mut i32) (i32.const 0))
 
 (global $Modulemethod_test.ANonUniqueSymbol (mut i32) (i32.const 0))
 
 (global $module2.ANonUniqueSymbol (mut i32) (i32.const 0))
 
+    ;; Export methods of this module
     ;; export from VB.NET module: [Modulemethod_test]
     
     (export "Modulemethod_test.arraytypeInferTest" (func $Modulemethod_test.arraytypeInferTest))
@@ -94,7 +99,15 @@
     (func $Modulemethod_test.arraytypeInferTest  (result i32)
         ;; Public Function arraytypeInferTest() As array(Of i64)
         
-    (return (call $i64_array.push (call $i64_array.push (call $i64_array.push (call $i64_array.push (call $array.new (i32.const -1)) (i64.const 2342)) (i64.const 34)) (i64.const 322)) (i64.const 343)))
+    
+    ;; Save 4 array element data to memory:
+    ;; Array memory block begin at location: 1
+    (i64.store (i32.const 1) (i64.const 2342))
+    (i64.store (i32.const 9) (i64.const 34))
+    (i64.store (i32.const 17) (i64.const 322))
+    (i64.store (i32.const 25) (i64.const 343))
+    ;; Assign array memory data to another expression
+    (return (i32.const 1))
     )
     (func $Modulemethod_test.test  (result i32)
         ;; Public Function test() As i32
@@ -105,13 +118,13 @@
         ;; Public Function calls() As void
         
     (drop (call $Modulemethod_test.test ))
-    (drop (call $module2.test (call $string.add (call $string.add (i32.const 1) (call $i32.toString (call $Modulemethod_test.test ))) (i32.const 13))))
+    (drop (call $module2.test (call $string.add (call $string.add (i32.const 34) (call $i32.toString (call $Modulemethod_test.test ))) (i32.const 46))))
     (drop (call $Modulemethod_test.ThisIsAInternalFunction ))
     )
     (func $Modulemethod_test.ThisIsAInternalFunction  (result i32)
         ;; Public Function ThisIsAInternalFunction() As any
         
-    (return (i32.const 30))
+    (return (i32.const 63))
     )
     
     
@@ -133,7 +146,7 @@
     (func $module2.ThisIsAInternalFunction  (result i32)
         ;; Public Function ThisIsAInternalFunction() As any
         
-    (return (i32.const 58))
+    (return (i32.const 91))
     )
     (func $module2.Runapp  
         ;; Public Function Runapp() As void
@@ -150,6 +163,24 @@
     (func $module2.test (param $gg i32) (result i32)
         ;; Public Function test(gg As string) As array(Of string)
         
-    (return (call $string_array.push (call $string_array.push (call $array.new (i32.const -1)) (get_local $gg)) (call $string.add (get_local $gg) (i32.const 90))))
+    
+    ;; Save 2 array element data to memory:
+    ;; Array memory block begin at location: 129
+    (i32.store (i32.const 129) (get_local $gg))
+    (i32.store (i32.const 133) (call $string.add (get_local $gg) (i32.const 123)))
+    ;; Assign array memory data to another expression
+    (return (i32.const 129))
     )
-    )
+    
+
+;; Application Initialize
+;; 
+;; Sub New
+(func $Application_SubNew
+
+
+)
+
+(start $Application_SubNew)
+
+)

@@ -75,11 +75,11 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "..\arrayTest2.vb",
+                 "..\Modulemethod_test.vb",
            "..\ClassTest.vb",
-            "..\arrayTest2.vb",
                                       "..\arrayTest.vb",
                    "..\EnumTest.vb",
-                "..\Modulemethod_test.vb",
                   "..\Stringstest.vb",
                     "..\functionTest.vb",
                   "..\boolTest.vb",
