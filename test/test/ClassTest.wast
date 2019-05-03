@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 11:13:36 PM
+    ;; build: 5/3/2019 11:40:27 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -32,7 +32,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 368))
+    (global $global.ObjectManager (mut i32) (i32.const 420))
 
     ;; Memory data for string constant
     
@@ -51,8 +51,14 @@
     ;; String from 337 with 18 bytes in memory
     (data (i32.const 337) "y after update is \00")
 
-    ;; String from 356 with 11 bytes in memory
-    (data (i32.const 356) "XXXXXXXXXX!\00")
+    ;; String from 356 with 25 bytes in memory
+    (data (i32.const 356) "y of the globalobject is \00")
+
+    ;; String from 382 with 25 bytes in memory
+    (data (i32.const 382) "y of the globalobject is \00")
+
+    ;; String from 408 with 11 bytes in memory
+    (data (i32.const 408) "XXXXXXXXXX!\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -99,6 +105,8 @@
     (i32.store (i32.add (get_local $c) (i32.const 8)) (i32.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 99.999))))
     (call $Runtest.print (call $string.add (i32.const 337) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
     (set_global $Runtest.globalObject (call $Runtest.returnObjecttest (i64.const 777)))
+    (call $Runtest.print (call $string.add (i32.const 356) (call $i32.toString (get_global $Runtest.globalObject))))
+    (call $Runtest.print (call $string.add (i32.const 382) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
     )
     (func $Runtest.returnObjecttest (param $radius i64) (result i32)
         ;; Public Function returnObjecttest(radius As i64) As intptr
@@ -107,7 +115,7 @@
     ;; Initialize a object instance of [CircleModel]
     ;; Object memory block begin at location: (get_global $global.ObjectManager)
     ;; set field [moduleContainer.name1.CircleModel::nodeName]
-    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 356))
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 408))
     ;; set field [moduleContainer.name1.CircleModel::radius]
     (f64.store (i32.add (get_global $global.ObjectManager) (i32.const 12)) (f64.convert_s/i64 (get_local $radius)))
     ;; set field [moduleContainer.name1.CircleModel::x]

@@ -171,7 +171,7 @@ Namespace Symbols.Parser
                 Return func.FunctionInvoke({obj})
             ElseIf type = TypeAlias.intptr Then
                 ' object field
-
+                Return ObjectOperator.GetMemberField(obj, memberName, symbols)
             Else
             End If
 
