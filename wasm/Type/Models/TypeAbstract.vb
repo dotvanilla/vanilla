@@ -120,6 +120,12 @@ Namespace TypeInfo
         Public Shared ReadOnly Property void As New TypeAbstract("void")
 #End Region
 
+        ''' <summary>
+        ''' For json serialization
+        ''' </summary>
+        Sub New()
+        End Sub
+
         Sub New(raw As RawType, symbols As SymbolTable)
             Call Me.New(raw.WebAssembly(symbols))
         End Sub
