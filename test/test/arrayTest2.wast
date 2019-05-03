@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 2:10:02 AM
+    ;; build: 5/4/2019 2:13:14 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -70,7 +70,7 @@
     (i32.store (get_global $global.ObjectManager) (i32.const 3))
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 8))
     ;; End of byte marks meta data, start write data blocks
-    (set_local $ (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_local $arrayOffset_9a020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
     (f32.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 0)) (f32.demote/f64 (get_local $x)))
     (f32.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 0)))
     (f32.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 8)) (f32.convert_s/i32 (i32.const 35)))
@@ -126,7 +126,7 @@
 (i32.store (get_global $global.ObjectManager) (i32.const 4))
 (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 12))
 ;; End of byte marks meta data, start write data blocks
-(set_local $ (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+(set_local $arrayOffset_9d020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 0)) (f64.convert_s/i32 (i32.const 24)))
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 8)) (f64.convert_s/i32 (i32.const 23)))
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 16)) (f64.convert_s/i32 (i32.const 424)))

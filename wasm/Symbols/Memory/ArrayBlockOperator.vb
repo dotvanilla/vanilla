@@ -82,6 +82,7 @@ Namespace Symbols.MemoryObject
             Next
 
             arrayBlock.elements = save
+            arrayBlock.itemOffset = offset.var
 
             Return arrayBlock
         End Function
