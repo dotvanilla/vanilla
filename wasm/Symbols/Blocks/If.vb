@@ -54,9 +54,9 @@ Namespace Symbols.Blocks
 
     Public Class IfBlock : Inherits AbstractBlock
 
-        Public Property Condition As BooleanSymbol
-        Public Property [Then] As Expression()
-        Public Property [Else] As Expression()
+        Public Property condition As BooleanSymbol
+        Public Property [then] As Expression()
+        Public Property [else] As Expression()
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract("void")
@@ -65,16 +65,16 @@ Namespace Symbols.Blocks
         Public Overrides Function ToSExpression() As String
             Dim else$ = ""
 
-            If Not Me.Else.IsNullOrEmpty Then
+            If Not Me.else.IsNullOrEmpty Then
                 [else] = $"(else
-        {Block.InternalBlock(Me.[Else], "        ")}
+        {Block.InternalBlock(Me.else, "        ")}
     )"
             End If
 
             Return $"
-(if {Condition} 
+(if {condition} 
     (then
-        {Block.InternalBlock([Then], "        ")}
+        {Block.InternalBlock([then], "        ")}
     ) {[else]}
 )"
         End Function

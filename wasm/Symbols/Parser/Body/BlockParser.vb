@@ -82,9 +82,9 @@ Namespace Symbols.Parser
             End If
 
             Return New IfBlock With {
-                .Condition = test,
-                .[Then] = thenBlock,
-                .[Else] = elseBlock
+                .condition = test,
+                .[then] = thenBlock,
+                .[else] = elseBlock
             }
         End Function
 

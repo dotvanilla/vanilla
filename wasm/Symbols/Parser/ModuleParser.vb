@@ -260,7 +260,7 @@ Namespace Symbols.Parser
                     .importAlias = api.AliasName.Token.ValueText,
                     .package = api.LibraryName.Token.ValueText,
                     .[module] = moduleName,
-                    .IsExtensionMethod = api.IsExtensionMethod
+                    .isExtensionMethod = api.IsExtensionMethod
                 }
 
                 ' add api symbols for type match in function body
