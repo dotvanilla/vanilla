@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d631c79f48268d8ff74681757642eaac, Symbols\Parser\Expressions\ArrayExpressionParser.vb"
+﻿#Region "Microsoft.VisualBasic::6061c451f54c5f260390c764f63f4046, Symbols\Parser\Expressions\ArrayExpressionParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module ArrayExpressionParser
     ' 
-    '         Function: arrayListIndexer, CreateArray, setArrayListElement, writeArray
+    '         Function: arrayListIndexer, CreateArray, setArrayListElement
     ' 
     ' 
     ' /********************************************************************************/

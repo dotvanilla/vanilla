@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b46ba4f8936924bef93a5d5ab33f9ee4, Type\Models\TypeAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::c362da085756fbef09a092f913ab12f4, Type\Models\TypeAbstract.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
 
     '     Class TypeAbstract
     ' 
-    '         Properties: f32, f64, generic, i32, i64
-    '                     iscollection, isprimitive, raw, type, typefit
-    '                     void
+    '         Properties: class_id, f32, f64, generic, i32
+    '                     i64, iscollection, isprimitive, raw, type
+    '                     typefit, void
     ' 
     '         Constructor: (+8 Overloads) Sub New
     ' 
