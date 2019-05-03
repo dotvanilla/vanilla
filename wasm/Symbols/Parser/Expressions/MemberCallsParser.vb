@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b35b2cd114feb89c2b0e92debbb60433, Symbols\Parser\Expressions\MemberCallsParser.vb"
+﻿#Region "Microsoft.VisualBasic::949baf5b08104c7bf79e73ff9b703e7f, Symbols\Parser\Expressions\MemberCallsParser.vb"
 
     ' Author:
     ' 
