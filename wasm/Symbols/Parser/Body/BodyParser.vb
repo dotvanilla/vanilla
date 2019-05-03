@@ -200,7 +200,11 @@ Namespace Symbols.Parser
                     Throw New NotImplementedException
             End Select
 
-            Dim valueRight = CTypeHandle.CType(typeLeft, right, symbols)
+            Dim valueRight As Expression = CTypeHandle.CType(typeLeft, right, symbols)
+
+            If TypeOf valueRight Is ArraySymbol AndAlso typeLeft = TypeAlias.array Then
+                valueRight = DirectCast(valueRight, ArraySymbol).writeArray(symbols, typeLeft)
+            End If
 
             If symbols.IsLocal(var) Then
                 Return New SetLocalVariable With {
