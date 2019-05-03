@@ -292,6 +292,16 @@ Namespace Compiler
             Call locals.Add([declare].Name, New DeclareLocal With {.name = [declare].Name, .type = [declare].Value})
         End Sub
 
+        ''' <summary>
+        ''' 只适用于添加基础类型的变量
+        ''' </summary>
+        ''' <param name="name$"></param>
+        ''' <param name="type$"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub AddLocal(name$, type$)
+            Call locals.Add(name, New DeclareLocal With {.name = name, .type = New TypeAbstract(type)})
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub ClearLocals()
             Call locals.Clear()

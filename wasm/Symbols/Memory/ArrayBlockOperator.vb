@@ -76,6 +76,8 @@ Namespace Symbols.MemoryObject
             Dim offset As New GetLocalVariable("arrayOffset_" & symbols.NextGuid)
             Dim i As VBInteger = Scan0
 
+            Call symbols.AddLocal(offset.var, "i32")
+
             For Each element In array.Initialize
                 element = CTypeHandle.CType(ofElement, element, symbols)
                 save += BitConverter.save(byteType, IMemoryObject.IndexOffset(offset, ++i * size), element)
