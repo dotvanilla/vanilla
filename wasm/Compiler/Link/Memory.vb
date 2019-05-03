@@ -98,14 +98,15 @@ Namespace Compiler
         ''' <param name="ofElement"></param>
         ''' <param name="size"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 和字符串数据不同，数组对象的内存不是静态分配的
+        ''' </remarks>
         Public Function AllocateArrayBlock(ofElement As TypeAbstract, size As Integer) As ArrayBlock
             Dim array As New ArrayBlock With {
                 .length = size,
                 .type = ofElement.MakeArrayType,
-                .memoryPtr = offset
+                .memoryPtr = IMemoryObject.ObjectManager.GetReference
             }
-
-            Me.offset += array.sizeOf
 
             Return array
         End Function
