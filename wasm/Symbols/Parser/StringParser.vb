@@ -105,13 +105,16 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function StringExpression(str As InterpolatedStringExpressionSyntax, symbols As SymbolTable) As Expression
-            Dim expression As Expression = str.Contents.First.getContent(symbols)
+            Dim tokens As InterpolatedStringContentSyntax() = str.Contents.ToArray
+            Dim text As Expression = tokens(Scan0).getContent(symbols)
+            Dim partval As Expression
 
-            For Each part As InterpolatedStringContentSyntax In str.Contents.Skip(1)
-                expression = symbols.StringAppend(expression, part.getContent(symbols))
+            For Each part As InterpolatedStringContentSyntax In tokens.Skip(1)
+                partval = part.getContent(symbols)
+                text = symbols.StringAppend(text, partval)
             Next
 
-            Return expression
+            Return text
         End Function
 
         <Extension>

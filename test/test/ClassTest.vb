@@ -70,6 +70,17 @@ Public Module Runtest
 
     Dim globalObject As CircleModel
 
+    Function globalMemberTest()
+        globalObject = returnObjecttest(777)
+
+
+        Call print($"y of the globalobject is {globalObject.y}")
+        ' full name reference test
+        Call print($"y of the globalobject is {Runtest.globalObject.y}")
+
+        Return globalObject.x * globalObject.radius
+    End Function
+
     Sub test()
 
         Dim s As New CircleModel With {.radius = 100001, .x = -1, .y = 1.0009, .nodeName = "{55, 55, 555, 5}"}
@@ -90,13 +101,6 @@ Public Module Runtest
 
         Call print($"y after update is {c.y}")
 
-
-        globalObject = returnObjecttest(777)
-
-
-        Call print($"y of the globalobject is {globalObject.y}")
-        ' full name reference test
-        Call print($"y of the globalobject is {Runtest.globalObject.y}")
     End Sub
 
     Private Function returnObjecttest(Optional radius As Long = 99999) As CircleModel
