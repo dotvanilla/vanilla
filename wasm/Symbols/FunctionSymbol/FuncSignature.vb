@@ -93,7 +93,7 @@ Namespace Symbols
         ''' VB module name
         ''' </summary>
         ''' <returns></returns>
-        Public Property [Module] As String Implements IDeclaredObject.Module
+        Public Property [module] As String Implements IDeclaredObject.module
 
         Friend Sub New()
         End Sub

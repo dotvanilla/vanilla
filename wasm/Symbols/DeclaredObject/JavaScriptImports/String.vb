@@ -58,11 +58,11 @@ Namespace Symbols.JavaScriptImports
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Append As New ImportSymbol With {
-            .ImportObject = "add",
+            .importAlias = "add",
             .Name = "string.add",
-            .Package = "string",
-            .DefinedInModule = False,
-            .[Module] = "string",
+            .package = "string",
+            .definedInModule = False,
+            .[module] = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
                 "a".param(TypeAlias.string),
@@ -71,11 +71,11 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public ReadOnly Property Length As New ImportSymbol With {
-            .ImportObject = "length",
-            .[Module] = "string",
+            .importAlias = "length",
+            .[module] = "string",
             .Name = "string.length",
-            .DefinedInModule = False,
-            .Package = "string",
+            .definedInModule = False,
+            .package = "string",
             .result = TypeAbstract.i32,
             .parameters = {
                 "text".param(TypeAlias.string)
@@ -83,11 +83,11 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public ReadOnly Property Trim As New ImportSymbol With {
-            .ImportObject = "trim",
-            .[Module] = "string",
+            .importAlias = "trim",
+            .[module] = "string",
             .Name = "string.trim",
-            .DefinedInModule = False,
-            .Package = "string",
+            .definedInModule = False,
+            .package = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
                 "s".param("string")
@@ -95,11 +95,11 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public ReadOnly Property Replace As New ImportSymbol With {
-            .ImportObject = "replace",
-            .[Module] = "string",
+            .importAlias = "replace",
+            .[module] = "string",
             .Name = "string.replace",
-            .DefinedInModule = False,
-            .Package = "string",
+            .definedInModule = False,
+            .package = "string",
             .result = New TypeAbstract(TypeAlias.string),
             .parameters = {
                 "input".param(TypeAlias.string),
@@ -109,11 +109,11 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public ReadOnly Property IndexOf As New ImportSymbol With {
-            .ImportObject = "indexOf",
-            .[Module] = "string",
+            .importAlias = "indexOf",
+            .[module] = "string",
             .Name = "string.indexOf",
-            .DefinedInModule = False,
-            .Package = "string",
+            .definedInModule = False,
+            .package = "string",
             .result = TypeAbstract.i32,
             .parameters = {
                 "input".param(TypeAlias.string),
@@ -139,11 +139,11 @@ Namespace Symbols.JavaScriptImports
         ''' <returns></returns>
         Public Function ToString(Optional type As String = "i32") As ImportSymbol
             Return New ImportSymbol With {
-                .ImportObject = "toString",
+                .importAlias = "toString",
                 .Name = $"{type}.toString",
-                .[Module] = "string",
-                .DefinedInModule = False,
-                .Package = "string",
+                .[module] = "string",
+                .definedInModule = False,
+                .package = "string",
                 .result = New TypeAbstract(TypeAlias.string),
                 .parameters = {
                     "x".param(type)

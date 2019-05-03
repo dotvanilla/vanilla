@@ -101,7 +101,7 @@ Namespace Compiler
         End Sub
 
         Public Sub Add(symbol As IDeclaredObject)
-            Call modules.Add(symbol.Module, symbol)
+            Call modules.Add(symbol.module, symbol)
         End Sub
 
         ''' <summary>

@@ -71,10 +71,10 @@ Namespace Symbols
         ''' </summary>
         ''' <returns></returns>
         Public Property target As ReferenceSymbol
-        Public Property [Module] As String Implements IDeclaredObject.Module
+        Public Property [module] As String Implements IDeclaredObject.module
 
         Public Overrides Function ToSExpression() As String
-            Return $"(export ""{target.Module}.{Name}"" ({type} ${target}))"
+            Return $"(export ""{target.module}.{Name}"" ({type} ${target}))"
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract

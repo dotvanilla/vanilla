@@ -82,7 +82,7 @@ Namespace Symbols.Parser
             For Each globalField As DeclareGlobal In symbolTable.GetAllGlobals
                 fieldList += New DeclareGlobal With {
                     .init = globalField.init,
-                    .[Module] = className,
+                    .[module] = className,
                     .name = globalField.name,
                     .type = globalField.type
                 }
@@ -98,7 +98,7 @@ Namespace Symbols.Parser
             Dim meta As New ClassMeta With {
                 .Methods = functions,
                 .ClassName = className,
-                .[Module] = [namespace],
+                .[module] = [namespace],
                 .Fields = fieldList
             }
 

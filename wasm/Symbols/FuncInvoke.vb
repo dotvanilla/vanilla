@@ -109,7 +109,7 @@ Namespace Symbols
         Sub New(module$, funcName As String)
             refer = New ReferenceSymbol With {
                 .Symbol = funcName,
-                .[Module] = [module],
+                .[module] = [module],
                 .Type = SymbolType.Func
             }
         End Sub
@@ -117,7 +117,7 @@ Namespace Symbols
         Sub New(target As FuncSignature)
             refer = New ReferenceSymbol With {
                 .Symbol = target.Name,
-                .[Module] = target.Module,
+                .[module] = target.module,
                 .Type = SymbolType.Func
             }
         End Sub
@@ -125,7 +125,7 @@ Namespace Symbols
         Sub New(target As ImportSymbol)
             refer = New ReferenceSymbol With {
                 .Symbol = target.Name,
-                .[Module] = If(target.DefinedInModule, target.Module, Nothing),
+                .[module] = If(target.definedInModule, target.module, Nothing),
                 .Type = SymbolType.Api
             }
         End Sub
@@ -198,7 +198,7 @@ Namespace Symbols
 
             If parameters.IsNullOrEmpty Then
                 ' 参数是空的，则直接查找函数的返回值
-                func = symbolTable.GetFunctionSymbol(refer.Module, refer.Symbol)
+                func = symbolTable.GetFunctionSymbol(refer.module, refer.Symbol)
             Else
                 ' 如果参数不是空的，则可能是用户定义的类型的方法
                 ' 或者是拓展函数调用
@@ -228,9 +228,9 @@ Namespace Symbols
 
                     Throw New NotImplementedException
                 Else
-                    If refer.Module Like symbolTable.ModuleNames Then
-                        func = symbolTable.FindModuleMemberFunction(refer.Module, refer.Symbol)
-                    ElseIf refer.Type = SymbolType.Api AndAlso refer.Module.StringEmpty Then
+                    If refer.module Like symbolTable.ModuleNames Then
+                        func = symbolTable.FindModuleMemberFunction(refer.module, refer.Symbol)
+                    ElseIf refer.Type = SymbolType.Api AndAlso refer.module.StringEmpty Then
                         ' 是外部导入的Api，但是没有模块名称
                         ' 则说明是内部定义的Api函数
                         Return InternalApiReturnType(refer)

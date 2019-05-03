@@ -69,11 +69,11 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Push(ofElement As TypeAbstract) As ImportSymbol
             Get
                 Return New ImportSymbol With {
-                    .ImportObject = "push",
-                    .DefinedInModule = False,
+                    .importAlias = "push",
+                    .definedInModule = False,
                     .Name = $"{ofElement.type}_array.push",
-                    .[Module] = "array",
-                    .Package = NameOf(Array),
+                    .[module] = "array",
+                    .package = NameOf(Array),
                     .result = New TypeAbstract(TypeAlias.list),
                     .parameters = {
                         "array".param(TypeAlias.list),
@@ -86,11 +86,11 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Pop(ofElement As TypeAbstract) As ImportSymbol
             Get
                 Return New ImportSymbol With {
-                    .ImportObject = "pop",
-                    .DefinedInModule = False,
+                    .importAlias = "pop",
+                    .definedInModule = False,
                     .Name = $"{ofElement.type}_array.pop",
-                    .[Module] = "array",
-                    .Package = NameOf(Array),
+                    .[module] = "array",
+                    .package = NameOf(Array),
                     .result = New TypeAbstract(ofElement.type),
                     .parameters = {
                         "array".param(TypeAlias.list)
@@ -104,11 +104,11 @@ Namespace Symbols.JavaScriptImports
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property NewArray As New ImportSymbol With {
-            .ImportObject = "create",
-            .DefinedInModule = False,
-            .[Module] = "array",
+            .importAlias = "create",
+            .definedInModule = False,
+            .[module] = "array",
             .Name = "array.new",
-            .Package = NameOf(Array),
+            .package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.list),
             .parameters = {
                 "size".param("i32")
@@ -118,11 +118,11 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property GetArrayElement(ofElement As TypeAbstract) As ImportSymbol
             Get
                 Return New ImportSymbol With {
-                    .ImportObject = "get",
-                    .[Module] = "array",
-                    .DefinedInModule = False,
+                    .importAlias = "get",
+                    .[module] = "array",
+                    .definedInModule = False,
                     .Name = $"{ofElement.type}_array.get",
-                    .Package = NameOf(Array),
+                    .package = NameOf(Array),
                     .result = New TypeAbstract(ofElement),
                     .parameters = {
                         "array".param(TypeAlias.list),
@@ -135,11 +135,11 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property SetElement(ofElement As TypeAbstract) As ImportSymbol
             Get
                 Return New ImportSymbol With {
-                    .ImportObject = "set",
-                    .[Module] = "array",
-                    .DefinedInModule = False,
+                    .importAlias = "set",
+                    .[module] = "array",
+                    .definedInModule = False,
                     .Name = $"{ofElement.type}_array.set",
-                    .Package = NameOf(Array),
+                    .package = NameOf(Array),
                     .result = New TypeAbstract("void"),
                     .parameters = {
                         "array".param(TypeAlias.list),
@@ -151,11 +151,11 @@ Namespace Symbols.JavaScriptImports
         End Property
 
         Public ReadOnly Property Length As New ImportSymbol With {
-            .ImportObject = "length",
-            .[Module] = "array",
-            .DefinedInModule = False,
+            .importAlias = "length",
+            .[module] = "array",
+            .definedInModule = False,
             .Name = "array.length",
-            .Package = NameOf(Array),
+            .package = NameOf(Array),
             .result = TypeAbstract.i32,
             .parameters = {
                  "array".param(TypeAlias.list)
@@ -165,7 +165,7 @@ Namespace Symbols.JavaScriptImports
         ' ReadOnly arrayOp As Index(Of String) = {GetArrayElement.Name, SetArrayElement.Name}
 
         Public Function IsArrayOperation(func As FuncSignature) As Boolean
-            If func.Module <> NameOf(Array) OrElse Not TypeOf func Is ImportSymbol Then
+            If func.module <> NameOf(Array) OrElse Not TypeOf func Is ImportSymbol Then
                 Return False
             End If
 

@@ -145,7 +145,7 @@ Namespace Compiler.SExpression
 
         <Extension>
         Private Iterator Function exportGroup(exports As ExportSymbolExpression()) As IEnumerable(Of String)
-            Dim moduleGroup = exports.GroupBy(Function(api) api.Module).ToArray
+            Dim moduleGroup = exports.GroupBy(Function(api) api.module).ToArray
 
             For Each [module] In moduleGroup
                 Yield $";; export from VB.NET module: [{[module].Key}]"
@@ -162,7 +162,7 @@ Namespace Compiler.SExpression
 
         <Extension>
         Private Iterator Function funcGroup(internal As FuncSymbol()) As IEnumerable(Of String)
-            Dim moduleGroups = internal.GroupBy(Function(f) f.Module).ToArray
+            Dim moduleGroups = internal.GroupBy(Function(f) f.module).ToArray
 
             For Each [module] In moduleGroups
                 Yield $";; functions in [{[module].Key}]"

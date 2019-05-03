@@ -193,7 +193,7 @@ Namespace Compiler
 
             If funcs.Length > 1 Then
                 ' 默认是当前模块的优先？
-                func = funcs.FirstOrDefault(Function(f) f.Module = symbols.currentModuleLabel)
+                func = funcs.FirstOrDefault(Function(f) f.module = symbols.currentModuleLabel)
 
                 If func Is Nothing Then
                     func = funcs.First
@@ -242,7 +242,7 @@ Namespace Compiler
                 Return funcs(Scan0)
             Else
                 ' 有多个函数，则优先选取当前模块的拓展函数
-                Dim currFuncs = funcs.Where(Function(f) f.Module = symbols.currentModuleLabel).ToArray
+                Dim currFuncs = funcs.Where(Function(f) f.module = symbols.currentModuleLabel).ToArray
 
                 If currFuncs.IsNullOrEmpty Then
                     Throw New NotImplementedException

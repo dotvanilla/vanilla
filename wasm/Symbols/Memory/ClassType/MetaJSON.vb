@@ -70,7 +70,7 @@ Namespace Symbols.MemoryObject
     Public Class MetaJSON : Inherits IMemoryObject
         Implements IDeclaredObject
 
-        Public Property [Namespace] As String Implements IDeclaredObject.Module
+        Public Property [Namespace] As String Implements IDeclaredObject.module
         Public Property [Class] As String Implements IKeyedEntity(Of String).Key
         ''' <summary>
         ''' A mapping table of [Field name => field type]

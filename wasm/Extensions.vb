@@ -137,7 +137,7 @@ Public Module Extensions
             .Exports = getStrings _
                 .Select(Function(func)
                             Return New ExportSymbolExpression With {
-                                .[Module] = func.Module,
+                                .[module] = func.module,
                                 .Name = func.Name,
                                 .target = func,
                                 .type = "func"
@@ -152,7 +152,7 @@ Public Module Extensions
         Return New FuncSymbol() With {
             .Name = name,
             .parameters = {},
-            .[Module] = NameOf(AssemblyInfo),
+            .[module] = NameOf(AssemblyInfo),
             .result = Types.string,
             .Body = {
                 New ReturnValue With {

@@ -87,7 +87,7 @@ Namespace Symbols
             End Get
         End Property
 
-        Public Property [Module] As String Implements IDeclaredObject.Module
+        Public Property [module] As String Implements IDeclaredObject.module
 
         Sub New(constants As EnumBlockSyntax)
             With constants.EnumStatement

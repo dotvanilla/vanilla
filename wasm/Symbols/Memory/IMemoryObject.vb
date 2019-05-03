@@ -65,7 +65,7 @@ Namespace Symbols.MemoryObject
 
         Public Shared ReadOnly Property ObjectManager As New DeclareGlobal With {
             .init = Literal.i32(1),
-            .[Module] = "global",
+            .[module] = "global",
             .name = NameOf(ObjectManager),
             .type = TypeAbstract.i32
         }

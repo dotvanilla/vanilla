@@ -57,7 +57,7 @@ Namespace Symbols
     Public Class Start : Inherits FuncSymbol
 
         Sub New(moduleLabel As String)
-            Me.Module = moduleLabel
+            Me.module = moduleLabel
             Me.Name = "new"
             Me.parameters = {}
             Me.result = TypeAbstract.void

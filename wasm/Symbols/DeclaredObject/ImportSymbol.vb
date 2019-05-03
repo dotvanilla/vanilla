@@ -65,21 +65,21 @@ Namespace Symbols
         ''' 外部的模块对象引用名称
         ''' 
         ''' 请注意，这个是外部模块的名称，对于在VB之中申明的这个API，
-        ''' 其还存在一个<see cref="[Module]"/>标记其在VB工程项目之中的模块名称
+        ''' 其还存在一个<see cref="[module]"/>标记其在VB工程项目之中的模块名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property Package As String
+        Public Property package As String
         ''' <summary>
         ''' 这个函数对象在外部模块之中的名称字符串
         ''' </summary>
         ''' <returns></returns>
-        Public Property ImportObject As String
+        Public Property importAlias As String
 
         ''' <summary>
         ''' 这个Api是在用户代码之中定义的
         ''' </summary>
         ''' <returns></returns>
-        Public Property DefinedInModule As Boolean = True
+        Public Property definedInModule As Boolean = True
 
         Public ReadOnly Property VBDeclare As String
             Get
@@ -87,7 +87,7 @@ Namespace Symbols
                     .Select(Function(a) $"{a.Name} As {a.Value}") _
                     .JoinBy(", ")
 
-                    Return $"Declare Function {Name} Lib ""{Package}"" Alias ""{ImportObject}"" ({ .ByRef}) As {result}"
+                    Return $"Declare Function {Name} Lib ""{package}"" Alias ""{importAlias}"" ({ .ByRef}) As {result}"
                 End With
             End Get
         End Property
@@ -105,7 +105,7 @@ Namespace Symbols
                 .JoinBy(" ")
             Dim returnType$ = result.typefit
             Dim ref As New ReferenceSymbol With {
-                .[Module] = If(DefinedInModule, [Module], Nothing),
+                .[module] = If(definedInModule, [module], Nothing),
                 .Symbol = Name,
                 .Type = SymbolType.Api
             }
@@ -117,7 +117,7 @@ Namespace Symbols
             End If
 
             Return $";; {VBDeclare}
-    (func ${ref} (import ""{Package}"" ""{ImportObject}"") {params} {returnType})"
+    (func ${ref} (import ""{package}"" ""{importAlias}"") {params} {returnType})"
         End Function
 
         Public Overrides Function ToString() As String

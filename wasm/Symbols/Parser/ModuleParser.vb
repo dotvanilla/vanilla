@@ -208,7 +208,7 @@ Namespace Symbols.Parser
                         .Name = functions.Last.Name.Trim("$"c),
                         .target = functions.Last,
                         .type = "func",
-                        .[Module] = moduleName
+                        .[module] = moduleName
                     }
                 End If
             Next
@@ -257,9 +257,9 @@ Namespace Symbols.Parser
                 Dim apiImports As New ImportSymbol(api.ParseParameters(symbolTable)) With {
                     .Name = define.Name,
                     .result = define.Value,
-                    .ImportObject = api.AliasName.Token.ValueText,
-                    .Package = api.LibraryName.Token.ValueText,
-                    .[Module] = moduleName,
+                    .importAlias = api.AliasName.Token.ValueText,
+                    .package = api.LibraryName.Token.ValueText,
+                    .[module] = moduleName,
                     .IsExtensionMethod = api.IsExtensionMethod
                 }
 

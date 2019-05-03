@@ -61,11 +61,11 @@ Namespace Symbols.JavaScriptImports
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property SetValue As New ImportSymbol With {
-            .ImportObject = "set",
-            .[Module] = "table",
+            .importAlias = "set",
+            .[module] = "table",
             .Name = "table.set",
-            .DefinedInModule = False,
-            .Package = NameOf(Dictionary),
+            .definedInModule = False,
+            .package = NameOf(Dictionary),
             .result = TypeAbstract.void,
             .parameters = {
                 "table".param(TypeAlias.table),
@@ -75,11 +75,11 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public ReadOnly Property GetValue As New ImportSymbol With {
-            .ImportObject = "get",
-            .[Module] = "table",
+            .importAlias = "get",
+            .[module] = "table",
             .Name = "table.get",
-            .DefinedInModule = False,
-            .Package = NameOf(Dictionary),
+            .definedInModule = False,
+            .package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.any),
             .parameters = {
                 "table".param(TypeAlias.table),
@@ -88,11 +88,11 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public ReadOnly Property RemoveValue As New ImportSymbol With {
-            .ImportObject = "delete",
-            .[Module] = "table",
+            .importAlias = "delete",
+            .[module] = "table",
             .Name = "table.delete",
-            .DefinedInModule = False,
-            .Package = NameOf(Dictionary),
+            .definedInModule = False,
+            .package = NameOf(Dictionary),
             .result = TypeAbstract.void,
             .parameters = {
                  "table".param(TypeAlias.table),
@@ -101,11 +101,11 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public ReadOnly Property Create As New ImportSymbol With {
-            .ImportObject = "create",
-            .[Module] = "table",
+            .importAlias = "create",
+            .[module] = "table",
             .Name = "table.new",
-            .DefinedInModule = False,
-            .Package = NameOf(Dictionary),
+            .definedInModule = False,
+            .package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.table),
             .parameters = {}
         }

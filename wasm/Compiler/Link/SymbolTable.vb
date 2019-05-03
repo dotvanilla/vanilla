@@ -206,7 +206,7 @@ Namespace Compiler
                 With method.FuncVariable(Me)
                     Dim func As New FuncSignature(.ByRef) With {
                         .parameters = method.ParseParameters(Me),
-                        .[Module] = [module]
+                        .[module] = [module]
                     }
 
                     If functionList.ContainsKey(.Name) Then
@@ -277,7 +277,7 @@ Namespace Compiler
                 .name = var,
                 .type = type,
                 .init = init,
-                .[Module] = moduleName
+                .[module] = moduleName
             }
 
             If Not globals.ContainsKey(var) Then
@@ -328,7 +328,7 @@ Namespace Compiler
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFunctionSymbol(func As ReferenceSymbol) As FuncSignature
-            Return Me.FindModuleMemberFunction(func.Module, func.Symbol)
+            Return Me.FindModuleMemberFunction(func.module, func.Symbol)
         End Function
 
         ''' <summary>

@@ -153,7 +153,7 @@ Namespace Symbols.Parser
                     )
 
                     Return New SetGlobalVariable With {
-                        .[module] = [global].Module,
+                        .[module] = [global].module,
                         .var = [global].name,
                         .value = rightValue
                     }
@@ -219,7 +219,7 @@ Namespace Symbols.Parser
                 Return New SetGlobalVariable With {
                     .var = var,
                     .value = valueRight,
-                    .[module] = [global].Module
+                    .[module] = [global].module
                 }
             End If
         End Function

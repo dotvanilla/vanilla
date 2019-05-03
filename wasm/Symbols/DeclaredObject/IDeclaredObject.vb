@@ -58,7 +58,7 @@ Namespace Symbols
         ''' The package/module name
         ''' </summary>
         ''' <returns></returns>
-        Property [Module] As String
+        Property [module] As String
 
     End Interface
 End Namespace

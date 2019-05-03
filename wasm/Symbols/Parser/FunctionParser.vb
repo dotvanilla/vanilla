@@ -160,7 +160,7 @@ Namespace Symbols.Parser
             Dim func As New FuncSymbol(funcVar) With {
                 .parameters = parameters,
                 .Body = funcBody.body,
-                .[Module] = moduleName,
+                .[module] = moduleName,
                 .Locals = funcBody.locals
             }
 

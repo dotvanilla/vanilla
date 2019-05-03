@@ -60,7 +60,7 @@ Namespace Symbols.MemoryObject
     Public Class ClassMeta : Inherits IMemoryObject
         Implements IDeclaredObject
 
-        Public Property [Module] As String Implements IDeclaredObject.Module
+        Public Property [module] As String Implements IDeclaredObject.module
         Public Property ClassName As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
@@ -97,7 +97,7 @@ Namespace Symbols.MemoryObject
         Public ReadOnly Property Reference As ReferenceSymbol
             Get
                 Return New ReferenceSymbol With {
-                    .[Module] = [Module],
+                    .[module] = [module],
                     .Symbol = ClassName,
                     .Type = SymbolType.Type
                 }

@@ -62,12 +62,12 @@ Namespace Symbols
         ''' The VB module name
         ''' </summary>
         ''' <returns></returns>
-        Public Property [Module] As String Implements IDeclaredObject.Module
+        Public Property [module] As String Implements IDeclaredObject.module
 
         Public ReadOnly Property GetReference() As GetGlobalVariable
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New GetGlobalVariable([Module], name)
+                Return New GetGlobalVariable([module], name)
             End Get
         End Property
 
@@ -80,7 +80,7 @@ Namespace Symbols
         ''' <param name="copy"></param>
         Sub New(copy As DeclareGlobal)
             Me.init = copy.init
-            Me.Module = copy.Module
+            Me.module = copy.module
             Me.name = copy.name
             Me.type = copy.type
         End Sub
@@ -89,7 +89,7 @@ Namespace Symbols
             Return New SetGlobalVariable With {
                 .var = name,
                 .value = value,
-                .[module] = [Module]
+                .[module] = [module]
             }
         End Function
 
@@ -102,7 +102,7 @@ Namespace Symbols
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return $"(global ${[Module]}.{name} (mut {type.typefit}) {init.ToSExpression})"
+            Return $"(global ${[module]}.{name} (mut {type.typefit}) {init.ToSExpression})"
         End Function
     End Class
 End Namespace

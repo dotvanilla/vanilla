@@ -139,7 +139,7 @@ Namespace Compiler
             Dim json As New MetaJSON With {
                 .memoryPtr = class_id,
                 .[Class] = meta.ClassName,
-                .[Namespace] = meta.Module,
+                .[Namespace] = meta.module,
                 .Fields = fieldTable,
                 .Methods = methodTable
             }

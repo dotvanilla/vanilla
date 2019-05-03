@@ -247,7 +247,7 @@ Namespace Symbols
         End Sub
 
         Sub New([global] As DeclareGlobal)
-            Call Me.New([global].Module, [global].name)
+            Call Me.New([global].module, [global].name)
         End Sub
 
         Sub New(module$, name As String)
@@ -273,7 +273,7 @@ Namespace Symbols
 
         Sub New([global] As DeclareGlobal)
             Me.var = [global].name
-            Me.module = [global].Module
+            Me.module = [global].module
         End Sub
 
         Public Overrides Function ToSExpression() As String
