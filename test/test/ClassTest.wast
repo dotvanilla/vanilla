@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 10:33:40 PM
+    ;; build: 5/3/2019 10:40:46 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -38,8 +38,16 @@
     ;; String from 256 with 16 bytes in memory
     (data (i32.const 256) "{55, 55, 555, 5}\00")
     
+    ;; Memory data for user defined class object its meta data
+    ;; all of these string is base64 encoded json object
+    
+    ;; String from 7 with 248 bytes in memory
+    (data (i32.const 7) "eyJtZW1vcnlQdHIiOjcsIkNsYXNzIjoiQ2lyY2xlTW9kZWwiLCJGaWVsZHMiOnsibm9kZU5hbWUiOnsiZ2VuZXJpYyI6W119LCJ4Ijp7ImdlbmVyaWMiOltdfSwieSI6eyJnZW5lcmljIjpbXX0sInJhZGl1cyI6eyJnZW5lcmljIjpbXX19LCJNZXRob2RzIjp7fSwiTmFtZXNwYWNlIjoibW9kdWxlQ29udGFpbmVyLm5hbWUxIn0=\00")
+
+    ;; Global variables in this module
     
 
+    ;; Export methods of this module
     ;; export from VB.NET module: [Runtest]
     
     (export "Runtest.test" (func $Runtest.test))
