@@ -91,7 +91,7 @@ Namespace Symbols.Blocks
         ''' The label of this block
         ''' </summary>
         ''' <returns></returns>
-        Public Property Guid As String
+        Public Property guid As String
 
         ''' <summary>
         ''' By default no declares, returns an empty array 
@@ -104,7 +104,7 @@ Namespace Symbols.Blocks
 
     Public MustInherit Class Block : Inherits AbstractBlock
 
-        Public Property Internal As Expression()
+        Public Property internal As Expression()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function InternalBlock(block As IEnumerable(Of Expression), indent As String) As String
@@ -119,7 +119,7 @@ Namespace Symbols.Blocks
 
     Public Class [Loop] : Inherits Block
 
-        Public Property LoopID As String
+        Public Property loopID As String
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract("void")
@@ -127,10 +127,10 @@ Namespace Symbols.Blocks
 
         Public Overrides Function ToSExpression() As String
             Return $"
-(block ${Guid} 
-    (loop ${LoopID}
+(block ${guid} 
+    (loop ${loopID}
 
-        {InternalBlock(Internal, "        ")}
+        {InternalBlock(internal, "        ")}
 
     )
 )"
@@ -139,14 +139,14 @@ Namespace Symbols.Blocks
 
     Public Class br : Inherits Expression
 
-        Public Property BlockLabel As String
+        Public Property blockLabel As String
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract("void")
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return $"(br ${BlockLabel})"
+            Return $"(br ${blockLabel})"
         End Function
     End Class
 
@@ -156,14 +156,14 @@ Namespace Symbols.Blocks
         ''' Is a logical expression
         ''' </summary>
         ''' <returns></returns>
-        Public Property Condition As BooleanSymbol
+        Public Property condition As BooleanSymbol
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract("void")
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return $"(br_if ${BlockLabel} {Condition})"
+            Return $"(br_if ${blockLabel} {condition})"
         End Function
     End Class
 

@@ -126,14 +126,14 @@ Namespace Symbols.Parser
             }
 
             Dim block As New [Loop] With {
-                .Guid = $"block_{symbols.NextGuid}",
-                .LoopID = $"loop_{symbols.NextGuid}"
+                .guid = $"block_{symbols.NextGuid}",
+                .loopID = $"loop_{symbols.NextGuid}"
             }
             Dim break As New br_if With {
-                .BlockLabel = block.Guid,
-                .Condition = parseForLoopTest(control, stepValue, final, symbols)
+                .blockLabel = block.guid,
+                .condition = parseForLoopTest(control, stepValue, final, symbols)
             }
-            Dim [next] As New br With {.BlockLabel = block.LoopID}
+            Dim [next] As New br With {.blockLabel = block.loopID}
             Dim internal As New List(Of Expression)
             Dim controlVar = control.ctlGetLocal
             Dim doStep = BinaryOperatorParser.BinaryStack(controlVar, stepValue, "+", symbols)
@@ -147,10 +147,10 @@ Namespace Symbols.Parser
             internal += New SetLocalVariable With {.var = controlVar.var, .value = doStep}
             internal += [next]
             internal += New CommentText With {
-                .text = $"For Loop Next On {[next].BlockLabel}"
+                .text = $"For Loop Next On {[next].blockLabel}"
             }
 
-            block.Internal = internal
+            block.internal = internal
 
             Yield block
         End Function
@@ -270,24 +270,24 @@ Namespace Symbols.Parser
         <Extension>
         Private Iterator Function whileLoopInternal(condition As Expression, statements As SyntaxList(Of StatementSyntax), symbols As SymbolTable) As IEnumerable(Of Expression)
             Dim block As New [Loop] With {
-                .Guid = $"block_{symbols.NextGuid}",
-                .LoopID = $"loop_{symbols.NextGuid}"
+                .guid = $"block_{symbols.NextGuid}",
+                .loopID = $"loop_{symbols.NextGuid}"
             }
             Dim internal As New List(Of Expression)
 
-            Yield New CommentText With {.text = $"Start Do While Block {block.Guid}"}
+            Yield New CommentText With {.text = $"Start Do While Block {block.guid}"}
 
             internal += New br_if With {
-                .BlockLabel = block.Guid,
-                .Condition = condition
+                .blockLabel = block.guid,
+                .condition = condition
             }
             internal += statements.ParseBlockInternal(symbols)
-            internal += New br With {.BlockLabel = block.LoopID}
+            internal += New br With {.blockLabel = block.loopID}
 
-            block.Internal = internal
+            block.internal = internal
 
             Yield block
-            Yield New CommentText With {.text = $"End Loop {block.LoopID}"}
+            Yield New CommentText With {.text = $"End Loop {block.loopID}"}
         End Function
 
         <Extension>
