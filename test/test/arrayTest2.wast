@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 1:35:11 AM
+    ;; build: 5/4/2019 1:45:04 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -66,8 +66,10 @@
     
     ;; Save 8 array element data to memory:
     ;; Array memory block begin at location: 1
+    ;; class_id/typealias_enum i32 data: (i32.const 3)/array(Of f32)
     (i32.store (i32.const 1) (i32.const 3))
     (i32.store (i32.const 2) (i32.const 8))
+    ;; End of byte marks meta data, start write data blocks
     (f32.store (i32.const 9) (f32.demote/f64 (get_local $x)))
     (f32.store (i32.const 13) (f32.convert_s/i32 (i32.const 0)))
     (f32.store (i32.const 17) (f32.convert_s/i32 (i32.const 35)))
@@ -76,6 +78,8 @@
     (f32.store (i32.const 29) (f32.convert_s/i32 (i32.const 534)))
     (f32.store (i32.const 33) (f32.convert_s/i32 (i32.const 53)))
     (f32.store (i32.const 37) (f32.convert_s/i32 (i32.load (i32.add (get_global $arrayTest2.data) (i32.const 4)))))
+    ;; Offset object manager with 40 bytes
+    (set_global $global.ObjectManager (i32.add (i32.const 1) (i32.const 40)))
     ;; Assign array memory data to another expression
     (return (i32.const 1))
     )
@@ -117,8 +121,10 @@
 
 ;; Save 12 array element data to memory:
 ;; Array memory block begin at location: 41
+;; class_id/typealias_enum i32 data: (i32.const 4)/array(Of f64)
 (i32.store (i32.const 41) (i32.const 4))
 (i32.store (i32.const 42) (i32.const 12))
+;; End of byte marks meta data, start write data blocks
 (f64.store (i32.const 49) (f64.convert_s/i32 (i32.const 24)))
 (f64.store (i32.const 57) (f64.convert_s/i32 (i32.const 23)))
 (f64.store (i32.const 65) (f64.convert_s/i32 (i32.const 424)))
@@ -131,6 +137,8 @@
 (f64.store (i32.const 121) (f64.convert_s/i32 (i32.const 55)))
 (f64.store (i32.const 129) (f64.convert_s/i32 (i32.const 5555)))
 (f64.store (i32.const 137) (f64.convert_s/i32 (i32.const 5)))
+;; Offset object manager with 56 bytes
+(set_global $global.ObjectManager (i32.add (i32.const 41) (i32.const 56)))
 ;; Assign array memory data to another expression
 (set_global $arrayTest2.data (i32.const 41))
 )
