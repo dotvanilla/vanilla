@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef5f32df4282d3d5895c4caff4a0abd9, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::b60c349dc9257054d429479f1c2840d5, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -61,6 +61,7 @@
     ' 
     '         Properties: value, var
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToSExpression, TypeInfer
     ' 
     '     Class GetGlobalVariable

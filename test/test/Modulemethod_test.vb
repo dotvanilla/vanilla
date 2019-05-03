@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e20b65e6c062d877284869c4f950d0c2, Modulemethod_test.vb"
+﻿#Region "Microsoft.VisualBasic::3e63fe9375902e2e9d939302b844532f, test\Modulemethod_test.vb"
 
     ' Author:
     ' 
@@ -42,9 +42,13 @@
     ' 
     '     Sub: calls
     ' 
+    ' Module unqiueTest
+    ' 
+    '     Sub: test
+    ' 
     ' Module module2
     ' 
-    '     Function: test, ThisIsAInternalFunction
+    '     Function: returnANonUniqueSymbol, test, ThisIsAInternalFunction
     ' 
     '     Sub: Runapp
     ' 

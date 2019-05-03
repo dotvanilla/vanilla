@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a636e4642c34a2cdf5b10b7ff9b53c7d, Stringstest.vb"
+﻿#Region "Microsoft.VisualBasic::22d77774c0004ad5434fc4df181e7f02, test\Stringstest.vb"
 
     ' Author:
     ' 

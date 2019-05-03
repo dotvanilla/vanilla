@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55cc01f13752ea1e9945826bbb39e93b, Compiler\Link\SymbolTable.vb"
+﻿#Region "Microsoft.VisualBasic::823972a54620df0834e1b82612ba9e71, Compiler\Link\SymbolTable.vb"
 
     ' Author:
     ' 
@@ -48,7 +48,7 @@
     '                   GetUnderlyingType, HaveClass, HaveEnumType, IsAnyObject, IsLocal
     '                   IsModuleFunction, stringContext
     ' 
-    '         Sub: (+2 Overloads) AddClass, AddEnumType, AddGlobal, AddImports, (+2 Overloads) AddLocal
+    '         Sub: (+2 Overloads) AddClass, AddEnumType, AddGlobal, AddImports, (+3 Overloads) AddLocal
     '              ClearLocals
     ' 
     ' 

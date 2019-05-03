@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f2e0596a2927ca1aaa634de04b87179, DeclareTest.vb"
+﻿#Region "Microsoft.VisualBasic::9b0c752978d83cbe94051a26a5f63192, test\DeclareTest.vb"
 
     ' Author:
     ' 

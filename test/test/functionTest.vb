@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f9b32ff2092269cccc46ba830af4ef4, functionTest.vb"
+﻿#Region "Microsoft.VisualBasic::a544cd4ca28629afc836b6cf20b3550a, test\functionTest.vb"
 
     ' Author:
     ' 
@@ -36,11 +36,19 @@
 
     ' Summaries:
 
+    ' Module optionalParameterTest
+    ' 
+    '     Sub: calls
+    ' 
     ' Module functionTest
     ' 
     '     Function: outputError
     ' 
     '     Sub: calls, extensionFunctiontest, Main
+    ' 
+    ' Module ExportAPiModule
+    ' 
+    '     Function: outputError
     ' 
     ' /********************************************************************************/
 
