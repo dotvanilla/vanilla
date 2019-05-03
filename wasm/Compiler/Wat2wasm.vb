@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9aece99f757a76cb1761089071bc6a04, Compiler\wat2wasm.vb"
+﻿#Region "Microsoft.VisualBasic::a149681fd8ac7d208c28aee195cb773b, Compiler\Wat2wasm.vb"
 
     ' Author:
     ' 
@@ -36,7 +36,7 @@
 
     ' Summaries:
 
-    '     Class wat2wasm
+    '     Class Wat2wasm
     ' 
     '         Properties: debugNames, debugParser, disableMutableGlobals, dumpModule, enableExceptions
     '                     enableSaturatingFloatToInt, enableSignExtension, enableSimd, enableThreads, noCanonicalizeLEB128s

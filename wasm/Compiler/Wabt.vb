@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f88765d63176ebdfb146b03d3024ea2, Compiler\Wabt.vb"
+﻿#Region "Microsoft.VisualBasic::74064351012dc776de169a78ad0b9b21, Compiler\Wabt.vb"
 
     ' Author:
     ' 

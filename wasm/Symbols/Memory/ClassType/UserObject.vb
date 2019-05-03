@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e428ce89e8cf6b5c7d478351bf3185af, Symbols\Memory\UserObject.vb"
+﻿#Region "Microsoft.VisualBasic::f2fb6d9c633982499211fc0e729b51a2, Symbols\Memory\ClassType\UserObject.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,9 @@
 
     '     Class UserObject
     ' 
-    '         Properties: UnderlyingType
+    '         Properties: Initialize, memoryPtr, Meta, UnderlyingType, width
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

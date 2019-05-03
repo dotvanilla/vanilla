@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a275c513db154282bf33578d8c9ba3c4, Symbols\Memory\ArrayBlock.vb"
+﻿#Region "Microsoft.VisualBasic::cdf18a63cd01e21c4966dfdde278046d, Symbols\Memory\ArrayBlock.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '         Properties: elements, length, type
     ' 
-    '         Function: GetEnumerator, IEnumerable_GetEnumerator, IndexOffset, ToSExpression, TypeInfer
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, (+2 Overloads) IndexOffset, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

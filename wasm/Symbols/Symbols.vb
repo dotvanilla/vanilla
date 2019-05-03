@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1418e722c180f2ce8189288a123f2dd4, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::ef5f32df4282d3d5895c4caff4a0abd9, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@
     '         Properties: var
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetUserType, ToSExpression, TypeInfer
     ' 
     '     Class SetLocalVariable
     ' 
@@ -67,13 +67,14 @@
     ' 
     '         Properties: [module]
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ToSExpression, TypeInfer
     ' 
     '     Class SetGlobalVariable
     ' 
     '         Properties: [module]
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToSExpression, TypeInfer
     ' 
     '     Class DeclareLocal
@@ -84,7 +85,7 @@
     ' 
     '     Class DeclareVariable
     ' 
-    '         Properties: genericTypes, init, name, type
+    '         Properties: init, name, type
     ' 
     '         Function: TypeInfer
     ' 

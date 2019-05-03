@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f640a494a50d8ff5655d964a68643864, Symbols\Memory\BitConverter.vb"
+﻿#Region "Microsoft.VisualBasic::9735a8e9ae5f75a8c5afa46937b44233, Symbols\Memory\BitConverter.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2d636c709a13a52227476f5146b7a3b, Type\Models\RawType.vb"
+﻿#Region "Microsoft.VisualBasic::7c36221ca24d7e90439803eebf2e8c3e, Type\Models\RawType.vb"
 
     ' Author:
     ' 
