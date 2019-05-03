@@ -79,7 +79,14 @@ Public Module Runtest
 
         ' y should be zero
 
-        Call print(c.y)
+        Call print($"y is {c.y}")
+        Call print($"min distance of two circle center is (a.radius+b.radius) {s.radius + c.radius }")
+
+
+        ' set field value test
+        c.y = -99.999
+
+        Call print($"y after update is {c.y}")
     End Sub
 
     Private Function returnObjecttest(Optional radius As Long = 99999) As CircleModel

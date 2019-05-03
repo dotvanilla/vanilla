@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 10:57:42 PM
+    ;; build: 5/3/2019 11:03:17 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -32,7 +32,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 285))
+    (global $global.ObjectManager (mut i32) (i32.const 349))
 
     ;; Memory data for string constant
     
@@ -42,8 +42,14 @@
     ;; String from 256 with 16 bytes in memory
     (data (i32.const 256) "{55, 55, 555, 5}\00")
 
-    ;; String from 273 with 11 bytes in memory
-    (data (i32.const 273) "XXXXXXXXXX!\00")
+    ;; String from 273 with 5 bytes in memory
+    (data (i32.const 273) "y is \00")
+
+    ;; String from 279 with 57 bytes in memory
+    (data (i32.const 279) "min distance of two circle center is (a.radius+b.radius) \00")
+
+    ;; String from 337 with 11 bytes in memory
+    (data (i32.const 337) "XXXXXXXXXX!\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -85,7 +91,8 @@
     (set_local $s (get_global $global.ObjectManager))
     (call $Runtest.print (call $f64.toString (f64.load (i32.add (get_local $s) (i32.const 12)))))
     (set_local $c (call $Runtest.returnObjecttest (i64.const 99999)))
-    (call $Runtest.print (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8)))))
+    (call $Runtest.print (call $string.add (i32.const 273) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 279) (call $f64.toString (f64.add (f64.load (i32.add (get_local $s) (i32.const 12))) (f64.load (i32.add (get_local $c) (i32.const 12)))))))
     )
     (func $Runtest.returnObjecttest (param $radius i64) (result i32)
         ;; Public Function returnObjecttest(radius As i64) As intptr
@@ -94,7 +101,7 @@
     ;; Initialize a object instance of [CircleModel]
     ;; Object memory block begin at location: (get_global $global.ObjectManager)
     ;; set field [moduleContainer.name1.CircleModel::nodeName]
-    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 273))
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 337))
     ;; set field [moduleContainer.name1.CircleModel::radius]
     (f64.store (i32.add (get_global $global.ObjectManager) (i32.const 12)) (f64.convert_s/i64 (get_local $radius)))
     ;; set field [moduleContainer.name1.CircleModel::x]
