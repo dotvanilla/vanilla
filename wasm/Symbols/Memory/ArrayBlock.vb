@@ -60,8 +60,22 @@ Namespace Symbols.MemoryObject
         ''' </summary>
         ''' <returns></returns>
         Public Property type As TypeAbstract
+        ''' <summary>
+        ''' Element counts in this array object
+        ''' </summary>
+        ''' <returns></returns>
         Public Property length As Integer
         Public Property elements As Expression()
+
+        ''' <summary>
+        ''' Byte size of this array object
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property sizeOf As Integer
+            Get
+                Return 1 + 4 + Types.sizeOf(type) * length
+            End Get
+        End Property
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
