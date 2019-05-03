@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/2/2019 12:33:17 PM
+    ;; build: 5/4/2019 1:35:11 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -33,11 +33,22 @@
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
 
+    ;; A global object manager for create user object in WebAssembly
+    ;; Its initialize value is the total size of the string data
+    ;; of this webassembly module
+    (global $global.ObjectManager (mut i32) (i32.const 97))
+
     ;; Memory data for string constant
     
     
+    ;; Memory data for user defined class object its meta data
+    ;; all of these string is base64 encoded json object
+    
+
+    ;; Global variables in this module
     (global $arrayTest2.data (mut i32) (i32.const 0))
 
+    ;; Export methods of this module
     ;; export from VB.NET module: [arrayTest2]
     
     (export "arrayTest2.returnArrayTest" (func $arrayTest2.returnArrayTest))
@@ -51,17 +62,20 @@
     (func $arrayTest2.returnArrayTest  (result i32)
         ;; Public Function returnArrayTest() As array(Of f32)
         (local $x f64)
-    (set_local $x (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (i32.const 1) (i32.const 8)))))
-    ;; 
-    ;; Save 7 array element data to memory:
+    (set_local $x (f64.load (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.const 1) (i32.const 8)))))
+    
+    ;; Save 8 array element data to memory:
     ;; Array memory block begin at location: 1
-    (f32.store (i32.const 1) (f32.demote/f64 (get_local $x)))
-    (f32.store (i32.const 5) (f32.convert_s/i32 (i32.const 0)))
-    (f32.store (i32.const 9) (f32.convert_s/i32 (i32.const 35)))
-    (f32.store (i32.const 13) (f32.convert_s/i32 (i32.const 78345)))
-    (f32.store (i32.const 17) (f32.convert_s/i32 (i32.const 34)))
-    (f32.store (i32.const 21) (f32.convert_s/i32 (i32.const 534)))
-    (f32.store (i32.const 25) (f32.convert_s/i32 (i32.const 53)))
+    (i32.store (i32.const 1) (i32.const 3))
+    (i32.store (i32.const 2) (i32.const 8))
+    (f32.store (i32.const 9) (f32.demote/f64 (get_local $x)))
+    (f32.store (i32.const 13) (f32.convert_s/i32 (i32.const 0)))
+    (f32.store (i32.const 17) (f32.convert_s/i32 (i32.const 35)))
+    (f32.store (i32.const 21) (f32.convert_s/i32 (i32.const 78345)))
+    (f32.store (i32.const 25) (f32.convert_s/i32 (i32.const 34)))
+    (f32.store (i32.const 29) (f32.convert_s/i32 (i32.const 534)))
+    (f32.store (i32.const 33) (f32.convert_s/i32 (i32.const 53)))
+    (f32.store (i32.const 37) (f32.convert_s/i32 (i32.load (i32.add (get_global $arrayTest2.data) (i32.const 4)))))
     ;; Assign array memory data to another expression
     (return (i32.const 1))
     )
@@ -69,15 +83,15 @@
         ;; Public Function readTest() As f32
         (local $x i64)
     (local $i i32)
-    (set_local $x (i64.trunc_s/f64 (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (i32.const 9999) (i32.const 8))))))
+    (set_local $x (i64.trunc_s/f64 (f64.load (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.const 9999) (i32.const 8))))))
     (set_local $i (i32.const 0))
     ;; For i As Integer = 0 To data.Length - 1
     
     (block $block_9a020000 
         (loop $loop_9b020000
     
-                    (br_if $block_9a020000 (i32.gt_s (get_local $i) (i32.sub (call $array.length (get_global $arrayTest2.data)) (i32.const 1))))
-            (call $arrayTest2.print (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (get_local $i) (i32.const 8)))))
+                    (br_if $block_9a020000 (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $arrayTest2.data) (i32.const 4))) (i32.const 1))))
+            (call $arrayTest2.print (f64.load (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (get_local $i) (i32.const 8)))))
             ;; For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
             (br $loop_9b020000)
@@ -90,8 +104,8 @@
     (func $arrayTest2.setValueTest (param $x i32) 
         ;; Public Function setValueTest(x As i32) As void
         
-    (f64.store (i32.add (get_global $arrayTest2.data) (i32.mul (i32.add (get_local $x) (i32.const 1)) (i32.const 8))) (f64.convert_s/i32 (i32.mul (get_local $x) (i32.const 2))))
-    (call $arrayTest2.print (f64.load (i32.add (get_global $arrayTest2.data) (i32.mul (i32.mul (get_local $x) (i32.const 99)) (i32.const 8)))))
+    (f64.store (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.add (get_local $x) (i32.const 1)) (i32.const 8))) (f64.convert_s/i32 (i32.mul (get_local $x) (i32.const 2))))
+    (call $arrayTest2.print (f64.load (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.mul (get_local $x) (i32.const 99)) (i32.const 8)))))
     )
     
 
@@ -100,23 +114,25 @@
 ;; Sub New
 (func $Application_SubNew
 
-;; 
+
 ;; Save 12 array element data to memory:
-;; Array memory block begin at location: 30
-(f64.store (i32.const 30) (f64.convert_s/i32 (i32.const 24)))
-(f64.store (i32.const 38) (f64.convert_s/i32 (i32.const 23)))
-(f64.store (i32.const 46) (f64.convert_s/i32 (i32.const 424)))
-(f64.store (i32.const 54) (f64.convert_s/i32 (i32.const 2423)))
-(f64.store (i32.const 62) (f64.convert_s/i32 (i32.const 4534)))
-(f64.store (i32.const 70) (f64.convert_s/i32 (i32.const 5353)))
-(f64.store (i32.const 78) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 86) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 94) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 102) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 110) (f64.convert_s/i32 (i32.const 5555)))
-(f64.store (i32.const 118) (f64.convert_s/i32 (i32.const 5)))
+;; Array memory block begin at location: 41
+(i32.store (i32.const 41) (i32.const 4))
+(i32.store (i32.const 42) (i32.const 12))
+(f64.store (i32.const 49) (f64.convert_s/i32 (i32.const 24)))
+(f64.store (i32.const 57) (f64.convert_s/i32 (i32.const 23)))
+(f64.store (i32.const 65) (f64.convert_s/i32 (i32.const 424)))
+(f64.store (i32.const 73) (f64.convert_s/i32 (i32.const 2423)))
+(f64.store (i32.const 81) (f64.convert_s/i32 (i32.const 4534)))
+(f64.store (i32.const 89) (f64.convert_s/i32 (i32.const 5353)))
+(f64.store (i32.const 97) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 105) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 113) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 121) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.const 129) (f64.convert_s/i32 (i32.const 5555)))
+(f64.store (i32.const 137) (f64.convert_s/i32 (i32.const 5)))
 ;; Assign array memory data to another expression
-(set_global $arrayTest2.data (i32.const 30))
+(set_global $arrayTest2.data (i32.const 41))
 )
 
 (start $Application_SubNew)
