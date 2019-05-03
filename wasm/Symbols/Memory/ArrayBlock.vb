@@ -93,9 +93,10 @@ Namespace Symbols.MemoryObject
         Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
             ' 在这里还需要写入一些基础信息
             ' https://vanillavb.app/#array_impl
-            '
-            ' 类型枚举值
+            Dim class_id As Expression = Literal.i32(type.generic(Scan0).class_id)
 
+            ' 类型枚举值
+            Yield BitConverter.save("i32", memoryPtr, class_id)
             ' 数组的元素数量
             Yield BitConverter.save("i32", memoryPtr + 1, Literal.i32(length))
 
