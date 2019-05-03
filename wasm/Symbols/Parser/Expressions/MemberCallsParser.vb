@@ -100,12 +100,8 @@ Namespace Symbols.Parser
                         Return symbols.FindModuleGlobal(objName, memberName).GetReference
                     Else
                         ' 是引用的模块成员
-                        If TypeOf obj Is GetGlobalVariable Then
-                            Return obj
-                        Else
-                            ' 引用的可能是实例对象的成员字段
-                            Return obj.GetMemberField(memberName, symbols)
-                        End If
+                        ' 引用的可能是实例对象的成员字段
+                        Return obj.GetMemberField(memberName, symbols)
                     End If
                 End If
 

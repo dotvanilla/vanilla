@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 11:40:27 PM
+    ;; build: 5/3/2019 11:46:43 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -21,10 +21,10 @@
     (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
     ;; Declare Function print Lib "console" Alias "log" (data As string) As void
     (func $Runtest.print (import "console" "log") (param $data i32) )
-    ;; Declare Function f64.toString Lib "string" Alias "toString" (x As f64) As string
-    (func $f64.toString (import "string" "toString") (param $x f64) (result i32))
     ;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
     (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
+    ;; Declare Function f64.toString Lib "string" Alias "toString" (x As f64) As string
+    (func $f64.toString (import "string" "toString") (param $x f64) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
@@ -39,23 +39,23 @@
     ;; String from 1 with 5 bytes in memory
     (data (i32.const 1) "55555\00")
 
-    ;; String from 256 with 16 bytes in memory
-    (data (i32.const 256) "{55, 55, 555, 5}\00")
+    ;; String from 256 with 25 bytes in memory
+    (data (i32.const 256) "y of the globalobject is \00")
 
-    ;; String from 273 with 5 bytes in memory
-    (data (i32.const 273) "y is \00")
+    ;; String from 282 with 25 bytes in memory
+    (data (i32.const 282) "y of the globalobject is \00")
 
-    ;; String from 279 with 57 bytes in memory
-    (data (i32.const 279) "min distance of two circle center is (a.radius+b.radius) \00")
+    ;; String from 308 with 16 bytes in memory
+    (data (i32.const 308) "{55, 55, 555, 5}\00")
 
-    ;; String from 337 with 18 bytes in memory
-    (data (i32.const 337) "y after update is \00")
+    ;; String from 325 with 5 bytes in memory
+    (data (i32.const 325) "y is \00")
 
-    ;; String from 356 with 25 bytes in memory
-    (data (i32.const 356) "y of the globalobject is \00")
+    ;; String from 331 with 57 bytes in memory
+    (data (i32.const 331) "min distance of two circle center is (a.radius+b.radius) \00")
 
-    ;; String from 382 with 25 bytes in memory
-    (data (i32.const 382) "y of the globalobject is \00")
+    ;; String from 389 with 18 bytes in memory
+    (data (i32.const 389) "y after update is \00")
 
     ;; String from 408 with 11 bytes in memory
     (data (i32.const 408) "XXXXXXXXXX!\00")
@@ -72,12 +72,21 @@
     ;; Export methods of this module
     ;; export from VB.NET module: [Runtest]
     
+    (export "Runtest.globalMemberTest" (func $Runtest.globalMemberTest))
     (export "Runtest.test" (func $Runtest.test))
     
      
 
     ;; functions in [Runtest]
     
+    (func $Runtest.globalMemberTest  (result i32)
+        ;; Public Function globalMemberTest() As i32
+        
+    (set_global $Runtest.globalObject (call $Runtest.returnObjecttest (i64.const 777)))
+    (call $Runtest.print (call $string.add (i32.const 256) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 282) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
+    (return (i32.trunc_s/f64 (f64.mul (f64.convert_s/i32 (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 4)))) (f64.load (i32.add (get_global $Runtest.globalObject) (i32.const 12))))))
+    )
     (func $Runtest.test  
         ;; Public Function test() As void
         (local $s i32)
@@ -92,7 +101,7 @@
     ;; set field [moduleContainer.name1.CircleModel::y]
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.trunc_s/f64 (f64.const 1.0009)))
     ;; set field [moduleContainer.name1.CircleModel::nodeName]
-    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 256))
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 308))
     ;; Offset object manager with 20 bytes.
     (set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
@@ -100,13 +109,10 @@
     (set_local $s (get_global $global.ObjectManager))
     (call $Runtest.print (call $f64.toString (f64.load (i32.add (get_local $s) (i32.const 12)))))
     (set_local $c (call $Runtest.returnObjecttest (i64.const 99999)))
-    (call $Runtest.print (call $string.add (i32.const 273) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
-    (call $Runtest.print (call $string.add (i32.const 279) (call $f64.toString (f64.add (f64.load (i32.add (get_local $s) (i32.const 12))) (f64.load (i32.add (get_local $c) (i32.const 12)))))))
+    (call $Runtest.print (call $string.add (i32.const 325) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 331) (call $f64.toString (f64.add (f64.load (i32.add (get_local $s) (i32.const 12))) (f64.load (i32.add (get_local $c) (i32.const 12)))))))
     (i32.store (i32.add (get_local $c) (i32.const 8)) (i32.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 99.999))))
-    (call $Runtest.print (call $string.add (i32.const 337) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
-    (set_global $Runtest.globalObject (call $Runtest.returnObjecttest (i64.const 777)))
-    (call $Runtest.print (call $string.add (i32.const 356) (call $i32.toString (get_global $Runtest.globalObject))))
-    (call $Runtest.print (call $string.add (i32.const 382) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 389) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
     )
     (func $Runtest.returnObjecttest (param $radius i64) (result i32)
         ;; Public Function returnObjecttest(radius As i64) As intptr
