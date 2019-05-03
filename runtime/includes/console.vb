@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c79f43f316e683babc031011b71be391, console.vb"
+﻿#Region "Microsoft.VisualBasic::2e1bb20867db55bdf773ac47328f794b, includes\console.vb"
 
     ' Author:
     ' 
@@ -55,4 +55,3 @@ Public Module console
     Public Declare Sub debug Lib "console" Alias "debug" (obj As Object)
 
 End Module
-

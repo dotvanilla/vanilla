@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94d70ab829001f079a437e0836c6b292, Symbols\Memory\ArrayBlockOperator.vb"
+﻿#Region "Microsoft.VisualBasic::f7067d567c16df07a267fe8cf4f9f97a, Symbols\Memory\ArrayBlockOperator.vb"
 
     ' Author:
     ' 

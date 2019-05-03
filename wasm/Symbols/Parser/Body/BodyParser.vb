@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::867cc8dd9a09370d7769c20bc31b54b3, Symbols\Parser\Body\BodyParser.vb"
+﻿#Region "Microsoft.VisualBasic::eb7e45f00bd70508b6bc02946ea42e27, Symbols\Parser\Body\BodyParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module BodyParser
     ' 
-    '         Function: AssignVariable, (+2 Overloads) FirstArgument, LocalDeclare, ParseExpression, ValueAssign
+    '         Function: AssignVariable, (+2 Overloads) FirstArgument, LocalDeclare, ParseStatement, ValueAssign
     '                   ValueReturn
     ' 
     ' 
