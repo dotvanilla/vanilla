@@ -95,14 +95,22 @@ Namespace Symbols.MemoryObject
             ' https://vanillavb.app/#array_impl
             Dim class_id As Expression = Literal.i32(type.generic(Scan0).class_id)
 
+            Yield New CommentText($"class_id/typealias_enum i32 data: {class_id}/{type.ToString}")
             ' 类型枚举值
             Yield BitConverter.save("i32", memoryPtr, class_id)
             ' 数组的元素数量
             Yield BitConverter.save("i32", memoryPtr + 1, Literal.i32(length))
 
+            Yield New CommentText("End of byte marks meta data, start write data blocks")
+
             For Each x As Expression In elements
                 Yield x
             Next
+
+            Yield New CommentText($"Offset object manager with {sizeOf} bytes")
+            Yield New SetGlobalVariable(IMemoryObject.ObjectManager) With {
+                .value = ArrayBlock.IndexOffset(Me.AddressOf, sizeOf)
+            }
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
