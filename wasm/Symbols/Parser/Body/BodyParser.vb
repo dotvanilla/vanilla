@@ -163,17 +163,7 @@ Namespace Symbols.Parser
                     }
                 Else
                     ' 设置实例对象的成员字段的值
-                    Dim type As TypeAbstract = symbols.GetUnderlyingType(objName)
-                    Dim objType As ClassMeta = symbols.GetClassType(type.raw)
-                    Dim offset As Integer = objType.GetFieldOffset(memberName)
-                    Dim fieldType As TypeAbstract = objType(memberName).type
-                    Dim intptr As Expression = symbols.GetObjectReference(objName)
-
-                    intptr = ArrayBlock.IndexOffset(intptr, offset)
-                    right = CTypeHandle.CType(fieldType, right, symbols)
-
-                    ' 只需要将数据写入指定的内存位置即可完成实例对象的字段的赋值操作
-                    Return BitConverter.save(fieldType, intptr, right)
+                    Return objName.SetMemberField(memberName, right, symbols)
                 End If
 
             Else

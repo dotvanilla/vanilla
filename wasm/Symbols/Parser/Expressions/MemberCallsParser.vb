@@ -104,14 +104,7 @@ Namespace Symbols.Parser
                             Return obj
                         Else
                             ' 引用的可能是实例对象的成员字段
-                            Dim type As ClassMeta = obj.GetUserType(symbols)
-                            Dim fieldOffset As Expression = Literal.i32(type.GetFieldOffset(memberName))
-                            Dim getValue As Expression
-
-                            fieldOffset = ArrayBlock.IndexOffset(obj, fieldOffset)
-                            getValue = BitConverter.load(type(memberName).type, fieldOffset)
-
-                            Return getValue
+                            Return obj.GetMemberField(memberName, symbols)
                         End If
                     End If
                 End If
@@ -176,9 +169,10 @@ Namespace Symbols.Parser
             If Not func Is Nothing AndAlso func.parameters.Length = 1 Then
                 ' func (obj)
                 Return func.FunctionInvoke({obj})
-            Else
+            ElseIf type = TypeAlias.intptr Then
                 ' object field
 
+            Else
             End If
 
             'If symbols.GetObjectSymbol(objName).IsArray AndAlso memberName = "Length" Then

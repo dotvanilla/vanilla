@@ -92,6 +92,11 @@ Public Module Runtest
 
 
         globalObject = returnObjecttest(777)
+
+
+        Call print($"y of the globalobject is {globalObject.y}")
+        ' full name reference test
+        Call print($"y of the globalobject is {Runtest.globalObject.y}")
     End Sub
 
     Private Function returnObjecttest(Optional radius As Long = 99999) As CircleModel
