@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 1:45:04 AM
+    ;; build: 5/4/2019 1:59:15 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -36,7 +36,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 97))
+    (global $global.ObjectManager (mut i32) (i32.const 1))
 
     ;; Memory data for string constant
     
@@ -65,23 +65,23 @@
     (set_local $x (f64.load (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.const 1) (i32.const 8)))))
     
     ;; Save 8 array element data to memory:
-    ;; Array memory block begin at location: 1
+    ;; Array memory block begin at location: (get_global $global.ObjectManager)
     ;; class_id/typealias_enum i32 data: (i32.const 3)/array(Of f32)
-    (i32.store (i32.const 1) (i32.const 3))
-    (i32.store (i32.const 2) (i32.const 8))
+    (i32.store (get_global $global.ObjectManager) (i32.const 3))
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 8))
     ;; End of byte marks meta data, start write data blocks
-    (f32.store (i32.const 9) (f32.demote/f64 (get_local $x)))
-    (f32.store (i32.const 13) (f32.convert_s/i32 (i32.const 0)))
-    (f32.store (i32.const 17) (f32.convert_s/i32 (i32.const 35)))
-    (f32.store (i32.const 21) (f32.convert_s/i32 (i32.const 78345)))
-    (f32.store (i32.const 25) (f32.convert_s/i32 (i32.const 34)))
-    (f32.store (i32.const 29) (f32.convert_s/i32 (i32.const 534)))
-    (f32.store (i32.const 33) (f32.convert_s/i32 (i32.const 53)))
-    (f32.store (i32.const 37) (f32.convert_s/i32 (i32.load (i32.add (get_global $arrayTest2.data) (i32.const 4)))))
+    (f32.store (i32.add (get_global $global.ObjectManager) (i32.const 8)) (f32.demote/f64 (get_local $x)))
+    (f32.store (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 4)) (f32.convert_s/i32 (i32.const 0)))
+    (f32.store (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 4)) (i32.const 4)) (f32.convert_s/i32 (i32.const 35)))
+    (f32.store (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (f32.convert_s/i32 (i32.const 78345)))
+    (f32.store (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (f32.convert_s/i32 (i32.const 34)))
+    (f32.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (f32.convert_s/i32 (i32.const 534)))
+    (f32.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (f32.convert_s/i32 (i32.const 53)))
+    (f32.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (i32.const 4)) (f32.convert_s/i32 (i32.load (i32.add (get_global $arrayTest2.data) (i32.const 4)))))
     ;; Offset object manager with 40 bytes
-    (set_global $global.ObjectManager (i32.add (i32.const 1) (i32.const 40)))
+    (set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 40)))
     ;; Assign array memory data to another expression
-    (return (i32.const 1))
+    (return (get_global $global.ObjectManager))
     )
     (func $arrayTest2.readTest  (result f32)
         ;; Public Function readTest() As f32
@@ -120,27 +120,27 @@
 
 
 ;; Save 12 array element data to memory:
-;; Array memory block begin at location: 41
+;; Array memory block begin at location: (get_global $global.ObjectManager)
 ;; class_id/typealias_enum i32 data: (i32.const 4)/array(Of f64)
-(i32.store (i32.const 41) (i32.const 4))
-(i32.store (i32.const 42) (i32.const 12))
+(i32.store (get_global $global.ObjectManager) (i32.const 4))
+(i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 12))
 ;; End of byte marks meta data, start write data blocks
-(f64.store (i32.const 49) (f64.convert_s/i32 (i32.const 24)))
-(f64.store (i32.const 57) (f64.convert_s/i32 (i32.const 23)))
-(f64.store (i32.const 65) (f64.convert_s/i32 (i32.const 424)))
-(f64.store (i32.const 73) (f64.convert_s/i32 (i32.const 2423)))
-(f64.store (i32.const 81) (f64.convert_s/i32 (i32.const 4534)))
-(f64.store (i32.const 89) (f64.convert_s/i32 (i32.const 5353)))
-(f64.store (i32.const 97) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 105) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 113) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 121) (f64.convert_s/i32 (i32.const 55)))
-(f64.store (i32.const 129) (f64.convert_s/i32 (i32.const 5555)))
-(f64.store (i32.const 137) (f64.convert_s/i32 (i32.const 5)))
+(f64.store (i32.add (get_global $global.ObjectManager) (i32.const 8)) (f64.convert_s/i32 (i32.const 24)))
+(f64.store (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 23)))
+(f64.store (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 424)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 2423)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 4534)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 5353)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 55)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 5555)))
+(f64.store (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (i32.const 8)) (f64.convert_s/i32 (i32.const 5)))
 ;; Offset object manager with 56 bytes
-(set_global $global.ObjectManager (i32.add (i32.const 41) (i32.const 56)))
+(set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 56)))
 ;; Assign array memory data to another expression
-(set_global $arrayTest2.data (i32.const 41))
+(set_global $arrayTest2.data (get_global $global.ObjectManager))
 )
 
 (start $Application_SubNew)
