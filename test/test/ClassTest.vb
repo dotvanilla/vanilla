@@ -70,7 +70,7 @@ Public Module Runtest
 
     Sub test()
 
-        Dim s As New CircleModel With {.radius = 100001, .x = -1, .y = 1, .nodeName = "{55, 55, 555, 5}"}
+        Dim s As New CircleModel With {.radius = 100001, .x = -1, .y = 1.0009, .nodeName = "{55, 55, 555, 5}"}
 
         ' object field reference test
         Call print(s.radius)

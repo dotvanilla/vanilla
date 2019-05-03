@@ -92,7 +92,7 @@ Namespace Symbols.Parser
                 If Not func Is Nothing Then
                     Return func.InvokeMemberFunc(objName, symbols)
                 Else
-                    Dim obj = symbols.GetObjectReference(objName)
+                    Dim obj As GetLocalVariable = symbols.GetObjectReference(objName)
 
                     If obj Is Nothing AndAlso objName Like symbols.ModuleNames Then
                         ' 在这里objName是一个模块名称
@@ -106,7 +106,12 @@ Namespace Symbols.Parser
                             ' 引用的可能是实例对象的成员字段
                             Dim type As ClassMeta = obj.GetUserType(symbols)
                             Dim fieldOffset As Expression = Literal.i32(type.GetFieldOffset(memberName))
+                            Dim getValue As Expression
 
+                            fieldOffset = ArrayBlock.IndexOffset(obj, fieldOffset)
+                            getValue = BitConverter.load(type(memberName).type, fieldOffset)
+
+                            Return getValue
                         End If
                     End If
                 End If
