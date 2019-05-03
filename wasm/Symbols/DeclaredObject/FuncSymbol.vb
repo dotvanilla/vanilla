@@ -97,7 +97,7 @@ Namespace Symbols
                 .Select(Function(v) v.ToSExpression) _
                 .ToArray
 
-            For Each line In Me.Body
+            For Each line As Expression In Me.Body.SafeQuery
                 ' 在这里会需要额外的处理一下数组的初始化？
                 If TypeOf line Is SetLocalVariable OrElse TypeOf line Is SetGlobalVariable Then
                     ' 数组初始化之后肯定需要赋值给某一个变量的
