@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/2/2019 2:39:04 PM
+    ;; build: 5/4/2019 2:42:19 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -46,6 +46,11 @@
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
+
+    ;; A global object manager for create user object in WebAssembly
+    ;; Its initialize value is the total size of the string data
+    ;; of this webassembly module
+    (global $global.ObjectManager (mut i32) (i32.const 635))
 
     ;; Memory data for string constant
     
@@ -154,12 +159,18 @@
     ;; String from 625 with 9 bytes in memory
     (data (i32.const 625) "1.0.99.78\00")
     
+    ;; Memory data for user defined class object its meta data
+    ;; all of these string is base64 encoded json object
+    
+
+    ;; Global variables in this module
     (global $App.helloWorld (mut i32) (i32.const 1))
 
 (global $App.note (mut i32) (i32.const 14))
 
 (global $App.note2 (mut i32) (i32.const 69))
 
+    ;; Export methods of this module
     ;; export from VB.NET module: [App]
     
     (export "App.RunApp" (func $App.RunApp))
