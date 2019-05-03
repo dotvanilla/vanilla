@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/3/2019 10:25:24 PM
+    ;; build: 5/3/2019 10:31:48 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -51,15 +51,21 @@
     (func $Runtest.test  
         ;; Public Function test() As void
         (local $s i32)
-    ;; 
+    
     ;; Initialize a object instance of [CircleModel]
     ;; Object memory block begin at location: (get_global $global.ObjectManager)
+    ;; set field [moduleContainer.name1.CircleModel::radius]
     (f64.store (i32.add (get_global $global.ObjectManager) (i32.const 12)) (f64.convert_s/i32 (i32.const 100001)))
+    ;; set field [moduleContainer.name1.CircleModel::x]
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.sub (i32.const 0) (i32.const 1)))
+    ;; set field [moduleContainer.name1.CircleModel::y]
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 8)) (i32.trunc_s/f64 (f64.const 1.0009)))
+    ;; set field [moduleContainer.name1.CircleModel::nodeName]
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (i32.const 256))
+    ;; Offset object manager with 20 bytes.
     (set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
+    
     (set_local $s (get_global $global.ObjectManager))
     (call $Runtest.print (f64.load (i32.add (get_local $s) (i32.const 12))))
     )

@@ -59,7 +59,7 @@ Namespace Compiler.SExpression
 
         <Extension>
         Public Iterator Function arrayInitialize(array As ArrayBlock) As IEnumerable(Of String)
-            Yield New CommentText("")
+            Yield ""
             Yield New CommentText($"Save {array.length} array element data to memory:")
             Yield New CommentText($"Array memory block begin at location: {array.memoryPtr}")
 
@@ -72,7 +72,7 @@ Namespace Compiler.SExpression
 
         <Extension>
         Public Iterator Function objectInitialize(obj As UserObject) As IEnumerable(Of String)
-            Yield New CommentText("")
+            Yield ""
             Yield New CommentText($"Initialize a object instance of [{obj.UnderlyingType.raw}]")
             Yield New CommentText($"Object memory block begin at location: {obj.memoryPtr}")
 
@@ -81,6 +81,7 @@ Namespace Compiler.SExpression
             Next
 
             Yield New CommentText($"Initialize an object memory block with {obj.width} bytes data")
+            Yield ""
         End Function
 
         ''' <summary>

@@ -94,6 +94,7 @@ Namespace Symbols.Parser
                     ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
                     ' 所以下面的保存的位置值intptr不能够是累加的结果
                     ' 而每次必须是从hashcode的位置处进行位移，才能够正常的读取结果值
+                    initializer += New CommentText($"set field [{objType.Reference.ToString}::{fieldName}]")
                     initializer += BitConverter.save(
                         type:=fieldType,
                         intptr:=fieldOffset,
@@ -101,6 +102,7 @@ Namespace Symbols.Parser
                     )
                 Next
 
+                initializer += New CommentText($"Offset object manager with {obj.width} bytes.")
                 initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
                     .value = ArrayBlock.IndexOffset(hashcode, obj.width)
                 }
