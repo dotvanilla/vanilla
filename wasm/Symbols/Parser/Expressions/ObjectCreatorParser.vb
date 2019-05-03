@@ -74,7 +74,7 @@ Namespace Symbols.Parser
                 Dim obj As New UserObject With {
                     .memoryPtr = hashcode,
                     .UnderlyingType = type,
-                    .width = objType.FieldWidth,
+                    .width = objType.sizeOf,
                     .Meta = objType
                 }
 
@@ -83,19 +83,21 @@ Namespace Symbols.Parser
                 Dim fieldName$
                 Dim fieldType As TypeAbstract
                 Dim initValue As Expression
+                Dim fieldOffset As Expression
 
                 For Each init As FieldInitializerSyntax In DirectCast(objNew, ObjectMemberInitializerSyntax).Initializers
                     fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
                     initValue = DirectCast(init, NamedFieldInitializerSyntax).Expression.ValueExpression(symbols)
                     fieldType = objType(fieldName).type
+                    fieldOffset = ArrayBlock.IndexOffset(hashcode, objType.GetFieldOffset(fieldName))
 
                     ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
                     ' 所以下面的保存的位置值intptr不能够是累加的结果
                     ' 而每次必须是从hashcode的位置处进行位移，才能够正常的读取结果值
                     initializer += BitConverter.save(
                         type:=fieldType,
-                        intptr:=ArrayBlock.IndexOffset(hashcode, sizeOf(fieldType)),
-                        value:=initValue
+                        intptr:=fieldOffset,
+                        value:=CTypeHandle.CType(fieldType, initValue, symbols)
                     )
                 Next
 

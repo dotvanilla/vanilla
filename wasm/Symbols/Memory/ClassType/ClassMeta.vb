@@ -35,11 +35,11 @@ Namespace Symbols.MemoryObject
         ''' 在这里为了方便内存分配而需要从这个属性得到计算的字段位宽来进行内存指针偏移量的计算
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property FieldWidth As Integer
+        Public ReadOnly Property sizeOf As Integer
             Get
                 Return Aggregate field As DeclareGlobal
                        In Fields
-                       Let width = sizeOf(field.type)
+                       Let width = Types.sizeOf(field.type)
                        Into Sum(width)
             End Get
         End Property
@@ -53,6 +53,20 @@ Namespace Symbols.MemoryObject
                 }
             End Get
         End Property
+
+        Public Function GetFieldOffset(name As String) As Integer
+            Dim offset As Integer
+
+            For Each field As DeclareGlobal In Fields
+                If field.name = name Then
+                    Exit For
+                Else
+                    offset += Types.sizeOf(field.type)
+                End If
+            Next
+
+            Return offset
+        End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract(TypeAlias.intptr, Reference)

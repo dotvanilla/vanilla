@@ -94,6 +94,13 @@ Namespace Symbols.MemoryObject
             Return load(type.typefit, intptr)
         End Function
 
+        ''' <summary>
+        ''' 请注意，这个写内存的函数并不包括自定类型转换，需要在调用之前就完成类型转换操作
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <param name="intptr"></param>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
         Public Function save(type As TypeAbstract, intptr As [Variant](Of Integer, Expression), value As Expression) As Expression
             Return save(type.typefit, intptr, value)
         End Function

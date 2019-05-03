@@ -191,6 +191,13 @@ Namespace Symbols
             var = ref
         End Sub
 
+        Public Function GetUserType(symbols As SymbolTable) As ClassMeta
+            Dim type As TypeAbstract = TypeInfer(symbols)
+            Dim define As ClassMeta = symbols.GetClassType(type.raw)
+
+            Return define
+        End Function
+
         Public Overrides Function ToSExpression() As String
             Return $"(get_local ${var})"
         End Function
