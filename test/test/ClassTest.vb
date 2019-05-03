@@ -75,6 +75,17 @@ Public Module Runtest
         ' object field reference test
         Call print(s.radius)
 
+        Dim c As CircleModel = returnObjecttest()
+
     End Sub
+
+    Private Function returnObjecttest(Optional radius As Long = 99999) As CircleModel
+        ' field y is not initialized at here
+        Return New CircleModel With {
+            .nodeName = "XXXXXXXXXX!",
+            .radius = radius,
+            .x = radius + 1
+        }
+    End Function
 
 End Module
