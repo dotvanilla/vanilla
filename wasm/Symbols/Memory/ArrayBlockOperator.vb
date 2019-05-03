@@ -60,7 +60,7 @@ Namespace Symbols.MemoryObject
         ''' </summary>
         ''' <param name="array"></param>
         ''' <param name="symbols"></param>
-        ''' <param name="arrayType"></param>
+        ''' <param name="arrayType">是一个完整的数组类型定义，而非元素的类型定义</param>
         ''' <returns></returns>
         ''' <remarks>
         ''' 在这里只是生成数组元素的内容，byte marks内容则在<see cref="ArrayBlock"/>的表达式迭代器部分完成

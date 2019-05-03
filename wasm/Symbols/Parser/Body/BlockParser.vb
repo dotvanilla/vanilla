@@ -242,7 +242,7 @@ Namespace Symbols.Parser
         <Extension>
         Friend Iterator Function ParseBlockInternal(block As IEnumerable(Of StatementSyntax), symbols As SymbolTable) As IEnumerable(Of Expression)
             For Each statement As StatementSyntax In block
-                For Each line As Expression In statement.ParseExpression(symbols).AutoDropValueStack(symbols)
+                For Each line As Expression In statement.ParseStatement(symbols).AutoDropValueStack(symbols)
                     Yield line
                 Next
             Next

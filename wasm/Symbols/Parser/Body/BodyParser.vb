@@ -62,8 +62,14 @@ Namespace Symbols.Parser
     ''' </summary>
     Module BodyParser
 
+        ''' <summary>
+        ''' 解析VB.NET的一条命令语句，命令语句不会产生任何值
+        ''' </summary>
+        ''' <param name="statement"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function ParseExpression(statement As StatementSyntax, symbols As SymbolTable) As [Variant](Of Expression, Expression())
+        Public Function ParseStatement(statement As StatementSyntax, symbols As SymbolTable) As [Variant](Of Expression, Expression())
             Select Case statement.GetType
                 Case GetType(LocalDeclarationStatementSyntax)
                     Return DirectCast(statement, LocalDeclarationStatementSyntax).LocalDeclare(symbols).ToArray

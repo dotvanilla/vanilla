@@ -89,7 +89,11 @@ Namespace Symbols.Parser
         ''' <param name="targetType"></param>
         ''' <returns></returns>
         <Extension>
-        Friend Function arrayListIndexer(symbols As SymbolTable, target As Expression, args As ArgumentListSyntax, targetType As TypeAbstract) As Expression
+        Friend Function arrayListIndexer(symbols As SymbolTable,
+                                         target As Expression,
+                                         args As ArgumentListSyntax,
+                                         targetType As TypeAbstract) As Expression
+
             Dim ofElement As TypeAbstract = targetType.generic(Scan0)
             ' 数组或者列表的数字索引
             Dim index As Expression = args.FirstArgument(symbols, "index".param("i32"))

@@ -218,7 +218,7 @@ Namespace Symbols.Parser
         <Extension>
         Private Function runParser(symbols As SymbolTable) As Func(Of StatementSyntax, IEnumerable(Of Expression))
             Return Function(statement As StatementSyntax)
-                       Return statement.ParseExpression(symbols).AutoDropValueStack(symbols)
+                       Return statement.ParseStatement(symbols).AutoDropValueStack(symbols)
                    End Function
         End Function
 
