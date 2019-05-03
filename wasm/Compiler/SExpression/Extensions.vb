@@ -46,6 +46,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
@@ -55,7 +56,23 @@ Namespace Compiler.SExpression
     ''' <summary>
     ''' Helper for some special type when generate S-Expression
     ''' </summary>
-    Public Module Extensions
+    Module Extensions
+
+        <Extension>
+        Public Function StringData(memory As Memory) As String
+            Return memory _
+                .Where(Function(oftype) TypeOf oftype Is StringSymbol) _
+                .Select(Function(s) s.ToSExpression) _
+                .JoinBy(ASCII.LF)
+        End Function
+
+        <Extension>
+        Public Function ObjectMetaData(memory As Memory) As String
+            Return memory _
+                .Where(Function(oftype) TypeOf oftype Is MetaJSON) _
+                .Select(Function(s) s.ToSExpression) _
+                .JoinBy(ASCII.LF)
+        End Function
 
         <Extension>
         Public Iterator Function arrayInitialize(array As ArrayBlock) As IEnumerable(Of String)

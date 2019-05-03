@@ -51,7 +51,6 @@ Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
-Imports Wasm.Symbols.MemoryObject
 
 Namespace Compiler.SExpression
 
@@ -81,10 +80,8 @@ Namespace Compiler.SExpression
 
             Dim wasmSummary As AssemblyInfo = GetType(ModuleSymbol).GetAssemblyDetails
             Dim buildTime$ = File.GetLastWriteTime(GetType(ModuleSymbol).Assembly.Location)
-            Dim stringsData$ = m.Memory _
-                .Where(Function(oftype) TypeOf oftype Is StringSymbol) _
-                .Select(Function(s) s.ToSExpression) _
-                .JoinBy(ASCII.LF)
+            Dim stringsData$ = m.Memory.StringData
+            Dim objectMeta$ = m.Memory.ObjectMetaData
             Dim objectManager As DeclareGlobal = m.Memory.InitializeObjectManager
 
             Return $"(module ;; Module {m.LabelName}
@@ -113,8 +110,14 @@ Namespace Compiler.SExpression
     ;; Memory data for string constant
     {stringsData}
     
+    ;; Memory data for user defined class object its meta data
+    ;; all of these string is base64 encoded json object
+    {objectMeta}
+
+    ;; Global variables in this module
     {globals}
 
+    ;; Export methods of this module
     {m.Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
 
 {internal}

@@ -66,7 +66,8 @@ Namespace Compiler
         ''' <returns></returns>
         Public ReadOnly Property TotalSize As Integer
             Get
-
+                ' 这个偏移量就是静态资源的总大小
+                Return offset
             End Get
         End Property
 
