@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::7f07c17344f5510086a02cd2211abe90, Symbols\Memory\ArrayBlockOperator.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ArrayBlockOperator
-    ' 
-    '         Function: GetArrayElement, GetArrayMember, SetArrayElement, writeArray
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ArrayBlockOperator
+' 
+'         Function: GetArrayElement, GetArrayMember, SetArrayElement, writeArray
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -88,11 +88,24 @@ Namespace Symbols.MemoryObject
 
         <Extension>
         Public Function GetArrayMember(array As GetLocalVariable, memberName$, symbols As SymbolTable) As Expression
+            Select Case memberName
+                Case "Length"
+                    ' 读取第二个i32数据块即可得到长度
+                    Dim intptr As Expression = BinaryStack(array, Literal.i32(4), "+", symbols)
+                    Dim counts As Expression = BitConverter.Loadi32(intptr)
 
+                    Return counts
+                Case Else
+                    Throw New NotImplementedException(memberName)
+            End Select
         End Function
 
         <Extension>
-        Public Function GetArrayElement(target As Expression, index As Expression, ofElement As TypeAbstract, symbols As SymbolTable) As Expression
+        Public Function GetArrayElement(target As Expression,
+                                        index As Expression,
+                                        ofElement As TypeAbstract,
+                                        symbols As SymbolTable) As Expression
+
             ' 从webassembly内存之中读取数据
             ' 对于数组对象而言，其值是一个内存区块的起始位置来的
             ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
@@ -110,7 +123,12 @@ Namespace Symbols.MemoryObject
         End Function
 
         <Extension>
-        Public Function SetArrayElement(arraySymbol As GetLocalVariable, index As Expression, ofElement As TypeAbstract, right As Expression, symbols As SymbolTable) As Expression
+        Public Function SetArrayElement(arraySymbol As GetLocalVariable,
+                                        index As Expression,
+                                        ofElement As TypeAbstract,
+                                        right As Expression,
+                                        symbols As SymbolTable) As Expression
+
             ' 从webassembly内存之中读取数据
             ' 对于数组对象而言，其值是一个内存区块的起始位置来的
             ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
