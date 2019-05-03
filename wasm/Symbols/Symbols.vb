@@ -217,6 +217,14 @@ Namespace Symbols
         Public Property var As String
         Public Property value As Expression
 
+        Sub New()
+        End Sub
+
+        Sub New(var As DeclareLocal, value As Expression)
+            Me.var = var.name
+            Me.value = value
+        End Sub
+
         Public Overrides Function ToSExpression() As String
             If TypeOf value Is FuncInvoke Then
                 Return $"(set_local ${var} {value})"

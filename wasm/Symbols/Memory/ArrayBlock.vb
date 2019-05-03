@@ -66,6 +66,7 @@ Namespace Symbols.MemoryObject
         ''' </summary>
         ''' <returns></returns>
         Public Property length As Integer
+        Public Property itemOffset As String
         Public Property elements As Expression()
 
         ''' <summary>
@@ -105,6 +106,11 @@ Namespace Symbols.MemoryObject
             Yield BitConverter.save("i32", ArrayBlock.IndexOffset(memoryPtr, 4), Literal.i32(length))
 
             Yield New CommentText("End of byte marks meta data, start write data blocks")
+
+            Yield New SetLocalVariable With {
+                .var = itemOffset,
+                .value = IndexOffset(memoryPtr, 8)
+            }
 
             For Each x As Expression In elements
                 Yield x
