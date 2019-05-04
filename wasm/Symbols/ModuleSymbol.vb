@@ -59,6 +59,9 @@ Imports Wasm.TypeInfo
 
 Namespace Symbols
 
+    ''' <summary>
+    ''' A WebAssembly module
+    ''' </summary>
     Public Class ModuleSymbol : Inherits Expression
         Implements Enumeration(Of Expression)
 

@@ -5,7 +5,9 @@ Module classArrayTest
     Dim circles As circle()
 
     Public Sub initializeArray()
-        circles = {New circle With {.x = 1, .y = .x, .z = .x}}
+        Dim c2 As New circle With {.radius = 100}
+
+        circles = {New circle With {.x = 1, .y = .x, .z = .x}, c2}
     End Sub
 
 End Module
