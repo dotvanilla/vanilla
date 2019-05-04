@@ -98,7 +98,7 @@ Namespace Symbols.Parser
                 fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
                 initValue = DirectCast(init, NamedFieldInitializerSyntax).Expression.ValueExpression(symbols)
                 fieldType = objType(fieldName).type
-                fieldOffset = ArrayBlock.IndexOffset(hashcode, objType.GetFieldOffset(fieldName))
+                fieldOffset = ArrayBlock.IndexOffset(hashcode.GetReference, objType.GetFieldOffset(fieldName))
 
                 ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
                 ' 所以下面的保存的位置值intptr不能够是累加的结果
@@ -113,7 +113,7 @@ Namespace Symbols.Parser
 
             initializer += New CommentText($"Offset object manager with {obj.width} bytes.")
             initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
-                .value = ArrayBlock.IndexOffset(hashcode, obj.width)
+                .value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
             }
 
             Return obj.With(Sub(ByRef o)

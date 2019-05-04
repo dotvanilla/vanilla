@@ -304,6 +304,12 @@ Namespace Symbols
             End Get
         End Property
 
+        Public ReadOnly Property GetReference() As GetLocalVariable
+            Get
+                Return New GetLocalVariable With {.var = name}
+            End Get
+        End Property
+
         Public Overrides Function ToSExpression() As String
             Return $"(local ${name} {type.typefit})"
         End Function
