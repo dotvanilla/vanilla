@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f57322e7cff5e98663a8ee2c6eda2c3, Symbols\Memory\ClassType\FieldValue.vb"
+﻿#Region "Microsoft.VisualBasic::5968bda9e8c2e30a1ad86b1c9ef89b67, Symbols\Memory\ClassType\FieldValue.vb"
 
     ' Author:
     ' 
@@ -46,7 +46,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo

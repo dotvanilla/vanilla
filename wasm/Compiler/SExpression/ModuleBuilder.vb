@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1a8bea4205b372dd698e6d7d4e90d58, Compiler\SExpression\ModuleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::91f58ef63f90c5bb0cfcccbb1e1568de, Compiler\SExpression\ModuleBuilder.vb"
 
     ' Author:
     ' 
@@ -36,9 +36,12 @@
 
     ' Summaries:
 
-    '     Module ModuleBuilder
+    '     Class ModuleBuilder
     ' 
-    '         Function: exportGroup, funcGroup, starter, ToSExpression
+    '         Properties: [imports], globals, internal, objectMetaData, stringData
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToSExpression
     ' 
     ' 
     ' /********************************************************************************/
