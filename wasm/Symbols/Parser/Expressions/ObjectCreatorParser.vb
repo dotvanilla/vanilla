@@ -97,6 +97,11 @@ Namespace Symbols.Parser
                 fieldType = objType(fieldName).type
                 fieldOffset = ArrayBlock.IndexOffset(hashcode, objType.GetFieldOffset(fieldName))
 
+                If TypeOf initValue Is GetGlobalVariable AndAlso DirectCast(initValue, GetGlobalVariable).module Is Nothing Then
+                    ' 是引用实例对象自身的字段的值
+                    initValue = obj.GetMemberField(objType, DirectCast(initValue, GetGlobalVariable).var)
+                End If
+
                 ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
                 ' 所以下面的保存的位置值intptr不能够是累加的结果
                 ' 而每次必须是从hashcode的位置处进行位移，才能够正常的读取结果值

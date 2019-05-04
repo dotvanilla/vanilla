@@ -162,8 +162,19 @@ Namespace Symbols.Parser
             If TypeOf ref.Expression Is SimpleNameSyntax Then
                 Return SimpleMember(ref.Expression, symbols, memberName)
             Else
-                Dim obj As Expression = ref.Expression.ValueExpression(symbols)
-                Dim memberAccess As Expression = obj.ExpressionMember(memberName, symbols)
+                Dim obj As Expression
+                Dim memberAccess As Expression
+
+                If ref.Expression Is Nothing Then
+                    ' .xxx with匿名变量引用表达式
+                    memberAccess = New GetGlobalVariable With {
+                        .[module] = Nothing,
+                        .var = memberName
+                    }
+                Else
+                    obj = ref.Expression.ValueExpression(symbols)
+                    memberAccess = obj.ExpressionMember(memberName, symbols)
+                End If
 
                 Return memberAccess
             End If

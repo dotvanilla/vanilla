@@ -71,7 +71,11 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function GetMemberField(obj As GetLocalVariable, memberName$, symbols As SymbolTable) As Expression
-            Dim type As ClassMeta = obj.GetUserType(symbols)
+            Return obj.GetMemberField(obj.GetUserType(symbols), memberName$)
+        End Function
+
+        <Extension>
+        Public Function GetMemberField(obj As Expression, type As ClassMeta, memberName$) As Expression
             Dim fieldType As TypeAbstract = type(memberName).type
             Dim fieldOffset As Expression = Literal.i32(type.GetFieldOffset(memberName))
             Dim getValue As Expression
