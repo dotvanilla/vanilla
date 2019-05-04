@@ -3,6 +3,7 @@
 Module classArrayTest
 
     Dim circles As circle()
+    Dim str As String = "SSSSSS"
 
     Public Sub initializeArray()
         Dim c2 As New circle With {.radius = 100}
@@ -34,5 +35,6 @@ Namespace testNamespace
     Public Class circle
         Public x, y, z As Single
         Public radius As Double = 999
+        Public id As String = "ABC"
     End Class
 End Namespace
