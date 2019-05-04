@@ -84,6 +84,10 @@ Namespace Symbols.MemoryObject
             Return type
         End Function
 
+        Public Overrides Function [AddressOf]() As Expression
+            Return IndexOffset(New GetLocalVariable(itemOffset), Literal.i32(-8))
+        End Function
+
         ''' <summary>
         ''' 返回的是内存之中的首位置
         ''' </summary>

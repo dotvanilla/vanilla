@@ -74,7 +74,7 @@ Namespace Symbols.MemoryObject
         ''' 这个对象在内存之中的起始位置
         ''' </summary>
         ''' <returns></returns>
-        Public Function [AddressOf]() As Expression
+        Public Overridable Function [AddressOf]() As Expression
             If memoryPtr Like GetType(Integer) Then
                 Return Literal.i32(memoryPtr.TryCast(Of Integer))
             Else

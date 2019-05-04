@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 2:17:00 AM
+    ;; build: 5/4/2019 10:08:18 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -81,9 +81,9 @@
     (f32.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 24)) (f32.convert_s/i32 (i32.const 53)))
     (f32.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 28)) (f32.convert_s/i32 (i32.load (i32.add (get_global $arrayTest2.data) (i32.const 4)))))
     ;; Offset object manager with 40 bytes
-    (set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 40)))
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)) (i32.const 40)))
     ;; Assign array memory data to another expression
-    (return (get_global $global.ObjectManager))
+    (return (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)))
     )
     (func $arrayTest2.readTest  (result f32)
         ;; Public Function readTest() As f32
@@ -141,9 +141,9 @@
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 80)) (f64.convert_s/i32 (i32.const 5555)))
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 88)) (f64.convert_s/i32 (i32.const 5)))
 ;; Offset object manager with 56 bytes
-(set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 56)))
+(set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)) (i32.const 56)))
 ;; Assign array memory data to another expression
-(set_global $arrayTest2.data (get_global $global.ObjectManager))
+(set_global $arrayTest2.data (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)))
 )
 
 (start $Application_SubNew)
