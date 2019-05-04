@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::0a5a29340452592fa7685e1b949c9a55, Symbols\Parser\ModuleParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ModuleParser
-    ' 
-    '         Function: AsConstructor, (+2 Overloads) CreateModule, CreateModuleInternal, CreateUnitModule, Join
-    '                   ParseDeclares, parseEnums, ParseEnums
-    ' 
-    '         Sub: parseGlobals, parseImports
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ModuleParser
+' 
+'         Function: AsConstructor, (+2 Overloads) CreateModule, CreateModuleInternal, CreateUnitModule, Join
+'                   ParseDeclares, parseEnums, ParseEnums
+' 
+'         Sub: parseGlobals, parseImports
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -137,11 +137,11 @@ Namespace Symbols.Parser
 
             For Each main As ModuleBlockSyntax In project
                 enums = vbcode.ParseEnums
-                Symbols = main.ParseDeclares(Symbols, enums)
+                symbols = main.ParseDeclares(symbols, enums)
             Next
 
             ' 解析成员函数的具体定义内容
-            Return project.CreateModule(Symbols, Nothing)
+            Return project.CreateModule(symbols, Nothing)
         End Function
 
         <Extension>
@@ -210,7 +210,7 @@ Namespace Symbols.Parser
 
                 If method.SubOrFunctionStatement.isExportObject Then
                     exports += New ExportSymbolExpression With {
-                        .Name = functions.Last.Name.Trim("$"c),
+                        .Name = functions.Last.name.Trim("$"c),
                         .target = functions.Last,
                         .type = "func",
                         .[module] = moduleName
@@ -260,7 +260,7 @@ Namespace Symbols.Parser
             For Each api As DeclareStatementSyntax In declares
                 Dim define As NamedValue(Of TypeAbstract) = api.FuncVariable(symbolTable)
                 Dim apiImports As New ImportSymbol(api.ParseParameters(symbolTable)) With {
-                    .Name = define.Name,
+                    .name = define.Name,
                     .result = define.Value,
                     .importAlias = api.AliasName.Token.ValueText,
                     .package = api.LibraryName.Token.ValueText,

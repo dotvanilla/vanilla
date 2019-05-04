@@ -191,11 +191,11 @@ Namespace Compiler
         End Sub
 
         Public Function HaveClass(name As String) As Boolean
-            Return userClass.ContainsKey(name)
+            Return userClass.ContainsKey(name.StringReplace("\[\d+\]", ""))
         End Function
 
         Public Function GetClassType(type As String) As ClassMeta
-            Return userClass(type)
+            Return userClass(type.StringReplace("\[\d+\]", ""))
         End Function
 
         Public Function HaveEnumType(type As String) As Boolean
