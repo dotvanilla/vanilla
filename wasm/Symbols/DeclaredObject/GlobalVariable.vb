@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::baacec3e552f109122bc2621bc7fe471, Symbols\DeclaredObject\GlobalVariable.vb"
+﻿#Region "Microsoft.VisualBasic::a66ece5e52863e11f16987d3fc6e878f, Symbols\DeclaredObject\GlobalVariable.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class DeclareGlobal
     ' 
-    '         Properties: [Module], GetReference
+    '         Properties: [module], GetReference
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: AsLocal, SetReference, ToSExpression

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3e16a49f2dfd75a1b724838d8cce173, Symbols\Parser\FunctionParser.vb"
+﻿#Region "Microsoft.VisualBasic::94319d4b747cb36f60db726a8b904453, Symbols\Parser\FunctionParser.vb"
 
     ' Author:
     ' 

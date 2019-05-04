@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::498f7aec5c6e68ee7c3a581202f3223e, Symbols\Blocks\Loop.vb"
+﻿#Region "Microsoft.VisualBasic::add454f5ee84a8b7d90a7bf5a709a4ac, Symbols\Blocks\Loop.vb"
 
     ' Author:
     ' 
@@ -38,31 +38,31 @@
 
     '     Class AbstractBlock
     ' 
-    '         Properties: Guid
+    '         Properties: guid
     ' 
     '         Function: GetDeclareLocals
     ' 
     '     Class Block
     ' 
-    '         Properties: Internal
+    '         Properties: internal
     ' 
     '         Function: InternalBlock
     ' 
     '     Class [Loop]
     ' 
-    '         Properties: LoopID
+    '         Properties: loopID
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 
     '     Class br
     ' 
-    '         Properties: BlockLabel
+    '         Properties: blockLabel
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 
     '     Class br_if
     ' 
-    '         Properties: Condition
+    '         Properties: condition
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 

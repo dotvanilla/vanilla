@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e57243df331aff8823e357124153b109, Symbols\Blocks\If.vb"
+﻿#Region "Microsoft.VisualBasic::c8a0ac0b3e1ccab24bf6f0a1f9e52351, Symbols\Blocks\If.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class IfBlock
     ' 
-    '         Properties: [Else], [Then], Condition
+    '         Properties: [else], [then], condition
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 

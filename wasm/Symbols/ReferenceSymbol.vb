@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3493ccdf9b8aeb0655185dfa1e73e239, Symbols\ReferenceSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::ff62fcdbd45a451a2f79c0d7a1f2452d, Symbols\ReferenceSymbol.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class ReferenceSymbol
     ' 
-    '         Properties: [Module], Symbol, Type
+    '         Properties: [module], Symbol, Type
     ' 
     '         Function: ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f6b0914d55ba9a17db92190eea1f4c5, Symbols\DeclaredObject\JavaScriptImports\String.vb"
+﻿#Region "Microsoft.VisualBasic::684e33d1e50cfaaac6e7dac20d80f940, Symbols\DeclaredObject\JavaScriptImports\String.vb"
 
     ' Author:
     ' 

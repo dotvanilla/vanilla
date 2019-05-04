@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07133a178a5935eea7947bf4e43b7179, Symbols\Parser\ModuleParser.vb"
+﻿#Region "Microsoft.VisualBasic::0a5a29340452592fa7685e1b949c9a55, Symbols\Parser\ModuleParser.vb"
 
     ' Author:
     ' 

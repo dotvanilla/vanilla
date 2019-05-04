@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03f7690d3d8f8df8261241c26d371688, Symbols\DeclaredObject\IDeclaredObject.vb"
+﻿#Region "Microsoft.VisualBasic::b92d16d46d212086a59a43da38d1818a, Symbols\DeclaredObject\IDeclaredObject.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Interface IDeclaredObject
     ' 
-    '         Properties: [Module]
+    '         Properties: [module]
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16c6ea774305f45cd4b0cc764efc7d86, Symbols\Memory\ClassType\MetaJSON.vb"
+﻿#Region "Microsoft.VisualBasic::5b7e06e4e9cfec6b72933cac9a6acb77, Symbols\Memory\ClassType\MetaJSON.vb"
 
     ' Author:
     ' 

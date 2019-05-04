@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45674428d64f9c61650038b278899ff1, Symbols\DeclaredObject\JavaScriptImports\ArrayList.vb"
+﻿#Region "Microsoft.VisualBasic::194b8677d643f3413aa17664cea82d08, Symbols\DeclaredObject\JavaScriptImports\ArrayList.vb"
 
     ' Author:
     ' 

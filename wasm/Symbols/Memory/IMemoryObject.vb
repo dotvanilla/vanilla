@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35ecebd7c843b61905b399b4859b74c2, Symbols\Memory\IMemoryObject.vb"
+﻿#Region "Microsoft.VisualBasic::36dfc84c52f6219ff01c6cdcbee69804, Symbols\Memory\IMemoryObject.vb"
 
     ' Author:
     ' 

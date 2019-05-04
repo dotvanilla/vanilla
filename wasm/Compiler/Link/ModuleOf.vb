@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d14af26c10d5986567115b5891ac649, Compiler\Link\ModuleOf.vb"
+﻿#Region "Microsoft.VisualBasic::8c4eb5117b9f510ce605cc97ccb0bc40, Compiler\Link\ModuleOf.vb"
 
     ' Author:
     ' 

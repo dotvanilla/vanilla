@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e15d85b9e957b9585f4b17b282d03a15, Symbols\Parser\ObjectOperator.vb"
+﻿#Region "Microsoft.VisualBasic::324d06e398dbe816729e191301618a64, Symbols\Parser\ObjectOperator.vb"
 
     ' Author:
     ' 
