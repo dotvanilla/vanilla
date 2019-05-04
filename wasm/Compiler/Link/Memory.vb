@@ -60,7 +60,12 @@ Namespace Compiler
     Public Class Memory : Implements IEnumerable(Of Expression)
 
         Dim buffer As New List(Of Expression)
-        Dim offset As Integer = 1
+        ''' <summary>
+        ''' 因为<see cref="TypeAlias"/>之中基础类型都是小于10的
+        ''' 所以在这里offset从10开始，从而能够避免class_id小于10
+        ''' 导致用户自定义类型被误判为基础类型
+        ''' </summary>
+        Dim offset As Integer = 10
 
         ''' <summary>
         ''' 获取得到在WebAssembly之中的初始化大小

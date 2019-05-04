@@ -81,7 +81,16 @@ Namespace TypeInfo
             End If
 
             If IsUserDefined Then
-                Return New TypeAbstract(TypeAlias.intptr, asReference(symbols))
+                If TypeExtensions.IsArray(raw) Then
+                    ' 可能是其他的数组
+                    Dim base As TypeAlias = TypeAlias.array
+                    Dim ofElement$ = TypeExtensions.ArrayElement(raw)
+                    Dim class_id As Integer = symbols.GetClassType(ofElement).memoryPtr
+
+                    Return New TypeAbstract(base, {$"[{class_id}]{ofElement}"})
+                Else
+                    Return New TypeAbstract(TypeAlias.intptr, asReference(symbols))
+                End If
             Else
                 Return New TypeAbstract(type:=raw.TryCast(Of Type))
             End If
@@ -93,7 +102,13 @@ Namespace TypeInfo
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         Private Function asReference(symbols As SymbolTable) As ReferenceSymbol
-            Return New ReferenceSymbol With {.Symbol = raw, .Type = SymbolType.Type}
+            Dim typeName As String = raw
+            Dim class_id As Integer = symbols.GetClassType(typeName).memoryPtr
+
+            Return New ReferenceSymbol With {
+                .Symbol = $"[{class_id}]{typeName}",
+                .Type = SymbolType.Type
+            }
         End Function
 
         Public Function MakeArrayType() As RawType

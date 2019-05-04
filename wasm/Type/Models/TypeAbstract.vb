@@ -100,7 +100,10 @@ Namespace TypeInfo
                 If type <> TypeAlias.intptr Then
                     Return CInt(type)
                 Else
-                    Return r.Match(raw, "\[\d+\]", RegexICSng).Value.ParseInteger
+                    Return r.Match(raw, "\[\d+\]", RegexICSng) _
+                        .Value _
+                        .GetStackValue("[", "]") _
+                        .ParseInteger
                 End If
             End Get
         End Property
