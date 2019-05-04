@@ -79,7 +79,7 @@ Module arrayTest2
 
     Sub setValueTest(x As Integer)
 
-        data(x + 1) = x * 2
+        data(x + 1) = x * 2 / (data.Length - 1)
 
         print(data(x * 99))
 

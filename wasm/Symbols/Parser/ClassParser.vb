@@ -111,6 +111,10 @@ Namespace Symbols.Parser
 
             For Each [class] As ClassBlockSyntax In type.Members.OfType(Of ClassBlockSyntax)
                 Yield [class].Parse(symbols, [namespace]:=name)
+
+                ' 因为class的模块变量是放在global里面的
+                ' 所以每解析完一个class都要清空一次全局变量
+                symbols.globals.Clear()
             Next
         End Function
 

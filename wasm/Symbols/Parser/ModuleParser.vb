@@ -119,12 +119,17 @@ Namespace Symbols.Parser
             Dim enums As EnumSymbol()
             Dim symbols As New SymbolTable
 
+            ' 因为class的解析，对于field对象而言是放在符号表的
+            ' global对象之中的，所以在这里class的解析要优先于
+            ' module的解析，否则会因为module的global混入class的fields
+            ' 产生错误的类型定义结果
             For Each type As ClassBlockSyntax In classTypes
-                Symbols.AddClass(type.Parse(Symbols))
+                symbols.AddClass(type.Parse(symbols))
+                symbols.globals.Clear()
             Next
 
             For Each container As NamespaceBlockSyntax In vbcode.Members.OfType(Of NamespaceBlockSyntax)
-                Symbols.AddClass(container.EnumerateTypes(Symbols))
+                symbols.AddClass(container.EnumerateTypes(symbols))
             Next
 
             Call symbols.ClearLocals()

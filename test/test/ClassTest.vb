@@ -64,11 +64,31 @@ Namespace moduleContainer.name1
     End Class
 End Namespace
 
+''' <summary>
+''' Class in root namespace
+''' </summary>
+Public Class RectangleModel
+
+    Public name As String = "[55555555]"
+
+    Public x As Integer
+    Public y As Integer
+    Public w As Integer
+    Public h As Integer
+
+End Class
+
 Public Module Runtest
 
     Declare Sub print Lib "console" Alias "log" (data As String)
 
     Dim globalObject As CircleModel
+    Dim globalObject2 As RectangleModel
+
+    Sub New()
+        globalObject2 = New RectangleModel With {.h = 500, .w = 900}
+        globalObject2.name = globalObject.nodeName
+    End Sub
 
     Function globalMemberTest()
         globalObject = returnObjecttest(777)

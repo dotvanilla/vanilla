@@ -110,7 +110,7 @@
     (func $arrayTest2.setValueTest (param $x i32) 
         ;; Public Function setValueTest(x As i32) As void
         
-    (f64.store (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.add (get_local $x) (i32.const 1)) (i32.const 8))) (f64.convert_s/i32 (i32.mul (get_local $x) (i32.const 2))))
+    (f64.store (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.add (get_local $x) (i32.const 1)) (i32.const 8))) (f64.div (f64.convert_s/i32 (i32.mul (get_local $x) (i32.const 2))) (f64.convert_s/i32 (i32.sub (i32.load (i32.add (get_global $arrayTest2.data) (i32.const 4))) (i32.const 1)))))
     (call $arrayTest2.print (f64.load (i32.add (i32.add (get_global $arrayTest2.data) (i32.const 8)) (i32.mul (i32.mul (get_local $x) (i32.const 99)) (i32.const 8)))))
     )
     
