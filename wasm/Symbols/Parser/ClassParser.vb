@@ -80,6 +80,7 @@ Namespace Symbols.Parser
             Next
 
             For Each globalField As DeclareGlobal In symbolTable.GetAllGlobals
+                ' init值则是在初始化的时候对于没有赋值的字段进行初始值得赋值所需要的
                 fieldList += New DeclareGlobal With {
                     .init = globalField.init,
                     .[module] = className,

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 10:18:51 AM
+    ;; build: 5/4/2019 10:41:30 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -159,7 +159,7 @@
 ;; Initialize an object memory block with 20 bytes data
 
 (set_global $Runtest.globalObject2 (get_global $global.ObjectManager))
-(i32.store (i32.add (get_global $Runtest.globalObject2) (i32.const 0)) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 0)))))
+(i32.store (i32.add (get_global $Runtest.globalObject2) (i32.const 0)) (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 0))))
 )
 
 (start $Application_SubNew)
