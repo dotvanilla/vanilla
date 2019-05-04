@@ -68,10 +68,13 @@ Namespace Symbols.Parser
         <Extension>
         Friend Function createUserObject(type As TypeAbstract, objNew As ObjectMemberInitializerSyntax, symbols As SymbolTable) As Expression
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
-            Dim hashcode As Expression = New GetGlobalVariable(IMemoryObject.ObjectManager)
+            Dim hashcode As New DeclareLocal With {
+                .name = "newObject_" & symbols.NextGuid,
+                .type = type
+            }
             ' 创建用户自定义类型的对象实例
             Dim obj As New UserObject With {
-                .memoryPtr = hashcode,
+                .memoryPtr = New GetLocalVariable(hashcode),
                 .UnderlyingType = type,
                 .width = objType.sizeOf,
                 .Meta = objType
@@ -80,6 +83,7 @@ Namespace Symbols.Parser
             ' 如果存在匿名对象的引用
             ' 会需要这个来完成引用
             symbols.currentObject = obj
+            symbols.AddLocal(hashcode)
 
             ' 初始化字段值
             Dim initializer As New List(Of Expression)
@@ -87,6 +91,8 @@ Namespace Symbols.Parser
             Dim fieldType As TypeAbstract
             Dim initValue As Expression
             Dim fieldOffset As Expression
+
+            initializer += New SetLocalVariable(hashcode, IMemoryObject.ObjectManager.GetReference)
 
             For Each init As FieldInitializerSyntax In objNew.Initializers
                 fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName

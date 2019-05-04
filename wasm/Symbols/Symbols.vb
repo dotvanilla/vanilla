@@ -193,6 +193,10 @@ Namespace Symbols
             var = ref
         End Sub
 
+        Sub New(local As DeclareLocal)
+            Call Me.New(local.name)
+        End Sub
+
         Public Function GetUserType(symbols As SymbolTable) As ClassMeta
             Dim type As TypeAbstract = TypeInfer(symbols)
             Dim define As ClassMeta = symbols.GetClassType(type.raw)

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 2:39:57 PM
+    ;; build: 5/4/2019 2:52:18 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -42,21 +42,22 @@
 ;; 
 ;; Sub New
 (func $Application_SubNew
-    
+    (local $newObject_9a020000 i32)
 
 ;; Initialize a object instance of [circle]
-;; Object memory block begin at location: (get_global $global.ObjectManager)
+;; Object memory block begin at location: (get_local $newObject_9a020000)
+(set_local $newObject_9a020000 (get_global $global.ObjectManager))
 ;; set field [testNamespace.circle::x]
-(f32.store (i32.add (get_global $global.ObjectManager) (i32.const 0)) (f32.convert_s/i32 (i32.const 1)))
+(f32.store (i32.add (local $newObject_9a020000 i32) (i32.const 0)) (f32.convert_s/i32 (i32.const 1)))
 ;; set field [testNamespace.circle::y]
-(f32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (f32.load (i32.add (get_global $global.ObjectManager) (i32.const 0))))
+(f32.store (i32.add (local $newObject_9a020000 i32) (i32.const 4)) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))))
 ;; set field [testNamespace.circle::z]
-(f32.store (i32.add (get_global $global.ObjectManager) (i32.const 8)) (f32.add (f32.load (i32.add (get_global $global.ObjectManager) (i32.const 0))) (f32.load (i32.add (get_global $global.ObjectManager) (i32.const 4)))))
+(f32.store (i32.add (local $newObject_9a020000 i32) (i32.const 8)) (f32.add (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 4)))))
 ;; Offset object manager with 20 bytes.
-(set_global $global.ObjectManager (i32.add (get_global $global.ObjectManager) (i32.const 20)))
+(set_global $global.ObjectManager (i32.add (local $newObject_9a020000 i32) (i32.const 20)))
 ;; Initialize an object memory block with 20 bytes data
 
-(set_global $classTest3.circle (get_global $global.ObjectManager))
+(set_global $classTest3.circle (get_local $newObject_9a020000))
 )
 
 (start $Application_SubNew)
