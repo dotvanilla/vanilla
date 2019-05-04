@@ -48,7 +48,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
-Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols.Blocks
 Imports Wasm.Symbols.JavaScriptImports

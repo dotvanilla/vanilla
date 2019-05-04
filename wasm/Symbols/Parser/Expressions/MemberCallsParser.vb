@@ -171,6 +171,7 @@ Namespace Symbols.Parser
                         .[module] = Nothing,
                         .var = memberName
                     }
+                    memberAccess = DirectCast(memberAccess, GetGlobalVariable).GetAnonymousField(symbols)
                 Else
                     obj = ref.Expression.ValueExpression(symbols)
                     memberAccess = obj.ExpressionMember(memberName, symbols)

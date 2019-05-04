@@ -105,6 +105,11 @@ Namespace Compiler
         ''' </summary>
         ''' <returns></returns>
         Public Property currentModuleLabel() As DefaultValue(Of String)
+        ''' <summary>
+        ''' 对象初始化或者匿名对象引用的时候使用
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property currentObject As UserObject
 
         ''' <summary>
         ''' 为了满足基本的变成需求而自动添加的引用符号列表
