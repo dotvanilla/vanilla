@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 2:59:34 PM
+    ;; build: 5/4/2019 3:10:11 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -53,6 +53,8 @@
 (f32.store (i32.add (get_local $newObject_9a020000) (i32.const 4)) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))))
 ;; set field [testNamespace.circle::z]
 (f32.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (f32.add (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 4)))))
+;; set field [testNamespace.circle::radius]
+(f64.store (i32.add (get_local $newObject_9a020000) (i32.const 12)) (f64.const 999))
 ;; Offset object manager with 20 bytes.
 (set_global $global.ObjectManager (i32.add (get_local $newObject_9a020000) (i32.const 20)))
 ;; Initialize an object memory block with 20 bytes data

@@ -104,7 +104,7 @@ Namespace Symbols.Parser
             Next
 
             ' optional value for the fields that not initialized
-            For Each name As String In optionalFields
+            For Each name As String In optionalFields.Objects
                 initValue = objType(name).init
 
                 If Not initValue Is Nothing Then
