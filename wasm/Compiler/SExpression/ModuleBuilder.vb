@@ -72,8 +72,9 @@ Namespace Compiler.SExpression
         Public ReadOnly Property globals As String()
             Get
                 Return [module].Globals _
-                   .Select(Function(g) g.ToSExpression) _
-                   .ToArray
+                    .SafeQuery _
+                    .Select(Function(g) g.ToSExpression) _
+                    .ToArray
             End Get
         End Property
 
@@ -124,7 +125,7 @@ Namespace Compiler.SExpression
 
     ;; imports must occur before all non-import definitions
 
-    {[imports]}
+    {[imports].JoinBy(ASCII.LF)}
     
     ;; Only allows one memory block in each module
     (memory (import ""env"" ""bytechunks"") 1)
@@ -142,12 +143,12 @@ Namespace Compiler.SExpression
     {objectMeta}
 
     ;; Global variables in this module
-    {globals}
+    {globals.JoinBy(ASCII.LF)}
 
     ;; Export methods of this module
     {[module].Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
 
-{internal}
+{internal.JoinBy(ASCII.LF)}
 
 ;; Application Initialize
 ;; 
