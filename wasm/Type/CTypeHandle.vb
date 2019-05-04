@@ -124,7 +124,7 @@ Namespace TypeInfo
             right.type = leftGeneric.MakeArrayType
             ' 因为类型变了，原来的api可能没有用了
             ' 在这里需要新导入api
-            symbols.doArrayImports(leftGeneric)
+            ' symbols.doArrayImports(leftGeneric)
 
             Return right
         End Function

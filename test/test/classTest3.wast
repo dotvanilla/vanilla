@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 6:43:43 PM
+    ;; build: 5/4/2019 6:45:51 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -19,16 +19,6 @@
     (func $string.length (import "string" "length") (param $text i32) (result i32))
 ;; Declare Function string.indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
     (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
-;; Declare Function array.new Lib "Array" Alias "create" (size As i32) As list
-    (func $array.new (import "Array" "create") (param $size i32) (result i32))
-;; Declare Function intptr_array.push Lib "Array" Alias "push" (array As list, element As intptr) As list
-    (func $intptr_array.push (import "Array" "push") (param $array i32) (param $element i32) (result i32))
-;; Declare Function intptr_array.get Lib "Array" Alias "get" (array As list, index As i32) As intptr
-    (func $intptr_array.get (import "Array" "get") (param $array i32) (param $index i32) (result i32))
-;; Declare Function intptr_array.set Lib "Array" Alias "set" (array As list, index As i32, value As intptr) As void
-    (func $intptr_array.set (import "Array" "set") (param $array i32) (param $index i32) (param $value i32) )
-;; Declare Function array.length Lib "Array" Alias "length" (array As list) As i32
-    (func $array.length (import "Array" "length") (param $array i32) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
