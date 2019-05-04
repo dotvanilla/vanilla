@@ -117,7 +117,7 @@ Namespace Symbols
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToSExpression() As String
-            Return ModuleBuilder.ToSExpression(Me)
+            Return New ModuleBuilder(Me).ToSExpression()
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

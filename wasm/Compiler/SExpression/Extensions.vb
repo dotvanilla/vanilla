@@ -59,19 +59,19 @@ Namespace Compiler.SExpression
     Module Extensions
 
         <Extension>
-        Public Function StringData(memory As Memory) As String
+        Public Function StringData(memory As Memory) As String()
             Return memory _
                 .Where(Function(oftype) TypeOf oftype Is StringSymbol) _
                 .Select(Function(s) s.ToSExpression) _
-                .JoinBy(ASCII.LF)
+                .ToArray
         End Function
 
         <Extension>
-        Public Function ObjectMetaData(memory As Memory) As String
+        Public Function ObjectMetaData(memory As Memory) As String()
             Return memory _
                 .Where(Function(oftype) TypeOf oftype Is MetaJSON) _
                 .Select(Function(s) s.ToSExpression) _
-                .JoinBy(ASCII.LF)
+                .ToArray
         End Function
 
         <Extension>

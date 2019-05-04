@@ -46,7 +46,6 @@
 #End Region
 
 Imports System.IO
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -54,37 +53,62 @@ Imports Wasm.Symbols
 
 Namespace Compiler.SExpression
 
-    Module ModuleBuilder
+    Public Class ModuleBuilder
 
-        Public Function ToSExpression(m As ModuleSymbol) As String
-            Dim import$ = ""
-            Dim globals$ = ""
-            Dim internal$ = m.InternalFunctions _
-                .funcGroup _
-                .JoinBy(vbCrLf) _
-                .LineTokens _
-                .Select(Function(line) "    " & line) _
-                .JoinBy(ASCII.LF)
+        ReadOnly [module] As ModuleSymbol
 
-            If Not m.[Imports].IsNullOrEmpty Then
-                import = m.[Imports] _
+        Public ReadOnly Property [imports] As String()
+            Get
+                Return [module].[Imports] _
                     .SafeQuery _
                     .Select(Function(i) i.ToSExpression) _
-                    .JoinBy(ASCII.LF & "    ")
-            End If
-            If Not m.Globals.IsNullOrEmpty Then
-                globals = m.Globals _
-                    .Select(Function(g) g.ToSExpression) _
-                    .JoinBy(ASCII.LF & ASCII.LF)
-            End If
+                    .ToArray
+            End Get
+        End Property
 
+        Public ReadOnly Property globals As String()
+            Get
+                Return [module].Globals _
+                   .Select(Function(g) g.ToSExpression) _
+                   .ToArray
+            End Get
+        End Property
+
+        Public ReadOnly Property internal As String()
+            Get
+                Return [module].InternalFunctions _
+                    .funcGroup _
+                    .JoinBy(vbCrLf) _
+                    .LineTokens _
+                    .Select(Function(line) "    " & line) _
+                    .ToArray
+            End Get
+        End Property
+
+        Public ReadOnly Property stringData As String()
+            Get
+                Return [module].Memory.StringData
+            End Get
+        End Property
+
+        Public ReadOnly Property objectMetaData As String()
+            Get
+                Return [module].Memory.ObjectMetaData
+            End Get
+        End Property
+
+        Sub New([module] As ModuleSymbol)
+            Me.module = [module]
+        End Sub
+
+        Public Function ToSExpression() As String
             Dim wasmSummary As AssemblyInfo = GetType(ModuleSymbol).GetAssemblyDetails
             Dim buildTime$ = File.GetLastWriteTime(GetType(ModuleSymbol).Assembly.Location)
-            Dim stringsData$ = m.Memory.StringData
-            Dim objectMeta$ = m.Memory.ObjectMetaData
-            Dim objectManager As DeclareGlobal = m.Memory.InitializeObjectManager
+            Dim stringsData$ = stringData.JoinBy(ASCII.LF)
+            Dim objectMeta$ = objectMetaData.JoinBy(ASCII.LF)
+            Dim objectManager As DeclareGlobal = [module].Memory.InitializeObjectManager
 
-            Return $"(module ;; Module {m.LabelName}
+            Return $"(module ;; Module {[module].LabelName}
 
     ;; Auto-Generated VisualBasic.NET WebAssembly Code
     ;;
@@ -97,7 +121,7 @@ Namespace Compiler.SExpression
 
     ;; imports must occur before all non-import definitions
 
-    {import}
+    {[imports]}
     
     ;; Only allows one memory block in each module
     (memory (import ""env"" ""bytechunks"") 1)
@@ -118,7 +142,7 @@ Namespace Compiler.SExpression
     {globals}
 
     ;; Export methods of this module
-    {m.Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
+    {[module].Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
 
 {internal}
 
@@ -126,12 +150,12 @@ Namespace Compiler.SExpression
 ;; 
 ;; Sub New
 (func $Application_SubNew
-{m.starter}
+    {[module].starter}
 )
 
 (start $Application_SubNew)
 
 )"
         End Function
-    End Module
+    End Class
 End Namespace
