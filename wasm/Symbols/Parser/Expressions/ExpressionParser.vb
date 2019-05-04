@@ -134,7 +134,7 @@ Namespace Symbols.Parser
             }
 
             ' 导入数组操作所需要的外部api
-            Call symbols.doArrayImports(elementType)
+            ' Call symbols.doArrayImports(elementType)
 
             Return array
         End Function
