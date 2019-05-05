@@ -1,51 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::b8b4a2201dfd031d15bdf7044d722124, Symbols\Parser\ClassParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ClassParser
-    ' 
-    '         Function: EnumerateTypes, Parse
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ClassParser
+' 
+'         Function: EnumerateTypes, Parse
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
@@ -65,15 +66,26 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function Parse(type As ClassBlockSyntax, symbolTable As SymbolTable, Optional namespace$ = Nothing) As ClassMeta
-            Dim className$ = type.ClassStatement.Identifier.objectName
+            Return type.Members.Parse(type.ClassStatement.Identifier.objectName, True, symbolTable, [namespace])
+        End Function
+
+        <Extension>
+        Public Function Parse(type As StructureBlockSyntax, symbolTable As SymbolTable, Optional namespace$ = Nothing) As ClassMeta
+            Return type.Members.Parse(type.StructureStatement.Identifier.objectName, False, symbolTable, [namespace])
+        End Function
+
+        <Extension>
+        Public Function Parse(body As SyntaxList(Of StatementSyntax),
+                              className$,
+                              isClass As Boolean,
+                              symbolTable As SymbolTable,
+                              Optional namespace$ = Nothing) As ClassMeta
+
             Dim functions As New List(Of FuncSymbol)
             Dim fieldList As New List(Of DeclareGlobal)
             Dim fieldInitialize As New List(Of Expression)
 
-            For Each field As FieldDeclarationSyntax In type _
-                .Members _
-                .OfType(Of FieldDeclarationSyntax)
-
+            For Each field As FieldDeclarationSyntax In body.OfType(Of FieldDeclarationSyntax)
                 fieldInitialize += field.Declarators _
                     .ParseDeclarator(symbolTable, className) _
                     .ToArray
@@ -90,32 +102,41 @@ Namespace Symbols.Parser
             Next
 
             ' 目前暂时还不支持实例对象的method和property
-            For Each method In type.Members.OfType(Of MethodBlockSyntax)
+            For Each method As MethodBlockSyntax In body.OfType(Of MethodBlockSyntax)
                 functions += method.ParseFunction(className, symbolTable)
                 symbolTable.currentModuleLabel = className
                 symbolTable.ClearLocals()
             Next
 
             Dim meta As New ClassMeta With {
-                .Methods = functions,
-                .ClassName = className,
+                .methods = functions,
+                .className = className,
                 .[module] = [namespace],
-                .Fields = fieldList
+                .fields = fieldList
             }
 
             Return meta
         End Function
 
         <Extension>
-        Public Iterator Function EnumerateTypes(type As NamespaceBlockSyntax, symbols As SymbolTable) As IEnumerable(Of ClassMeta)
-            Dim name$ = type.NamespaceStatement.Name.ToString
+        Public Iterator Function EnumerateTypes(container As SyntaxList(Of StatementSyntax),
+                                                containerName$,
+                                                symbols As SymbolTable) As IEnumerable(Of ClassMeta)
 
-            For Each [class] As ClassBlockSyntax In type.Members.OfType(Of ClassBlockSyntax)
-                Yield [class].Parse(symbols, [namespace]:=name)
+            For Each [class] As ClassBlockSyntax In container.OfType(Of ClassBlockSyntax)
+                Yield [class].Parse(symbols, [namespace]:=containerName)
 
                 ' 因为class的模块变量是放在global里面的
                 ' 所以每解析完一个class都要清空一次全局变量
-                symbols.globals.Clear()
+                Call symbols.globals.Clear()
+            Next
+
+            For Each struct As StructureBlockSyntax In container.OfType(Of StructureBlockSyntax)
+                Yield struct.Parse(symbols, [namespace]:=containerName)
+
+                ' 因为class的模块变量是放在global里面的
+                ' 所以每解析完一个class都要清空一次全局变量
+                Call symbols.globals.Clear()
             Next
         End Function
 

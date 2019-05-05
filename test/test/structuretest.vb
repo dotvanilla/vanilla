@@ -28,7 +28,7 @@ Module testStrucutre
         Call print(copy.y)
         Call print(circle.y)
 
-        Dim arrayTest = {copy, circle}
+        Dim arrayTest = {copy, circle, createValue()}
 
         Dim a = arrayTest(0)
         Dim b = arrayTest(1)
@@ -39,5 +39,9 @@ Module testStrucutre
         print(a.radius)
 
     End Sub
+
+    Private Function createValue() As circle
+        Return New circle With {.id = "99999"}
+    End Function
 
 End Module
