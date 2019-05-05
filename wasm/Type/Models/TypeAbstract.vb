@@ -70,12 +70,12 @@ Namespace TypeInfo
     ''' </summary>
     Public Class TypeAbstract
 
-        Public ReadOnly Property type As TypeAlias
+        Public Property type As TypeAlias
         ''' <summary>
         ''' Generic type arguments in VisualBasic.NET language.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property generic As TypeAbstract()
+        Public Property generic As TypeAbstract()
         ''' <summary>
         ''' The raw definition: <see cref="System.Type.FullName"/>
         ''' </summary>
@@ -88,7 +88,7 @@ Namespace TypeInfo
         ''' [123]class_name
         ''' ```
         ''' </remarks>
-        Public ReadOnly Property raw As String
+        Public Property raw As String
 
         ''' <summary>
         ''' 注意，因为存在类型申明的meta信息的缘故，class_id永远都不会小于10，
