@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::fbf786b3a7cbe5d130a825a4bec7b8a6, Symbols\Parser\Body\BodyParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BodyParser
-    ' 
-    '         Function: AssignVariable, (+2 Overloads) FirstArgument, LocalDeclare, ParseStatement, ValueAssign
-    '                   ValueReturn
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BodyParser
+' 
+'         Function: AssignVariable, (+2 Overloads) FirstArgument, LocalDeclare, ParseStatement, ValueAssign
+'                   ValueReturn
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -159,13 +159,34 @@ Namespace Symbols.Parser
             Dim memberName = left.Name.objectName
 
             If TypeOf left.Expression Is InvocationExpressionSyntax Then
-                Throw New NotImplementedException
+                Dim producer As InvocationExpressionSyntax = left.Expression
+                Dim func$ = DirectCast(producer.Expression, IdentifierNameSyntax).objectName
+                Dim parameters = producer.ArgumentList
+
+                If symbols.IsAnyObject(func) Then
+                    Dim type As TypeAbstract = symbols.GetUnderlyingType(func)
+
+                    If type = TypeAlias.array Then
+                        ' 是引用的数组之中的某一个元素
+                        Dim ofElement As TypeAbstract = type.generic(Scan0)
+
+                        Throw New NotImplementedException
+                    ElseIf type = TypeAlias.list Then
+                        ' 是引用的列表之中的某一个元素
+                        Throw New NotImplementedException
+                    Else
+                        ' 字典引用？
+                        Throw New NotImplementedException
+                    End If
+                Else
+                    Throw New NotImplementedException
+                End If
             Else
                 Dim objName As String = left.Expression.ToString
 
                 If objName Like symbols.ModuleNames Then
                     ' 是对一个模块全局变量的引用
-                    Dim [global] = symbols.FindModuleGlobal(objName, memberName)
+                    Dim [global] As DeclareGlobal = symbols.FindModuleGlobal(objName, memberName)
                     Dim rightValue As Expression = CTypeHandle.CType(
                         left:=[global].TypeInfer(symbols),
                         right:=right,
