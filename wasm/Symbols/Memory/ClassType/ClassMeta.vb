@@ -1,50 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::898f117b14751c96bbebc001620f02e1, Symbols\Memory\ClassType\ClassMeta.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ClassMeta
-    ' 
-    '         Properties: [module], ClassName, Fields, Methods, Reference
-    '                     sizeOf
-    ' 
-    '         Function: GetFieldOffset, ToSExpression, TypeInfer
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ClassMeta
+' 
+'         Properties: [module], ClassName, Fields, Methods, Reference
+'                     sizeOf
+' 
+'         Function: GetFieldOffset, ToSExpression, TypeInfer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -61,22 +61,27 @@ Namespace Symbols.MemoryObject
         Implements IDeclaredObject
 
         Public Property [module] As String Implements IDeclaredObject.module
-        Public Property ClassName As String Implements IKeyedEntity(Of String).Key
+        Public Property className As String Implements IKeyedEntity(Of String).Key
+        ''' <summary>
+        ''' 是否是值类型的结构体对象？
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property isStruct As Boolean
 
         ''' <summary>
         ''' 字段
         ''' </summary>
         ''' <returns></returns>
-        Public Property Fields As DeclareGlobal()
+        Public Property fields As DeclareGlobal()
         ''' <summary>
         ''' 方法和属性
         ''' </summary>
         ''' <returns></returns>
-        Public Property Methods As FuncSymbol()
+        Public Property methods As FuncSymbol()
 
         Default Public ReadOnly Property Field(name As String) As DeclareGlobal
             Get
-                Return Fields.FirstOrDefault(Function(v) v.name = name)
+                Return fields.FirstOrDefault(Function(v) v.name = name)
             End Get
         End Property
 
@@ -88,17 +93,17 @@ Namespace Symbols.MemoryObject
         Public ReadOnly Property sizeOf As Integer
             Get
                 Return Aggregate field As DeclareGlobal
-                       In Fields
+                       In fields
                        Let width = Types.sizeOf(field.type)
                        Into Sum(width)
             End Get
         End Property
 
-        Public ReadOnly Property Reference As ReferenceSymbol
+        Public ReadOnly Property reference As ReferenceSymbol
             Get
                 Return New ReferenceSymbol With {
                     .[module] = [module],
-                    .Symbol = ClassName,
+                    .Symbol = className,
                     .Type = SymbolType.Type
                 }
             End Get
@@ -107,7 +112,7 @@ Namespace Symbols.MemoryObject
         Public Function GetFieldOffset(name As String) As Integer
             Dim offset As Integer
 
-            For Each field As DeclareGlobal In Fields
+            For Each field As DeclareGlobal In fields
                 If field.name = name Then
                     Exit For
                 Else
@@ -119,7 +124,7 @@ Namespace Symbols.MemoryObject
         End Function
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return New TypeAbstract(TypeAlias.intptr, Reference)
+            Return New TypeAbstract(TypeAlias.intptr, reference)
         End Function
 
         ''' <summary>
