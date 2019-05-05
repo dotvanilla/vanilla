@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::6405617eded9ba1c2d2d9506e93cc031, Compiler\Link\Memory.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Memory
-    ' 
-    '         Properties: TotalSize
-    ' 
-    '         Function: AddClassMeta, AddString, AllocateArrayBlock, GetEnumerator, IEnumerable_GetEnumerator
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Memory
+' 
+'         Properties: TotalSize
+' 
+'         Function: AddClassMeta, AddString, AllocateArrayBlock, GetEnumerator, IEnumerable_GetEnumerator
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
@@ -72,6 +73,7 @@ Namespace Compiler
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property TotalSize As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 ' 这个偏移量就是静态资源的总大小
                 Return offset
@@ -127,30 +129,38 @@ Namespace Compiler
         Public Function AddClassMeta(meta As ClassMeta) As Integer
             Dim class_id As Integer = offset
             ' 生成json数据模型，然后对json字符串进行base64序列化
-            Dim fieldTable = meta.Fields.ToDictionary(Function(field) field.name, Function(field) field.type)
+            Dim fieldTable As Dictionary(Of String, TypeAbstract) = meta _
+                .fields _
+                .ToDictionary(Function(field) field.name,
+                              Function(field) field.type)
             Dim methodTable As Dictionary(Of String, FuncMetaJSON) = meta _
-                .Methods _
-                .ToDictionary(Function(func) func.Name,
+                .methods _
+                .ToDictionary(Function(func) func.name,
                               Function(func)
                                   Return New FuncMetaJSON With {
-                                      .IsPublic = True,
-                                      .Result = func.result,
-                                      .Parameters = func _
+                                      .isPublic = True,
+                                      .result = func.result,
+                                      .parameters = func _
                                           .parameters _
-                                          .ToDictionary(Function(a) a.Name, Function(a) a.Value)
+                                          .ToDictionary(Function(a) a.Name,
+                                                        Function(a)
+                                                            Return a.Value
+                                                        End Function)
                                   }
                               End Function)
 
             Dim json As New MetaJSON With {
                 .memoryPtr = class_id,
-                .[Class] = meta.ClassName,
-                .[Namespace] = meta.module,
-                .Fields = fieldTable,
-                .Methods = methodTable
+                .[class] = meta.className,
+                .[namespace] = meta.module,
+                .fields = fieldTable,
+                .methods = methodTable,
+                .class_id = class_id,
+                .isStruct = meta.isStruct
             }
 
             Me.buffer += json
-            Me.offset += json.Meta.Length + 1
+            Me.offset += json.meta.Length + 1
 
             Return class_id
         End Function
