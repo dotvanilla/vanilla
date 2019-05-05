@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/4/2019 6:45:51 PM
+    ;; build: 5/5/2019 8:05:52 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -26,28 +26,28 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 297))
+    (global $global.ObjectManager (mut i32) (i32.const 337))
 
     ;; Memory data for string constant
     
     ;; String from 10 with 3 bytes in memory
     (data (i32.const 10) "ABC\00")
 
-    ;; String from 279 with 6 bytes in memory
-    (data (i32.const 279) "SSSSSS\00")
+    ;; String from 319 with 6 bytes in memory
+    (data (i32.const 319) "SSSSSS\00")
 
-    ;; String from 286 with 10 bytes in memory
-    (data (i32.const 286) "AAAAAAAAAA\00")
+    ;; String from 326 with 10 bytes in memory
+    (data (i32.const 326) "AAAAAAAAAA\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
     
-    ;; String from 14 with 264 bytes in memory
-    (data (i32.const 14) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE0fSwiQ2xhc3MiOiJjaXJjbGUiLCJGaWVsZHMiOnsieCI6eyJnZW5lcmljIjpbXX0sInkiOnsiZ2VuZXJpYyI6W119LCJ6Ijp7ImdlbmVyaWMiOltdfSwicmFkaXVzIjp7ImdlbmVyaWMiOltdfSwiaWQiOnsiZ2VuZXJpYyI6W119fSwiTWV0aG9kcyI6e30sIk5hbWVzcGFjZSI6InRlc3ROYW1lc3BhY2UifQ==\00")
+    ;; String from 14 with 304 bytes in memory
+    (data (i32.const 14) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE0fSwiY2xhc3MiOiJjaXJjbGUiLCJjbGFzc19pZCI6MTQsImZpZWxkcyI6eyJ4Ijp7ImdlbmVyaWMiOltdfSwieSI6eyJnZW5lcmljIjpbXX0sInoiOnsiZ2VuZXJpYyI6W119LCJyYWRpdXMiOnsiZ2VuZXJpYyI6W119LCJpZCI6eyJnZW5lcmljIjpbXX19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOiJ0ZXN0TmFtZXNwYWNlIn0=\00")
 
     ;; Global variables in this module
     (global $classArrayTest.circles (mut i32) (i32.const 0))
-(global $classArrayTest.str (mut i32) (i32.const 279))
+(global $classArrayTest.str (mut i32) (i32.const 319))
 (global $classTest3.circle (mut i32) (i32.const 0))
 
     ;; Export methods of this module
@@ -125,7 +125,7 @@
     ;; set field [testNamespace.circle::radius]
     (f64.store (i32.add (get_local $newObject_9d020000) (i32.const 12)) (f64.promote/f32 (f32.mul (f32.mul (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 4)))) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 8))))))
     ;; set field [testNamespace.circle::id]
-    (i32.store (i32.add (get_local $newObject_9d020000) (i32.const 20)) (i32.const 286))
+    (i32.store (i32.add (get_local $newObject_9d020000) (i32.const 20)) (i32.const 326))
     ;; set field [testNamespace.circle::y]
     (f32.store (i32.add (get_local $newObject_9d020000) (i32.const 4)) (f32.const 0))
     ;; set field [testNamespace.circle::z]
