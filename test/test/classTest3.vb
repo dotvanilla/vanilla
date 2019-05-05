@@ -35,7 +35,6 @@ End Module
 
 Namespace testNamespace
 
-
     Public Class circle
         Public x, y, z As Single
         Public radius As Double = 999
