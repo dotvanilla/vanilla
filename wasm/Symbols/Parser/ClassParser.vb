@@ -1,47 +1,47 @@
-﻿#Region "Microsoft.VisualBasic::b8b4a2201dfd031d15bdf7044d722124, Symbols\Parser\ClassParser.vb"
+﻿#Region "Microsoft.VisualBasic::63d7da79801bd5b8ec80343b0c033ea0, Symbols\Parser\ClassParser.vb"
 
-' Author:
-' 
-'       xieguigang (I@xieguigang.me)
-'       asuka (evia@lilithaf.me)
-'       wasm project (developer@vanillavb.app)
-' 
-' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-' 
-' 
-' MIT License
-' 
-' 
-' Permission is hereby granted, free of charge, to any person obtaining a copy
-' of this software and associated documentation files (the "Software"), to deal
-' in the Software without restriction, including without limitation the rights
-' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-' copies of the Software, and to permit persons to whom the Software is
-' furnished to do so, subject to the following conditions:
-' 
-' The above copyright notice and this permission notice shall be included in all
-' copies or substantial portions of the Software.
-' 
-' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-' SOFTWARE.
+    ' Author:
+    ' 
+    '       xieguigang (I@xieguigang.me)
+    '       asuka (evia@lilithaf.me)
+    '       wasm project (developer@vanillavb.app)
+    ' 
+    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+    ' 
+    ' 
+    ' MIT License
+    ' 
+    ' 
+    ' Permission is hereby granted, free of charge, to any person obtaining a copy
+    ' of this software and associated documentation files (the "Software"), to deal
+    ' in the Software without restriction, including without limitation the rights
+    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    ' copies of the Software, and to permit persons to whom the Software is
+    ' furnished to do so, subject to the following conditions:
+    ' 
+    ' The above copyright notice and this permission notice shall be included in all
+    ' copies or substantial portions of the Software.
+    ' 
+    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    ' SOFTWARE.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module ClassParser
-' 
-'         Function: EnumerateTypes, Parse
-' 
-' 
-' /********************************************************************************/
+    '     Module ClassParser
+    ' 
+    '         Function: EnumerateTypes, (+3 Overloads) Parse
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -74,6 +74,15 @@ Namespace Symbols.Parser
             Return type.Members.Parse(type.StructureStatement.Identifier.objectName, False, symbolTable, [namespace])
         End Function
 
+        ''' <summary>
+        ''' 解析一个结构体
+        ''' </summary>
+        ''' <param name="body"></param>
+        ''' <param name="className$"></param>
+        ''' <param name="isClass"></param>
+        ''' <param name="symbolTable"></param>
+        ''' <param name="namespace$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function Parse(body As SyntaxList(Of StatementSyntax),
                               className$,
@@ -112,7 +121,8 @@ Namespace Symbols.Parser
                 .methods = functions,
                 .className = className,
                 .[module] = [namespace],
-                .fields = fieldList
+                .fields = fieldList,
+                .isStruct = Not isClass
             }
 
             Return meta

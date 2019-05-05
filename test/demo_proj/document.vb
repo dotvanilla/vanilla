@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1283cab21450937d42966c05c074fc16, demo_proj\document.vb"
+﻿#Region "Microsoft.VisualBasic::771534afac3a6145887771dca7f81a51, demo_proj\document.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' The javascript html document api
 ''' </summary>
@@ -63,4 +62,3 @@ Module document
 
 #End Region
 End Module
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::234f4ac2faebd825090f609935a8b5f8, demo_proj\console.vb"
+﻿#Region "Microsoft.VisualBasic::be28b31e9fb6b97f94d8776527761ffa, demo_proj\console.vb"
 
     ' Author:
     ' 
@@ -44,7 +44,6 @@
 
 #End Region
 
-
 ''' <summary>
 ''' The javascript debugconsole api
 ''' </summary>
@@ -59,4 +58,3 @@ Module console
 
 #End Region
 End Module
-

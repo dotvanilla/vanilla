@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48a45b23233e09a57cc93df867ca857b, test\ClassTest.vb"
+﻿#Region "Microsoft.VisualBasic::1fe1ac6e65a1e4506ee53b0866ba0cc1, test\ClassTest.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,13 @@
     ' 
     ' 
     ' 
+    ' Class RectangleModel
+    ' 
+    ' 
+    ' 
     ' Module Runtest
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
     ' 
     '     Function: globalMemberTest, returnObjecttest
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::170874e829875fe4c0173caec63f72fb, test\arrayTest.vb"
+﻿#Region "Microsoft.VisualBasic::b6d1353b4078c5307f6dd2922c3bb997, test\arrayTest.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,8 @@
     ' Summaries:
 
     ' Module arrayTest
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
     ' 
     '     Function: arrayLoop, createArray, testListAdd
     ' 

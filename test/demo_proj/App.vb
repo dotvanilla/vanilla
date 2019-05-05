@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e0a21affb714ac34e9d10d3435cd043, demo_proj\App.vb"
+﻿#Region "Microsoft.VisualBasic::66f469b07475fbc232b266f1e9ddbd2b, demo_proj\App.vb"
 
     ' Author:
     ' 
@@ -91,4 +91,3 @@ Imports System.ComponentModel.Composition
         Return 0
     End Function
 End Module
-

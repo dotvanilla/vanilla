@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c130fcbd96aac7e7ee29c60864964f4e, demo_proj\Math.vb"
+﻿#Region "Microsoft.VisualBasic::c4182ffec9006cc14cdf8d02508e2c10, demo_proj\Math.vb"
 
     ' Author:
     ' 
@@ -84,4 +84,3 @@ Module Math
         Return 0
     End Function
 End Module
-
