@@ -140,8 +140,28 @@ Namespace Symbols.Parser
             ElseIf TypeOf assign.Left Is MemberAccessExpressionSyntax Then
                 Dim left = DirectCast(assign.Left, MemberAccessExpressionSyntax)
                 Dim right = assign.Right.ValueExpression(symbols)
-                Dim objName = left.Expression.ToString
-                Dim memberName = left.Name.objectName
+
+                Return symbols.memberAssign(left, right)
+            Else
+                Throw New NotImplementedException(assign.Left.GetType.FullName)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="left">左边的对象可能是一个变量名或者一个函数所产生的新对象</param>
+        ''' <param name="right"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function memberAssign(symbols As SymbolTable, left As MemberAccessExpressionSyntax, right As Expression) As Expression
+            Dim memberName = left.Name.objectName
+
+            If TypeOf left.Expression Is InvocationExpressionSyntax Then
+                Throw New NotImplementedException
+            Else
+                Dim objName As String = left.Expression.ToString
 
                 If objName Like symbols.ModuleNames Then
                     ' 是对一个模块全局变量的引用
@@ -171,9 +191,6 @@ Namespace Symbols.Parser
                     ' 设置实例对象的成员字段的值
                     Return objName.SetMemberField(memberName, right, symbols)
                 End If
-
-            Else
-                Throw New NotImplementedException(assign.Left.GetType.FullName)
             End If
         End Function
 

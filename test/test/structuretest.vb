@@ -54,7 +54,7 @@ Imports test.structuretest
 Namespace structuretest
 
     Public Structure circle
-        Dim x, y!
+        Dim x!, y!
         Dim radius!
         Dim id As String
     End Structure
