@@ -89,8 +89,8 @@ Module treeTest
                  "..\DeclareTest.vb",
                  "..\nullreferenceTest.vb",
                 "..\ForLoopTest.vb",
-                "..\dictionarytest.vb",
-                "..\incrementTest.vb"}
+                "..\incrementTest.vb",
+                 "..\dictionarytest.vb"}
 
             Call filetest(file)
 
