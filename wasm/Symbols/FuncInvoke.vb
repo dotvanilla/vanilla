@@ -114,6 +114,10 @@ Namespace Symbols
             }
         End Sub
 
+        ''' <summary>
+        ''' 这个构造函数用于生成<see cref="refer"/>引用符号
+        ''' </summary>
+        ''' <param name="target"></param>
         Sub New(target As FuncSignature)
             refer = New ReferenceSymbol With {
                 .Symbol = target.Name,

@@ -154,7 +154,7 @@ Public Module Extensions
             .parameters = {},
             .[module] = NameOf(AssemblyInfo),
             .result = Types.string,
-            .Body = {
+            .body = {
                 New ReturnValue With {
                     .Internal = memory.StringConstant([string])
                 }

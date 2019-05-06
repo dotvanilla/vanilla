@@ -65,8 +65,8 @@ Namespace Symbols
     Public Class FuncSymbol : Inherits FuncSignature
         Implements IDeclaredObject
 
-        Public Property Body As Expression()
-        Public Property Locals As DeclareLocal()
+        Public Property body As Expression()
+        Public Property locals As DeclareLocal()
 
         Public ReadOnly Property VBDeclare As String
             Get
@@ -82,6 +82,13 @@ Namespace Symbols
             Call MyBase.New(funcVar)
         End Sub
 
+        Public Function [Call](ParamArray params As Expression()) As Expression
+            Return New FuncInvoke(Me) With {
+                .[operator] = False,
+                .parameters = params
+            }
+        End Function
+
         ''' <summary>
         ''' 因为webassembly只允许变量必须要定义在最开始的位置
         ''' 所以构建函数体的时候流程会有些复杂
@@ -92,12 +99,12 @@ Namespace Symbols
             Dim declareLocals$()
             Dim body As New List(Of String)
 
-            declareLocals = Locals _
+            declareLocals = locals _
                 .SafeQuery _
                 .Select(Function(v) v.ToSExpression) _
                 .ToArray
 
-            For Each line As Expression In Me.Body.SafeQuery
+            For Each line As Expression In Me.body.SafeQuery
                 ' 在这里会需要额外的处理一下数组的初始化？
                 If TypeOf line Is SetLocalVariable OrElse TypeOf line Is SetGlobalVariable Then
                     ' 数组初始化之后肯定需要赋值给某一个变量的
@@ -117,7 +124,10 @@ Namespace Symbols
                 End If
             Next
 
-            Return declareLocals.JoinBy(ASCII.LF) & ASCII.LF & body.JoinBy(ASCII.LF)
+            Return $"
+{declareLocals.JoinBy(ASCII.LF)}
+
+{body.JoinBy(ASCII.LF)}"
         End Function
 
         Public Overrides Function ToSExpression() As String

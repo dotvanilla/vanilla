@@ -159,14 +159,14 @@ Namespace Symbols.Parser
             Dim funcBody = body.FunctionBody(paramIndex, symbols)
             Dim func As New FuncSymbol(funcVar) With {
                 .parameters = parameters,
-                .Body = funcBody.body,
+                .body = funcBody.body,
                 .[module] = moduleName,
-                .Locals = funcBody.locals
+                .locals = funcBody.locals
             }
 
             If func.result <> "void" Then
-                If func.Body.Length > 0 Then
-                    If Not TypeOf func.Body.Last Is ReturnValue Then
+                If func.body.Length > 0 Then
+                    If Not TypeOf func.body.Last Is ReturnValue Then
                         Call func.addImplicitReturns
                     End If
                 Else
@@ -212,7 +212,7 @@ Namespace Symbols.Parser
             }
 
             ' 自动添加一个返回语句，如果最后一行没有返回表达式的话？
-            Call func.Body.Add(implicitReturn)
+            Call func.body.Add(implicitReturn)
         End Sub
 
         <Extension>

@@ -247,8 +247,8 @@ Namespace Symbols.Parser
                 Dim moduleNew = ctor.Statements.ToArray.FunctionBody({}, symbols)
 
                 Return New Start(symbols.currentModuleLabel) With {
-                    .Body = moduleNew.body,
-                    .Locals = moduleNew.locals
+                    .body = moduleNew.body,
+                    .locals = moduleNew.locals
                 }
             End If
         End Function
