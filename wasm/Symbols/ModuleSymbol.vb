@@ -102,7 +102,7 @@ Namespace Symbols
             If Start Is Nothing Then
                 Start = part.Start
             Else
-                Start = part.Start
+                Start.constructors.AddRange(part.Start.constructors)
             End If
 
             Return Me

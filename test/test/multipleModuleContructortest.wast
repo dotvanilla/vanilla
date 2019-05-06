@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:10:11 PM
+    ;; build: 5/6/2019 8:26:10 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -57,9 +57,11 @@
 ;; 
 ;; Sub New
 (func $Application_SubNew
-    (local $arrayOffset_9a020000 i32)
-(local $arrayOffset_9b020000 i32)
-(set_global $multipleModuleContructortest3.a (i32.sub (i32.const 0) (i32.const 999)))
+    (call $multipleModuleContructortest1.constructor )
+
+(call $multipleModuleContructortest2.constructor )
+
+(call $multipleModuleContructortest3.constructor )
 )
 
 (start $Application_SubNew)

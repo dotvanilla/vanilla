@@ -235,7 +235,9 @@ Namespace Symbols.Parser
                 .[Imports] = symbolTable.GetAllImports.ToArray,
                 .Globals = symbolTable.GetAllGlobals.ToArray,
                 .Memory = symbolTable,
-                .Start = start
+                .Start = New Start With {
+                    .constructors = New List(Of FuncSymbol) From {start}
+                }
             }
         End Function
 
