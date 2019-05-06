@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e291ad87b44d9fc075d567073e318153, demo_proj\array.vb"
+﻿#Region "Microsoft.VisualBasic::655771f0fcb764bb8971c27634e406fb, demo_proj\array.vb"
 
     ' Author:
     ' 
@@ -66,4 +66,3 @@ Public Module array
     End Sub
 
 End Module
-

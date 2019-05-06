@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e214a4ed9f125f8a4ea1459b5a690911, test\structuretest.vb"
+﻿#Region "Microsoft.VisualBasic::d0ede3731a92d1605a1fb31932b9b459, test\structuretest.vb"
 
     ' Author:
     ' 
