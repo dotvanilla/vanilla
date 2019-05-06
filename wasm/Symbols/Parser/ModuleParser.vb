@@ -201,11 +201,16 @@ Namespace Symbols.Parser
         Friend Function CreateModuleInternal(main As ModuleBlockSyntax, symbolTable As SymbolTable) As ModuleSymbol
             Dim functions As New List(Of FuncSymbol)
             Dim exports As New List(Of ExportSymbolExpression)
-            Dim moduleName$ = main.ModuleStatement.Identifier.objectName
+            Dim moduleName As String = main.ModuleStatement _
+                .Identifier _
+                .objectName
+
+            ' Assign module labels for find function 
+            ' and global variables
+            symbolTable.currentModuleLabel = moduleName
 
             For Each method In main.Members.OfType(Of MethodBlockSyntax)
                 functions += method.ParseFunction(moduleName, symbolTable)
-                symbolTable.currentModuleLabel = moduleName
                 symbolTable.ClearLocals()
 
                 If method.SubOrFunctionStatement.isExportObject Then
