@@ -68,7 +68,7 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Public Function FunctionInvoke(invoke As InvocationExpressionSyntax, symbols As SymbolTable) As FuncInvoke
+        Public Function FunctionInvoke(invoke As InvocationExpressionSyntax, symbols As SymbolTable) As Expression
             Dim reference = invoke.Expression
             Dim funcName$
 

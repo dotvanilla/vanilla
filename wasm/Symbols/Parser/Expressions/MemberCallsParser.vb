@@ -196,7 +196,11 @@ Namespace Symbols.Parser
                 Return func.FunctionInvoke({obj})
             ElseIf type = TypeAlias.intptr Then
                 ' object field
-                Return ObjectOperator.GetMemberField(obj, memberName, symbols)
+                If TypeOf obj Is FieldValue Then
+                    Return ObjectOperator.GetMemberField(obj, obj.GetUserType(symbols), memberName)
+                Else
+                    Return ObjectOperator.GetMemberField(obj, memberName, symbols)
+                End If
             Else
             End If
 
