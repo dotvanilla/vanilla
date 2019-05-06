@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:03:18 PM
+    ;; build: 5/6/2019 8:37:27 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -68,7 +68,9 @@
     
     (func $testStrucutre.createValue  (result i32)
         ;; Public Function createValue() As intptr
-        (local $newObject_9a020000 i32)
+        
+    (local $newObject_9a020000 i32)
+    
     
     ;; Initialize a object instance of [[10]circle]
     ;; Object memory block begin at location: (get_local $newObject_9a020000)
@@ -89,17 +91,25 @@
     )
     
 
+
 ;; Application Initialize
 ;; 
 ;; Sub New
 (func $Application_SubNew
-    (local $newObject_9b020000 i32)
+    (call $testStrucutre.constructor )
+)
+
+(func $testStrucutre.constructor  
+    ;; Public Function constructor() As void
+    
+(local $newObject_9b020000 i32)
 (local $circle i32)
 (local $copy i32)
 (local $arrayOffset_9c020000 i32)
 (local $arrayTest i32)
 (local $a i32)
 (local $b i32)
+
 
 ;; Initialize a object instance of [[10]circle]
 ;; Object memory block begin at location: (get_local $newObject_9b020000)
@@ -145,5 +155,4 @@
 )
 
 (start $Application_SubNew)
-
 )

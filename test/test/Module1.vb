@@ -111,6 +111,8 @@ Module treeTest
         ' Pause()
         Call FileTest()
 
+        Return
+
         Pause()
 
         Dim code = "Module Main

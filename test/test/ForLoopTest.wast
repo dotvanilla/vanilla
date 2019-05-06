@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/1/2019 11:48:30 AM
+    ;; build: 5/6/2019 8:37:27 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -16,14 +16,24 @@
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
 
+    ;; A global object manager for create user object in WebAssembly
+    ;; Its initialize value is the total size of the string data
+    ;; of this webassembly module
+    (global $global.ObjectManager (mut i32) (i32.const 10))
+
     ;; Memory data for string constant
     
     
-    (global $ForLoopTest.zero (mut i64) (i64.const 0))
+    ;; Memory data for user defined class object its meta data
+    ;; all of these string is base64 encoded json object
+    
 
+    ;; Global variables in this module
+    (global $ForLoopTest.zero (mut i64) (i64.const 0))
 (global $ForLoopTest.delta (mut i32) (i32.const 3))
 
-    ;; export from [ForLoopTest]
+    ;; Export methods of this module
+    ;; export from VB.NET module: [ForLoopTest]
     
     (export "ForLoopTest.forloop" (func $ForLoopTest.forloop))
     
@@ -33,10 +43,12 @@
     
     (func $ForLoopTest.forloop  (result f64)
         ;; Public Function forloop() As f64
-        (local $x f64)
+        
+    (local $x f64)
     (local $delta f32)
     (local $i i32)
-    (set_local $x (f64.const 999))
+    
+    (set_local $x (f64.convert_s/i32 (i32.const 999)))
     (set_local $delta (f32.const 0.001))
     (set_local $i (i32.wrap/i64 (get_global $ForLoopTest.zero)))
     ;; For i As Integer = zero To 100 Step ForLoopTest.delta
@@ -55,4 +67,23 @@
     )
     (return (get_local $x))
     )
-    )
+    
+
+
+;; Application Initialize
+;; 
+;; Sub New
+(func $Application_SubNew
+    (call $ForLoopTest.constructor )
+)
+
+(func $ForLoopTest.constructor  
+    ;; Public Function constructor() As void
+    
+
+
+
+)
+
+(start $Application_SubNew)
+)

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/5/2019 8:05:52 PM
+    ;; build: 5/6/2019 8:37:27 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -26,28 +26,28 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 337))
+    (global $global.ObjectManager (mut i32) (i32.const 481))
 
     ;; Memory data for string constant
     
     ;; String from 10 with 3 bytes in memory
     (data (i32.const 10) "ABC\00")
 
-    ;; String from 319 with 6 bytes in memory
-    (data (i32.const 319) "SSSSSS\00")
+    ;; String from 463 with 6 bytes in memory
+    (data (i32.const 463) "SSSSSS\00")
 
-    ;; String from 326 with 10 bytes in memory
-    (data (i32.const 326) "AAAAAAAAAA\00")
+    ;; String from 470 with 10 bytes in memory
+    (data (i32.const 470) "AAAAAAAAAA\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
     
-    ;; String from 14 with 304 bytes in memory
-    (data (i32.const 14) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE0fSwiY2xhc3MiOiJjaXJjbGUiLCJjbGFzc19pZCI6MTQsImZpZWxkcyI6eyJ4Ijp7ImdlbmVyaWMiOltdfSwieSI6eyJnZW5lcmljIjpbXX0sInoiOnsiZ2VuZXJpYyI6W119LCJyYWRpdXMiOnsiZ2VuZXJpYyI6W119LCJpZCI6eyJnZW5lcmljIjpbXX19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOiJ0ZXN0TmFtZXNwYWNlIn0=\00")
+    ;; String from 14 with 448 bytes in memory
+    (data (i32.const 14) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE0fSwiY2xhc3MiOiJjaXJjbGUiLCJjbGFzc19pZCI6MTQsImZpZWxkcyI6eyJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmMzIiLCJ0eXBlIjozfSwieSI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjMyIiwidHlwZSI6M30sInoiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImYzMiIsInR5cGUiOjN9LCJyYWRpdXMiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImY2NCIsInR5cGUiOjR9LCJpZCI6eyJnZW5lcmljIjpbXSwicmF3Ijoic3RyaW5nIiwidHlwZSI6NX19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOiJ0ZXN0TmFtZXNwYWNlIn0=\00")
 
     ;; Global variables in this module
     (global $classArrayTest.circles (mut i32) (i32.const 0))
-(global $classArrayTest.str (mut i32) (i32.const 319))
+(global $classArrayTest.str (mut i32) (i32.const 463))
 (global $classTest3.circle (mut i32) (i32.const 0))
 
     ;; Export methods of this module
@@ -61,10 +61,12 @@
     
     (func $classArrayTest.initializeArray  
         ;; Public Function initializeArray() As void
-        (local $newObject_9a020000 i32)
+        
+    (local $newObject_9a020000 i32)
     (local $c2 i32)
     (local $newObject_9b020000 i32)
     (local $arrayOffset_9c020000 i32)
+    
     
     ;; Initialize a object instance of [[14]circle]
     ;; Object memory block begin at location: (get_local $newObject_9a020000)
@@ -115,7 +117,9 @@
     )
     (func $classArrayTest.produceObject  (result i32)
         ;; Public Function produceObject() As intptr
-        (local $newObject_9d020000 i32)
+        
+    (local $newObject_9d020000 i32)
+    
     
     ;; Initialize a object instance of [[14]circle]
     ;; Object memory block begin at location: (get_local $newObject_9d020000)
@@ -125,7 +129,7 @@
     ;; set field [testNamespace.circle::radius]
     (f64.store (i32.add (get_local $newObject_9d020000) (i32.const 12)) (f64.promote/f32 (f32.mul (f32.mul (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 4)))) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 8))))))
     ;; set field [testNamespace.circle::id]
-    (i32.store (i32.add (get_local $newObject_9d020000) (i32.const 20)) (i32.const 326))
+    (i32.store (i32.add (get_local $newObject_9d020000) (i32.const 20)) (i32.const 470))
     ;; set field [testNamespace.circle::y]
     (f32.store (i32.add (get_local $newObject_9d020000) (i32.const 4)) (f32.const 0))
     ;; set field [testNamespace.circle::z]
@@ -138,11 +142,29 @@
     )
     
 
+
 ;; Application Initialize
 ;; 
 ;; Sub New
 (func $Application_SubNew
-    (local $newObject_9e020000 i32)
+    (call $classArrayTest.constructor )
+
+(call $classTest3.constructor )
+)
+
+(func $classArrayTest.constructor  
+    ;; Public Function constructor() As void
+    
+
+
+
+)
+
+(func $classTest3.constructor  
+    ;; Public Function constructor() As void
+    
+(local $newObject_9e020000 i32)
+
 
 ;; Initialize a object instance of [[14]circle]
 ;; Object memory block begin at location: (get_local $newObject_9e020000)
@@ -165,5 +187,4 @@
 )
 
 (start $Application_SubNew)
-
 )
