@@ -122,7 +122,10 @@ Namespace Symbols.MemoryObject
             ' 最后使用load读取内存数据
             read = BitConverter.load(ofElement, intptr)
 
-            Return read
+            Return New FieldValue With {
+                .type = ofElement,
+                .value = read
+            }
         End Function
 
         <Extension>

@@ -178,17 +178,18 @@ Namespace Symbols.Parser
                         ' 反之，如果是class引用，则从数组之中取出intptr指针之后得到内存地址
                         Dim array = symbols.GetObjectReference(func)
                         ' 数组之中的元素
-                        Dim element As Expression
+                        Dim element As Expression = IMemoryObject.IndexOffset(array, 8)
+                        Dim index As Expression = parameters.FirstArgument(symbols, "i".param("i32"))
 
                         right = CTypeHandle.CType(fieldType, right, symbols)
 
                         If meta.isStruct Then
                             ' 直接在内存里面写
                             ' 结构体是实际上存储在数组中的
-                            element = IMemoryObject.IndexOffset(array, 8 + meta.sizeOf)
+                            element = IMemoryObject.IndexOffset(element, BinaryStack(index, Literal.i32(meta.sizeOf), "*", symbols))
                         Else
                             ' intptr实际上为i32，只有4个字节
-                            element = IMemoryObject.IndexOffset(array, 8 + 4)
+                            element = IMemoryObject.IndexOffset(element, BinaryStack(index, Literal.i32(4), "*", symbols))
                             ' 然后读取即可得到对象的位置
                             element = BitConverter.Loadi32(element)
                         End If
