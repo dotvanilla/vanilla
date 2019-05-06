@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c33785a08699060ba08e89ddbb577bdc, Compiler\SExpression\MemberHelper.vb"
+﻿#Region "Microsoft.VisualBasic::dcc07a16a997db094356ce0dab6dbeb7, Compiler\SExpression\MemberHelper.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module MemberHelper
     ' 
-    '         Function: exportGroup, funcGroup, starter
+    '         Function: exportGroup, funcGroup
     ' 
     ' 
     ' /********************************************************************************/

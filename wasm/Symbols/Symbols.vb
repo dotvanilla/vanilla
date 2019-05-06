@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a4d756ca2fd4a66ca65a26a5c965106, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::eec6bfeaa7033d3772412aa815de9033, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@
     '         Properties: var
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetUserType, ToSExpression, TypeInfer
+    '         Function: ToSExpression, TypeInfer
     ' 
     '     Class SetLocalVariable
     ' 
