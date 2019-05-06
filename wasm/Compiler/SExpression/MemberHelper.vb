@@ -53,15 +53,6 @@ Namespace Compiler.SExpression
     Module MemberHelper
 
         <Extension>
-        Friend Function starter([module] As ModuleSymbol) As String
-            If [module].Start Is Nothing Then
-                Return ""
-            Else
-                Return [module].Start.ToSExpression
-            End If
-        End Function
-
-        <Extension>
         Friend Iterator Function exportGroup(exports As ExportSymbolExpression()) As IEnumerable(Of String)
             Dim moduleGroup = exports.GroupBy(Function(api) api.module).ToArray
 

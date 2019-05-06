@@ -150,15 +150,7 @@ Namespace Compiler.SExpression
 
 {internal.JoinBy(ASCII.LF)}
 
-;; Application Initialize
-;; 
-;; Sub New
-(func $Application_SubNew
-    {[module].starter}
-)
-
-(start $Application_SubNew)
-
+{[module].starter}
 )"
         End Function
     End Class
