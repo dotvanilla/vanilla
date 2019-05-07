@@ -8,13 +8,33 @@ Module ClassStructureDifferenceTest
         ' just assign the memory pointer
         Dim c2 = c1
 
+        c1.r = -99999
+
+        ' Console.WriteLine(c1.r)
+        ' Console.WriteLine(c2.r)
+
         Dim s1 As New circleStruct With {.y = 99, .x = .y, .r = .x * .y}
         ' value assign of structre is value copy
         ' this statement will create a new circlestruct object
         Dim s2 = s1
 
+        s1.r = -88888
+
+        '  Console.WriteLine(s1.r)
+        '  Console.WriteLine(s2.r)
+
+        ' Console.WriteLine(s1.x)
+
+        Call modifyTest(s1)
+
+        ' Console.WriteLine(s1.x)
+
+        '  Pause()
     End Sub
 
+    Private Sub modifyTest(s As circleStruct)
+        s.x = 2222229999
+    End Sub
 
     Sub New()
         Call Main()
