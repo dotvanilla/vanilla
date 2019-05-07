@@ -69,15 +69,29 @@ Namespace Symbols.Parser
         End Function
 
         ''' <summary>
-        ''' 应用于结构体的内存赋值操作
+        ''' Create an new object and then copy field values to the new object.
+        ''' (应用于结构体的内存赋值操作)
         ''' </summary>
-        ''' <param name="meta"></param>
+        ''' <param name="type"></param>
         ''' <param name="obj"></param>
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Clone(meta As ClassMeta, obj As Expression, symbols As SymbolTable) As ExpressionGroup
+        Public Function Clone(type As TypeAbstract, obj As Expression, symbols As SymbolTable) As ExpressionGroup
+            Dim objType As ClassMeta = symbols.GetClassType(type.raw)
+            Dim initialize = objType.fields _
+                .Select(Function(field)
+                            Dim fieldName = field.name
+                            Dim initValue = obj.GetMemberField(objType, fieldName)
 
+                            Return New NamedValue(Of Expression) With {
+                                .Name = fieldName,
+                                .Value = initValue
+                            }
+                        End Function) _
+                .ToArray
+
+            Return type.createUserObject(initialize, symbols)
         End Function
 
         <Extension>
