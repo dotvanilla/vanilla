@@ -79,17 +79,20 @@ Namespace Symbols.MemoryObject
         Public Overrides Function ToSExpression() As String
             Dim lines As New List(Of String)
 
-            lines += $";;"
+            lines += $""
             lines += $";; String from {memoryPtr} with {Length} bytes in memory"
 
             If Not comment.StringEmpty Then
                 lines += ";;"
                 lines += ";; " & comment
+                lines += ";;"
             End If
 
             lines += $"(data (i32.const {memoryPtr}) ""{[string]}\00"")"
 
-            Return lines.JoinBy(ASCII.LF)
+            Return lines _
+                .Select(Function(line) "    " & line) _
+                .JoinBy(ASCII.LF)
         End Function
     End Class
 End Namespace

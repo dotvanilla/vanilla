@@ -82,6 +82,16 @@ Namespace Symbols.MemoryObject
         Public Property fields As Dictionary(Of String, TypeAbstract)
         Public Property methods As Dictionary(Of String, FuncMetaJSON)
 
+        Public ReadOnly Property reference As ReferenceSymbol
+            Get
+                Return New ReferenceSymbol With {
+                    .[module] = [namespace],
+                    .symbol = $"[{class_id}] {[class]}",
+                    .type = SymbolType.Type
+                }
+            End Get
+        End Property
+
         ''' <summary>
         ''' 先json序列化，然后base64编码
         ''' </summary>
@@ -91,7 +101,8 @@ Namespace Symbols.MemoryObject
                 Dim text As String = GetJson.Base64String
                 Dim [string] As New StringSymbol With {
                     .[string] = text,
-                    .memoryPtr = memoryPtr
+                    .memoryPtr = memoryPtr,
+                    .comment = $"{If(isStruct, "structure", "class")} {reference}"
                 }
 
                 Return [string]
