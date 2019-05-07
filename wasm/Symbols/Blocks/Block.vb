@@ -1,6 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports Wasm.Compiler
+Imports Wasm.TypeInfo
 
 Namespace Symbols.Blocks
 
@@ -33,6 +35,22 @@ Namespace Symbols.Blocks
                             Return indent & line.ToSExpression
                         End Function) _
                 .JoinBy(ASCII.LF)
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' 这个和<see cref="Block"/>类型的语法结构不一样，只是单纯的将表达式分组
+    ''' </summary>
+    Public Class ExpressionGroup : Inherits Expression
+
+        Public Property group As Expression()
+
+        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
+            Return TypeAbstract.void
+        End Function
+
+        Public Overrides Function ToSExpression() As String
+            Return Block.InternalBlock(group, "    ")
         End Function
     End Class
 End Namespace

@@ -1,56 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::e7565939753bdc2c7ca457d2a8ab74fe, Symbols\Parser\ObjectOperator.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ObjectOperator
-    ' 
-    '         Function: createUserObject, GetAnonymousField, (+2 Overloads) GetMemberField, initializeField, SetMemberField
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ObjectOperator
+' 
+'         Function: createUserObject, GetAnonymousField, (+2 Overloads) GetMemberField, initializeField, SetMemberField
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Compiler
+Imports Wasm.Symbols.Blocks
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
@@ -74,12 +76,26 @@ Namespace Symbols.Parser
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Clone(meta As ClassMeta, obj As Expression, symbols As SymbolTable) As Expression
+        Public Function Clone(meta As ClassMeta, obj As Expression, symbols As SymbolTable) As ExpressionGroup
 
         End Function
 
         <Extension>
         Friend Function createUserObject(type As TypeAbstract, objNew As ObjectMemberInitializerSyntax, symbols As SymbolTable) As Expression
+            Dim initialize = objNew.Initializers _
+                .Select(Function(init)
+                            Dim fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
+                            Dim initValue = DirectCast(init, NamedFieldInitializerSyntax).Expression.ValueExpression(symbols)
+
+                            Return New NamedValue(Of Expression)(fieldName, initValue)
+                        End Function) _
+                .ToArray
+
+            Return type.createUserObject(initialize, symbols)
+        End Function
+
+        <Extension>
+        Friend Function createUserObject(type As TypeAbstract, initialize As NamedValue(Of Expression)(), symbols As SymbolTable) As Expression
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             Dim hashcode As New DeclareLocal With {
                 .name = "newObject_" & symbols.NextGuid,
@@ -102,13 +118,13 @@ Namespace Symbols.Parser
             Dim initializer As New List(Of Expression)
             Dim fieldName$
             Dim initValue As Expression
-            Dim optionalFields As Index(Of String) = objType.Fields.Select(Function(g) g.name).ToArray
+            Dim optionalFields As Index(Of String) = objType.fields.Select(Function(g) g.name).ToArray
 
             initializer += New SetLocalVariable(hashcode, IMemoryObject.ObjectManager.GetReference)
 
-            For Each init As FieldInitializerSyntax In objNew.Initializers
-                fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
-                initValue = DirectCast(init, NamedFieldInitializerSyntax).Expression.ValueExpression(symbols)
+            For Each init As NamedValue(Of Expression) In initialize
+                fieldName = init.Name
+                initValue = init.Value
                 initializer += hashcode.initializeField(objType, fieldName, initValue, symbols)
 
                 ' 为了了解有多少个字段是需要使用默认值进行初始化的
@@ -148,7 +164,7 @@ Namespace Symbols.Parser
             ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
             ' 所以下面的保存的位置值intptr不能够是累加的结果
             ' 而每次必须是从hashcode的位置处进行位移，才能够正常的读取结果值
-            Yield New CommentText($"set field [{objType.Reference.ToString}::{fieldName}]")
+            Yield New CommentText($"set field [{objType.reference.ToString}::{fieldName}]")
             Yield BitConverter.save(
                 type:=fieldType,
                 intptr:=fieldOffset,
