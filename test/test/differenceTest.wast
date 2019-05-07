@@ -77,6 +77,7 @@
     
     (set_local $c1 (get_local $newObject_9a020000))
     (set_local $c2 (get_local $c1))
+    (i32.store (i32.add (get_local $c1) (i32.const 16)) (i32.sub (i32.const 0) (i32.const 99999)))
     
     ;; Initialize a object instance of [[347]circleStruct]
     ;; Object memory block begin at location: (get_local $newObject_9b020000)
@@ -93,6 +94,15 @@
     
     (set_local $s1 (get_local $newObject_9b020000))
     (set_local $s2 (get_local $s1))
+    (i32.store (i32.add (get_local $s1) (i32.const 16)) (i32.sub (i32.const 0) (i32.const 88888)))
+    (call $ClassStructureDifferenceTest.modifyTest (get_local $s1))
+    )
+    (func $ClassStructureDifferenceTest.modifyTest (param $s i32) 
+        ;; Public Function modifyTest(s As intptr) As void
+        
+    
+    
+    (f64.store (i32.add (get_local $s) (i32.const 0)) (f64.convert_s/i64 (i64.const 2222229999)))
     )
     
 

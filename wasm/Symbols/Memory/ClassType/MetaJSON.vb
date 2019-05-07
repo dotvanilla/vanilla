@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44514e9e56a24517d91b7f814cd9f45b, Symbols\Memory\ClassType\MetaJSON.vb"
+﻿#Region "Microsoft.VisualBasic::1739852e82b1206202c709cda75c4910, Symbols\Memory\ClassType\MetaJSON.vb"
 
     ' Author:
     ' 
@@ -39,7 +39,7 @@
     '     Class MetaJSON
     ' 
     '         Properties: [class], [namespace], class_id, fields, isStruct
-    '                     meta, methods
+    '                     meta, methods, reference
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 
