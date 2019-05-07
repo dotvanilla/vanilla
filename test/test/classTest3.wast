@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:37:27 PM
+    ;; build: 5/7/2019 8:12:39 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -98,9 +98,9 @@
     ;; set field [testNamespace.circle::x]
     (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 1)))
     ;; set field [testNamespace.circle::y]
-    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
+    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))))
     ;; set field [testNamespace.circle::z]
-    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 8)) (f32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
+    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 8)) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))))
     ;; set field [testNamespace.circle::radius]
     (f64.store (i32.add (get_local $newObject_9b020000) (i32.const 12)) (f64.const 999))
     ;; set field [testNamespace.circle::id]
@@ -127,7 +127,7 @@
     ;; set field [testNamespace.circle::x]
     (f32.store (i32.add (get_local $newObject_9d020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 1)))
     ;; set field [testNamespace.circle::radius]
-    (f64.store (i32.add (get_local $newObject_9d020000) (i32.const 12)) (f64.promote/f32 (f32.mul (f32.mul (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 4)))) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 8))))))
+    (f64.store (i32.add (get_local $newObject_9d020000) (i32.const 12)) (f64.promote/f32 (f32.mul (f32.mul (f32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9b020000) (i32.const 4)))) (f32.load (i32.add (get_local $newObject_9b020000) (i32.const 8))))))
     ;; set field [testNamespace.circle::id]
     (i32.store (i32.add (get_local $newObject_9d020000) (i32.const 20)) (i32.const 470))
     ;; set field [testNamespace.circle::y]
@@ -172,9 +172,9 @@
 ;; set field [testNamespace.circle::x]
 (f32.store (i32.add (get_local $newObject_9e020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 1)))
 ;; set field [testNamespace.circle::y]
-(f32.store (i32.add (get_local $newObject_9e020000) (i32.const 4)) (f32.load (i32.add (get_local $newObject_9e020000) (i32.const 0))))
+(f32.store (i32.add (get_local $newObject_9e020000) (i32.const 4)) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 0))))
 ;; set field [testNamespace.circle::z]
-(f32.store (i32.add (get_local $newObject_9e020000) (i32.const 8)) (f32.add (f32.load (i32.add (get_local $newObject_9e020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9e020000) (i32.const 4)))))
+(f32.store (i32.add (get_local $newObject_9e020000) (i32.const 8)) (f32.add (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9d020000) (i32.const 4)))))
 ;; set field [testNamespace.circle::radius]
 (f64.store (i32.add (get_local $newObject_9e020000) (i32.const 12)) (f64.const 999))
 ;; set field [testNamespace.circle::id]

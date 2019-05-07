@@ -75,9 +75,9 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                 "..\ClassTest3.vb",
                 "..\multipleModuleContructortest.vb",
                 "..\structuretest.vb",
-                "..\ClassTest3.vb",
                 "..\ClassTest.vb",
                  "..\arrayTest2.vb",
                  "..\arrayTest.vb",

@@ -73,16 +73,16 @@ Namespace Symbols.Parser
         ''' (应用于结构体的内存赋值操作)
         ''' </summary>
         ''' <param name="type"></param>
-        ''' <param name="obj"></param>
+        ''' <param name="intptr">The memory address of target user object, can be a class or structure.</param>
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Clone(type As TypeAbstract, obj As Expression, symbols As SymbolTable) As ExpressionGroup
+        Public Function Clone(type As TypeAbstract, intptr As Expression, symbols As SymbolTable) As ExpressionGroup
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             Dim initialize = objType.fields _
                 .Select(Function(field)
                             Dim fieldName = field.name
-                            Dim initValue = obj.GetMemberField(objType, fieldName)
+                            Dim initValue = intptr.GetMemberField(objType, fieldName)
 
                             Return New NamedValue(Of Expression) With {
                                 .Name = fieldName,
