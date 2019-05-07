@@ -66,6 +66,18 @@ Namespace Symbols.Parser
             Return fieldValue
         End Function
 
+        ''' <summary>
+        ''' 应用于结构体的内存赋值操作
+        ''' </summary>
+        ''' <param name="meta"></param>
+        ''' <param name="obj"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Clone(meta As ClassMeta, obj As Expression, symbols As SymbolTable) As Expression
+
+        End Function
+
         <Extension>
         Friend Function createUserObject(type As TypeAbstract, objNew As ObjectMemberInitializerSyntax, symbols As SymbolTable) As Expression
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
