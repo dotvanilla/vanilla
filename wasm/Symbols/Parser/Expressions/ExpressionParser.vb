@@ -207,13 +207,31 @@ Namespace Symbols.Parser
         <Extension>
         Public Function ReferVariable(name As IdentifierNameSyntax, symbols As SymbolTable) As Expression
             Dim var As String = name.objectName
+            Dim ref As GetLocalVariable
+            Dim type As TypeAbstract
 
             If symbols.IsLocal(var) Then
-                Return New GetLocalVariable With {
+                ref = New GetLocalVariable With {
                     .var = var
                 }
             Else
-                Return symbols.FindModuleGlobal(Nothing, var).GetReference
+                ref = symbols.FindModuleGlobal(Nothing, var).GetReference
+            End If
+
+            type = ref.TypeInfer(symbols)
+
+            If type = TypeAlias.intptr Then
+                Dim meta = symbols.FindByClassId(type.class_id)
+
+                If meta.isStruct Then
+                    ' 如果是值类型的结构体的话，则需要拷贝原来的数据
+                    ' 然后传递新指针即可
+                    Return type.Clone(ref, symbols)
+                Else
+                    Return ref
+                End If
+            Else
+                Return ref
             End If
         End Function
 

@@ -78,7 +78,7 @@ Namespace Symbols.Parser
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Clone(type As TypeAbstract, intptr As Expression, symbols As SymbolTable) As ExpressionGroup
+        Public Function Clone(type As TypeAbstract, intptr As Expression, symbols As SymbolTable) As Expression
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             Dim [new] = type.allocateNew(symbols)
             Dim hashcode As DeclareLocal = [new].hashcode

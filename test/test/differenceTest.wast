@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/7/2019 8:56:43 PM
+    ;; build: 5/7/2019 9:42:36 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -59,7 +59,9 @@
     (local $c2 i32)
     (local $newObject_9b020000 i32)
     (local $s1 i32)
+    (local $newObject_9c020000 i32)
     (local $s2 i32)
+    (local $newObject_9d020000 i32)
     
     
     ;; Initialize a object instance of [[10]circleClass]
@@ -93,9 +95,23 @@
     ;; Initialize an object memory block with 20 bytes data
     
     (set_local $s1 (get_local $newObject_9b020000))
-    (set_local $s2 (get_local $s1))
+    
+    ;; Initialize a object instance of [[347]circleStruct]
+    ;; Object memory block begin at location: (get_local $newObject_9c020000)
+    (set_local $newObject_9c020000 (get_global $global.ObjectManager))
+    ;; set field [testDifference.circleStruct::x]
+    (f64.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (f64.load (i32.add (get_local $s1) (i32.const 0))))
+    ;; set field [testDifference.circleStruct::y]
+    (f64.store (i32.add (get_local $newObject_9c020000) (i32.const 8)) (f64.load (i32.add (get_local $s1) (i32.const 8))))
+    ;; set field [testDifference.circleStruct::r]
+    (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 16)) (i32.load (i32.add (get_local $s1) (i32.const 16))))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_9c020000) (i32.const 20)))
+    ;; Initialize an object memory block with 20 bytes data
+    
+    (set_local $s2 (get_local $newObject_9c020000))
     (i32.store (i32.add (get_local $s1) (i32.const 16)) (i32.sub (i32.const 0) (i32.const 88888)))
-    (call $ClassStructureDifferenceTest.modifyTest (get_local $s1))
+    (call $ClassStructureDifferenceTest.modifyTest (get_local $newObject_9d020000))
     )
     (func $ClassStructureDifferenceTest.modifyTest (param $s i32) 
         ;; Public Function modifyTest(s As intptr) As void
