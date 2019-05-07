@@ -79,6 +79,9 @@ Namespace Symbols.Parser
         <Extension>
         Public Function Clone(type As TypeAbstract, intptr As Expression, symbols As SymbolTable) As ExpressionGroup
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
+            Dim [new] = type.allocateNew(symbols)
+            Dim hashcode As DeclareLocal = [new].hashcode
+            Dim obj As UserObject = [new].object
             Dim initialize = objType.fields _
                 .Select(Function(field)
                             Dim fieldName = field.name
@@ -91,11 +94,14 @@ Namespace Symbols.Parser
                         End Function) _
                 .ToArray
 
-            Return type.createUserObject(initialize, symbols)
+            Return type.createUserObject(hashcode, obj, initialize, symbols)
         End Function
 
         <Extension>
         Friend Function createUserObject(type As TypeAbstract, objNew As ObjectMemberInitializerSyntax, symbols As SymbolTable) As Expression
+            Dim [new] = type.allocateNew(symbols)
+            Dim hashcode As DeclareLocal = [new].hashcode
+            Dim obj As UserObject = [new].object
             Dim initialize = objNew.Initializers _
                 .Select(Function(init)
                             Dim fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
@@ -105,11 +111,11 @@ Namespace Symbols.Parser
                         End Function) _
                 .ToArray
 
-            Return type.createUserObject(initialize, symbols)
+            Return type.createUserObject(hashcode, obj, initialize, symbols)
         End Function
 
         <Extension>
-        Friend Function createUserObject(type As TypeAbstract, initialize As NamedValue(Of Expression)(), symbols As SymbolTable) As Expression
+        Private Function allocateNew(type As TypeAbstract, symbols As SymbolTable) As ([object] As UserObject, hashcode As DeclareLocal)
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             Dim hashcode As New DeclareLocal With {
                 .name = "newObject_" & symbols.NextGuid,
@@ -128,6 +134,17 @@ Namespace Symbols.Parser
             symbols.currentObject = obj
             symbols.AddLocal(hashcode)
 
+            Return (obj, hashcode)
+        End Function
+
+        <Extension>
+        Friend Function createUserObject(type As TypeAbstract,
+                                         hashcode As DeclareLocal,
+                                         obj As UserObject,
+                                         initialize As NamedValue(Of Expression)(),
+                                         symbols As SymbolTable) As Expression
+
+            Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             ' 初始化字段值
             Dim initializer As New List(Of Expression)
             Dim fieldName$

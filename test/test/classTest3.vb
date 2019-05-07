@@ -62,15 +62,15 @@ Module classArrayTest
     Dim circles As circle()
     Dim str As String = "SSSSSS"
 
+    Private Function produceObject() As circle
+        Return New circle With {.x = 1, .radius = .x * .y * .z, .id = "AAAAAAAAAA"}
+    End Function
+
     Public Sub initializeArray()
         Dim c2 As New circle With {.radius = 100}
 
         circles = {New circle With {.x = 1, .y = .x, .z = .x}, c2, produceObject()}
     End Sub
-
-    Private Function produceObject() As circle
-        Return New circle With {.x = 1, .radius = .x * .y * .z, .id = "AAAAAAAAAA"}
-    End Function
 
 End Module
 
