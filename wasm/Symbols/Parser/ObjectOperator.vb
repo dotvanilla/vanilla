@@ -85,7 +85,20 @@ Namespace Symbols.Parser
             Dim [new] = type.allocateNew(symbols)
             Dim hashcode As DeclareLocal = [new].hashcode
             Dim obj As UserObject = [new].object
-            Dim initialize = objType.fields _
+            Dim initialize As NamedValue(Of Expression)() = objType.getFieldValues(intptr)
+
+            Return type.createUserObject(hashcode, obj, initialize, symbols)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="objType"></param>
+        ''' <param name="intptr">目标用户对象在内存之中的位置</param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function getFieldValues(objType As ClassMeta, intptr As Expression) As NamedValue(Of Expression)()
+            Return objType.fields _
                 .Select(Function(field)
                             Dim fieldName = field.name
                             Dim initValue = intptr.GetMemberField(objType, fieldName)
@@ -96,8 +109,36 @@ Namespace Symbols.Parser
                             }
                         End Function) _
                 .ToArray
+        End Function
 
-            Return type.createUserObject(hashcode, obj, initialize, symbols)
+        ''' <summary>
+        ''' 将class或者structure对象的值从<paramref name="from"/>内存之中的位置拷贝到<paramref name="to"/>位置
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <param name="from"></param>
+        ''' <param name="[to]"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CopyTo(type As TypeAbstract,
+                               from As Expression,
+                               [to] As DeclareLocal,
+                               symbols As SymbolTable) As Expression
+
+            Dim objType As ClassMeta = symbols.GetClassType(type.raw)
+            Dim obj As New UserObject With {
+                .memoryPtr = [to].GetReference,
+                .UnderlyingType = type,
+                .Meta = objType,
+                .width = objType.sizeOf
+            }
+
+            symbols.currentObject = obj
+
+            Dim initialize As NamedValue(Of Expression)() = objType.getFieldValues(from)
+            Dim copy = type.createUserObject([to], obj, initialize, symbols)
+
+            Return copy
         End Function
 
         <Extension>

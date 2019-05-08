@@ -79,9 +79,20 @@ Namespace Symbols.MemoryObject
             Call symbols.AddLocal(offset.var, "i32")
 
             If ofElement = TypeAlias.intptr AndAlso symbols.FindByClassId(ofElement.class_id).isStruct Then
+                Dim copy As DeclareLocal
+
                 ' 结构体类型比较特殊
                 ' 会需要与引用类型的class区分开来
-                Throw New NotImplementedException
+                For Each element As Expression In array.Initialize
+                    location = IMemoryObject.IndexOffset(offset, ++i * size)
+                    copy = New DeclareLocal With {
+                        .name = "structCopyOf_" & symbols.NextGuid,
+                        .type = TypeAbstract.i32
+                    }
+                    symbols.AddLocal(copy.name, "i32")
+                    save += New SetLocalVariable(copy, location)
+                    save += ofElement.CopyTo(element, copy, symbols)
+                Next
             Else
                 Dim byteType As String = ofElement.typefit
 
