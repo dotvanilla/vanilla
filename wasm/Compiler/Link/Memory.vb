@@ -67,6 +67,7 @@ Namespace Compiler
         ''' 导致用户自定义类型被误判为基础类型
         ''' </summary>
         Dim offset As Integer = 11
+        Dim symbols As SymbolTable
 
         ''' <summary>
         ''' 获取得到在WebAssembly之中的初始化大小
@@ -79,6 +80,10 @@ Namespace Compiler
                 Return offset
             End Get
         End Property
+
+        Sub New(symbols As SymbolTable)
+            Me.symbols = symbols
+        End Sub
 
         ''' <summary>
         ''' 函数返回的是数据的内存位置
@@ -109,7 +114,7 @@ Namespace Compiler
         ''' 和字符串数据不同，数组对象的内存不是静态分配的
         ''' </remarks>
         Public Function AllocateArrayBlock(ofElement As TypeAbstract, size As Integer) As ArrayBlock
-            Dim array As New ArrayBlock With {
+            Dim array As New ArrayBlock(symbols) With {
                 .length = size,
                 .type = ofElement.MakeArrayType,
                 .memoryPtr = IMemoryObject.ObjectManager.GetReference

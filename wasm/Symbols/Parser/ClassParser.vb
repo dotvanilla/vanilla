@@ -117,7 +117,7 @@ Namespace Symbols.Parser
                 symbolTable.ClearLocals()
             Next
 
-            Dim meta As New ClassMeta With {
+            Dim meta As New ClassMeta(symbols:=symbolTable) With {
                 .methods = functions,
                 .className = className,
                 .[module] = [namespace],

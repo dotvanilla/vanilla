@@ -93,7 +93,7 @@ Namespace Compiler
         ''' 这个内存对象是全局范围内的
         ''' </summary>
         ''' <returns></returns>
-        Public Property memory As New Memory
+        Public Property memory As Memory
 
         ''' <summary>
         ''' 当前所进行解析的函数的名称
@@ -147,8 +147,14 @@ Namespace Compiler
             End Get
         End Property
 
+        Private Sub New()
+            memory = New Memory(Me)
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(module$, methods As IEnumerable(Of MethodBlockSyntax), enums As EnumSymbol())
+            Call Me.New
+
             For Each constant In enums
                 Call AddEnumType(constant)
             Next
@@ -157,6 +163,8 @@ Namespace Compiler
         End Sub
 
         Friend Sub New(ParamArray locals As DeclareLocal())
+            Call Me.New
+
             For Each var As DeclareLocal In locals
                 Call AddLocal(var)
             Next

@@ -69,6 +69,8 @@ Namespace Symbols.MemoryObject
         Public Property itemOffset As String
         Public Property elements As Expression()
 
+        Dim symbols As SymbolTable
+
         ''' <summary>
         ''' Byte size of this array object
         ''' </summary>
@@ -76,9 +78,13 @@ Namespace Symbols.MemoryObject
         Public ReadOnly Property sizeOf As Integer
             Get
                 ' class_id + length + elements
-                Return 4 + 4 + Types.sizeOf(type) * length
+                Return 4 + 4 + Types.sizeOf(type, symbols) * length
             End Get
         End Property
+
+        Sub New(symbols As SymbolTable)
+            Me.symbols = symbols
+        End Sub
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
