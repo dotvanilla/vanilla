@@ -79,6 +79,8 @@ Namespace Symbols.MemoryObject
         ''' <returns></returns>
         Public Property methods As FuncSymbol()
 
+        Dim symbols As SymbolTable
+
         Default Public ReadOnly Property Field(name As String) As DeclareGlobal
             Get
                 Return fields.FirstOrDefault(Function(v) v.name = name)
@@ -94,7 +96,7 @@ Namespace Symbols.MemoryObject
             Get
                 Return Aggregate field As DeclareGlobal
                        In fields
-                       Let width = Types.sizeOf(field.type)
+                       Let width = Types.sizeOf(field.type, symbols)
                        Into Sum(width)
             End Get
         End Property
@@ -109,7 +111,11 @@ Namespace Symbols.MemoryObject
             End Get
         End Property
 
-        Public Function GetFieldOffset(name As String, symbols As SymbolTable) As Integer
+        Sub New(symbols As SymbolTable)
+            Me.symbols = symbols
+        End Sub
+
+        Public Function GetFieldOffset(name As String) As Integer
             Dim offset As Integer
 
             For Each field As DeclareGlobal In fields

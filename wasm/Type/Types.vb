@@ -85,7 +85,7 @@ Namespace TypeInfo
             End If
         End Function
 
-        Public Function sizeOf2(type As TypeAlias) As Integer
+        Public Function sizeOf(type As TypeAlias) As Integer
             Select Case type
                 Case TypeAlias.any, TypeAlias.array, TypeAlias.intptr, TypeAlias.list, TypeAlias.string, TypeAlias.table
                     Return 4

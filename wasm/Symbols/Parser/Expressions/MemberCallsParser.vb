@@ -197,7 +197,7 @@ Namespace Symbols.Parser
             ElseIf type = TypeAlias.intptr Then
                 ' object field
                 If TypeOf obj Is FieldValue Then
-                    Return ObjectOperator.GetMemberField(obj, obj.GetUserType(symbols), memberName, symbols)
+                    Return ObjectOperator.GetMemberField(obj, obj.GetUserType(symbols), memberName)
                 Else
                     Return ObjectOperator.GetMemberField(obj, memberName, symbols)
                 End If

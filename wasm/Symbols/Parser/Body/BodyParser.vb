@@ -195,7 +195,7 @@ Namespace Symbols.Parser
                         End If
 
                         ' 然后计算出field offset， 然后存储数据即可
-                        Dim location As Expression = IMemoryObject.IndexOffset(element, meta.GetFieldOffset(memberName, symbols))
+                        Dim location As Expression = IMemoryObject.IndexOffset(element, meta.GetFieldOffset(memberName))
                         Dim save As Expression = BitConverter.save(fieldType, location, right)
 
                         Return save
