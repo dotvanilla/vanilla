@@ -1,53 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::9cd0eaaa47c8e43824cb88184ec842a6, Type\Types.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Types
-    ' 
-    '         Properties: [boolean], [string], primitiveTypes
-    ' 
-    '         Function: ArrayElement, ParseAliasName, (+2 Overloads) sizeOf
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Types
+' 
+'         Properties: [boolean], [string], primitiveTypes
+' 
+'         Function: ArrayElement, ParseAliasName, (+2 Overloads) sizeOf
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Wasm.Compiler
+Imports Wasm.Symbols.MemoryObject
 
 Namespace TypeInfo
 
@@ -69,11 +71,21 @@ Namespace TypeInfo
             TypeAlias.i64
         }
 
-        Public Function sizeOf(type As TypeAbstract) As Integer
-            Return sizeOf(type.type)
+        Public Function sizeOf(type As TypeAbstract, symbols As SymbolTable) As Integer
+            If type = TypeAlias.intptr Then
+                Dim [class] As ClassMeta = symbols.FindByClassId(type.class_id)
+
+                If [class].isStruct Then
+                    Return [class].sizeOf
+                Else
+                    Return sizeOf(type.type)
+                End If
+            Else
+                Return sizeOf(type.type)
+            End If
         End Function
 
-        Public Function sizeOf(type As TypeAlias) As Integer
+        Public Function sizeOf2(type As TypeAlias) As Integer
             Select Case type
                 Case TypeAlias.any, TypeAlias.array, TypeAlias.intptr, TypeAlias.list, TypeAlias.string, TypeAlias.table
                     Return 4

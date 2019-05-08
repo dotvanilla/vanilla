@@ -64,7 +64,10 @@ Namespace Symbols.Parser
         <Extension>
         Public Function GetAnonymousField(ref As GetGlobalVariable, symbols As SymbolTable) As Expression
             Dim fieldName$ = ref.var
-            Dim fieldValue As Expression = symbols.currentObject.GetMemberField(symbols.currentObject.Meta, fieldName)
+            Dim type As ClassMeta = symbols.currentObject.Meta
+            Dim fieldValue As Expression = symbols _
+                .currentObject _
+                .GetMemberField(type, fieldName, symbols)
 
             Return fieldValue
         End Function
@@ -86,7 +89,7 @@ Namespace Symbols.Parser
             Dim initialize = objType.fields _
                 .Select(Function(field)
                             Dim fieldName = field.name
-                            Dim initValue = intptr.GetMemberField(objType, fieldName)
+                            Dim initValue = intptr.GetMemberField(objType, fieldName, symbols)
 
                             Return New NamedValue(Of Expression) With {
                                 .Name = fieldName,
@@ -190,7 +193,8 @@ Namespace Symbols.Parser
                                                   initValue As Expression,
                                                   symbols As SymbolTable) As IEnumerable(Of Expression)
 
-            Dim fieldOffset As Expression = ArrayBlock.IndexOffset(hashcode.GetReference, objType.GetFieldOffset(fieldName))
+            Dim offsetSize As Integer = objType.GetFieldOffset(fieldName, symbols)
+            Dim fieldOffset As Expression = ArrayBlock.IndexOffset(hashcode.GetReference, offsetSize)
             Dim fieldType As TypeAbstract = objType(fieldName).type
 
             ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
@@ -208,7 +212,7 @@ Namespace Symbols.Parser
         Public Function SetMemberField(objName$, memberName$, right As Expression, symbols As SymbolTable) As Expression
             Dim type As TypeAbstract = symbols.GetUnderlyingType(objName)
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
-            Dim offset As Integer = objType.GetFieldOffset(memberName)
+            Dim offset As Integer = objType.GetFieldOffset(memberName, symbols)
             Dim fieldType As TypeAbstract = objType(memberName).type
             Dim intptr As Expression = symbols.GetObjectReference(objName)
 
@@ -221,13 +225,13 @@ Namespace Symbols.Parser
 
         <Extension>
         Public Function GetMemberField(obj As GetLocalVariable, memberName$, symbols As SymbolTable) As Expression
-            Return obj.GetMemberField(obj.GetUserType(symbols), memberName$)
+            Return obj.GetMemberField(obj.GetUserType(symbols), memberName$, symbols)
         End Function
 
         <Extension>
-        Public Function GetMemberField(obj As Expression, type As ClassMeta, memberName$) As Expression
+        Public Function GetMemberField(obj As Expression, type As ClassMeta, memberName$, symbols As SymbolTable) As Expression
             Dim fieldType As TypeAbstract = type(memberName).type
-            Dim fieldOffset As Expression = Literal.i32(type.GetFieldOffset(memberName))
+            Dim fieldOffset As Expression = Literal.i32(type.GetFieldOffset(memberName, symbols))
             Dim getValue As Expression
 
             fieldOffset = ArrayBlock.IndexOffset(obj, fieldOffset)

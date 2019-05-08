@@ -109,14 +109,14 @@ Namespace Symbols.MemoryObject
             End Get
         End Property
 
-        Public Function GetFieldOffset(name As String) As Integer
+        Public Function GetFieldOffset(name As String, symbols As SymbolTable) As Integer
             Dim offset As Integer
 
             For Each field As DeclareGlobal In fields
                 If field.name = name Then
                     Exit For
                 Else
-                    offset += Types.sizeOf(field.type)
+                    offset += Types.sizeOf(field.type, symbols)
                 End If
             Next
 

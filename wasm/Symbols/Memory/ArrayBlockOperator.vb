@@ -70,7 +70,7 @@ Namespace Symbols.MemoryObject
             Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
             Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, array.Initialize.Length)
             Dim save As New List(Of Expression)
-            Dim size As Integer = sizeOf(ofElement)
+            Dim size As Integer = sizeOf(ofElement, symbols)
             Dim byteType$ = ofElement.typefit
             ' 在这里需要跳过数组前面的8个字节
             Dim offset As New GetLocalVariable("arrayOffset_" & symbols.NextGuid)
@@ -114,7 +114,7 @@ Namespace Symbols.MemoryObject
             ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
             Dim intptr As Expression = ArrayBlock.IndexOffset(target, Literal.i32(4 + 4))
             ' 然后位置的偏移量则是index索引，乘上元素的大小
-            Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
+            Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement, symbols)), "*", symbols)
             Dim read As Expression
 
             ' 然后得到实际的内存中的位置
@@ -140,7 +140,7 @@ Namespace Symbols.MemoryObject
             ' 因为前面还有8个字节的元数据信息，所以需要从target跳过8个字节才能够到真正的数据区
             Dim intptr As Expression = ArrayBlock.IndexOffset(arraySymbol, Literal.i32(4 + 4))
             ' 然后位置的偏移量则是index索引，乘上元素的大小
-            Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement)), "*", symbols)
+            Dim offset As Expression = BinaryStack(index, Literal.i32(sizeOf(ofElement, symbols)), "*", symbols)
             Dim save As Expression
 
             ' 然后得到实际的内存中的位置

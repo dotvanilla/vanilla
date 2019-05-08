@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/7/2019 9:42:36 PM
+    ;; build: 5/8/2019 6:25:19 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -19,7 +19,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 355))
+    (global $global.ObjectManager (mut i32) (i32.const 356))
 
     ;; Memory data for string constant
     
@@ -27,11 +27,11 @@
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
         
-    ;; String from 10 with 344 bytes in memory
+    ;; String from 11 with 344 bytes in memory
     ;;
-    ;; structure structureArrayElement.[10] circle
+    ;; structure structureArrayElement.[11] circle
     ;;
-    (data (i32.const 10) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjEwfSwiY2xhc3MiOiJjaXJjbGUiLCJjbGFzc19pZCI6MTAsImZpZWxkcyI6eyJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfSwieSI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sInJhZGl1cyI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjY0IiwidHlwZSI6NH19LCJpc1N0cnVjdCI6dHJ1ZSwibWV0aG9kcyI6e30sIm5hbWVzcGFjZSI6InN0cnVjdHVyZUFycmF5RWxlbWVudCJ9\00")
+    (data (i32.const 11) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjExfSwiY2xhc3MiOiJjaXJjbGUiLCJjbGFzc19pZCI6MTEsImZpZWxkcyI6eyJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfSwieSI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sInJhZGl1cyI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjY0IiwidHlwZSI6NH19LCJpc1N0cnVjdCI6dHJ1ZSwibWV0aG9kcyI6e30sIm5hbWVzcGFjZSI6InN0cnVjdHVyZUFycmF5RWxlbWVudCJ9\00")
 
     ;; Global variables in this module
     
@@ -56,8 +56,8 @@
     
     ;; Save 2 array element data to memory:
     ;; Array memory block begin at location: (get_global $global.ObjectManager)
-    ;; class_id/typealias_enum i32 data: (i32.const 10)/array(Of intptr)
-    (i32.store (get_global $global.ObjectManager) (i32.const 10))
+    ;; class_id/typealias_enum i32 data: (i32.const 11)/array(Of intptr)
+    (i32.store (get_global $global.ObjectManager) (i32.const 11))
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 2))
     ;; End of byte marks meta data, start write data blocks
     (set_local $arrayOffset_9c020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
