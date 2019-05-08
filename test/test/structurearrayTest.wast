@@ -19,6 +19,8 @@
     (func $string.length (import "string" "length") (param $text i32) (result i32))
 ;; Declare Function string.indexOf Lib "string" Alias "indexOf" (input As string, find As string) As i32
     (func $string.indexOf (import "string" "indexOf") (param $input i32) (param $find i32) (result i32))
+;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
+    (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
@@ -26,12 +28,24 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 825))
+    (global $global.ObjectManager (mut i32) (i32.const 836))
 
     ;; Memory data for string constant
         
     ;; String from 11 with 3 bytes in memory
     (data (i32.const 11) "red\00")
+    
+    ;; String from 825 with 4 bytes in memory
+    (data (i32.const 825) "rgb(\00")
+    
+    ;; String from 830 with 1 bytes in memory
+    (data (i32.const 830) ",\00")
+    
+    ;; String from 832 with 1 bytes in memory
+    (data (i32.const 832) ",\00")
+    
+    ;; String from 834 with 1 bytes in memory
+    (data (i32.const 834) ")\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -49,7 +63,9 @@
     (data (i32.const 476) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjQ3Nn0sImNsYXNzIjoiY2lyY2xlIiwiY2xhc3NfaWQiOjQ3NiwiZmllbGRzIjp7IngiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJ5Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfSwicmFkaXVzIjp7ImdlbmVyaWMiOltdLCJyYXciOiJmNjQiLCJ0eXBlIjo0fX0sImlzU3RydWN0Ijp0cnVlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjoic3RydWN0dXJlQXJyYXlFbGVtZW50In0=\00")
 
     ;; Global variables in this module
-    
+    (global $structurearrayTest.r (mut i32) (i32.const 55))
+(global $structurearrayTest.g (mut i32) (i32.const 66))
+(global $structurearrayTest.b (mut i32) (i32.const 99))
 
     ;; Export methods of this module
     ;; export from VB.NET module: [structurearrayTest]
@@ -70,7 +86,8 @@
     (local $structCopyOf_9e020000 i32)
     (local $a i32)
     (local $newObject_9f020000 i32)
-    (local $arrayOffset_a0020000 i32)
+    (local $newObject_a0020000 i32)
+    (local $arrayOffset_a1020000 i32)
     (local $b i32)
     
     
@@ -106,13 +123,13 @@
     ;; Assign array memory data to another expression
     (set_local $a (i32.add (get_local $arrayOffset_9c020000) (i32.const -8)))
     
-    ;; Save 1 array element data to memory:
+    ;; Save 2 array element data to memory:
     ;; Array memory block begin at location: (get_global $global.ObjectManager)
     ;; class_id/typealias_enum i32 data: (i32.const 15)/array(Of intptr)
     (i32.store (get_global $global.ObjectManager) (i32.const 15))
-    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 1))
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 2))
     ;; End of byte marks meta data, start write data blocks
-    (set_local $arrayOffset_a0020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_local $arrayOffset_a1020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
     (set_local $newObject_9f020000 (get_global $global.ObjectManager))
     ;; set field [structureArrayElement.rectangle::x]
     (i32.store (i32.add (get_local $newObject_9f020000) (i32.const 0)) (i32.const 1))
@@ -126,11 +143,25 @@
     (i32.store (i32.add (get_local $newObject_9f020000) (i32.const 16)) (i32.const 11))
     ;; Offset object manager with 20 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $newObject_9f020000) (i32.const 20)))
-    (i32.store (i32.add (get_local $arrayOffset_a0020000) (i32.const 0)) (get_local $newObject_9f020000))
-    ;; Offset object manager with 12 bytes
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a0020000) (i32.const -8)) (i32.const 12)))
+    (i32.store (i32.add (get_local $arrayOffset_a1020000) (i32.const 0)) (get_local $newObject_9f020000))
+    (set_local $newObject_a0020000 (get_global $global.ObjectManager))
+    ;; set field [structureArrayElement.rectangle::fill]
+    (i32.store (i32.add (get_local $newObject_a0020000) (i32.const 16)) (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 825) (call $i32.toString (get_global $structurearrayTest.r))) (i32.const 830)) (call $i32.toString (get_global $structurearrayTest.g))) (i32.const 832)) (call $i32.toString (get_global $structurearrayTest.b))) (i32.const 834)))
+    ;; set field [structureArrayElement.rectangle::x]
+    (i32.store (i32.add (get_local $newObject_a0020000) (i32.const 0)) (i32.const 0))
+    ;; set field [structureArrayElement.rectangle::y]
+    (i32.store (i32.add (get_local $newObject_a0020000) (i32.const 4)) (i32.const 0))
+    ;; set field [structureArrayElement.rectangle::w]
+    (i32.store (i32.add (get_local $newObject_a0020000) (i32.const 8)) (i32.const 0))
+    ;; set field [structureArrayElement.rectangle::h]
+    (i32.store (i32.add (get_local $newObject_a0020000) (i32.const 12)) (i32.const 0))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_a0020000) (i32.const 20)))
+    (i32.store (i32.add (get_local $arrayOffset_a1020000) (i32.const 4)) (get_local $newObject_a0020000))
+    ;; Offset object manager with 16 bytes
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a1020000) (i32.const -8)) (i32.const 16)))
     ;; Assign array memory data to another expression
-    (set_local $b (i32.add (get_local $arrayOffset_a0020000) (i32.const -8)))
+    (set_local $b (i32.add (get_local $arrayOffset_a1020000) (i32.const -8)))
     )
     
 
