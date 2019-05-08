@@ -214,6 +214,14 @@ Namespace Compiler
             Return enumConstants(type)
         End Function
 
+        Public Overrides Function ToString() As String
+            Return New ReferenceSymbol With {
+                .[module] = currentModuleLabel,
+                .symbol = currentFuncSymbol,
+                .type = SymbolType.Func
+            }.ToString
+        End Function
+
         Public Function AddFunctionDeclares(methods As IEnumerable(Of MethodBlockSyntax), module$) As SymbolTable
             For Each method In methods
                 With method.FuncVariable(Me)

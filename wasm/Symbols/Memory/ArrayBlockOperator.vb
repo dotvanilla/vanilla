@@ -71,17 +71,26 @@ Namespace Symbols.MemoryObject
             Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, array.Initialize.Length)
             Dim save As New List(Of Expression)
             Dim size As Integer = sizeOf(ofElement, symbols)
-            Dim byteType$ = ofElement.typefit
             ' 在这里需要跳过数组前面的8个字节
             Dim offset As New GetLocalVariable("arrayOffset_" & symbols.NextGuid)
             Dim i As VBInteger = Scan0
+            Dim location As Expression
 
             Call symbols.AddLocal(offset.var, "i32")
 
-            For Each element In array.Initialize
-                element = CTypeHandle.CType(ofElement, element, symbols)
-                save += BitConverter.save(byteType, IMemoryObject.IndexOffset(offset, ++i * size), element)
-            Next
+            If ofElement = TypeAlias.intptr AndAlso symbols.FindByClassId(ofElement.class_id).isStruct Then
+                ' 结构体类型比较特殊
+                ' 会需要与引用类型的class区分开来
+                Throw New NotImplementedException
+            Else
+                Dim byteType As String = ofElement.typefit
+
+                For Each element As Expression In array.Initialize
+                    element = CTypeHandle.CType(ofElement, element, symbols)
+                    location = IMemoryObject.IndexOffset(offset, ++i * size)
+                    save += BitConverter.save(byteType, location, element)
+                Next
+            End If
 
             arrayBlock.elements = save
             arrayBlock.itemOffset = offset.var
