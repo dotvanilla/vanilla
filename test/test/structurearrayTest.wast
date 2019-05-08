@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/8/2019 7:50:34 PM
+    ;; build: 5/8/2019 7:56:31 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -64,9 +64,25 @@
     ;; End of byte marks meta data, start write data blocks
     (set_local $arrayOffset_9c020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
     (set_local $structCopyOf_9d020000 (i32.add (get_local $arrayOffset_9c020000) (i32.const 0)))
-    (get_local $structCopyOf_9d020000)
+    (set_local $structCopyOf_9d020000 (get_global $global.ObjectManager))
+    ;; set field [structureArrayElement.circle::x]
+    (i32.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 0)) (i32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))))
+    ;; set field [structureArrayElement.circle::y]
+    (i32.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 4)) (i32.load (i32.add (get_local $newObject_9a020000) (i32.const 4))))
+    ;; set field [structureArrayElement.circle::radius]
+    (f64.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 8)) (f64.load (i32.add (get_local $newObject_9a020000) (i32.const 8))))
+    ;; Offset object manager with 16 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $structCopyOf_9d020000) (i32.const 16)))
     (set_local $structCopyOf_9e020000 (i32.add (get_local $arrayOffset_9c020000) (i32.const 16)))
-    (get_local $structCopyOf_9e020000)
+    (set_local $structCopyOf_9e020000 (get_global $global.ObjectManager))
+    ;; set field [structureArrayElement.circle::x]
+    (i32.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 0)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
+    ;; set field [structureArrayElement.circle::y]
+    (i32.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 4)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 4))))
+    ;; set field [structureArrayElement.circle::radius]
+    (f64.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 8)) (f64.load (i32.add (get_local $newObject_9b020000) (i32.const 8))))
+    ;; Offset object manager with 16 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $structCopyOf_9e020000) (i32.const 16)))
     ;; Offset object manager with 40 bytes
     (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9c020000) (i32.const -8)) (i32.const 40)))
     ;; Assign array memory data to another expression

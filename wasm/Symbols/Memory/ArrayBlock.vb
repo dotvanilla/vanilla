@@ -133,7 +133,21 @@ Namespace Symbols.MemoryObject
             }
 
             For Each x As Expression In elements
-                Yield x
+                If TypeOf x Is UserObject Then
+                    With DirectCast(x, UserObject)
+                        If .Meta.isStruct Then
+                            For Each internal As Expression In .AsEnumerable
+                                Yield internal
+                            Next
+                        Else
+                            ' 在这里只允许结构体类型，但是出现了class引用
+                            ' 应该是程序哪里出错了
+                            Throw New InvalidOperationException
+                        End If
+                    End With
+                Else
+                    Yield x
+                End If
             Next
 
             Yield New CommentText($"Offset object manager with {sizeOf} bytes")
