@@ -78,7 +78,17 @@ Namespace Symbols.MemoryObject
         Public ReadOnly Property sizeOf As Integer
             Get
                 ' class_id + length + elements
-                Return 4 + 4 + Types.sizeOf(type, symbols) * length
+                Return 4 + 4 + elementSizeOf * length
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 元素类型所占用的内存空间大小
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property elementSizeOf As Integer
+            Get
+                Return Types.sizeOf(type.generic(Scan0), symbols)
             End Get
         End Property
 

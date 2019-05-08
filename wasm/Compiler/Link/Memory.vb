@@ -108,14 +108,14 @@ Namespace Compiler
         ''' 为数组分配内存位置，然后返回数组在内存之中的起始位置
         ''' </summary>
         ''' <param name="ofElement"></param>
-        ''' <param name="size"></param>
+        ''' <param name="count">数组之中的元素的数量</param>
         ''' <returns></returns>
         ''' <remarks>
         ''' 和字符串数据不同，数组对象的内存不是静态分配的
         ''' </remarks>
-        Public Function AllocateArrayBlock(ofElement As TypeAbstract, size As Integer) As ArrayBlock
+        Public Function AllocateArrayBlock(ofElement As TypeAbstract, count%) As ArrayBlock
             Dim array As New ArrayBlock(symbols) With {
-                .length = size,
+                .length = count,
                 .type = ofElement.MakeArrayType,
                 .memoryPtr = IMemoryObject.ObjectManager.GetReference
             }
