@@ -66,7 +66,7 @@ Namespace Compiler
         ''' 所以在这里offset从10开始，从而能够避免class_id小于10
         ''' 导致用户自定义类型被误判为基础类型
         ''' </summary>
-        Dim offset As Integer = 10
+        Dim offset As Integer = 11
 
         ''' <summary>
         ''' 获取得到在WebAssembly之中的初始化大小

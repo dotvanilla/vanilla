@@ -46,8 +46,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
