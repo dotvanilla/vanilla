@@ -139,7 +139,7 @@ Namespace Symbols.Parser
 
                 ' 因为class的模块变量是放在global里面的
                 ' 所以每解析完一个class都要清空一次全局变量
-                Call symbols.globals.Clear()
+                Call symbols.ClearGlobals(includeConst:=False)
             Next
 
             For Each struct As StructureBlockSyntax In container.OfType(Of StructureBlockSyntax)
@@ -147,7 +147,7 @@ Namespace Symbols.Parser
 
                 ' 因为class的模块变量是放在global里面的
                 ' 所以每解析完一个class都要清空一次全局变量
-                Call symbols.globals.Clear()
+                Call symbols.ClearGlobals(includeConst:=False)
             Next
         End Function
 

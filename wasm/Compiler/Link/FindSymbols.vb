@@ -87,7 +87,7 @@ Namespace Compiler
         ''' <returns></returns>
         <Extension>
         Public Function FindModuleGlobal(symbols As SymbolTable, context$, name$) As DeclareGlobal
-            Dim ref As ModuleOf = symbols.globals.TryGetValue(name)
+            Dim ref As ModuleOf = symbols.TryGetGlobal(name)
 
             If ref Is Nothing Then
                 Return Nothing
@@ -117,7 +117,7 @@ Namespace Compiler
 
             If contextObj Is Nothing Then
                 ' 局部变量查找失败，则查找全局变量
-                With symbols.globals.TryGetValue(context)
+                With symbols.TryGetGlobal(context)
                     If Not .IsNothing Then
                         Dim [global] As DeclareGlobal = .FindSymbol(symbols.currentModuleLabel)
 

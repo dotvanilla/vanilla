@@ -78,7 +78,8 @@ Namespace Compiler
         ''' <summary>
         ''' [name => type]
         ''' </summary>
-        Friend ReadOnly globals As New Dictionary(Of String, ModuleOf)
+        ReadOnly globals As New Dictionary(Of String, ModuleOf)
+
         ''' <summary>
         ''' 包含模块成员函数以及所导入的外部函数
         ''' </summary>
@@ -309,6 +310,15 @@ Namespace Compiler
             Call globals(var).Add([global])
         End Sub
 
+        ''' <summary>
+        ''' If symbols name is not exists in table, then this function will returns nothing.
+        ''' </summary>
+        ''' <param name="symbolName"></param>
+        ''' <returns></returns>
+        Public Function TryGetGlobal(symbolName As String) As ModuleOf
+            Return globals.TryGetValue(symbolName)
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddLocal([declare] As NamedValue(Of TypeAbstract))
             Call locals.Add([declare].Name, New DeclareLocal With {.name = [declare].Name, .type = [declare].Value})
@@ -327,6 +337,26 @@ Namespace Compiler
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub ClearLocals()
             Call locals.Clear()
+        End Sub
+
+        Public Sub ClearGlobals(Optional includeConst As Boolean = False)
+            If includeConst Then
+                Call globals.Clear()
+            Else
+                ' clear all global except const variable
+                For Each symbolsName As ModuleOf In globals.Values.ToArray
+                    If symbolsName.OfType(Of DeclareGlobal).All(Function(g) Not g.isConst) Then
+                        Call globals.Remove(symbolsName.SymbolName)
+                    Else
+                        ' 只删除非常数
+                        For Each gvar In symbolsName.OfType(Of DeclareGlobal)
+                            If Not gvar.isConst Then
+                                Call symbolsName.Delete(gvar.module)
+                            End If
+                        Next
+                    End If
+                Next
+            End If
         End Sub
 
         Private Function stringContext(context As String) As Boolean

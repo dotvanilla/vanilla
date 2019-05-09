@@ -134,7 +134,7 @@ Namespace Symbols.Parser
 
             Call symbols.AddClass(vbcode.Members.EnumerateTypes(Nothing, symbols))
             Call symbols.ClearLocals()
-            Call symbols.globals.Clear()
+            Call symbols.ClearGlobals(includeConst:=False)
 
             For Each main As ModuleBlockSyntax In project
                 enums = vbcode.ParseEnums

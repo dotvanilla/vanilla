@@ -104,6 +104,10 @@ Namespace Compiler
             Call modules.Add(symbol.module, symbol)
         End Sub
 
+        Public Sub Delete(moduleLabel As String)
+            Call modules.Remove(moduleLabel)
+        End Sub
+
         ''' <summary>
         ''' 查找失败则返回一个空值
         ''' </summary>
@@ -126,7 +130,7 @@ Namespace Compiler
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of IDeclaredObject) Implements IEnumerable(Of IDeclaredObject).GetEnumerator
-            For Each obj As IDeclaredObject In modules.Values
+            For Each obj As IDeclaredObject In modules.Values.ToArray
                 Yield obj
             Next
         End Function
