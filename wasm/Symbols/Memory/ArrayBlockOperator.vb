@@ -170,5 +170,40 @@ Namespace Symbols.MemoryObject
 
             Return save
         End Function
+
+        <Extension>
+        Public Function SetArrayElement(type As TypeAbstract, memberName$, func$, index As Expression, right As Expression, symbols As SymbolTable) As Expression
+            ' 是引用的数组之中的某一个元素
+            ' 因为只有class或者structure类型才可能有成员
+            ' 所以在这里就直接取class类型了
+            Dim ofElement As TypeAbstract = type.generic(Scan0)
+            Dim meta As ClassMeta = symbols.FindByClassId(ofElement.class_id)
+            Dim fieldType As TypeAbstract = meta(memberName).type
+
+            ' 如果是结构体，则内存的位置是数组之中的位置
+            ' 反之，如果是class引用，则从数组之中取出intptr指针之后得到内存地址
+            Dim array As GetLocalVariable = symbols.GetObjectReference(func)
+            ' 数组之中的元素
+            Dim element As Expression = IMemoryObject.IndexOffset(array, 8)
+
+            right = CTypeHandle.CType(fieldType, right, symbols)
+
+            If meta.isStruct Then
+                ' 直接在内存里面写
+                ' 结构体是实际上存储在数组中的
+                element = IMemoryObject.IndexOffset(element, BinaryStack(index, Literal.i32(meta.sizeOf), "*", symbols))
+            Else
+                ' intptr实际上为i32，只有4个字节
+                element = IMemoryObject.IndexOffset(element, BinaryStack(index, Literal.i32(4), "*", symbols))
+                ' 然后读取即可得到对象的位置
+                element = BitConverter.Loadi32(element)
+            End If
+
+            ' 然后计算出field offset， 然后存储数据即可
+            Dim location As Expression = IMemoryObject.IndexOffset(element, meta.GetFieldOffset(memberName))
+            Dim save As Expression = BitConverter.save(fieldType, location, right)
+
+            Return save
+        End Function
     End Module
 End Namespace
