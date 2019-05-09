@@ -345,7 +345,9 @@ Namespace Compiler
             Else
                 ' clear all global except const variable
                 For Each symbolsName As ModuleOf In globals.Values.ToArray
-                    If symbolsName.OfType(Of DeclareGlobal).All(Function(g) Not g.isConst) Then
+                    Dim allModules = symbolsName.OfType(Of DeclareGlobal).ToArray
+
+                    If allModules.All(Function(g) Not g.isConst) Then
                         Call globals.Remove(symbolsName.SymbolName)
                     Else
                         ' 只删除非常数

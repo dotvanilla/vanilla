@@ -109,6 +109,13 @@ Namespace Compiler
             Call modules.Remove(moduleLabel)
         End Sub
 
+        Public Function OfType(Of T As IDeclaredObject)() As IEnumerable(Of T)
+            Return Me.Where(Function(d)
+                                Return d.GetType.IsInheritsFrom(GetType(T), strict:=False)
+                            End Function) _
+                     .Select(Function(d) DirectCast(d, T))
+        End Function
+
         ''' <summary>
         ''' 查找失败则返回一个空值
         ''' </summary>
