@@ -1,49 +1,50 @@
 ﻿#Region "Microsoft.VisualBasic::df8f4b80f25cddf0a87e73ded8f045d0, Program.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Program
-    ' 
-    '     Function: AutoSearchRoutine, CompileTargetFileRoutine, Main
-    ' 
-    ' /********************************************************************************/
+' Module Program
+' 
+'     Function: AutoSearchRoutine, CompileTargetFileRoutine, Main
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.CommandLine
 Imports Wasm.Compiler
@@ -83,24 +84,24 @@ Module Program
             Dim vbproj As Project = file.LoadXml(Of Project)
 
             moduleSymbol = Wasm.CreateModuleFromProject(vbproj:=file)
-    out = args("/out") Or vbproj.GetOutputWasm(profile)
+            out = args("/out") Or vbproj.GetOutputWasm(profile)
 
             If profile.Split("|"c).First = "Debug" Then
                 debug = True
             End If
         End If
 
-Call moduleSymbol.CreateWasm(debug, out)
-        
-Return 0
+        Call moduleSymbol.CreateWasm(debug, out)
+
+        Return 0
     End Function
 
-<Extension>
-Private Sub CreateWasm(moduleSymbol As ModuleSymbol, debug As Boolean, out$)
-Call moduleSymbol.ToSExpression.SaveTo(out.ChangeSuffix("wast"))
+    <Extension>
+    Private Sub CreateWasm(moduleSymbol As ModuleSymbol, debug As Boolean, out$)
+        Call moduleSymbol.ToSExpression.SaveTo(out.ChangeSuffix("wast"))
         Call moduleSymbol.HexDump(verbose:=True).SaveTo(out.ChangeSuffix("dmp"))
 
-        Dim config As New wat2wasm With {.output = out}
+        Dim config As New Wat2wasm With {.output = out}
 
         If debug Then
             config.debugNames = True
@@ -108,36 +109,38 @@ Call moduleSymbol.ToSExpression.SaveTo(out.ChangeSuffix("wast"))
             config.verbose = True
         End If
 
-        Call Wasm.Compiler.Compile(moduleSymbol, config) _
-            .SaveTo(out.ChangeSuffix("log")) 
-End Sub
+        Call Wasm.Compiler _
+            .Compile(moduleSymbol, config) _
+            .SaveTo(out.ChangeSuffix("log"))
+    End Sub
 
-<Extension>
-Private Function GetOutputWasm(vbproj As Project, Optional profile$ = "Release|AnyCPU") As String 
-Return $"{vbproj.GetOutputDirectory(profile)}/{vbproj.GetOutputName}.wasm"
-End Function
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Private Function GetOutputWasm(vbproj As Project, Optional profile$ = "Release|AnyCPU") As String
+        Return $"{vbproj.GetOutputDirectory(profile)}/{vbproj.GetOutputName}.wasm"
+    End Function
 
     Private Function AutoSearchRoutine() As Integer
         Dim vbprojs = App.CurrentDirectory _
             .EnumerateFiles("*.vbproj") _
             .Select(AddressOf LoadXml(Of Project)) _
             .ToArray
-    Dim out$
-    Dim moduleSymbol As ModuleSymbol
-    
+        Dim out$
+        Dim moduleSymbol As ModuleSymbol
+
         If vbprojs.IsNullOrEmpty Then
-        ' Compile each file as single WebAssembly module
-        
+            ' Compile each file as single WebAssembly module
+
             Throw New NotImplementedException
         Else
             For Each proj As Project In vbprojs
-        out = proj.GetOutputWasm()
-        moduleSymbol = Wasm.CreateModuleFromProject(vbproj:=file)
-        
-        Call moduleSymbol.CreateWasm(False, out)       
+                out = proj.GetOutputWasm()
+                moduleSymbol = Wasm.CreateModuleFromProject(proj)
+
+                Call moduleSymbol.CreateWasm(False, out)
             Next
         End If
 
-Return 0
+        Return 0
     End Function
 End Module
