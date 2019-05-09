@@ -83,14 +83,21 @@ Module Program
             Dim vbproj As Project = file.LoadXml(Of Project)
 
             moduleSymbol = Wasm.CreateModuleFromProject(vbproj:=file)
-            out = args("/out") Or $"{vbproj.GetOutputDirectory(profile)}/{vbproj.GetOutputName}.wasm"
+    out = args("/out") Or vbproj.GetOutputWasm(profile)
 
             If profile.Split("|"c).First = "Debug" Then
                 debug = True
             End If
         End If
 
-        Call moduleSymbol.ToSExpression.SaveTo(out.ChangeSuffix("wast"))
+Call moduleSymbol.CreateWasm(debug, out)
+        
+Return 0
+    End Function
+
+<Extension>
+Private Sub CreateWasm(moduleSymbol As ModuleSymbol, debug As Boolean, out$)
+Call moduleSymbol.ToSExpression.SaveTo(out.ChangeSuffix("wast"))
         Call moduleSymbol.HexDump(verbose:=True).SaveTo(out.ChangeSuffix("dmp"))
 
         Dim config As New wat2wasm With {.output = out}
@@ -101,23 +108,36 @@ Module Program
             config.verbose = True
         End If
 
-        Return Wasm.Compiler.Compile(moduleSymbol, config) _
-            .SaveTo(out.ChangeSuffix("log")) _
-            .CLICode
-    End Function
+        Call Wasm.Compiler.Compile(moduleSymbol, config) _
+            .SaveTo(out.ChangeSuffix("log")) 
+End Sub
+
+<Extension>
+Private Function GetOutputWasm(vbproj As Project, Optional profile$ = "Release|AnyCPU") As String 
+Return $"{vbproj.GetOutputDirectory(profile)}/{vbproj.GetOutputName}.wasm"
+End Function
 
     Private Function AutoSearchRoutine() As Integer
         Dim vbprojs = App.CurrentDirectory _
             .EnumerateFiles("*.vbproj") _
             .Select(AddressOf LoadXml(Of Project)) _
             .ToArray
-
+    Dim out$
+    Dim moduleSymbol As ModuleSymbol
+    
         If vbprojs.IsNullOrEmpty Then
+        ' Compile each file as single WebAssembly module
+        
             Throw New NotImplementedException
         Else
             For Each proj As Project In vbprojs
-
+        out = proj.GetOutputWasm()
+        moduleSymbol = Wasm.CreateModuleFromProject(vbproj:=file)
+        
+        Call moduleSymbol.CreateWasm(False, out)       
             Next
         End If
+
+Return 0
     End Function
 End Module
