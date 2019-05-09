@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 9:59:09 PM
+    ;; build: 5/9/2019 10:08:00 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -72,6 +72,7 @@
     ;; export from VB.NET module: [structurearrayTest]
     
     (export "structurearrayTest.createarray" (func $structurearrayTest.createarray))
+    (export "structurearrayTest.createClassArray" (func $structurearrayTest.createClassArray))
     
      
 
@@ -86,10 +87,6 @@
     (local $structCopyOf_9d020000 i32)
     (local $structCopyOf_9e020000 i32)
     (local $a i32)
-    (local $newObject_9f020000 i32)
-    (local $newObject_a0020000 i32)
-    (local $arrayOffset_a1020000 i32)
-    (local $b i32)
     
     
     ;; Save 2 array element data to memory:
@@ -118,11 +115,20 @@
     ;; set field [structureArrayElement.circle::x]
     (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 12)) (i32.const 1))
     ;; set field [structureArrayElement.circle::y]
-    (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 8)) (i32.load (i32.add (local $structCopyOf_9e020000 i32) (i32.const 12))))
+    (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 8)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 12))))
     ;; set field [structureArrayElement.circle::radius]
     (f64.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f64.add (f64.convert_s/i32 (i32.const 999)) (f64.convert_s/i64 (get_global $rectangle.Max))))
     ;; Assign array memory data to another expression
     (set_local $a (i32.add (get_local $arrayOffset_9c020000) (i32.const -8)))
+    )
+    (func $structurearrayTest.createClassArray  
+        ;; Public Function createClassArray() As void
+        
+    (local $newObject_9f020000 i32)
+    (local $newObject_a0020000 i32)
+    (local $arrayOffset_a1020000 i32)
+    (local $b i32)
+    
     
     ;; Save 2 array element data to memory:
     ;; Array memory block begin at location: (get_global $global.ObjectManager)

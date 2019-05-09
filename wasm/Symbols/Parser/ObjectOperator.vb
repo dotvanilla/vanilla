@@ -66,6 +66,7 @@ Namespace Symbols.Parser
             Dim type As ClassMeta = symbols.currentObject.Meta
             Dim fieldValue As Expression = symbols _
                 .currentObject _
+                .AddressOf _
                 .GetMemberField(type, fieldName)
 
             Return fieldValue

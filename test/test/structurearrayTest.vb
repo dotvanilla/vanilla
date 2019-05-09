@@ -13,8 +13,15 @@ Module structurearrayTest
             New circle With {.x = 1, .y = .x, .radius = CDbl(999) + rectangle.Max}
         }
 
-        Dim b As rectangle() = {New rectangle With {.x = 1, .y = 1}, New rectangle With {.fill = $"rgb({r},{g},{structurearrayTest.b})"}}
 
+
+    End Sub
+
+    Sub createClassArray()
+        Dim b As rectangle() = {
+           New rectangle With {.x = 1, .y = 1},
+           New rectangle With {.fill = $"rgb({r},{g},{structurearrayTest.b})"}
+       }
     End Sub
 
 End Module
