@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/9/2019 7:54:53 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -98,7 +98,9 @@
     (i32.store (get_global $global.ObjectManager) (i32.const 532))
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 2))
     ;; End of byte marks meta data, start write data blocks
+    ;; Offset object manager with 56 bytes
     (set_local $arrayOffset_9c020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9c020000) (i32.const -8)) (i32.const 56)))
     (set_local $structCopyOf_9d020000 (i32.add (get_local $arrayOffset_9c020000) (i32.const 0)))
     (set_local $structCopyOf_9d020000 (get_global $global.ObjectManager))
     ;; set field [structureArrayElement.circle::radius]
@@ -123,8 +125,6 @@
     (i64.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 16)) (i64.load (i32.add (get_local $newObject_9b020000) (i32.const 16))))
     ;; Offset object manager with 24 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $structCopyOf_9e020000) (i32.const 24)))
-    ;; Offset object manager with 56 bytes
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9c020000) (i32.const -8)) (i32.const 56)))
     ;; Assign array memory data to another expression
     (set_local $a (i32.add (get_local $arrayOffset_9c020000) (i32.const -8)))
     
@@ -134,7 +134,9 @@
     (i32.store (get_global $global.ObjectManager) (i32.const 15))
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 2))
     ;; End of byte marks meta data, start write data blocks
+    ;; Offset object manager with 16 bytes
     (set_local $arrayOffset_a1020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a1020000) (i32.const -8)) (i32.const 16)))
     (set_local $newObject_9f020000 (get_global $global.ObjectManager))
     ;; set field [structureArrayElement.rectangle::x]
     (i32.store (i32.add (get_local $newObject_9f020000) (i32.const 0)) (i32.const 1))
@@ -167,8 +169,6 @@
     ;; Offset object manager with 28 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $newObject_a0020000) (i32.const 28)))
     (i32.store (i32.add (get_local $arrayOffset_a1020000) (i32.const 4)) (get_local $newObject_a0020000))
-    ;; Offset object manager with 16 bytes
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a1020000) (i32.const -8)) (i32.const 16)))
     ;; Assign array memory data to another expression
     (set_local $b (i32.add (get_local $arrayOffset_a1020000) (i32.const -8)))
     )

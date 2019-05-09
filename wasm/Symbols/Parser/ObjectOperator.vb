@@ -87,7 +87,7 @@ Namespace Symbols.Parser
             Dim obj As UserObject = [new].object
             Dim initialize As NamedValue(Of Expression)() = objType.getFieldValues(intptr)
 
-            Return type.createUserObject(hashcode, obj, initialize, symbols)
+            Return type.createUserObject(hashcode, obj, initialize, symbols, False)
         End Function
 
         ''' <summary>
@@ -136,7 +136,7 @@ Namespace Symbols.Parser
             symbols.currentObject = obj
 
             Dim initialize As NamedValue(Of Expression)() = objType.getFieldValues(from)
-            Dim copy = type.createUserObject([to], obj, initialize, symbols)
+            Dim copy = type.createUserObject([to], obj, initialize, symbols, True)
 
             Return copy
         End Function
@@ -155,7 +155,7 @@ Namespace Symbols.Parser
                         End Function) _
                 .ToArray
 
-            Return type.createUserObject(hashcode, obj, initialize, symbols)
+            Return type.createUserObject(hashcode, obj, initialize, symbols, False)
         End Function
 
         <Extension>
@@ -186,7 +186,8 @@ Namespace Symbols.Parser
                                          hashcode As DeclareLocal,
                                          obj As UserObject,
                                          initialize As NamedValue(Of Expression)(),
-                                         symbols As SymbolTable) As Expression
+                                         symbols As SymbolTable,
+                                         isCopy As Boolean) As Expression
 
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             ' 初始化字段值
@@ -195,7 +196,14 @@ Namespace Symbols.Parser
             Dim initValue As Expression
             Dim optionalFields As Index(Of String) = objType.fields.Select(Function(g) g.name).ToArray
 
-            initializer += New SetLocalVariable(hashcode, IMemoryObject.ObjectManager.GetReference)
+            If Not isCopy Then
+                initializer += New SetLocalVariable(hashcode, IMemoryObject.ObjectManager.GetReference)
+            End If
+
+            initializer += New CommentText($"Offset object manager with {obj.width} bytes.")
+            initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
+                .value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
+            }
 
             For Each init As NamedValue(Of Expression) In initialize
                 fieldName = init.Name
@@ -215,11 +223,6 @@ Namespace Symbols.Parser
                     initializer += hashcode.initializeField(objType, name, initValue, symbols)
                 End If
             Next
-
-            initializer += New CommentText($"Offset object manager with {obj.width} bytes.")
-            initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
-                .value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
-            }
 
             Return obj.With(Sub(ByRef o)
                                 o.Initialize = initializer

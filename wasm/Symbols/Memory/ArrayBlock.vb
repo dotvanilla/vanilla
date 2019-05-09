@@ -127,9 +127,13 @@ Namespace Symbols.MemoryObject
 
             Yield New CommentText("End of byte marks meta data, start write data blocks")
 
+            Yield New CommentText($"Offset object manager with {sizeOf} bytes")
             Yield New SetLocalVariable With {
                 .var = itemOffset,
                 .value = IndexOffset(memoryPtr, 8)
+            }
+            Yield New SetGlobalVariable(IMemoryObject.ObjectManager) With {
+                .value = ArrayBlock.IndexOffset(Me.AddressOf, sizeOf)
             }
 
             For Each x As Expression In elements
@@ -149,11 +153,6 @@ Namespace Symbols.MemoryObject
                     Yield x
                 End If
             Next
-
-            Yield New CommentText($"Offset object manager with {sizeOf} bytes")
-            Yield New SetGlobalVariable(IMemoryObject.ObjectManager) With {
-                .value = ArrayBlock.IndexOffset(Me.AddressOf, sizeOf)
-            }
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
