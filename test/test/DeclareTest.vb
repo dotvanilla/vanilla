@@ -46,6 +46,8 @@
 
 Module DeclareTest
 
+    Const INF As Integer = Integer.MaxValue
+
     Dim MN As Long = -99
     Dim E%, F&
     Dim L As Single = 90

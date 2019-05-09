@@ -67,10 +67,11 @@ Namespace Symbols.Parser
         <Extension>
         Friend Iterator Function ParseDeclarator(names As IEnumerable(Of VariableDeclaratorSyntax),
                                                  symbols As SymbolTable,
-                                                 moduleName$) As IEnumerable(Of Expression)
+                                                 moduleName$,
+                                                 isConst As Boolean) As IEnumerable(Of Expression)
 
             For Each var As VariableDeclaratorSyntax In names
-                For Each [declare] As DeclareLocal In var.ParseDeclarator(symbols, moduleName)
+                For Each [declare] As DeclareLocal In var.ParseDeclarator(symbols, moduleName, isConst)
                     If moduleName.StringEmpty Then
                         If Not [declare].init Is Nothing Then
                             Yield [declare].SetLocal
@@ -85,12 +86,13 @@ Namespace Symbols.Parser
         <Extension>
         Friend Function ParseDeclarator(var As VariableDeclaratorSyntax,
                                         symbols As SymbolTable,
-                                        moduleName As String) As IEnumerable(Of DeclareLocal)
+                                        moduleName$,
+                                        isConst As Boolean) As IEnumerable(Of DeclareLocal)
             Dim fieldNames = var.Names
 
             Return fieldNames _
                 .Select(Function(namedVar)
-                            Return namedVar.ParserInternal(var, symbols, moduleName)
+                            Return namedVar.ParserInternal(var, symbols, moduleName, isConst)
                         End Function) _
                 .Where(Function(x) Not x Is Nothing) _
                 .ToArray
@@ -100,7 +102,8 @@ Namespace Symbols.Parser
         Private Function ParserInternal(namedVar As ModifiedIdentifierSyntax,
                                         var As VariableDeclaratorSyntax,
                                         symbols As SymbolTable,
-                                        moduleName As String) As DeclareLocal
+                                        moduleName$,
+                                        isConst As Boolean) As DeclareLocal
 
             Dim name$ = namedVar.Identifier.objectName
             Dim type As TypeAbstract = Nothing
@@ -158,7 +161,7 @@ Namespace Symbols.Parser
                     End If
                 End If
 
-                Call symbols.AddGlobal(name, type, moduleName, init)
+                Call symbols.AddGlobal(name, type, moduleName, init, isConst)
 
                 Return Nothing
             Else
@@ -192,7 +195,8 @@ Namespace Symbols.Parser
                 Return New DeclareLocal With {
                     .name = name,
                     .type = type,
-                    .init = init
+                    .init = init,
+                    .isConst = isConst
                 }
             End If
         End Function

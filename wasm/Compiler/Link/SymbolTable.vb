@@ -293,12 +293,13 @@ Namespace Compiler
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As LiteralExpression)
+        Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As LiteralExpression, isConst As Boolean)
             Dim [global] As New DeclareGlobal With {
                 .name = var,
                 .type = type,
                 .init = init,
-                .[module] = moduleName
+                .[module] = moduleName,
+                .isConst = isConst
             }
 
             If Not globals.ContainsKey(var) Then

@@ -96,7 +96,7 @@ Namespace Symbols.Parser
         ''' <returns></returns>
         <Extension>
         Public Iterator Function ForLoop(forBlock As ForBlockSyntax, symbols As SymbolTable) As IEnumerable(Of Expression)
-            Dim control As Expression = forBlock.parseControlVariable(symbols)
+            Dim control As Expression = forBlock.controlVariable(symbols)
             Dim init = forBlock.ForStatement.FromValue.ValueExpression(symbols)
             Dim final = forBlock.ForStatement.ToValue.ValueExpression(symbols)
             Dim stepValue As Expression
@@ -206,12 +206,12 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
-        Private Function parseControlVariable(forBlock As ForBlockSyntax, symbols As SymbolTable) As Expression
+        Private Function controlVariable(forBlock As ForBlockSyntax, symbols As SymbolTable) As Expression
             Dim control = forBlock.ForStatement.ControlVariable
 
             If TypeOf control Is VariableDeclaratorSyntax Then
                 Dim declareCtl = DirectCast(control, VariableDeclaratorSyntax) _
-                    .ParseDeclarator(symbols, Nothing) _
+                    .ParseDeclarator(symbols, Nothing, isConst:=False) _
                     .First
 
                 Return declareCtl

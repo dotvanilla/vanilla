@@ -314,6 +314,8 @@ Namespace Symbols
 
         Public Property name As String Implements INamedValue.Key
         Public Property type As TypeAbstract
+        Public Property isConst As Boolean = False
+
         ''' <summary>
         ''' 初始值，对于全局变量而言，则必须要有一个初始值，全局变量默认的初始值为零
         ''' </summary>

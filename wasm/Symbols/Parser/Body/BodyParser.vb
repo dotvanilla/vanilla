@@ -300,7 +300,7 @@ Namespace Symbols.Parser
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function LocalDeclare(statement As LocalDeclarationStatementSyntax, symbols As SymbolTable) As IEnumerable(Of Expression)
-            Return statement.Declarators.ParseDeclarator(symbols, Nothing)
+            Return statement.Declarators.ParseDeclarator(symbols, Nothing, statement.Modifiers.isConst)
         End Function
     End Module
 End Namespace
