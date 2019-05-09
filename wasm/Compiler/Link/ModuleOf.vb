@@ -92,7 +92,8 @@ Namespace Compiler
             End Get
         End Property
 
-        Sub New()
+        Sub New(symbolName As String)
+            Me.SymbolName = symbolName
         End Sub
 
         Sub New(symbol As IDeclaredObject)

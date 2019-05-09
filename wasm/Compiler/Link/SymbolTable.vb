@@ -277,7 +277,7 @@ Namespace Compiler
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddImports(api As FuncSignature)
             If Not functionList.ContainsKey(api.Name) Then
-                Call functionList.Add(api.Name, New ModuleOf)
+                Call functionList.Add(api.name, New ModuleOf(api.name))
             End If
 
             Call functionList(api.Name).Add(api)
@@ -304,7 +304,7 @@ Namespace Compiler
             }
 
             If Not globals.ContainsKey(var) Then
-                Call globals.Add(var, New ModuleOf())
+                Call globals.Add(var, New ModuleOf(var))
             End If
 
             Call globals(var).Add([global])
