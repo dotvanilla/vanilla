@@ -117,12 +117,16 @@ Namespace Symbols.MemoryObject
                         }
 
                         symbols.AddLocal(temp.name, "i32")
-                        save += New SetLocalVariable(temp, element)
-                        save += ofElement.CopyTo(temp.GetReference, copy, symbols)
+                        save += ofElement.CopyTo(
+                            from:=temp.GetReference,
+                            [to]:=copy,
+                            symbols:=symbols,
+                            funCalls:=New SetLocalVariable(temp, element)
+                        )
                     Else
                         ' 可能是其他的变量或者函数调用产生的值
                         ' 则需要按照地址进行复制
-                        save += ofElement.CopyTo(element, copy, symbols)
+                        save += ofElement.CopyTo(element, copy, symbols, Nothing)
                     End If
                 Next
             Else

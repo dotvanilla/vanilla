@@ -88,7 +88,7 @@ Namespace Symbols.Parser
             Dim obj As UserObject = [new].object
             Dim initialize As NamedValue(Of Expression)() = objType.getFieldValues(intptr)
 
-            Return type.createUserObject(hashcode, obj, initialize, symbols, False)
+            Return type.createUserObject(hashcode, obj, initialize, symbols, False, Nothing)
         End Function
 
         ''' <summary>
@@ -124,7 +124,8 @@ Namespace Symbols.Parser
         Public Function CopyTo(type As TypeAbstract,
                                from As Expression,
                                [to] As DeclareLocal,
-                               symbols As SymbolTable) As Expression
+                               symbols As SymbolTable,
+                               funCalls As Expression) As Expression
 
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             Dim obj As New UserObject With {
@@ -137,7 +138,14 @@ Namespace Symbols.Parser
             symbols.currentObject = obj
 
             Dim initialize As NamedValue(Of Expression)() = objType.getFieldValues(from)
-            Dim copy = type.createUserObject([to], obj, initialize, symbols, True)
+            Dim copy = type.createUserObject(
+                hashcode:=[to],
+                obj:=obj,
+                initialize:=initialize,
+                symbols:=symbols,
+                isCopy:=True,
+                funCalls:=funCalls
+            )
 
             Return copy
         End Function
@@ -165,7 +173,7 @@ Namespace Symbols.Parser
                     .ToArray
             End If
 
-            Return type.createUserObject(hashcode, obj, initialize, symbols, False)
+            Return type.createUserObject(hashcode, obj, initialize, symbols, False, Nothing)
         End Function
 
         <Extension>
@@ -197,14 +205,17 @@ Namespace Symbols.Parser
                                          obj As UserObject,
                                          initialize As NamedValue(Of Expression)(),
                                          symbols As SymbolTable,
-                                         isCopy As Boolean) As Expression
+                                         isCopy As Boolean,
+                                         funCalls As Expression) As Expression
 
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             ' 初始化字段值
             Dim initializer As New List(Of Expression)
             Dim fieldName$
             Dim initValue As Expression
-            Dim optionalFields As Index(Of String) = objType.fields.Select(Function(g) g.name).ToArray
+            Dim optionalFields As Index(Of String) = objType.fields _
+                .Select(Function(g) g.name) _
+                .ToArray
 
             If Not isCopy Then
                 initializer += New SetLocalVariable(hashcode, IMemoryObject.ObjectManager.GetReference)
@@ -214,6 +225,10 @@ Namespace Symbols.Parser
             initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
                 .value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
             }
+
+            If Not funCalls Is Nothing Then
+                initializer += funCalls
+            End If
 
             For Each init As NamedValue(Of Expression) In initialize
                 fieldName = init.Name

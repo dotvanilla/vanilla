@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 10:39:14 PM
+    ;; build: 5/9/2019 10:47:01 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -134,9 +134,9 @@
     ;; set field [structureArrayElement.circle::x]
     (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 12)) (i32.load (i32.add (get_global $structurearrayTest.globalCircle) (i32.const 12))))
     (set_local $structCopyOf_a1020000 (i32.add (get_local $arrayOffset_9d020000) (i32.const 48)))
-    (set_local $tempOfStructFunc_a2020000 (call $structurearrayTest.createStruct ))
     ;; Offset object manager with 16 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $structCopyOf_a1020000) (i32.const 16)))
+    (set_local $tempOfStructFunc_a2020000 (call $structurearrayTest.createStruct ))
     ;; set field [structureArrayElement.circle::radius]
     (f64.store (i32.add (get_local $structCopyOf_a1020000) (i32.const 0)) (f64.load (i32.add (get_local $tempOfStructFunc_a2020000) (i32.const 0))))
     ;; set field [structureArrayElement.circle::y]
