@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:37:27 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -34,51 +34,51 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 168))
+    (global $global.ObjectManager (mut i32) (i32.const 169))
 
     ;; Memory data for string constant
+        
+    ;; String from 11 with 5 bytes in memory
+    (data (i32.const 11) "Hello\00")
     
-    ;; String from 10 with 5 bytes in memory
-    (data (i32.const 10) "Hello\00")
-
-    ;; String from 16 with 5 bytes in memory
-    (data (i32.const 16) "green\00")
-
-    ;; String from 22 with 5 bytes in memory
-    (data (i32.const 22) "green\00")
-
-    ;; String from 28 with 6 bytes in memory
-    (data (i32.const 28) "909090\00")
-
-    ;; String from 35 with 5 bytes in memory
-    (data (i32.const 35) "green\00")
-
-    ;; String from 41 with 4 bytes in memory
-    (data (i32.const 41) "size\00")
-
-    ;; String from 46 with 5 bytes in memory
-    (data (i32.const 46) "green\00")
-
-    ;; String from 52 with 8 bytes in memory
-    (data (i32.const 52) "not sure\00")
-
-    ;; String from 61 with 3 bytes in memory
-    (data (i32.const 61) "red\00")
-
-    ;; String from 65 with 15 bytes in memory
-    (data (i32.const 65) "this is message\00")
-
-    ;; String from 81 with 36 bytes in memory
-    (data (i32.const 81) "This is the optional parameter value\00")
-
-    ;; String from 118 with 20 bytes in memory
-    (data (i32.const 118) "Another string value\00")
-
-    ;; String from 139 with 12 bytes in memory
-    (data (i32.const 139) "345566777777\00")
-
-    ;; String from 152 with 15 bytes in memory
-    (data (i32.const 152) "this is message\00")
+    ;; String from 17 with 5 bytes in memory
+    (data (i32.const 17) "green\00")
+    
+    ;; String from 23 with 5 bytes in memory
+    (data (i32.const 23) "green\00")
+    
+    ;; String from 29 with 6 bytes in memory
+    (data (i32.const 29) "909090\00")
+    
+    ;; String from 36 with 5 bytes in memory
+    (data (i32.const 36) "green\00")
+    
+    ;; String from 42 with 4 bytes in memory
+    (data (i32.const 42) "size\00")
+    
+    ;; String from 47 with 5 bytes in memory
+    (data (i32.const 47) "green\00")
+    
+    ;; String from 53 with 8 bytes in memory
+    (data (i32.const 53) "not sure\00")
+    
+    ;; String from 62 with 3 bytes in memory
+    (data (i32.const 62) "red\00")
+    
+    ;; String from 66 with 15 bytes in memory
+    (data (i32.const 66) "this is message\00")
+    
+    ;; String from 82 with 36 bytes in memory
+    (data (i32.const 82) "This is the optional parameter value\00")
+    
+    ;; String from 119 with 20 bytes in memory
+    (data (i32.const 119) "Another string value\00")
+    
+    ;; String from 140 with 12 bytes in memory
+    (data (i32.const 140) "345566777777\00")
+    
+    ;; String from 153 with 15 bytes in memory
+    (data (i32.const 153) "this is message\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -114,12 +114,12 @@
         
     (local $obj i32)
     
-    (set_local $obj (i32.const 10))
-    (drop (call $optionalParameterTest.print (get_local $obj) (i32.const 16) (i64.const 99)))
-    (drop (call $optionalParameterTest.print (get_local $obj) (i32.const 22) (i64.extend_s/i32 (i32.sub (i32.const 0) (i32.const 99)))))
-    (drop (call $optionalParameterTest.print (call $string.add (get_local $obj) (i32.const 28)) (i32.const 35) (i64.const 99)))
-    (drop (call $optionalParameterTest.print (i32.const 41) (i32.const 46) (i64.const 88)))
-    (drop (call $optionalParameterTest.print (i32.const 52) (i32.const 61) (i64.trunc_s/f64 (f64.const 77.555))))
+    (set_local $obj (i32.const 11))
+    (drop (call $optionalParameterTest.print (get_local $obj) (i32.const 17) (i64.const 99)))
+    (drop (call $optionalParameterTest.print (get_local $obj) (i32.const 23) (i64.extend_s/i32 (i32.sub (i32.const 0) (i32.const 99)))))
+    (drop (call $optionalParameterTest.print (call $string.add (get_local $obj) (i32.const 29)) (i32.const 36) (i64.const 99)))
+    (drop (call $optionalParameterTest.print (i32.const 42) (i32.const 47) (i64.const 88)))
+    (drop (call $optionalParameterTest.print (i32.const 53) (i32.const 62) (i64.trunc_s/f64 (f64.const 77.555))))
     )
     
     
@@ -130,7 +130,7 @@
         
     
     
-    (call $ExportAPiModule.err (i32.const 65))
+    (call $ExportAPiModule.err (i32.const 66))
     (return (f32.demote/f64 (f64.sub (f64.const 0) (f64.const 0.0001))))
     )
     (func $functionTest.calls  
@@ -138,8 +138,8 @@
         
     (local $x i64)
     
-    (call $functionTest.Main (i32.const 81) (i32.const -100) (i32.const 1))
-    (call $functionTest.Main (i32.const 118) (i32.trunc_s/f64 (f64.const 99999.9)) (i32.const 1))
+    (call $functionTest.Main (i32.const 82) (i32.const -100) (i32.const 1))
+    (call $functionTest.Main (i32.const 119) (i32.trunc_s/f64 (f64.const 99999.9)) (i32.const 1))
     (drop (call $functionTest.outputError ))
     (set_local $x (i64.add (i64.trunc_s/f32 (call $functionTest.outputError )) (call $ExportAPiModule.outputError )))
     (call $optionalParameterTest.calls )
@@ -150,7 +150,7 @@
         
     
     
-    (drop (call $functionTest.print (i32.const 139)))
+    (drop (call $functionTest.print (i32.const 140)))
     )
     (func $functionTest.Main (param $args i32) (param $obj i32) (param $f i32) 
         ;; Public Function Main(args As string, obj As i32, f As boolean) As void
@@ -175,7 +175,7 @@
         
     
     
-    (call $ExportAPiModule.err (i32.const 152))
+    (call $ExportAPiModule.err (i32.const 153))
     (return (i64.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 10.0001))))
     )
     

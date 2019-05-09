@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:37:27 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -34,33 +34,33 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 45))
+    (global $global.ObjectManager (mut i32) (i32.const 46))
 
     ;; Memory data for string constant
+        
+    ;; String from 11 with 3 bytes in memory
+    (data (i32.const 11) "AAA\00")
     
-    ;; String from 10 with 3 bytes in memory
-    (data (i32.const 10) "AAA\00")
-
-    ;; String from 14 with 1 bytes in memory
-    (data (i32.const 14) " \00")
-
-    ;; String from 16 with 4 bytes in memory
-    (data (i32.const 16) "let \00")
-
-    ;; String from 21 with 3 bytes in memory
-    (data (i32.const 21) " + \00")
-
-    ;; String from 25 with 3 bytes in memory
-    (data (i32.const 25) " / \00")
-
-    ;; String from 29 with 3 bytes in memory
-    (data (i32.const 29) " = \00")
-
-    ;; String from 33 with 5 bytes in memory
-    (data (i32.const 33) "Hello\00")
-
-    ;; String from 39 with 5 bytes in memory
-    (data (i32.const 39) "World\00")
+    ;; String from 15 with 1 bytes in memory
+    (data (i32.const 15) " \00")
+    
+    ;; String from 17 with 4 bytes in memory
+    (data (i32.const 17) "let \00")
+    
+    ;; String from 22 with 3 bytes in memory
+    (data (i32.const 22) " + \00")
+    
+    ;; String from 26 with 3 bytes in memory
+    (data (i32.const 26) " / \00")
+    
+    ;; String from 30 with 3 bytes in memory
+    (data (i32.const 30) " = \00")
+    
+    ;; String from 34 with 5 bytes in memory
+    (data (i32.const 34) "Hello\00")
+    
+    ;; String from 40 with 5 bytes in memory
+    (data (i32.const 40) "World\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -89,7 +89,7 @@
     (local $length i64)
     (local $lenPlus100 i64)
     
-    (drop (call $Stringstest.Print (call $f64.toString (f64.add (get_global $Stringstest.C) (f64.convert_s/i32 (call $string.length (call $string.trim (call $string.replace (call $Stringstest.Hello ) (i32.const 10) (i32.const 0)))))))))
+    (drop (call $Stringstest.Print (call $f64.toString (f64.add (get_global $Stringstest.C) (f64.convert_s/i32 (call $string.length (call $string.trim (call $string.replace (call $Stringstest.Hello ) (i32.const 11) (i32.const 0)))))))))
     (set_local $length (i64.extend_s/i32 (call $string.length (call $Stringstest.Hello ))))
     (set_local $lenPlus100 (i64.add (i64.extend_s/i32 (get_global $Stringstest.b)) (get_local $length)))
     )
@@ -99,8 +99,8 @@
     (local $str i32)
     (local $format i32)
     
-    (set_local $str (call $string.add (call $string.add (call $Stringstest.Hello ) (i32.const 14)) (call $Stringstest.World )))
-    (set_local $format (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 16) (call $i32.toString (get_global $Stringstest.a))) (i32.const 21)) (call $i32.toString (get_global $Stringstest.b))) (i32.const 25)) (call $f64.toString (get_global $Stringstest.C))) (i32.const 29)) (call $f64.toString (f64.add (f64.convert_s/i32 (get_global $Stringstest.a)) (f64.div (f64.convert_s/i32 (get_global $Stringstest.b)) (get_global $Stringstest.C))))))
+    (set_local $str (call $string.add (call $string.add (call $Stringstest.Hello ) (i32.const 15)) (call $Stringstest.World )))
+    (set_local $format (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 17) (call $i32.toString (get_global $Stringstest.a))) (i32.const 22)) (call $i32.toString (get_global $Stringstest.b))) (i32.const 26)) (call $f64.toString (get_global $Stringstest.C))) (i32.const 30)) (call $f64.toString (f64.add (f64.convert_s/i32 (get_global $Stringstest.a)) (f64.div (f64.convert_s/i32 (get_global $Stringstest.b)) (get_global $Stringstest.C))))))
     (drop (call $Stringstest.Print (get_local $str)))
     (drop (call $Stringstest.Print (get_local $format)))
     (return (get_local $str))
@@ -110,14 +110,14 @@
         
     
     
-    (return (i32.const 33))
+    (return (i32.const 34))
     )
     (func $Stringstest.World  (result i32)
         ;; Public Function World() As string
         
     
     
-    (return (i32.const 39))
+    (return (i32.const 40))
     )
     
 

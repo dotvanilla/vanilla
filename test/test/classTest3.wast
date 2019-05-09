@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/7/2019 8:44:30 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -26,29 +26,32 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 481))
+    (global $global.ObjectManager (mut i32) (i32.const 482))
 
     ;; Memory data for string constant
+        
+    ;; String from 11 with 3 bytes in memory
+    (data (i32.const 11) "ABC\00")
     
-    ;; String from 10 with 3 bytes in memory
-    (data (i32.const 10) "ABC\00")
-
-    ;; String from 463 with 6 bytes in memory
-    (data (i32.const 463) "SSSSSS\00")
-
-    ;; String from 470 with 10 bytes in memory
-    (data (i32.const 470) "AAAAAAAAAA\00")
+    ;; String from 464 with 6 bytes in memory
+    (data (i32.const 464) "SSSSSS\00")
+    
+    ;; String from 471 with 10 bytes in memory
+    (data (i32.const 471) "AAAAAAAAAA\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
-    
-    ;; String from 14 with 448 bytes in memory
-    (data (i32.const 14) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE0fSwiY2xhc3MiOiJjaXJjbGUiLCJjbGFzc19pZCI6MTQsImZpZWxkcyI6eyJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmMzIiLCJ0eXBlIjozfSwieSI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjMyIiwidHlwZSI6M30sInoiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImYzMiIsInR5cGUiOjN9LCJyYWRpdXMiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImY2NCIsInR5cGUiOjR9LCJpZCI6eyJnZW5lcmljIjpbXSwicmF3Ijoic3RyaW5nIiwidHlwZSI6NX19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOiJ0ZXN0TmFtZXNwYWNlIn0=\00")
+        
+    ;; String from 15 with 448 bytes in memory
+    ;;
+    ;; class testNamespace.[15] circle
+    ;;
+    (data (i32.const 15) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE1fSwiY2xhc3MiOiJjaXJjbGUiLCJjbGFzc19pZCI6MTUsImZpZWxkcyI6eyJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmMzIiLCJ0eXBlIjozfSwieSI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjMyIiwidHlwZSI6M30sInoiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImYzMiIsInR5cGUiOjN9LCJyYWRpdXMiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImY2NCIsInR5cGUiOjR9LCJpZCI6eyJnZW5lcmljIjpbXSwicmF3Ijoic3RyaW5nIiwidHlwZSI6NX19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOiJ0ZXN0TmFtZXNwYWNlIn0=\00")
 
     ;; Global variables in this module
-    (global $classArrayTest.circles (mut i32) (i32.const 0))
-(global $classArrayTest.str (mut i32) (i32.const 463))
-(global $classTest3.circle (mut i32) (i32.const 0))
+    (global $classTest3.circle (mut i32) (i32.const 0))
+(global $classArrayTest.str (mut i32) (i32.const 464))
+(global $classArrayTest.circles (mut i32) (i32.const 0))
 
     ;; Export methods of this module
     ;; export from VB.NET module: [classArrayTest]
@@ -65,7 +68,7 @@
     (local $newObject_9a020000 i32)
     
     
-    ;; Initialize a object instance of [[14]circle]
+    ;; Initialize a object instance of [[15]circle]
     ;; Object memory block begin at location: (get_local $newObject_9a020000)
     (set_local $newObject_9a020000 (get_global $global.ObjectManager))
     ;; set field [testNamespace.circle::x]
@@ -73,7 +76,7 @@
     ;; set field [testNamespace.circle::radius]
     (f64.store (i32.add (get_local $newObject_9a020000) (i32.const 12)) (f64.promote/f32 (f32.mul (f32.mul (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 4)))) (f32.load (i32.add (get_local $newObject_9a020000) (i32.const 8))))))
     ;; set field [testNamespace.circle::id]
-    (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 20)) (i32.const 470))
+    (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 20)) (i32.const 471))
     ;; set field [testNamespace.circle::y]
     (f32.store (i32.add (get_local $newObject_9a020000) (i32.const 4)) (f32.const 0))
     ;; set field [testNamespace.circle::z]
@@ -93,7 +96,7 @@
     (local $arrayOffset_9d020000 i32)
     
     
-    ;; Initialize a object instance of [[14]circle]
+    ;; Initialize a object instance of [[15]circle]
     ;; Object memory block begin at location: (get_local $newObject_9b020000)
     (set_local $newObject_9b020000 (get_global $global.ObjectManager))
     ;; set field [testNamespace.circle::radius]
@@ -105,7 +108,7 @@
     ;; set field [testNamespace.circle::z]
     (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 8)) (f32.const 0))
     ;; set field [testNamespace.circle::id]
-    (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 20)) (i32.const 10))
+    (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 20)) (i32.const 11))
     ;; Offset object manager with 24 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $newObject_9b020000) (i32.const 24)))
     ;; Initialize an object memory block with 24 bytes data
@@ -114,8 +117,8 @@
     
     ;; Save 3 array element data to memory:
     ;; Array memory block begin at location: (get_global $global.ObjectManager)
-    ;; class_id/typealias_enum i32 data: (i32.const 14)/array(Of intptr)
-    (i32.store (get_global $global.ObjectManager) (i32.const 14))
+    ;; class_id/typealias_enum i32 data: (i32.const 15)/array(Of intptr)
+    (i32.store (get_global $global.ObjectManager) (i32.const 15))
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 3))
     ;; End of byte marks meta data, start write data blocks
     (set_local $arrayOffset_9d020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
@@ -129,7 +132,7 @@
     ;; set field [testNamespace.circle::radius]
     (f64.store (i32.add (get_local $newObject_9c020000) (i32.const 12)) (f64.const 999))
     ;; set field [testNamespace.circle::id]
-    (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 20)) (i32.const 10))
+    (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 20)) (i32.const 11))
     ;; Offset object manager with 24 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $newObject_9c020000) (i32.const 24)))
     (i32.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 0)) (get_local $newObject_9c020000))
@@ -166,7 +169,7 @@
 (local $newObject_9e020000 i32)
 
 
-;; Initialize a object instance of [[14]circle]
+;; Initialize a object instance of [[15]circle]
 ;; Object memory block begin at location: (get_local $newObject_9e020000)
 (set_local $newObject_9e020000 (get_global $global.ObjectManager))
 ;; set field [testNamespace.circle::x]
@@ -178,7 +181,7 @@
 ;; set field [testNamespace.circle::radius]
 (f64.store (i32.add (get_local $newObject_9e020000) (i32.const 12)) (f64.const 999))
 ;; set field [testNamespace.circle::id]
-(i32.store (i32.add (get_local $newObject_9e020000) (i32.const 20)) (i32.const 10))
+(i32.store (i32.add (get_local $newObject_9e020000) (i32.const 20)) (i32.const 11))
 ;; Offset object manager with 24 bytes.
 (set_global $global.ObjectManager (i32.add (get_local $newObject_9e020000) (i32.const 24)))
 ;; Initialize an object memory block with 24 bytes data

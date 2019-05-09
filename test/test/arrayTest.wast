@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:37:27 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -46,36 +46,36 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 78))
+    (global $global.ObjectManager (mut i32) (i32.const 79))
 
     ;; Memory data for string constant
+        
+    ;; String from 11 with 5 bytes in memory
+    (data (i32.const 11) "Hello\00")
     
-    ;; String from 10 with 5 bytes in memory
-    (data (i32.const 10) "Hello\00")
-
-    ;; String from 16 with 5 bytes in memory
-    (data (i32.const 16) "World\00")
-
-    ;; String from 22 with 3 bytes in memory
-    (data (i32.const 22) "yes\00")
-
-    ;; String from 26 with 6 bytes in memory
-    (data (i32.const 26) "333333\00")
-
-    ;; String from 33 with 5 bytes in memory
-    (data (i32.const 33) "AAAAA\00")
-
-    ;; String from 39 with 5 bytes in memory
-    (data (i32.const 39) "XXXXX\00")
-
-    ;; String from 45 with 6 bytes in memory
-    (data (i32.const 45) "534535\00")
-
-    ;; String from 52 with 13 bytes in memory
-    (data (i32.const 52) "asdajkfsdhjkf\00")
-
-    ;; String from 66 with 11 bytes in memory
-    (data (i32.const 66) "Hello world\00")
+    ;; String from 17 with 5 bytes in memory
+    (data (i32.const 17) "World\00")
+    
+    ;; String from 23 with 3 bytes in memory
+    (data (i32.const 23) "yes\00")
+    
+    ;; String from 27 with 6 bytes in memory
+    (data (i32.const 27) "333333\00")
+    
+    ;; String from 34 with 5 bytes in memory
+    (data (i32.const 34) "AAAAA\00")
+    
+    ;; String from 40 with 5 bytes in memory
+    (data (i32.const 40) "XXXXX\00")
+    
+    ;; String from 46 with 6 bytes in memory
+    (data (i32.const 46) "534535\00")
+    
+    ;; String from 53 with 13 bytes in memory
+    (data (i32.const 53) "asdajkfsdhjkf\00")
+    
+    ;; String from 67 with 11 bytes in memory
+    (data (i32.const 67) "Hello world\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -149,9 +149,9 @@
         
     (local $l i32)
     
-    (set_local $l (call $string_array.push (call $string_array.push (call $array.new (i32.const -1)) (i32.const 10)) (i32.const 16)))
+    (set_local $l (call $string_array.push (call $string_array.push (call $array.new (i32.const -1)) (i32.const 11)) (i32.const 17)))
     (set_global $arrayTest.xxl (get_local $l))
-    (drop (call $string_array.push (get_local $l) (i32.const 22)))
+    (drop (call $string_array.push (get_local $l) (i32.const 23)))
     (drop (call $arrayTest.print (call $string_array.get (get_local $l) (i32.const 2))))
     (call $arrayTest.log (get_local $l))
     (return (i32.const 0))
@@ -177,8 +177,8 @@
     (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 8)) (f64.convert_s/i32 (i32.const 42)))
     (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 16)) (f64.convert_s/i32 (i32.const 42)))
     (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 24)) (f64.convert_s/i32 (i32.const 4)))
-    ;; Offset object manager with 24 bytes
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)) (i32.const 24)))
+    ;; Offset object manager with 40 bytes
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)) (i32.const 40)))
     ;; Assign array memory data to another expression
     (set_local $syntax2 (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)))
     (set_local $syntax3 (call $array.new (i32.sub (get_global $arrayTest.arrayLength) (i32.const 5))))
@@ -203,11 +203,11 @@
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 5))
     ;; End of byte marks meta data, start write data blocks
     (set_local $arrayOffset_9e020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
-    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 0)) (i32.const 26))
-    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 4)) (i32.const 33))
-    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 8)) (i32.const 39))
-    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 12)) (i32.const 45))
-    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 16)) (i32.const 52))
+    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 0)) (i32.const 27))
+    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 4)) (i32.const 34))
+    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 8)) (i32.const 40))
+    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 12)) (i32.const 46))
+    (i32.store (i32.add (get_local $arrayOffset_9e020000) (i32.const 16)) (i32.const 53))
     ;; Offset object manager with 28 bytes
     (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9e020000) (i32.const -8)) (i32.const 28)))
     ;; Assign array memory data to another expression
@@ -215,7 +215,7 @@
     (set_local $strAtFirst (i32.load (i32.add (i32.add (get_local $str) (i32.const 8)) (i32.mul (i32.const 0) (i32.const 4)))))
     (drop (call $arrayTest.debug (get_local $str)))
     (drop (call $arrayTest.print (i32.load (i32.add (i32.add (get_local $str) (i32.const 8)) (i32.mul (i32.const 3) (i32.const 4))))))
-    (i32.store (i32.add (i32.add (get_local $str) (i32.const 8)) (i32.mul (i32.const 4) (i32.const 4))) (i32.const 66))
+    (i32.store (i32.add (i32.add (get_local $str) (i32.const 8)) (i32.mul (i32.const 4) (i32.const 4))) (i32.const 67))
     (drop (call $arrayTest.debug (get_local $str)))
     (drop (call $arrayTest.print (i32.load (i32.add (i32.add (get_local $str) (i32.const 8)) (i32.mul (i32.const 4) (i32.const 4))))))
     (call $arrayTest.log (get_local $str))

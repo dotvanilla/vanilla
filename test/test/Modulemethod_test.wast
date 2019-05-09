@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:37:27 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -28,24 +28,24 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 105))
+    (global $global.ObjectManager (mut i32) (i32.const 106))
 
     ;; Memory data for string constant
+        
+    ;; String from 11 with 11 bytes in memory
+    (data (i32.const 11) "34546734853\00")
     
-    ;; String from 10 with 11 bytes in memory
-    (data (i32.const 10) "34546734853\00")
-
-    ;; String from 22 with 16 bytes in memory
-    (data (i32.const 22) "8sdjkfsdhfsdfsdf\00")
-
-    ;; String from 39 with 27 bytes in memory
-    (data (i32.const 39) "This is a internal function\00")
-
-    ;; String from 67 with 31 bytes in memory
-    (data (i32.const 67) "This is a internal function too\00")
-
-    ;; String from 99 with 5 bytes in memory
-    (data (i32.const 99) "ddddd\00")
+    ;; String from 23 with 16 bytes in memory
+    (data (i32.const 23) "8sdjkfsdhfsdfsdf\00")
+    
+    ;; String from 40 with 27 bytes in memory
+    (data (i32.const 40) "This is a internal function\00")
+    
+    ;; String from 68 with 31 bytes in memory
+    (data (i32.const 68) "This is a internal function too\00")
+    
+    ;; String from 100 with 5 bytes in memory
+    (data (i32.const 100) "ddddd\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -95,8 +95,8 @@
     (i64.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 8)) (i64.const 34))
     (i64.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 16)) (i64.const 322))
     (i64.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 24)) (i64.const 343))
-    ;; Offset object manager with 24 bytes
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)) (i32.const 24)))
+    ;; Offset object manager with 40 bytes
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)) (i32.const 40)))
     ;; Assign array memory data to another expression
     (return (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)))
     )
@@ -113,7 +113,7 @@
     
     
     (drop (call $Modulemethod_test.test ))
-    (drop (call $module2.test (call $string.add (call $string.add (i32.const 10) (call $i32.toString (call $Modulemethod_test.test ))) (i32.const 22))))
+    (drop (call $module2.test (call $string.add (call $string.add (i32.const 11) (call $i32.toString (call $Modulemethod_test.test ))) (i32.const 23))))
     (drop (call $Modulemethod_test.ThisIsAInternalFunction ))
     )
     (func $Modulemethod_test.ThisIsAInternalFunction  (result i32)
@@ -121,7 +121,7 @@
         
     
     
-    (return (i32.const 39))
+    (return (i32.const 40))
     )
     
     
@@ -147,7 +147,7 @@
         
     
     
-    (return (i32.const 67))
+    (return (i32.const 68))
     )
     (func $module2.Runapp  
         ;; Public Function Runapp() As void
@@ -179,7 +179,7 @@
     ;; End of byte marks meta data, start write data blocks
     (set_local $arrayOffset_9b020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
     (i32.store (i32.add (get_local $arrayOffset_9b020000) (i32.const 0)) (get_local $gg))
-    (i32.store (i32.add (get_local $arrayOffset_9b020000) (i32.const 4)) (call $string.add (get_local $gg) (i32.const 99)))
+    (i32.store (i32.add (get_local $arrayOffset_9b020000) (i32.const 4)) (call $string.add (get_local $gg) (i32.const 100)))
     ;; Offset object manager with 16 bytes
     (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9b020000) (i32.const -8)) (i32.const 16)))
     ;; Assign array memory data to another expression

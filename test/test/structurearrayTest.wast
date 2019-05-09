@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/8/2019 7:56:31 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -60,12 +60,12 @@
     ;;
     ;; structure structureArrayElement.[476] circle
     ;;
-    (data (i32.const 476) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjQ3Nn0sImNsYXNzIjoiY2lyY2xlIiwiY2xhc3NfaWQiOjQ3NiwiZmllbGRzIjp7IngiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJ5Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfSwicmFkaXVzIjp7ImdlbmVyaWMiOltdLCJyYXciOiJmNjQiLCJ0eXBlIjo0fX0sImlzU3RydWN0Ijp0cnVlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjoic3RydWN0dXJlQXJyYXlFbGVtZW50In0=\00")
+    (data (i32.const 476) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjQ3Nn0sImNsYXNzIjoiY2lyY2xlIiwiY2xhc3NfaWQiOjQ3NiwiZmllbGRzIjp7InJhZGl1cyI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjY0IiwidHlwZSI6NH0sInkiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfX0sImlzU3RydWN0Ijp0cnVlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjoic3RydWN0dXJlQXJyYXlFbGVtZW50In0=\00")
 
     ;; Global variables in this module
-    (global $structurearrayTest.r (mut i32) (i32.const 55))
+    (global $structurearrayTest.b (mut i32) (i32.const 99))
 (global $structurearrayTest.g (mut i32) (i32.const 66))
-(global $structurearrayTest.b (mut i32) (i32.const 99))
+(global $structurearrayTest.r (mut i32) (i32.const 55))
 
     ;; Export methods of this module
     ;; export from VB.NET module: [structurearrayTest]
@@ -100,22 +100,22 @@
     (set_local $arrayOffset_9c020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
     (set_local $structCopyOf_9d020000 (i32.add (get_local $arrayOffset_9c020000) (i32.const 0)))
     (set_local $structCopyOf_9d020000 (get_global $global.ObjectManager))
-    ;; set field [structureArrayElement.circle::x]
-    (i32.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 0)) (i32.load (i32.add (get_local $newObject_9a020000) (i32.const 0))))
-    ;; set field [structureArrayElement.circle::y]
-    (i32.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 4)) (i32.load (i32.add (get_local $newObject_9a020000) (i32.const 4))))
     ;; set field [structureArrayElement.circle::radius]
-    (f64.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 8)) (f64.load (i32.add (get_local $newObject_9a020000) (i32.const 8))))
+    (f64.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 0)) (f64.load (i32.add (get_local $newObject_9a020000) (i32.const 0))))
+    ;; set field [structureArrayElement.circle::y]
+    (i32.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 8)) (i32.load (i32.add (get_local $newObject_9a020000) (i32.const 8))))
+    ;; set field [structureArrayElement.circle::x]
+    (i32.store (i32.add (get_local $structCopyOf_9d020000) (i32.const 12)) (i32.load (i32.add (get_local $newObject_9a020000) (i32.const 12))))
     ;; Offset object manager with 16 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $structCopyOf_9d020000) (i32.const 16)))
     (set_local $structCopyOf_9e020000 (i32.add (get_local $arrayOffset_9c020000) (i32.const 16)))
     (set_local $structCopyOf_9e020000 (get_global $global.ObjectManager))
-    ;; set field [structureArrayElement.circle::x]
-    (i32.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 0)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
-    ;; set field [structureArrayElement.circle::y]
-    (i32.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 4)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 4))))
     ;; set field [structureArrayElement.circle::radius]
-    (f64.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 8)) (f64.load (i32.add (get_local $newObject_9b020000) (i32.const 8))))
+    (f64.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 0)) (f64.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
+    ;; set field [structureArrayElement.circle::y]
+    (i32.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 8)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 8))))
+    ;; set field [structureArrayElement.circle::x]
+    (i32.store (i32.add (get_local $structCopyOf_9e020000) (i32.const 12)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 12))))
     ;; Offset object manager with 16 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $structCopyOf_9e020000) (i32.const 16)))
     ;; Offset object manager with 40 bytes

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:37:27 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -32,49 +32,55 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 1057))
+    (global $global.ObjectManager (mut i32) (i32.const 1058))
 
     ;; Memory data for string constant
+        
+    ;; String from 11 with 5 bytes in memory
+    (data (i32.const 11) "55555\00")
     
-    ;; String from 10 with 5 bytes in memory
-    (data (i32.const 10) "55555\00")
-
-    ;; String from 437 with 10 bytes in memory
-    (data (i32.const 437) "[55555555]\00")
-
-    ;; String from 893 with 25 bytes in memory
-    (data (i32.const 893) "y of the globalobject is \00")
-
-    ;; String from 919 with 25 bytes in memory
-    (data (i32.const 919) "y of the globalobject is \00")
-
-    ;; String from 945 with 16 bytes in memory
-    (data (i32.const 945) "{55, 55, 555, 5}\00")
-
-    ;; String from 962 with 5 bytes in memory
-    (data (i32.const 962) "y is \00")
-
-    ;; String from 968 with 57 bytes in memory
-    (data (i32.const 968) "min distance of two circle center is (a.radius+b.radius) \00")
-
-    ;; String from 1026 with 18 bytes in memory
-    (data (i32.const 1026) "y after update is \00")
-
-    ;; String from 1045 with 11 bytes in memory
-    (data (i32.const 1045) "XXXXXXXXXX!\00")
+    ;; String from 438 with 10 bytes in memory
+    (data (i32.const 438) "[55555555]\00")
+    
+    ;; String from 894 with 25 bytes in memory
+    (data (i32.const 894) "y of the globalobject is \00")
+    
+    ;; String from 920 with 25 bytes in memory
+    (data (i32.const 920) "y of the globalobject is \00")
+    
+    ;; String from 946 with 16 bytes in memory
+    (data (i32.const 946) "{55, 55, 555, 5}\00")
+    
+    ;; String from 963 with 5 bytes in memory
+    (data (i32.const 963) "y is \00")
+    
+    ;; String from 969 with 57 bytes in memory
+    (data (i32.const 969) "min distance of two circle center is (a.radius+b.radius) \00")
+    
+    ;; String from 1027 with 18 bytes in memory
+    (data (i32.const 1027) "y after update is \00")
+    
+    ;; String from 1046 with 11 bytes in memory
+    (data (i32.const 1046) "XXXXXXXXXX!\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
+        
+    ;; String from 17 with 420 bytes in memory
+    ;;
+    ;; class moduleContainer.name1.[17] CircleModel
+    ;;
+    (data (i32.const 17) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE3fSwiY2xhc3MiOiJDaXJjbGVNb2RlbCIsImNsYXNzX2lkIjoxNywiZmllbGRzIjp7Im5vZGVOYW1lIjp7ImdlbmVyaWMiOltdLCJyYXciOiJzdHJpbmciLCJ0eXBlIjo1fSwieCI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sInkiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJyYWRpdXMiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImY2NCIsInR5cGUiOjR9fSwiaXNTdHJ1Y3QiOmZhbHNlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjoibW9kdWxlQ29udGFpbmVyLm5hbWUxIn0=\00")
     
-    ;; String from 16 with 420 bytes in memory
-    (data (i32.const 16) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjE2fSwiY2xhc3MiOiJDaXJjbGVNb2RlbCIsImNsYXNzX2lkIjoxNiwiZmllbGRzIjp7Im5vZGVOYW1lIjp7ImdlbmVyaWMiOltdLCJyYXciOiJzdHJpbmciLCJ0eXBlIjo1fSwieCI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sInkiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJyYWRpdXMiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImY2NCIsInR5cGUiOjR9fSwiaXNTdHJ1Y3QiOmZhbHNlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjoibW9kdWxlQ29udGFpbmVyLm5hbWUxIn0=\00")
-
-    ;; String from 448 with 444 bytes in memory
-    (data (i32.const 448) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjQ0OH0sImNsYXNzIjoiUmVjdGFuZ2xlTW9kZWwiLCJjbGFzc19pZCI6NDQ4LCJmaWVsZHMiOnsibmFtZSI6eyJnZW5lcmljIjpbXSwicmF3Ijoic3RyaW5nIiwidHlwZSI6NX0sIngiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJ5Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfSwidyI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sImgiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9fSwiaXNTdHJ1Y3QiOmZhbHNlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjpudWxsfQ==\00")
+    ;; String from 449 with 444 bytes in memory
+    ;;
+    ;; class [449] RectangleModel
+    ;;
+    (data (i32.const 449) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjQ0OX0sImNsYXNzIjoiUmVjdGFuZ2xlTW9kZWwiLCJjbGFzc19pZCI6NDQ5LCJmaWVsZHMiOnsidyI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sInkiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfSwibmFtZSI6eyJnZW5lcmljIjpbXSwicmF3Ijoic3RyaW5nIiwidHlwZSI6NX0sImgiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9fSwiaXNTdHJ1Y3QiOmZhbHNlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjpudWxsfQ==\00")
 
     ;; Global variables in this module
-    (global $Runtest.globalObject (mut i32) (i32.const 0))
-(global $Runtest.globalObject2 (mut i32) (i32.const 0))
+    (global $Runtest.globalObject2 (mut i32) (i32.const 0))
+(global $Runtest.globalObject (mut i32) (i32.const 0))
 
     ;; Export methods of this module
     ;; export from VB.NET module: [Runtest]
@@ -92,8 +98,8 @@
     
     
     (set_global $Runtest.globalObject (call $Runtest.returnObjecttest (i64.const 777)))
-    (call $Runtest.print (call $string.add (i32.const 893) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
-    (call $Runtest.print (call $string.add (i32.const 919) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 894) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 920) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
     (return (i32.trunc_s/f64 (f64.mul (f64.convert_s/i32 (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 4)))) (f64.load (i32.add (get_global $Runtest.globalObject) (i32.const 12))))))
     )
     (func $Runtest.test  
@@ -104,7 +110,7 @@
     (local $c i32)
     
     
-    ;; Initialize a object instance of [[16]CircleModel]
+    ;; Initialize a object instance of [[17]CircleModel]
     ;; Object memory block begin at location: (get_local $newObject_9a020000)
     (set_local $newObject_9a020000 (get_global $global.ObjectManager))
     ;; set field [moduleContainer.name1.CircleModel::radius]
@@ -114,7 +120,7 @@
     ;; set field [moduleContainer.name1.CircleModel::y]
     (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (i32.trunc_s/f64 (f64.const 1.0009)))
     ;; set field [moduleContainer.name1.CircleModel::nodeName]
-    (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (i32.const 945))
+    (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (i32.const 946))
     ;; Offset object manager with 20 bytes.
     (set_global $global.ObjectManager (i32.add (get_local $newObject_9a020000) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
@@ -122,10 +128,10 @@
     (set_local $s (get_local $newObject_9a020000))
     (call $Runtest.print (call $f64.toString (f64.load (i32.add (get_local $s) (i32.const 12)))))
     (set_local $c (call $Runtest.returnObjecttest (i64.const 99999)))
-    (call $Runtest.print (call $string.add (i32.const 962) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
-    (call $Runtest.print (call $string.add (i32.const 968) (call $f64.toString (f64.add (f64.load (i32.add (get_local $s) (i32.const 12))) (f64.load (i32.add (get_local $c) (i32.const 12)))))))
+    (call $Runtest.print (call $string.add (i32.const 963) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 969) (call $f64.toString (f64.add (f64.load (i32.add (get_local $s) (i32.const 12))) (f64.load (i32.add (get_local $c) (i32.const 12)))))))
     (i32.store (i32.add (get_local $c) (i32.const 8)) (i32.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 99.999))))
-    (call $Runtest.print (call $string.add (i32.const 1026) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
+    (call $Runtest.print (call $string.add (i32.const 1027) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
     )
     (func $Runtest.returnObjecttest (param $radius i64) (result i32)
         ;; Public Function returnObjecttest(radius As i64) As intptr
@@ -133,11 +139,11 @@
     (local $newObject_9b020000 i32)
     
     
-    ;; Initialize a object instance of [[16]CircleModel]
+    ;; Initialize a object instance of [[17]CircleModel]
     ;; Object memory block begin at location: (get_local $newObject_9b020000)
     (set_local $newObject_9b020000 (get_global $global.ObjectManager))
     ;; set field [moduleContainer.name1.CircleModel::nodeName]
-    (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (i32.const 1045))
+    (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (i32.const 1046))
     ;; set field [moduleContainer.name1.CircleModel::radius]
     (f64.store (i32.add (get_local $newObject_9b020000) (i32.const 12)) (f64.convert_s/i64 (get_local $radius)))
     ;; set field [moduleContainer.name1.CircleModel::x]
@@ -166,25 +172,25 @@
 (local $newObject_9c020000 i32)
 
 
-;; Initialize a object instance of [[448]RectangleModel]
+;; Initialize a object instance of [[449]RectangleModel]
 ;; Object memory block begin at location: (get_local $newObject_9c020000)
 (set_local $newObject_9c020000 (get_global $global.ObjectManager))
 ;; set field [RectangleModel::h]
 (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 16)) (i32.const 500))
 ;; set field [RectangleModel::w]
-(i32.store (i32.add (get_local $newObject_9c020000) (i32.const 12)) (i32.const 900))
-;; set field [RectangleModel::name]
-(i32.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (i32.const 437))
-;; set field [RectangleModel::x]
-(i32.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (i32.const 0))
+(i32.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (i32.const 900))
 ;; set field [RectangleModel::y]
+(i32.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (i32.const 0))
+;; set field [RectangleModel::x]
 (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 8)) (i32.const 0))
+;; set field [RectangleModel::name]
+(i32.store (i32.add (get_local $newObject_9c020000) (i32.const 12)) (i32.const 438))
 ;; Offset object manager with 20 bytes.
 (set_global $global.ObjectManager (i32.add (get_local $newObject_9c020000) (i32.const 20)))
 ;; Initialize an object memory block with 20 bytes data
 
 (set_global $Runtest.globalObject2 (get_local $newObject_9c020000))
-(i32.store (i32.add (get_global $Runtest.globalObject2) (i32.const 0)) (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 0))))
+(i32.store (i32.add (get_global $Runtest.globalObject2) (i32.const 12)) (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 0))))
 )
 
 (start $Application_SubNew)

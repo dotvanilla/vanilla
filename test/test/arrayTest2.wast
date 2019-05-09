@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/6/2019 8:37:27 PM
+    ;; build: 5/9/2019 7:31:59 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -20,7 +20,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 10))
+    (global $global.ObjectManager (mut i32) (i32.const 11))
 
     ;; Memory data for string constant
     
@@ -138,8 +138,8 @@
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 72)) (f64.convert_s/i32 (i32.const 55)))
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 80)) (f64.convert_s/i32 (i32.const 5555)))
 (f64.store (i32.add (get_local $arrayOffset_9d020000) (i32.const 88)) (f64.convert_s/i32 (i32.const 5)))
-;; Offset object manager with 56 bytes
-(set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)) (i32.const 56)))
+;; Offset object manager with 104 bytes
+(set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)) (i32.const 104)))
 ;; Assign array memory data to another expression
 (set_global $arrayTest2.data (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)))
 )
