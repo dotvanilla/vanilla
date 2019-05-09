@@ -73,6 +73,7 @@
     ;; export from VB.NET module: [structurearrayTest]
     
     (export "structurearrayTest.createarray" (func $structurearrayTest.createarray))
+    (export "structurearrayTest.fillArraytest" (func $structurearrayTest.fillArraytest))
     (export "structurearrayTest.createClassArray" (func $structurearrayTest.createClassArray))
     
      
@@ -146,33 +147,58 @@
     ;; Assign array memory data to another expression
     (set_local $a (i32.add (get_local $arrayOffset_9d020000) (i32.const -8)))
     )
+    (func $structurearrayTest.fillArraytest  
+        ;; Public Function fillArraytest() As void
+        
+    (local $a i32)
+    (local $i i32)
+    (local $newObject_a5020000 i32)
+    
+    (set_local $a (call $array.new (i32.const 100)))
+    (set_local $a (call $array.new (i32.const 20)))
+    (set_local $i (i32.const 0))
+    ;; For i As Integer = 0 To a.Length - 1
+    
+    (block $block_a3020000 
+        (loop $loop_a4020000
+    
+                    (br_if $block_a3020000 (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_local $a) (i32.const 4))) (i32.const 1))))
+            (i32.store (i32.add (i32.add (get_local $a) (i32.const 8)) (i32.mul (get_local $i) (i32.const 16))) (get_local $newObject_a5020000))
+            ;; For loop control step: (i32.const 1)
+            (set_local $i (i32.add (get_local $i) (i32.const 1)))
+            (br $loop_a4020000)
+            ;; For Loop Next On loop_a4020000
+    
+        )
+    )
+    )
     (func $structurearrayTest.createStruct  (result i32)
         ;; Public Function createStruct() As intptr
         
-    (local $newObject_a3020000 i32)
+    (local $newObject_a6020000 i32)
     
     
     ;; Initialize a object instance of [[476]circle]
-    ;; Object memory block begin at location: (get_local $newObject_a3020000)
-    (set_local $newObject_a3020000 (get_global $global.ObjectManager))
+    ;; Object memory block begin at location: (get_local $newObject_a6020000)
+    (set_local $newObject_a6020000 (get_global $global.ObjectManager))
     ;; Offset object manager with 16 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_a3020000) (i32.const 16)))
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_a6020000) (i32.const 16)))
     ;; set field [structureArrayElement.circle::radius]
-    (f64.store (i32.add (get_local $newObject_a3020000) (i32.const 0)) (f64.const 0))
+    (f64.store (i32.add (get_local $newObject_a6020000) (i32.const 0)) (f64.const 0))
     ;; set field [structureArrayElement.circle::y]
-    (i32.store (i32.add (get_local $newObject_a3020000) (i32.const 8)) (i32.const 0))
+    (i32.store (i32.add (get_local $newObject_a6020000) (i32.const 8)) (i32.const 0))
     ;; set field [structureArrayElement.circle::x]
-    (i32.store (i32.add (get_local $newObject_a3020000) (i32.const 12)) (i32.const 0))
+    (i32.store (i32.add (get_local $newObject_a6020000) (i32.const 12)) (i32.const 0))
     ;; Initialize an object memory block with 16 bytes data
     
-    (return (get_local $newObject_a3020000))
+    (return (get_local $newObject_a6020000))
     )
     (func $structurearrayTest.createClassArray  
         ;; Public Function createClassArray() As void
         
-    (local $newObject_a4020000 i32)
-    (local $newObject_a5020000 i32)
-    (local $arrayOffset_a6020000 i32)
+    (local $newObject_a7020000 i32)
+    (local $newObject_a8020000 i32)
+    (local $arrayOffset_a9020000 i32)
     (local $b i32)
     
     
@@ -183,38 +209,38 @@
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 2))
     ;; End of byte marks meta data, start write data blocks
     ;; Offset object manager with 16 bytes
-    (set_local $arrayOffset_a6020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a6020000) (i32.const -8)) (i32.const 16)))
-    (set_local $newObject_a4020000 (get_global $global.ObjectManager))
+    (set_local $arrayOffset_a9020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a9020000) (i32.const -8)) (i32.const 16)))
+    (set_local $newObject_a7020000 (get_global $global.ObjectManager))
     ;; Offset object manager with 20 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_a4020000) (i32.const 20)))
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_a7020000) (i32.const 20)))
     ;; set field [structureArrayElement.rectangle::x]
-    (i32.store (i32.add (get_local $newObject_a4020000) (i32.const 0)) (i32.const 1))
+    (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 0)) (i32.const 1))
     ;; set field [structureArrayElement.rectangle::y]
-    (i32.store (i32.add (get_local $newObject_a4020000) (i32.const 4)) (i32.const 1))
+    (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 4)) (i32.const 1))
     ;; set field [structureArrayElement.rectangle::w]
-    (i32.store (i32.add (get_local $newObject_a4020000) (i32.const 8)) (i32.const 0))
+    (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 8)) (i32.const 0))
     ;; set field [structureArrayElement.rectangle::h]
-    (i32.store (i32.add (get_local $newObject_a4020000) (i32.const 12)) (i32.const 0))
+    (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 12)) (i32.const 0))
     ;; set field [structureArrayElement.rectangle::fill]
-    (i32.store (i32.add (get_local $newObject_a4020000) (i32.const 16)) (i32.const 11))
-    (i32.store (i32.add (get_local $arrayOffset_a6020000) (i32.const 0)) (get_local $newObject_a4020000))
-    (set_local $newObject_a5020000 (get_global $global.ObjectManager))
+    (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 16)) (i32.const 11))
+    (i32.store (i32.add (get_local $arrayOffset_a9020000) (i32.const 0)) (get_local $newObject_a7020000))
+    (set_local $newObject_a8020000 (get_global $global.ObjectManager))
     ;; Offset object manager with 20 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_a5020000) (i32.const 20)))
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_a8020000) (i32.const 20)))
     ;; set field [structureArrayElement.rectangle::fill]
-    (i32.store (i32.add (get_local $newObject_a5020000) (i32.const 16)) (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 825) (call $i32.toString (get_global $structurearrayTest.r))) (i32.const 830)) (call $i32.toString (get_global $structurearrayTest.g))) (i32.const 832)) (call $i32.toString (get_global $structurearrayTest.b))) (i32.const 834)))
+    (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 16)) (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 825) (call $i32.toString (get_global $structurearrayTest.r))) (i32.const 830)) (call $i32.toString (get_global $structurearrayTest.g))) (i32.const 832)) (call $i32.toString (get_global $structurearrayTest.b))) (i32.const 834)))
     ;; set field [structureArrayElement.rectangle::x]
-    (i32.store (i32.add (get_local $newObject_a5020000) (i32.const 0)) (i32.const 0))
+    (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 0)) (i32.const 0))
     ;; set field [structureArrayElement.rectangle::y]
-    (i32.store (i32.add (get_local $newObject_a5020000) (i32.const 4)) (i32.const 0))
+    (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 4)) (i32.const 0))
     ;; set field [structureArrayElement.rectangle::w]
-    (i32.store (i32.add (get_local $newObject_a5020000) (i32.const 8)) (i32.const 0))
+    (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 8)) (i32.const 0))
     ;; set field [structureArrayElement.rectangle::h]
-    (i32.store (i32.add (get_local $newObject_a5020000) (i32.const 12)) (i32.const 0))
-    (i32.store (i32.add (get_local $arrayOffset_a6020000) (i32.const 4)) (get_local $newObject_a5020000))
+    (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 12)) (i32.const 0))
+    (i32.store (i32.add (get_local $arrayOffset_a9020000) (i32.const 4)) (get_local $newObject_a8020000))
     ;; Assign array memory data to another expression
-    (set_local $b (i32.add (get_local $arrayOffset_a6020000) (i32.const -8)))
+    (set_local $b (i32.add (get_local $arrayOffset_a9020000) (i32.const -8)))
     )
     
 
@@ -229,23 +255,23 @@
 (func $structurearrayTest.constructor  
     ;; Public Function constructor() As void
     
-(local $newObject_a7020000 i32)
+(local $newObject_aa020000 i32)
 
 
 ;; Initialize a object instance of [[476]circle]
-;; Object memory block begin at location: (get_local $newObject_a7020000)
-(set_local $newObject_a7020000 (get_global $global.ObjectManager))
+;; Object memory block begin at location: (get_local $newObject_aa020000)
+(set_local $newObject_aa020000 (get_global $global.ObjectManager))
 ;; Offset object manager with 16 bytes.
-(set_global $global.ObjectManager (i32.add (get_local $newObject_a7020000) (i32.const 16)))
+(set_global $global.ObjectManager (i32.add (get_local $newObject_aa020000) (i32.const 16)))
 ;; set field [structureArrayElement.circle::radius]
-(f64.store (i32.add (get_local $newObject_a7020000) (i32.const 0)) (f64.convert_s/i64 (get_global $rectangle.Max)))
+(f64.store (i32.add (get_local $newObject_aa020000) (i32.const 0)) (f64.convert_s/i64 (get_global $rectangle.Max)))
 ;; set field [structureArrayElement.circle::y]
-(i32.store (i32.add (get_local $newObject_a7020000) (i32.const 8)) (i32.const 0))
+(i32.store (i32.add (get_local $newObject_aa020000) (i32.const 8)) (i32.const 0))
 ;; set field [structureArrayElement.circle::x]
-(i32.store (i32.add (get_local $newObject_a7020000) (i32.const 12)) (i32.const 0))
+(i32.store (i32.add (get_local $newObject_aa020000) (i32.const 12)) (i32.const 0))
 ;; Initialize an object memory block with 16 bytes data
 
-(set_global $structurearrayTest.globalCircle (get_local $newObject_a7020000))
+(set_global $structurearrayTest.globalCircle (get_local $newObject_aa020000))
 )
 
 (start $Application_SubNew)

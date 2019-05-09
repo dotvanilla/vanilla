@@ -17,6 +17,20 @@ Module structurearrayTest
 
     End Sub
 
+    Sub fillArraytest()
+
+        ' syntax 1
+        Dim a(100) As circle
+
+        ' syntax2
+        a = New circle(20) {}
+
+        For i As Integer = 0 To a.Length - 1
+            a(i) = New circle With {.x = 1, .y = 1, .radius = i + 0.1}
+        Next
+
+    End Sub
+
     Dim globalCircle As circle
 
     Sub New()
