@@ -147,14 +147,23 @@ Namespace Symbols.Parser
             Dim [new] = type.allocateNew(symbols)
             Dim hashcode As DeclareLocal = [new].hashcode
             Dim obj As UserObject = [new].object
-            Dim initialize = objNew.Initializers _
-                .Select(Function(init)
-                            Dim fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
-                            Dim initValue = DirectCast(init, NamedFieldInitializerSyntax).Expression.ValueExpression(symbols)
+            Dim initialize As NamedValue(Of Expression)()
 
-                            Return New NamedValue(Of Expression)(fieldName, initValue)
-                        End Function) _
-                .ToArray
+            If objNew Is Nothing Then
+                ' Dim a As New type
+                ' 创建新对象的时候没有指定初始化
+                ' 则在这里留一个空集合，字段的初始化全部都使用默认值
+                initialize = {}
+            Else
+                initialize = objNew.Initializers _
+                    .Select(Function(init)
+                                Dim fieldName = DirectCast(init, NamedFieldInitializerSyntax).Name.objectName
+                                Dim initValue = DirectCast(init, NamedFieldInitializerSyntax).Expression.ValueExpression(symbols)
+
+                                Return New NamedValue(Of Expression)(fieldName, initValue)
+                            End Function) _
+                    .ToArray
+            End If
 
             Return type.createUserObject(hashcode, obj, initialize, symbols, False)
         End Function

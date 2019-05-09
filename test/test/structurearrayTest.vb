@@ -10,12 +10,22 @@ Module structurearrayTest
 
         Dim a As circle() = {
             New circle With {.radius = 100},
-            New circle With {.x = 1, .y = .x, .radius = CDbl(999) + rectangle.Max}
+            New circle With {.x = 1, .y = .x, .radius = CDbl(999) + rectangle.Max},
+            globalCircle,
+            createStruct()
         }
 
-
-
     End Sub
+
+    Dim globalCircle As circle
+
+    Sub New()
+        globalCircle = New circle With {.radius = rectangle.Max}
+    End Sub
+
+    Private Function createStruct() As circle
+        Return New circle
+    End Function
 
     Sub createClassArray()
         Dim b As rectangle() = {
