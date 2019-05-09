@@ -93,11 +93,13 @@ Namespace Symbols.Parser
             Dim functions As New List(Of FuncSymbol)
             Dim fieldList As New List(Of DeclareGlobal)
             Dim fieldInitialize As New List(Of Expression)
+            Dim isConst As Boolean
 
             For Each field As FieldDeclarationSyntax In body.OfType(Of FieldDeclarationSyntax)
                 ' 如果是结构体内的一个常数，则将这个常数加入到全局变量之中
+                isConst = field.isConst
                 fieldInitialize += field.Declarators _
-                    .ParseDeclarator(symbolTable, className, field.isConst) _
+                    .ParseDeclarator(symbolTable, className, isConst) _
                     .ToArray
             Next
 

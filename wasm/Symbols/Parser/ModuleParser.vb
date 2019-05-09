@@ -309,7 +309,7 @@ Namespace Symbols.Parser
         <Extension>
         Friend Function isConst(modifier As SyntaxTokenList) As Boolean
             Dim constTag As SyntaxToken = modifier.FirstOrDefault(Function(tag) tag.Text = "Const")
-            Dim flag As Boolean = Not constTag.Text Is Nothing
+            Dim flag As Boolean = Not constTag.Text.StringEmpty
 
             Return flag
         End Function
