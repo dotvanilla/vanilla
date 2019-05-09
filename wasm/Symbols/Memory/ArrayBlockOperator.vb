@@ -91,7 +91,22 @@ Namespace Symbols.MemoryObject
                     }
                     symbols.AddLocal(copy.name, "i32")
                     save += New SetLocalVariable(copy, location)
-                    save += ofElement.CopyTo(element, copy, symbols)
+
+                    If TypeOf element Is UserObject Then
+                        ' 如果是创建的新对象的话，则修改指针位置后直接赋值
+                        With DirectCast(element, UserObject)
+                            ' modify the memory location of 
+                            ' this New Object
+                            .memoryPtr = copy
+
+                            ' Add statements for initialize new object
+                            save += .AsEnumerable
+                        End With
+                    Else
+                        ' 可能是其他的变量或者函数调用产生的值
+                        ' 则需要按照地址进行复制
+                        save += ofElement.CopyTo(element, copy, symbols)
+                    End If
                 Next
             Else
                 Dim byteType As String = ofElement.typefit
