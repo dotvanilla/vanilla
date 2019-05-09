@@ -8,7 +8,10 @@ Module structurearrayTest
 
     Sub createarray()
 
-        Dim a As circle() = {New circle With {.radius = 100}, New circle With {.x = 1, .y = .x, .radius = 999}}
+        Dim a As circle() = {
+            New circle With {.radius = 100},
+            New circle With {.x = 1, .y = .x, .radius = CDbl(999) + rectangle.Max}
+        }
 
         Dim b As rectangle() = {New rectangle With {.x = 1, .y = 1}, New rectangle With {.fill = $"rgb({r},{g},{structurearrayTest.b})"}}
 
@@ -29,6 +32,8 @@ Namespace structureArrayElement
         Public w, h As Integer
 
         Public fill As String = "red"
+
+        Public Const Max As Long = Long.MaxValue
 
     End Class
 End Namespace
