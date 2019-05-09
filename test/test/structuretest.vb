@@ -57,6 +57,8 @@ Namespace structuretest
         Dim x!, y!
         Dim radius!
         Dim id As String
+
+        Public Const INF As Integer = Integer.MaxValue
     End Structure
 End Namespace
 
@@ -66,7 +68,7 @@ Module testStrucutre
 
     Sub New()
 
-        Dim circle As New circle With {.id = "A", .x = 1, .y = 2}
+        Dim circle As New circle With {.id = "A", .x = 1, .y = 2, .radius = circle.INF}
 
         ' for structure
         ' each value assign will make a memory copy

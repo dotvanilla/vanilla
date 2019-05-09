@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::ec4ad5f67c9312baf9518dcba4b64c24, Symbols\Parser\Expressions\MemberCallsParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module MemberCallsParser
-    ' 
-    '         Function: ExpressionMember, InvokeMemberFunc, MemberExpression, SimpleMember, tryGetMember
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module MemberCallsParser
+' 
+'         Function: ExpressionMember, InvokeMemberFunc, MemberExpression, SimpleMember, tryGetMember
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -201,6 +201,8 @@ Namespace Symbols.Parser
                 Else
                     Return ObjectOperator.GetMemberField(obj, memberName, symbols)
                 End If
+            ElseIf TypeOf obj Is TypeSymbol Then
+                Return type.TypeLiteral(memberName)
             Else
             End If
 
@@ -227,6 +229,52 @@ Namespace Symbols.Parser
             'Else
             '    Throw New NotImplementedException(ref.ToString)
             'End If
+
+            Throw New NotImplementedException
+        End Function
+
+        <Extension>
+        Public Function TypeLiteral(type As TypeAbstract, memberName$) As Expression
+            Select Case type.type
+                Case TypeAlias.f64
+                    Select Case memberName
+                        Case NameOf(Double.MaxValue)
+                            Return Literal.f64(Double.MaxValue)
+                        Case NameOf(Double.MinValue)
+                            Return Literal.f64(Double.MinValue)
+                        Case Else
+                            Throw New NotImplementedException
+                    End Select
+                Case TypeAlias.i32
+                    Select Case memberName
+                        Case NameOf(Integer.MaxValue)
+                            Return Literal.i32(Integer.MaxValue)
+                        Case NameOf(Integer.MinValue)
+                            Return Literal.i32(Integer.MinValue)
+                        Case Else
+                            Throw New NotImplementedException
+                    End Select
+                Case TypeAlias.i64
+                    Select Case memberName
+                        Case NameOf(Long.MaxValue)
+                            Return Literal.i64(Long.MaxValue)
+                        Case NameOf(Long.MinValue)
+                            Return Literal.i64(Long.MinValue)
+                        Case Else
+                            Throw New NotImplementedException
+                    End Select
+                Case TypeAlias.f32
+                    Select Case memberName
+                        Case NameOf(Single.MaxValue)
+                            Return Literal.f32(Single.MaxValue)
+                        Case NameOf(Single.MinValue)
+                            Return Literal.f32(Single.MinValue)
+                        Case Else
+                            Throw New NotImplementedException
+                    End Select
+                Case Else
+                    Throw New NotSupportedException
+            End Select
 
             Throw New NotImplementedException
         End Function

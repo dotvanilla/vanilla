@@ -72,7 +72,11 @@ Namespace Symbols.Parser
         ''' 当类型申明是空的时候，应该是从其初始化值得类型来推断申明的
         ''' </remarks>
         <Extension>
-        Public Function AsType(ByRef name$, [asClause] As AsClauseSyntax, symbols As SymbolTable, Optional initType As TypeAbstract = Nothing) As TypeAbstract
+        Public Function AsType(ByRef name$,
+                               [asClause] As AsClauseSyntax,
+                               symbols As SymbolTable,
+                               Optional initType As TypeAbstract = Nothing) As TypeAbstract
+
             Dim type As TypeAbstract
 
             If Not asClause Is Nothing Then
@@ -157,12 +161,16 @@ Namespace Symbols.Parser
         End Function
 
         <Extension>
+        Public Function PredefinedType(asType As PredefinedTypeSyntax) As Type
+            Dim token$ = asType.Keyword.objectName
+            ' parse from the token name
+            Return Scripting.GetType(token)
+        End Function
+
+        <Extension>
         Public Function [GetType](asType As TypeSyntax, symbols As SymbolTable) As RawType
             If TypeOf asType Is PredefinedTypeSyntax Then
-                Dim type = DirectCast(asType, PredefinedTypeSyntax)
-                Dim token$ = type.Keyword.objectName
-
-                Return Scripting.GetType(token)
+                Return DirectCast(asType, PredefinedTypeSyntax).PredefinedType
             ElseIf TypeOf asType Is ArrayTypeSyntax Then
                 Dim type = DirectCast(asType, ArrayTypeSyntax)
                 Dim tokenType As RawType = [GetType](type.ElementType, symbols)

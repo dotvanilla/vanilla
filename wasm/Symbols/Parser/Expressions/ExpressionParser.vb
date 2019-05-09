@@ -86,6 +86,10 @@ Namespace Symbols.Parser
                     Return DirectCast(value, ArrayCreationExpressionSyntax).CreateArray(symbols)
                 Case GetType(PredefinedCastExpressionSyntax)
                     Return DirectCast(value, PredefinedCastExpressionSyntax).TryCast(symbols)
+                Case GetType(PredefinedTypeSyntax)
+                    Return New TypeSymbol With {
+                        .type = New TypeAbstract(DirectCast(value, PredefinedTypeSyntax).PredefinedType)
+                    }
                 Case Else
                     Throw New NotImplementedException(value.GetType.FullName)
             End Select
