@@ -95,12 +95,18 @@ Namespace Symbols.MemoryObject
                     If TypeOf element Is UserObject Then
                         ' 如果是创建的新对象的话，则修改指针位置后直接赋值
                         With DirectCast(element, UserObject)
+                            Dim intptrName$ = .memoryPtr _
+                                              .TryCast(Of GetLocalVariable) _
+                                              .var
+
                             ' modify the memory location of 
                             ' this New Object
-                            .memoryPtr = copy
-
+                            save += New SetLocalVariable With {
+                                .var = intptrName,
+                                .value = copy.GetReference
+                            }
                             ' Add statements for initialize new object
-                            save += .AsEnumerable
+                            save += .AsEnumerable.Skip(1)
                         End With
                     Else
                         ' 可能是其他的变量或者函数调用产生的值
