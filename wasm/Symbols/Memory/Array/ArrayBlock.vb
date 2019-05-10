@@ -65,7 +65,7 @@ Namespace Symbols.MemoryObject
         ''' Element counts in this array object
         ''' </summary>
         ''' <returns></returns>
-        Public Property length As Integer
+        Public Property length As Expression
         Public Property itemOffset As String
         Public Property elements As Expression()
 
@@ -75,10 +75,10 @@ Namespace Symbols.MemoryObject
         ''' Byte size of this array object
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property sizeOf As Integer
+        Public ReadOnly Property sizeOf As Expression
             Get
                 ' class_id + length + elements
-                Return 4 + 4 + elementSizeOf * length
+                Return Literal.i32(4 + 4) + elementSizeOf * length
             End Get
         End Property
 

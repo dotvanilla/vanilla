@@ -111,6 +111,16 @@ Namespace TypeInfo
             .Type = SymbolType.Operator
         }
 
+        Public ReadOnly Property i32Multiply As New ReferenceSymbol With {
+            .symbol = $"i32.{wasmOpName("*")}",
+            .type = SymbolType.Operator
+        }
+
+        Public ReadOnly Property i32Minus As New ReferenceSymbol With {
+            .symbol = $"i32.{wasmOpName("-")}",
+            .type = SymbolType.Operator
+        }
+
         Friend ReadOnly unaryOp As Index(Of String) = {
             wasmOpName("+"),
             wasmOpName("-")
