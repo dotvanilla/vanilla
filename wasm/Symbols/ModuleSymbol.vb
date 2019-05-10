@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::8dc91740fa51e8aa460bb8033e3ee020, Symbols\ModuleSymbol.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ModuleSymbol
-    ' 
-    '         Properties: [Imports], Exports, Globals, InternalFunctions, LabelName
-    '                     Memory, Start
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateModule, GenericEnumerator, GetEnumerator, Join, ToSExpression
-    '                   TypeInfer
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ModuleSymbol
+' 
+'         Properties: [Imports], Exports, Globals, InternalFunctions, LabelName
+'                     Memory, Start
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateModule, GenericEnumerator, GetEnumerator, Join, ToSExpression
+'                   TypeInfer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,13 +69,14 @@ Namespace Symbols
         Public Property Exports As ExportSymbolExpression()
         Public Property [Imports] As ImportSymbol()
         Public Property Globals As DeclareGlobal()
-        Public Property Memory As Memory
+        Public Property memory As Memory
 
         ''' <summary>
         ''' 模块的``Sub New``构造函数
         ''' </summary>
         ''' <returns></returns>
-        Public Property Start As Start
+        Public Property start As Start
+        Public Property globalStarter As FuncSymbol
 
         ''' <summary>
         ''' The module name label
@@ -96,13 +97,13 @@ Namespace Symbols
             If Not part.Globals.IsNullOrEmpty Then
                 Globals = part.Globals
             End If
-            If Not part.Memory Is Nothing Then
-                Memory = part.Memory
+            If Not part.memory Is Nothing Then
+                memory = part.memory
             End If
-            If Start Is Nothing Then
-                Start = part.Start
+            If start Is Nothing Then
+                start = part.start
             Else
-                Start.constructors.AddRange(part.Start.constructors)
+                start.constructors.AddRange(part.start.constructors)
             End If
 
             Return Me

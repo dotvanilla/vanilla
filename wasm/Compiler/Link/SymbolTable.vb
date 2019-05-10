@@ -89,6 +89,7 @@ Namespace Compiler
 
         Dim locals As New Dictionary(Of String, DeclareLocal)
         Dim uid As VBInteger = 666
+        Dim globalStarter As New List(Of Expression)
 
         ''' <summary>
         ''' 这个内存对象是全局范围内的
@@ -204,7 +205,19 @@ Namespace Compiler
         End Function
 
         Public Function GetClassType(type As String) As ClassMeta
-            Return userClass(type.StringReplace("\[\d+\]", ""))
+            Dim meta As ClassMeta
+
+            type = type.StringReplace("\[\d+\]", "")
+            meta = userClass.TryGetValue(type)
+
+            If meta Is Nothing Then
+                meta = New ClassMeta(Me) With {
+                    .className = type,
+                    .memoryPtr = 0
+                }
+            End If
+
+            Return meta
         End Function
 
         Public Function HaveEnumType(type As String) As Boolean
@@ -264,6 +277,10 @@ Namespace Compiler
             Return functionList.Values.IteratesALL.OfType(Of ImportSymbol)
         End Function
 
+        Public Function GetGlobalStarter() As IEnumerable(Of Expression)
+            Return globalStarter
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetAllGlobals() As IEnumerable(Of DeclareGlobal)
             Return globals.Values.IteratesALL.OfType(Of DeclareGlobal)
@@ -294,14 +311,27 @@ Namespace Compiler
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As LiteralExpression, isConst As Boolean)
+        Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As Expression, isConst As Boolean)
             Dim [global] As New DeclareGlobal With {
                 .name = var,
                 .type = type,
-                .init = init,
                 .[module] = moduleName,
                 .isConst = isConst
             }
+
+            If Not init Is Nothing Then
+                If TypeOf init Is LiteralExpression Then
+                    [global].init = init
+                Else
+                    ' 因为全局变量只能够使用常数初始化
+                    ' 所以对于非常数表达式都需要放在一个starter函数之中来完成初始化
+                    globalStarter += New SetGlobalVariable() With {
+                        .[module] = moduleName,
+                        .value = init,
+                        .var = var
+                    }
+                End If
+            End If
 
             If Not globals.ContainsKey(var) Then
                 Call globals.Add(var, New ModuleOf(var))
