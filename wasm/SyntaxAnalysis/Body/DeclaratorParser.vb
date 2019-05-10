@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7310dc8048cec3510c2a1d86138a6bc, SyntaxAnalysis\Body\DeclaratorParser.vb"
+﻿#Region "Microsoft.VisualBasic::78ebfde11de5b5b4856d4740a08f277c, SyntaxAnalysis\Body\DeclaratorParser.vb"
 
     ' Author:
     ' 

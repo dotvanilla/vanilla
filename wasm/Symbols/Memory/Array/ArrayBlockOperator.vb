@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ed80e999fcc748c5609391b26d4ae61, Symbols\Memory\Array\ArrayBlockOperator.vb"
+﻿#Region "Microsoft.VisualBasic::78e37ccae9fee229dc5447e821aaad99, Symbols\Memory\Array\ArrayBlockOperator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Module ArrayBlockOperator
     ' 
-    '         Function: GetArrayElement, GetArrayMember, (+2 Overloads) SetArrayElement, writeArray
+    '         Function: GetArrayElement, GetArrayMember, (+2 Overloads) SetArrayElement, (+2 Overloads) writeArray, writeEmptyArray
+    '                   writeStructArray
     ' 
     ' 
     ' /********************************************************************************/
