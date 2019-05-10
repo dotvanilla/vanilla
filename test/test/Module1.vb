@@ -75,6 +75,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "..\arrayDeclareTest2.vb",
                  "..\structurearrayTest.vb",
                 "..\structuretest.vb",
                    "..\DeclareTest.vb",
