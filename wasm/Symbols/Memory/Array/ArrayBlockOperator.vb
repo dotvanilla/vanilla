@@ -67,72 +67,38 @@ Namespace Symbols.MemoryObject
         ''' </remarks>
         <Extension>
         Friend Function writeArray(array As ArraySymbol, symbols As SymbolTable, arrayType As TypeAbstract) As Expression
+            Return array.Initialize.writeArray(symbols, arrayType)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="arrayInitialize"></param>
+        ''' <param name="symbols"></param>
+        ''' <param name="arrayType">是一个完整的数组类型定义，而非元素的类型定义</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 在这里只是生成数组元素的内容，byte marks内容则在<see cref="ArrayBlock"/>的表达式迭代器部分完成
+        ''' </remarks>
+        <Extension>
+        Friend Function writeArray(arrayInitialize As Expression(), symbols As SymbolTable, arrayType As TypeAbstract) As Expression
             Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
-            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, Literal.i32(array.Initialize.Length))
+            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, Literal.i32(arrayInitialize.Length))
             Dim save As New List(Of Expression)
             Dim size As Integer = sizeOf(ofElement, symbols)
             ' 在这里需要跳过数组前面的8个字节
             Dim offset As New GetLocalVariable("arrayOffset_" & symbols.NextGuid)
-            Dim i As VBInteger = Scan0
-            Dim location As Expression
 
             Call symbols.AddLocal(offset.var, "i32")
 
             If ofElement = TypeAlias.intptr AndAlso symbols.FindByClassId(ofElement.class_id).isStruct Then
-                Dim copy As DeclareLocal
-
-                ' 结构体类型比较特殊
-                ' 会需要与引用类型的class区分开来
-                For Each element As Expression In array.Initialize
-                    location = IMemoryObject.IndexOffset(offset, ++i * size)
-                    copy = New DeclareLocal With {
-                        .name = "structCopyOf_" & symbols.NextGuid,
-                        .type = TypeAbstract.i32
-                    }
-                    symbols.AddLocal(copy.name, "i32")
-                    save += New SetLocalVariable(copy, location)
-
-                    If TypeOf element Is UserObject Then
-                        ' 如果是创建的新对象的话，则修改指针位置后直接赋值
-                        With DirectCast(element, UserObject)
-                            Dim intptrName$ = .memoryPtr _
-                                              .TryCast(Of GetLocalVariable) _
-                                              .var
-
-                            ' modify the memory location of 
-                            ' this New Object
-                            save += New SetLocalVariable With {
-                                .var = intptrName,
-                                .value = copy.GetReference
-                            }
-                            ' Add statements for initialize new object
-                            save += .AsEnumerable.Skip(1)
-                        End With
-                    ElseIf TypeOf element Is FuncInvoke Then
-                        ' 如果是通过函数产生的话，则需要将函数得到的结果进行临时本地变量的赋值，
-                        ' 然后再从这个本地变量进行复制
-                        Dim temp As New DeclareLocal With {
-                            .name = "tempOfStructFunc_" & symbols.NextGuid,
-                            .type = TypeAbstract.i32
-                        }
-
-                        symbols.AddLocal(temp.name, "i32")
-                        save += ofElement.CopyTo(
-                            from:=temp.GetReference,
-                            [to]:=copy,
-                            symbols:=symbols,
-                            funCalls:=New SetLocalVariable(temp, element)
-                        )
-                    Else
-                        ' 可能是其他的变量或者函数调用产生的值
-                        ' 则需要按照地址进行复制
-                        save += ofElement.CopyTo(element, copy, symbols, Nothing)
-                    End If
-                Next
+                save += symbols.writeStructArray(offset, size, arrayInitialize, ofElement)
             Else
                 Dim byteType As String = ofElement.typefit
+                Dim i As VBInteger = Scan0
+                Dim location As Expression
 
-                For Each element As Expression In array.Initialize
+                For Each element As Expression In arrayInitialize
                     element = CTypeHandle.CType(ofElement, element, symbols)
                     location = IMemoryObject.IndexOffset(offset, ++i * size)
                     save += BitConverter.save(byteType, location, element)
@@ -143,6 +109,69 @@ Namespace Symbols.MemoryObject
             arrayBlock.itemOffset = offset.var
 
             Return arrayBlock
+        End Function
+
+        <Extension>
+        Private Function writeStructArray(symbols As SymbolTable,
+                                          offset As GetLocalVariable,
+                                          size%,
+                                          arrayInitialize As Expression(),
+                                          ofElement As TypeAbstract) As IEnumerable(Of Expression)
+            Dim copy As DeclareLocal
+            Dim i As VBInteger = Scan0
+            Dim location As Expression
+            Dim save As New List(Of Expression)
+
+            ' 结构体类型比较特殊
+            ' 会需要与引用类型的class区分开来
+            For Each element As Expression In arrayInitialize
+                location = IMemoryObject.IndexOffset(offset, ++i * size)
+                copy = New DeclareLocal With {
+                    .name = "structCopyOf_" & symbols.NextGuid,
+                    .type = TypeAbstract.i32
+                }
+                symbols.AddLocal(copy.name, "i32")
+                save += New SetLocalVariable(copy, location)
+
+                If TypeOf element Is UserObject Then
+                    ' 如果是创建的新对象的话，则修改指针位置后直接赋值
+                    With DirectCast(element, UserObject)
+                        Dim intptrName$ = .memoryPtr _
+                                          .TryCast(Of GetLocalVariable) _
+                                          .var
+
+                        ' modify the memory location of 
+                        ' this New Object
+                        save += New SetLocalVariable With {
+                            .var = intptrName,
+                            .value = copy.GetReference
+                        }
+                        ' Add statements for initialize new object
+                        save += .AsEnumerable.Skip(1)
+                    End With
+                ElseIf TypeOf element Is FuncInvoke Then
+                    ' 如果是通过函数产生的话，则需要将函数得到的结果进行临时本地变量的赋值，
+                    ' 然后再从这个本地变量进行复制
+                    Dim temp As New DeclareLocal With {
+                        .name = "tempOfStructFunc_" & symbols.NextGuid,
+                        .type = TypeAbstract.i32
+                    }
+
+                    symbols.AddLocal(temp.name, "i32")
+                    save += ofElement.CopyTo(
+                        from:=temp.GetReference,
+                        [to]:=copy,
+                        symbols:=symbols,
+                        funCalls:=New SetLocalVariable(temp, element)
+                    )
+                Else
+                    ' 可能是其他的变量或者函数调用产生的值
+                    ' 则需要按照地址进行复制
+                    save += ofElement.CopyTo(element, copy, symbols, Nothing)
+                End If
+            Next
+
+            Return save
         End Function
 
         <Extension>

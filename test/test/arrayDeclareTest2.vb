@@ -11,6 +11,9 @@
 
         a = New Double(99) {}
 
+
+        Dim c As Integer() = {1, 11, 11, 11, 11, 11, 11, 11}
+
     End Sub
 
 End Module
