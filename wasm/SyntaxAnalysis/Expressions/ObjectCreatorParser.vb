@@ -153,7 +153,7 @@ Namespace Symbols.Parser
 
                     ' list没有集合元素的初始化语句
                     ' 则只能够创建一个新的空数组
-                    Return New Array With {.type = listType, .size = Literal.i32(-1)}
+                    Return New ArraySymbol With {.type = listType, .Initialize = {}}
                 Else
                     Return listValues
                 End If
