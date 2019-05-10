@@ -127,26 +127,6 @@ Namespace Symbols
     End Class
 
     ''' <summary>
-    ''' Expression for create a new javascript array with given length
-    ''' </summary>
-    Public Class Array : Inherits AbstractArray
-
-        Public Property size As Expression
-
-        Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return type
-        End Function
-
-        Public Overrides Function ToSExpression() As String
-            Dim newArray As New FuncInvoke(JavaScriptImports.NewArray) With {
-                .parameters = {size}
-            }
-
-            Return newArray.ToSExpression
-        End Function
-    End Class
-
-    ''' <summary>
     ''' Javascript object
     ''' </summary>
     Public Class ArrayTable : Inherits AbstractArray
