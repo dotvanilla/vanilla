@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9487a21ad057139516ce9bad2d7893ad, Symbols\Parser\AttributeParser.vb"
+﻿#Region "Microsoft.VisualBasic::19a23141a7704617a05bb13483040345, SyntaxAnalysis\AttributeParser.vb"
 
     ' Author:
     ' 

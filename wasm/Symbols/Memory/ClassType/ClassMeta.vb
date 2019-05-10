@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::712f2711b486cd22b98b16be95c1093f, Symbols\Memory\ClassType\ClassMeta.vb"
+﻿#Region "Microsoft.VisualBasic::f1f03f0a335bb521b3e54d4101817979, Symbols\Memory\ClassType\ClassMeta.vb"
 
     ' Author:
     ' 
@@ -41,6 +41,7 @@
     '         Properties: [module], className, fields, isStruct, methods
     '                     reference, sizeOf
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetFieldOffset, ToSExpression, TypeInfer
     ' 
     ' 

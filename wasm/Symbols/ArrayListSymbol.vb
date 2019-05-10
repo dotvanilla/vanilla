@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bdf4d83ac1f3112e690e239f8daa519f, Symbols\ArrayListSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::d986119bad8c85c5834c20dcd377f6f0, Symbols\ArrayListSymbol.vb"
 
     ' Author:
     ' 
@@ -45,12 +45,6 @@
     '     Class AbstractArray
     ' 
     '         Properties: type
-    ' 
-    '     Class Array
-    ' 
-    '         Properties: size
-    ' 
-    '         Function: ToSExpression, TypeInfer
     ' 
     '     Class ArrayTable
     ' 

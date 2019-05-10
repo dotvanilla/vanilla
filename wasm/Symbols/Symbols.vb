@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eec6bfeaa7033d3772412aa815de9033, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::f73335d98580baa990e49139be1ce792, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -86,7 +86,7 @@
     ' 
     '     Class DeclareVariable
     ' 
-    '         Properties: init, name, type
+    '         Properties: init, isConst, name, type
     ' 
     '         Function: TypeInfer
     ' 

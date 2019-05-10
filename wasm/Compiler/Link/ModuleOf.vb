@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c4eb5117b9f510ce605cc97ccb0bc40, Compiler\Link\ModuleOf.vb"
+﻿#Region "Microsoft.VisualBasic::f6a559c4b1d73d540c106a0ee2fb5a88, Compiler\Link\ModuleOf.vb"
 
     ' Author:
     ' 
@@ -42,9 +42,9 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: FindSymbol, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Function: FindSymbol, GetEnumerator, IEnumerable_GetEnumerator, OfType, ToString
     ' 
-    '         Sub: Add
+    '         Sub: Add, Delete
     ' 
     ' 
     ' /********************************************************************************/
