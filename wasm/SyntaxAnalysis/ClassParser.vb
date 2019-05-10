@@ -50,6 +50,7 @@ Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
 
 Namespace SyntaxAnalysis
@@ -116,7 +117,7 @@ Namespace SyntaxAnalysis
                     .init = globalField.init,
                     .[module] = className,
                     .name = globalField.name,
-                    .Type = globalField.type
+                    .type = globalField.type
                 }
             Next
 

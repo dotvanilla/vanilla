@@ -48,6 +48,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
+Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
@@ -70,7 +71,7 @@ Namespace SyntaxAnalysis
                 [const] = symbols.GetEnumType(objName)
 
                 Return New LiteralExpression With {
-                    .Type = New TypeAbstract([const].type),
+                    .type = New TypeAbstract([const].type),
                     .value = [const].Members(memberName)
                 }
             ElseIf (Not symbols.IsAnyObject(objName)) AndAlso (Not objName Like symbols.ModuleNames) Then

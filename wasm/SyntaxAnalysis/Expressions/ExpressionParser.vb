@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::d0fda25c3736d17e44524f5696f3920a, Symbols\Parser\Expressions\ExpressionParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ExpressionParser
-    ' 
-    '         Function: [TryCast], ConstantExpression, CreateArray, ParenthesizedStack, ReferVariable
-    '                   StringConstant, UnaryExpression, UnaryValue, ValueCType, ValueExpression
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ExpressionParser
+' 
+'         Function: [TryCast], ConstantExpression, CreateArray, ParenthesizedStack, ReferVariable
+'                   StringConstant, UnaryExpression, UnaryValue, ValueCType, ValueExpression
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
+Imports Wasm.Symbols
 Imports Wasm.Symbols.Blocks
-Imports Wasm.Symbols.JavaScriptImports
 Imports Wasm.TypeInfo
 
 Namespace SyntaxAnalysis
@@ -88,7 +88,7 @@ Namespace SyntaxAnalysis
                     Return DirectCast(value, PredefinedCastExpressionSyntax).TryCast(symbols)
                 Case GetType(PredefinedTypeSyntax)
                     Return New TypeSymbol With {
-                        .Type = New TypeAbstract(DirectCast(value, PredefinedTypeSyntax).PredefinedType)
+                        .type = New TypeAbstract(DirectCast(value, PredefinedTypeSyntax).PredefinedType)
                     }
                 Case Else
                     Throw New NotImplementedException(value.GetType.FullName)
@@ -134,7 +134,7 @@ Namespace SyntaxAnalysis
                 .TopMostFrequent(TypeEquality.Test)
             Dim array As New ArraySymbol With {
                 .Initialize = elements,
-                .Type = elementType.MakeArrayType
+                .type = elementType.MakeArrayType
             }
 
             ' 导入数组操作所需要的外部api
@@ -177,12 +177,12 @@ Namespace SyntaxAnalysis
                 }
             Else
                 Dim left = New LiteralExpression With {
-                   .Type = right.TypeInfer(symbols),
+                   .type = right.TypeInfer(symbols),
                    .value = 0
                 }
                 Dim opFunc As New ReferenceSymbol With {
-                    .Type = SymbolType.Operator,
-                    .Symbol = $"{left.type}.{TypeExtensions.wasmOpName(op)}"
+                    .type = SymbolType.Operator,
+                    .symbol = $"{left.type}.{TypeExtensions.wasmOpName(op)}"
                 }
 
                 Return New FuncInvoke With {
@@ -286,7 +286,7 @@ Namespace SyntaxAnalysis
             Call memory.stringValue(intPtr)
 
             Return New LiteralExpression With {
-               .Type = New TypeAbstract("string"),
+               .type = New TypeAbstract("string"),
                .value = intPtr
             }
         End Function

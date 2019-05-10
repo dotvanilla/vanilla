@@ -48,7 +48,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
-Imports Wasm.Symbols.Parser
+Imports Wasm.SyntaxAnalysis
 Imports Wasm.TypeInfo
 
 Namespace Symbols.MemoryObject

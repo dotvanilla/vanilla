@@ -56,8 +56,8 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
-Imports Wasm.Symbols.Parser
 Imports Wasm.TypeInfo
 
 Namespace SyntaxAnalysis
@@ -218,7 +218,7 @@ Namespace SyntaxAnalysis
                     exports += New ExportSymbolExpression With {
                         .Name = functions.Last.name.Trim("$"c),
                         .target = functions.Last,
-                        .Type = "func",
+                        .type = "func",
                         .[module] = moduleName
                     }
                 End If
@@ -232,11 +232,11 @@ Namespace SyntaxAnalysis
             Return New ModuleSymbol With {
                 .InternalFunctions = functions,
                 .LabelName = moduleName,
-                .exports = exports,
+                .Exports = exports,
                 .[Imports] = symbolTable.GetAllImports.ToArray,
                 .Globals = symbolTable.GetAllGlobals.ToArray,
                 .Memory = symbolTable,
-                .start = New Start With {
+                .Start = New Start With {
                     .constructors = New List(Of FuncSymbol) From {start}
                 }
             }
@@ -253,7 +253,7 @@ Namespace SyntaxAnalysis
             Return New FuncSymbol() With {
                 .body = moduleNew.body,
                 .locals = moduleNew.locals,
-                .IsExtensionMethod = False,
+                .isExtensionMethod = False,
                 .[module] = symbols.currentModuleLabel,
                 .name = "constructor",
                 .parameters = {},
@@ -278,7 +278,7 @@ Namespace SyntaxAnalysis
                     .importAlias = api.AliasName.Token.ValueText,
                     .package = api.LibraryName.Token.ValueText,
                     .[module] = moduleName,
-                    .IsExtensionMethod = api.IsExtensionMethod
+                    .isExtensionMethod = api.IsExtensionMethod
                 }
 
                 ' add api symbols for type match in function body

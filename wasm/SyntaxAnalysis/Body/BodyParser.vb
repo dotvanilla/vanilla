@@ -52,6 +52,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
+Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
@@ -203,7 +204,7 @@ Namespace SyntaxAnalysis
                     Return New SetGlobalVariable With {
                         .[module] = [global].module,
                         .var = [global].name,
-                        .Value = rightValue
+                        .value = rightValue
                     }
 
                 ElseIf symbols.GetUnderlyingType(objName) = GetType(DictionaryBase).FullName Then
@@ -254,7 +255,7 @@ Namespace SyntaxAnalysis
             If symbols.IsLocal(var) Then
                 Return New SetLocalVariable With {
                     .var = var,
-                    .Value = valueRight
+                    .value = valueRight
                 }
             Else
                 ' 在这里的全局变量没有添加模块名称引用
@@ -263,7 +264,7 @@ Namespace SyntaxAnalysis
 
                 Return New SetGlobalVariable With {
                     .var = var,
-                    .Value = valueRight,
+                    .value = valueRight,
                     .[module] = [global].module
                 }
             End If

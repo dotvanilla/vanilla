@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::194b8677d643f3413aa17664cea82d08, Symbols\DeclaredObject\JavaScriptImports\ArrayList.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Array
-    ' 
-    '         Properties: GetArrayElement, Length, NewArray, Pop, Push
-    '                     SetElement
-    ' 
-    '         Function: IsArrayOperation, Method
-    ' 
-    '         Sub: doArrayImports
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Array
+' 
+'         Properties: GetArrayElement, Length, NewArray, Pop, Push
+'                     SetElement
+' 
+'         Function: IsArrayOperation, Method
+' 
+'         Sub: doArrayImports
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Wasm.Compiler
-Imports Wasm.Symbols.Parser
+Imports Wasm.SyntaxAnalysis
 Imports Wasm.TypeInfo
 
 Namespace Symbols.JavaScriptImports
@@ -71,7 +71,7 @@ Namespace Symbols.JavaScriptImports
                 Return New ImportSymbol With {
                     .importAlias = "push",
                     .definedInModule = False,
-                    .Name = $"{ofElement.type}_array.push",
+                    .name = $"{ofElement.type}_array.push",
                     .[module] = "array",
                     .package = NameOf(Array),
                     .result = New TypeAbstract(TypeAlias.list),
@@ -88,7 +88,7 @@ Namespace Symbols.JavaScriptImports
                 Return New ImportSymbol With {
                     .importAlias = "pop",
                     .definedInModule = False,
-                    .Name = $"{ofElement.type}_array.pop",
+                    .name = $"{ofElement.type}_array.pop",
                     .[module] = "array",
                     .package = NameOf(Array),
                     .result = New TypeAbstract(ofElement.type),
@@ -107,7 +107,7 @@ Namespace Symbols.JavaScriptImports
             .importAlias = "create",
             .definedInModule = False,
             .[module] = "array",
-            .Name = "array.new",
+            .name = "array.new",
             .package = NameOf(Array),
             .result = New TypeAbstract(TypeAlias.list),
             .parameters = {
@@ -121,7 +121,7 @@ Namespace Symbols.JavaScriptImports
                     .importAlias = "get",
                     .[module] = "array",
                     .definedInModule = False,
-                    .Name = $"{ofElement.type}_array.get",
+                    .name = $"{ofElement.type}_array.get",
                     .package = NameOf(Array),
                     .result = New TypeAbstract(ofElement),
                     .parameters = {
@@ -138,7 +138,7 @@ Namespace Symbols.JavaScriptImports
                     .importAlias = "set",
                     .[module] = "array",
                     .definedInModule = False,
-                    .Name = $"{ofElement.type}_array.set",
+                    .name = $"{ofElement.type}_array.set",
                     .package = NameOf(Array),
                     .result = New TypeAbstract("void"),
                     .parameters = {
@@ -154,7 +154,7 @@ Namespace Symbols.JavaScriptImports
             .importAlias = "length",
             .[module] = "array",
             .definedInModule = False,
-            .Name = "array.length",
+            .name = "array.length",
             .package = NameOf(Array),
             .result = TypeAbstract.i32,
             .parameters = {
