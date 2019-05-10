@@ -51,7 +51,7 @@ Imports Wasm.Compiler
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module MemberCallsParser
 
@@ -70,7 +70,7 @@ Namespace Symbols.Parser
                 [const] = symbols.GetEnumType(objName)
 
                 Return New LiteralExpression With {
-                    .type = New TypeAbstract([const].type),
+                    .Type = New TypeAbstract([const].type),
                     .value = [const].Members(memberName)
                 }
             ElseIf (Not symbols.IsAnyObject(objName)) AndAlso (Not objName Like symbols.ModuleNames) Then

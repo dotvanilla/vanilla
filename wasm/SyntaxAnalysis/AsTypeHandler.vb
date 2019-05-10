@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     ''' <summary>
     ''' 因为VB的变量可以使用TypeChar和As这两种形式的申明

@@ -52,7 +52,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols.MemoryObject
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     ''' <summary>
     ''' Parser for class/structure
@@ -116,7 +116,7 @@ Namespace Symbols.Parser
                     .init = globalField.init,
                     .[module] = className,
                     .name = globalField.name,
-                    .type = globalField.type
+                    .Type = globalField.type
                 }
             Next
 

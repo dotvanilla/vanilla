@@ -60,7 +60,7 @@ Imports Wasm.Symbols.MemoryObject
 Imports Wasm.Symbols.Parser
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Public Module ModuleParser
 
@@ -218,7 +218,7 @@ Namespace Symbols.Parser
                     exports += New ExportSymbolExpression With {
                         .Name = functions.Last.name.Trim("$"c),
                         .target = functions.Last,
-                        .type = "func",
+                        .Type = "func",
                         .[module] = moduleName
                     }
                 End If
@@ -232,11 +232,11 @@ Namespace Symbols.Parser
             Return New ModuleSymbol With {
                 .InternalFunctions = functions,
                 .LabelName = moduleName,
-                .Exports = exports,
+                .exports = exports,
                 .[Imports] = symbolTable.GetAllImports.ToArray,
                 .Globals = symbolTable.GetAllGlobals.ToArray,
                 .Memory = symbolTable,
-                .Start = New Start With {
+                .start = New Start With {
                     .constructors = New List(Of FuncSymbol) From {start}
                 }
             }
@@ -253,7 +253,7 @@ Namespace Symbols.Parser
             Return New FuncSymbol() With {
                 .body = moduleNew.body,
                 .locals = moduleNew.locals,
-                .isExtensionMethod = False,
+                .IsExtensionMethod = False,
                 .[module] = symbols.currentModuleLabel,
                 .name = "constructor",
                 .parameters = {},
@@ -278,7 +278,7 @@ Namespace Symbols.Parser
                     .importAlias = api.AliasName.Token.ValueText,
                     .package = api.LibraryName.Token.ValueText,
                     .[module] = moduleName,
-                    .isExtensionMethod = api.IsExtensionMethod
+                    .IsExtensionMethod = api.IsExtensionMethod
                 }
 
                 ' add api symbols for type match in function body

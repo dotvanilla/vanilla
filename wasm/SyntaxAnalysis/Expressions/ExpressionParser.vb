@@ -53,7 +53,7 @@ Imports Wasm.Symbols.Blocks
 Imports Wasm.Symbols.JavaScriptImports
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module ExpressionParser
 
@@ -88,7 +88,7 @@ Namespace Symbols.Parser
                     Return DirectCast(value, PredefinedCastExpressionSyntax).TryCast(symbols)
                 Case GetType(PredefinedTypeSyntax)
                     Return New TypeSymbol With {
-                        .type = New TypeAbstract(DirectCast(value, PredefinedTypeSyntax).PredefinedType)
+                        .Type = New TypeAbstract(DirectCast(value, PredefinedTypeSyntax).PredefinedType)
                     }
                 Case Else
                     Throw New NotImplementedException(value.GetType.FullName)
@@ -134,7 +134,7 @@ Namespace Symbols.Parser
                 .TopMostFrequent(TypeEquality.Test)
             Dim array As New ArraySymbol With {
                 .Initialize = elements,
-                .type = elementType.MakeArrayType
+                .Type = elementType.MakeArrayType
             }
 
             ' 导入数组操作所需要的外部api
@@ -177,7 +177,7 @@ Namespace Symbols.Parser
                 }
             Else
                 Dim left = New LiteralExpression With {
-                   .type = right.TypeInfer(symbols),
+                   .Type = right.TypeInfer(symbols),
                    .value = 0
                 }
                 Dim opFunc As New ReferenceSymbol With {
@@ -286,7 +286,7 @@ Namespace Symbols.Parser
             Call memory.stringValue(intPtr)
 
             Return New LiteralExpression With {
-               .type = New TypeAbstract("string"),
+               .Type = New TypeAbstract("string"),
                .value = intPtr
             }
         End Function

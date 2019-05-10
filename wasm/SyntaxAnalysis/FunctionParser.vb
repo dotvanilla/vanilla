@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module FunctionParser
 
@@ -206,8 +206,8 @@ Namespace Symbols.Parser
         Private Sub addImplicitReturns(func As FuncSymbol)
             Dim implicitReturn As New ReturnValue With {
                 .Internal = New LiteralExpression With {
-                    .type = func.result,
-                    .value = 0
+                    .Type = func.result,
+                    .Value = 0
                 }
             }
 

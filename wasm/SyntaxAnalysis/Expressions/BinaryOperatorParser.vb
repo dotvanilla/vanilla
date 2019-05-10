@@ -50,7 +50,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module BinaryOperatorParser
 
@@ -125,7 +125,7 @@ Namespace Symbols.Parser
                 .parameters = {left, right},
                 .refer = New ReferenceSymbol With {
                     .Symbol = funcOpName,
-                    .Type = SymbolType.Operator
+                    .type = SymbolType.Operator
                 },
                 .[operator] = True
             }

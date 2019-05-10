@@ -55,7 +55,7 @@ Imports Wasm.Compiler
 Imports Wasm.Symbols.Blocks
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module BlockParser
 
@@ -105,7 +105,7 @@ Namespace Symbols.Parser
             If TypeOf control Is DeclareLocal Then
                 Yield New SetLocalVariable With {
                     .var = DirectCast(control, DeclareLocal).name,
-                    .value = CTypeHandle.CType(control.TypeInfer(symbols), init, symbols)
+                    .Value = CTypeHandle.CType(control.TypeInfer(symbols), init, symbols)
                 }
             Else
                 Yield control
@@ -122,7 +122,7 @@ Namespace Symbols.Parser
             End If
 
             Yield New CommentText With {
-                .text = forBlock.ForStatement.ToString
+                .Text = forBlock.ForStatement.ToString
             }
 
             Dim block As New [Loop] With {
@@ -142,12 +142,12 @@ Namespace Symbols.Parser
             internal += forBlock.Statements.ParseBlockInternal(symbols)
             ' 更新循环控制变量的值
             internal += New CommentText With {
-                .text = $"For loop control step: {stepValue.ToSExpression}"
+                .Text = $"For loop control step: {stepValue.ToSExpression}"
             }
-            internal += New SetLocalVariable With {.var = controlVar.var, .value = doStep}
+            internal += New SetLocalVariable With {.var = controlVar.var, .Value = doStep}
             internal += [next]
             internal += New CommentText With {
-                .text = $"For Loop Next On {[next].blockLabel}"
+                .Text = $"For Loop Next On {[next].blockLabel}"
             }
 
             block.internal = internal
@@ -259,7 +259,7 @@ Namespace Symbols.Parser
             If [do].WhileOrUntilKeyword.ValueText = "Until" Then
                 Throw New NotImplementedException
             Else
-                Yield New CommentText With {.text = doLoopBlock.DoStatement.ToString}
+                Yield New CommentText With {.Text = doLoopBlock.DoStatement.ToString}
 
                 For Each line In condition.whileLoopInternal(doLoopBlock.Statements, symbols)
                     Yield line
@@ -275,7 +275,7 @@ Namespace Symbols.Parser
             }
             Dim internal As New List(Of Expression)
 
-            Yield New CommentText With {.text = $"Start Do While Block {block.guid}"}
+            Yield New CommentText With {.Text = $"Start Do While Block {block.guid}"}
 
             internal += New br_if With {
                 .blockLabel = block.guid,
@@ -287,7 +287,7 @@ Namespace Symbols.Parser
             block.internal = internal
 
             Yield block
-            Yield New CommentText With {.text = $"End Loop {block.loopID}"}
+            Yield New CommentText With {.Text = $"End Loop {block.loopID}"}
         End Function
 
         <Extension>

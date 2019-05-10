@@ -53,7 +53,7 @@ Imports Wasm.Symbols.JavaScriptImports
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module DeclaratorParser
 

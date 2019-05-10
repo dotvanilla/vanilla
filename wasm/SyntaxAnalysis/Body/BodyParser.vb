@@ -55,7 +55,7 @@ Imports Wasm.Compiler
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     ''' <summary>
     ''' Parser of the function body
@@ -203,7 +203,7 @@ Namespace Symbols.Parser
                     Return New SetGlobalVariable With {
                         .[module] = [global].module,
                         .var = [global].name,
-                        .value = rightValue
+                        .Value = rightValue
                     }
 
                 ElseIf symbols.GetUnderlyingType(objName) = GetType(DictionaryBase).FullName Then
@@ -254,7 +254,7 @@ Namespace Symbols.Parser
             If symbols.IsLocal(var) Then
                 Return New SetLocalVariable With {
                     .var = var,
-                    .value = valueRight
+                    .Value = valueRight
                 }
             Else
                 ' 在这里的全局变量没有添加模块名称引用
@@ -263,7 +263,7 @@ Namespace Symbols.Parser
 
                 Return New SetGlobalVariable With {
                     .var = var,
-                    .value = valueRight,
+                    .Value = valueRight,
                     .[module] = [global].module
                 }
             End If

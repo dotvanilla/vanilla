@@ -52,7 +52,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module StringParser
 
@@ -126,7 +126,7 @@ Namespace Symbols.Parser
                 symbols.stringValue(value)
 
                 Return New LiteralExpression With {
-                    .type = New TypeAbstract(TypeAlias.string),
+                    .Type = New TypeAbstract(TypeAlias.string),
                     .value = value
                 }
             Else

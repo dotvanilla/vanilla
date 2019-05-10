@@ -48,7 +48,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module AttributeParser
 

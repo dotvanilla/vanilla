@@ -56,7 +56,7 @@ Imports Wasm.Compiler
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Public Module ObjectOperator
 
@@ -223,7 +223,7 @@ Namespace Symbols.Parser
 
             initializer += New CommentText($"Offset object manager with {obj.width} bytes.")
             initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
-                .value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
+                .Value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
             }
 
             If Not funCalls Is Nothing Then

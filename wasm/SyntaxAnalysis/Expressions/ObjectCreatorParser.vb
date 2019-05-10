@@ -51,7 +51,7 @@ Imports Wasm.Compiler
 Imports Wasm.Symbols.JavaScriptImports
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module ObjectCreatorParser
 

@@ -51,7 +51,7 @@ Imports Wasm.Compiler
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Public Module ArrayExpressionParser
 

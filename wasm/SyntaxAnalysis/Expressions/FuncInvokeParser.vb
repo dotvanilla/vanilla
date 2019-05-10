@@ -53,7 +53,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Parser
+Namespace SyntaxAnalysis
 
     Module FuncInvokeParser
 
@@ -265,13 +265,13 @@ Namespace Symbols.Parser
                 ' default value of boolean in VisualBasic.NET is True/False
                 ' should translate to i32 1 or 0 in webassembly
                 Return New LiteralExpression With {
-                    .type = arg.Value,
-                    .value = If(arg.Description.ParseBoolean, 1, 0)
+                    .Type = arg.Value,
+                    .Value = If(arg.Description.ParseBoolean, 1, 0)
                 }
             Else
                 Return New LiteralExpression With {
-                    .type = arg.Value,
-                    .value = arg.Description
+                    .Type = arg.Value,
+                    .Value = arg.Description
                 }
             End If
         End Function
