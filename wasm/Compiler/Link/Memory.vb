@@ -113,7 +113,7 @@ Namespace Compiler
         ''' <remarks>
         ''' 和字符串数据不同，数组对象的内存不是静态分配的
         ''' </remarks>
-        Public Function AllocateArrayBlock(ofElement As TypeAbstract, count%) As ArrayBlock
+        Public Function AllocateArrayBlock(ofElement As TypeAbstract, count As Expression) As ArrayBlock
             Dim array As New ArrayBlock(symbols) With {
                 .length = count,
                 .type = ofElement.MakeArrayType,

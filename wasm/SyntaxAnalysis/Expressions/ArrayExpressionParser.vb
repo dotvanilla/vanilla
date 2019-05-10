@@ -74,10 +74,7 @@ Namespace Symbols.Parser
                     .GetExpression _
                     .ValueExpression(symbols)
 
-                Return New Array With {
-                    .size = bounds,
-                    .type = arrayType
-                }
+                Return symbols.memory.AllocateArrayBlock(arrayType.generic(Scan0), bounds)
             End If
         End Function
 

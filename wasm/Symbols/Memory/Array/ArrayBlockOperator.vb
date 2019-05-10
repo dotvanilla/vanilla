@@ -68,7 +68,7 @@ Namespace Symbols.MemoryObject
         <Extension>
         Friend Function writeArray(array As ArraySymbol, symbols As SymbolTable, arrayType As TypeAbstract) As Expression
             Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
-            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, array.Initialize.Length)
+            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, Literal.i32(array.Initialize.Length))
             Dim save As New List(Of Expression)
             Dim size As Integer = sizeOf(ofElement, symbols)
             ' 在这里需要跳过数组前面的8个字节
