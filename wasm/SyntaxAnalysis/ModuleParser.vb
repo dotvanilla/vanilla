@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95412b4be7f3e6f388e853cfea3ff5c8, SyntaxAnalysis\ModuleParser.vb"
+﻿#Region "Microsoft.VisualBasic::41b89f30b5b36a6f5212e4cc387dcb7e, SyntaxAnalysis\ModuleParser.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@
 
     '     Module ModuleParser
     ' 
-    '         Function: AsConstructor, (+2 Overloads) CreateModule, CreateModuleInternal, CreateUnitModule, (+2 Overloads) isConst
-    '                   Join, ParseDeclares, parseEnums, ParseEnums
+    '         Function: AddCustomTypes, AsConstructor, (+2 Overloads) CreateModule, CreateModuleInternal, CreateUnitModule
+    '                   (+2 Overloads) isConst, Join, ParseDeclares, parseEnums, ParseEnums
     ' 
     '         Sub: parseGlobals, parseImports
     ' 
