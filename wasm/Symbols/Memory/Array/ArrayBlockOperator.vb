@@ -70,6 +70,17 @@ Namespace Symbols.MemoryObject
             Return array.Initialize.writeArray(symbols, arrayType)
         End Function
 
+        <Extension>
+        Public Function writeEmptyArray(symbols As SymbolTable, ofElement As TypeAbstract, length As Expression) As ArrayBlock
+            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, length)
+            arrayBlock.itemOffset = "arrayOffset_" & symbols.NextGuid
+            arrayBlock.elements = {}
+
+            Call symbols.AddLocal(arrayBlock.itemOffset, "i32")
+
+            Return arrayBlock
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -83,13 +94,11 @@ Namespace Symbols.MemoryObject
         <Extension>
         Friend Function writeArray(arrayInitialize As Expression(), symbols As SymbolTable, arrayType As TypeAbstract) As Expression
             Dim ofElement As TypeAbstract = arrayType.generic(Scan0)
-            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, Literal.i32(arrayInitialize.Length))
+            Dim arrayBlock As ArrayBlock = symbols.writeEmptyArray(ofElement, Literal.i32(arrayInitialize.Length))
             Dim save As New List(Of Expression)
             Dim size As Integer = sizeOf(ofElement, symbols)
             ' 在这里需要跳过数组前面的8个字节
-            Dim offset As New GetLocalVariable("arrayOffset_" & symbols.NextGuid)
-
-            Call symbols.AddLocal(offset.var, "i32")
+            Dim offset As New GetLocalVariable(arrayBlock.itemOffset)
 
             If ofElement = TypeAlias.intptr AndAlso symbols.FindByClassId(ofElement.class_id).isStruct Then
                 save += symbols.writeStructArray(offset, size, arrayInitialize, ofElement)
@@ -106,7 +115,6 @@ Namespace Symbols.MemoryObject
             End If
 
             arrayBlock.elements = save
-            arrayBlock.itemOffset = offset.var
 
             Return arrayBlock
         End Function
