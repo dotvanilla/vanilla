@@ -7,6 +7,17 @@ Namespace Symbols.MemoryObject
 
         Public Property expression As Expression
 
+        Sub New()
+        End Sub
+
+        Sub New(i As Integer)
+            expression = Literal.i32(i)
+        End Sub
+
+        Sub New(value As Expression)
+            expression = value
+        End Sub
+
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return TypeAbstract.i32
         End Function
@@ -43,7 +54,15 @@ Namespace Symbols.MemoryObject
             Return New IntPtr With {.expression = Add(intptr, Literal.i32(offset))}
         End Operator
 
+        Public Shared Operator +(intptr As IntPtr, offset As Expression) As IntPtr
+            Return New IntPtr With {.expression = Add(intptr, offset)}
+        End Operator
+
         Public Shared Operator *(intptr As IntPtr, n As Integer) As IntPtr
+            Return New IntPtr With {.expression = Multiply(intptr, Literal.i32(n))}
+        End Operator
+
+        Public Shared Operator *(n As Integer, intptr As IntPtr) As IntPtr
             Return New IntPtr With {.expression = Multiply(intptr, Literal.i32(n))}
         End Operator
 

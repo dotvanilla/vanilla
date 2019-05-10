@@ -78,7 +78,7 @@ Namespace Symbols.MemoryObject
         Public ReadOnly Property sizeOf As Expression
             Get
                 ' class_id + length + elements
-                Return Literal.i32(4 + 4) + elementSizeOf * length
+                Return Literal.IntPtr(4 + 4) + elementSizeOf * New IntPtr(length)
             End Get
         End Property
 
@@ -123,7 +123,7 @@ Namespace Symbols.MemoryObject
             ' 类型枚举值
             Yield BitConverter.save("i32", memoryPtr, class_id)
             ' 数组的元素数量
-            Yield BitConverter.save("i32", ArrayBlock.IndexOffset(memoryPtr, 4), Literal.i32(length))
+            Yield BitConverter.save("i32", ArrayBlock.IndexOffset(memoryPtr, 4), length)
 
             Yield New CommentText("End of byte marks meta data, start write data blocks")
 
