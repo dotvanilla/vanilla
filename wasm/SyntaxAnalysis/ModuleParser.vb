@@ -116,8 +116,19 @@ Namespace SyntaxAnalysis
                 .OfType(Of ModuleBlockSyntax) _
                 .ToArray
             Dim enums As EnumSymbol()
-            Dim symbols As New SymbolTable
+            Dim symbols As SymbolTable = vbcode.AddCustomTypes(New SymbolTable)
 
+            For Each main As ModuleBlockSyntax In project
+                enums = vbcode.ParseEnums
+                symbols = main.ParseDeclares(symbols, enums)
+            Next
+
+            ' 解析成员函数的具体定义内容
+            Return project.CreateModule(symbols, Nothing)
+        End Function
+
+        <Extension>
+        Public Function AddCustomTypes(vbcode As CompilationUnitSyntax, symbols As SymbolTable) As SymbolTable
             ' 因为class的解析，对于field对象而言是放在符号表的
             ' global对象之中的，所以在这里class的解析要优先于
             ' module的解析，否则会因为module的global混入class的fields
@@ -136,13 +147,7 @@ Namespace SyntaxAnalysis
             Call symbols.ClearLocals()
             Call symbols.ClearGlobals(includeConst:=False)
 
-            For Each main As ModuleBlockSyntax In project
-                enums = vbcode.ParseEnums
-                symbols = main.ParseDeclares(symbols, enums)
-            Next
-
-            ' 解析成员函数的具体定义内容
-            Return project.CreateModule(symbols, Nothing)
+            Return symbols
         End Function
 
         <Extension>

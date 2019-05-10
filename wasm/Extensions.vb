@@ -84,12 +84,12 @@ Public Module Extensions
         Dim dir As String = DirectCast(vbproj, IFileReference) _
             .FilePath _
             .ParentPath
-        Dim symbols As SymbolTable = Nothing
+        Dim symbols As New SymbolTable
         Dim vbcodes As ModuleBlockSyntax()
 
         With sourcefiles _
             .Select(Function(file) $"{dir}/{file}") _
-            .getModules _
+            .getModules(symbols) _
             .ToArray
 
             vbcodes = .OfType(Of ModuleBlockSyntax()) _
@@ -163,7 +163,7 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Private Iterator Function getModules(files As IEnumerable(Of String)) As IEnumerable(Of [Variant](Of EnumSymbol(), ModuleBlockSyntax()))
+    Private Iterator Function getModules(files As IEnumerable(Of String), symbols As SymbolTable) As IEnumerable(Of [Variant](Of EnumSymbol(), ModuleBlockSyntax()))
         Dim vbcode As CompilationUnitSyntax
         Dim modules As ModuleBlockSyntax()
         Dim enums As EnumSymbol()
@@ -172,6 +172,8 @@ Public Module Extensions
             vbcode = VisualBasicSyntaxTree.ParseText(file.SolveStream).GetRoot
             modules = vbcode.Members.OfType(Of ModuleBlockSyntax).ToArray
             enums = vbcode.ParseEnums
+
+            Call vbcode.AddCustomTypes(symbols)
 
             If modules.Length > 0 Then
                 Yield modules
