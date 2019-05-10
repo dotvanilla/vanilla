@@ -75,7 +75,7 @@ Namespace SyntaxAnalysis
                     .GetExpression _
                     .ValueExpression(symbols)
 
-                Return symbols.memory.AllocateArrayBlock(arrayType.generic(Scan0), bounds)
+                Return symbols.writeEmptyArray(arrayType.generic(Scan0), bounds)
             End If
         End Function
 

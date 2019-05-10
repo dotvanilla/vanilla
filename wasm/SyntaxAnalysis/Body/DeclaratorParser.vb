@@ -188,7 +188,7 @@ Namespace SyntaxAnalysis
                             .GetExpression _
                             .ValueExpression(symbols)
 
-                        init = symbols.memory.AllocateArrayBlock(type, init)
+                        init = symbols.writeEmptyArray(type, init)
                         type = type.MakeArrayType
                     End If
                 End If
