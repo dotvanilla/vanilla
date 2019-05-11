@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::595e6e9972eb5c3e2661df01a67f747b, test\multipleModuleContructortest.vb"
+﻿#Region "Microsoft.VisualBasic::777f42b3f5ed528daae64e9149c28adb, test\multipleModuleContructortest.vb"
 
     ' Author:
     ' 
@@ -78,4 +78,3 @@ Module multipleModuleContructortest3
         a = -999
     End Sub
 End Module
-
