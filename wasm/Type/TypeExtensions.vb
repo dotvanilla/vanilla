@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e251020d8f82546dcb970d8081abf220, Type\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a10778e7b59b81ed61462e05730e99da, Type\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -38,10 +38,9 @@
 
     '     Module TypeExtensions
     ' 
-    '         Properties: Comparison, Convert2Wasm, i32Add, i32Minus, i32Multiply
-    '                     NumberOrders, wasmOpName
+    '         Properties: Convert2Wasm, NumberOrders
     ' 
-    '         Function: ArrayElement, Compares, IsArray, TypeCharWasm
+    '         Function: ArrayElement, IsArray, TypeCharWasm
     ' 
     ' 
     ' /********************************************************************************/

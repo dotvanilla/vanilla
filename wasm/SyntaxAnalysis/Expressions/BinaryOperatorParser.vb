@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1361ece15d6b8a06e23389535f46aaa0, SyntaxAnalysis\Expressions\BinaryOperatorParser.vb"
+﻿#Region "Microsoft.VisualBasic::92a57515841f6f01a501da6d65c5b455, SyntaxAnalysis\Expressions\BinaryOperatorParser.vb"
 
     ' Author:
     ' 
