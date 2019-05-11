@@ -338,7 +338,7 @@ Namespace SyntaxAnalysis
             Dim internal As New List(Of Expression)
 
             ' 为exit语句所准备的
-            symbols.context.blockGuid = block.guid
+            symbols.context.blockGuid.Push(block.guid)
 
             Yield New CommentText With {
                 .text = $"Start Do While Block {block.guid}"
@@ -368,6 +368,7 @@ Namespace SyntaxAnalysis
             internal += New br With {.blockLabel = block.loopID}
 
             block.internal = internal
+            symbols.context.blockGuid.Pop()
 
             Yield block
             Yield New CommentText With {.text = $"End Loop {block.loopID}"}

@@ -102,7 +102,7 @@ Namespace SyntaxAnalysis
         Public Function ExitBlock([exit] As ExitStatementSyntax, symbols As SymbolTable) As Expression
             If [exit].BlockKeyword.Value = "Do" Then
                 Return New br_if With {
-                    .blockLabel = symbols.context.blockGuid,
+                    .blockLabel = symbols.context.currentBlockGuid,
                     .condition = New BooleanSymbol With {
                         .condition = Literal.bool(True)
                     }
