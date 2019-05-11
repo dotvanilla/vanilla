@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b75757d17cb245512a97c94b76a1f2b, Type\TypeOperator.vb"
+﻿#Region "Microsoft.VisualBasic::0a66c5698bfadec20f6437049f396a4d, Type\TypeOperator.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module TypeOperator
     ' 
-    '         Properties: Comparison, i32Add, i32Minus, i32Multiply
+    '         Properties: Comparison, i32Add, i32Minus, i32Multiply, LogicalOperators
     ' 
     '         Function: BooleanLogical, Compares, GetDirectMapOperator, I32ByteOperator, IsValidDirectMapOperator
     ' 

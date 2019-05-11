@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce528d688d1a075c44ecbe4c512ab4fc, SyntaxAnalysis\Expressions\BinaryOperatorParser.vb"
+﻿#Region "Microsoft.VisualBasic::b7c98781845b42967c05c0a4071166b3, SyntaxAnalysis\Expressions\BinaryOperatorParser.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Module BinaryOperatorParser
     ' 
-    '         Function: (+2 Overloads) BinaryStack, IsPredicate
+    '         Function: (+2 Overloads) BinaryStack, DoComparison, DoLogical, highOrderTransfer, IsPredicate
     ' 
     ' 
     ' /********************************************************************************/

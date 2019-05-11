@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ff87c160243355a37dc0cd036f016a7, Symbols\DeclaredObject\SymbolType.vb"
+﻿#Region "Microsoft.VisualBasic::815cb641ae43ba6cbecb93fca1beaa14, Symbols\DeclaredObject\SymbolType.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Enum SymbolType
     ' 
-    '         [Operator], Api, GlobalVariable, Type
+    '         [Operator], Api, GlobalVariable, LogicalOperator, Type
     ' 
     '  
     ' 
