@@ -63,9 +63,7 @@ Namespace TypeInfo
             {"+", "add"},
             {"-", "sub"},
             {"*", "mul"},
-            {"/", "div"},
-            {"=", "eq"},
-            {"<>", "ne"}
+            {"/", "div"}
         }
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -97,19 +95,23 @@ Namespace TypeInfo
             .type = SymbolType.Operator
         }
 
-        Friend ReadOnly unaryOp As Index(Of String) = {
-            wasmOpName("+"),
-            wasmOpName("-")
-        }
+        Friend ReadOnly unaryOp As Index(Of String) = {wasmOpName("+"), wasmOpName("-")}
         Friend ReadOnly integerType As Index(Of String) = {"i32", "i64"}
         Friend ReadOnly floatType As Index(Of String) = {"f32", "f64"}
+        Friend ReadOnly comparisonOp As Index(Of String) = {">", ">=", "<", "<=", "=", "<>"}
 
+        ''' <summary>
+        ''' 数值之间的比较运算符
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Comparison As Index(Of String) = {"f32", "f64", "i32", "i64"} _
             .Select(Function(type)
                         Return {">", ">=", "<", "<=", "="}.Select(Function(op) Compares(type, op))
                     End Function) _
             .IteratesALL _
             .ToArray
+
+        Public ReadOnly Property LogicalOperators As Index(Of String) = {"And", "Or", "AndAlso", "OrElse"}
 
         ''' <summary>
         ''' 值比较函数返回的是一个整型数

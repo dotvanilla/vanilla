@@ -65,6 +65,10 @@ Namespace Symbols
         ''' </summary>
         [Operator]
         ''' <summary>
+        ''' 因为i32类型会与逻辑值混淆，所以在这里使用这个标记来区分函数的返回值
+        ''' </summary>
+        LogicalOperator
+        ''' <summary>
         ''' 是一个全局变量
         ''' </summary>
         GlobalVariable

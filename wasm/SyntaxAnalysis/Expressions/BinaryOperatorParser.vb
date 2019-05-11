@@ -71,6 +71,30 @@ Namespace SyntaxAnalysis
             Return BinaryStack(left, right, op, symbols)
         End Function
 
+        <Extension>
+        Private Function highOrderTransfer(symbols As SymbolTable, ByRef left As Expression, ByRef right As Expression) As TypeAbstract
+            Dim type As TypeAbstract
+
+            ' 其他的运算符则需要两边的类型保持一致
+            ' 往高位转换
+            ' i32 -> f32 -> i64 -> f64
+            Dim lt = left.TypeInfer(symbols)
+            Dim rt = right.TypeInfer(symbols)
+            Dim li = TypeExtensions.NumberOrders(lt.type)
+            Dim ri = TypeExtensions.NumberOrders(rt.type)
+
+            If li > ri Then
+                type = lt
+            Else
+                type = rt
+            End If
+
+            left = CTypeHandle.CType(type, left, symbols)
+            right = CTypeHandle.CType(type, right, symbols)
+
+            Return type
+        End Function
+
         ''' <summary>
         ''' NOTE: div between two integer will convert to double div automatic. 
         ''' </summary>
@@ -89,44 +113,31 @@ Namespace SyntaxAnalysis
                 Return symbols.StringAppend(left, right)
             ElseIf op = "Is" Then
                 Return symbols.IsPredicate(left, right)
+            ElseIf op Like comparisonOp Then
+                Return symbols.DoComparison(left, right, op)
             Else
-                ' 其他的运算符则需要两边的类型保持一致
-                ' 往高位转换
-                ' i32 -> f32 -> i64 -> f64
-                Dim lt = left.TypeInfer(symbols)
-                Dim rt = right.TypeInfer(symbols)
-                Dim li = TypeExtensions.NumberOrders(lt.type)
-                Dim ri = TypeExtensions.NumberOrders(rt.type)
-
-                If li > ri Then
-                    type = lt
-                Else
-                    type = rt
-                End If
-
-                left = CTypeHandle.CType(type, left, symbols)
-                right = CTypeHandle.CType(type, right, symbols)
+                type = symbols.highOrderTransfer(left, right)
             End If
 
-            Dim funcOpName As [Variant](Of String, ImportSymbol)
+            Dim func As [Variant](Of String, ImportSymbol)
 
             If TypeOperator.IsValidDirectMapOperator(op) Then
-                funcOpName = TypeOperator.GetDirectMapOperator(op)
+                func = TypeOperator.GetDirectMapOperator(op)
 
                 If type = TypeAlias.boolean Then
-                    funcOpName = $"i32.{funcOpName}"
+                    func = $"i32.{func}"
                 Else
-                    funcOpName = $"{type}.{funcOpName}"
+                    func = $"{type}.{func}"
                 End If
             ElseIf op = "^" Then
-                funcOpName = JavaScriptImports.Math.Pow
+                func = JavaScriptImports.Math.Pow
             Else
-                funcOpName = TypeOperator.Compares(type.raw, op)
+                func = TypeOperator.Compares(type.raw, op)
             End If
 
             ' 需要根据类型来决定操作符函数的类型来源
-            If funcOpName Like GetType(ImportSymbol) Then
-                Return funcOpName _
+            If func Like GetType(ImportSymbol) Then
+                Return func _
                     .TryCast(Of ImportSymbol) _
                     .FunctionInvoke(
                         CTypeHandle.CDbl(left, symbols),
@@ -136,12 +147,26 @@ Namespace SyntaxAnalysis
                 Return New FuncInvoke With {
                     .parameters = {left, right},
                     .refer = New ReferenceSymbol With {
-                        .symbol = funcOpName,
+                        .symbol = func,
                         .type = SymbolType.Operator
                     },
                     .[operator] = True
                 }
             End If
+        End Function
+
+        <Extension>
+        Public Function DoComparison(symbols As SymbolTable, left As Expression, right As Expression, op$) As Expression
+            Dim type As TypeAbstract = symbols.highOrderTransfer(left, right)
+
+            Return New FuncInvoke With {
+                .[operator] = True,
+                .parameters = {left, right},
+                .refer = New ReferenceSymbol With {
+                    .symbol = TypeOperator.Compares(type.typefit, op),
+                    .type = SymbolType.LogicalOperator
+                }
+            }
         End Function
 
         <Extension>
@@ -154,7 +179,7 @@ Namespace SyntaxAnalysis
                     .parameters = {left, right},
                     .refer = New ReferenceSymbol With {
                         .symbol = TypeOperator.Compares("i32", "="),
-                        .type = SymbolType.Operator
+                        .type = SymbolType.LogicalOperator
                     }
                 }
             Else

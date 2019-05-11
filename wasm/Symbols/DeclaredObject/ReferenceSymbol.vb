@@ -58,7 +58,7 @@ Namespace Symbols
         Public Property type As SymbolType
 
         Public Overrides Function ToString() As String
-            If type = SymbolType.Operator Then
+            If type = SymbolType.Operator OrElse SymbolType.LogicalOperator Then
                 Return symbol
             ElseIf type = SymbolType.Api Or type = SymbolType.Type Then
                 If [module].StringEmpty Then
