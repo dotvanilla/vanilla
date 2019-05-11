@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c40189789cdc67adf7908a615c30a6b5, Compiler\Link\SymbolTable.vb"
+﻿#Region "Microsoft.VisualBasic::93e4364a53730b936766bdf18b390380, Compiler\Link\SymbolTable.vb"
 
     ' Author:
     ' 
@@ -38,15 +38,14 @@
 
     '     Class SymbolTable
     ' 
-    '         Properties: currentFuncSymbol, currentModuleLabel, currentObject, memory, ModuleNames
-    '                     NextGuid, requires
+    '         Properties: context, memory, ModuleNames, NextGuid, requires
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
     '         Function: AddFunctionDeclares, FindByClassId, GetAllGlobals, GetAllImports, GetAllLocals
-    '                   GetClassType, GetEnumType, (+2 Overloads) GetFunctionSymbol, GetObjectReference, GetObjectSymbol
-    '                   GetUnderlyingType, HaveClass, HaveEnumType, IsAnyObject, IsLocal
-    '                   IsModuleFunction, stringContext, ToString, TryGetGlobal
+    '                   GetClassType, GetEnumType, (+2 Overloads) GetFunctionSymbol, GetGlobalStarter, GetObjectReference
+    '                   GetObjectSymbol, GetUnderlyingType, HaveClass, HaveEnumType, IsAnyObject
+    '                   IsLocal, IsModuleFunction, stringContext, ToString, TryGetGlobal
     ' 
     '         Sub: (+2 Overloads) AddClass, AddEnumType, AddGlobal, AddImports, (+3 Overloads) AddLocal
     '              ClearGlobals, ClearLocals

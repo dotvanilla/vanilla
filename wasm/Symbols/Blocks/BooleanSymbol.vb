@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::635c3c322f41c3fae15d74a4fdde3380, Symbols\Blocks\BooleanSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::524c3c9858f35029d985fcde6c24bca6, Symbols\Blocks\BooleanSymbol.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class BooleanSymbol
     ' 
-    '         Properties: [IsNot], Condition
+    '         Properties: [isNot], condition
     ' 
     '         Function: BinaryCompares, ToSExpression, TypeInfer
     ' 

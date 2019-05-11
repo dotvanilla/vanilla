@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8a6cdfb83190c6c03167f6ccf18fb53, SyntaxAnalysis\ClassParser.vb"
+﻿#Region "Microsoft.VisualBasic::011d96774c3b762cb6c515d87bdaf097, SyntaxAnalysis\ClassParser.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7aedc23f3f0e916492869918d9c1d00d, SyntaxAnalysis\Body\BlockParser.vb"
+﻿#Region "Microsoft.VisualBasic::7f09b5d77d6fd2efc1e26e7eb3f701c2, SyntaxAnalysis\Body\BlockParser.vb"
 
     ' Author:
     ' 
