@@ -75,6 +75,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "..\functionVariableTest.vb",
                 "..\logicalTest.vb",
                 "..\functionReferenceTest.vb",
                 "..\multipleLevelLoops.vb",
