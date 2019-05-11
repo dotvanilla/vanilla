@@ -179,29 +179,37 @@ Namespace TypeInfo
                     End If
                 Case Else
                     If type = "i32" Then
-                        ' 有一些位相关的操作只能够执行在i32上面
-                        Select Case op
-                            Case "<<" : Return "i32.shl"
-                            Case ">>" : Return "i32.shr_s"
-                            Case "And" : Return "i32.and"
-                            Case "Or" : Return "i32.or"
-                            Case Else
-                                Throw New NotImplementedException
-                        End Select
+                        Return I32ByteOperator(op)
                     ElseIf type = "boolean" Then
-                        Select Case op
-                            Case "And"
-                                ' 逻辑与是乘法操作
-                                Return $"i32.{wasmOpName("*")}"
-                            Case "Or"
-                                ' 逻辑或是加法操作
-                                Return $"i32.{wasmOpName("+")}"
-                            Case Else
-                                Throw New NotImplementedException
-                        End Select
+                        Return BooleanLogical(op)
                     Else
                         Throw New NotImplementedException
                     End If
+            End Select
+        End Function
+
+        Public Function I32ByteOperator(op As String) As String
+            ' 有一些位相关的操作只能够执行在i32上面
+            Select Case op
+                Case "<<" : Return "i32.shl"
+                Case ">>" : Return "i32.shr_s"
+                Case "And" : Return "i32.and"
+                Case "Or" : Return "i32.or"
+                Case Else
+                    Throw New NotImplementedException
+            End Select
+        End Function
+
+        Public Function BooleanLogical(op As String) As String
+            Select Case op
+                Case "And", "AndAlso"
+                    ' 逻辑与是乘法操作
+                    Return $"i32.{wasmOpName("*")}"
+                Case "Or", "OrElse"
+                    ' 逻辑或是加法操作
+                    Return $"i32.{wasmOpName("+")}"
+                Case Else
+                    Throw New NotImplementedException
             End Select
         End Function
 
