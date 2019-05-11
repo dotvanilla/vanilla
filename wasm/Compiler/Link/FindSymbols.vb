@@ -70,7 +70,14 @@ Namespace Compiler
 
             ' 没有找到目标函数
             If funcs Is Nothing Then
-                Return Nothing
+                ' 在这里自动导入Math的函数
+                If context = "Math" Then
+                    Dim Api As ImportSymbol = JavaScriptImports.Math.Method(name)
+                    Call symbols.addRequired(Api)
+                    Return Api
+                Else
+                    Return Nothing
+                End If
             ElseIf funcs.IsUnique Then
                 Return funcs.GetUniqueSymbol
             Else

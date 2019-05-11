@@ -49,6 +49,9 @@ Imports Wasm.TypeInfo
 
 Namespace Symbols.JavaScriptImports
 
+    ''' <summary>
+    ''' The javascript ``Math.xxx`` function imports
+    ''' </summary>
     Public Module Math
 
         Public ReadOnly Property Pow As New ImportSymbol With {
