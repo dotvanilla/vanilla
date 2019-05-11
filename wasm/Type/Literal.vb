@@ -83,14 +83,14 @@ Namespace TypeInfo
         Public Shared Function f32(s As Single) As LiteralExpression
             Return New LiteralExpression With {
                 .type = New TypeAbstract("f32"),
-                .value = s
+                .value = s.ToString.ToLower
             }
         End Function
 
         Public Shared Function f64(f As Double) As LiteralExpression
             Return New LiteralExpression With {
                 .type = New TypeAbstract("f64"),
-                .value = f
+                .value = f.ToString.ToLower
             }
         End Function
 

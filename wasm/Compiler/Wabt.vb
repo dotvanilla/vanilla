@@ -68,7 +68,7 @@ Namespace Compiler
 
             ' Release compiler if not exists.
             With App.GetAppSysTempFile(".zip")
-                Call My.Resources.wabt_1_0_10_win64.FlushStream(.ByRef)
+                Call My.Resources.wabt_1_0_11_win64.FlushStream(.ByRef)
                 Call ZipLib.ImprovedExtractToDirectory(.ByRef, wat2wasm.ParentPath, Overwrite.Always)
 
                 If Not wat2wasm.FileExists Then

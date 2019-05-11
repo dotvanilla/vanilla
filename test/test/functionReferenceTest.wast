@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/11/2019 12:46:45 PM
+    ;; build: 5/11/2019 1:08:00 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -38,12 +38,12 @@
 (global $Math.PI (mut f64) (f64.const 3.14159265358979))
 (global $Integer.MaxValue (mut i32) (i32.const 2147483647))
 (global $Long.MaxValue (mut i64) (i64.const 9223372036854775807))
-(global $Single.MaxValue (mut f32) (f32.const 3.402823E+38))
-(global $Double.MaxValue (mut f64) (f64.const 1.79769313486232E+308))
+(global $Single.MaxValue (mut f32) (f32.const 3.402823e+38))
+(global $Double.MaxValue (mut f64) (f64.const 1.79769313486232e+308))
 (global $Integer.MinValue (mut i32) (i32.const -2147483648))
 (global $Long.MinValue (mut i64) (i64.const -9223372036854775808))
-(global $Single.MinValue (mut f32) (f32.const -3.402823E+38))
-(global $Double.MinValue (mut f64) (f64.const -1.79769313486232E+308))
+(global $Single.MinValue (mut f32) (f32.const -3.402823e+38))
+(global $Double.MinValue (mut f64) (f64.const -1.79769313486232e+308))
 
     ;; Export methods of this module
     ;; export from VB.NET module: [functionReferenceTest]
