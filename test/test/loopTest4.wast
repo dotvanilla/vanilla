@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/11/2019 10:47:42 AM
+    ;; build: 5/11/2019 10:59:26 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -51,8 +51,8 @@
     (block $block_9a020000 
         (loop $loop_9b020000
     
-                    (drop (call $loopTest4.test ))
-            (br_if $block_9a020000 (i32.eqz (call $loopTest4.test )))
+                    (drop (call $loopTest4.test (i32.const 0)))
+            (br_if $block_9a020000 (i32.eqz (call $loopTest4.test (i32.const 0))))
             (br $loop_9b020000)
     
         )
@@ -61,12 +61,12 @@
     )
     
     
-    (func $loopTest4.test  (result i32)
-        ;; Public Function test() As boolean
+    (func $loopTest4.test (param $reverse i32) (result i32)
+        ;; Public Function test(reverse As boolean [ = False]) As boolean
         
     
     
-    (return (i32.const 1))
+    (return (i32.add (get_local $reverse) (i32.const 1)))
     )
     
     

@@ -113,7 +113,14 @@ Namespace Symbols
 
         Public Overrides Function ToString() As String
             With parameters _
-                    .Select(Function(a) $"{a.Name} As {a.Value}") _
+                    .Select(Function(a)
+                                If a.Description Is Nothing Then
+                                    Return $"{a.Name} As {a.Value}"
+                                Else
+                                    ' 默认参数
+                                    Return $"{a.Name} As {a.Value} [ = {a.Description}]"
+                                End If
+                            End Function) _
                     .JoinBy(", ")
 
                 Return $"Public Function {name}({ .ByRef}) As {result}"
