@@ -207,19 +207,30 @@ Namespace SyntaxAnalysis
             Return op & value
         End Function
 
+        ''' <summary>
+        ''' 目标对象<paramref name="name"/>可能是局部变量，全局变量，也可能是一个没有任何参数输入的函数调用表达式
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ReferVariable(name As IdentifierNameSyntax, symbols As SymbolTable) As Expression
             Dim var As String = name.objectName
-            Dim ref As GetLocalVariable
+            Dim ref As Expression
             Dim type As TypeAbstract
 
-            If symbols.IsLocal(var) Then
-                ref = New GetLocalVariable With {
-                    .var = var
-                }
+            If symbols.IsAnyObject(var) Then
+                If symbols.IsLocal(var) Then
+                    ref = New GetLocalVariable With {
+                        .var = var
+                    }
+                Else
+                    ref = symbols.FindModuleGlobal(Nothing, var).GetReference
+                End If
             Else
-                ref = symbols.FindModuleGlobal(Nothing, var).GetReference
+                ' 是一个不需要输入任何参数的函数调用的表达式
+                ref = symbols.InvokeFunction(var, Nothing)
             End If
 
             type = ref.TypeInfer(symbols)

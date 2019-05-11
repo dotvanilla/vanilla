@@ -269,9 +269,15 @@ Namespace SyntaxAnalysis
                         Yield line
                     Next
                 Else
+                    condition = [loop].WhileOrUntilClause _
+                        .Condition _
+                        .whileCondition(symbols)
+
                     If [loop].isLoopWhile Then
                         ' 条件判断结束应该是放在最后的
-
+                        For Each line As Expression In condition.whileLoopInternal(doLoopBlock.Statements, symbols, True)
+                            Yield line
+                        Next
                     ElseIf [loop].isLoopUntil Then
                         Throw New NotImplementedException
                     Else
@@ -295,11 +301,13 @@ Namespace SyntaxAnalysis
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function isLoopWhile([loop] As LoopStatementSyntax) As Boolean
             Return [loop].WhileOrUntilClause.WhileOrUntilKeyword.Value = "While"
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function isLoopUntil([loop] As LoopStatementSyntax) As Boolean
             Return [loop].WhileOrUntilClause.WhileOrUntilKeyword.Value = "Until"
