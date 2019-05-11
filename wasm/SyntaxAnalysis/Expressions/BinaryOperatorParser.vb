@@ -109,8 +109,8 @@ Namespace SyntaxAnalysis
 
             Dim funcOpName$
 
-            If TypeExtensions.wasmOpName.ContainsKey(op) Then
-                funcOpName = TypeExtensions.wasmOpName(op)
+            If TypeOperator.wasmOpName.ContainsKey(op) Then
+                funcOpName = TypeOperator.wasmOpName(op)
 
                 If type = TypeAlias.boolean Then
                     funcOpName = $"i32.{funcOpName}"
@@ -118,7 +118,7 @@ Namespace SyntaxAnalysis
                     funcOpName = $"{type}.{funcOpName}"
                 End If
             Else
-                funcOpName = TypeExtensions.Compares(type.raw, op)
+                funcOpName = TypeOperator.Compares(type.raw, op)
             End If
 
             ' 需要根据类型来决定操作符函数的类型来源
@@ -141,7 +141,7 @@ Namespace SyntaxAnalysis
                     .[operator] = True,
                     .parameters = {left, right},
                     .refer = New ReferenceSymbol With {
-                        .symbol = TypeExtensions.Compares("i32", "="),
+                        .symbol = TypeOperator.Compares("i32", "="),
                         .type = SymbolType.Operator
                     }
                 }

@@ -182,7 +182,7 @@ Namespace SyntaxAnalysis
                 }
                 Dim opFunc As New ReferenceSymbol With {
                     .type = SymbolType.Operator,
-                    .symbol = $"{left.type}.{TypeExtensions.wasmOpName(op)}"
+                    .symbol = $"{left.type}.{TypeOperator.wasmOpName(op)}"
                 }
 
                 Return New FuncInvoke With {

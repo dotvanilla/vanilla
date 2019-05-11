@@ -99,7 +99,7 @@ Namespace Symbols
 
                 Dim op$ = refer.Symbol.Split("."c).Last
 
-                Return op Like TypeExtensions.unaryOp
+                Return op Like TypeOperator.unaryOp
             End Get
         End Property
 
@@ -172,7 +172,7 @@ Namespace Symbols
         End Function
 
         Private Shared Function typeFromOperator(refer As String) As TypeAbstract
-            If refer Like TypeExtensions.Comparison Then
+            If refer Like TypeOperator.Comparison Then
                 ' WebAssembly comparison operator produce integer value
                 Return New TypeAbstract(TypeAlias.i32)
             ElseIf refer.Split("."c).Last = "store" Then
