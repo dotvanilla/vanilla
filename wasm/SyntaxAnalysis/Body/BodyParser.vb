@@ -102,7 +102,7 @@ Namespace SyntaxAnalysis
         Public Function ExitBlock([exit] As ExitStatementSyntax, symbols As SymbolTable) As Expression
             If [exit].BlockKeyword.Value = "Do" Then
                 Return New br_if With {
-                    .blockLabel = symbols.currentBlockGuid,
+                    .blockLabel = symbols.context.blockGuid,
                     .condition = New BooleanSymbol With {
                         .condition = Literal.bool(True)
                     }
@@ -117,8 +117,8 @@ Namespace SyntaxAnalysis
         <Extension>
         Public Function ValueReturn(returnValue As ReturnStatementSyntax, symbols As SymbolTable) As Expression
             Dim value As Expression = returnValue.Expression.ValueExpression(symbols)
-            Dim returnType = symbols _
-                .GetFunctionSymbol(symbols.currentModuleLabel, symbols.currentFuncSymbol) _
+            Dim returnType As TypeAbstract = symbols _
+                .GetFunctionSymbol(symbols.context.moduleLabel, symbols.context.funcSymbol) _
                 .result
 
             If returnType = TypeAlias.array AndAlso TypeOf value Is ArraySymbol Then

@@ -98,27 +98,6 @@ Namespace Compiler
         Public Property memory As Memory
 
         ''' <summary>
-        ''' 当前所进行解析的函数的名称
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property currentFuncSymbol As String
-        ''' <summary>
-        ''' 当前的代码块的guid，这个是用来退出特定的block所需要的
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property currentBlockGuid As String
-        ''' <summary>
-        ''' 当前的VisualBasic模块的名称
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property currentModuleLabel() As DefaultValue(Of String)
-        ''' <summary>
-        ''' 对象初始化或者匿名对象引用的时候使用
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property currentObject As UserObject
-
-        ''' <summary>
         ''' 为了满足基本的变成需求而自动添加的引用符号列表
         ''' </summary>
         ''' <returns></returns>
@@ -153,6 +132,12 @@ Namespace Compiler
                 Return globals + funcs
             End Get
         End Property
+
+        ''' <summary>
+        ''' 当前的程序代码的上下文
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property context As New Context
 
         Private Sub New()
             memory = New Memory(Me)
@@ -235,8 +220,8 @@ Namespace Compiler
 
         Public Overrides Function ToString() As String
             Return New ReferenceSymbol With {
-                .[module] = currentModuleLabel,
-                .symbol = currentFuncSymbol,
+                .[module] = context.moduleLabel,
+                .symbol = context.funcSymbol,
                 .type = SymbolType.Func
             }.ToString
         End Function
@@ -434,7 +419,7 @@ Namespace Compiler
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFunctionSymbol(context$, name$) As FuncSignature
-            Return Me.FindTypeMethod(context Or currentModuleLabel, name)
+            Return Me.FindTypeMethod(context Or Me.context.moduleLabel, name)
         End Function
 
         ''' <summary>
@@ -472,7 +457,7 @@ Namespace Compiler
             If IsLocal(name) Then
                 Return New GetLocalVariable(name)
             ElseIf globals.ContainsKey(name) Then
-                Return New GetGlobalVariable(currentModuleLabel, name)
+                Return New GetGlobalVariable(context.moduleLabel, name)
             Else
                 Return Nothing
             End If

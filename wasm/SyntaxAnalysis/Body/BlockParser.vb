@@ -297,7 +297,7 @@ Namespace SyntaxAnalysis
             Dim internal As New List(Of Expression)
 
             ' 为exit语句所准备的
-            symbols.currentBlockGuid = block.guid
+            symbols.context.blockGuid = block.guid
 
             Yield New CommentText With {
                 .text = $"Start Do While Block {block.guid}"

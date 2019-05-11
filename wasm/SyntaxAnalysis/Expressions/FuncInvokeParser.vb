@@ -191,7 +191,9 @@ Namespace SyntaxAnalysis
                         leftArguments = funcDeclare.parameters
                     ElseIf symbols.IsModuleFunction(name) Then
                         ' 方法生成值，然后再调用值对象的成员方法的
-                        argumentFirst = New FuncInvoke(symbols.currentModuleLabel, name) With {.parameters = {}}
+                        argumentFirst = New FuncInvoke(symbols.context.moduleLabel, name) With {
+                            .parameters = {}
+                        }
                         leftArguments = funcDeclare.parameters.Skip(1).ToArray
                     End If
                 End If

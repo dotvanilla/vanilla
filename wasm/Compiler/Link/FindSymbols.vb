@@ -74,7 +74,7 @@ Namespace Compiler
             ElseIf funcs.IsUnique Then
                 Return funcs.GetUniqueSymbol
             Else
-                Return funcs.FindSymbol(context Or symbols.currentModuleLabel)
+                Return funcs.FindSymbol(context Or symbols.context.moduleLabel)
             End If
         End Function
 
@@ -94,7 +94,7 @@ Namespace Compiler
             ElseIf ref.IsUnique Then
                 Return ref.GetUniqueSymbol
             Else
-                Return ref.FindSymbol(context Or symbols.currentModuleLabel)
+                Return ref.FindSymbol(context Or symbols.context.moduleLabel)
             End If
         End Function
 
@@ -119,7 +119,7 @@ Namespace Compiler
                 ' 局部变量查找失败，则查找全局变量
                 With symbols.TryGetGlobal(context)
                     If Not .IsNothing Then
-                        Dim [global] As DeclareGlobal = .FindSymbol(symbols.currentModuleLabel)
+                        Dim [global] As DeclareGlobal = .FindSymbol(symbols.context.moduleLabel)
 
                         If Not [global] Is Nothing Then
                             contextObj = [global].AsLocal
@@ -193,7 +193,7 @@ Namespace Compiler
 
             If funcs.Length > 1 Then
                 ' 默认是当前模块的优先？
-                func = funcs.FirstOrDefault(Function(f) f.module = symbols.currentModuleLabel)
+                func = funcs.FirstOrDefault(Function(f) f.module = symbols.context.moduleLabel)
 
                 If func Is Nothing Then
                     func = funcs.First
@@ -242,7 +242,9 @@ Namespace Compiler
                 Return funcs(Scan0)
             Else
                 ' 有多个函数，则优先选取当前模块的拓展函数
-                Dim currFuncs = funcs.Where(Function(f) f.module = symbols.currentModuleLabel).ToArray
+                Dim currFuncs As FuncSignature() = funcs _
+                    .Where(Function(f) f.module = symbols.context.moduleLabel) _
+                    .ToArray
 
                 If currFuncs.IsNullOrEmpty Then
                     Throw New NotImplementedException

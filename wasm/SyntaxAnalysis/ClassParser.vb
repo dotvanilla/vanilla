@@ -124,7 +124,7 @@ Namespace SyntaxAnalysis
             ' 目前暂时还不支持实例对象的method和property
             For Each method As MethodBlockSyntax In body.OfType(Of MethodBlockSyntax)
                 functions += method.ParseFunction(className, symbolTable)
-                symbolTable.currentModuleLabel = className
+                symbolTable.context.moduleLabel = className
                 symbolTable.ClearLocals()
             Next
 

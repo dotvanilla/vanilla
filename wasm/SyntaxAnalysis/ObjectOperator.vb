@@ -64,9 +64,9 @@ Namespace SyntaxAnalysis
         <Extension>
         Public Function GetAnonymousField(ref As GetGlobalVariable, symbols As SymbolTable) As Expression
             Dim fieldName As String = ref.var
-            Dim type As ClassMeta = symbols.currentObject.Meta
-            Dim fieldValue As Expression = symbols _
-                .currentObject _
+            Dim type As ClassMeta = symbols.context.object.Meta
+            Dim fieldValue As Expression = symbols.context _
+                .object _
                 .AddressOf _
                 .GetMemberField(type, fieldName)
 
@@ -136,7 +136,7 @@ Namespace SyntaxAnalysis
                 .width = objType.sizeOf
             }
 
-            symbols.currentObject = obj
+            symbols.context.object = obj
 
             Dim initialize As NamedValue(Of Expression)() = objType.getFieldValues(from)
             Dim copy = type.createUserObject(
@@ -194,7 +194,7 @@ Namespace SyntaxAnalysis
 
             ' 如果存在匿名对象的引用
             ' 会需要这个来完成引用
-            symbols.currentObject = obj
+            symbols.context.object = obj
             symbols.AddLocal(hashcode)
 
             Return (obj, hashcode)

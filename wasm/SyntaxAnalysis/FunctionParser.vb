@@ -145,10 +145,10 @@ Namespace SyntaxAnalysis
             Dim funcVar = method.FuncVariable(symbols)
 
             ' using for return value ctype operation
-            symbols.currentFuncSymbol = funcVar.Name
+            symbols.context.funcSymbol = funcVar.Name
             ' using for distinguish function and global variables that 
             ' between different VisualBasic modules
-            symbols.currentModuleLabel = moduleName
+            symbols.context.moduleLabel = moduleName
 
             ' the function parameter treated as local variable
             ' in function body

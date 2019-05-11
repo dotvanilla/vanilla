@@ -223,7 +223,7 @@ Namespace SyntaxAnalysis
 
             ' Assign module labels for find function 
             ' and global variables
-            symbolTable.currentModuleLabel = moduleName
+            symbolTable.context.moduleLabel = moduleName
 
             For Each method In main.Members.OfType(Of MethodBlockSyntax)
                 functions += method.ParseFunction(moduleName, symbolTable)
@@ -269,7 +269,7 @@ Namespace SyntaxAnalysis
                 .body = moduleNew.body,
                 .locals = moduleNew.locals,
                 .isExtensionMethod = False,
-                .[module] = symbols.currentModuleLabel,
+                .[module] = symbols.context.moduleLabel,
                 .name = "constructor",
                 .parameters = {},
                 .result = TypeAbstract.void
