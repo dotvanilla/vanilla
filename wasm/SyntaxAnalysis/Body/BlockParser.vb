@@ -252,7 +252,7 @@ Namespace SyntaxAnalysis
         <Extension>
         Public Iterator Function DoLoop(doLoopBlock As DoLoopBlockSyntax, symbols As SymbolTable) As IEnumerable(Of Expression)
             Dim [do] As WhileOrUntilClauseSyntax = doLoopBlock.DoStatement.WhileOrUntilClause
-            Dim condition As Expression
+            Dim condition As BooleanSymbol
 
             If [do] Is Nothing Then
                 Dim [loop] As LoopStatementSyntax = doLoopBlock.LoopStatement
@@ -274,15 +274,18 @@ Namespace SyntaxAnalysis
                         .whileCondition(symbols)
 
                     If [loop].isLoopWhile Then
-                        ' 条件判断结束应该是放在最后的
-                        For Each line As Expression In condition.whileLoopInternal(doLoopBlock.Statements, symbols, True)
-                            Yield line
-                        Next
+                        ' change nothing
                     ElseIf [loop].isLoopUntil Then
-                        Throw New NotImplementedException
+                        ' reverse the condition test
+                        condition.isNot = True
                     Else
                         Throw New NotImplementedException
                     End If
+
+                    ' 条件判断结束应该是放在最后的
+                    For Each line As Expression In condition.whileLoopInternal(doLoopBlock.Statements, symbols, True)
+                        Yield line
+                    Next
                 End If
             Else
                 condition = [do] _
@@ -386,7 +389,7 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
-        Private Function whileCondition(expression As ExpressionSyntax, symbols As SymbolTable) As Expression
+        Private Function whileCondition(expression As ExpressionSyntax, symbols As SymbolTable) As BooleanSymbol
             Dim condition As Expression = expression.ValueExpression(symbols)
 
             Return New BooleanSymbol With {

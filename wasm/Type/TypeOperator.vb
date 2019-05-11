@@ -161,6 +161,7 @@ Namespace TypeInfo
                 Case ">>" : Return "i32.shr_s"
                 Case "And" : Return "i32.and"
                 Case "Or" : Return "i32.or"
+                Case "Mod" : Return "i32.rem_s"
                 Case Else
                     Throw New NotImplementedException
             End Select
