@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4f8b373db1a7eb27208313efd7fb932, Type\Literal.vb"
+﻿#Region "Microsoft.VisualBasic::be544dbf8b4038a914fba780d91af167, Type\Literal.vb"
 
     ' Author:
     ' 
@@ -37,6 +37,8 @@
     ' Summaries:
 
     '     Class Literal
+    ' 
+    '         Properties: f32Max, f32Min, f64Max, f64Min
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: bool, f32, f64, i32, i64
