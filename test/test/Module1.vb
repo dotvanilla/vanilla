@@ -75,6 +75,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                 "..\loopTest3.vb",
                 "..\loopTest2.vb",
                 "..\loopTest1.vb",
                 "..\arrayDeclareTest2.vb",

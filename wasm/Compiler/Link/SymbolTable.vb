@@ -103,6 +103,11 @@ Namespace Compiler
         ''' <returns></returns>
         Public Property currentFuncSymbol As String
         ''' <summary>
+        ''' 当前的代码块的guid，这个是用来退出特定的block所需要的
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property currentBlockGuid As String
+        ''' <summary>
         ''' 当前的VisualBasic模块的名称
         ''' </summary>
         ''' <returns></returns>

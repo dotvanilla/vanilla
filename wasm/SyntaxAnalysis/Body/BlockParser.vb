@@ -63,7 +63,7 @@ Namespace SyntaxAnalysis
         <Extension>
         Public Function IfBlock(doIf As MultiLineIfBlockSyntax, symbols As SymbolTable) As Expression
             Dim test As New BooleanSymbol With {
-                .Condition = doIf _
+                .condition = doIf _
                     .IfStatement _
                     .Condition _
                     .ValueExpression(symbols)
@@ -296,7 +296,12 @@ Namespace SyntaxAnalysis
             }
             Dim internal As New List(Of Expression)
 
-            Yield New CommentText With {.text = $"Start Do While Block {block.guid}"}
+            ' 为exit语句所准备的
+            symbols.currentBlockGuid = block.guid
+
+            Yield New CommentText With {
+                .text = $"Start Do While Block {block.guid}"
+            }
 
             ' 如果condition是空值的时候，则是类似于do xxxx loop这样的无退出条件的无限循环
             If Not condition Is Nothing Then
@@ -336,8 +341,8 @@ Namespace SyntaxAnalysis
             Dim condition As Expression = expression.ValueExpression(symbols)
 
             Return New BooleanSymbol With {
-                .Condition = condition,
-                .[IsNot] = True
+                .condition = condition,
+                .[isNot] = True
             }
         End Function
     End Module

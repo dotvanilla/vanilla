@@ -172,8 +172,8 @@ Namespace SyntaxAnalysis
             ' not 也是一个单目运算符
             If op = "Not" Then
                 Return New BooleanSymbol With {
-                    .Condition = right,
-                    .[IsNot] = True
+                    .condition = right,
+                    .[isNot] = True
                 }
             Else
                 Dim left = New LiteralExpression With {

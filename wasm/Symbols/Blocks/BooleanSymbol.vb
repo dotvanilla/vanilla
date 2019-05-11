@@ -59,8 +59,8 @@ Namespace Symbols.Blocks
     ''' </summary>
     Public Class BooleanSymbol : Inherits Expression
 
-        Public Property Condition As Expression
-        Public Property [IsNot] As Boolean
+        Public Property condition As Expression
+        Public Property [isNot] As Boolean
 
         ''' <summary>
         ''' 
@@ -74,9 +74,9 @@ Namespace Symbols.Blocks
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Dim test$ = Condition.ToSExpression
+            Dim test$ = condition.ToSExpression
 
-            If [IsNot] Then
+            If [isNot] Then
                 Return $"(i32.eqz {test})"
             Else
                 Return test
@@ -84,24 +84,24 @@ Namespace Symbols.Blocks
         End Function
 
         Public Shared Narrowing Operator CType(test As BooleanSymbol) As FuncInvoke
-            If test.IsNot Then
+            If test.isNot Then
                 Return New FuncInvoke With {
                     .[operator] = True,
                     .refer = New ReferenceSymbol With {
                         .symbol = "i32.eqz",
                         .type = SymbolType.Operator
                     },
-                    .parameters = {test.Condition}
+                    .parameters = {test.condition}
                 }
             Else
-                Return test.Condition
+                Return test.condition
             End If
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function BinaryCompares(left As Expression, right As Expression, op$, symbols As SymbolTable) As BooleanSymbol
             Return New BooleanSymbol With {
-                .Condition = BinaryOperatorParser.BinaryStack(left, right, op, symbols)
+                .condition = BinaryOperatorParser.BinaryStack(left, right, op, symbols)
             }
         End Function
 
@@ -113,7 +113,7 @@ Namespace Symbols.Blocks
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(op As FuncInvoke) As BooleanSymbol
-            Return New BooleanSymbol With {.Condition = op}
+            Return New BooleanSymbol With {.condition = op}
         End Operator
     End Class
 End Namespace
