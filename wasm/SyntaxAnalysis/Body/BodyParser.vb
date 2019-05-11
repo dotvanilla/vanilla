@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89a5f00e8bf92ecf5dd46d137fe39498, SyntaxAnalysis\Body\BodyParser.vb"
+﻿#Region "Microsoft.VisualBasic::99ed438f05061eaeea87056ad6d4ac7e, SyntaxAnalysis\Body\BodyParser.vb"
 
     ' Author:
     ' 

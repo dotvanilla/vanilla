@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5720338e43aa311cedca9527d3389344, SyntaxAnalysis\Body\BlockParser.vb"
+﻿#Region "Microsoft.VisualBasic::45141c51213650d2858624888718b71d, SyntaxAnalysis\Body\BlockParser.vb"
 
     ' Author:
     ' 
@@ -38,9 +38,7 @@
 
     '     Module BlockParser
     ' 
-    '         Function: AutoDropValueStack, controlVariable, ctlGetLocal, DoLoop, DoWhile
-    '                   ForLoop, IfBlock, isLoopUntil, isLoopWhile, ParseBlockInternal
-    '                   parseForLoopTest, (+2 Overloads) whileCondition, whileLoopInternal
+    '         Function: AutoDropValueStack, IfBlock
     ' 
     ' 
     ' /********************************************************************************/

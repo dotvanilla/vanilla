@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4710b1930d16c94e92daf0f9202af150, Type\TypeOperator.vb"
+﻿#Region "Microsoft.VisualBasic::ea7d2964a29b96f9d0664f896564a077, Type\TypeOperator.vb"
 
     ' Author:
     ' 
