@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25ad19d4b95ea3f0ea56d411a66eb459, SyntaxAnalysis\Expressions\MemberCallsParser.vb"
+﻿#Region "Microsoft.VisualBasic::3fa1095dfaea32d4b3405beb1eb944d6, SyntaxAnalysis\Expressions\MemberCallsParser.vb"
 
     ' Author:
     ' 
