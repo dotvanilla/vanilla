@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/11/2019 3:31:26 PM
+    ;; build: 5/11/2019 3:43:13 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -43,7 +43,7 @@
     ;; Export methods of this module
     ;; export from VB.NET module: [logicalTest]
     
-    (export "logicalTest.Main" (func $Main))
+    (export "logicalTest.Main" (func $logicalTest.Main))
     
      
 
@@ -74,7 +74,7 @@
 ;; 
 ;; Sub New
 (func $Application_SubNew
-    (call $constructor )
+    (call $logicalTest.constructor )
 )
 
 (func $logicalTest.constructor  

@@ -40,86 +40,143 @@
 ; section "Global" (6)
 000002f: 06                                        ; section code
 0000030: 00                                        ; section size (guess)
-0000031: 01                                        ; num globals
+0000031: 0b                                        ; num globals
 0000032: 7f                                        ; i32
 0000033: 01                                        ; global mutability
 0000034: 41                                        ; i32.const
 0000035: 0b                                        ; i32 literal
 0000036: 0b                                        ; end
-0000030: 06                                        ; FIXUP section size
-; section "Export" (7)
-0000037: 07                                        ; section code
-0000038: 00                                        ; section size (guess)
-0000039: 01                                        ; num exports
-000003a: 0e                                        ; string length
-000003b: 6c6f 6f70 5465 7374 342e 4d61 696e       loopTest4.Main  ; export name
-0000049: 00                                        ; export kind
-000004a: 00                                        ; export func index
-0000038: 12                                        ; FIXUP section size
-; section "Start" (8)
-000004b: 08                                        ; section code
-000004c: 00                                        ; section size (guess)
-000004d: 02                                        ; start func index
-000004c: 01                                        ; FIXUP section size
-; section "Code" (10)
-000004e: 0a                                        ; section code
-000004f: 00                                        ; section size (guess)
-0000050: 04                                        ; num functions
-; function body 0
-0000051: 00                                        ; func body size (guess)
-0000052: 00                                        ; local decl count
-0000053: 02                                        ; block
-0000054: 40                                        ; void
-0000055: 03                                        ; loop
-0000056: 40                                        ; void
-0000057: 41                                        ; i32.const
-0000058: 00                                        ; i32 literal
-0000059: 10                                        ; call
-000005a: 01                                        ; function index
-000005b: 1a                                        ; drop
-000005c: 41                                        ; i32.const
-000005d: 00                                        ; i32 literal
-000005e: 10                                        ; call
-000005f: 01                                        ; function index
-0000060: 45                                        ; i32.eqz
-0000061: 0d                                        ; br_if
-0000062: 01                                        ; break depth
-0000063: 0c                                        ; br
-0000064: 00                                        ; break depth
+0000037: 7c                                        ; f64
+0000038: 01                                        ; global mutability
+0000039: 44                                        ; f64.const
+000003a: 7457 148b 0abf 0540                       ; f64 literal
+0000042: 0b                                        ; end
+0000043: 7c                                        ; f64
+0000044: 01                                        ; global mutability
+0000045: 44                                        ; f64.const
+0000046: 112d 4454 fb21 0940                       ; f64 literal
+000004e: 0b                                        ; end
+000004f: 7f                                        ; i32
+0000050: 01                                        ; global mutability
+0000051: 41                                        ; i32.const
+0000052: ffff ffff 07                              ; i32 literal
+0000057: 0b                                        ; end
+0000058: 7e                                        ; i64
+0000059: 01                                        ; global mutability
+000005a: 42                                        ; i64.const
+000005b: ffff ffff ffff ffff ff00                  ; i64 literal
 0000065: 0b                                        ; end
-0000066: 0b                                        ; end
-0000067: 0b                                        ; end
-0000051: 16                                        ; FIXUP func body size
+0000066: 7d                                        ; f32
+0000067: 01                                        ; global mutability
+0000068: 43                                        ; f32.const
+0000069: ffff 7f7f                                 ; f32 literal
+000006d: 0b                                        ; end
+000006e: 7c                                        ; f64
+000006f: 01                                        ; global mutability
+0000070: 44                                        ; f64.const
+0000071: ffff ffff ffff ef7f                       ; f64 literal
+0000079: 0b                                        ; end
+000007a: 7f                                        ; i32
+000007b: 01                                        ; global mutability
+000007c: 41                                        ; i32.const
+000007d: 8080 8080 78                              ; i32 literal
+0000082: 0b                                        ; end
+0000083: 7e                                        ; i64
+0000084: 01                                        ; global mutability
+0000085: 42                                        ; i64.const
+0000086: 8080 8080 8080 8080 807f                  ; i64 literal
+0000090: 0b                                        ; end
+0000091: 7d                                        ; f32
+0000092: 01                                        ; global mutability
+0000093: 43                                        ; f32.const
+0000094: ffff 7fff                                 ; f32 literal
+0000098: 0b                                        ; end
+0000099: 7c                                        ; f64
+000009a: 01                                        ; global mutability
+000009b: 44                                        ; f64.const
+000009c: ffff ffff ffff efff                       ; f64 literal
+00000a4: 0b                                        ; end
+0000030: 74                                        ; FIXUP section size
+; section "Export" (7)
+00000a5: 07                                        ; section code
+00000a6: 00                                        ; section size (guess)
+00000a7: 01                                        ; num exports
+00000a8: 0e                                        ; string length
+00000a9: 6c6f 6f70 5465 7374 342e 4d61 696e       loopTest4.Main  ; export name
+00000b7: 00                                        ; export kind
+00000b8: 00                                        ; export func index
+00000a6: 12                                        ; FIXUP section size
+; section "Start" (8)
+00000b9: 08                                        ; section code
+00000ba: 00                                        ; section size (guess)
+00000bb: 02                                        ; start func index
+00000ba: 01                                        ; FIXUP section size
+; section "Code" (10)
+00000bc: 0a                                        ; section code
+00000bd: 00                                        ; section size (guess)
+00000be: 04                                        ; num functions
+; function body 0
+00000bf: 00                                        ; func body size (guess)
+00000c0: 00                                        ; local decl count
+00000c1: 02                                        ; block
+00000c2: 40                                        ; void
+00000c3: 03                                        ; loop
+00000c4: 40                                        ; void
+00000c5: 41                                        ; i32.const
+00000c6: 00                                        ; i32 literal
+00000c7: 10                                        ; call
+00000c8: 01                                        ; function index
+00000c9: 1a                                        ; drop
+00000ca: 41                                        ; i32.const
+00000cb: 00                                        ; i32 literal
+00000cc: 10                                        ; call
+00000cd: 01                                        ; function index
+00000ce: 45                                        ; i32.eqz
+00000cf: 0d                                        ; br_if
+00000d0: 01                                        ; break depth
+00000d1: 0c                                        ; br
+00000d2: 00                                        ; break depth
+00000d3: 0b                                        ; end
+00000d4: 0b                                        ; end
+00000d5: 0b                                        ; end
+00000bf: 16                                        ; FIXUP func body size
 ; function body 1
-0000068: 00                                        ; func body size (guess)
-0000069: 00                                        ; local decl count
-000006a: 20                                        ; local.get
-000006b: 00                                        ; local index
-000006c: 41                                        ; i32.const
-000006d: 01                                        ; i32 literal
-000006e: 6a                                        ; i32.add
-000006f: 0f                                        ; return
-0000070: 0b                                        ; end
-0000068: 08                                        ; FIXUP func body size
+00000d6: 00                                        ; func body size (guess)
+00000d7: 00                                        ; local decl count
+00000d8: 20                                        ; local.get
+00000d9: 00                                        ; local index
+00000da: 41                                        ; i32.const
+00000db: 01                                        ; i32 literal
+00000dc: 6a                                        ; i32.add
+00000dd: 0f                                        ; return
+00000de: 0b                                        ; end
+00000d6: 08                                        ; FIXUP func body size
 ; function body 2
-0000071: 00                                        ; func body size (guess)
-0000072: 00                                        ; local decl count
-0000073: 10                                        ; call
-0000074: 03                                        ; function index
-0000075: 0b                                        ; end
-0000071: 04                                        ; FIXUP func body size
+00000df: 00                                        ; func body size (guess)
+00000e0: 00                                        ; local decl count
+00000e1: 10                                        ; call
+00000e2: 03                                        ; function index
+00000e3: 0b                                        ; end
+00000df: 04                                        ; FIXUP func body size
 ; function body 3
-0000076: 00                                        ; func body size (guess)
-0000077: 00                                        ; local decl count
-0000078: 0b                                        ; end
-0000076: 02                                        ; FIXUP func body size
-000004f: 29                                        ; FIXUP section size
+00000e4: 00                                        ; func body size (guess)
+00000e5: 00                                        ; local decl count
+00000e6: 0b                                        ; end
+00000e4: 02                                        ; FIXUP func body size
+00000bd: 29                                        ; FIXUP section size
 ;; dump
 0000000: 0061 736d 0100 0000 0109 0260 0000 6001 
 0000010: 7f01 7f02 1301 0365 6e76 0a62 7974 6563 
 0000020: 6875 6e6b 7302 0001 0305 0400 0100 0006 
-0000030: 0601 7f01 410b 0b07 1201 0e6c 6f6f 7054 
-0000040: 6573 7434 2e4d 6169 6e00 0008 0102 0a29 
-0000050: 0416 0002 4003 4041 0010 011a 4100 1001 
-0000060: 450d 010c 000b 0b0b 0800 2000 4101 6a0f 
-0000070: 0b04 0010 030b 0200 0b                  
+0000030: 740b 7f01 410b 0b7c 0144 7457 148b 0abf 
+0000040: 0540 0b7c 0144 112d 4454 fb21 0940 0b7f 
+0000050: 0141 ffff ffff 070b 7e01 42ff ffff ffff 
+0000060: ffff ffff 000b 7d01 43ff ff7f 7f0b 7c01 
+0000070: 44ff ffff ffff ffef 7f0b 7f01 4180 8080 
+0000080: 8078 0b7e 0142 8080 8080 8080 8080 807f 
+0000090: 0b7d 0143 ffff 7fff 0b7c 0144 ffff ffff 
+00000a0: ffff efff 0b07 1201 0e6c 6f6f 7054 6573 
+00000b0: 7434 2e4d 6169 6e00 0008 0102 0a29 0416 
+00000c0: 0002 4003 4041 0010 011a 4100 1001 450d 
+00000d0: 010c 000b 0b0b 0800 2000 4101 6a0f 0b04 
+00000e0: 0010 030b 0200 0b                       

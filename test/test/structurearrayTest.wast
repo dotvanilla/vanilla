@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/11/2019 10:25:54 AM
+    ;; build: 5/11/2019 3:43:13 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -63,7 +63,17 @@
     (data (i32.const 476) "eyJtZW1vcnlQdHIiOnsiVmFsdWUiOjQ3Nn0sImNsYXNzIjoiY2lyY2xlIiwiY2xhc3NfaWQiOjQ3NiwiZmllbGRzIjp7InJhZGl1cyI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjY0IiwidHlwZSI6NH0sInkiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfX0sImlzU3RydWN0Ijp0cnVlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjoic3RydWN0dXJlQXJyYXlFbGVtZW50In0=\00")
 
     ;; Global variables in this module
-    (global $structurearrayTest.globalCircle (mut i32) (i32.const 0))
+    (global $Math.E (mut f64) (f64.const 2.71828182845905))
+(global $Math.PI (mut f64) (f64.const 3.14159265358979))
+(global $Integer.MaxValue (mut i32) (i32.const 2147483647))
+(global $Long.MaxValue (mut i64) (i64.const 9223372036854775807))
+(global $Single.MaxValue (mut f32) (f32.const 340282356779733623858607532500980858880))
+(global $Double.MaxValue (mut f64) (f64.const 179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368))
+(global $Integer.MinValue (mut i32) (i32.const -2147483648))
+(global $Long.MinValue (mut i64) (i64.const -9223372036854775808))
+(global $Single.MinValue (mut f32) (f32.const -340282356779733623858607532500980858880))
+(global $Double.MinValue (mut f64) (f64.const -179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368))
+(global $structurearrayTest.globalCircle (mut i32) (i32.const 0))
 (global $structurearrayTest.b (mut i32) (i32.const 99))
 (global $structurearrayTest.g (mut i32) (i32.const 66))
 (global $structurearrayTest.r (mut i32) (i32.const 55))
