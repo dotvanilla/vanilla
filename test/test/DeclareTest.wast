@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -89,6 +89,8 @@
     )
     (return (f32.demote/f64 (f64.div (f64.mul (f64.mul (f64.div (f64.mul (f64.add (f64.add (f64.add (f64.add (f64.div (f64.convert_s/i64 (get_global $DeclareTest.MN)) (f64.convert_s/i64 (get_local $MN2))) (f64.promote/f32 (get_local $L))) (f64.mul (get_local $A) (get_global $DeclareTest.B))) (get_local $B)) (get_local $C)) (f64.promote/f32 (get_local $GG))) (f64.convert_s/i64 (get_local $Z))) (f64.convert_s/i32 (get_local $E))) (f64.convert_s/i64 (get_local $F))) (f64.convert_s/i64 (i64.trunc_s/f64 (get_global $DeclareTest.C))))))
     )
+    
+    
     
 
 

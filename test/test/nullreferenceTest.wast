@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -110,6 +110,8 @@
         )
     )
     )
+    
+    
     (func $nullreferenceTest.noReturns  
         ;; Public Function noReturns() As void
         
@@ -118,6 +120,8 @@
     (drop (call $nullreferenceTest.print (i32.const 139)))
     (drop (call $nullreferenceTest.print (i32.const 0)))
     )
+    
+    
     (func $nullreferenceTest.test  (result i32)
         ;; Public Function test() As i32
         
@@ -128,6 +132,8 @@
     (drop (call $nullreferenceTest.setAttr (i32.const 0) (i32.const 170) (i32.const 172)))
     (return (i32.const 0))
     )
+    
+    
     
 
 

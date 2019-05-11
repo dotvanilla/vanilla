@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -123,6 +123,8 @@
     )
     
     
+    
+    
     ;; functions in [functionTest]
     
     (func $functionTest.outputError  (result f32)
@@ -133,6 +135,8 @@
     (call $ExportAPiModule.err (i32.const 66))
     (return (f32.demote/f64 (f64.sub (f64.const 0) (f64.const 0.0001))))
     )
+    
+    
     (func $functionTest.calls  
         ;; Public Function calls() As void
         
@@ -145,6 +149,8 @@
     (call $optionalParameterTest.calls )
     (call $functionTest.calls )
     )
+    
+    
     (func $functionTest.extensionFunctiontest  
         ;; Public Function extensionFunctiontest() As void
         
@@ -152,6 +158,8 @@
     
     (drop (call $functionTest.print (i32.const 140)))
     )
+    
+    
     (func $functionTest.Main (param $args i32) (param $obj i32) (param $f i32) 
         ;; Public Function Main(args As string, obj As i32, f As boolean) As void
         
@@ -168,6 +176,8 @@
     )
     
     
+    
+    
     ;; functions in [ExportAPiModule]
     
     (func $ExportAPiModule.outputError  (result i64)
@@ -178,6 +188,8 @@
     (call $ExportAPiModule.err (i32.const 153))
     (return (i64.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 10.0001))))
     )
+    
+    
     
 
 

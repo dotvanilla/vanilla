@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -67,14 +67,14 @@
     ;; Initialize a object instance of [[11]circleClass]
     ;; Object memory block begin at location: (get_local $newObject_9a020000)
     (set_local $newObject_9a020000 (get_global $global.ObjectManager))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_9a020000) (i32.const 20)))
     ;; set field [testDifference.circleClass::r]
     (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 16)) (i32.const 100))
     ;; set field [testDifference.circleClass::x]
     (f64.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (f64.convert_s/i32 (i32.const 1)))
     ;; set field [testDifference.circleClass::y]
     (f64.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (f64.convert_s/i32 (i32.const 1)))
-    ;; Offset object manager with 20 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_9a020000) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
     
     (set_local $c1 (get_local $newObject_9a020000))
@@ -84,14 +84,14 @@
     ;; Initialize a object instance of [[348]circleStruct]
     ;; Object memory block begin at location: (get_local $newObject_9b020000)
     (set_local $newObject_9b020000 (get_global $global.ObjectManager))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_9b020000) (i32.const 20)))
     ;; set field [testDifference.circleStruct::y]
     (f64.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f64.convert_s/i32 (i32.const 99)))
     ;; set field [testDifference.circleStruct::x]
     (f64.store (i32.add (get_local $newObject_9b020000) (i32.const 12)) (f64.load (i32.add (get_local $newObject_9b020000) (i32.const 4))))
     ;; set field [testDifference.circleStruct::r]
     (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (i32.trunc_s/f64 (f64.mul (f64.load (i32.add (get_local $newObject_9b020000) (i32.const 12))) (f64.load (i32.add (get_local $newObject_9b020000) (i32.const 4))))))
-    ;; Offset object manager with 20 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_9b020000) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
     
     (set_local $s1 (get_local $newObject_9b020000))
@@ -99,20 +99,22 @@
     ;; Initialize a object instance of [[348]circleStruct]
     ;; Object memory block begin at location: (get_local $newObject_9c020000)
     (set_local $newObject_9c020000 (get_global $global.ObjectManager))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_9c020000) (i32.const 20)))
     ;; set field [testDifference.circleStruct::r]
     (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (i32.load (i32.add (get_local $s1) (i32.const 0))))
     ;; set field [testDifference.circleStruct::y]
     (f64.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (f64.load (i32.add (get_local $s1) (i32.const 4))))
     ;; set field [testDifference.circleStruct::x]
     (f64.store (i32.add (get_local $newObject_9c020000) (i32.const 12)) (f64.load (i32.add (get_local $s1) (i32.const 12))))
-    ;; Offset object manager with 20 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_9c020000) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
     
     (set_local $s2 (get_local $newObject_9c020000))
     (i32.store (i32.add (get_local $s1) (i32.const 0)) (i32.sub (i32.const 0) (i32.const 88888)))
     (call $ClassStructureDifferenceTest.modifyTest (get_local $newObject_9d020000))
     )
+    
+    
     (func $ClassStructureDifferenceTest.modifyTest (param $s i32) 
         ;; Public Function modifyTest(s As intptr) As void
         
@@ -120,6 +122,8 @@
     
     (f64.store (i32.add (get_local $s) (i32.const 12)) (f64.convert_s/i64 (i64.const 2222229999)))
     )
+    
+    
     
 
 

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/11/2019 9:42:28 AM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -58,6 +58,8 @@
     )
     ;; End Loop loop_9b020000
     )
+    
+    
     (func $loopTest2.doNothing  (result i32)
         ;; Public Function doNothing() As i32
         
@@ -65,6 +67,8 @@
     
     (return (i32.trunc_s/f64 (f64.const 8.9)))
     )
+    
+    
     
 
 

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -51,6 +51,8 @@
     (set_local $a (i64.extend_s/i32 (get_local $x)))
     (return (get_local $a))
     )
+    
+    
     (func $EnumTest.DoAdd  (result i32)
         ;; Public Function DoAdd() As i32
         
@@ -58,6 +60,8 @@
     
     (return (i32.wrap/i64 (call $EnumTest.Add1 (i32.wrap/i64 (i64.add (i64.add (i64.const 3) (i64.const 4)) (i64.const 999))))))
     )
+    
+    
     
 
 

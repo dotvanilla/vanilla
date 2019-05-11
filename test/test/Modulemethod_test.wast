@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -84,22 +84,24 @@
     (local $arrayOffset_9a020000 i32)
     
     
-    ;; Save 4 array element data to memory:
+    ;; Save (i32.const 4) array element data to memory:
     ;; Array memory block begin at location: (get_global $global.ObjectManager)
     ;; class_id/typealias_enum i32 data: (i32.const 2)/array(Of i64)
     (i32.store (get_global $global.ObjectManager) (i32.const 2))
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 4))
     ;; End of byte marks meta data, start write data blocks
+    ;; Offset object manager with (i32.add (i32.const 8) (i32.mul (i32.const 4) (i32.const 8))) bytes
     (set_local $arrayOffset_9a020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)) (i32.add (i32.const 8) (i32.mul (i32.const 4) (i32.const 8)))))
     (i64.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 0)) (i64.const 2342))
     (i64.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 8)) (i64.const 34))
     (i64.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 16)) (i64.const 322))
     (i64.store (i32.add (get_local $arrayOffset_9a020000) (i32.const 24)) (i64.const 343))
-    ;; Offset object manager with 40 bytes
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)) (i32.const 40)))
     ;; Assign array memory data to another expression
     (return (i32.add (get_local $arrayOffset_9a020000) (i32.const -8)))
     )
+    
+    
     (func $Modulemethod_test.test  (result i32)
         ;; Public Function test() As i32
         
@@ -107,6 +109,8 @@
     
     (return (i32.sub (i32.const 0) (i32.const 9999)))
     )
+    
+    
     (func $Modulemethod_test.calls  
         ;; Public Function calls() As void
         
@@ -116,6 +120,8 @@
     (drop (call $module2.test (call $string.add (call $string.add (i32.const 11) (call $i32.toString (call $Modulemethod_test.test ))) (i32.const 23))))
     (drop (call $Modulemethod_test.ThisIsAInternalFunction ))
     )
+    
+    
     (func $Modulemethod_test.ThisIsAInternalFunction  (result i32)
         ;; Public Function ThisIsAInternalFunction() As any
         
@@ -123,6 +129,8 @@
     
     (return (i32.const 40))
     )
+    
+    
     
     
     ;; functions in [unqiueTest]
@@ -140,6 +148,8 @@
     )
     
     
+    
+    
     ;; functions in [module2]
     
     (func $module2.ThisIsAInternalFunction  (result i32)
@@ -149,6 +159,8 @@
     
     (return (i32.const 68))
     )
+    
+    
     (func $module2.Runapp  
         ;; Public Function Runapp() As void
         
@@ -157,6 +169,8 @@
     (call $Modulemethod_test.calls )
     (drop (call $module2.ThisIsAInternalFunction ))
     )
+    
+    
     (func $module2.returnANonUniqueSymbol  (result i32)
         ;; Public Function returnANonUniqueSymbol() As array(Of i32)
         
@@ -165,26 +179,30 @@
     (set_local $a (get_global $Modulemethod_test.ANonUniqueSymbol))
     (return (get_global $module2.ANonUniqueSymbol))
     )
+    
+    
     (func $module2.test (param $gg i32) (result i32)
         ;; Public Function test(gg As string) As array(Of string)
         
     (local $arrayOffset_9b020000 i32)
     
     
-    ;; Save 2 array element data to memory:
+    ;; Save (i32.const 2) array element data to memory:
     ;; Array memory block begin at location: (get_global $global.ObjectManager)
     ;; class_id/typealias_enum i32 data: (i32.const 5)/array(Of string)
     (i32.store (get_global $global.ObjectManager) (i32.const 5))
     (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 2))
     ;; End of byte marks meta data, start write data blocks
+    ;; Offset object manager with (i32.add (i32.const 8) (i32.mul (i32.const 2) (i32.const 4))) bytes
     (set_local $arrayOffset_9b020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9b020000) (i32.const -8)) (i32.add (i32.const 8) (i32.mul (i32.const 2) (i32.const 4)))))
     (i32.store (i32.add (get_local $arrayOffset_9b020000) (i32.const 0)) (get_local $gg))
     (i32.store (i32.add (get_local $arrayOffset_9b020000) (i32.const 4)) (call $string.add (get_local $gg) (i32.const 100)))
-    ;; Offset object manager with 16 bytes
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_9b020000) (i32.const -8)) (i32.const 16)))
     ;; Assign array memory data to another expression
     (return (i32.add (get_local $arrayOffset_9b020000) (i32.const -8)))
     )
+    
+    
     
 
 

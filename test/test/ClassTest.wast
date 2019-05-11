@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -102,6 +102,8 @@
     (call $Runtest.print (call $string.add (i32.const 920) (call $i32.toString (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 8))))))
     (return (i32.trunc_s/f64 (f64.mul (f64.convert_s/i32 (i32.load (i32.add (get_global $Runtest.globalObject) (i32.const 4)))) (f64.load (i32.add (get_global $Runtest.globalObject) (i32.const 12))))))
     )
+    
+    
     (func $Runtest.test  
         ;; Public Function test() As void
         
@@ -113,6 +115,8 @@
     ;; Initialize a object instance of [[17]CircleModel]
     ;; Object memory block begin at location: (get_local $newObject_9a020000)
     (set_local $newObject_9a020000 (get_global $global.ObjectManager))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_9a020000) (i32.const 20)))
     ;; set field [moduleContainer.name1.CircleModel::radius]
     (f64.store (i32.add (get_local $newObject_9a020000) (i32.const 12)) (f64.convert_s/i32 (i32.const 100001)))
     ;; set field [moduleContainer.name1.CircleModel::x]
@@ -121,8 +125,6 @@
     (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (i32.trunc_s/f64 (f64.const 1.0009)))
     ;; set field [moduleContainer.name1.CircleModel::nodeName]
     (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (i32.const 946))
-    ;; Offset object manager with 20 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_9a020000) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
     
     (set_local $s (get_local $newObject_9a020000))
@@ -133,6 +135,8 @@
     (i32.store (i32.add (get_local $c) (i32.const 8)) (i32.trunc_s/f64 (f64.sub (f64.const 0) (f64.const 99.999))))
     (call $Runtest.print (call $string.add (i32.const 1027) (call $i32.toString (i32.load (i32.add (get_local $c) (i32.const 8))))))
     )
+    
+    
     (func $Runtest.returnObjecttest (param $radius i64) (result i32)
         ;; Public Function returnObjecttest(radius As i64) As intptr
         
@@ -142,6 +146,8 @@
     ;; Initialize a object instance of [[17]CircleModel]
     ;; Object memory block begin at location: (get_local $newObject_9b020000)
     (set_local $newObject_9b020000 (get_global $global.ObjectManager))
+    ;; Offset object manager with 20 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_9b020000) (i32.const 20)))
     ;; set field [moduleContainer.name1.CircleModel::nodeName]
     (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (i32.const 1046))
     ;; set field [moduleContainer.name1.CircleModel::radius]
@@ -150,12 +156,12 @@
     (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (i32.wrap/i64 (i64.add (get_local $radius) (i64.const 1))))
     ;; set field [moduleContainer.name1.CircleModel::y]
     (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 8)) (i32.const 0))
-    ;; Offset object manager with 20 bytes.
-    (set_global $global.ObjectManager (i32.add (get_local $newObject_9b020000) (i32.const 20)))
     ;; Initialize an object memory block with 20 bytes data
     
     (return (get_local $newObject_9b020000))
     )
+    
+    
     
 
 
@@ -175,6 +181,8 @@
 ;; Initialize a object instance of [[449]RectangleModel]
 ;; Object memory block begin at location: (get_local $newObject_9c020000)
 (set_local $newObject_9c020000 (get_global $global.ObjectManager))
+;; Offset object manager with 20 bytes.
+(set_global $global.ObjectManager (i32.add (get_local $newObject_9c020000) (i32.const 20)))
 ;; set field [RectangleModel::h]
 (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 16)) (i32.const 500))
 ;; set field [RectangleModel::w]
@@ -185,8 +193,6 @@
 (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 8)) (i32.const 0))
 ;; set field [RectangleModel::name]
 (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 12)) (i32.const 438))
-;; Offset object manager with 20 bytes.
-(set_global $global.ObjectManager (i32.add (get_local $newObject_9c020000) (i32.const 20)))
 ;; Initialize an object memory block with 20 bytes data
 
 (set_global $Runtest.globalObject2 (get_local $newObject_9c020000))

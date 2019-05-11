@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/9/2019 7:31:59 PM
+    ;; build: 5/11/2019 10:25:54 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -93,6 +93,8 @@
     (set_local $length (i64.extend_s/i32 (call $string.length (call $Stringstest.Hello ))))
     (set_local $lenPlus100 (i64.add (i64.extend_s/i32 (get_global $Stringstest.b)) (get_local $length)))
     )
+    
+    
     (func $Stringstest.Main  (result i32)
         ;; Public Function Main() As string
         
@@ -105,6 +107,8 @@
     (drop (call $Stringstest.Print (get_local $format)))
     (return (get_local $str))
     )
+    
+    
     (func $Stringstest.Hello  (result i32)
         ;; Public Function Hello() As string
         
@@ -112,6 +116,8 @@
     
     (return (i32.const 34))
     )
+    
+    
     (func $Stringstest.World  (result i32)
         ;; Public Function World() As string
         
@@ -119,6 +125,8 @@
     
     (return (i32.const 40))
     )
+    
+    
     
 
 

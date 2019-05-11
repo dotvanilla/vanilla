@@ -79,6 +79,8 @@ Namespace Compiler.SExpression
 
                 For Each func As FuncSymbol In [module]
                     Yield func.ToSExpression
+                    Yield ""
+                    Yield ""
                 Next
 
                 Yield ""
