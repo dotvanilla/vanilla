@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::7f09b5d77d6fd2efc1e26e7eb3f701c2, SyntaxAnalysis\Body\BlockParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BlockParser
-    ' 
-    '         Function: AutoDropValueStack, controlVariable, ctlGetLocal, DoLoop, DoWhile
-    '                   ForLoop, IfBlock, ParseBlockInternal, parseForLoopTest, (+2 Overloads) whileCondition
-    '                   whileLoopInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BlockParser
+' 
+'         Function: AutoDropValueStack, controlVariable, ctlGetLocal, DoLoop, DoWhile
+'                   ForLoop, IfBlock, ParseBlockInternal, parseForLoopTest, (+2 Overloads) whileCondition
+'                   whileLoopInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -265,11 +265,18 @@ Namespace SyntaxAnalysis
                 If [loop].WhileOrUntilClause Is Nothing Then
                     ' do .... loop
                     ' 无条件判断的无限循环表达式
-                    For Each line As Expression In whileLoopInternal(Nothing, doLoopBlock.Statements, symbols)
+                    For Each line As Expression In whileLoopInternal(Nothing, doLoopBlock.Statements, symbols, True)
                         Yield line
                     Next
                 Else
-                    Throw New NotImplementedException
+                    If [loop].isLoopWhile Then
+                        ' 条件判断结束应该是放在最后的
+
+                    ElseIf [loop].isLoopUntil Then
+                        Throw New NotImplementedException
+                    Else
+                        Throw New NotImplementedException
+                    End If
                 End If
             Else
                 condition = [do] _
@@ -281,7 +288,7 @@ Namespace SyntaxAnalysis
                 Else
                     Yield New CommentText With {.text = doLoopBlock.DoStatement.ToString}
 
-                    For Each line In condition.whileLoopInternal(doLoopBlock.Statements, symbols)
+                    For Each line In condition.whileLoopInternal(doLoopBlock.Statements, symbols, False)
                         Yield line
                     Next
                 End If
@@ -289,7 +296,30 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
-        Private Iterator Function whileLoopInternal(condition As Expression, statements As SyntaxList(Of StatementSyntax), symbols As SymbolTable) As IEnumerable(Of Expression)
+        Private Function isLoopWhile([loop] As LoopStatementSyntax) As Boolean
+            Return [loop].WhileOrUntilClause.WhileOrUntilKeyword.Value = "While"
+        End Function
+
+        <Extension>
+        Private Function isLoopUntil([loop] As LoopStatementSyntax) As Boolean
+            Return [loop].WhileOrUntilClause.WhileOrUntilKeyword.Value = "Until"
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="condition"></param>
+        ''' <param name="statements"></param>
+        ''' <param name="symbols"></param>
+        ''' <param name="isPostpositive">
+        ''' 对循环条件的判断是否是后置的，即放在整个循环的末尾的
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Private Iterator Function whileLoopInternal(condition As Expression,
+                                                    statements As SyntaxList(Of StatementSyntax),
+                                                    symbols As SymbolTable,
+                                                    isPostpositive As Boolean) As IEnumerable(Of Expression)
             Dim block As New [Loop] With {
                 .guid = $"block_{symbols.NextGuid}",
                 .loopID = $"loop_{symbols.NextGuid}"
@@ -304,7 +334,8 @@ Namespace SyntaxAnalysis
             }
 
             ' 如果condition是空值的时候，则是类似于do xxxx loop这样的无退出条件的无限循环
-            If Not condition Is Nothing Then
+            ' 这个是前置的判断，即条件判断放在循环的最开始
+            If Not condition Is Nothing AndAlso Not isPostpositive Then
                 ' 有条件的退出循环
                 internal += New br_if With {
                     .blockLabel = block.guid,
@@ -313,6 +344,16 @@ Namespace SyntaxAnalysis
             End If
 
             internal += statements.ParseBlockInternal(symbols)
+
+            ' 这个是后置的判断，即条件判断放在循环的最末尾
+            If Not condition Is Nothing AndAlso isPostpositive Then
+                ' 有条件的退出循环
+                internal += New br_if With {
+                    .blockLabel = block.guid,
+                    .condition = condition
+                }
+            End If
+
             internal += New br With {.blockLabel = block.loopID}
 
             block.internal = internal
@@ -325,7 +366,7 @@ Namespace SyntaxAnalysis
         Public Iterator Function DoWhile(whileBlock As WhileBlockSyntax, symbols As SymbolTable) As IEnumerable(Of Expression)
             Dim condition As Expression = whileBlock.whileCondition(symbols)
 
-            For Each line In condition.whileLoopInternal(whileBlock.Statements, symbols)
+            For Each line In condition.whileLoopInternal(whileBlock.Statements, symbols, False)
                 Yield line
             Next
         End Function
