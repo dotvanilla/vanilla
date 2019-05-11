@@ -251,20 +251,40 @@ Namespace SyntaxAnalysis
 
         <Extension>
         Public Iterator Function DoLoop(doLoopBlock As DoLoopBlockSyntax, symbols As SymbolTable) As IEnumerable(Of Expression)
-            Dim [do] = doLoopBlock.DoStatement.WhileOrUntilClause
-            Dim condition As Expression = doLoopBlock.DoStatement _
-                .WhileOrUntilClause _
-                .Condition _
-                .whileCondition(symbols)
+            Dim [do] As WhileOrUntilClauseSyntax = doLoopBlock.DoStatement.WhileOrUntilClause
+            Dim condition As Expression
 
-            If [do].WhileOrUntilKeyword.ValueText = "Until" Then
-                Throw New NotImplementedException
+            If [do] Is Nothing Then
+                Dim [loop] As LoopStatementSyntax = doLoopBlock.LoopStatement
+
+                ' do 
+                '  xxxxx
+                ' loop xxxx
+                Yield New CommentText With {.text = "Do ... Loop"}
+
+                If [loop].WhileOrUntilClause Is Nothing Then
+                    ' do .... loop
+                    ' 无条件判断的无限循环表达式
+                    For Each line As Expression In whileLoopInternal(Nothing, doLoopBlock.Statements, symbols)
+                        Yield line
+                    Next
+                Else
+                    Throw New NotImplementedException
+                End If
             Else
-                Yield New CommentText With {.text = doLoopBlock.DoStatement.ToString}
+                condition = [do] _
+                    .Condition _
+                    .whileCondition(symbols)
 
-                For Each line In condition.whileLoopInternal(doLoopBlock.Statements, symbols)
-                    Yield line
-                Next
+                If [do].WhileOrUntilKeyword.ValueText = "Until" Then
+                    Throw New NotImplementedException
+                Else
+                    Yield New CommentText With {.text = doLoopBlock.DoStatement.ToString}
+
+                    For Each line In condition.whileLoopInternal(doLoopBlock.Statements, symbols)
+                        Yield line
+                    Next
+                End If
             End If
         End Function
 
@@ -278,10 +298,15 @@ Namespace SyntaxAnalysis
 
             Yield New CommentText With {.text = $"Start Do While Block {block.guid}"}
 
-            internal += New br_if With {
-                .blockLabel = block.guid,
-                .condition = condition
-            }
+            ' 如果condition是空值的时候，则是类似于do xxxx loop这样的无退出条件的无限循环
+            If Not condition Is Nothing Then
+                ' 有条件的退出循环
+                internal += New br_if With {
+                    .blockLabel = block.guid,
+                    .condition = condition
+                }
+            End If
+
             internal += statements.ParseBlockInternal(symbols)
             internal += New br With {.blockLabel = block.loopID}
 
