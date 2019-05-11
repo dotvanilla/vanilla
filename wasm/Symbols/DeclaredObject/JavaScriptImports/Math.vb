@@ -79,10 +79,23 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
+        Public ReadOnly Property Cos As New ImportSymbol With {
+            .importAlias = "cos",
+            .name = "Math.cos",
+            .package = "Math",
+            .definedInModule = False,
+            .[module] = "Math",
+            .result = TypeAbstract.f64,
+            .parameters = {
+                "x".param(TypeAlias.f64)
+            }
+        }
+
         Public Function Method(name As String) As ImportSymbol
             Select Case name
                 Case NameOf(System.Math.Pow) : Return Pow
                 Case NameOf(System.Math.Exp) : Return Exp
+                Case NameOf(System.Math.Cos) : Return Cos
                 Case Else
                     Throw New NotImplementedException
             End Select

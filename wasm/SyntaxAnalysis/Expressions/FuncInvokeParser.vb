@@ -102,7 +102,7 @@ Namespace SyntaxAnalysis
                     Dim acc = DirectCast(reference, MemberAccessExpressionSyntax)
                     Dim isKeyAccess As Boolean = acc.OperatorToken.Text = "!"
                     ' 模块或者变量名称
-                    Dim target = acc.Expression
+                    Dim target As ExpressionSyntax = acc.Expression
                     ' 目标函数名称
                     funcName$ = acc.Name.objectName
 
@@ -200,12 +200,26 @@ Namespace SyntaxAnalysis
             Else
                 If TypeOf target Is MemberAccessExpressionSyntax Then
                     With DirectCast(target, MemberAccessExpressionSyntax)
+                        Dim moduleLabel$ = .Name.objectName
 
+                        If moduleLabel = "Math" Then
+                            Dim namespace$ = .Expression.ToString
+
+                            If [namespace] = "Global.System" OrElse [namespace] = "System" Then
+                                funcDeclare = symbols.FindModuleMemberFunction("Math", funcName)
+                                ' 是对静态模块的方法引用
+                                argumentFirst = Nothing
+                                leftArguments = funcDeclare.parameters
+                            Else
+                                Throw New NotImplementedException
+                            End If
+                        Else
+                            Throw New NotImplementedException
+                        End If
                     End With
+                Else
                     Throw New NotImplementedException
                 End If
-
-                Throw New NotImplementedException
             End If
 
             Dim arguments As Expression() = argumentList.fillParameters(leftArguments, symbols)
