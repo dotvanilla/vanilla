@@ -234,7 +234,7 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
-        Public Function FunctionInvoke(func As FuncSignature, arguments As Expression()) As Expression
+        Public Function FunctionInvoke(func As FuncSignature, ParamArray arguments As Expression()) As Expression
             If TypeOf func Is ImportSymbol Then
                 Return New FuncInvoke(DirectCast(func, ImportSymbol)) With {
                     .parameters = arguments

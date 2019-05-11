@@ -1,52 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::92a57515841f6f01a501da6d65c5b455, SyntaxAnalysis\Expressions\BinaryOperatorParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BinaryOperatorParser
-    ' 
-    '         Function: (+2 Overloads) BinaryStack, IsPredicate
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BinaryOperatorParser
+' 
+'         Function: (+2 Overloads) BinaryStack, IsPredicate
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols
 Imports Wasm.TypeInfo
@@ -107,29 +108,40 @@ Namespace SyntaxAnalysis
                 right = CTypeHandle.CType(type, right, symbols)
             End If
 
-            Dim funcOpName$
+            Dim funcOpName As [Variant](Of String, ImportSymbol)
 
-            If TypeOperator.wasmOpName.ContainsKey(op) Then
-                funcOpName = TypeOperator.wasmOpName(op)
+            If TypeOperator.IsValidDirectMapOperator(op) Then
+                funcOpName = TypeOperator.GetDirectMapOperator(op)
 
                 If type = TypeAlias.boolean Then
                     funcOpName = $"i32.{funcOpName}"
                 Else
                     funcOpName = $"{type}.{funcOpName}"
                 End If
+            ElseIf op = "^" Then
+                funcOpName = JavaScriptImports.Math.Pow
             Else
                 funcOpName = TypeOperator.Compares(type.raw, op)
             End If
 
             ' 需要根据类型来决定操作符函数的类型来源
-            Return New FuncInvoke With {
-                .parameters = {left, right},
-                .refer = New ReferenceSymbol With {
-                    .symbol = funcOpName,
-                    .type = SymbolType.Operator
-                },
-                .[operator] = True
-            }
+            If funcOpName Like GetType(ImportSymbol) Then
+                Return funcOpName _
+                    .TryCast(Of ImportSymbol) _
+                    .FunctionInvoke(
+                        CTypeHandle.CDbl(left, symbols),
+                        CTypeHandle.CDbl(right, symbols)
+                    )
+            Else
+                Return New FuncInvoke With {
+                    .parameters = {left, right},
+                    .refer = New ReferenceSymbol With {
+                        .symbol = funcOpName,
+                        .type = SymbolType.Operator
+                    },
+                    .[operator] = True
+                }
+            End If
         End Function
 
         <Extension>
