@@ -198,7 +198,7 @@ Namespace TypeInfo
             Dim operator$ = Nothing
 
             Select Case type.type
-                Case TypeAlias.i32
+                Case TypeAlias.i32, TypeAlias.boolean
                     ' 直接转换
                     Return exp
                 Case Else

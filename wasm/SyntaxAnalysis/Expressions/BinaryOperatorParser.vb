@@ -113,8 +113,10 @@ Namespace SyntaxAnalysis
                 Return symbols.StringAppend(left, right)
             ElseIf op = "Is" Then
                 Return symbols.IsPredicate(left, right)
-            ElseIf op Like comparisonOp Then
+            ElseIf op Like TypeOperator.comparisonOp Then
                 Return symbols.DoComparison(left, right, op)
+            ElseIf op Like TypeOperator.LogicalOperators Then
+                Return symbols.DoLogical(left, right, op)
             Else
                 type = symbols.highOrderTransfer(left, right)
             End If
@@ -153,6 +155,21 @@ Namespace SyntaxAnalysis
                     .[operator] = True
                 }
             End If
+        End Function
+
+        <Extension>
+        Public Function DoLogical(symbols As SymbolTable, left As Expression, right As Expression, op$) As Expression
+            left = CTypeHandle.CBool(left, symbols)
+            right = CTypeHandle.CBool(right, symbols)
+
+            Return New FuncInvoke With {
+                .[operator] = True,
+                .parameters = {left, right},
+                .refer = New ReferenceSymbol With {
+                    .symbol = TypeOperator.BooleanLogical(op),
+                    .type = SymbolType.LogicalOperator
+                }
+            }
         End Function
 
         <Extension>
