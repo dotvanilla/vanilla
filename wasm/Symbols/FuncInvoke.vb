@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::01734a8014d7ff096dc4596b73ece27a, Symbols\FuncInvoke.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class FuncInvoke
-    ' 
-    '         Properties: [operator], IsUnary, parameters, refer
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    '         Function: AsUnary, funcTypeInfer, InternalApiReturnType, ToSExpression, typeFromOperator
-    '                   TypeInfer
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class FuncInvoke
+' 
+'         Properties: [operator], IsUnary, parameters, refer
+' 
+'         Constructor: (+4 Overloads) Sub New
+'         Function: AsUnary, funcTypeInfer, InternalApiReturnType, ToSExpression, typeFromOperator
+'                   TypeInfer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -97,7 +97,7 @@ Namespace Symbols
                     End If
                 End If
 
-                Dim op$ = refer.Symbol.Split("."c).Last
+                Dim op$ = refer.symbol.Split("."c).Last
 
                 Return op Like TypeOperator.unaryOp
             End Get
@@ -108,9 +108,9 @@ Namespace Symbols
 
         Sub New(module$, funcName As String)
             refer = New ReferenceSymbol With {
-                .Symbol = funcName,
+                .symbol = funcName,
                 .[module] = [module],
-                .Type = SymbolType.Func
+                .type = SymbolType.Func
             }
         End Sub
 
@@ -120,17 +120,17 @@ Namespace Symbols
         ''' <param name="target"></param>
         Sub New(target As FuncSignature)
             refer = New ReferenceSymbol With {
-                .Symbol = target.Name,
+                .symbol = target.name,
                 .[module] = target.module,
-                .Type = SymbolType.Func
+                .type = SymbolType.Func
             }
         End Sub
 
         Sub New(target As ImportSymbol)
             refer = New ReferenceSymbol With {
-                .Symbol = target.Name,
+                .symbol = target.name,
                 .[module] = If(target.definedInModule, target.module, Nothing),
-                .Type = SymbolType.Api
+                .type = SymbolType.Api
             }
         End Sub
 
@@ -139,7 +139,7 @@ Namespace Symbols
                 Throw New InvalidCastException
             End If
 
-            If refer.Symbol.Split("."c).Last = "add" Then
+            If refer.symbol.Split("."c).Last = "add" Then
                 ' 直接返回第二个参数
                 Return parameters(1)
             Else
@@ -185,7 +185,7 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             If [operator] Then
-                Return typeFromOperator(refer.Symbol)
+                Return typeFromOperator(refer.symbol)
             Else
                 Return funcTypeInfer(symbolTable)
             End If
@@ -202,14 +202,14 @@ Namespace Symbols
 
             If parameters.IsNullOrEmpty Then
                 ' 参数是空的，则直接查找函数的返回值
-                func = symbolTable.GetFunctionSymbol(refer.module, refer.Symbol)
+                func = symbolTable.GetFunctionSymbol(refer.module, refer.symbol)
             Else
                 ' 如果参数不是空的，则可能是用户定义的类型的方法
                 ' 或者是拓展函数调用
                 obj = parameters(Scan0)
 
                 ' 在这里需要对值元素类型为数组的字典引用进行一些额外的处理
-                If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).refer.Symbol = JavaScriptImports.Dictionary.GetValue.Name Then
+                If TypeOf obj Is FuncInvoke AndAlso DirectCast(obj, FuncInvoke).refer.symbol = JavaScriptImports.Dictionary.GetValue.name Then
                     Dim table = DirectCast(obj, FuncInvoke).parameters(0)
 
                     If TypeOf table Is GetLocalVariable Then
@@ -233,14 +233,14 @@ Namespace Symbols
                     Throw New NotImplementedException
                 Else
                     If refer.module Like symbolTable.ModuleNames Then
-                        func = symbolTable.FindModuleMemberFunction(refer.module, refer.Symbol)
-                    ElseIf refer.Type = SymbolType.Api AndAlso refer.module.StringEmpty Then
+                        func = symbolTable.FindModuleMemberFunction(refer.module, refer.symbol)
+                    ElseIf refer.type = SymbolType.Api AndAlso refer.module.StringEmpty Then
                         ' 是外部导入的Api，但是没有模块名称
                         ' 则说明是内部定义的Api函数
                         Return InternalApiReturnType(refer)
                     Else
                         Dim context$ = obj.TypeInfer(symbolTable).type.Description
-                        func = symbolTable.GetFunctionSymbol(context, refer.Symbol)
+                        func = symbolTable.GetFunctionSymbol(context, refer.symbol)
                     End If
                 End If
             End If
@@ -249,7 +249,7 @@ Namespace Symbols
         End Function
 
         Private Shared Function InternalApiReturnType(refer As ReferenceSymbol) As TypeAbstract
-            Dim tokens As String() = refer.Symbol.Split("."c)
+            Dim tokens As String() = refer.symbol.Split("."c)
             Dim typeToken = tokens(0).Split("_"c)
             Dim type$ = typeToken.Last
             Dim genericType$ = typeToken.First
@@ -262,7 +262,7 @@ Namespace Symbols
                         Case "length", "indexOf"
                             Return New TypeAbstract(TypeAlias.i32)
                         Case Else
-                            Throw New NotImplementedException(refer.Symbol)
+                            Throw New NotImplementedException(refer.symbol)
                     End Select
                 Case "array", "list"
                     Select Case tokens(1)
@@ -275,10 +275,17 @@ Namespace Symbols
                         Case "set"
                             Return TypeAbstract.void
                         Case Else
-                            Throw New NotImplementedException(refer.Symbol)
+                            Throw New NotImplementedException(refer.symbol)
+                    End Select
+                Case "Math"
+                    Select Case tokens(1)
+                        Case "exp", "pow", "cos", "sin"
+                            Return TypeAbstract.f64
+                        Case Else
+                            Throw New NotImplementedException(refer.symbol)
                     End Select
                 Case Else
-                    Throw New NotImplementedException(refer.Symbol)
+                    Throw New NotImplementedException(refer.symbol)
             End Select
         End Function
     End Class

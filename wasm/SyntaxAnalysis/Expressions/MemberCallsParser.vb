@@ -87,6 +87,8 @@ Namespace SyntaxAnalysis
                 End If
 
                 Throw New NotImplementedException
+            ElseIf symbols.IsAnyObject(memberName) AndAlso (Not symbols.IsAnyObject(objName)) AndAlso objName Like symbols.ModuleNames Then
+                Return symbols.FindModuleGlobal(objName, memberName).GetReference
             Else
                 ' 数组长度，属性，无参数的方法调用等
                 Dim func = symbols.GetFunctionSymbol(objName, memberName)
