@@ -150,14 +150,14 @@ Namespace Compiler
             ' max value
             Call AddGlobal(NameOf(Integer.MaxValue), TypeAbstract.i32, "Integer", Literal.i32(Integer.MaxValue), isConst:=True)
             Call AddGlobal(NameOf(Long.MaxValue), TypeAbstract.i64, "Long", Literal.i64(Long.MaxValue), isConst:=True)
-            Call AddGlobal(NameOf(Single.MaxValue), TypeAbstract.f32, "Single", Literal.f32(Single.MaxValue), isConst:=True)
-            Call AddGlobal(NameOf(Double.MaxValue), TypeAbstract.f64, "Double", Literal.f64(Double.MaxValue), isConst:=True)
+            Call AddGlobal(NameOf(Single.MaxValue), TypeAbstract.f32, "Single", Literal.f32Max, isConst:=True)
+            Call AddGlobal(NameOf(Double.MaxValue), TypeAbstract.f64, "Double", Literal.f64Max, isConst:=True)
 
             ' min value
             Call AddGlobal(NameOf(Integer.MinValue), TypeAbstract.i32, "Integer", Literal.i32(Integer.MinValue), isConst:=True)
             Call AddGlobal(NameOf(Long.MinValue), TypeAbstract.i64, "Long", Literal.i64(Long.MinValue), isConst:=True)
-            Call AddGlobal(NameOf(Single.MinValue), TypeAbstract.f32, "Single", Literal.f32(Single.MinValue), isConst:=True)
-            Call AddGlobal(NameOf(Double.MinValue), TypeAbstract.f64, "Double", Literal.f64(Double.MinValue), isConst:=True)
+            Call AddGlobal(NameOf(Single.MinValue), TypeAbstract.f32, "Single", Literal.f32Min, isConst:=True)
+            Call AddGlobal(NameOf(Double.MinValue), TypeAbstract.f64, "Double", Literal.f64Min, isConst:=True)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
