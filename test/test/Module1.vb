@@ -75,6 +75,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "..\logicalTest.vb",
                 "..\functionReferenceTest.vb",
                 "..\multipleLevelLoops.vb",
                  "..\loopTest4.vb",
@@ -109,7 +110,7 @@ Module treeTest
 
     Sub Main()
 
-        Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
+        '  Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
         ' Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
         ' Call projectTest("D:\vanilla\test\demo_proj\HelloWorld.vbproj")
 
@@ -118,7 +119,7 @@ Module treeTest
         '  Call Wasm.CompileWast("..\Demo\string.wast", "..\Demo\string.wasm")
         ' Call Wasm.CompileWast("..\Demo\new_test.wast", "..\Demo\new_test.wast")
 
-        Pause()
+        ' Pause()
 
         Call FileTest()
 
