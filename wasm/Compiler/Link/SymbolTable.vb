@@ -130,7 +130,7 @@ Namespace Compiler
 
                 ' 20190511 Math模块是内置的一个必须模块
                 ' 因为WebAssembly的主要目标就是数学计算
-                Return globals + funcs + "Math"
+                Return globals + funcs + "Math" + "VBMath"
             End Get
         End Property
 
