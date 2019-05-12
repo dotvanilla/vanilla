@@ -58,6 +58,8 @@ Namespace Symbols
     ''' </summary>
     Public MustInherit Class Expression
 
+        Public Property comment As String
+
         Public ReadOnly Property IsNumberLiteral As Boolean
             Get
                 Return TypeOf Me Is LiteralExpression AndAlso TypeInfer(Nothing).type Like TypeExtensions.NumberOrders
