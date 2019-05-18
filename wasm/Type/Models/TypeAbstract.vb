@@ -267,6 +267,10 @@ Namespace TypeInfo
             Return New TypeAbstract(TypeAlias.list, Me)
         End Function
 
+        ''' <summary>
+        ''' 显示类型的可读的调试显示字符串
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             If generic.IsNullOrEmpty Then
                 Return type.Description

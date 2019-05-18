@@ -93,6 +93,14 @@ Namespace TypeInfo
         Private Sub New()
         End Sub
 
+        Public Shared Function [Nothing](type As TypeAbstract) As LiteralExpression
+            Return New LiteralExpression With {
+                .type = type,
+                .value = "0",
+                .comment = $"Nothing(Of {type.ToString})"
+            }
+        End Function
+
         ''' <summary>
         ''' Memory pointer type
         ''' </summary>

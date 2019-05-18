@@ -137,7 +137,7 @@ Namespace TypeInfo
                 Return right
             ElseIf right.IsLiteralNothing Then
                 ' nothing 可以赋值给任意类型
-                Return DefaultOf(left)
+                Return Literal.Nothing(left)
             ElseIf TypeOf right Is LiteralExpression AndAlso IsDirectCastCapable(left.type, rightTypeInfer.type) Then
                 ' 如果是常数表达式的话，则直接修改常数表达式的类型
                 Return New LiteralExpression With {
@@ -175,22 +175,6 @@ Namespace TypeInfo
                 Case Else
                     Throw New InvalidCastException($"{rightTypeInfer} -> {left}")
             End Select
-        End Function
-
-        ''' <summary>
-        ''' 好像只需要直接返回零就可以了...
-        ''' </summary>
-        ''' <param name="type"></param>
-        ''' <returns></returns>
-        Public Function DefaultOf(type As TypeAbstract) As Expression
-            If type.isprimitive Then
-                Return New LiteralExpression With {.value = 0, .type = type}
-            ElseIf type = TypeAlias.boolean Then
-                ' 逻辑值默认为False
-                Return New LiteralExpression With {.value = 0, .type = type}
-            Else
-                Return New LiteralExpression With {.value = 0, .type = type}
-            End If
         End Function
 
         Public Function [CBool](exp As Expression, symbols As SymbolTable) As Expression
