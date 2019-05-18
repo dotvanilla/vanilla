@@ -74,6 +74,22 @@ Namespace Symbols.JavaScriptImports
         }
 
         ''' <summary>
+        ''' <see cref="System.Math.Sqrt(Double)"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Sqrt As New ImportSymbol With {
+            .importAlias = "sqrt",
+            .name = "Math.sqrt",
+            .package = "Math",
+            .definedInModule = False,
+            .[module] = "Math",
+            .result = TypeAbstract.f64,
+            .parameters = {
+                "a".param(TypeAlias.f64)
+            }
+        }
+
+        ''' <summary>
         ''' <see cref="System.Math.Exp(Double)"/>
         ''' </summary>
         ''' <returns></returns>
@@ -158,6 +174,7 @@ Namespace Symbols.JavaScriptImports
                 Case NameOf(VBMath.Rnd) : Return Rnd
                 Case NameOf(System.Math.Ceiling) : Return Ceiling
                 Case NameOf(System.Math.Floor) : Return Floor
+                Case NameOf(System.Math.Sqrt) : Return Sqrt
                 Case Else
                     Throw New NotImplementedException
             End Select

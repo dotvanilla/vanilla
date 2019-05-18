@@ -77,6 +77,12 @@ Namespace Compiler
         ''' <returns></returns>
         Public Property [object] As UserObject
 
+        Public ReadOnly Property InBlockStack As Boolean
+            Get
+                Return Not blockGuid.Count = 0
+            End Get
+        End Property
+
         Public ReadOnly Property currentBlockGuid As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get

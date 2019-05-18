@@ -57,6 +57,7 @@ Imports Wasm.Symbols.Blocks
 Namespace SyntaxAnalysis
 
     Module BlockDoLoopParser
+
         <Extension>
         Friend Iterator Function ParseBlockInternal(block As IEnumerable(Of StatementSyntax), symbols As SymbolTable) As IEnumerable(Of Expression)
             For Each statement As StatementSyntax In block
