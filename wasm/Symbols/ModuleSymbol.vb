@@ -112,7 +112,7 @@ Namespace Symbols
             End If
             If start Is Nothing Then
                 start = part.start
-            Else
+            ElseIf Not part.start Is Nothing Then
                 start.constructors.AddRange(part.start.constructors)
             End If
 
