@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::78ebfde11de5b5b4856d4740a08f277c, SyntaxAnalysis\Body\DeclaratorParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module DeclaratorParser
-    ' 
-    '         Function: GetInitialize, (+2 Overloads) ParseDeclarator, ParserInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module DeclaratorParser
+' 
+'         Function: GetInitialize, (+2 Overloads) ParseDeclarator, ParserInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -132,43 +132,13 @@ Namespace SyntaxAnalysis
                 End If
             End If
 
-            If Not init Is Nothing Then
-                Select Case init.GetType
-                    Case GetType(ArraySymbol)
-                        With DirectCast(init, ArraySymbol)
-                            If .type Is Nothing Then
-                                .type = type
-                            End If
-                        End With
-                End Select
-            End If
+            init = type.initAutofit(init, symbols)
 
             If Not moduleName.StringEmpty Then
-                If init Is Nothing Then
-                    ' 默认是零
-                    init = New LiteralExpression(0, type)
-                ElseIf type <> init.TypeInfer(symbols) Then
-                    If TypeOf init Is LiteralExpression Then
-                        DirectCast(init, LiteralExpression).type = type
-                    ElseIf TypeOf init Is FuncInvoke Then
-                        ' 查看是否为单目运算
-                        With DirectCast(init, FuncInvoke)
-                            If .IsUnary Then
-                                init = .AsUnary(type)
-                            End If
-                        End With
-                    Else
-                        Throw New InvalidExpressionException("Global variable its initialize value only supports constant value!")
-                    End If
-                End If
-
                 Call symbols.AddGlobal(name, type, moduleName, init, isConst)
-
                 Return Nothing
             Else
                 If Not init Is Nothing Then
-                    init = CTypeHandle.CType(type, init, symbols)
-
                     If TypeOf init Is ArraySymbol Then
                         Dim array As ArraySymbol = init
 
@@ -200,6 +170,40 @@ Namespace SyntaxAnalysis
                     .isConst = isConst
                 }
             End If
+        End Function
+
+        <Extension>
+        Private Function initAutofit(type As TypeAbstract, init As Expression, symbols As SymbolTable) As Expression
+            If Not init Is Nothing Then
+                Select Case init.GetType
+                    Case GetType(ArraySymbol)
+                        With DirectCast(init, ArraySymbol)
+                            If .type Is Nothing Then
+                                .type = type
+                            End If
+                        End With
+                End Select
+            Else
+                ' 默认是零
+                init = Literal.Nothing(type)
+            End If
+
+            If type <> init.TypeInfer(symbols) Then
+                If TypeOf init Is LiteralExpression Then
+                    DirectCast(init, LiteralExpression).type = type
+                ElseIf TypeOf init Is FuncInvoke Then
+                    ' 查看是否为单目运算
+                    With DirectCast(init, FuncInvoke)
+                        If .IsUnary Then
+                            init = .AsUnary(type)
+                        End If
+                    End With
+                Else
+                    init = CTypeHandle.CType(type, init, symbols)
+                End If
+            End If
+
+            Return init
         End Function
 
         <Extension>
