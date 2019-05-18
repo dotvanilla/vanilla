@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bae1f09ded08325e6d6ee7b20bf7df86, test\test\rectangleArrayTest.vb"
+﻿#Region "Microsoft.VisualBasic::4a6d336d72e9de9bd2d0a957ece605d4, test\test\rectangleArrayTest.vb"
 
     ' Author:
     ' 
@@ -59,4 +59,3 @@ Module rectangleArrayTest
         d(88) = b(5)
     End Sub
 End Module
-

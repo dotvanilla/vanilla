@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa88fcb44ab17d388fd04f8b40a58e75, test\test\starterTest.vb"
+﻿#Region "Microsoft.VisualBasic::901ff68eb7d11354cf3c4826e37fe1e1, test\test\starterTest.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     ' Module starterTest
     ' 
-    ' 
+    '     Constructor: (+1 Overloads) Sub New
     ' 
     ' /********************************************************************************/
 
@@ -56,4 +56,3 @@ Module starterTest
     End Sub
 
 End Module
-

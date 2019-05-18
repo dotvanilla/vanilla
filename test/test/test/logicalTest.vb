@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24125fceefc6b3b5d86991bfba2a26ee, test\test\logicalTest.vb"
+﻿#Region "Microsoft.VisualBasic::7aada891bf405b525f367489c0207994, test\test\logicalTest.vb"
 
     ' Author:
     ' 
@@ -56,4 +56,3 @@ Module logicalTest
         End If
     End Sub
 End Module
-
