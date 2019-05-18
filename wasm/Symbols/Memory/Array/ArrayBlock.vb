@@ -56,6 +56,13 @@ Imports Wasm.TypeInfo
 
 Namespace Symbols.MemoryObject
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' ##### 2019-05-19
+    ''' Uncaught (in promise) RangeError: start offset of Float32Array should be a multiple of 4
+    ''' </remarks>
     Public Class ArrayBlock : Inherits IMemoryObject
         Implements IEnumerable(Of Expression)
 
