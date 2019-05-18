@@ -85,6 +85,13 @@ Namespace TypeInfo
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(rawString As String)
+            Me.raw = rawString
+        End Sub
+
         ''' <summary>
         ''' 获取得到WebAssembly编译器的中间类型
         ''' </summary>

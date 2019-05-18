@@ -88,8 +88,9 @@ Namespace TypeInfo
 
         Public Function IsArray(type As String) As Boolean
             ' instr是从1开始的
-            Dim p = InStr(type, "[]") - 1
-            Dim lastIndex = (type.Length - 2)
+            Dim arraySymbol$ = type.Match("(\[\])+", RegexICSng)
+            Dim p = InStr(type, arraySymbol) - 1
+            Dim lastIndex = (type.Length - arraySymbol.Length)
 
             Return p = lastIndex
         End Function
