@@ -367,6 +367,9 @@ Namespace Symbols
         End Function
     End Class
 
+    ''' <summary>
+    ''' 一个括号表达式
+    ''' </summary>
     Public Class Parenthesized : Inherits Expression
 
         Public Property Internal As Expression

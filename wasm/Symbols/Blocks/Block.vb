@@ -103,6 +103,7 @@ Namespace Symbols.Blocks
     ''' 这个和<see cref="Block"/>类型的语法结构不一样，只是单纯的将表达式分组
     ''' </summary>
     Public Class ExpressionGroup : Inherits Expression
+        Implements IEnumerable(Of Expression)
 
         Public Property group As Expression()
 
@@ -120,6 +121,16 @@ Namespace Symbols.Blocks
                     Yield symbol
                 Next
             Next
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of Expression) Implements IEnumerable(Of Expression).GetEnumerator
+            For Each line In group
+                Yield line
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
         End Function
     End Class
 End Namespace

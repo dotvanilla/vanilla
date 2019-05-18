@@ -61,7 +61,7 @@ Namespace Symbols
     ''' <summary>
     ''' The abstract of the function object, only have function name, parameter and result type definition.
     ''' </summary>
-    Public Class FuncSignature : Inherits Expression
+    Public Class FuncSignature : Inherits NoReferenceExpression
         Implements INamedValue
         Implements IDeclaredObject
 

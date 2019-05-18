@@ -88,6 +88,14 @@ Namespace Symbols.Blocks
     )
 )"
         End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            For Each line As Expression In internal
+                For Each symbol In line.GetSymbolReference
+                    Yield symbol
+                Next
+            Next
+        End Function
     End Class
 
     Public Class br : Inherits Expression
@@ -100,6 +108,10 @@ Namespace Symbols.Blocks
 
         Public Overrides Function ToSExpression() As String
             Return $"(br ${blockLabel})"
+        End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            ' no reference
         End Function
     End Class
 
@@ -118,6 +130,10 @@ Namespace Symbols.Blocks
         Public Overrides Function ToSExpression() As String
             Return $"(br_if ${blockLabel} {condition})"
         End Function
+
+        Public Overrides Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Return condition.GetSymbolReference
+        End Function
     End Class
 
     ''' <summary>
@@ -131,7 +147,7 @@ Namespace Symbols.Blocks
     ''' 
     ''' https://github.com/WebAssembly/wabt/issues/1067
     ''' </remarks>
-    Public Class drop : Inherits Expression
+    Public Class drop : Inherits Parenthesized
 
         Public Property expression As Expression
 

@@ -82,6 +82,10 @@ Namespace Symbols.MemoryObject
             End If
         End Function
 
+        Public Overrides Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Return Me.AddressOf.GetSymbolReference
+        End Function
+
         Public Shared Function IndexOffset(array As Expression, offset As Integer) As Expression
             Return IndexOffset(array, Literal.i32(offset))
         End Function

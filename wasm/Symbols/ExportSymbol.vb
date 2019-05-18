@@ -54,6 +54,7 @@ Imports Wasm.TypeInfo
 Namespace Symbols
 
     Public Class ExportSymbolExpression : Inherits Expression
+
         Implements IDeclaredObject
 
         ''' <summary>
@@ -83,6 +84,10 @@ Namespace Symbols
             Else
                 Throw New NotImplementedException
             End If
+        End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Yield target
         End Function
     End Class
 End Namespace

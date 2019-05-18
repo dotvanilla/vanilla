@@ -52,7 +52,7 @@ Imports Wasm.TypeInfo
 
 Namespace Symbols
 
-    Public Class TypeSymbol : Inherits Expression
+    Public Class TypeSymbol : Inherits NoReferenceExpression
 
         Public Property type As TypeAbstract
 

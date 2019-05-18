@@ -124,5 +124,9 @@ Namespace Symbols.MemoryObject
         Public Shared Operator -(n As Integer, intptr As IntPtr) As IntPtr
             Return New IntPtr With {.expression = Minus(Literal.i32(n), intptr)}
         End Operator
+
+        Public Overrides Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Return expression.GetSymbolReference
+        End Function
     End Class
 End Namespace

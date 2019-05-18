@@ -57,15 +57,15 @@ Namespace Symbols.MemoryObject
     ''' 导致字符串，数组等数据类型被误判为i32产生额外的或者错误的数据类型转换
     ''' 所以在这里会需要使用这个对象来保持原本的类型信息
     ''' </summary>
-    Public Class FieldValue : Inherits Expression
+    Public Class FieldValue : Inherits Parenthesized
 
-        Public Property type As TypeAbstract
         ''' <summary>
         ''' 从内存之中读取出来的值，这个因为load函数的限制
         ''' 如果直接对表达式做类型推断的话，只能够得到4种基础类型
+        ''' 所以会需要这个属性值来解决这个类型推断的bug
         ''' </summary>
         ''' <returns></returns>
-        Public Property value As Expression
+        Public Property type As TypeAbstract
 
         ''' <summary>
         ''' 在类型推断返回原本的字段类型
@@ -77,7 +77,7 @@ Namespace Symbols.MemoryObject
         End Function
 
         Public Overrides Function ToSExpression() As String
-            Return value.ToSExpression
+            Return Internal.ToSExpression
         End Function
     End Class
 End Namespace
