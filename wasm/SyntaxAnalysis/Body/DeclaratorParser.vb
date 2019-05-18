@@ -198,9 +198,9 @@ Namespace SyntaxAnalysis
                             init = .AsUnary(type)
                         End If
                     End With
-                Else
-                    init = CTypeHandle.CType(type, init, symbols)
                 End If
+
+                init = CTypeHandle.CType(type, init, symbols)
             End If
 
             Return init
