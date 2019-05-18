@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::387fccec3cbc1e7f38debd136d25bee1, SyntaxAnalysis\Expressions\FuncInvokeParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FuncInvokeParser
-    ' 
-    '         Function: Argument, ArgumentSequence, fillParameters, (+2 Overloads) FunctionInvoke, indexerAccess
-    '                   InvokeFunction, ObjectInvoke, OptionalDefault
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FuncInvokeParser
+' 
+'         Function: Argument, ArgumentSequence, fillParameters, (+2 Overloads) FunctionInvoke, indexerAccess
+'                   InvokeFunction, ObjectInvoke, OptionalDefault
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -68,19 +68,31 @@ Namespace SyntaxAnalysis
             Return CTypeHandle.CType(left, value, symbols)
         End Function
 
+        ''' <summary>
+        ''' 对象索引
+        ''' </summary>
+        ''' <param name="target"></param>
+        ''' <param name="invoke"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
         <Extension>
-        Private Function indexerAccess(target As GetLocalVariable, invoke As InvocationExpressionSyntax, funcName$, symbols As SymbolTable) As Expression
-            Dim targetType As TypeAbstract = symbols.GetUnderlyingType(funcName)
+        Private Function indexerAccess(target As GetLocalVariable, invoke As [Variant](Of InvocationExpressionSyntax, ArgumentListSyntax), symbols As SymbolTable) As Expression
+            Dim targetType As TypeAbstract = target.TypeInfer(symbols)
+            Dim args As ArgumentListSyntax
+
+            If invoke Like GetType(ArgumentListSyntax) Then
+                args = invoke
+            Else
+                args = invoke.TryCast(Of InvocationExpressionSyntax).ArgumentList
+            End If
 
             If targetType = TypeAlias.table Then
-                Dim key As Expression = invoke _
-                    .ArgumentList _
-                    .FirstArgument(symbols, "key".param("i32"))
+                Dim key As Expression = args.FirstArgument(symbols, "key".param("i32"))
 
                 Return JavaScriptImports.Dictionary.GetValue.FunctionInvoke({target, key})
             ElseIf targetType = TypeAlias.array OrElse targetType = TypeAlias.list Then
                 ' 数组或者列表的索引语法
-                Return symbols.arrayListIndexer(target, invoke.ArgumentList, targetType)
+                Return symbols.arrayListIndexer(target, args, targetType)
             Else
                 ' 对象的索引语法 
                 Throw New NotImplementedException
@@ -102,7 +114,7 @@ Namespace SyntaxAnalysis
                     If symbols.IsAnyObject(funcName) Then
                         Return symbols _
                             .GetObjectReference(funcName) _
-                            .indexerAccess(invoke, funcName, symbols)
+                            .indexerAccess(invoke, symbols)
                     End If
                 Case GetType(MemberAccessExpressionSyntax)
                     Dim acc = DirectCast(reference, MemberAccessExpressionSyntax)
@@ -135,6 +147,39 @@ Namespace SyntaxAnalysis
         End Function
 
         ''' <summary>
+        ''' ``a!b`` 字典查找语法
+        ''' </summary>
+        ''' <param name="target"></param>
+        ''' <param name="funcName$"></param>
+        ''' <param name="argumentList"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
+        <Extension>
+        Private Function tableKeyAccess(target As ExpressionSyntax, funcName$, argumentList As ArgumentListSyntax, symbols As SymbolTable) As Expression
+            ' 当为字典键引用的时候，函数对象肯定是查找不到的
+            ' 取得字典的结果值
+            Dim keyAccess As Expression = New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
+                .parameters = {
+                    target.ValueExpression(symbols),
+                    symbols.StringConstant(funcName)
+                }
+            }
+            Dim getArrayElement = JavaScriptImports.Array.GetArrayElement(keyAccess.TypeInfer(symbols))
+
+            ' 因为当前的表达式被判断是一个函数调用
+            ' 所以字典的结果值应该是一个数组
+            ' 在这里将数组的元素取出来
+            keyAccess = New FuncInvoke(getArrayElement) With {
+                .parameters = {
+                    keyAccess,
+                    argumentList.FirstArgument(symbols, "i".param("i32"))
+                }
+            }
+
+            Return keyAccess
+        End Function
+
+        ''' <summary>
         ''' 需要判断一下target的类型
         ''' 如果是本地变量，全局变量，常量，则可能是对象实例方法或者拓展方法
         ''' </summary>
@@ -163,27 +208,7 @@ Namespace SyntaxAnalysis
                 Dim name$ = DirectCast(target, IdentifierNameSyntax).objectName
 
                 If isKeyAccess Then
-                    ' 当为字典键引用的时候，函数对象肯定是查找不到的
-                    ' 取得字典的结果值
-                    Dim keyAccess As Expression = New FuncInvoke(JavaScriptImports.Dictionary.GetValue) With {
-                        .parameters = {
-                            target.ValueExpression(symbols),
-                            symbols.StringConstant(funcName)
-                        }
-                    }
-                    Dim getArrayElement = JavaScriptImports.Array.GetArrayElement(keyAccess.TypeInfer(symbols))
-
-                    ' 因为当前的表达式被判断是一个函数调用
-                    ' 所以字典的结果值应该是一个数组
-                    ' 在这里将数组的元素取出来
-                    keyAccess = New FuncInvoke(getArrayElement) With {
-                        .parameters = {
-                            keyAccess,
-                            argumentList.FirstArgument(symbols, "i".param("i32"))
-                        }
-                    }
-
-                    Return keyAccess
+                    Return target.tableKeyAccess(funcName, argumentList, symbols)
                 Else
                     funcDeclare = symbols.GetFunctionSymbol(name, funcName)
 
@@ -193,8 +218,17 @@ Namespace SyntaxAnalysis
                         leftArguments = funcDeclare.parameters.Skip(1).ToArray
                     ElseIf name Like symbols.ModuleNames Then
                         ' 是对静态模块的方法引用
-                        argumentFirst = Nothing
-                        leftArguments = funcDeclare.parameters
+                        ' funcName指向的对象也可能是一个数组
+                        Dim [global] = symbols.FindModuleGlobal(name, funcName)
+
+                        If [global] Is Nothing Then
+                            ' 是一个函数
+                            argumentFirst = Nothing
+                            leftArguments = funcDeclare.parameters
+                        Else
+                            ' 是一个全局的数组变量
+                            Return [global].GetReference.indexerAccess(argumentList, symbols)
+                        End If
                     ElseIf symbols.IsModuleFunction(name) Then
                         ' 方法生成值，然后再调用值对象的成员方法的
                         argumentFirst = New FuncInvoke(symbols.context.moduleLabel, name) With {

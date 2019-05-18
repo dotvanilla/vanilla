@@ -46,5 +46,13 @@
 
 Module starterTest
 
+    Dim a As Double() = New Double() {678}
+
+    Sub New()
+        Dim a As Double() = {6666}
+
+        a(1) = starterTest.a(0)
+    End Sub
+
 End Module
 

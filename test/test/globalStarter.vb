@@ -75,6 +75,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "starterTest.vb",
                 "rectangleArrayTest.vb",
                 "functionVariableTest.vb",
                 "logicalTest.vb",

@@ -185,6 +185,9 @@ Namespace Symbols
         End Function
     End Class
 
+    ''' <summary>
+    ''' Reference to a variable name <see cref="GetLocalVariable.var"/>
+    ''' </summary>
     Public Class GetLocalVariable : Inherits Expression
 
         Public Property var As String
