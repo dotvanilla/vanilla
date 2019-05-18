@@ -132,5 +132,11 @@ Namespace Symbols.Blocks
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
         End Function
+
+        Public Shared Widening Operator CType(lines As Expression()) As ExpressionGroup
+            Return New ExpressionGroup With {
+                .group = lines
+            }
+        End Operator
     End Class
 End Namespace

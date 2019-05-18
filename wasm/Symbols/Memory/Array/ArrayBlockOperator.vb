@@ -218,7 +218,7 @@ Namespace Symbols.MemoryObject
 
             Return New FieldValue With {
                 .type = ofElement,
-                .value = read
+                .Internal = read
             }
         End Function
 

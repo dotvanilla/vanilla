@@ -307,7 +307,7 @@ Namespace SyntaxAnalysis
             getValue = BitConverter.load(fieldType, fieldOffset)
             getValue = New FieldValue With {
                 .type = fieldType,
-                .value = getValue
+                .Internal = getValue
             }
 
             Return getValue
