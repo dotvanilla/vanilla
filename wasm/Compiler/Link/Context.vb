@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c07973096698977d400b413a51dfdac, Compiler\Link\Context.vb"
+﻿#Region "Microsoft.VisualBasic::3d71753271aa3ce7357772c12bb4b08e, Compiler\Link\Context.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Class Context
     ' 
-    '         Properties: [object], blockGuid, currentBlockGuid, funcSymbol, moduleLabel
+    '         Properties: [object], blockGuid, currentBlockGuid, funcSymbol, InBlockStack
+    '                     moduleLabel
     ' 
     ' 
     ' /********************************************************************************/

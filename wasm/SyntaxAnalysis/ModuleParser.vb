@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::680a3bfb22469b3fc80a3cd9ea166194, SyntaxAnalysis\ModuleParser.vb"
+﻿#Region "Microsoft.VisualBasic::68ea2b963f5f15b59b573c6124398718, SyntaxAnalysis\ModuleParser.vb"
 
     ' Author:
     ' 

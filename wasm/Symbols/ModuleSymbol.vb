@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85e15f0ee0c6fd4b57505331c3b4d3d5, Symbols\ModuleSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::26d1d8ae6cabb17e6680466404217db7, Symbols\ModuleSymbol.vb"
 
     ' Author:
     ' 
