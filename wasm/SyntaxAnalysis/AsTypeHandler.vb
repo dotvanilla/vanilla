@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbc23d867abe2a72da81c51b57d4dc47, SyntaxAnalysis\AsTypeHandler.vb"
+﻿#Region "Microsoft.VisualBasic::3023d0749c454ab912e2155168e120a8, SyntaxAnalysis\AsTypeHandler.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@
 
     '     Module AsTypeHandler
     ' 
-    '         Function: [GetType], AsType, GetAsType, GetGenericType, listOf
-    '                   PredefinedType, TypeName
+    '         Function: [GetType], arrayType, AsType, definedType, GetAsType
+    '                   GetGenericType, listOf, PredefinedType, TypeName
     ' 
     ' 
     ' /********************************************************************************/
