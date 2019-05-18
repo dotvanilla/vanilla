@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8c49699f51414c1d3254bf020ecdbb5, test\loopTest2.vb"
+﻿#Region "Microsoft.VisualBasic::7a5c7e1c352c50bfe3be82fe0405f069, test\test\loopTest2.vb"
 
     ' Author:
     ' 
@@ -58,4 +58,3 @@ Module loopTest2
         Return 8.9
     End Function
 End Module
-

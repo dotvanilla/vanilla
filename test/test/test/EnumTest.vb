@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3baaa1d6ec9c5f4640ff10b670a4002a, test\EnumTest.vb"
+﻿#Region "Microsoft.VisualBasic::3baaa1d6ec9c5f4640ff10b670a4002a, test\test\EnumTest.vb"
 
     ' Author:
     ' 

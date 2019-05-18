@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e63fe9375902e2e9d939302b844532f, test\Modulemethod_test.vb"
+﻿#Region "Microsoft.VisualBasic::3e63fe9375902e2e9d939302b844532f, test\test\Modulemethod_test.vb"
 
     ' Author:
     ' 

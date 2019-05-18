@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b4e6551170f66150403af031c3966e0, test\arrayDeclareTest2.vb"
+﻿#Region "Microsoft.VisualBasic::f2900a440b8e33d075d4ed6b1dd9deb8, test\test\arrayDeclareTest2.vb"
 
     ' Author:
     ' 
@@ -63,4 +63,3 @@ Module arrayDeclareTest2
     End Sub
 
 End Module
-

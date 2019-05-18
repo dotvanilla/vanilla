@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59807882fe53a93e94f6c25c4286e2c7, test\structurearrayTest.vb"
+﻿#Region "Microsoft.VisualBasic::59807882fe53a93e94f6c25c4286e2c7, test\test\structurearrayTest.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c739ca6b375fbd7fc962ad4e865a3827, test\arrayTest2.vb"
+﻿#Region "Microsoft.VisualBasic::c739ca6b375fbd7fc962ad4e865a3827, test\test\arrayTest2.vb"
 
     ' Author:
     ' 
