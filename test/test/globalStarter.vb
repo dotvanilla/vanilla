@@ -75,36 +75,36 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
-                "..\rectangleArrayTest.vb",
-                "..\functionVariableTest.vb",
-                "..\logicalTest.vb",
-                "..\functionReferenceTest.vb",
-                "..\multipleLevelLoops.vb",
-                 "..\loopTest4.vb",
-                 "..\loopTest3.vb",
-                "..\loopTest2.vb",
-                "..\loopTest1.vb",
-                "..\arrayDeclareTest2.vb",
-                 "..\structurearrayTest.vb",
-                "..\structuretest.vb",
-                   "..\DeclareTest.vb",
-                "..\differenceTest.vb",
-                 "..\ClassTest3.vb",
-                "..\multipleModuleContructortest.vb",
-                "..\ClassTest.vb",
-                 "..\arrayTest2.vb",
-                 "..\arrayTest.vb",
-                 "..\Modulemethod_test.vb",
-                   "..\EnumTest.vb",
-                  "..\Stringstest.vb",
-                    "..\functionTest.vb",
-                  "..\boolTest.vb",
-                 "..\nullreferenceTest.vb",
-                "..\ForLoopTest.vb",
-                "..\incrementTest.vb",
-                 "..\dictionarytest.vb"}
+                "rectangleArrayTest.vb",
+                "functionVariableTest.vb",
+                "logicalTest.vb",
+                "functionReferenceTest.vb",
+                "multipleLevelLoops.vb",
+                 "loopTest4.vb",
+                 "loopTest3.vb",
+                "loopTest2.vb",
+                "loopTest1.vb",
+                "arrayDeclareTest2.vb",
+                 "structurearrayTest.vb",
+                "structuretest.vb",
+                   "DeclareTest.vb",
+                "differenceTest.vb",
+                 "ClassTest3.vb",
+                "multipleModuleContructortest.vb",
+                "ClassTest.vb",
+                 "arrayTest2.vb",
+                 "arrayTest.vb",
+                 "Modulemethod_test.vb",
+                   "EnumTest.vb",
+                  "Stringstest.vb",
+                    "functionTest.vb",
+                  "boolTest.vb",
+                 "nullreferenceTest.vb",
+                "ForLoopTest.vb",
+                "incrementTest.vb",
+                 "dictionarytest.vb"}
 
-            Call filetest(file)
+            Call filetest("..\test\" & file)
 
             Pause()
         Next
@@ -112,7 +112,7 @@ Module treeTest
 
     Sub Main()
 
-        Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
+        ' Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
         ' Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
         ' Call projectTest("D:\vanilla\test\demo_proj\HelloWorld.vbproj")
 
