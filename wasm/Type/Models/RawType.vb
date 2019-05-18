@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f73ec9f59d5b3e3e4883eb0a945e849e, Type\Models\RawType.vb"
+﻿#Region "Microsoft.VisualBasic::b1665f4c776e2d4b4c0d2792e1422a57, Type\Models\RawType.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,9 @@
     ' 
     '         Properties: IsArray, IsUserDefined
     ' 
-    '         Function: AsGeneric, asReference, MakeArrayType, ToString, WebAssembly
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: AsGeneric, asReference, castType, MakeArrayType, ToString
+    '                   WebAssembly
     ' 
     ' 
     ' /********************************************************************************/
