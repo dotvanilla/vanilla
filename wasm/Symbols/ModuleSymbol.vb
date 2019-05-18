@@ -77,6 +77,11 @@ Namespace Symbols
         ''' </summary>
         ''' <returns></returns>
         Public Property start As Start
+        ''' <summary>
+        ''' 这个全局变量的初始化函数应该优先于其他的所有的构造函数的调用
+        ''' 这个的<see cref="FuncSymbol.body"/>则是初始化全局变量的非常量值表达式
+        ''' </summary>
+        ''' <returns></returns>
         Public Property globalStarter As FuncSymbol
 
         ''' <summary>

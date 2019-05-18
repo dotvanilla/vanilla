@@ -53,29 +53,35 @@ Namespace Compiler.SExpression
     Module AppStarter
 
         <Extension>
-        Private Function writeStarter(funcs As IEnumerable(Of String), calls As String) As String
+        Private Function writeStarter(funcs As IEnumerable(Of String), calls As String, globals As FuncSymbol) As String
             Return $"
-;; Application Initialize
-;; 
-;; Sub New
-(func $Application_SubNew
-    {calls}
-)
+    ;; Application Initialize
+    ;; 
+    ;; Sub New
+    (func $Application_SubNew
+        ;; call of the global variable initialize
+        {globals.Call.ToSExpression}
 
-{funcs.JoinBy(vbCrLf & vbCrLf)}
+        {calls}
+    )
 
-(start $Application_SubNew)"
+    ;; Initializer for global variables if it is not a primitive abstract type
+    {globals.ToSExpression}
+
+    {funcs.JoinBy(vbCrLf & vbCrLf)}
+
+    (start $Application_SubNew)"
         End Function
 
         <Extension>
         Public Function starter([module] As ModuleSymbol) As String
             If [module].Start Is Nothing Then
-                Return New String() {}.writeStarter("")
+                Return New String() {}.writeStarter("", [module].globalStarter)
             Else
-                Return [module].Start _
+                Return [module].start _
                     .constructors _
                     .Select(Function(f) f.ToSExpression) _
-                    .writeStarter([module].Start.ToSExpression)
+                    .writeStarter([module].start.ToSExpression, [module].globalStarter)
             End If
         End Function
     End Module

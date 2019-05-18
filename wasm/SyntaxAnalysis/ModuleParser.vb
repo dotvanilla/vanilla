@@ -165,6 +165,7 @@ Namespace SyntaxAnalysis
                 project.LabelName = label
             End If
 
+            ' 这是一个总的初始化函数
             project.globalStarter = New FuncSymbol() With {
                 .isExtensionMethod = False,
                 .locals = {},

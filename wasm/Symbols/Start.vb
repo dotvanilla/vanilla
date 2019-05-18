@@ -72,6 +72,10 @@ Namespace Symbols
             Return TypeAbstract.void
         End Function
 
+        ''' <summary>
+        ''' <see cref="FuncSymbol.Call(Expression())"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToSExpression() As String
             Return constructors _
                 .SafeQuery _
