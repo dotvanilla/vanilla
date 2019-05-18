@@ -75,6 +75,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "rectangleArrayTest2.vb",
                 "starterTest.vb",
                 "rectangleArrayTest.vb",
                 "functionVariableTest.vb",
@@ -113,7 +114,7 @@ Module treeTest
 
     Sub Main()
 
-        Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
+        ' Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
         ' Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
         ' Call projectTest("D:\vanilla\test\demo_proj\HelloWorld.vbproj")
 
