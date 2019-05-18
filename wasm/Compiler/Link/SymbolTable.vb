@@ -160,7 +160,11 @@ Namespace Compiler
             Call AddGlobal(NameOf(Single.MinValue), TypeAbstract.f32, "Single", Literal.f32Min, isConst:=True)
             Call AddGlobal(NameOf(Double.MinValue), TypeAbstract.f64, "Double", Literal.f64Min, isConst:=True)
 
-            PredefinedConst = globals.Keys.ToArray
+            PredefinedConst = globals.Values _
+                .Select(Function(m) m.OfType(Of DeclareGlobal)) _
+                .IteratesALL _
+                .Select(Function(g) g.fullName) _
+                .ToArray
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
