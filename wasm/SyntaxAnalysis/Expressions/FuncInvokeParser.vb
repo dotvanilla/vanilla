@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8da6509fe02c039bb03c59d1a80716be, SyntaxAnalysis\Expressions\FuncInvokeParser.vb"
+﻿#Region "Microsoft.VisualBasic::387fccec3cbc1e7f38debd136d25bee1, SyntaxAnalysis\Expressions\FuncInvokeParser.vb"
 
     ' Author:
     ' 
@@ -38,8 +38,8 @@
 
     '     Module FuncInvokeParser
     ' 
-    '         Function: Argument, ArgumentSequence, fillParameters, (+2 Overloads) FunctionInvoke, InvokeFunction
-    '                   ObjectInvoke, OptionalDefault
+    '         Function: Argument, ArgumentSequence, fillParameters, (+2 Overloads) FunctionInvoke, indexerAccess
+    '                   InvokeFunction, ObjectInvoke, OptionalDefault
     ' 
     ' 
     ' /********************************************************************************/

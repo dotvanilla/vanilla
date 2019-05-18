@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b0db60d0229009a28e6b798553408bd, Type\Models\RawType.vb"
+﻿#Region "Microsoft.VisualBasic::f73ec9f59d5b3e3e4883eb0a945e849e, Type\Models\RawType.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class RawType
     ' 
-    '         Properties: IsUserDefined
+    '         Properties: IsArray, IsUserDefined
     ' 
     '         Function: AsGeneric, asReference, MakeArrayType, ToString, WebAssembly
     ' 
