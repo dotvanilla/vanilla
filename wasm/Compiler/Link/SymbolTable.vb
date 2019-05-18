@@ -325,6 +325,14 @@ Namespace Compiler
             Return locals.ContainsKey(var)
         End Function
 
+        ''' <summary>
+        ''' 添加一个全局变量申明
+        ''' </summary>
+        ''' <param name="var$"></param>
+        ''' <param name="type"></param>
+        ''' <param name="moduleName$"></param>
+        ''' <param name="init"></param>
+        ''' <param name="isConst"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddGlobal(var$, type As TypeAbstract, moduleName$, init As Expression, isConst As Boolean)
             Dim [global] As New DeclareGlobal With {
@@ -338,9 +346,15 @@ Namespace Compiler
                 If TypeOf init Is LiteralExpression Then
                     [global].init = init
                 Else
+                    ' 因为在这里添加的是全局变量申明，所以如果存在local变量，
+                    ' 则肯定是一个临时变量
+                    ' 必须要将这个临时变量保存在初始化函数之中，否则会出现变量丢失的问题
                     Dim reference As ReferenceSymbol() = init _
                         .GetSymbolReference _
+                        .Where(Function(local) local.type = SymbolType.LocalVariable) _
                         .ToArray
+
+                    globalStarter += reference.Select(Function(local) Me.GetObjectSymbol(local.symbol))
 
                     ' 因为全局变量只能够使用常数初始化
                     ' 所以对于非常数表达式都需要放在一个starter函数之中来完成初始化
