@@ -103,18 +103,31 @@ Namespace TypeInfo
             End If
 
             If IsUserDefined Then
-                If TypeExtensions.IsArray(raw) Then
-                    ' 可能是其他的数组
-                    Dim base As TypeAlias = TypeAlias.array
-                    Dim ofElement$ = TypeExtensions.ArrayElement(raw)
-                    Dim class_id As Integer = symbols.GetClassType(ofElement).memoryPtr
-
-                    Return New TypeAbstract(base, {$"[{class_id}]{ofElement}"})
-                Else
-                    Return New TypeAbstract(TypeAlias.intptr, asReference(symbols))
-                End If
+                Return castType(symbols)
             Else
                 Return New TypeAbstract(type:=raw.TryCast(Of Type))
+            End If
+        End Function
+
+        Private Function castType(symbols As SymbolTable) As TypeAbstract
+            If TypeExtensions.IsArray(raw) Then
+                ' 可能是其他的数组
+                Dim base As TypeAlias = TypeAlias.array
+                Dim ofElement As RawType = TypeExtensions.ArrayElement(raw)
+
+                If ofElement.IsArray Then
+                    ' possibably it is a rectangle array
+                    Return New TypeAbstract(base, ofElement.WebAssembly(symbols))
+                Else
+                    Dim className$ = ofElement.raw.TryCast(Of String)
+                    Dim class_id As Integer = symbols _
+                        .GetClassType(className) _
+                        .memoryPtr
+
+                    Return New TypeAbstract(base, {$"[{class_id}]{ofElement}"})
+                End If
+            Else
+                Return New TypeAbstract(TypeAlias.intptr, asReference(symbols))
             End If
         End Function
 

@@ -216,6 +216,12 @@ Namespace TypeInfo
             Me.raw = buildRaw(type, Me.generic)
         End Sub
 
+        Sub New([alias] As TypeAlias, ParamArray generic As TypeAbstract())
+            Me.type = [alias]
+            Me.generic = generic
+            Me.raw = buildRaw(type, generic)
+        End Sub
+
         ''' <summary>
         ''' array or generic list
         ''' </summary>

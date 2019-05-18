@@ -60,7 +60,6 @@ Namespace Symbols.MemoryObject
     Public Class StringSymbol : Inherits IMemoryObject
 
         Public Property [string] As String
-        Public Property comment As String
 
         Public ReadOnly Property Length As Integer
             Get

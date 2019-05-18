@@ -55,8 +55,8 @@ Namespace TypeInfo
 
     Public Module Types
 
-        Public ReadOnly Property [string] As New TypeAbstract(TypeAlias.string, {})
-        Public ReadOnly Property [boolean] As New TypeAbstract(TypeAlias.boolean, {})
+        Public ReadOnly Property [string] As New TypeAbstract(TypeAlias.string)
+        Public ReadOnly Property [boolean] As New TypeAbstract(TypeAlias.boolean)
 
         ''' <summary>
         ''' True = 1, False = 0, 逻辑值在webassembly之中也是一个i32整形数
