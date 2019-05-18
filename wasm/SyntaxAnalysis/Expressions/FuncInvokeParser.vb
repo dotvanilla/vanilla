@@ -69,6 +69,25 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
+        Private Function indexerAccess(target As GetLocalVariable, invoke As InvocationExpressionSyntax, funcName$, symbols As SymbolTable) As Expression
+            Dim targetType As TypeAbstract = symbols.GetUnderlyingType(funcName)
+
+            If targetType = TypeAlias.table Then
+                Dim key As Expression = invoke _
+                    .ArgumentList _
+                    .FirstArgument(symbols, "key".param("i32"))
+
+                Return JavaScriptImports.Dictionary.GetValue.FunctionInvoke({target, key})
+            ElseIf targetType = TypeAlias.array OrElse targetType = TypeAlias.list Then
+                ' 数组或者列表的索引语法
+                Return symbols.arrayListIndexer(target, invoke.ArgumentList, targetType)
+            Else
+                ' 对象的索引语法 
+                Throw New NotImplementedException
+            End If
+        End Function
+
+        <Extension>
         Public Function FunctionInvoke(invoke As InvocationExpressionSyntax, symbols As SymbolTable) As Expression
             Dim reference = invoke.Expression
             Dim funcName$
@@ -81,22 +100,9 @@ Namespace SyntaxAnalysis
                     funcName = DirectCast(reference, IdentifierNameSyntax).objectName
 
                     If symbols.IsAnyObject(funcName) Then
-                        Dim target = symbols.GetObjectReference(funcName)
-                        Dim targetType As TypeAbstract = symbols.GetUnderlyingType(funcName)
-
-                        If targetType = TypeAlias.table Then
-                            Dim key As Expression = invoke _
-                                .ArgumentList _
-                                .FirstArgument(symbols, "key".param("i32"))
-
-                            Return JavaScriptImports.Dictionary.GetValue.FunctionInvoke({target, key})
-                        ElseIf targetType = TypeAlias.array OrElse targetType = TypeAlias.list Then
-                            ' 数组或者列表的索引语法
-                            Return symbols.arrayListIndexer(target, invoke.ArgumentList, targetType)
-                        Else
-                            ' 对象的索引语法 
-                            Throw New NotImplementedException
-                        End If
+                        Return symbols _
+                            .GetObjectReference(funcName) _
+                            .indexerAccess(invoke, funcName, symbols)
                     End If
                 Case GetType(MemberAccessExpressionSyntax)
                     Dim acc = DirectCast(reference, MemberAccessExpressionSyntax)
