@@ -292,6 +292,10 @@ Namespace Compiler
             Return functionList.Values.IteratesALL.OfType(Of ImportSymbol)
         End Function
 
+        ''' <summary>
+        ''' 请注意，在这里返回来的表达式集合之中有<see cref="DeclareLocal"/>表达式
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetGlobalStarter() As IEnumerable(Of Expression)
             Return globalStarter
         End Function

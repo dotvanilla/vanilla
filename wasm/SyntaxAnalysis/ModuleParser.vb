@@ -168,12 +168,17 @@ Namespace SyntaxAnalysis
             ' 这是一个总的初始化函数
             project.globalStarter = New FuncSymbol() With {
                 .isExtensionMethod = False,
-                .locals = {},
+                .locals = symbols.GetGlobalStarter _
+                    .Where(Function(line) TypeOf line Is DeclareLocal) _
+                    .Select(Function(local) DirectCast(local, DeclareLocal)) _
+                    .ToArray,
                 .[module] = "global",
                 .name = "initializer",
                 .parameters = {},
                 .result = TypeAbstract.void,
-                .body = symbols.GetGlobalStarter.ToArray
+                .body = symbols.GetGlobalStarter _
+                    .Where(Function(line) Not TypeOf line Is DeclareLocal) _
+                    .ToArray
             }
 
             Return project
