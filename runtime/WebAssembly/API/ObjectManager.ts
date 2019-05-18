@@ -13,11 +13,18 @@
         let hashTable: object = {};
         let textCache: object = {};
 
+        let loadedMemory: vanilla.WasmMemory;
+
+        export function getLoadedMemory(): vanilla.WasmMemory {
+            return loadedMemory;
+        }
+
         /**
          * Load WebAssembly memory buffer into Javascript runtime.
         */
         export function load(bytes: vanilla.WasmMemory): void {
             streamReader = new vanilla.stringReader(bytes);
+            loadedMemory = bytes;
             hashCode += 100;
         }
 

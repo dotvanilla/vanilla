@@ -1,7 +1,12 @@
 ﻿namespace vanilla {
 
+    export interface AssemblyExport {
+        AssemblyInfo: AssemblyInfo;
+        memory: WasmMemory;
+    }
+
     export interface RunDelegate {
-        (assm: { AssemblyInfo: AssemblyInfo }): void;
+        (assm: AssemblyExport): void;
     }
 
     export interface Config {

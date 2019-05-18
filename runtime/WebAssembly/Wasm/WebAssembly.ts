@@ -77,13 +77,12 @@
             host.TypeScript.logging.outputEverything = opt;
         }
 
-        function exportWasmApi(assm: IWasm): { AssemblyInfo: AssemblyInfo } {
+        function exportWasmApi(assm: IWasm): AssemblyExport {
             let assmInfo: AssemblyInfo = AssemblyInfo.readAssemblyInfo(assm);
-            let exports: {
-                AssemblyInfo: AssemblyInfo
-            } = Application.BuildAppModules(assm.instance.exports);
+            let exports: AssemblyExport = Application.BuildAppModules(assm.instance.exports);
 
             exports.AssemblyInfo = assmInfo;
+            exports.memory = WebAssembly.ObjectManager.getLoadedMemory();
 
             return exports;
         }

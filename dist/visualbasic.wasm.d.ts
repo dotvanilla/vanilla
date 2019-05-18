@@ -34,6 +34,7 @@ declare namespace WebAssembly {
      * Object manager for VB.NET webassembly application.
     */
     module ObjectManager {
+        function getLoadedMemory(): vanilla.WasmMemory;
         /**
          * Load WebAssembly memory buffer into Javascript runtime.
         */
@@ -180,10 +181,12 @@ declare namespace vanilla {
     }
 }
 declare namespace vanilla {
+    interface AssemblyExport {
+        AssemblyInfo: AssemblyInfo;
+        memory: WasmMemory;
+    }
     interface RunDelegate {
-        (assm: {
-            AssemblyInfo: AssemblyInfo;
-        }): void;
+        (assm: AssemblyExport): void;
     }
     interface Config {
         /**
