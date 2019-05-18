@@ -117,15 +117,15 @@ Module treeTest
 
     Sub Main()
 
-        Dim type As RawType = New RawType("A")
+        'Dim type As RawType = New RawType("A")
 
-        For i As Integer = 0 To 5
-            Call Console.WriteLine(type.IsArray)
-            type = type.MakeArrayType
-        Next
+        'For i As Integer = 0 To 5
+        '    Call Console.WriteLine(type.IsArray)
+        '    type = type.MakeArrayType
+        'Next
 
 
-        ' Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
+        Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
         ' Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
         ' Call projectTest("D:\vanilla\test\demo_proj\HelloWorld.vbproj")
 
