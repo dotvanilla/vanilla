@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/18/2019 2:58:34 PM
+    ;; build: 5/18/2019 3:01:02 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -27,6 +27,18 @@
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
     
+
+    ;; Pre-defined constant values
+    (global $Math.E (mut f64) (f64.const 2.7182818284590451))
+(global $Math.PI (mut f64) (f64.const 3.1415926535897931))
+(global $Integer.MaxValue (mut i32) (i32.const 2147483647))
+(global $Long.MaxValue (mut i64) (i64.const 9223372036854775807))
+(global $Single.MaxValue (mut f32) (f32.const 3.40282347e+38))
+(global $Double.MaxValue (mut f64) (f64.const 1.7976931348623157e+308))
+(global $Integer.MinValue (mut i32) (i32.const -2147483648))
+(global $Long.MinValue (mut i64) (i64.const -9223372036854775808))
+(global $Single.MinValue (mut f32) (f32.const -3.40282347e+38))
+(global $Double.MinValue (mut f64) (f64.const -1.7976931348623157e+308))
 
     ;; Global variables in this module
     (global $starterTest.a (mut i32) (i32.const 0))

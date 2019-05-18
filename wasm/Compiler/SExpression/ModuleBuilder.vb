@@ -79,6 +79,16 @@ Namespace Compiler.SExpression
             End Get
         End Property
 
+        Public ReadOnly Property predefinedGlobals As String()
+            Get
+                Return [module].Globals _
+                    .SafeQuery _
+                    .Where(Function(g) g.fullName Like [module].PredefinedConst) _
+                    .Select(Function(g) g.ToSExpression) _
+                    .ToArray
+            End Get
+        End Property
+
         Public ReadOnly Property internal As String()
             Get
                 Return [module].InternalFunctions _
@@ -142,6 +152,9 @@ Namespace Compiler.SExpression
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
     {objectMeta}
+
+    ;; Pre-defined constant values
+    {predefinedGlobals.JoinBy(ASCII.LF)}
 
     ;; Global variables in this module
     {globals.JoinBy(ASCII.LF)}
