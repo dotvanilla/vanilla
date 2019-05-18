@@ -63,7 +63,7 @@ Imports Wasm.TypeInfo
 Namespace Symbols
 
     ''' <summary>
-    ''' Expression for create an new javascript array with initialize values
+    ''' Expression for create an new javascript array list with initialize values
     ''' </summary>
     Public Class ArraySymbol : Inherits AbstractArray
 
@@ -107,6 +107,14 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
+        End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            For Each item As Expression In Initialize
+                For Each symbol As ReferenceSymbol In item.GetSymbolReference
+                    Yield symbol
+                Next
+            Next
         End Function
     End Class
 
@@ -163,6 +171,17 @@ Namespace Symbols
             Next
 
             Return table.ToSExpression
+        End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            For Each item In initialVal
+                For Each symbol In item.key.GetSymbolReference
+                    Yield symbol
+                Next
+                For Each symbol In item.value.GetSymbolReference
+                    Yield symbol
+                Next
+            Next
         End Function
     End Class
 End Namespace

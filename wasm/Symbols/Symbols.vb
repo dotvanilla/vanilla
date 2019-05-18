@@ -115,7 +115,21 @@ Imports Wasm.TypeInfo
 
 Namespace Symbols
 
-    Public Class CommentText : Inherits Expression
+    ''' <summary>
+    ''' This expression tree have no symbol reference.
+    ''' </summary>
+    Public MustInherit Class NoReferenceExpression : Inherits Expression
+
+        ''' <summary>
+        ''' Reference no symbols
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Return {}
+        End Function
+    End Class
+
+    Public Class CommentText : Inherits NoReferenceExpression
 
         Public Property text As String
 
@@ -137,12 +151,13 @@ Namespace Symbols
         Public Shared Narrowing Operator CType([rem] As CommentText) As String
             Return [rem].ToSExpression
         End Operator
+
     End Class
 
     ''' <summary>
     ''' 常量值表达式
     ''' </summary>
-    Public Class LiteralExpression : Inherits Expression
+    Public Class LiteralExpression : Inherits NoReferenceExpression
 
         Public Property type As TypeAbstract
         Public Property value As String
@@ -211,6 +226,10 @@ Namespace Symbols
                 Return symbolTable.GetObjectSymbol(var).type
             End If
         End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Yield New ReferenceSymbol With {.symbol = var, .type = SymbolType.LocalVariable}
+        End Function
     End Class
 
     Public Class SetLocalVariable : Inherits Expression
@@ -236,6 +255,14 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract(TypeAlias.void)
+        End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Yield New ReferenceSymbol With {.symbol = var, .type = SymbolType.LocalVariable}
+
+            For Each symbol In value.GetSymbolReference
+                Yield symbol
+            Next
         End Function
     End Class
 
@@ -300,7 +327,7 @@ Namespace Symbols
             End Get
         End Property
 
-        Public ReadOnly Property GetReference() As GetLocalVariable
+        Public Overrides ReadOnly Property GetReference() As GetLocalVariable
             Get
                 Return New GetLocalVariable With {.var = name}
             End Get
@@ -325,8 +352,18 @@ Namespace Symbols
         ''' <returns></returns>
         Public Property init As Expression
 
+        Public MustOverride ReadOnly Property GetReference() As GetLocalVariable
+
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return type
+        End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Yield GetReference.GetSymbolReference
+
+            For Each symbol As ReferenceSymbol In init.GetSymbolReference
+                Yield symbol
+            Next
         End Function
     End Class
 
@@ -340,6 +377,10 @@ Namespace Symbols
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return Internal.TypeInfer(symbolTable)
+        End Function
+
+        Public Overrides Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Return Internal.GetSymbolReference
         End Function
     End Class
 

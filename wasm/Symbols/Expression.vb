@@ -54,7 +54,7 @@ Imports Wasm.TypeInfo
 Namespace Symbols
 
     ''' <summary>
-    ''' The abstract ``S-Expression`` model
+    ''' The abstract ``S-Expression`` model.(一个表达式树)
     ''' </summary>
     Public MustInherit Class Expression
 
@@ -89,6 +89,11 @@ Namespace Symbols
         ''' <returns></returns>
         Public MustOverride Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
         Public MustOverride Function ToSExpression() As String
+        ''' <summary>
+        ''' 递归的获取这个表达式树所引用的所有的符号列表
+        ''' </summary>
+        ''' <returns></returns>
+        Public MustOverride Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
 
         Public Function GetUserType(symbols As SymbolTable) As ClassMeta
             Dim type As TypeAbstract = TypeInfer(symbols)

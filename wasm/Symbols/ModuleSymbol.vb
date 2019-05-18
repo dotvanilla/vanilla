@@ -63,7 +63,7 @@ Namespace Symbols
     ''' <summary>
     ''' A WebAssembly module
     ''' </summary>
-    Public Class ModuleSymbol : Inherits Expression
+    Public Class ModuleSymbol : Inherits NoReferenceExpression
         Implements Enumeration(Of Expression)
 
         Public Property InternalFunctions As FuncSymbol()

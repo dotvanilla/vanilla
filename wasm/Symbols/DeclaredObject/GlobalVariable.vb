@@ -66,7 +66,7 @@ Namespace Symbols
         ''' <returns></returns>
         Public Property [module] As String Implements IDeclaredObject.module
 
-        Public ReadOnly Property GetReference() As GetGlobalVariable
+        Public Overrides ReadOnly Property GetReference() As GetLocalVariable
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New GetGlobalVariable([module], name)
