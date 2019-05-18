@@ -56,6 +56,10 @@ Namespace Symbols.JavaScriptImports
     ''' </summary>
     Public Module Math
 
+        ''' <summary>
+        ''' <see cref="System.Math.Pow"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Pow As New ImportSymbol With {
             .importAlias = "pow",
             .name = "Math.pow",
@@ -69,6 +73,10 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
+        ''' <summary>
+        ''' <see cref="System.Math.Exp(Double)"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Exp As New ImportSymbol With {
             .importAlias = "exp",
             .name = "Math.exp",
@@ -81,6 +89,10 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
+        ''' <summary>
+        ''' <see cref="System.Math.Cos(Double)"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Cos As New ImportSymbol With {
             .importAlias = "cos",
             .name = "Math.cos",
@@ -108,9 +120,28 @@ Namespace Symbols.JavaScriptImports
             .result = TypeAbstract.f64
         }
 
+        ''' <summary>
+        ''' <see cref="System.Math.Ceiling(Double)"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Ceiling As New ImportSymbol With {
             .importAlias = "ceil",
             .name = "Math.ceil",
+            .package = "Math",
+            .definedInModule = False,
+            .isExtensionMethod = False,
+            .[module] = "Math",
+            .parameters = {"x".param(TypeAlias.f64)},
+            .result = TypeAbstract.f64
+        }
+
+        ''' <summary>
+        ''' <see cref="System.Math.Floor(Double)"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Floor As New ImportSymbol With {
+            .importAlias = "floor",
+            .name = "Math.floor",
             .package = "Math",
             .definedInModule = False,
             .isExtensionMethod = False,
@@ -126,6 +157,7 @@ Namespace Symbols.JavaScriptImports
                 Case NameOf(System.Math.Cos) : Return Cos
                 Case NameOf(VBMath.Rnd) : Return Rnd
                 Case NameOf(System.Math.Ceiling) : Return Ceiling
+                Case NameOf(System.Math.Floor) : Return Floor
                 Case Else
                     Throw New NotImplementedException
             End Select

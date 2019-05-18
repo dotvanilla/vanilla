@@ -279,7 +279,7 @@ Namespace Symbols
                     End Select
                 Case "Math"
                     Select Case tokens(1)
-                        Case "exp", "pow", "cos", "sin", "ceil", "random"
+                        Case "exp", "pow", "cos", "sin", "ceil", "random", "floor"
                             Return TypeAbstract.f64
                         Case Else
                             Throw New NotImplementedException(refer.symbol)
