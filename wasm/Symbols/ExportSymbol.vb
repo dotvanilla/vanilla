@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb09813817ed411d674c67c59948d9aa, Symbols\ExportSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::090abdf5ce72b63bc2427e200997ebcb, Symbols\ExportSymbol.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '         Properties: [module], Name, target, type
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

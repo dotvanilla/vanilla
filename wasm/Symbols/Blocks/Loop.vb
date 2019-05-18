@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3af0c895be7c07dd0b92dbfef6c4744, Symbols\Blocks\Loop.vb"
+﻿#Region "Microsoft.VisualBasic::fd47bcb310f354b6d31de9b64c34d524, Symbols\Blocks\Loop.vb"
 
     ' Author:
     ' 
@@ -40,19 +40,19 @@
     ' 
     '         Properties: loopID
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     '     Class br
     ' 
     '         Properties: blockLabel
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     '     Class br_if
     ' 
     '         Properties: condition
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     '     Class drop
     ' 

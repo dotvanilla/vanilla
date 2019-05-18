@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5968bda9e8c2e30a1ad86b1c9ef89b67, Symbols\Memory\ClassType\FieldValue.vb"
+﻿#Region "Microsoft.VisualBasic::7779260eaf0b8fff69ba16ffc23eebfb, Symbols\Memory\ClassType\FieldValue.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
 
     '     Class FieldValue
     ' 
-    '         Properties: type, value
+    '         Properties: type
     ' 
     '         Function: ToSExpression, TypeInfer
     ' 

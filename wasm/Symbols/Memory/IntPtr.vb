@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05c727878141bb16c7f8824af88c6734, Symbols\Memory\IntPtr.vb"
+﻿#Region "Microsoft.VisualBasic::553ee832277e8bf7a5473d5fc5536f8c, Symbols\Memory\IntPtr.vb"
 
     ' Author:
     ' 
@@ -41,7 +41,8 @@
     '         Properties: expression
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: Add, Minus, Multiply, ToSExpression, TypeInfer
+    '         Function: Add, GetSymbolReference, Minus, Multiply, ToSExpression
+    '                   TypeInfer
     '         Operators: (+2 Overloads) -, (+2 Overloads) *, (+2 Overloads) +
     ' 
     ' 

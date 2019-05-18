@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f73335d98580baa990e49139be1ce792, Symbols\Symbols.vb"
+﻿#Region "Microsoft.VisualBasic::001ee10ac219f130c708ff8dbaac6ab0, Symbols\Symbols.vb"
 
     ' Author:
     ' 
@@ -36,6 +36,10 @@
 
     ' Summaries:
 
+    '     Class NoReferenceExpression
+    ' 
+    '         Function: GetSymbolReference
+    ' 
     '     Class CommentText
     ' 
     '         Properties: text
@@ -55,14 +59,14 @@
     '         Properties: var
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     '     Class SetLocalVariable
     ' 
     '         Properties: value, var
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     '     Class GetGlobalVariable
     ' 
@@ -88,13 +92,13 @@
     ' 
     '         Properties: init, isConst, name, type
     ' 
-    '         Function: TypeInfer
+    '         Function: GetSymbolReference, TypeInfer
     ' 
     '     Class Parenthesized
     ' 
     '         Properties: Internal
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     '     Class ReturnValue
     ' 

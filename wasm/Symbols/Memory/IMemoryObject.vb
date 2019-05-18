@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36dfc84c52f6219ff01c6cdcbee69804, Symbols\Memory\IMemoryObject.vb"
+﻿#Region "Microsoft.VisualBasic::70535483df824a673a83338f88026c39, Symbols\Memory\IMemoryObject.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '         Properties: memoryPtr, ObjectManager
     ' 
-    '         Function: [AddressOf], (+2 Overloads) IndexOffset
+    '         Function: [AddressOf], GetSymbolReference, (+2 Overloads) IndexOffset
     ' 
     ' 
     ' /********************************************************************************/

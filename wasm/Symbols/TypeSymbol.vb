@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21614fee7f023cb066453d42f020217d, Symbols\TypeSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::51ecd3c29d4548ed47ae3d688073b8a9, Symbols\TypeSymbol.vb"
 
     ' Author:
     ' 

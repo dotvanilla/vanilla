@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec4c727b5edc2821b9965242cfdff0e8, Symbols\Blocks\Block.vb"
+﻿#Region "Microsoft.VisualBasic::edaeee5b5f7ec9e1920ff19744ba5733, Symbols\Blocks\Block.vb"
 
     ' Author:
     ' 
@@ -52,7 +52,7 @@
     ' 
     '         Properties: group
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetEnumerator, GetSymbolReference, IEnumerable_GetEnumerator, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

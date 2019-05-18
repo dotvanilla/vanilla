@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2fce9ddd9b9c20b2a271e623712dafa, Type\Literal.vb"
+﻿#Region "Microsoft.VisualBasic::ff8628cb1339850d15fdd45f8e013c55, Type\Literal.vb"
 
     ' Author:
     ' 
@@ -41,8 +41,8 @@
     '         Properties: f32Max, f32Min, f64Max, f64Min
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: bool, f32, f64, i32, i64
-    '                   IntPtr
+    '         Function: [Nothing], bool, f32, f64, i32
+    '                   i64, IntPtr
     ' 
     ' 
     ' /********************************************************************************/

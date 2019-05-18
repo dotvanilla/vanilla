@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8a0ac0b3e1ccab24bf6f0a1f9e52351, Symbols\Blocks\If.vb"
+﻿#Region "Microsoft.VisualBasic::f41da26db24a25bd7027079a73a46fb9, Symbols\Blocks\If.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '         Properties: [else], [then], condition
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

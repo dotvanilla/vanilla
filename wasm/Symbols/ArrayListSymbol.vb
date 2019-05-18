@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d986119bad8c85c5834c20dcd377f6f0, Symbols\ArrayListSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::5ee15f65eeb3b0982fe3e76f97658cf6, Symbols\ArrayListSymbol.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     ' 
     '         Properties: Initialize
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     '     Class AbstractArray
     ' 
@@ -50,7 +50,7 @@
     ' 
     '         Properties: initialVal, key
     ' 
-    '         Function: ToSExpression, TypeInfer
+    '         Function: GetSymbolReference, ToSExpression, TypeInfer
     ' 
     ' 
     ' /********************************************************************************/

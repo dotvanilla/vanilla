@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::744ee65f4d864d6394fe72a531e10637, Compiler\Link\SymbolTable.vb"
+﻿#Region "Microsoft.VisualBasic::92b41c259558fdc69c68aea8fc363328, Compiler\Link\SymbolTable.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,8 @@
 
     '     Class SymbolTable
     ' 
-    '         Properties: context, memory, ModuleNames, NextGuid, requires
+    '         Properties: context, memory, ModuleNames, NextGuid, PredefinedConst
+    '                     requires
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
