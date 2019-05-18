@@ -2,6 +2,7 @@
 
     Sub New()
 
+        Dim d As Integer()
         Dim a As Double()() '= New Double(100)() {}
 
         Dim b = a(3)

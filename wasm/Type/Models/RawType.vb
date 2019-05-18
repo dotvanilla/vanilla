@@ -72,6 +72,20 @@ Namespace TypeInfo
         End Property
 
         ''' <summary>
+        ''' 是否是一个数组类型？
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsArray As Boolean
+            Get
+                If raw Like GetType(String) Then
+                    Return TypeExtensions.IsArray(raw.TryCast(Of String))
+                Else
+                    Return raw.TryCast(Of Type).IsArray
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
         ''' 获取得到WebAssembly编译器的中间类型
         ''' </summary>
         ''' <param name="symbols">如果目标是用户自定义类型，则这个参数必须不为空</param>
