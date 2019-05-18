@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/18/2019 4:14:38 PM
+    ;; build: 5/18/2019 4:22:34 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -65,6 +65,7 @@
     
 
 
+(local $arrayOffset_9a020000 i32)
 
 ;; Save (i32.const 1) array element data to memory:
 ;; Array memory block begin at location: (get_global $global.ObjectManager)
