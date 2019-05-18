@@ -164,6 +164,10 @@ Namespace TypeInfo
                 Me.type = TypeAlias.list
                 Me.generic = {New TypeAbstract(type.GenericTypeArguments(Scan0))}
                 Me.raw = buildRaw(TypeAlias.list, generic)
+            ElseIf type.IsArray Then
+                Me.type = TypeAlias.array
+                Me.generic = {New TypeAbstract(type.GetElementType)}
+                Me.raw = buildRaw(TypeAlias.array, generic)
             Else
                 Call fromFullName(type.TypeName)
             End If
