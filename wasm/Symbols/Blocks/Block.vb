@@ -113,5 +113,13 @@ Namespace Symbols.Blocks
         Public Overrides Function ToSExpression() As String
             Return Block.InternalBlock(group, "    ")
         End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            For Each item In group
+                For Each symbol In item.GetSymbolReference
+                    Yield symbol
+                Next
+            Next
+        End Function
     End Class
 End Namespace

@@ -55,8 +55,8 @@ Namespace Symbols.Blocks
     Public Class IfBlock : Inherits AbstractBlock
 
         Public Property condition As BooleanSymbol
-        Public Property [then] As Expression()
-        Public Property [else] As Expression()
+        Public Property [then] As ExpressionGroup
+        Public Property [else] As ExpressionGroup
 
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
             Return New TypeAbstract("void")
@@ -77,6 +77,24 @@ Namespace Symbols.Blocks
         {Block.InternalBlock([then], "        ")}
     ) {[else]}
 )"
+        End Function
+
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            For Each symbol In condition.GetSymbolReference
+                Yield symbol
+            Next
+
+            If Not [then].IsNullOrEmpty Then
+                For Each symbol In [then].GetSymbolReference
+                    Yield symbol
+                Next
+            End If
+
+            If Not [else].IsNullOrEmpty Then
+                For Each symbol In [else].GetSymbolReference
+                    Yield symbol
+                Next
+            End If
         End Function
     End Class
 End Namespace

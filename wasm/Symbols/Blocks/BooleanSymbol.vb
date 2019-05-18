@@ -115,5 +115,9 @@ Namespace Symbols.Blocks
         Public Shared Widening Operator CType(op As FuncInvoke) As BooleanSymbol
             Return New BooleanSymbol With {.condition = op}
         End Operator
+
+        Public Overrides Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            Return condition.GetSymbolReference
+        End Function
     End Class
 End Namespace
