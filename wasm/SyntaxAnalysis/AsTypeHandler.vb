@@ -169,14 +169,18 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
+        Private Function arrayType(type As ArrayTypeSyntax, symbols As SymbolTable) As RawType
+            Dim tokenType As RawType = [GetType](type.ElementType, symbols)
+
+            Return tokenType.MakeArrayType
+        End Function
+
+        <Extension>
         Public Function [GetType](asType As TypeSyntax, symbols As SymbolTable) As RawType
             If TypeOf asType Is PredefinedTypeSyntax Then
                 Return DirectCast(asType, PredefinedTypeSyntax).PredefinedType
             ElseIf TypeOf asType Is ArrayTypeSyntax Then
-                Dim type = DirectCast(asType, ArrayTypeSyntax)
-                Dim tokenType As RawType = [GetType](type.ElementType, symbols)
-
-                Return tokenType.MakeArrayType
+                Return DirectCast(asType, ArrayTypeSyntax).arrayType(symbols)
             ElseIf TypeOf asType Is GenericNameSyntax Then
                 Dim generic = DirectCast(asType, GenericNameSyntax)
                 Dim define = generic.GetGenericType(symbols)
@@ -192,20 +196,24 @@ Namespace SyntaxAnalysis
                     Throw New NotImplementedException
                 End If
             Else
-                Dim type = DirectCast(asType, IdentifierNameSyntax)
-                Dim token$ = type.Identifier.objectName
+                Return DirectCast(asType, IdentifierNameSyntax).definedType(symbols)
+            End If
+        End Function
 
-                If symbols.HaveEnumType(token) Then
-                    Dim [const] As EnumSymbol = symbols.GetEnumType(token)
-                    Return [const].UnderlyingType
-                ElseIf token = "Array" Then
-                    Return GetType(System.Array)
-                ElseIf token = "IList" Then
-                    Return GetType(System.Collections.IList)
-                Else
-                    ' 用户的自定义类型
-                    Return token
-                End If
+        <Extension>
+        Private Function definedType(type As IdentifierNameSyntax, symbols As SymbolTable) As RawType
+            Dim token$ = type.Identifier.objectName
+
+            If symbols.HaveEnumType(token) Then
+                Dim [const] As EnumSymbol = symbols.GetEnumType(token)
+                Return [const].UnderlyingType
+            ElseIf token = "Array" Then
+                Return GetType(System.Array)
+            ElseIf token = "IList" Then
+                Return GetType(System.Collections.IList)
+            Else
+                ' 用户的自定义类型
+                Return token
             End If
         End Function
 
