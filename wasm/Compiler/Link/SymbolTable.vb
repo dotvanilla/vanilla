@@ -166,6 +166,8 @@ Namespace Compiler
                 .IteratesALL _
                 .Select(Function(g) g.fullName) _
                 .ToArray
+
+            Call JavaScriptImports.Math.DoImports(Me)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
