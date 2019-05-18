@@ -250,6 +250,7 @@ Namespace SyntaxAnalysis
                 .Exports = exports,
                 .[Imports] = symbolTable.GetAllImports.ToArray,
                 .Globals = symbolTable.GetAllGlobals.ToArray,
+                .PredefinedConst = symbolTable.PredefinedConst,
                 .memory = symbolTable,
                 .start = New Start With {
                     .constructors = New List(Of FuncSymbol) From {start}

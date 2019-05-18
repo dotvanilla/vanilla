@@ -52,6 +52,7 @@ Module starterTest
         Dim a As Double() = {6666}
 
         a(1) = starterTest.a(0)
+        a(2) = Long.MaxValue
     End Sub
 
 End Module

@@ -49,6 +49,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Wasm.TypeInfo
 
 Namespace Symbols
@@ -69,6 +70,12 @@ Namespace Symbols
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New GetGlobalVariable([module], name)
+            End Get
+        End Property
+
+        Public ReadOnly Property fullName As String
+            Get
+                Return $"{[module]}.{name}"
             End Get
         End Property
 
@@ -103,11 +110,13 @@ Namespace Symbols
         End Function
 
         Public Overrides Function ToSExpression() As String
-            If init Is Nothing Then
-                Return $"(global ${[module]}.{name} (mut {type.typefit}) {Literal.Nothing(type)})"
-            Else
-                Return $"(global ${[module]}.{name} (mut {type.typefit}) {init.ToSExpression})"
+            Dim value As Expression = init
+
+            If value Is Nothing Then
+                value = Literal.Nothing(type)
             End If
+
+            Return $"(global ${fullName} (mut {type.typefit}) {value.ToSExpression})"
         End Function
     End Class
 End Namespace

@@ -139,6 +139,7 @@ Namespace Compiler
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property context As New Context
+        Public ReadOnly Property PredefinedConst As Index(Of String)
 
         Private Sub New()
             memory = New Memory(Me)
@@ -158,6 +159,8 @@ Namespace Compiler
             Call AddGlobal(NameOf(Long.MinValue), TypeAbstract.i64, "Long", Literal.i64(Long.MinValue), isConst:=True)
             Call AddGlobal(NameOf(Single.MinValue), TypeAbstract.f32, "Single", Literal.f32Min, isConst:=True)
             Call AddGlobal(NameOf(Double.MinValue), TypeAbstract.f64, "Double", Literal.f64Min, isConst:=True)
+
+            PredefinedConst = globals.Keys.ToArray
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

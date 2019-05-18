@@ -73,6 +73,7 @@ Namespace Compiler.SExpression
             Get
                 Return [module].Globals _
                     .SafeQuery _
+                    .Where(Function(g) Not g.fullName Like [module].PredefinedConst) _
                     .Select(Function(g) g.ToSExpression) _
                     .ToArray
             End Get
