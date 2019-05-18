@@ -66,6 +66,8 @@ Namespace Symbols
                 Else
                     Return [module] & "." & symbol
                 End If
+            ElseIf type = SymbolType.LocalVariable Then
+                Return symbol
             Else
                 Return [module] & "." & symbol
             End If

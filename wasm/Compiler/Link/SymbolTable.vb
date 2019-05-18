@@ -337,6 +337,10 @@ Namespace Compiler
                 If TypeOf init Is LiteralExpression Then
                     [global].init = init
                 Else
+                    Dim reference As ReferenceSymbol() = init _
+                        .GetSymbolReference _
+                        .ToArray
+
                     ' 因为全局变量只能够使用常数初始化
                     ' 所以对于非常数表达式都需要放在一个starter函数之中来完成初始化
                     globalStarter += New SetGlobalVariable() With {
