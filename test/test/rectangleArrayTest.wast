@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/18/2019 1:26:49 PM
+    ;; build: 5/18/2019 2:02:47 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -39,7 +39,6 @@
 (global $Long.MinValue (mut i64) (i64.const -9223372036854775808))
 (global $Single.MinValue (mut f32) (f32.const -340282356779733623858607532500980858880))
 (global $Double.MinValue (mut f64) (f64.const -179769313486231570814527423731704356798070567525844996598917476803157260780028538760589558632766878171540458953514382464234321326889464182768467546703537516986049910576551282076245490090389328944075868508455133942304583236903222948165808559332123348274797826204144723168738177180919299881250404026184124858368))
-(global $rectangleArrayTest.i (mut i32) (i32.const 99))
 
     ;; Export methods of this module
      
@@ -57,10 +56,13 @@
 (func $rectangleArrayTest.constructor  
     ;; Public Function constructor() As void
     
+(local $d i32)
 (local $a i32)
-(local $b f64)
+(local $b i32)
+(local $c f32)
 
-(set_local $b (f64.load (i32.add (i32.add (get_local $a) (i32.const 8)) (i32.mul (get_global $rectangleArrayTest.i) (i32.const 8)))))
+(set_local $b (i32.load (i32.add (i32.add (get_local $a) (i32.const 8)) (i32.mul (i32.const 3) (i32.const 4)))))
+(set_local $c (f32.demote/f64 (f64.load (i32.add (i32.add (get_local $b) (i32.const 8)) (i32.mul (i32.const 33) (i32.const 8))))))
 )
 
 (start $Application_SubNew)
