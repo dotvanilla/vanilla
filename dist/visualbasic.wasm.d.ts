@@ -66,6 +66,10 @@ declare namespace WebAssembly {
     }
 }
 declare namespace WebAssembly {
+    module GarbageCollection {
+        function addObject(addressOf: number, class_id: number): void;
+        function getType(addressOf: number): void;
+    }
 }
 declare namespace WebAssembly {
     /**
