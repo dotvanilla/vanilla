@@ -351,6 +351,14 @@ declare namespace vanilla {
     class memoryReader {
         protected buffer: ArrayBuffer;
         constructor(bytechunks: WasmMemory);
+        /**
+         * f32/i32
+        */
+        get32BitNumber(offset: number, floatPoint?: boolean): number;
+        get64BitNumber(offset: number, floatPoint?: boolean): number;
+        /**
+         * size of null terminated string
+        */
         sizeOf(intPtr: number): number;
     }
     /**
