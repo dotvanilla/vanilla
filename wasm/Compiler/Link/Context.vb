@@ -71,7 +71,7 @@ Namespace Compiler
         ''' 当前的VisualBasic模块的名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property moduleLabel() As DefaultValue(Of String)
+        Public Property moduleLabel() As [Default](Of String)
         ''' <summary>
         ''' 对象初始化或者匿名对象引用的时候使用
         ''' </summary>

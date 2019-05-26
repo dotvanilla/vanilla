@@ -250,9 +250,7 @@ Namespace SyntaxAnalysis
                 End If
             Next
 
-            Return obj.With(Sub(ByRef o)
-                                o.Initialize = initializer
-                            End Sub)
+            Return obj.With(Sub(o) o.Initialize = initializer)
         End Function
 
         <Extension>
