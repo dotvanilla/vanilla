@@ -26,8 +26,26 @@
             return size;
         }
 
+        /**
+         * 只需要计算所有的字段的大小即可
+        */
         export function classSize(meta: classMeta): number {
+            let size: number = 0;
+            let fieldType: typeAlias;
 
+            for (let fieldName in meta.fields) {
+                fieldType = (<type>meta.fields[fieldName]).type;
+
+                if (fieldType == typeAlias.void) {
+                    // size += 0;
+                } else if (fieldType == typeAlias.f64 || fieldType == typeAlias.i64) {
+                    size += 8;
+                } else {
+                    size += 4;
+                }
+            }
+
+            return size;
         }
 
         export function class_id(type: type): number {
@@ -35,6 +53,7 @@
                 return type.type;
             } else {
                 let id: string | number = /\[\d+\]/.exec(type.raw)[0];
+
                 id = (<string>id).substr(1, id.length - 2);
                 id = parseInt(<string>id);
 
