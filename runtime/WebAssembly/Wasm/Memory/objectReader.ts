@@ -10,7 +10,7 @@
             var meta: classMeta = WebAssembly.GarbageCollection.getType(intptr);
             var fields = meta.fields;
             var obj: object = {};
-            var offset: number = 0;
+            var offset: number = intptr;
             var value: any;
             var fieldType: type;
             var type: typeAlias;
@@ -41,7 +41,7 @@
                         let class_info = WebAssembly.GarbageCollection.lazyGettype(class_id);
 
                         if (class_info.isStruct) {
-                            value = this.readObject(intptr + offset);
+                            value = this.readObject(offset);
                             offset += WebAssembly.GarbageCollection.classSize(class_info);
                         } else {
                             // read intptr
