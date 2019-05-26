@@ -1,4 +1,52 @@
 /// <reference path="../modules/linq.d.ts" />
+interface classMeta {
+    namespace: string;
+    class: string;
+    class_id: number;
+    isStruct: boolean;
+    fields: object;
+    /**
+     * 在完成加载之后计算之后在js环境之中写进来的
+    */
+    allocateSize: number;
+}
+interface type {
+    type: typeAlias;
+    generic: type[];
+    raw: string;
+}
+/**
+ * The compiler type alias
+*/
+declare enum typeAlias {
+    /**
+     * Function or expression have no value returns
+    */
+    void = -1,
+    any = 0,
+    i32 = 1,
+    i64 = 2,
+    f32 = 3,
+    f64 = 4,
+    string = 5,
+    boolean = 6,
+    /**
+     * Fix length array in WebAssembly runtime
+    */
+    array = 7,
+    /**
+     * Array list in javascript runtime
+    */
+    list = 8,
+    /**
+     * Javascript object
+    */
+    table = 9,
+    /**
+     * 所有用户自定义的引用类型
+    */
+    intptr = 10
+}
 declare namespace WebAssembly {
     /**
      * 在这个模块之中，所有的obj都是指针类型
@@ -69,60 +117,14 @@ declare namespace WebAssembly {
     module GarbageCollection {
         function addObject(addressOf: number, class_id: number): void;
         function getType(addressOf: number): classMeta;
+        function lazyGettype(class_id: number): classMeta;
         function sizeOf(addressOf: number): number;
         /**
          * 只需要计算所有的字段的大小即可
         */
         function classSize(meta: classMeta): number;
+        function typeSize(type: type): number;
         function class_id(type: type): number;
-    }
-    interface classMeta {
-        namespace: string;
-        class: string;
-        class_id: number;
-        isStruct: boolean;
-        fields: object;
-        /**
-         * 在完成加载之后计算之后在js环境之中写进来的
-        */
-        allocateSize: number;
-    }
-    interface type {
-        type: typeAlias;
-        generic: type[];
-        raw: string;
-    }
-    /**
-     * The compiler type alias
-    */
-    enum typeAlias {
-        /**
-         * Function or expression have no value returns
-        */
-        void = -1,
-        any = 0,
-        i32 = 1,
-        i64 = 2,
-        f32 = 3,
-        f64 = 4,
-        string = 5,
-        boolean = 6,
-        /**
-         * Fix length array in WebAssembly runtime
-        */
-        array = 7,
-        /**
-         * Array list in javascript runtime
-        */
-        list = 8,
-        /**
-         * Javascript object
-        */
-        table = 9,
-        /**
-         * 所有用户自定义的引用类型
-        */
-        intptr = 10
     }
 }
 declare namespace WebAssembly {
@@ -382,5 +384,6 @@ declare namespace vanilla {
 declare namespace vanilla {
     class objectReader extends memoryReader {
         constructor(memory: WasmMemory);
+        readObject(intptr: number): object;
     }
 }
