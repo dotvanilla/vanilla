@@ -41,7 +41,7 @@
     <TypeScriptCompile Include="API\document\location.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="API\ObjectManager.ts">
+    <TypeScriptCompile Include="API\modules\ObjectManager.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="API\console.ts">
@@ -57,6 +57,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="API\Array.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="API\modules\GarbageCollection.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="API\XMLHttpRequest.ts">
@@ -93,6 +96,7 @@
   <ItemGroup>
     <Folder Include="API\document\" />
     <Folder Include="API\" />
+    <Folder Include="API\modules\" />
     <Folder Include="API\text\" />
     <Folder Include="Wasm\" />
     <Folder Include="Wasm\Memory\" />

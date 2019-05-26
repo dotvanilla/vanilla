@@ -30,40 +30,6 @@ declare namespace WebAssembly {
     }
 }
 declare namespace WebAssembly {
-    /**
-     * Object manager for VB.NET webassembly application.
-    */
-    module ObjectManager {
-        function getLoadedMemory(): vanilla.WasmMemory;
-        /**
-         * Load WebAssembly memory buffer into Javascript runtime.
-        */
-        function load(bytes: vanilla.WasmMemory): void;
-        function printTextCache(): void;
-        function printObjectCache(): void;
-        /**
-         * Read text data from WebAssembly runtime its memory block
-         *
-         * @param intptr The memory pointer
-        */
-        function readText(intptr: number): string;
-        function addText(text: string): number;
-        /**
-         * Get a object using its hash code
-         *
-         * @returns If object not found, null will be returns
-        */
-        function getObject(key: number): any;
-        function isNull(intPtr: number): boolean;
-        function isText(intPtr: number): boolean;
-        function getType(hashCode: number): string;
-        /**
-         * Add any object to a internal hashTable and then returns its hash code.
-        */
-        function addObject(o: any): number;
-    }
-}
-declare namespace WebAssembly {
     module XMLHttpRequest {
         function get(url: number): number;
     }
@@ -97,6 +63,42 @@ declare namespace WebAssembly {
      * Url location api
     */
     module Location {
+    }
+}
+declare namespace WebAssembly {
+}
+declare namespace WebAssembly {
+    /**
+     * Object manager for VB.NET webassembly application.
+    */
+    module ObjectManager {
+        function getLoadedMemory(): vanilla.WasmMemory;
+        /**
+         * Load WebAssembly memory buffer into Javascript runtime.
+        */
+        function load(bytes: vanilla.WasmMemory): void;
+        function printTextCache(): void;
+        function printObjectCache(): void;
+        /**
+         * Read text data from WebAssembly runtime its memory block
+         *
+         * @param intptr The memory pointer
+        */
+        function readText(intptr: number): string;
+        function addText(text: string): number;
+        /**
+         * Get a object using its hash code
+         *
+         * @returns If object not found, null will be returns
+        */
+        function getObject(key: number): any;
+        function isNull(intPtr: number): boolean;
+        function isText(intPtr: number): boolean;
+        function getType(hashCode: number): string;
+        /**
+         * Add any object to a internal hashTable and then returns its hash code.
+        */
+        function addObject(o: any): number;
     }
 }
 declare namespace WebAssembly {
