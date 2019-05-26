@@ -70,6 +70,19 @@ Namespace Symbols.MemoryObject
             .type = TypeAbstract.i32
         }
 
+        Public Shared ReadOnly Property AddGCobject As New ImportSymbol With {
+            .name = "GC.addObject",
+            .[module] = "GC",
+            .definedInModule = False,
+            .importAlias = "addObject",
+            .package = "GC",
+            .parameters = {
+                "offset".param("i32"),
+                "class_id".param("i32")
+            },
+            .result = TypeAbstract.void
+        }
+
         Public Shared ReadOnly Property Allocate As New FuncSymbol With {
             .comment = "Add object information into javascript runtime",
             .locals = {
@@ -89,22 +102,13 @@ Namespace Symbols.MemoryObject
             ).ToArray
         }
 
-        Public Shared ReadOnly Property AddGCobject As New ImportSymbol With {
-            .name = "GC.addObject",
-            .[module] = "GC",
-            .definedInModule = False,
-            .importAlias = "addObject",
-            .package = "GC",
-            .parameters = {
-                "offset".param("i32"),
-                "class_id".param("i32")
-            },
-            .result = TypeAbstract.void
-        }
-
         Private Shared Iterator Function allocateSteps(local As GetLocalVariable,
                                                        sizeof As GetLocalVariable,
                                                        class_id As GetLocalVariable) As IEnumerable(Of Expression)
+            Yield New SetLocalVariable With {
+                .var = local.var,
+                .value = ObjectManager.GetReference
+            }
             ' 将全局指针位移目标内存区域大小完成分配操作
             Yield New SetGlobalVariable(ObjectManager, IndexOffset(local, sizeof))
             ' 将对象写入javascript环境之中的内存回收模块

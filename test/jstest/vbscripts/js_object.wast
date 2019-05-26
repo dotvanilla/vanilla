@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 5/19/2019 12:34:13 AM
+    ;; build: 5/26/2019 4:24:57 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -25,6 +25,8 @@
     (func $Math.ceil (import "Math" "ceil") (param $x f64) (result f64))
 ;; Declare Function Math.floor Lib "Math" Alias "floor" (x As f64) As f64
     (func $Math.floor (import "Math" "floor") (param $x f64) (result f64))
+;; Declare Function GC.addObject Lib "GC" Alias "addObject" (offset As i32, class_id As i32) As void
+    (func $GC.addObject (import "GC" "addObject") (param $offset i32) (param $class_id i32) )
 ;; Declare Function string.replace Lib "string" Alias "replace" (input As string, find As intptr, replacement As string) As string
     (func $string.replace (import "string" "replace") (param $input i32) (param $find i32) (param $replacement i32) (result i32))
 ;; Declare Function string.add Lib "string" Alias "add" (a As string, b As string) As string
@@ -41,6 +43,18 @@
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
     (global $global.ObjectManager (mut i32) (i32.const 572))
+
+    ;; memory allocate in javascript runtime
+    (func $global.ObjectManager.Allocate (param $sizeof i32) (param $class_id i32) (result i32)
+    ;; Public Function ObjectManager.Allocate(sizeof As i32, class_id As i32) As i32
+    
+(local $offset i32)
+
+(set_local $offset (get_global $global.ObjectManager))
+(set_global $global.ObjectManager (i32.add (get_local $offset) (get_local $sizeof)))
+(call $GC.addObject (get_local $offset) (get_local $class_id))
+(return (get_local $offset))
+)
 
     ;; Memory data for string constant
         
