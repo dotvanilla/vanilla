@@ -7,7 +7,17 @@
         }
 
         public readObject(intptr: number): object {
-            let class: WebAssembly.classMeta = WebAssembly.GarbageCollection.getType(intptr);
+            var meta: classMeta = WebAssembly.GarbageCollection.getType(intptr);
+            var fields = meta.fields;
+            var obj: object = {};
+            var offset: number = 0;
+
+            for (let name in fields) {
+                let type: type = fields[name];
+
+            }
+
+            return obj;
         }
     }
 }

@@ -11,7 +11,12 @@
 
         export function getType(addressOf: number): classMeta {
             let class_id: number = allocates[addressOf];
+            let type: classMeta = lazyGettype(class_id);
 
+            return type;
+        }
+
+        export function lazyGettype(class_id: number): classMeta {
             if (!(class_id in cacheOfmeta)) {
                 // read class meta from webassembly memory
                 let base64 = ObjectManager.readText(class_id);
@@ -41,21 +46,37 @@
         */
         export function classSize(meta: classMeta): number {
             let size: number = 0;
-            let fieldType: typeAlias;
+            let fieldType: type;
 
             for (let fieldName in meta.fields) {
-                fieldType = (<type>meta.fields[fieldName]).type;
-
-                if (fieldType == typeAlias.void) {
-                    // size += 0;
-                } else if (fieldType == typeAlias.f64 || fieldType == typeAlias.i64) {
-                    size += 8;
-                } else {
-                    size += 4;
-                }
+                fieldType = (<type>meta.fields[fieldName]);
+                size += typeSize(fieldType);
             }
 
             return size;
+        }
+
+        export function typeSize(type: type): number {
+            let fieldType: typeAlias = type.type;
+
+            if (fieldType == typeAlias.void) {
+                return 0;
+            } else if (fieldType == typeAlias.f64 || fieldType == typeAlias.i64) {
+                return 8;
+            } else if (fieldType == typeAlias.intptr) {
+                let id: number = class_id(type);
+                let cls: classMeta = lazyGettype(id);
+
+                if (cls.isStruct) {
+                    return classSize(cls);
+                } else {
+                    // size of intptr is i32 4 bytes
+                    return 4;
+                }
+
+            } else {
+                return 4;
+            }
         }
 
         export function class_id(type: type): number {
@@ -70,61 +91,5 @@
                 return <number>id;
             }
         }
-    }
-
-    export interface classMeta {
-        namespace: string;
-        class: string;
-        class_id: number;
-        isStruct: boolean;
-        fields: object;
-
-        /**
-         * 在完成加载之后计算之后在js环境之中写进来的
-        */
-        allocateSize: number;
-    }
-
-    export interface type {
-        type: typeAlias;
-        generic: type[];
-        raw: string;
-    }
-
-    /**
-     * The compiler type alias
-    */
-    export enum typeAlias {
-        /**
-         * Function or expression have no value returns
-        */
-        void = -1,
-        any,
-        i32,
-        i64,
-        f32,
-        f64,
-        string,
-        boolean,
-
-        /**
-         * Fix length array in WebAssembly runtime
-        */
-        array,
-
-        /**
-         * Array list in javascript runtime
-        */
-        list,
-
-        /** 
-         * Javascript object
-        */
-        table,
-
-        /**
-         * 所有用户自定义的引用类型
-        */
-        intptr
     }
 }
