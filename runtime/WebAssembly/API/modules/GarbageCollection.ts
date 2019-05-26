@@ -1,5 +1,8 @@
 ﻿namespace WebAssembly {
 
+    /**
+     * 对WebAssembly模块的内存回收帮助模块
+    */
     export module GarbageCollection {
 
         const allocates: object = {};
@@ -28,7 +31,7 @@
             return cacheOfmeta[class_id];
         }
 
-        export function sizeOf(addressOf: number) {
+        export function sizeOf(addressOf: number): number {
             let meta: classMeta = getType(addressOf);
             let size: number = meta.allocateSize;
 

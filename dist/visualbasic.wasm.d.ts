@@ -114,6 +114,9 @@ declare namespace WebAssembly {
     }
 }
 declare namespace WebAssembly {
+    /**
+     * 对WebAssembly模块的内存回收帮助模块
+    */
     module GarbageCollection {
         function addObject(addressOf: number, class_id: number): void;
         function getType(addressOf: number): classMeta;

@@ -137,6 +137,7 @@
             // Andalso imports some basically string api for VisualBasic.NET
             // as well
             dependencies["string"] = WebAssembly.JsString;
+            dependencies["GC"] = WebAssembly.GarbageCollection;
 
             if (typeof opts.imports == "object") {
                 for (var key in opts.imports) {
