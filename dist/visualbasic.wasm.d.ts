@@ -379,3 +379,8 @@ declare namespace vanilla {
         toInt32(intPtr: number): number;
     }
 }
+declare namespace vanilla {
+    class objectReader extends memoryReader {
+        constructor(memory: WasmMemory);
+    }
+}
