@@ -10,7 +10,17 @@
         }
 
         export function getType(addressOf: number): classMeta {
-            return cacheOfmeta[allocates[addressOf]];
+            let class_id: number = allocates[addressOf];
+
+            if (!(class_id in cacheOfmeta)) {
+                // read class meta from webassembly memory
+                let base64 = ObjectManager.readText(class_id);
+                let json = Base64.decode(base64);
+
+                cacheOfmeta[class_id] = JSON.parse(json);
+            }
+
+            return cacheOfmeta[class_id];
         }
 
         export function sizeOf(addressOf: number) {
