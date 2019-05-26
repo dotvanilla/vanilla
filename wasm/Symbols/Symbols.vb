@@ -302,9 +302,10 @@ Namespace Symbols
         Sub New()
         End Sub
 
-        Sub New([global] As DeclareGlobal)
+        Sub New([global] As DeclareGlobal, Optional value As Expression = Nothing)
             Me.var = [global].name
             Me.module = [global].module
+            Me.value = value
         End Sub
 
         Public Overrides Function ToSExpression() As String
@@ -392,6 +393,13 @@ Namespace Symbols
     End Class
 
     Public Class ReturnValue : Inherits Parenthesized
+
+        Sub New()
+        End Sub
+
+        Sub New(value As Expression)
+            Me.Internal = value
+        End Sub
 
         Public Overrides Function ToSExpression() As String
             Dim sexp$

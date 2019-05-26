@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::70535483df824a673a83338f88026c39, Symbols\Memory\IMemoryObject.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class IMemoryObject
-    ' 
-    '         Properties: memoryPtr, ObjectManager
-    ' 
-    '         Function: [AddressOf], GetSymbolReference, (+2 Overloads) IndexOffset
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class IMemoryObject
+' 
+'         Properties: memoryPtr, ObjectManager
+' 
+'         Function: [AddressOf], GetSymbolReference, (+2 Overloads) IndexOffset
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,6 +69,39 @@ Namespace Symbols.MemoryObject
             .name = NameOf(ObjectManager),
             .type = TypeAbstract.i32
         }
+
+        Public Shared ReadOnly Property Allocate As New FuncSymbol With {
+            .comment = "Add object information into javascript runtime",
+            .locals = {
+                New DeclareLocal With {.name = "offset", .init = ObjectManager.GetReference, .type = TypeAbstract.i32}
+            },
+            .parameters = {
+                "sizeof".param("i32"),
+                "class_id".param("i32")
+            },
+            .name = $"{NameOf(ObjectManager)}.{NameOf(Allocate)}",
+            .result = TypeAbstract.i32,
+            .[module] = "global",
+            .body = allocateSteps(
+                .locals(Scan0).GetReference,
+                New GetLocalVariable(.parameters(Scan0).Name),
+                New GetLocalVariable(.parameters(1).Name)
+            ).ToArray
+        }
+
+        Private Shared Iterator Function allocateSteps(local As GetLocalVariable,
+                                                       sizeof As GetLocalVariable,
+                                                       class_id As GetLocalVariable) As IEnumerable(Of Expression)
+            ' 将全局指针位移目标内存区域大小完成分配操作
+            Yield New SetGlobalVariable(ObjectManager, IndexOffset(local, sizeof))
+            ' 将对象写入javascript环境之中的内存回收模块
+            Yield New FuncInvoke("GC", "addObject") With {
+                .[operator] = False,
+                .parameters = {local, class_id}
+            }
+            ' 返回新内存区域的起始位置
+            Yield New ReturnValue(local)
+        End Function
 
         ''' <summary>
         ''' 这个对象在内存之中的起始位置
