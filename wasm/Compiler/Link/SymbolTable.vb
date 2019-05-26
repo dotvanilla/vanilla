@@ -168,6 +168,7 @@ Namespace Compiler
                 .ToArray
 
             Call JavaScriptImports.Math.DoImports(Me)
+            Call addRequired(IMemoryObject.AddGCobject)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::56737909193ecde4a12b53a4dd1759fa, Compiler\SExpression\ModuleBuilder.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ModuleBuilder
-    ' 
-    '         Properties: [imports], globals, internal, objectMetaData, predefinedGlobals
-    '                     stringData
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToSExpression
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ModuleBuilder
+' 
+'         Properties: [imports], globals, internal, objectMetaData, predefinedGlobals
+'                     stringData
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToSExpression
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
+Imports Wasm.Symbols.MemoryObject
 
 Namespace Compiler.SExpression
 
@@ -103,13 +104,13 @@ Namespace Compiler.SExpression
 
         Public ReadOnly Property stringData As String()
             Get
-                Return [module].Memory.StringData
+                Return [module].memory.StringData
             End Get
         End Property
 
         Public ReadOnly Property objectMetaData As String()
             Get
-                Return [module].Memory.ObjectMetaData
+                Return [module].memory.ObjectMetaData
             End Get
         End Property
 
@@ -122,7 +123,7 @@ Namespace Compiler.SExpression
             Dim buildTime$ = File.GetLastWriteTime(GetType(ModuleSymbol).Assembly.Location)
             Dim stringsData$ = stringData.JoinBy(ASCII.LF)
             Dim objectMeta$ = objectMetaData.JoinBy(ASCII.LF)
-            Dim objectManager As DeclareGlobal = [module].Memory.InitializeObjectManager
+            Dim objectManager As DeclareGlobal = [module].memory.InitializeObjectManager
 
             Return $"(module ;; Module {[module].LabelName}
 
@@ -146,6 +147,9 @@ Namespace Compiler.SExpression
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
     {objectManager}
+
+    ;; memory allocate in javascript runtime
+    {IMemoryObject.Allocate.ToSExpression}
 
     ;; Memory data for string constant
     {stringsData}
