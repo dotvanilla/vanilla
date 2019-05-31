@@ -8,14 +8,14 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("js_object")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyTitle("js_object demo")>
+<Assembly: AssemblyDescription("Javascript object generate from VB.NET WebAssembly demo")>
+<Assembly: AssemblyCompany("vanillavb.app")>
 <Assembly: AssemblyProduct("js_object")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyCopyright("Copyright (c) vanillavb.app 2019")>
+<Assembly: AssemblyTrademark("dotvanilla")>
 
-<Assembly: ComVisible(False)>
+<Assembly: ComVisible(True)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("62b3389d-5109-4740-9c6a-35bb022355b9")>

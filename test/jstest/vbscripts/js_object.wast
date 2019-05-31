@@ -42,7 +42,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 1041))
+    (global $global.ObjectManager (mut i32) (i32.const 1139))
 
     ;; memory allocate in javascript runtime
     (func $global.ObjectManager.Allocate (param $sizeof i32) (param $class_id i32) (result i32)
@@ -61,32 +61,32 @@
     ;; String from 935 with 11 bytes in memory
     (data (i32.const 935) "test object\00")
     
-    ;; String from 947 with 9 bytes in memory
-    (data (i32.const 947) "js_object\00")
+    ;; String from 947 with 14 bytes in memory
+    (data (i32.const 947) "js_object demo\00")
     
-    ;; String from 957 with 0 bytes in memory
-    (data (i32.const 957) "\00")
+    ;; String from 962 with 55 bytes in memory
+    (data (i32.const 962) "Javascript object generate from VB.NET WebAssembly demo\00")
     
-    ;; String from 958 with 0 bytes in memory
-    (data (i32.const 958) "\00")
+    ;; String from 1018 with 13 bytes in memory
+    (data (i32.const 1018) "vanillavb.app\00")
     
-    ;; String from 959 with 9 bytes in memory
-    (data (i32.const 959) "js_object\00")
+    ;; String from 1032 with 9 bytes in memory
+    (data (i32.const 1032) "js_object\00")
     
-    ;; String from 969 with 17 bytes in memory
-    (data (i32.const 969) "Copyright ©  2019\00")
+    ;; String from 1042 with 32 bytes in memory
+    (data (i32.const 1042) "Copyright (c) vanillavb.app 2019\00")
     
-    ;; String from 987 with 0 bytes in memory
-    (data (i32.const 987) "\00")
+    ;; String from 1075 with 10 bytes in memory
+    (data (i32.const 1075) "dotvanilla\00")
     
-    ;; String from 988 with 36 bytes in memory
-    (data (i32.const 988) "62b3389d-5109-4740-9c6a-35bb022355b9\00")
+    ;; String from 1086 with 36 bytes in memory
+    (data (i32.const 1086) "62b3389d-5109-4740-9c6a-35bb022355b9\00")
     
-    ;; String from 1025 with 7 bytes in memory
-    (data (i32.const 1025) "1.0.0.0\00")
+    ;; String from 1123 with 7 bytes in memory
+    (data (i32.const 1123) "1.0.0.0\00")
     
-    ;; String from 1033 with 7 bytes in memory
-    (data (i32.const 1033) "1.0.0.0\00")
+    ;; String from 1131 with 7 bytes in memory
+    (data (i32.const 1131) "1.0.0.0\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -191,7 +191,7 @@
         
     
     
-    (return (i32.const 957))
+    (return (i32.const 962))
     )
     
     
@@ -200,7 +200,7 @@
         
     
     
-    (return (i32.const 958))
+    (return (i32.const 1018))
     )
     
     
@@ -209,7 +209,7 @@
         
     
     
-    (return (i32.const 959))
+    (return (i32.const 1032))
     )
     
     
@@ -218,7 +218,7 @@
         
     
     
-    (return (i32.const 969))
+    (return (i32.const 1042))
     )
     
     
@@ -227,7 +227,7 @@
         
     
     
-    (return (i32.const 987))
+    (return (i32.const 1075))
     )
     
     
@@ -236,7 +236,7 @@
         
     
     
-    (return (i32.const 988))
+    (return (i32.const 1086))
     )
     
     
@@ -245,7 +245,7 @@
         
     
     
-    (return (i32.const 1025))
+    (return (i32.const 1123))
     )
     
     
@@ -254,7 +254,7 @@
         
     
     
-    (return (i32.const 1033))
+    (return (i32.const 1131))
     )
     
     
