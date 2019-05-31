@@ -6,6 +6,8 @@
     export module ObjectManager {
 
         let streamReader: vanilla.stringReader;
+        let objectReader: vanilla.objectReader;
+
         /**
          * 在这里主要是为了避免和内部的数值产生冲突
         */
@@ -24,6 +26,7 @@
         */
         export function load(bytes: vanilla.WasmMemory): void {
             streamReader = new vanilla.stringReader(bytes);
+            objectReader = new vanilla.objectReader(bytes);
             loadedMemory = bytes;
             hashCode += 100;
         }
@@ -70,6 +73,8 @@
         export function getObject(key: number): any {
             if (key in hashTable) {
                 return hashTable[key];
+            } else if (GarbageCollection.exists(key)) {
+                return objectReader.readObject(key);
             } else {
                 return null;
             }

@@ -119,6 +119,7 @@ declare namespace WebAssembly {
     */
     module GarbageCollection {
         function addObject(addressOf: number, class_id: number): void;
+        function exists(addressOf: number): boolean;
         function getType(addressOf: number): classMeta;
         function lazyGettype(class_id: number): classMeta;
         function sizeOf(addressOf: number): number;

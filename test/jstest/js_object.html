@@ -1,0 +1,22 @@
+<script src="linq.min.js"></script>
+<script src="visualbasic.wasm.js"></script>
+
+<script>
+// WebAssembly Demo
+    vanilla.Wasm.showDebugMessage(true);
+    vanilla.Wasm.RunAssembly("../vbscripts/js_object.wasm", {
+      run: app => {
+        console.log(app);
+		
+		var intptr = app.Module1.getObject()		
+		
+		WebAssembly.GarbageCollection.addObject(intptr, 13);
+		
+		console.log(intptr);
+		console.log(WebAssembly.GarbageCollection.getType(intptr));
+		
+      },
+      api: { console: true, text: true, array: true }
+    });
+
+</script>

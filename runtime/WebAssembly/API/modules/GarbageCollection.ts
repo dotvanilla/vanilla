@@ -12,6 +12,10 @@
             allocates[addressOf] = class_id;
         }
 
+        export function exists(addressOf: number): boolean {
+            return addressOf in allocates;
+        }
+
         export function getType(addressOf: number): classMeta {
             let class_id: number = allocates[addressOf];
             let type: classMeta = lazyGettype(class_id);
@@ -24,6 +28,10 @@
                 // read class meta from webassembly memory
                 let base64 = ObjectManager.readText(class_id);
                 let json = Base64.decode(base64);
+
+                if (TypeScript.logging.outputEverything) {
+                    console.log(json);
+                }
 
                 cacheOfmeta[class_id] = JSON.parse(json);
             }
