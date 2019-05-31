@@ -398,6 +398,9 @@ declare namespace vanilla {
     class objectReader extends memoryReader {
         littleEndian: boolean;
         constructor(memory: WasmMemory, littleEndian?: boolean);
-        readObject(intptr: number): object;
+        /**
+         * @param meta 设置这个参数主要是为了使用内部已经读取完毕存在的缓存信息，提升执行效率
+        */
+        readObject(intptr: number, meta?: classMeta): object;
     }
 }

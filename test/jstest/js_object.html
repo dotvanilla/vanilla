@@ -11,7 +11,7 @@
 		var intptr = app.Module1.getObject()		
 		
 		WebAssembly.GarbageCollection.addObject(intptr, 350);
-		WebAssembly.GarbageCollection.addObject(1077, 13);
+		// WebAssembly.GarbageCollection.addObject(1077, 13);
 		
 		console.log(intptr);
 		console.log(WebAssembly.GarbageCollection.getType(intptr));

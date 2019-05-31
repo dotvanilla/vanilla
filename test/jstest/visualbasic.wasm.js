@@ -1035,8 +1035,10 @@ var vanilla;
             super(memory, littleEndian);
             this.littleEndian = littleEndian;
         }
-        readObject(intptr) {
-            var meta = WebAssembly.GarbageCollection.getType(intptr);
+        /**
+         * @param meta 设置这个参数主要是为了使用内部已经读取完毕存在的缓存信息，提升执行效率
+        */
+        readObject(intptr, meta = WebAssembly.GarbageCollection.getType(intptr)) {
             var fields = meta.fields;
             var obj = {};
             var offset = intptr;
@@ -1073,14 +1075,14 @@ var vanilla;
                         let class_id = WebAssembly.GarbageCollection.class_id(fieldType);
                         let class_info = WebAssembly.GarbageCollection.lazyGettype(class_id);
                         if (class_info.isStruct) {
-                            value = this.readObject(offset);
+                            value = this.readObject(offset, class_info);
                             offset += WebAssembly.GarbageCollection.classSize(class_info);
                         }
                         else {
                             // read intptr
                             intptr = this.get32BitNumber(offset, false);
                             // read object value by intptr
-                            value = this.readObject(intptr);
+                            value = this.readObject(intptr, class_info);
                             offset += 4;
                         }
                         break;
