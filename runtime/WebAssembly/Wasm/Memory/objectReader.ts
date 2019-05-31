@@ -15,9 +15,17 @@
             var fieldType: type;
             var type: typeAlias;
 
+            if (TypeScript.logging.outputEverything) {
+                console.log(`typeof(&${intptr}) is (&${meta.class_id})${meta.class}`);
+            }
+
             for (let name in fields) {
                 fieldType = <type>fields[name];
                 type = fieldType.type;
+
+                if (TypeScript.logging.outputEverything) {
+                    console.log(`  > ${name} as ${type} = &${offset}`);
+                }
 
                 switch (type) {
                     case typeAlias.f32:

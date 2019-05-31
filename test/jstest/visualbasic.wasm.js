@@ -1043,9 +1043,15 @@ var vanilla;
             var value;
             var fieldType;
             var type;
+            if (TypeScript.logging.outputEverything) {
+                console.log(`typeof(&${intptr}) is (&${meta.class_id})${meta.class}`);
+            }
             for (let name in fields) {
                 fieldType = fields[name];
                 type = fieldType.type;
+                if (TypeScript.logging.outputEverything) {
+                    console.log(`  > ${name} as ${type} = &${offset}`);
+                }
                 switch (type) {
                     case typeAlias.f32:
                         value = this.get32BitNumber(offset, true);
