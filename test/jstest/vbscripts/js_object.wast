@@ -140,10 +140,34 @@
 
     ;; functions in [Module1]
     
+    (func $Module1.newCircle  (result i32)
+        ;; Public Function newCircle() As intptr
+        
+    (local $newObject_9a020000 i32)
+    (local $newObject_9b020000 i32)
+    
+    
+    ;; Initialize a object instance of [[13]circle]
+    ;; Object memory block begin at location: (get_local $newObject_9b020000)
+    (set_local $newObject_9b020000 (get_global $global.ObjectManager))
+    ;; Offset object manager with 12 bytes.
+    (set_global $global.ObjectManager (i32.add (get_local $newObject_9b020000) (i32.const 12)))
+    ;; set field [circle::x]
+    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 100)))
+    ;; set field [circle::y]
+    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 9999)))
+    ;; set field [circle::r]
+    (i32.store (i32.add (get_local $newObject_9b020000) (i32.const 8)) (i32.const 100))
+    ;; Initialize an object memory block with 12 bytes data
+    
+    (return (get_local $newObject_9b020000))
+    )
+    
+    
     (func $Module1.getObject  (result i32)
         ;; Public Function getObject() As intptr
         
-    (local $newObject_9a020000 i32)
+    
     
     (return (get_global $Module1.test))
     )
@@ -281,10 +305,10 @@
     (func $Module1.constructor  
     ;; Public Function constructor() As void
     
-(local $newObject_9b020000 i32)
+
 
 (i32.store (i32.add (get_global $Module1.test) (i32.const 24)) (i32.const 935))
-(i32.store (i32.add (get_global $Module1.test) (i32.const 32)) (get_local $newObject_9b020000))
+(i32.store (i32.add (get_global $Module1.test) (i32.const 32)) (call $Module1.newCircle ))
 )
 
     (start $Application_SubNew)

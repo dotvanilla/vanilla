@@ -4,8 +4,12 @@
 
     Sub New()
         test.name = "test object"
-        test.inner = New circle With {.x = 100, .y = 9999}
+        test.inner = newCircle()
     End Sub
+
+    Private Function newCircle() As circle
+        Return New circle With {.x = 100, .y = 9999}
+    End Function
 
     Public Function getObject() As rectangle
         Return test
