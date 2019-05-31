@@ -4,6 +4,7 @@
 
     Sub New()
         test.name = "test object"
+        test.inner = New circle With {.x = 100, .y = 9999}
     End Sub
 
     Public Function getObject() As rectangle
