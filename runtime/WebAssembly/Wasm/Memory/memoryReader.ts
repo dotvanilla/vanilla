@@ -3,9 +3,11 @@
     export class memoryReader {
 
         protected buffer: ArrayBuffer;
+        protected littleEndian: boolean = true;
 
-        public constructor(bytechunks: WasmMemory) {
+        public constructor(bytechunks: WasmMemory, littleEndian: boolean = true) {
             this.buffer = bytechunks.buffer;
+            this.littleEndian = littleEndian;
         }
 
         /**
@@ -15,9 +17,9 @@
             let view = new DataView(this.buffer, offset, 4);
 
             if (floatPoint) {
-                return view.getFloat32(0);
+                return view.getFloat32(0, this.littleEndian);
             } else {
-                return view.getInt32(0);
+                return view.getInt32(0, this.littleEndian);
             }
         }
 
@@ -25,7 +27,7 @@
             let view = new DataView(this.buffer, offset, 8);
 
             if (floatPoint) {
-                return view.getFloat64(0);
+                return view.getFloat64(0, this.littleEndian);
             } else {
                 throw "Int64 is not implement...";
             }

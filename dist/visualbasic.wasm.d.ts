@@ -354,7 +354,8 @@ declare namespace vanilla.Wasm.Application {
 declare namespace vanilla {
     class memoryReader {
         protected buffer: ArrayBuffer;
-        constructor(bytechunks: WasmMemory);
+        protected littleEndian: boolean;
+        constructor(bytechunks: WasmMemory, littleEndian?: boolean);
         /**
          * f32/i32
         */
@@ -395,7 +396,8 @@ declare namespace vanilla {
 }
 declare namespace vanilla {
     class objectReader extends memoryReader {
-        constructor(memory: WasmMemory);
+        littleEndian: boolean;
+        constructor(memory: WasmMemory, littleEndian?: boolean);
         readObject(intptr: number): object;
     }
 }

@@ -899,8 +899,10 @@ var vanilla;
 var vanilla;
 (function (vanilla) {
     class memoryReader {
-        constructor(bytechunks) {
+        constructor(bytechunks, littleEndian = true) {
+            this.littleEndian = true;
             this.buffer = bytechunks.buffer;
+            this.littleEndian = littleEndian;
         }
         /**
          * f32/i32
@@ -908,16 +910,16 @@ var vanilla;
         get32BitNumber(offset, floatPoint = false) {
             let view = new DataView(this.buffer, offset, 4);
             if (floatPoint) {
-                return view.getFloat32(0);
+                return view.getFloat32(0, this.littleEndian);
             }
             else {
-                return view.getInt32(0);
+                return view.getInt32(0, this.littleEndian);
             }
         }
         get64BitNumber(offset, floatPoint = false) {
             let view = new DataView(this.buffer, offset, 8);
             if (floatPoint) {
-                return view.getFloat64(0);
+                return view.getFloat64(0, this.littleEndian);
             }
             else {
                 throw "Int64 is not implement...";
@@ -1029,8 +1031,9 @@ var vanilla;
 var vanilla;
 (function (vanilla) {
     class objectReader extends vanilla.memoryReader {
-        constructor(memory) {
-            super(memory);
+        constructor(memory, littleEndian = true) {
+            super(memory, littleEndian);
+            this.littleEndian = littleEndian;
         }
         readObject(intptr) {
             var meta = WebAssembly.GarbageCollection.getType(intptr);

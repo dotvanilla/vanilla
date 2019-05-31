@@ -2,8 +2,8 @@
 
     export class objectReader extends memoryReader {
 
-        public constructor(memory: WasmMemory) {
-            super(memory);
+        public constructor(memory: WasmMemory, public littleEndian: boolean = true) {
+            super(memory, littleEndian);
         }
 
         public readObject(intptr: number): object {
