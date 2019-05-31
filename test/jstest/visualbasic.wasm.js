@@ -1050,7 +1050,7 @@ var vanilla;
                 fieldType = fields[name];
                 type = fieldType.type;
                 if (TypeScript.logging.outputEverything) {
-                    console.log(`  > ${name} as ${type} = &${offset}`);
+                    console.log(`  > ${name} as ${typeAlias[type]} = & ${offset}`);
                 }
                 switch (type) {
                     case typeAlias.f32:
@@ -1090,8 +1090,8 @@ var vanilla;
                         value = WebAssembly.ObjectManager.readText(intptr);
                         offset += 4;
                         if (TypeScript.logging.outputEverything) {
-                            console.log(`read string from &${intptr}:`);
-                            console.log(value);
+                            console.log(`  [*] string from &${intptr}:`);
+                            console.log(`  "${value}"`);
                         }
                         break;
                     default:
