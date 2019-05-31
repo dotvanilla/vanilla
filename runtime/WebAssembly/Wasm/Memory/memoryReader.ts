@@ -12,8 +12,7 @@
          * f32/i32
         */
         public get32BitNumber(offset: number, floatPoint = false): number {
-            let buffer = new Uint8Array(this.buffer, offset, 4);
-            let view = new DataView(buffer);
+            let view = new DataView(this.buffer, offset, 4);
 
             if (floatPoint) {
                 return view.getFloat32(0);
@@ -23,8 +22,7 @@
         }
 
         public get64BitNumber(offset: number, floatPoint = false): number {
-            let buffer = new Uint8Array(this.buffer, offset, 8);
-            let view = new DataView(buffer);
+            let view = new DataView(this.buffer, offset, 8);
 
             if (floatPoint) {
                 return view.getFloat64(0);
