@@ -1078,21 +1078,29 @@ var vanilla;
                         }
                         else {
                             // read intptr
-                            value = this.get32BitNumber(offset, false);
+                            intptr = this.get32BitNumber(offset, false);
                             // read object value by intptr
-                            value = this.readObject(value);
+                            value = this.readObject(intptr);
                             offset += 4;
                         }
                         break;
                     case typeAlias.string:
                         // 4 byte intptr
-                        value = WebAssembly.ObjectManager.readText(offset);
+                        intptr = this.get32BitNumber(offset, false);
+                        value = WebAssembly.ObjectManager.readText(intptr);
                         offset += 4;
+                        if (TypeScript.logging.outputEverything) {
+                            console.log(`read string from &${intptr}:`);
+                            console.log(value);
+                        }
                         break;
                     default:
                         throw "not implement";
                 }
                 obj[name] = value;
+            }
+            if (TypeScript.logging.outputEverything) {
+                console.log('!end_of_read_object');
             }
             return obj;
         }
