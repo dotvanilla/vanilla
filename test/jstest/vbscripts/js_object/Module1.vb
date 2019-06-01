@@ -7,8 +7,11 @@
         test.inner = newCircle()
     End Sub
 
-    Private Function newCircle() As circle
-        Return New circle With {.x = 100, .y = 9999, .struct = newStruct()}
+    Dim cx As Double = 1000
+
+    Public Function newCircle() As circle
+        cx *= 2
+        Return New circle With {.x = cx, .y = 9999, .struct = newStruct()}
     End Function
 
     Private Function newStruct() As structTest

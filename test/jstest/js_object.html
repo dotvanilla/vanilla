@@ -10,13 +10,15 @@
 		
 		var intptr = app.Module1.getObject()		
 		
-		WebAssembly.GarbageCollection.addObject(intptr, 350);
+		// WebAssembly.GarbageCollection.addObject(intptr, 350);
 		// WebAssembly.GarbageCollection.addObject(1077, 13);
 		
 		console.log(intptr);
 		console.log(WebAssembly.GarbageCollection.getType(intptr));
 		console.log(WebAssembly.ObjectManager.getObject(intptr))
 		
+console.log(WebAssembly.ObjectManager.getObject(app.Module1.newCircle()));
+console.log(WebAssembly.ObjectManager.getObject(app.Module1.newCircle()));
       },
       api: { console: true, text: true, array: true }
     });

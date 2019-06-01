@@ -181,11 +181,11 @@
 ; section "Global" (6)
 0000103: 06                                        ; section code
 0000104: 00                                        ; section size (guess)
-0000105: 0c                                        ; num globals
+0000105: 0d                                        ; num globals
 0000106: 7f                                        ; i32
 0000107: 01                                        ; global mutability
 0000108: 41                                        ; i32.const
-0000109: c50b                                      ; i32 literal
+0000109: c90b                                      ; i32 literal
 000010b: 0b                                        ; end
 000010c: 7c                                        ; f64
 000010d: 01                                        ; global mutability
@@ -237,601 +237,620 @@
 0000170: 44                                        ; f64.const
 0000171: ffff ffff ffff efff                       ; f64 literal
 0000179: 0b                                        ; end
-000017a: 7f                                        ; i32
+000017a: 7c                                        ; f64
 000017b: 01                                        ; global mutability
-000017c: 41                                        ; i32.const
-000017d: 00                                        ; i32 literal
-000017e: 0b                                        ; end
-0000104: 7a                                        ; FIXUP section size
+000017c: 44                                        ; f64.const
+000017d: 0000 0000 0040 8f40                       ; f64 literal
+0000185: 0b                                        ; end
+0000186: 7f                                        ; i32
+0000187: 01                                        ; global mutability
+0000188: 41                                        ; i32.const
+0000189: 00                                        ; i32 literal
+000018a: 0b                                        ; end
+; move data: [105, 18b) -> [106, 18c)
+0000104: 8601                                      ; FIXUP section size
 ; section "Export" (7)
-000017f: 07                                        ; section code
-0000180: 00                                        ; section size (guess)
-0000181: 0a                                        ; num exports
-0000182: 11                                        ; string length
-0000183: 4d6f 6475 6c65 312e 6765 744f 626a 6563  Module1.getObjec
-0000193: 74                                       t  ; export name
-0000194: 00                                        ; export kind
-0000195: 0f                                        ; export func index
-0000196: 1a                                        ; string length
-0000197: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-00001a7: 656d 626c 7954 6974 6c65                 emblyTitle  ; export name
-00001b1: 00                                        ; export kind
-00001b2: 10                                        ; export func index
-00001b3: 20                                        ; string length
-00001b4: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-00001c4: 656d 626c 7944 6573 6372 6970 7469 6f6e  emblyDescription  ; export name
-00001d4: 00                                        ; export kind
-00001d5: 11                                        ; export func index
-00001d6: 1c                                        ; string length
-00001d7: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-00001e7: 656d 626c 7943 6f6d 7061 6e79            emblyCompany  ; export name
-00001f3: 00                                        ; export kind
-00001f4: 12                                        ; export func index
-00001f5: 1c                                        ; string length
-00001f6: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-0000206: 656d 626c 7950 726f 6475 6374            emblyProduct  ; export name
-0000212: 00                                        ; export kind
-0000213: 13                                        ; export func index
-0000214: 1e                                        ; string length
-0000215: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-0000225: 656d 626c 7943 6f70 7972 6967 6874       emblyCopyright  ; export name
+000018c: 07                                        ; section code
+000018d: 00                                        ; section size (guess)
+000018e: 0b                                        ; num exports
+000018f: 11                                        ; string length
+0000190: 4d6f 6475 6c65 312e 6e65 7743 6972 636c  Module1.newCircl
+00001a0: 65                                       e  ; export name
+00001a1: 00                                        ; export kind
+00001a2: 0d                                        ; export func index
+00001a3: 11                                        ; string length
+00001a4: 4d6f 6475 6c65 312e 6765 744f 626a 6563  Module1.getObjec
+00001b4: 74                                       t  ; export name
+00001b5: 00                                        ; export kind
+00001b6: 0f                                        ; export func index
+00001b7: 1a                                        ; string length
+00001b8: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+00001c8: 656d 626c 7954 6974 6c65                 emblyTitle  ; export name
+00001d2: 00                                        ; export kind
+00001d3: 10                                        ; export func index
+00001d4: 20                                        ; string length
+00001d5: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+00001e5: 656d 626c 7944 6573 6372 6970 7469 6f6e  emblyDescription  ; export name
+00001f5: 00                                        ; export kind
+00001f6: 11                                        ; export func index
+00001f7: 1c                                        ; string length
+00001f8: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000208: 656d 626c 7943 6f6d 7061 6e79            emblyCompany  ; export name
+0000214: 00                                        ; export kind
+0000215: 12                                        ; export func index
+0000216: 1c                                        ; string length
+0000217: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000227: 656d 626c 7950 726f 6475 6374            emblyProduct  ; export name
 0000233: 00                                        ; export kind
-0000234: 14                                        ; export func index
+0000234: 13                                        ; export func index
 0000235: 1e                                        ; string length
 0000236: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-0000246: 656d 626c 7954 7261 6465 6d61 726b       emblyTrademark  ; export name
+0000246: 656d 626c 7943 6f70 7972 6967 6874       emblyCopyright  ; export name
 0000254: 00                                        ; export kind
-0000255: 15                                        ; export func index
-0000256: 11                                        ; string length
-0000257: 4173 7365 6d62 6c79 496e 666f 2e47 7569  AssemblyInfo.Gui
-0000267: 64                                       d  ; export name
-0000268: 00                                        ; export kind
-0000269: 16                                        ; export func index
-000026a: 1c                                        ; string length
-000026b: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-000027b: 656d 626c 7956 6572 7369 6f6e            emblyVersion  ; export name
-0000287: 00                                        ; export kind
-0000288: 17                                        ; export func index
-0000289: 20                                        ; string length
-000028a: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
-000029a: 656d 626c 7946 696c 6556 6572 7369 6f6e  emblyFileVersion  ; export name
-00002aa: 00                                        ; export kind
-00002ab: 18                                        ; export func index
-; move data: [181, 2ac) -> [182, 2ad)
-0000180: ab02                                      ; FIXUP section size
+0000255: 14                                        ; export func index
+0000256: 1e                                        ; string length
+0000257: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000267: 656d 626c 7954 7261 6465 6d61 726b       emblyTrademark  ; export name
+0000275: 00                                        ; export kind
+0000276: 15                                        ; export func index
+0000277: 11                                        ; string length
+0000278: 4173 7365 6d62 6c79 496e 666f 2e47 7569  AssemblyInfo.Gui
+0000288: 64                                       d  ; export name
+0000289: 00                                        ; export kind
+000028a: 16                                        ; export func index
+000028b: 1c                                        ; string length
+000028c: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+000029c: 656d 626c 7956 6572 7369 6f6e            emblyVersion  ; export name
+00002a8: 00                                        ; export kind
+00002a9: 17                                        ; export func index
+00002aa: 20                                        ; string length
+00002ab: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+00002bb: 656d 626c 7946 696c 6556 6572 7369 6f6e  emblyFileVersion  ; export name
+00002cb: 00                                        ; export kind
+00002cc: 18                                        ; export func index
+; move data: [18e, 2cd) -> [18f, 2ce)
+000018d: bf02                                      ; FIXUP section size
 ; section "Start" (8)
-00002ad: 08                                        ; section code
-00002ae: 00                                        ; section size (guess)
-00002af: 19                                        ; start func index
-00002ae: 01                                        ; FIXUP section size
+00002ce: 08                                        ; section code
+00002cf: 00                                        ; section size (guess)
+00002d0: 19                                        ; start func index
+00002cf: 01                                        ; FIXUP section size
 ; section "Code" (10)
-00002b0: 0a                                        ; section code
-00002b1: 00                                        ; section size (guess)
-00002b2: 10                                        ; num functions
+00002d1: 0a                                        ; section code
+00002d2: 00                                        ; section size (guess)
+00002d3: 10                                        ; num functions
 ; function body 0
-00002b3: 00                                        ; func body size (guess)
-00002b4: 01                                        ; local decl count
-00002b5: 01                                        ; local type count
-00002b6: 7f                                        ; i32
-00002b7: 23                                        ; global.get
-00002b8: 00                                        ; global index
-00002b9: 21                                        ; local.set
-00002ba: 02                                        ; local index
-00002bb: 20                                        ; local.get
-00002bc: 02                                        ; local index
-00002bd: 20                                        ; local.get
-00002be: 00                                        ; local index
-00002bf: 6a                                        ; i32.add
-00002c0: 24                                        ; global.set
-00002c1: 00                                        ; global index
-00002c2: 20                                        ; local.get
-00002c3: 02                                        ; local index
-00002c4: 20                                        ; local.get
-00002c5: 01                                        ; local index
-00002c6: 10                                        ; call
-00002c7: 07                                        ; function index
-00002c8: 20                                        ; local.get
-00002c9: 02                                        ; local index
-00002ca: 0f                                        ; return
-00002cb: 0b                                        ; end
-00002b3: 18                                        ; FIXUP func body size
+00002d4: 00                                        ; func body size (guess)
+00002d5: 01                                        ; local decl count
+00002d6: 01                                        ; local type count
+00002d7: 7f                                        ; i32
+00002d8: 23                                        ; global.get
+00002d9: 00                                        ; global index
+00002da: 21                                        ; local.set
+00002db: 02                                        ; local index
+00002dc: 20                                        ; local.get
+00002dd: 02                                        ; local index
+00002de: 20                                        ; local.get
+00002df: 00                                        ; local index
+00002e0: 6a                                        ; i32.add
+00002e1: 24                                        ; global.set
+00002e2: 00                                        ; global index
+00002e3: 20                                        ; local.get
+00002e4: 02                                        ; local index
+00002e5: 20                                        ; local.get
+00002e6: 01                                        ; local index
+00002e7: 10                                        ; call
+00002e8: 07                                        ; function index
+00002e9: 20                                        ; local.get
+00002ea: 02                                        ; local index
+00002eb: 0f                                        ; return
+00002ec: 0b                                        ; end
+00002d4: 18                                        ; FIXUP func body size
 ; function body 1
-00002cc: 00                                        ; func body size (guess)
-00002cd: 01                                        ; local decl count
-00002ce: 02                                        ; local type count
-00002cf: 7f                                        ; i32
-00002d0: 41                                        ; i32.const
-00002d1: 10                                        ; i32 literal
-00002d2: 41                                        ; i32.const
-00002d3: 0d                                        ; i32 literal
-00002d4: 10                                        ; call
-00002d5: 0c                                        ; function index
-00002d6: 21                                        ; local.set
-00002d7: 01                                        ; local index
-00002d8: 20                                        ; local.get
-00002d9: 01                                        ; local index
-00002da: 41                                        ; i32.const
-00002db: 00                                        ; i32 literal
-00002dc: 6a                                        ; i32.add
-00002dd: 41                                        ; i32.const
-00002de: e400                                      ; i32 literal
-00002e0: b2                                        ; f32.convert_i32_s
-00002e1: 38                                        ; f32.store
-00002e2: 02                                        ; alignment
-00002e3: 00                                        ; store offset
-00002e4: 20                                        ; local.get
-00002e5: 01                                        ; local index
-00002e6: 41                                        ; i32.const
-00002e7: 04                                        ; i32 literal
-00002e8: 6a                                        ; i32.add
-00002e9: 41                                        ; i32.const
-00002ea: 8fce 00                                   ; i32 literal
-00002ed: b2                                        ; f32.convert_i32_s
-00002ee: 38                                        ; f32.store
-00002ef: 02                                        ; alignment
-00002f0: 00                                        ; store offset
-00002f1: 20                                        ; local.get
-00002f2: 01                                        ; local index
+00002ed: 00                                        ; func body size (guess)
+00002ee: 01                                        ; local decl count
+00002ef: 02                                        ; local type count
+00002f0: 7f                                        ; i32
+00002f1: 23                                        ; global.get
+00002f2: 0b                                        ; global index
 00002f3: 41                                        ; i32.const
-00002f4: 0c                                        ; i32 literal
-00002f5: 6a                                        ; i32.add
-00002f6: 10                                        ; call
-00002f7: 0e                                        ; function index
-00002f8: 36                                        ; i32.store
-00002f9: 02                                        ; alignment
-00002fa: 00                                        ; store offset
-00002fb: 20                                        ; local.get
-00002fc: 01                                        ; local index
-00002fd: 41                                        ; i32.const
-00002fe: 08                                        ; i32 literal
-00002ff: 6a                                        ; i32.add
-0000300: 41                                        ; i32.const
-0000301: e400                                      ; i32 literal
-0000303: 36                                        ; i32.store
-0000304: 02                                        ; alignment
-0000305: 00                                        ; store offset
-0000306: 20                                        ; local.get
-0000307: 01                                        ; local index
-0000308: 0f                                        ; return
-0000309: 0b                                        ; end
-00002cc: 3d                                        ; FIXUP func body size
-; function body 2
-000030a: 00                                        ; func body size (guess)
-000030b: 01                                        ; local decl count
-000030c: 01                                        ; local type count
-000030d: 7f                                        ; i32
-000030e: 41                                        ; i32.const
-000030f: 04                                        ; i32 literal
-0000310: 41                                        ; i32.const
-0000311: ef07                                      ; i32 literal
-0000313: 10                                        ; call
-0000314: 0c                                        ; function index
-0000315: 21                                        ; local.set
-0000316: 00                                        ; local index
-0000317: 20                                        ; local.get
-0000318: 00                                        ; local index
-0000319: 41                                        ; i32.const
-000031a: 00                                        ; i32 literal
-000031b: 6a                                        ; i32.add
+00002f4: 02                                        ; i32 literal
+00002f5: b7                                        ; f64.convert_i32_s
+00002f6: a2                                        ; f64.mul
+00002f7: 24                                        ; global.set
+00002f8: 0b                                        ; global index
+00002f9: 41                                        ; i32.const
+00002fa: 10                                        ; i32 literal
+00002fb: 41                                        ; i32.const
+00002fc: fe01                                      ; i32 literal
+00002fe: 10                                        ; call
+00002ff: 0c                                        ; function index
+0000300: 21                                        ; local.set
+0000301: 01                                        ; local index
+0000302: 20                                        ; local.get
+0000303: 01                                        ; local index
+0000304: 41                                        ; i32.const
+0000305: 00                                        ; i32 literal
+0000306: 6a                                        ; i32.add
+0000307: 23                                        ; global.get
+0000308: 0b                                        ; global index
+0000309: b6                                        ; f32.demote_f64
+000030a: 38                                        ; f32.store
+000030b: 02                                        ; alignment
+000030c: 00                                        ; store offset
+000030d: 20                                        ; local.get
+000030e: 01                                        ; local index
+000030f: 41                                        ; i32.const
+0000310: 04                                        ; i32 literal
+0000311: 6a                                        ; i32.add
+0000312: 41                                        ; i32.const
+0000313: 8fce 00                                   ; i32 literal
+0000316: b2                                        ; f32.convert_i32_s
+0000317: 38                                        ; f32.store
+0000318: 02                                        ; alignment
+0000319: 00                                        ; store offset
+000031a: 20                                        ; local.get
+000031b: 01                                        ; local index
 000031c: 41                                        ; i32.const
-000031d: e409                                      ; i32 literal
-000031f: 36                                        ; i32.store
-0000320: 02                                        ; alignment
-0000321: 00                                        ; store offset
-0000322: 20                                        ; local.get
-0000323: 00                                        ; local index
-0000324: 0f                                        ; return
-0000325: 0b                                        ; end
-000030a: 1b                                        ; FIXUP func body size
-; function body 3
-0000326: 00                                        ; func body size (guess)
-0000327: 00                                        ; local decl count
-0000328: 23                                        ; global.get
-0000329: 0b                                        ; global index
-000032a: 0f                                        ; return
-000032b: 0b                                        ; end
-0000326: 05                                        ; FIXUP func body size
-; function body 4
-000032c: 00                                        ; func body size (guess)
-000032d: 00                                        ; local decl count
-000032e: 41                                        ; i32.const
-000032f: 850a                                      ; i32 literal
+000031d: 0c                                        ; i32 literal
+000031e: 6a                                        ; i32.add
+000031f: 10                                        ; call
+0000320: 0e                                        ; function index
+0000321: 36                                        ; i32.store
+0000322: 02                                        ; alignment
+0000323: 00                                        ; store offset
+0000324: 20                                        ; local.get
+0000325: 01                                        ; local index
+0000326: 41                                        ; i32.const
+0000327: 08                                        ; i32 literal
+0000328: 6a                                        ; i32.add
+0000329: 41                                        ; i32.const
+000032a: e400                                      ; i32 literal
+000032c: 36                                        ; i32.store
+000032d: 02                                        ; alignment
+000032e: 00                                        ; store offset
+000032f: 20                                        ; local.get
+0000330: 01                                        ; local index
 0000331: 0f                                        ; return
 0000332: 0b                                        ; end
-000032c: 06                                        ; FIXUP func body size
-; function body 5
+00002ed: 45                                        ; FIXUP func body size
+; function body 2
 0000333: 00                                        ; func body size (guess)
-0000334: 00                                        ; local decl count
-0000335: 41                                        ; i32.const
-0000336: 940a                                      ; i32 literal
-0000338: 0f                                        ; return
-0000339: 0b                                        ; end
-0000333: 06                                        ; FIXUP func body size
+0000334: 01                                        ; local decl count
+0000335: 01                                        ; local type count
+0000336: 7f                                        ; i32
+0000337: 41                                        ; i32.const
+0000338: 04                                        ; i32 literal
+0000339: 41                                        ; i32.const
+000033a: 0d                                        ; i32 literal
+000033b: 10                                        ; call
+000033c: 0c                                        ; function index
+000033d: 21                                        ; local.set
+000033e: 00                                        ; local index
+000033f: 20                                        ; local.get
+0000340: 00                                        ; local index
+0000341: 41                                        ; i32.const
+0000342: 00                                        ; i32 literal
+0000343: 6a                                        ; i32.add
+0000344: 41                                        ; i32.const
+0000345: e809                                      ; i32 literal
+0000347: 36                                        ; i32.store
+0000348: 02                                        ; alignment
+0000349: 00                                        ; store offset
+000034a: 20                                        ; local.get
+000034b: 00                                        ; local index
+000034c: 0f                                        ; return
+000034d: 0b                                        ; end
+0000333: 1a                                        ; FIXUP func body size
+; function body 3
+000034e: 00                                        ; func body size (guess)
+000034f: 00                                        ; local decl count
+0000350: 23                                        ; global.get
+0000351: 0c                                        ; global index
+0000352: 0f                                        ; return
+0000353: 0b                                        ; end
+000034e: 05                                        ; FIXUP func body size
+; function body 4
+0000354: 00                                        ; func body size (guess)
+0000355: 00                                        ; local decl count
+0000356: 41                                        ; i32.const
+0000357: 890a                                      ; i32 literal
+0000359: 0f                                        ; return
+000035a: 0b                                        ; end
+0000354: 06                                        ; FIXUP func body size
+; function body 5
+000035b: 00                                        ; func body size (guess)
+000035c: 00                                        ; local decl count
+000035d: 41                                        ; i32.const
+000035e: 980a                                      ; i32 literal
+0000360: 0f                                        ; return
+0000361: 0b                                        ; end
+000035b: 06                                        ; FIXUP func body size
 ; function body 6
-000033a: 00                                        ; func body size (guess)
-000033b: 00                                        ; local decl count
-000033c: 41                                        ; i32.const
-000033d: cc0a                                      ; i32 literal
-000033f: 0f                                        ; return
-0000340: 0b                                        ; end
-000033a: 06                                        ; FIXUP func body size
+0000362: 00                                        ; func body size (guess)
+0000363: 00                                        ; local decl count
+0000364: 41                                        ; i32.const
+0000365: d00a                                      ; i32 literal
+0000367: 0f                                        ; return
+0000368: 0b                                        ; end
+0000362: 06                                        ; FIXUP func body size
 ; function body 7
-0000341: 00                                        ; func body size (guess)
-0000342: 00                                        ; local decl count
-0000343: 41                                        ; i32.const
-0000344: da0a                                      ; i32 literal
-0000346: 0f                                        ; return
-0000347: 0b                                        ; end
-0000341: 06                                        ; FIXUP func body size
+0000369: 00                                        ; func body size (guess)
+000036a: 00                                        ; local decl count
+000036b: 41                                        ; i32.const
+000036c: de0a                                      ; i32 literal
+000036e: 0f                                        ; return
+000036f: 0b                                        ; end
+0000369: 06                                        ; FIXUP func body size
 ; function body 8
-0000348: 00                                        ; func body size (guess)
-0000349: 00                                        ; local decl count
-000034a: 41                                        ; i32.const
-000034b: e40a                                      ; i32 literal
-000034d: 0f                                        ; return
-000034e: 0b                                        ; end
-0000348: 06                                        ; FIXUP func body size
+0000370: 00                                        ; func body size (guess)
+0000371: 00                                        ; local decl count
+0000372: 41                                        ; i32.const
+0000373: e80a                                      ; i32 literal
+0000375: 0f                                        ; return
+0000376: 0b                                        ; end
+0000370: 06                                        ; FIXUP func body size
 ; function body 9
-000034f: 00                                        ; func body size (guess)
-0000350: 00                                        ; local decl count
-0000351: 41                                        ; i32.const
-0000352: 850b                                      ; i32 literal
-0000354: 0f                                        ; return
-0000355: 0b                                        ; end
-000034f: 06                                        ; FIXUP func body size
+0000377: 00                                        ; func body size (guess)
+0000378: 00                                        ; local decl count
+0000379: 41                                        ; i32.const
+000037a: 890b                                      ; i32 literal
+000037c: 0f                                        ; return
+000037d: 0b                                        ; end
+0000377: 06                                        ; FIXUP func body size
 ; function body 10
-0000356: 00                                        ; func body size (guess)
-0000357: 00                                        ; local decl count
-0000358: 41                                        ; i32.const
-0000359: 900b                                      ; i32 literal
-000035b: 0f                                        ; return
-000035c: 0b                                        ; end
-0000356: 06                                        ; FIXUP func body size
+000037e: 00                                        ; func body size (guess)
+000037f: 00                                        ; local decl count
+0000380: 41                                        ; i32.const
+0000381: 940b                                      ; i32 literal
+0000383: 0f                                        ; return
+0000384: 0b                                        ; end
+000037e: 06                                        ; FIXUP func body size
 ; function body 11
-000035d: 00                                        ; func body size (guess)
-000035e: 00                                        ; local decl count
-000035f: 41                                        ; i32.const
-0000360: b50b                                      ; i32 literal
-0000362: 0f                                        ; return
-0000363: 0b                                        ; end
-000035d: 06                                        ; FIXUP func body size
+0000385: 00                                        ; func body size (guess)
+0000386: 00                                        ; local decl count
+0000387: 41                                        ; i32.const
+0000388: b90b                                      ; i32 literal
+000038a: 0f                                        ; return
+000038b: 0b                                        ; end
+0000385: 06                                        ; FIXUP func body size
 ; function body 12
-0000364: 00                                        ; func body size (guess)
-0000365: 00                                        ; local decl count
-0000366: 41                                        ; i32.const
-0000367: bd0b                                      ; i32 literal
-0000369: 0f                                        ; return
-000036a: 0b                                        ; end
-0000364: 06                                        ; FIXUP func body size
+000038c: 00                                        ; func body size (guess)
+000038d: 00                                        ; local decl count
+000038e: 41                                        ; i32.const
+000038f: c10b                                      ; i32 literal
+0000391: 0f                                        ; return
+0000392: 0b                                        ; end
+000038c: 06                                        ; FIXUP func body size
 ; function body 13
-000036b: 00                                        ; func body size (guess)
-000036c: 00                                        ; local decl count
-000036d: 10                                        ; call
-000036e: 1a                                        ; function index
-000036f: 10                                        ; call
-0000370: 1b                                        ; function index
-0000371: 0b                                        ; end
-000036b: 06                                        ; FIXUP func body size
+0000393: 00                                        ; func body size (guess)
+0000394: 00                                        ; local decl count
+0000395: 10                                        ; call
+0000396: 1a                                        ; function index
+0000397: 10                                        ; call
+0000398: 1b                                        ; function index
+0000399: 0b                                        ; end
+0000393: 06                                        ; FIXUP func body size
 ; function body 14
-0000372: 00                                        ; func body size (guess)
-0000373: 01                                        ; local decl count
-0000374: 01                                        ; local type count
-0000375: 7f                                        ; i32
-0000376: 41                                        ; i32.const
-0000377: 24                                        ; i32 literal
-0000378: 41                                        ; i32.const
-0000379: a603                                      ; i32 literal
-000037b: 10                                        ; call
-000037c: 0c                                        ; function index
-000037d: 21                                        ; local.set
-000037e: 00                                        ; local index
-000037f: 20                                        ; local.get
-0000380: 00                                        ; local index
-0000381: 41                                        ; i32.const
-0000382: 10                                        ; i32 literal
-0000383: 6a                                        ; i32.add
-0000384: 41                                        ; i32.const
-0000385: ffff ffff 07                              ; i32 literal
-000038a: b7                                        ; f64.convert_i32_s
-000038b: 39                                        ; f64.store
-000038c: 03                                        ; alignment
-000038d: 00                                        ; store offset
-000038e: 20                                        ; local.get
-000038f: 00                                        ; local index
-0000390: 41                                        ; i32.const
-0000391: 08                                        ; i32 literal
-0000392: 6a                                        ; i32.add
-0000393: 41                                        ; i32.const
-0000394: 0a                                        ; i32 literal
-0000395: b7                                        ; f64.convert_i32_s
-0000396: 39                                        ; f64.store
-0000397: 03                                        ; alignment
-0000398: 00                                        ; store offset
-0000399: 20                                        ; local.get
-000039a: 00                                        ; local index
-000039b: 41                                        ; i32.const
-000039c: 00                                        ; i32 literal
-000039d: 6a                                        ; i32.add
+000039a: 00                                        ; func body size (guess)
+000039b: 01                                        ; local decl count
+000039c: 01                                        ; local type count
+000039d: 7f                                        ; i32
 000039e: 41                                        ; i32.const
-000039f: e807                                      ; i32 literal
-00003a1: 36                                        ; i32.store
-00003a2: 02                                        ; alignment
-00003a3: 00                                        ; store offset
-00003a4: 20                                        ; local.get
-00003a5: 00                                        ; local index
-00003a6: 41                                        ; i32.const
-00003a7: 04                                        ; i32 literal
-00003a8: 6a                                        ; i32.add
+000039f: 24                                        ; i32 literal
+00003a0: 41                                        ; i32.const
+00003a1: 9b05                                      ; i32 literal
+00003a3: 10                                        ; call
+00003a4: 0c                                        ; function index
+00003a5: 21                                        ; local.set
+00003a6: 00                                        ; local index
+00003a7: 20                                        ; local.get
+00003a8: 00                                        ; local index
 00003a9: 41                                        ; i32.const
-00003aa: e807                                      ; i32 literal
-00003ac: 36                                        ; i32.store
-00003ad: 02                                        ; alignment
-00003ae: 00                                        ; store offset
-00003af: 20                                        ; local.get
-00003b0: 00                                        ; local index
-00003b1: 41                                        ; i32.const
-00003b2: 18                                        ; i32 literal
-00003b3: 6a                                        ; i32.add
-00003b4: 41                                        ; i32.const
-00003b5: 00                                        ; i32 literal
-00003b6: 36                                        ; i32.store
-00003b7: 02                                        ; alignment
-00003b8: 00                                        ; store offset
-00003b9: 20                                        ; local.get
-00003ba: 00                                        ; local index
+00003aa: 10                                        ; i32 literal
+00003ab: 6a                                        ; i32.add
+00003ac: 41                                        ; i32.const
+00003ad: ffff ffff 07                              ; i32 literal
+00003b2: b7                                        ; f64.convert_i32_s
+00003b3: 39                                        ; f64.store
+00003b4: 03                                        ; alignment
+00003b5: 00                                        ; store offset
+00003b6: 20                                        ; local.get
+00003b7: 00                                        ; local index
+00003b8: 41                                        ; i32.const
+00003b9: 08                                        ; i32 literal
+00003ba: 6a                                        ; i32.add
 00003bb: 41                                        ; i32.const
-00003bc: 1c                                        ; i32 literal
-00003bd: 6a                                        ; i32.add
-00003be: 43                                        ; f32.const
-00003bf: 0000 c6c2                                 ; f32 literal
-00003c3: 38                                        ; f32.store
-00003c4: 02                                        ; alignment
-00003c5: 00                                        ; store offset
-00003c6: 20                                        ; local.get
-00003c7: 00                                        ; local index
-00003c8: 41                                        ; i32.const
-00003c9: 20                                        ; i32 literal
-00003ca: 6a                                        ; i32.add
-00003cb: 41                                        ; i32.const
-00003cc: 00                                        ; i32 literal
-00003cd: 36                                        ; i32.store
-00003ce: 02                                        ; alignment
-00003cf: 00                                        ; store offset
-00003d0: 20                                        ; local.get
-00003d1: 00                                        ; local index
-00003d2: 24                                        ; global.set
-00003d3: 0b                                        ; global index
-00003d4: 0b                                        ; end
-0000372: 62                                        ; FIXUP func body size
-; function body 15
-00003d5: 00                                        ; func body size (guess)
-00003d6: 00                                        ; local decl count
-00003d7: 23                                        ; global.get
-00003d8: 0b                                        ; global index
+00003bc: 0a                                        ; i32 literal
+00003bd: b7                                        ; f64.convert_i32_s
+00003be: 39                                        ; f64.store
+00003bf: 03                                        ; alignment
+00003c0: 00                                        ; store offset
+00003c1: 20                                        ; local.get
+00003c2: 00                                        ; local index
+00003c3: 41                                        ; i32.const
+00003c4: 00                                        ; i32 literal
+00003c5: 6a                                        ; i32.add
+00003c6: 41                                        ; i32.const
+00003c7: e807                                      ; i32 literal
+00003c9: 36                                        ; i32.store
+00003ca: 02                                        ; alignment
+00003cb: 00                                        ; store offset
+00003cc: 20                                        ; local.get
+00003cd: 00                                        ; local index
+00003ce: 41                                        ; i32.const
+00003cf: 04                                        ; i32 literal
+00003d0: 6a                                        ; i32.add
+00003d1: 41                                        ; i32.const
+00003d2: e807                                      ; i32 literal
+00003d4: 36                                        ; i32.store
+00003d5: 02                                        ; alignment
+00003d6: 00                                        ; store offset
+00003d7: 20                                        ; local.get
+00003d8: 00                                        ; local index
 00003d9: 41                                        ; i32.const
 00003da: 18                                        ; i32 literal
 00003db: 6a                                        ; i32.add
 00003dc: 41                                        ; i32.const
-00003dd: f909                                      ; i32 literal
-00003df: 36                                        ; i32.store
-00003e0: 02                                        ; alignment
-00003e1: 00                                        ; store offset
-00003e2: 23                                        ; global.get
-00003e3: 0b                                        ; global index
-00003e4: 41                                        ; i32.const
-00003e5: 20                                        ; i32 literal
-00003e6: 6a                                        ; i32.add
-00003e7: 10                                        ; call
-00003e8: 0d                                        ; function index
-00003e9: 36                                        ; i32.store
-00003ea: 02                                        ; alignment
-00003eb: 00                                        ; store offset
-00003ec: 0b                                        ; end
-00003d5: 17                                        ; FIXUP func body size
-; move data: [2b2, 3ed) -> [2b3, 3ee)
-00002b1: bb02                                      ; FIXUP section size
+00003dd: 00                                        ; i32 literal
+00003de: 36                                        ; i32.store
+00003df: 02                                        ; alignment
+00003e0: 00                                        ; store offset
+00003e1: 20                                        ; local.get
+00003e2: 00                                        ; local index
+00003e3: 41                                        ; i32.const
+00003e4: 1c                                        ; i32 literal
+00003e5: 6a                                        ; i32.add
+00003e6: 43                                        ; f32.const
+00003e7: 0000 c6c2                                 ; f32 literal
+00003eb: 38                                        ; f32.store
+00003ec: 02                                        ; alignment
+00003ed: 00                                        ; store offset
+00003ee: 20                                        ; local.get
+00003ef: 00                                        ; local index
+00003f0: 41                                        ; i32.const
+00003f1: 20                                        ; i32 literal
+00003f2: 6a                                        ; i32.add
+00003f3: 41                                        ; i32.const
+00003f4: 00                                        ; i32 literal
+00003f5: 36                                        ; i32.store
+00003f6: 02                                        ; alignment
+00003f7: 00                                        ; store offset
+00003f8: 20                                        ; local.get
+00003f9: 00                                        ; local index
+00003fa: 24                                        ; global.set
+00003fb: 0c                                        ; global index
+00003fc: 0b                                        ; end
+000039a: 62                                        ; FIXUP func body size
+; function body 15
+00003fd: 00                                        ; func body size (guess)
+00003fe: 00                                        ; local decl count
+00003ff: 23                                        ; global.get
+0000400: 0c                                        ; global index
+0000401: 41                                        ; i32.const
+0000402: 18                                        ; i32 literal
+0000403: 6a                                        ; i32.add
+0000404: 41                                        ; i32.const
+0000405: fd09                                      ; i32 literal
+0000407: 36                                        ; i32.store
+0000408: 02                                        ; alignment
+0000409: 00                                        ; store offset
+000040a: 23                                        ; global.get
+000040b: 0c                                        ; global index
+000040c: 41                                        ; i32.const
+000040d: 20                                        ; i32 literal
+000040e: 6a                                        ; i32.add
+000040f: 10                                        ; call
+0000410: 0d                                        ; function index
+0000411: 36                                        ; i32.store
+0000412: 02                                        ; alignment
+0000413: 00                                        ; store offset
+0000414: 0b                                        ; end
+00003fd: 17                                        ; FIXUP func body size
+; move data: [2d3, 415) -> [2d4, 416)
+00002d2: c202                                      ; FIXUP section size
 ; section "Data" (11)
-00003ee: 0b                                        ; section code
-00003ef: 00                                        ; section size (guess)
-00003f0: 0e                                        ; num data segments
+0000416: 0b                                        ; section code
+0000417: 00                                        ; section size (guess)
+0000418: 0e                                        ; num data segments
 ; data segment header 0
-00003f1: 00                                      
-00003f2: 41                                        ; i32.const
-00003f3: e409                                      ; i32 literal
-00003f5: 0b                                        ; end
-00003f6: 15                                        ; data segment size
+0000419: 00                                      
+000041a: 41                                        ; i32.const
+000041b: e809                                      ; i32 literal
+000041d: 0b                                        ; end
+000041e: 15                                        ; data segment size
 ; data segment data 0
-00003f7: 7468 6973 2069 7320 6120 7374 7275 6374 
-0000407: 7572 6521 00                              ; data segment data
+000041f: 7468 6973 2069 7320 6120 7374 7275 6374 
+000042f: 7572 6521 00                              ; data segment data
 ; data segment header 1
-000040c: 00                                      
-000040d: 41                                        ; i32.const
-000040e: f909                                      ; i32 literal
-0000410: 0b                                        ; end
-0000411: 0c                                        ; data segment size
+0000434: 00                                      
+0000435: 41                                        ; i32.const
+0000436: fd09                                      ; i32 literal
+0000438: 0b                                        ; end
+0000439: 0c                                        ; data segment size
 ; data segment data 1
-0000412: 7465 7374 206f 626a 6563 7400             ; data segment data
+000043a: 7465 7374 206f 626a 6563 7400             ; data segment data
 ; data segment header 2
-000041e: 00                                      
-000041f: 41                                        ; i32.const
-0000420: 850a                                      ; i32 literal
-0000422: 0b                                        ; end
-0000423: 0f                                        ; data segment size
+0000446: 00                                      
+0000447: 41                                        ; i32.const
+0000448: 890a                                      ; i32 literal
+000044a: 0b                                        ; end
+000044b: 0f                                        ; data segment size
 ; data segment data 2
-0000424: 6a73 5f6f 626a 6563 7420 6465 6d6f 00     ; data segment data
+000044c: 6a73 5f6f 626a 6563 7420 6465 6d6f 00     ; data segment data
 ; data segment header 3
-0000433: 00                                      
-0000434: 41                                        ; i32.const
-0000435: 940a                                      ; i32 literal
-0000437: 0b                                        ; end
-0000438: 38                                        ; data segment size
+000045b: 00                                      
+000045c: 41                                        ; i32.const
+000045d: 980a                                      ; i32 literal
+000045f: 0b                                        ; end
+0000460: 38                                        ; data segment size
 ; data segment data 3
-0000439: 4a61 7661 7363 7269 7074 206f 626a 6563 
-0000449: 7420 6765 6e65 7261 7465 2066 726f 6d20 
-0000459: 5642 2e4e 4554 2057 6562 4173 7365 6d62 
-0000469: 6c79 2064 656d 6f00                       ; data segment data
+0000461: 4a61 7661 7363 7269 7074 206f 626a 6563 
+0000471: 7420 6765 6e65 7261 7465 2066 726f 6d20 
+0000481: 5642 2e4e 4554 2057 6562 4173 7365 6d62 
+0000491: 6c79 2064 656d 6f00                       ; data segment data
 ; data segment header 4
-0000471: 00                                      
-0000472: 41                                        ; i32.const
-0000473: cc0a                                      ; i32 literal
-0000475: 0b                                        ; end
-0000476: 0e                                        ; data segment size
+0000499: 00                                      
+000049a: 41                                        ; i32.const
+000049b: d00a                                      ; i32 literal
+000049d: 0b                                        ; end
+000049e: 0e                                        ; data segment size
 ; data segment data 4
-0000477: 7661 6e69 6c6c 6176 622e 6170 7000        ; data segment data
+000049f: 7661 6e69 6c6c 6176 622e 6170 7000        ; data segment data
 ; data segment header 5
-0000485: 00                                      
-0000486: 41                                        ; i32.const
-0000487: da0a                                      ; i32 literal
-0000489: 0b                                        ; end
-000048a: 0a                                        ; data segment size
+00004ad: 00                                      
+00004ae: 41                                        ; i32.const
+00004af: de0a                                      ; i32 literal
+00004b1: 0b                                        ; end
+00004b2: 0a                                        ; data segment size
 ; data segment data 5
-000048b: 6a73 5f6f 626a 6563 7400                  ; data segment data
+00004b3: 6a73 5f6f 626a 6563 7400                  ; data segment data
 ; data segment header 6
-0000495: 00                                      
-0000496: 41                                        ; i32.const
-0000497: e40a                                      ; i32 literal
-0000499: 0b                                        ; end
-000049a: 21                                        ; data segment size
+00004bd: 00                                      
+00004be: 41                                        ; i32.const
+00004bf: e80a                                      ; i32 literal
+00004c1: 0b                                        ; end
+00004c2: 21                                        ; data segment size
 ; data segment data 6
-000049b: 436f 7079 7269 6768 7420 2863 2920 7661 
-00004ab: 6e69 6c6c 6176 622e 6170 7020 3230 3139 
-00004bb: 00                                        ; data segment data
+00004c3: 436f 7079 7269 6768 7420 2863 2920 7661 
+00004d3: 6e69 6c6c 6176 622e 6170 7020 3230 3139 
+00004e3: 00                                        ; data segment data
 ; data segment header 7
-00004bc: 00                                      
-00004bd: 41                                        ; i32.const
-00004be: 850b                                      ; i32 literal
-00004c0: 0b                                        ; end
-00004c1: 0b                                        ; data segment size
+00004e4: 00                                      
+00004e5: 41                                        ; i32.const
+00004e6: 890b                                      ; i32 literal
+00004e8: 0b                                        ; end
+00004e9: 0b                                        ; data segment size
 ; data segment data 7
-00004c2: 646f 7476 616e 696c 6c61 00               ; data segment data
+00004ea: 646f 7476 616e 696c 6c61 00               ; data segment data
 ; data segment header 8
-00004cd: 00                                      
-00004ce: 41                                        ; i32.const
-00004cf: 900b                                      ; i32 literal
-00004d1: 0b                                        ; end
-00004d2: 25                                        ; data segment size
+00004f5: 00                                      
+00004f6: 41                                        ; i32.const
+00004f7: 940b                                      ; i32 literal
+00004f9: 0b                                        ; end
+00004fa: 25                                        ; data segment size
 ; data segment data 8
-00004d3: 3632 6233 3338 3964 2d35 3130 392d 3437 
-00004e3: 3430 2d39 6336 612d 3335 6262 3032 3233 
-00004f3: 3535 6239 00                              ; data segment data
+00004fb: 3632 6233 3338 3964 2d35 3130 392d 3437 
+000050b: 3430 2d39 6336 612d 3335 6262 3032 3233 
+000051b: 3535 6239 00                              ; data segment data
 ; data segment header 9
-00004f8: 00                                      
-00004f9: 41                                        ; i32.const
-00004fa: b50b                                      ; i32 literal
-00004fc: 0b                                        ; end
-00004fd: 08                                        ; data segment size
+0000520: 00                                      
+0000521: 41                                        ; i32.const
+0000522: b90b                                      ; i32 literal
+0000524: 0b                                        ; end
+0000525: 08                                        ; data segment size
 ; data segment data 9
-00004fe: 312e 302e 302e 3000                       ; data segment data
+0000526: 312e 302e 302e 3000                       ; data segment data
 ; data segment header 10
-0000506: 00                                      
-0000507: 41                                        ; i32.const
-0000508: bd0b                                      ; i32 literal
-000050a: 0b                                        ; end
-000050b: 08                                        ; data segment size
+000052e: 00                                      
+000052f: 41                                        ; i32.const
+0000530: c10b                                      ; i32 literal
+0000532: 0b                                        ; end
+0000533: 08                                        ; data segment size
 ; data segment data 10
-000050c: 312e 302e 302e 3000                       ; data segment data
+0000534: 312e 302e 302e 3000                       ; data segment data
 ; data segment header 11
-0000514: 00                                      
-0000515: 41                                        ; i32.const
-0000516: 0d                                        ; i32 literal
-0000517: 0b                                        ; end
-0000518: 9d03                                      ; data segment size
+000053c: 00                                      
+000053d: 41                                        ; i32.const
+000053e: 0d                                        ; i32 literal
+000053f: 0b                                        ; end
+0000540: f101                                      ; data segment size
 ; data segment data 11
-000051a: 6579 4a6a 6232 3174 5a57 3530 496a 7075 
-000052a: 6457 7873 4c43 4a74 5a57 3176 636e 6c51 
-000053a: 6448 4969 4f6e 7369 566d 4673 6457 5569 
-000054a: 4f6a 457a 6653 7769 5932 7868 6333 4d69 
-000055a: 4f69 4a6a 6158 4a6a 6247 5569 4c43 4a6a 
-000056a: 6247 467a 6331 3970 5a43 4936 4d54 4d73 
-000057a: 496d 5a70 5a57 786b 6379 4936 6579 4a34 
-000058a: 496a 7037 496d 646c 626d 5679 6157 4d69 
-000059a: 4f6c 7464 4c43 4a79 5958 6369 4f69 4a6d 
-00005aa: 4d7a 4969 4c43 4a30 6558 426c 496a 6f7a 
-00005ba: 6653 7769 6553 4936 6579 4a6e 5a57 356c 
-00005ca: 636d 6c6a 496a 7062 5853 7769 636d 4633 
-00005da: 496a 6f69 5a6a 4d79 4969 7769 6448 6c77 
-00005ea: 5a53 4936 4d33 3073 496e 4969 4f6e 7369 
-00005fa: 5a32 5675 5a58 4a70 5979 4936 5731 3073 
-000060a: 496e 4a68 6479 4936 496d 6b7a 4d69 4973 
-000061a: 496e 5235 6347 5569 4f6a 4639 4c43 4a7a 
-000062a: 6448 4a31 5933 5169 4f6e 7369 5a32 5675 
-000063a: 5a58 4a70 5979 4936 5731 3073 496e 4a68 
-000064a: 6479 4936 496c 7378 4d44 4133 5858 4e30 
-000065a: 636e 566a 6446 526c 6333 5169 4c43 4a30 
-000066a: 6558 426c 496a 6f78 4d48 3139 4c43 4a70 
-000067a: 6331 4e30 636e 566a 6443 4936 5a6d 4673 
-000068a: 6332 5573 496d 316c 6447 6876 5a48 4d69 
-000069a: 4f6e 7439 4c43 4a75 5957 316c 6333 4268 
-00006aa: 5932 5569 4f6d 3531 6247 7839 00          ; data segment data
+0000542: 6579 4a6a 6232 3174 5a57 3530 496a 7075 
+0000552: 6457 7873 4c43 4a74 5a57 3176 636e 6c51 
+0000562: 6448 4969 4f6e 7369 566d 4673 6457 5569 
+0000572: 4f6a 457a 6653 7769 5932 7868 6333 4d69 
+0000582: 4f69 4a7a 6448 4a31 5933 5255 5a58 4e30 
+0000592: 4969 7769 5932 7868 6333 4e66 6157 5169 
+00005a2: 4f6a 457a 4c43 4a6d 6157 5673 5a48 4d69 
+00005b2: 4f6e 7369 626d 4674 5a53 4936 6579 4a6e 
+00005c2: 5a57 356c 636d 6c6a 496a 7062 5853 7769 
+00005d2: 636d 4633 496a 6f69 6333 5279 6157 356e 
+00005e2: 4969 7769 6448 6c77 5a53 4936 4e58 3139 
+00005f2: 4c43 4a70 6331 4e30 636e 566a 6443 4936 
+0000602: 5a6d 4673 6332 5573 496d 316c 6447 6876 
+0000612: 5a48 4d69 4f6e 7439 4c43 4a75 5957 316c 
+0000622: 6333 4268 5932 5569 4f6d 3531 6247 7839 
+0000632: 00                                        ; data segment data
 ; data segment header 12
-00006b7: 00                                      
-00006b8: 41                                        ; i32.const
-00006b9: a603                                      ; i32 literal
-00006bb: 0b                                        ; end
-00006bc: c904                                      ; data segment size
+0000633: 00                                      
+0000634: 41                                        ; i32.const
+0000635: fe01                                      ; i32 literal
+0000637: 0b                                        ; end
+0000638: 9d03                                      ; data segment size
 ; data segment data 12
-00006be: 6579 4a6a 6232 3174 5a57 3530 496a 7075 
-00006ce: 6457 7873 4c43 4a74 5a57 3176 636e 6c51 
-00006de: 6448 4969 4f6e 7369 566d 4673 6457 5569 
-00006ee: 4f6a 5179 4d6e 3073 496d 4e73 5958 4e7a 
-00006fe: 496a 6f69 636d 566a 6447 4675 5a32 786c 
-000070e: 4969 7769 5932 7868 6333 4e66 6157 5169 
-000071e: 4f6a 5179 4d69 7769 5a6d 6c6c 6247 527a 
-000072e: 496a 7037 496d 6769 4f6e 7369 5a32 5675 
-000073e: 5a58 4a70 5979 4936 5731 3073 496e 4a68 
-000074e: 6479 4936 496d 6b7a 4d69 4973 496e 5235 
-000075e: 6347 5569 4f6a 4639 4c43 4a33 496a 7037 
-000076e: 496d 646c 626d 5679 6157 4d69 4f6c 7464 
-000077e: 4c43 4a79 5958 6369 4f69 4a70 4d7a 4969 
-000078e: 4c43 4a30 6558 426c 496a 6f78 6653 7769 
-000079e: 6553 4936 6579 4a6e 5a57 356c 636d 6c6a 
-00007ae: 496a 7062 5853 7769 636d 4633 496a 6f69 
-00007be: 5a6a 5930 4969 7769 6448 6c77 5a53 4936 
-00007ce: 4e48 3073 496e 6769 4f6e 7369 5a32 5675 
-00007de: 5a58 4a70 5979 4936 5731 3073 496e 4a68 
-00007ee: 6479 4936 496d 5932 4e43 4973 496e 5235 
-00007fe: 6347 5569 4f6a 5239 4c43 4a75 5957 316c 
-000080e: 496a 7037 496d 646c 626d 5679 6157 4d69 
-000081e: 4f6c 7464 4c43 4a79 5958 6369 4f69 4a7a 
-000082e: 6448 4a70 626d 6369 4c43 4a30 6558 426c 
-000083e: 496a 6f31 6653 7769 636d 466b 6158 567a 
-000084e: 496a 7037 496d 646c 626d 5679 6157 4d69 
-000085e: 4f6c 7464 4c43 4a79 5958 6369 4f69 4a6d 
-000086e: 4d7a 4969 4c43 4a30 6558 426c 496a 6f7a 
-000087e: 6653 7769 6157 3575 5a58 4969 4f6e 7369 
-000088e: 5a32 5675 5a58 4a70 5979 4936 5731 3073 
-000089e: 496e 4a68 6479 4936 496c 7378 4d31 316a 
-00008ae: 6158 4a6a 6247 5569 4c43 4a30 6558 426c 
-00008be: 496a 6f78 4d48 3139 4c43 4a70 6331 4e30 
-00008ce: 636e 566a 6443 4936 5a6d 4673 6332 5573 
-00008de: 496d 316c 6447 6876 5a48 4d69 4f6e 7439 
-00008ee: 4c43 4a75 5957 316c 6333 4268 5932 5569 
-00008fe: 4f6d 3531 6247 7839 00                    ; data segment data
+000063a: 6579 4a6a 6232 3174 5a57 3530 496a 7075 
+000064a: 6457 7873 4c43 4a74 5a57 3176 636e 6c51 
+000065a: 6448 4969 4f6e 7369 566d 4673 6457 5569 
+000066a: 4f6a 4931 4e48 3073 496d 4e73 5958 4e7a 
+000067a: 496a 6f69 5932 6c79 5932 786c 4969 7769 
+000068a: 5932 7868 6333 4e66 6157 5169 4f6a 4931 
+000069a: 4e43 7769 5a6d 6c6c 6247 527a 496a 7037 
+00006aa: 496e 6769 4f6e 7369 5a32 5675 5a58 4a70 
+00006ba: 5979 4936 5731 3073 496e 4a68 6479 4936 
+00006ca: 496d 597a 4d69 4973 496e 5235 6347 5569 
+00006da: 4f6a 4e39 4c43 4a35 496a 7037 496d 646c 
+00006ea: 626d 5679 6157 4d69 4f6c 7464 4c43 4a79 
+00006fa: 5958 6369 4f69 4a6d 4d7a 4969 4c43 4a30 
+000070a: 6558 426c 496a 6f7a 6653 7769 6369 4936 
+000071a: 6579 4a6e 5a57 356c 636d 6c6a 496a 7062 
+000072a: 5853 7769 636d 4633 496a 6f69 6154 4d79 
+000073a: 4969 7769 6448 6c77 5a53 4936 4d58 3073 
+000074a: 496e 4e30 636e 566a 6443 4936 6579 4a6e 
+000075a: 5a57 356c 636d 6c6a 496a 7062 5853 7769 
+000076a: 636d 4633 496a 6f69 577a 457a 5858 4e30 
+000077a: 636e 566a 6446 526c 6333 5169 4c43 4a30 
+000078a: 6558 426c 496a 6f78 4d48 3139 4c43 4a70 
+000079a: 6331 4e30 636e 566a 6443 4936 5a6d 4673 
+00007aa: 6332 5573 496d 316c 6447 6876 5a48 4d69 
+00007ba: 4f6e 7439 4c43 4a75 5957 316c 6333 4268 
+00007ca: 5932 5569 4f6d 3531 6247 7839 00          ; data segment data
 ; data segment header 13
-0000907: 00                                      
-0000908: 41                                        ; i32.const
-0000909: ef07                                      ; i32 literal
-000090b: 0b                                        ; end
-000090c: f501                                      ; data segment size
+00007d7: 00                                      
+00007d8: 41                                        ; i32.const
+00007d9: 9b05                                      ; i32 literal
+00007db: 0b                                        ; end
+00007dc: cd04                                      ; data segment size
 ; data segment data 13
-000090e: 6579 4a6a 6232 3174 5a57 3530 496a 7075 
-000091e: 6457 7873 4c43 4a74 5a57 3176 636e 6c51 
-000092e: 6448 4969 4f6e 7369 566d 4673 6457 5569 
-000093e: 4f6a 4577 4d44 6439 4c43 4a6a 6247 467a 
-000094e: 6379 4936 496e 4e30 636e 566a 6446 526c 
-000095e: 6333 5169 4c43 4a6a 6247 467a 6331 3970 
-000096e: 5a43 4936 4d54 4177 4e79 7769 5a6d 6c6c 
-000097e: 6247 527a 496a 7037 496d 3568 6257 5569 
-000098e: 4f6e 7369 5a32 5675 5a58 4a70 5979 4936 
-000099e: 5731 3073 496e 4a68 6479 4936 496e 4e30 
-00009ae: 636d 6c75 5a79 4973 496e 5235 6347 5569 
-00009be: 4f6a 5639 6653 7769 6158 4e54 6448 4a31 
-00009ce: 5933 5169 4f6e 5279 6457 5573 496d 316c 
-00009de: 6447 6876 5a48 4d69 4f6e 7439 4c43 4a75 
-00009ee: 5957 316c 6333 4268 5932 5569 4f6d 3531 
-00009fe: 6247 7839 00                              ; data segment data
-; move data: [3f0, a03) -> [3f1, a04)
-00003ef: 930c                                      ; FIXUP section size
+00007de: 6579 4a6a 6232 3174 5a57 3530 496a 7075 
+00007ee: 6457 7873 4c43 4a74 5a57 3176 636e 6c51 
+00007fe: 6448 4969 4f6e 7369 566d 4673 6457 5569 
+000080e: 4f6a 5932 4e33 3073 496d 4e73 5958 4e7a 
+000081e: 496a 6f69 636d 566a 6447 4675 5a32 786c 
+000082e: 4969 7769 5932 7868 6333 4e66 6157 5169 
+000083e: 4f6a 5932 4e79 7769 5a6d 6c6c 6247 527a 
+000084e: 496a 7037 496d 6769 4f6e 7369 5a32 5675 
+000085e: 5a58 4a70 5979 4936 5731 3073 496e 4a68 
+000086e: 6479 4936 496d 6b7a 4d69 4973 496e 5235 
+000087e: 6347 5569 4f6a 4639 4c43 4a33 496a 7037 
+000088e: 496d 646c 626d 5679 6157 4d69 4f6c 7464 
+000089e: 4c43 4a79 5958 6369 4f69 4a70 4d7a 4969 
+00008ae: 4c43 4a30 6558 426c 496a 6f78 6653 7769 
+00008be: 6553 4936 6579 4a6e 5a57 356c 636d 6c6a 
+00008ce: 496a 7062 5853 7769 636d 4633 496a 6f69 
+00008de: 5a6a 5930 4969 7769 6448 6c77 5a53 4936 
+00008ee: 4e48 3073 496e 6769 4f6e 7369 5a32 5675 
+00008fe: 5a58 4a70 5979 4936 5731 3073 496e 4a68 
+000090e: 6479 4936 496d 5932 4e43 4973 496e 5235 
+000091e: 6347 5569 4f6a 5239 4c43 4a75 5957 316c 
+000092e: 496a 7037 496d 646c 626d 5679 6157 4d69 
+000093e: 4f6c 7464 4c43 4a79 5958 6369 4f69 4a7a 
+000094e: 6448 4a70 626d 6369 4c43 4a30 6558 426c 
+000095e: 496a 6f31 6653 7769 636d 466b 6158 567a 
+000096e: 496a 7037 496d 646c 626d 5679 6157 4d69 
+000097e: 4f6c 7464 4c43 4a79 5958 6369 4f69 4a6d 
+000098e: 4d7a 4969 4c43 4a30 6558 426c 496a 6f7a 
+000099e: 6653 7769 6157 3575 5a58 4969 4f6e 7369 
+00009ae: 5a32 5675 5a58 4a70 5979 4936 5731 3073 
+00009be: 496e 4a68 6479 4936 496c 7379 4e54 5264 
+00009ce: 5932 6c79 5932 786c 4969 7769 6448 6c77 
+00009de: 5a53 4936 4d54 4239 6653 7769 6158 4e54 
+00009ee: 6448 4a31 5933 5169 4f6d 5a68 6248 4e6c 
+00009fe: 4c43 4a74 5a58 526f 6232 527a 496a 7037 
+0000a0e: 6653 7769 626d 4674 5a58 4e77 5957 4e6c 
+0000a1e: 496a 7075 6457 7873 6651 3d3d 00          ; data segment data
+; move data: [418, a2b) -> [419, a2c)
+0000417: 930c                                      ; FIXUP section size
 ;; dump
 0000000: 0061 736d 0100 0000 012e 0960 027c 7c01 
 0000010: 7c60 017c 017c 6000 017c 6002 7f7f 0060 
@@ -849,148 +868,150 @@
 00000d0: 7269 6e67 0769 6e64 6578 4f66 0005 0365 
 00000e0: 6e76 0a62 7974 6563 6875 6e6b 7302 0001 
 00000f0: 0311 1005 0707 0707 0707 0707 0707 0707 
-0000100: 0808 0806 7a0c 7f01 41c5 0b0b 7c01 4469 
-0000110: 5714 8b0a bf05 400b 7c01 4418 2d44 54fb 
-0000120: 2109 400b 7f01 41ff ffff ff07 0b7e 0142 
-0000130: ffff ffff ffff ffff ff00 0b7d 0143 ffff 
-0000140: 7f7f 0b7c 0144 ffff ffff ffff ef7f 0b7f 
-0000150: 0141 8080 8080 780b 7e01 4280 8080 8080 
-0000160: 8080 8080 7f0b 7d01 43ff ff7f ff0b 7c01 
-0000170: 44ff ffff ffff ffef ff0b 7f01 4100 0b07 
-0000180: ab02 0a11 4d6f 6475 6c65 312e 6765 744f 
-0000190: 626a 6563 7400 0f1a 4173 7365 6d62 6c79 
-00001a0: 496e 666f 2e41 7373 656d 626c 7954 6974 
-00001b0: 6c65 0010 2041 7373 656d 626c 7949 6e66 
-00001c0: 6f2e 4173 7365 6d62 6c79 4465 7363 7269 
-00001d0: 7074 696f 6e00 111c 4173 7365 6d62 6c79 
-00001e0: 496e 666f 2e41 7373 656d 626c 7943 6f6d 
-00001f0: 7061 6e79 0012 1c41 7373 656d 626c 7949 
-0000200: 6e66 6f2e 4173 7365 6d62 6c79 5072 6f64 
-0000210: 7563 7400 131e 4173 7365 6d62 6c79 496e 
-0000220: 666f 2e41 7373 656d 626c 7943 6f70 7972 
-0000230: 6967 6874 0014 1e41 7373 656d 626c 7949 
-0000240: 6e66 6f2e 4173 7365 6d62 6c79 5472 6164 
-0000250: 656d 6172 6b00 1511 4173 7365 6d62 6c79 
-0000260: 496e 666f 2e47 7569 6400 161c 4173 7365 
-0000270: 6d62 6c79 496e 666f 2e41 7373 656d 626c 
-0000280: 7956 6572 7369 6f6e 0017 2041 7373 656d 
-0000290: 626c 7949 6e66 6f2e 4173 7365 6d62 6c79 
-00002a0: 4669 6c65 5665 7273 696f 6e00 1808 0119 
-00002b0: 0abb 0210 1801 017f 2300 2102 2002 2000 
-00002c0: 6a24 0020 0220 0110 0720 020f 0b3d 0102 
-00002d0: 7f41 1041 0d10 0c21 0120 0141 006a 41e4 
-00002e0: 00b2 3802 0020 0141 046a 418f ce00 b238 
-00002f0: 0200 2001 410c 6a10 0e36 0200 2001 4108 
-0000300: 6a41 e400 3602 0020 010f 0b1b 0101 7f41 
-0000310: 0441 ef07 100c 2100 2000 4100 6a41 e409 
-0000320: 3602 0020 000f 0b05 0023 0b0f 0b06 0041 
-0000330: 850a 0f0b 0600 4194 0a0f 0b06 0041 cc0a 
-0000340: 0f0b 0600 41da 0a0f 0b06 0041 e40a 0f0b 
-0000350: 0600 4185 0b0f 0b06 0041 900b 0f0b 0600 
-0000360: 41b5 0b0f 0b06 0041 bd0b 0f0b 0600 101a 
-0000370: 101b 0b62 0101 7f41 2441 a603 100c 2100 
-0000380: 2000 4110 6a41 ffff ffff 07b7 3903 0020 
-0000390: 0041 086a 410a b739 0300 2000 4100 6a41 
-00003a0: e807 3602 0020 0041 046a 41e8 0736 0200 
-00003b0: 2000 4118 6a41 0036 0200 2000 411c 6a43 
-00003c0: 0000 c6c2 3802 0020 0041 206a 4100 3602 
-00003d0: 0020 0024 0b0b 1700 230b 4118 6a41 f909 
-00003e0: 3602 0023 0b41 206a 100d 3602 000b 0b93 
-00003f0: 0c0e 0041 e409 0b15 7468 6973 2069 7320 
-0000400: 6120 7374 7275 6374 7572 6521 0000 41f9 
-0000410: 090b 0c74 6573 7420 6f62 6a65 6374 0000 
-0000420: 4185 0a0b 0f6a 735f 6f62 6a65 6374 2064 
-0000430: 656d 6f00 0041 940a 0b38 4a61 7661 7363 
-0000440: 7269 7074 206f 626a 6563 7420 6765 6e65 
-0000450: 7261 7465 2066 726f 6d20 5642 2e4e 4554 
-0000460: 2057 6562 4173 7365 6d62 6c79 2064 656d 
-0000470: 6f00 0041 cc0a 0b0e 7661 6e69 6c6c 6176 
-0000480: 622e 6170 7000 0041 da0a 0b0a 6a73 5f6f 
-0000490: 626a 6563 7400 0041 e40a 0b21 436f 7079 
-00004a0: 7269 6768 7420 2863 2920 7661 6e69 6c6c 
-00004b0: 6176 622e 6170 7020 3230 3139 0000 4185 
-00004c0: 0b0b 0b64 6f74 7661 6e69 6c6c 6100 0041 
-00004d0: 900b 0b25 3632 6233 3338 3964 2d35 3130 
-00004e0: 392d 3437 3430 2d39 6336 612d 3335 6262 
-00004f0: 3032 3233 3535 6239 0000 41b5 0b0b 0831 
-0000500: 2e30 2e30 2e30 0000 41bd 0b0b 0831 2e30 
-0000510: 2e30 2e30 0000 410d 0b9d 0365 794a 6a62 
-0000520: 3231 745a 5735 3049 6a70 7564 5778 734c 
-0000530: 434a 745a 5731 7663 6e6c 5164 4849 694f 
-0000540: 6e73 6956 6d46 7364 5755 694f 6a45 7a66 
-0000550: 5377 6959 3278 6863 334d 694f 694a 6a61 
-0000560: 584a 6a62 4755 694c 434a 6a62 4746 7a63 
-0000570: 3139 705a 4349 364d 544d 7349 6d5a 705a 
-0000580: 5778 6b63 7949 3665 794a 3449 6a70 3749 
-0000590: 6d64 6c62 6d56 7961 574d 694f 6c74 644c 
-00005a0: 434a 7959 5863 694f 694a 6d4d 7a49 694c 
-00005b0: 434a 3065 5842 6c49 6a6f 7a66 5377 6965 
-00005c0: 5349 3665 794a 6e5a 5735 6c63 6d6c 6a49 
-00005d0: 6a70 6258 5377 6963 6d46 3349 6a6f 695a 
-00005e0: 6a4d 7949 6977 6964 486c 775a 5349 364d 
-00005f0: 3330 7349 6e49 694f 6e73 695a 3256 755a 
-0000600: 584a 7059 7949 3657 3130 7349 6e4a 6864 
-0000610: 7949 3649 6d6b 7a4d 6949 7349 6e52 3563 
-0000620: 4755 694f 6a46 394c 434a 7a64 484a 3159 
-0000630: 3351 694f 6e73 695a 3256 755a 584a 7059 
-0000640: 7949 3657 3130 7349 6e4a 6864 7949 3649 
-0000650: 6c73 784d 4441 3358 584e 3063 6e56 6a64 
-0000660: 4652 6c63 3351 694c 434a 3065 5842 6c49 
-0000670: 6a6f 784d 4831 394c 434a 7063 314e 3063 
-0000680: 6e56 6a64 4349 365a 6d46 7363 3255 7349 
-0000690: 6d31 6c64 4768 765a 484d 694f 6e74 394c 
-00006a0: 434a 7559 5731 6c63 3342 6859 3255 694f 
-00006b0: 6d35 3162 4778 3900 0041 a603 0bc9 0465 
-00006c0: 794a 6a62 3231 745a 5735 3049 6a70 7564 
-00006d0: 5778 734c 434a 745a 5731 7663 6e6c 5164 
-00006e0: 4849 694f 6e73 6956 6d46 7364 5755 694f 
-00006f0: 6a51 794d 6e30 7349 6d4e 7359 584e 7a49 
-0000700: 6a6f 6963 6d56 6a64 4746 755a 3278 6c49 
-0000710: 6977 6959 3278 6863 334e 6661 5751 694f 
-0000720: 6a51 794d 6977 695a 6d6c 6c62 4752 7a49 
-0000730: 6a70 3749 6d67 694f 6e73 695a 3256 755a 
-0000740: 584a 7059 7949 3657 3130 7349 6e4a 6864 
-0000750: 7949 3649 6d6b 7a4d 6949 7349 6e52 3563 
-0000760: 4755 694f 6a46 394c 434a 3349 6a70 3749 
-0000770: 6d64 6c62 6d56 7961 574d 694f 6c74 644c 
-0000780: 434a 7959 5863 694f 694a 704d 7a49 694c 
-0000790: 434a 3065 5842 6c49 6a6f 7866 5377 6965 
-00007a0: 5349 3665 794a 6e5a 5735 6c63 6d6c 6a49 
-00007b0: 6a70 6258 5377 6963 6d46 3349 6a6f 695a 
-00007c0: 6a59 3049 6977 6964 486c 775a 5349 364e 
-00007d0: 4830 7349 6e67 694f 6e73 695a 3256 755a 
-00007e0: 584a 7059 7949 3657 3130 7349 6e4a 6864 
-00007f0: 7949 3649 6d59 324e 4349 7349 6e52 3563 
-0000800: 4755 694f 6a52 394c 434a 7559 5731 6c49 
-0000810: 6a70 3749 6d64 6c62 6d56 7961 574d 694f 
-0000820: 6c74 644c 434a 7959 5863 694f 694a 7a64 
-0000830: 484a 7062 6d63 694c 434a 3065 5842 6c49 
-0000840: 6a6f 3166 5377 6963 6d46 6b61 5856 7a49 
-0000850: 6a70 3749 6d64 6c62 6d56 7961 574d 694f 
-0000860: 6c74 644c 434a 7959 5863 694f 694a 6d4d 
-0000870: 7a49 694c 434a 3065 5842 6c49 6a6f 7a66 
-0000880: 5377 6961 5735 755a 5849 694f 6e73 695a 
-0000890: 3256 755a 584a 7059 7949 3657 3130 7349 
-00008a0: 6e4a 6864 7949 3649 6c73 784d 3131 6a61 
-00008b0: 584a 6a62 4755 694c 434a 3065 5842 6c49 
-00008c0: 6a6f 784d 4831 394c 434a 7063 314e 3063 
-00008d0: 6e56 6a64 4349 365a 6d46 7363 3255 7349 
-00008e0: 6d31 6c64 4768 765a 484d 694f 6e74 394c 
-00008f0: 434a 7559 5731 6c63 3342 6859 3255 694f 
-0000900: 6d35 3162 4778 3900 0041 ef07 0bf5 0165 
-0000910: 794a 6a62 3231 745a 5735 3049 6a70 7564 
-0000920: 5778 734c 434a 745a 5731 7663 6e6c 5164 
-0000930: 4849 694f 6e73 6956 6d46 7364 5755 694f 
-0000940: 6a45 774d 4464 394c 434a 6a62 4746 7a63 
-0000950: 7949 3649 6e4e 3063 6e56 6a64 4652 6c63 
-0000960: 3351 694c 434a 6a62 4746 7a63 3139 705a 
-0000970: 4349 364d 5441 774e 7977 695a 6d6c 6c62 
-0000980: 4752 7a49 6a70 3749 6d35 6862 5755 694f 
-0000990: 6e73 695a 3256 755a 584a 7059 7949 3657 
-00009a0: 3130 7349 6e4a 6864 7949 3649 6e4e 3063 
-00009b0: 6d6c 755a 7949 7349 6e52 3563 4755 694f 
-00009c0: 6a56 3966 5377 6961 584e 5464 484a 3159 
-00009d0: 3351 694f 6e52 7964 5755 7349 6d31 6c64 
-00009e0: 4768 765a 484d 694f 6e74 394c 434a 7559 
-00009f0: 5731 6c63 3342 6859 3255 694f 6d35 3162 
-0000a00: 4778 3900                               
+0000100: 0808 0806 8601 0d7f 0141 c90b 0b7c 0144 
+0000110: 6957 148b 0abf 0540 0b7c 0144 182d 4454 
+0000120: fb21 0940 0b7f 0141 ffff ffff 070b 7e01 
+0000130: 42ff ffff ffff ffff ffff 000b 7d01 43ff 
+0000140: ff7f 7f0b 7c01 44ff ffff ffff ffef 7f0b 
+0000150: 7f01 4180 8080 8078 0b7e 0142 8080 8080 
+0000160: 8080 8080 807f 0b7d 0143 ffff 7fff 0b7c 
+0000170: 0144 ffff ffff ffff efff 0b7c 0144 0000 
+0000180: 0000 0040 8f40 0b7f 0141 000b 07bf 020b 
+0000190: 114d 6f64 756c 6531 2e6e 6577 4369 7263 
+00001a0: 6c65 000d 114d 6f64 756c 6531 2e67 6574 
+00001b0: 4f62 6a65 6374 000f 1a41 7373 656d 626c 
+00001c0: 7949 6e66 6f2e 4173 7365 6d62 6c79 5469 
+00001d0: 746c 6500 1020 4173 7365 6d62 6c79 496e 
+00001e0: 666f 2e41 7373 656d 626c 7944 6573 6372 
+00001f0: 6970 7469 6f6e 0011 1c41 7373 656d 626c 
+0000200: 7949 6e66 6f2e 4173 7365 6d62 6c79 436f 
+0000210: 6d70 616e 7900 121c 4173 7365 6d62 6c79 
+0000220: 496e 666f 2e41 7373 656d 626c 7950 726f 
+0000230: 6475 6374 0013 1e41 7373 656d 626c 7949 
+0000240: 6e66 6f2e 4173 7365 6d62 6c79 436f 7079 
+0000250: 7269 6768 7400 141e 4173 7365 6d62 6c79 
+0000260: 496e 666f 2e41 7373 656d 626c 7954 7261 
+0000270: 6465 6d61 726b 0015 1141 7373 656d 626c 
+0000280: 7949 6e66 6f2e 4775 6964 0016 1c41 7373 
+0000290: 656d 626c 7949 6e66 6f2e 4173 7365 6d62 
+00002a0: 6c79 5665 7273 696f 6e00 1720 4173 7365 
+00002b0: 6d62 6c79 496e 666f 2e41 7373 656d 626c 
+00002c0: 7946 696c 6556 6572 7369 6f6e 0018 0801 
+00002d0: 190a c202 1018 0101 7f23 0021 0220 0220 
+00002e0: 006a 2400 2002 2001 1007 2002 0f0b 4501 
+00002f0: 027f 230b 4102 b7a2 240b 4110 41fe 0110 
+0000300: 0c21 0120 0141 006a 230b b638 0200 2001 
+0000310: 4104 6a41 8fce 00b2 3802 0020 0141 0c6a 
+0000320: 100e 3602 0020 0141 086a 41e4 0036 0200 
+0000330: 2001 0f0b 1a01 017f 4104 410d 100c 2100 
+0000340: 2000 4100 6a41 e809 3602 0020 000f 0b05 
+0000350: 0023 0c0f 0b06 0041 890a 0f0b 0600 4198 
+0000360: 0a0f 0b06 0041 d00a 0f0b 0600 41de 0a0f 
+0000370: 0b06 0041 e80a 0f0b 0600 4189 0b0f 0b06 
+0000380: 0041 940b 0f0b 0600 41b9 0b0f 0b06 0041 
+0000390: c10b 0f0b 0600 101a 101b 0b62 0101 7f41 
+00003a0: 2441 9b05 100c 2100 2000 4110 6a41 ffff 
+00003b0: ffff 07b7 3903 0020 0041 086a 410a b739 
+00003c0: 0300 2000 4100 6a41 e807 3602 0020 0041 
+00003d0: 046a 41e8 0736 0200 2000 4118 6a41 0036 
+00003e0: 0200 2000 411c 6a43 0000 c6c2 3802 0020 
+00003f0: 0041 206a 4100 3602 0020 0024 0c0b 1700 
+0000400: 230c 4118 6a41 fd09 3602 0023 0c41 206a 
+0000410: 100d 3602 000b 0b93 0c0e 0041 e809 0b15 
+0000420: 7468 6973 2069 7320 6120 7374 7275 6374 
+0000430: 7572 6521 0000 41fd 090b 0c74 6573 7420 
+0000440: 6f62 6a65 6374 0000 4189 0a0b 0f6a 735f 
+0000450: 6f62 6a65 6374 2064 656d 6f00 0041 980a 
+0000460: 0b38 4a61 7661 7363 7269 7074 206f 626a 
+0000470: 6563 7420 6765 6e65 7261 7465 2066 726f 
+0000480: 6d20 5642 2e4e 4554 2057 6562 4173 7365 
+0000490: 6d62 6c79 2064 656d 6f00 0041 d00a 0b0e 
+00004a0: 7661 6e69 6c6c 6176 622e 6170 7000 0041 
+00004b0: de0a 0b0a 6a73 5f6f 626a 6563 7400 0041 
+00004c0: e80a 0b21 436f 7079 7269 6768 7420 2863 
+00004d0: 2920 7661 6e69 6c6c 6176 622e 6170 7020 
+00004e0: 3230 3139 0000 4189 0b0b 0b64 6f74 7661 
+00004f0: 6e69 6c6c 6100 0041 940b 0b25 3632 6233 
+0000500: 3338 3964 2d35 3130 392d 3437 3430 2d39 
+0000510: 6336 612d 3335 6262 3032 3233 3535 6239 
+0000520: 0000 41b9 0b0b 0831 2e30 2e30 2e30 0000 
+0000530: 41c1 0b0b 0831 2e30 2e30 2e30 0000 410d 
+0000540: 0bf1 0165 794a 6a62 3231 745a 5735 3049 
+0000550: 6a70 7564 5778 734c 434a 745a 5731 7663 
+0000560: 6e6c 5164 4849 694f 6e73 6956 6d46 7364 
+0000570: 5755 694f 6a45 7a66 5377 6959 3278 6863 
+0000580: 334d 694f 694a 7a64 484a 3159 3352 555a 
+0000590: 584e 3049 6977 6959 3278 6863 334e 6661 
+00005a0: 5751 694f 6a45 7a4c 434a 6d61 5756 735a 
+00005b0: 484d 694f 6e73 6962 6d46 745a 5349 3665 
+00005c0: 794a 6e5a 5735 6c63 6d6c 6a49 6a70 6258 
+00005d0: 5377 6963 6d46 3349 6a6f 6963 3352 7961 
+00005e0: 5735 6e49 6977 6964 486c 775a 5349 364e 
+00005f0: 5831 394c 434a 7063 314e 3063 6e56 6a64 
+0000600: 4349 365a 6d46 7363 3255 7349 6d31 6c64 
+0000610: 4768 765a 484d 694f 6e74 394c 434a 7559 
+0000620: 5731 6c63 3342 6859 3255 694f 6d35 3162 
+0000630: 4778 3900 0041 fe01 0b9d 0365 794a 6a62 
+0000640: 3231 745a 5735 3049 6a70 7564 5778 734c 
+0000650: 434a 745a 5731 7663 6e6c 5164 4849 694f 
+0000660: 6e73 6956 6d46 7364 5755 694f 6a49 314e 
+0000670: 4830 7349 6d4e 7359 584e 7a49 6a6f 6959 
+0000680: 326c 7959 3278 6c49 6977 6959 3278 6863 
+0000690: 334e 6661 5751 694f 6a49 314e 4377 695a 
+00006a0: 6d6c 6c62 4752 7a49 6a70 3749 6e67 694f 
+00006b0: 6e73 695a 3256 755a 584a 7059 7949 3657 
+00006c0: 3130 7349 6e4a 6864 7949 3649 6d59 7a4d 
+00006d0: 6949 7349 6e52 3563 4755 694f 6a4e 394c 
+00006e0: 434a 3549 6a70 3749 6d64 6c62 6d56 7961 
+00006f0: 574d 694f 6c74 644c 434a 7959 5863 694f 
+0000700: 694a 6d4d 7a49 694c 434a 3065 5842 6c49 
+0000710: 6a6f 7a66 5377 6963 6949 3665 794a 6e5a 
+0000720: 5735 6c63 6d6c 6a49 6a70 6258 5377 6963 
+0000730: 6d46 3349 6a6f 6961 544d 7949 6977 6964 
+0000740: 486c 775a 5349 364d 5830 7349 6e4e 3063 
+0000750: 6e56 6a64 4349 3665 794a 6e5a 5735 6c63 
+0000760: 6d6c 6a49 6a70 6258 5377 6963 6d46 3349 
+0000770: 6a6f 6957 7a45 7a58 584e 3063 6e56 6a64 
+0000780: 4652 6c63 3351 694c 434a 3065 5842 6c49 
+0000790: 6a6f 784d 4831 394c 434a 7063 314e 3063 
+00007a0: 6e56 6a64 4349 365a 6d46 7363 3255 7349 
+00007b0: 6d31 6c64 4768 765a 484d 694f 6e74 394c 
+00007c0: 434a 7559 5731 6c63 3342 6859 3255 694f 
+00007d0: 6d35 3162 4778 3900 0041 9b05 0bcd 0465 
+00007e0: 794a 6a62 3231 745a 5735 3049 6a70 7564 
+00007f0: 5778 734c 434a 745a 5731 7663 6e6c 5164 
+0000800: 4849 694f 6e73 6956 6d46 7364 5755 694f 
+0000810: 6a59 324e 3330 7349 6d4e 7359 584e 7a49 
+0000820: 6a6f 6963 6d56 6a64 4746 755a 3278 6c49 
+0000830: 6977 6959 3278 6863 334e 6661 5751 694f 
+0000840: 6a59 324e 7977 695a 6d6c 6c62 4752 7a49 
+0000850: 6a70 3749 6d67 694f 6e73 695a 3256 755a 
+0000860: 584a 7059 7949 3657 3130 7349 6e4a 6864 
+0000870: 7949 3649 6d6b 7a4d 6949 7349 6e52 3563 
+0000880: 4755 694f 6a46 394c 434a 3349 6a70 3749 
+0000890: 6d64 6c62 6d56 7961 574d 694f 6c74 644c 
+00008a0: 434a 7959 5863 694f 694a 704d 7a49 694c 
+00008b0: 434a 3065 5842 6c49 6a6f 7866 5377 6965 
+00008c0: 5349 3665 794a 6e5a 5735 6c63 6d6c 6a49 
+00008d0: 6a70 6258 5377 6963 6d46 3349 6a6f 695a 
+00008e0: 6a59 3049 6977 6964 486c 775a 5349 364e 
+00008f0: 4830 7349 6e67 694f 6e73 695a 3256 755a 
+0000900: 584a 7059 7949 3657 3130 7349 6e4a 6864 
+0000910: 7949 3649 6d59 324e 4349 7349 6e52 3563 
+0000920: 4755 694f 6a52 394c 434a 7559 5731 6c49 
+0000930: 6a70 3749 6d64 6c62 6d56 7961 574d 694f 
+0000940: 6c74 644c 434a 7959 5863 694f 694a 7a64 
+0000950: 484a 7062 6d63 694c 434a 3065 5842 6c49 
+0000960: 6a6f 3166 5377 6963 6d46 6b61 5856 7a49 
+0000970: 6a70 3749 6d64 6c62 6d56 7961 574d 694f 
+0000980: 6c74 644c 434a 7959 5863 694f 694a 6d4d 
+0000990: 7a49 694c 434a 3065 5842 6c49 6a6f 7a66 
+00009a0: 5377 6961 5735 755a 5849 694f 6e73 695a 
+00009b0: 3256 755a 584a 7059 7949 3657 3130 7349 
+00009c0: 6e4a 6864 7949 3649 6c73 794e 5452 6459 
+00009d0: 326c 7959 3278 6c49 6977 6964 486c 775a 
+00009e0: 5349 364d 5442 3966 5377 6961 584e 5464 
+00009f0: 484a 3159 3351 694f 6d5a 6862 484e 6c4c 
+0000a00: 434a 745a 5852 6f62 3252 7a49 6a70 3766 
+0000a10: 5377 6962 6d46 745a 584e 7759 574e 6c49 
+0000a20: 6a70 7564 5778 7366 513d 3d00           
