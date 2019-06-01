@@ -1,7 +1,16 @@
-﻿Public Class circle
+﻿Public Structure structTest
+
+    Public name As String
+    Public array As Double()
+
+End Structure
+
+Public Class circle
 
     Public x, y As Single
     Public r As Integer = 100
+
+    Public struct As structTest
 
 End Class
 
