@@ -76,6 +76,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "nestedTest.vb",
                 "GCtest.vb",
                 "DeclareTest2.vb",
                 "ForLoopTest2.vb",

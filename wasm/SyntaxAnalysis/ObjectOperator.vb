@@ -270,6 +270,12 @@ Namespace SyntaxAnalysis
             Dim fieldOffset As Expression = ArrayBlock.IndexOffset(hashcode.GetReference, offsetSize)
             Dim fieldType As TypeAbstract = objType(fieldName).type
 
+            If TypeOf initValue Is UserObject Then
+                For Each expression As Expression In DirectCast(initValue, UserObject)
+                    Yield expression
+                Next
+            End If
+
             ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
             ' 所以下面的保存的位置值intptr不能够是累加的结果
             ' 而每次必须是从hashcode的位置处进行位移，才能够正常的读取结果值
@@ -282,18 +288,24 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
-        Public Function SetMemberField(objName$, memberName$, right As Expression, symbols As SymbolTable) As Expression
+        Public Iterator Function SetMemberField(objName$, memberName$, right As Expression, symbols As SymbolTable) As IEnumerable(Of Expression)
             Dim type As TypeAbstract = symbols.GetUnderlyingType(objName)
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             Dim offset As Integer = objType.GetFieldOffset(memberName)
             Dim fieldType As TypeAbstract = objType(memberName).type
             Dim intptr As Expression = symbols.GetObjectReference(objName)
 
+            If TypeOf right Is UserObject Then
+                For Each expression As Expression In DirectCast(right, UserObject)
+                    Yield expression
+                Next
+            End If
+
             intptr = ArrayBlock.IndexOffset(intptr, offset)
             right = CTypeHandle.CType(fieldType, right, symbols)
 
             ' 只需要将数据写入指定的内存位置即可完成实例对象的字段的赋值操作
-            Return BitConverter.save(fieldType, intptr, right)
+            Yield BitConverter.save(fieldType, intptr, right)
         End Function
 
         <Extension>

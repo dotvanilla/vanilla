@@ -151,7 +151,7 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
-        Public Function ValueAssign(assign As AssignmentStatementSyntax, symbols As SymbolTable) As Expression
+        Public Function ValueAssign(assign As AssignmentStatementSyntax, symbols As SymbolTable) As [Variant](Of Expression, Expression())
             If TypeOf assign.Left Is IdentifierNameSyntax Then
                 Return symbols.AssignVariable(assign)
             ElseIf TypeOf assign.Left Is InvocationExpressionSyntax Then
@@ -204,7 +204,7 @@ Namespace SyntaxAnalysis
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function memberAssign(symbols As SymbolTable, left As MemberAccessExpressionSyntax, right As Expression) As Expression
+        Private Function memberAssign(symbols As SymbolTable, left As MemberAccessExpressionSyntax, right As Expression) As [Variant](Of Expression, Expression())
             If TypeOf left.Expression Is InvocationExpressionSyntax Then
                 Return symbols.refFunction(left, right)
             Else
@@ -240,7 +240,7 @@ Namespace SyntaxAnalysis
                     }
                 Else
                     ' 设置实例对象的成员字段的值
-                    Return objName.SetMemberField(memberName, right, symbols)
+                    Return objName.SetMemberField(memberName, right, symbols).ToArray
                 End If
             End If
         End Function
