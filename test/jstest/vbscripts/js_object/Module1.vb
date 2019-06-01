@@ -13,8 +13,7 @@
 
     Private Function newStruct() As structTest
         Return New structTest With {
-            .array = {1, 2, 3, 4, 5},
-            .name = "this is a structure!"
+        .name = "this is a structure!"
         }
     End Function
 

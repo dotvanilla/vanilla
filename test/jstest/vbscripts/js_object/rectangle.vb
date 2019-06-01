@@ -1,7 +1,7 @@
 ﻿Public Structure structTest
 
     Public name As String
-    Public array As Double()
+    ' Public array As Double()
 
 End Structure
 
