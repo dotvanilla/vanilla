@@ -62,6 +62,10 @@ Namespace Symbols.MemoryObject
 
         Public Property UnderlyingType As TypeAbstract
         Public Property Meta As ClassMeta
+        ''' <summary>
+        ''' 当前的这个用户类型在内存之中所占用的字节大小
+        ''' </summary>
+        ''' <returns></returns>
         Public Property width As Integer
         Public Property Initialize As Expression()
 

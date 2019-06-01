@@ -177,6 +177,12 @@ Namespace SyntaxAnalysis
             Return type.createUserObject(hashcode, obj, initialize, symbols, False, Nothing)
         End Function
 
+        ''' <summary>
+        ''' 这个函数只是创建了一个临时变量
+        ''' </summary>
+        ''' <param name="type">目标用户类型</param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function allocateNew(type As TypeAbstract, symbols As SymbolTable) As ([object] As UserObject, hashcode As DeclareLocal)
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
@@ -219,13 +225,13 @@ Namespace SyntaxAnalysis
                 .ToArray
 
             If Not isCopy Then
-                initializer += New SetLocalVariable(hashcode, IMemoryObject.ObjectManager.GetReference)
+                initializer += New SetLocalVariable(hashcode, IMemoryObject.Allocate.Call(Literal.i32(obj.width), Literal.i32(type.class_id)))
             End If
 
-            initializer += New CommentText($"Offset object manager with {obj.width} bytes.")
-            initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
-                .value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
-            }
+            'initializer += New CommentText($"Offset object manager with {obj.width} bytes.")
+            'initializer += New SetGlobalVariable(IMemoryObject.ObjectManager) With {
+            '    .value = ArrayBlock.IndexOffset(hashcode.GetReference, obj.width)
+            '}
 
             If Not funCalls Is Nothing Then
                 initializer += funCalls

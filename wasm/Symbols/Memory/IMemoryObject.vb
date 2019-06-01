@@ -47,6 +47,8 @@
 
 #End Region
 
+Imports System.Web.Script.Serialization
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.TypeInfo
 
@@ -61,6 +63,8 @@ Namespace Symbols.MemoryObject
         ''' <remarks>
         ''' 如果是一个表达式，则是一个动态资源，反之为字符串之类的静态资源
         ''' </remarks>
+        ''' 
+        <ScriptIgnore, XmlIgnore>
         Public Property memoryPtr As [Variant](Of Integer, Expression)
 
         Public Shared ReadOnly Property ObjectManager As New DeclareGlobal With {
@@ -83,6 +87,14 @@ Namespace Symbols.MemoryObject
             .result = TypeAbstract.void
         }
 
+        ''' <summary>
+        ''' 进行新的用户对象的内存分配的函数
+        ''' 
+        ''' ```
+        ''' func(size, class_id) as intptr
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared ReadOnly Property Allocate As New FuncSymbol With {
             .comment = "Add object information into javascript runtime",
             .locals = {
