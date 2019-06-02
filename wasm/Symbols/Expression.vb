@@ -102,6 +102,10 @@ Namespace Symbols
             Return define
         End Function
 
+        Public Function ToBase() As Expression
+            Return Me
+        End Function
+
         ''' <summary>
         ''' S-Expression debug previews
         ''' </summary>

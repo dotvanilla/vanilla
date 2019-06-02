@@ -206,6 +206,17 @@ Namespace SyntaxAnalysis
             Return (obj, hashcode)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <param name="hashcode"></param>
+        ''' <param name="obj"></param>
+        ''' <param name="initialize"></param>
+        ''' <param name="symbols"></param>
+        ''' <param name="isCopy">对象拷贝或者初始化结构体都是true</param>
+        ''' <param name="funCalls"></param>
+        ''' <returns></returns>
         <Extension>
         Friend Function createUserObject(type As TypeAbstract,
                                          hashcode As DeclareLocal,
@@ -213,7 +224,7 @@ Namespace SyntaxAnalysis
                                          initialize As NamedValue(Of Expression)(),
                                          symbols As SymbolTable,
                                          isCopy As Boolean,
-                                         funCalls As Expression) As Expression
+                                         funCalls As Expression) As UserObject
 
             Dim objType As ClassMeta = symbols.GetClassType(type.raw)
             ' 初始化字段值
@@ -271,9 +282,29 @@ Namespace SyntaxAnalysis
             Dim fieldType As TypeAbstract = objType(fieldName).type
 
             If TypeOf initValue Is UserObject Then
-                For Each expression As Expression In DirectCast(initValue, UserObject)
+                Dim obj As UserObject = DirectCast(initValue, UserObject)
+
+                For Each expression As Expression In obj
                     Yield expression
                 Next
+
+                If DirectCast(initValue, UserObject).Meta.isStruct Then
+                    ' 将对象的内存复制到当前的offset上面
+                    Yield New CommentText("Copy memory of structure value:")
+
+                    Dim copyProcess = New TypeAbstract(objType).CopyTo(obj.memoryPtr, fieldOffset, symbols, Nothing)
+
+                    For Each expression As Expression In DirectCast(copyProcess, UserObject)
+                        Yield expression
+                    Next
+
+                    ' 对于结构体，因为其实值类型，是直接复制到内存实际位置的
+                    ' 所以在这里就已经完成所有的操作了
+                    Return
+                End If
+
+                ' 但是如果是class引用类型的话，因为class引用是对象的内存在其他位置的
+                ' 所以在这里还需要通过下面的代码写入对应的内存为止才算完成
             End If
 
             ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的

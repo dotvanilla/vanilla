@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::b6eb4afdf9b1928def1ba032280c9770, Type\Models\TypeAbstract.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class TypeAbstract
-    ' 
-    '         Properties: class_id, f32, f64, generic, i32
-    '                     i64, iscollection, isprimitive, raw, type
-    '                     typefit, void
-    ' 
-    '         Constructor: (+9 Overloads) Sub New
-    ' 
-    '         Function: buildRaw, MakeArrayType, MakeListType, ToString
-    ' 
-    '         Sub: fromFullName
-    ' 
-    '         Operators: (+3 Overloads) <>, (+3 Overloads) =
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class TypeAbstract
+' 
+'         Properties: class_id, f32, f64, generic, i32
+'                     i64, iscollection, isprimitive, raw, type
+'                     typefit, void
+' 
+'         Constructor: (+9 Overloads) Sub New
+' 
+'         Function: buildRaw, MakeArrayType, MakeListType, ToString
+' 
+'         Sub: fromFullName
+' 
+'         Operators: (+3 Overloads) <>, (+3 Overloads) =
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Wasm.Compiler
 Imports Wasm.Symbols
+Imports Wasm.Symbols.MemoryObject
 Imports Wasm.SyntaxAnalysis
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -171,6 +172,12 @@ Namespace TypeInfo
             Else
                 Call fromFullName(type.TypeName)
             End If
+        End Sub
+
+        Sub New(type As ClassMeta)
+            Me.type = TypeAlias.intptr
+            Me.raw = $"[{type.memoryPtr.TryCast(Of Integer)}]{type.className}"
+            Me.generic = {}
         End Sub
 
         ''' <summary>
