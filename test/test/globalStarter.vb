@@ -127,7 +127,7 @@ Module treeTest
         'Next
 
 
-        '  Call projectTest("D:\repo\home\vbscripts\WebGL-Demo\WebGL-Demo.vbproj")
+        Call projectTest("D:\vanilla\test\jstest\vbscripts\js_object\js_object.vbproj")
         ' Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
         ' Call projectTest("D:\vanilla\test\demo_proj\HelloWorld.vbproj")
 

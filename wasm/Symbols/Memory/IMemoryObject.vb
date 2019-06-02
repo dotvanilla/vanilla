@@ -47,6 +47,7 @@
 
 #End Region
 
+Imports System.Runtime.Serialization
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
@@ -64,7 +65,7 @@ Namespace Symbols.MemoryObject
         ''' 如果是一个表达式，则是一个动态资源，反之为字符串之类的静态资源
         ''' </remarks>
         ''' 
-        <ScriptIgnore, XmlIgnore>
+        <ScriptIgnore, XmlIgnore, SoapIgnore, IgnoreDataMember>
         Public Property memoryPtr As [Variant](Of Integer, Expression)
 
         Public Shared ReadOnly Property ObjectManager As New DeclareGlobal With {

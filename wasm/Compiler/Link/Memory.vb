@@ -88,6 +88,22 @@ Namespace Compiler
         End Sub
 
         ''' <summary>
+        ''' Moves the position of the <seealso cref="offset"/> to the next position aligned on
+        ''' 8 bytes. If the buffer position is already a multiple of 8 the position will
+        ''' not be changed.
+        ''' </summary>
+        Private Sub seekBufferToNextMultipleOfEight()
+            Dim pos As Integer = offset
+
+            If pos Mod 8 = 0 Then
+                ' Already on a 8 byte multiple
+                Return
+            Else
+                offset += (8 - (pos Mod 8))
+            End If
+        End Sub
+
+        ''' <summary>
         ''' 函数返回的是数据的内存位置
         ''' </summary>
         ''' <param name="str"></param>
@@ -102,6 +118,8 @@ Namespace Compiler
             ' 因为字符串末尾会添加一个零，来表示字符串的结束
             ' 所以在长度这里会需要添加1
             Me.offset += buffer.Length + 1
+
+            Call seekBufferToNextMultipleOfEight()
 
             Return buffer.memoryPtr
         End Function
@@ -168,6 +186,8 @@ Namespace Compiler
 
             Me.buffer += json
             Me.offset += json.meta.Length + 1
+
+            Call seekBufferToNextMultipleOfEight()
 
             Return class_id
         End Function
