@@ -339,8 +339,14 @@ Namespace SyntaxAnalysis
 
         <Extension>
         Private Iterator Function doStructCopy(symbols As SymbolTable, fieldType As TypeAbstract, from As Expression, [to] As Expression) As IEnumerable(Of Expression)
-            ' 将对象的内存复制到当前的offset上面
-            Yield New CommentText("Copy memory of structure value:")
+            If from.IsLiteralNothing Then
+                ' 空值的时候就不需要执行内存复制了
+                Yield New CommentText("Structure value is nothing!")
+                Return
+            Else
+                ' 将对象的内存复制到当前的offset上面
+                Yield New CommentText("Copy memory of structure value:")
+            End If
 
             Dim copyHelper As DeclareLocal = symbols.AddLocal($"memoryCopy_{symbols.NextGuid}", TypeAbstract.i32)
             Dim memorySource As DeclareLocal = symbols.AddLocal($"memorySource_{symbols.NextGuid}", TypeAbstract.i32)

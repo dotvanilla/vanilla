@@ -182,7 +182,15 @@ Namespace Symbols
 
         Public Overrides ReadOnly Property IsLiteralNothing As Boolean
             Get
-                Return value = "0" AndAlso type.type = TypeAlias.any
+                Select Case type.type
+                    Case TypeAlias.boolean, TypeAlias.f32, TypeAlias.f64, TypeAlias.i32, TypeAlias.i64, TypeAlias.void, TypeAlias.string
+                        ' 基础类型总是有一个默认值零的
+                        ' 所以不是Nothing
+                        Return False
+                    Case Else
+                        ' 对于其他类型，只要是零就表示可能是Nothing
+                        Return value = "0"
+                End Select
             End Get
         End Property
 

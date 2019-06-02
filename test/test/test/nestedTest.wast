@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/2/2019 10:19:06 AM
+    ;; build: 6/2/2019 10:28:59 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -115,8 +115,6 @@
     (local $newObject_9b020000 i32)
     (local $memoryCopy_9c020000 i32)
     (local $memorySource_9d020000 i32)
-    (local $memoryCopy_9e020000 i32)
-    (local $memorySource_9f020000 i32)
     
     
     ;; Initialize a object instance of [[13]line]
@@ -129,13 +127,7 @@
     (f32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 0)) (f32.load (i32.add (get_local $memorySource_9d020000) (i32.const 0))))
     ;; set field [nestedTypes.point::x]
     (f32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 4)) (f32.load (i32.add (get_local $memorySource_9d020000) (i32.const 4))))
-    ;; Copy memory of structure value:
-    (set_local $memorySource_9f020000 (i32.const 0))
-    (set_local $memoryCopy_9e020000 (i32.add (get_local $newObject_9b020000) (i32.const 8)))
-    ;; set field [nestedTypes.point::y]
-    (f32.store (i32.add (get_local $memoryCopy_9e020000) (i32.const 0)) (f32.load (i32.add (get_local $memorySource_9f020000) (i32.const 0))))
-    ;; set field [nestedTypes.point::x]
-    (f32.store (i32.add (get_local $memoryCopy_9e020000) (i32.const 4)) (f32.load (i32.add (get_local $memorySource_9f020000) (i32.const 4))))
+    ;; Structure value is nothing!
     ;; Initialize an object memory block with 16 bytes data
     
     (set_global $nestedTest.line (get_local $newObject_9b020000))
@@ -167,46 +159,38 @@
     (func $nestedTest.constructor  
     ;; Public Function constructor() As void
     
-(local $newObject_a0020000 i32)
-(local $newObject_a1020000 i32)
-(local $memoryCopy_a2020000 i32)
-(local $memorySource_a3020000 i32)
-(local $memoryCopy_a4020000 i32)
-(local $memorySource_a5020000 i32)
-(local $newObject_a6020000 i32)
+(local $newObject_9e020000 i32)
+(local $newObject_9f020000 i32)
+(local $memoryCopy_a0020000 i32)
+(local $memorySource_a1020000 i32)
+(local $newObject_a2020000 i32)
 
 
 ;; Initialize a object instance of [[13]line]
-;; Object memory block begin at location: (get_local $newObject_a0020000)
-(set_local $newObject_a0020000 (call $global.ObjectManager.Allocate (i32.const 16) (i32.const 13)))
-(set_local $newObject_a1020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
+;; Object memory block begin at location: (get_local $newObject_9e020000)
+(set_local $newObject_9e020000 (call $global.ObjectManager.Allocate (i32.const 16) (i32.const 13)))
+(set_local $newObject_9f020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
 ;; set field [nestedTypes.point::x]
-(f32.store (i32.add (get_local $newObject_a1020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 99)))
+(f32.store (i32.add (get_local $newObject_9f020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 99)))
 ;; set field [nestedTypes.point::y]
-(f32.store (i32.add (get_local $newObject_a1020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 88)))
+(f32.store (i32.add (get_local $newObject_9f020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 88)))
 ;; Copy memory of structure value:
-(set_local $memorySource_a3020000 (get_local $newObject_a1020000))
-(set_local $memoryCopy_a2020000 (i32.add (get_local $newObject_a0020000) (i32.const 0)))
+(set_local $memorySource_a1020000 (get_local $newObject_9f020000))
+(set_local $memoryCopy_a0020000 (i32.add (get_local $newObject_9e020000) (i32.const 0)))
 ;; set field [nestedTypes.point::y]
-(f32.store (i32.add (get_local $memoryCopy_a2020000) (i32.const 0)) (f32.load (i32.add (get_local $memorySource_a3020000) (i32.const 0))))
+(f32.store (i32.add (get_local $memoryCopy_a0020000) (i32.const 0)) (f32.load (i32.add (get_local $memorySource_a1020000) (i32.const 0))))
 ;; set field [nestedTypes.point::x]
-(f32.store (i32.add (get_local $memoryCopy_a2020000) (i32.const 4)) (f32.load (i32.add (get_local $memorySource_a3020000) (i32.const 4))))
-;; Copy memory of structure value:
-(set_local $memorySource_a5020000 (i32.const 0))
-(set_local $memoryCopy_a4020000 (i32.add (get_local $newObject_a0020000) (i32.const 8)))
-;; set field [nestedTypes.point::y]
-(f32.store (i32.add (get_local $memoryCopy_a4020000) (i32.const 0)) (f32.load (i32.add (get_local $memorySource_a5020000) (i32.const 0))))
-;; set field [nestedTypes.point::x]
-(f32.store (i32.add (get_local $memoryCopy_a4020000) (i32.const 4)) (f32.load (i32.add (get_local $memorySource_a5020000) (i32.const 4))))
+(f32.store (i32.add (get_local $memoryCopy_a0020000) (i32.const 4)) (f32.load (i32.add (get_local $memorySource_a1020000) (i32.const 4))))
+;; Structure value is nothing!
 ;; Initialize an object memory block with 16 bytes data
 
-(set_global $nestedTest.line (get_local $newObject_a0020000))
-(set_local $newObject_a6020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
+(set_global $nestedTest.line (get_local $newObject_9e020000))
+(set_local $newObject_a2020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
 ;; set field [nestedTypes.point::x]
-(f32.store (i32.add (get_local $newObject_a6020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 100)))
+(f32.store (i32.add (get_local $newObject_a2020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 100)))
 ;; set field [nestedTypes.point::y]
-(f32.store (i32.add (get_local $newObject_a6020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 50000)))
-(i32.store (i32.add (get_global $nestedTest.line) (i32.const 8)) (get_local $newObject_a6020000))
+(f32.store (i32.add (get_local $newObject_a2020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 50000)))
+(i32.store (i32.add (get_global $nestedTest.line) (i32.const 8)) (get_local $newObject_a2020000))
 )
 
     (start $Application_SubNew)
