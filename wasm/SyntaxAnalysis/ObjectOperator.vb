@@ -118,7 +118,9 @@ Namespace SyntaxAnalysis
         ''' </summary>
         ''' <param name="type"></param>
         ''' <param name="from"></param>
-        ''' <param name="[to]"></param>
+        ''' <param name="[to]">
+        ''' 在这里采用临时变量的原因是为了减少一些内存地址的重复计算
+        ''' </param>
         ''' <param name="symbols"></param>
         ''' <returns></returns>
         <Extension>
@@ -292,7 +294,10 @@ Namespace SyntaxAnalysis
                     ' 将对象的内存复制到当前的offset上面
                     Yield New CommentText("Copy memory of structure value:")
 
-                    Dim copyProcess = New TypeAbstract(objType).CopyTo(obj.memoryPtr, fieldOffset, symbols, Nothing)
+                    Dim copyHelper As DeclareLocal = symbols.AddLocal($"memoryCopy_{symbols.NextGuid}", TypeAbstract.i32)
+                    Dim copyProcess = New TypeAbstract(objType).CopyTo(obj.memoryPtr, copyHelper, symbols, Nothing)
+
+                    Yield New SetLocalVariable(copyHelper, fieldOffset)
 
                     For Each expression As Expression In DirectCast(copyProcess, UserObject)
                         Yield expression

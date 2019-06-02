@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/2/2019 9:18:56 AM
+    ;; build: 6/2/2019 9:49:41 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -111,7 +111,8 @@
     
 (local $newObject_9a020000 i32)
 (local $newObject_9b020000 i32)
-(local $newObject_9c020000 i32)
+(local $memoryCopy_9c020000 i32)
+(local $newObject_9d020000 i32)
 
 
 ;; Initialize a object instance of [[13]line]
@@ -122,19 +123,23 @@
 (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 99)))
 ;; set field [nestedTypes.point::y]
 (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 88)))
+;; Copy memory of structure value:
+(set_local $memoryCopy_9c020000 (i32.add (get_local $newObject_9a020000) (i32.const 0)))
 ;; set field [nestedTypes.line::a]
-(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (get_local $newObject_9b020000))
+(i32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 0)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
+;; set field [nestedTypes.line::b]
+(i32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 8)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 8))))
 ;; set field [nestedTypes.line::b]
 (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (i32.const 0))
 ;; Initialize an object memory block with 16 bytes data
 
 (set_global $nestedTest.line (get_local $newObject_9a020000))
-(set_local $newObject_9c020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
+(set_local $newObject_9d020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
 ;; set field [nestedTypes.point::x]
-(f32.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 100)))
+(f32.store (i32.add (get_local $newObject_9d020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 100)))
 ;; set field [nestedTypes.point::y]
-(f32.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 50000)))
-(i32.store (i32.add (get_global $nestedTest.line) (i32.const 8)) (get_local $newObject_9c020000))
+(f32.store (i32.add (get_local $newObject_9d020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 50000)))
+(i32.store (i32.add (get_global $nestedTest.line) (i32.const 8)) (get_local $newObject_9d020000))
 )
 
     (start $Application_SubNew)

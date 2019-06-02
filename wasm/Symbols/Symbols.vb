@@ -338,6 +338,14 @@ Namespace Symbols
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(name$, type As TypeAbstract)
+            Me.name = name
+            Me.type = type
+        End Sub
+
         Public Overrides Function ToSExpression() As String
             Return $"(local ${name} {type.typefit})"
         End Function
@@ -347,8 +355,20 @@ Namespace Symbols
     Public MustInherit Class DeclareVariable : Inherits Expression
         Implements INamedValue
 
+        ''' <summary>
+        ''' 变量名称
+        ''' </summary>
+        ''' <returns></returns>
         Public Property name As String Implements INamedValue.Key
+        ''' <summary>
+        ''' 变量的类型
+        ''' </summary>
+        ''' <returns></returns>
         Public Property type As TypeAbstract
+        ''' <summary>
+        ''' 是否是常量
+        ''' </summary>
+        ''' <returns></returns>
         Public Property isConst As Boolean = False
 
         ''' <summary>

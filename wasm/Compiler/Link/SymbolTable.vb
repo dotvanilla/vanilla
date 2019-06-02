@@ -405,6 +405,12 @@ Namespace Compiler
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function AddLocal(name$, type As TypeAbstract) As DeclareLocal
+            Call locals.Add(name, New DeclareLocal With {.name = name, .type = type})
+            Return locals(name)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub ClearLocals()
             Call locals.Clear()
         End Sub
