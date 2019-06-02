@@ -10,8 +10,8 @@ Public Class circle
     Public x, y As Single
     Public r As Integer = 100
 
-    Public struct As name
-    Public struct2 As name
+    Public nameOfX As name
+    Public nameOfY As name
 End Class
 
 Public Class rectangle

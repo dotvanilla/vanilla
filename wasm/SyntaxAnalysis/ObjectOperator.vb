@@ -348,7 +348,7 @@ Namespace SyntaxAnalysis
                 Yield New CommentText("Copy memory of structure value:")
             End If
 
-            Dim copyHelper As DeclareLocal = symbols.AddLocal($"memoryCopy_{symbols.NextGuid}", TypeAbstract.i32)
+            Dim copyHelper As DeclareLocal = symbols.AddLocal($"memoryCopyTo_{symbols.NextGuid}", TypeAbstract.i32)
             Dim memorySource As DeclareLocal = symbols.AddLocal($"memorySource_{symbols.NextGuid}", TypeAbstract.i32)
             Dim copyProcess = fieldType.CopyTo(memorySource.GetReference, copyHelper, symbols, Nothing)
 

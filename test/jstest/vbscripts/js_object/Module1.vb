@@ -13,8 +13,8 @@
         cx *= 2
         Return New circle With {
             .x = cx, .y = 9999,
-            .struct = newStruct(),
-            .struct2 = New name With {.name = "directly create a structurte"}
+            .nameOfX = newStruct(),
+            .nameOfY = New name With {.name = "directly create a structurte"}
         }
     End Function
 
