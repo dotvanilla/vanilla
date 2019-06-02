@@ -1,9 +1,12 @@
-﻿Module Module1
+﻿Module objectGC
 
     Dim test As New rectangle With {.x = Integer.MaxValue, .y = 10}
 
     Sub New()
-        test.name = "test object"
+        test.name = New name With {
+            .name = "test object",
+            .source = 888888888
+        }
         test.inner = newCircle()
     End Sub
 

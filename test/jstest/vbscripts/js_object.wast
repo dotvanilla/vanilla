@@ -42,7 +42,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 1680))
+    (global $global.ObjectManager (mut i32) (i32.const 1712))
 
     ;; memory allocate in javascript runtime
     (func $global.ObjectManager.Allocate (param $sizeof i32) (param $class_id i32) (result i32)
@@ -58,44 +58,44 @@
 
     ;; Memory data for string constant
         
-    ;; String from 1112 with 8 bytes in memory
-    (data (i32.const 1112) "99999999\00")
+    ;; String from 1144 with 8 bytes in memory
+    (data (i32.const 1144) "99999999\00")
     
-    ;; String from 1392 with 28 bytes in memory
-    (data (i32.const 1392) "directly create a structurte\00")
+    ;; String from 1424 with 28 bytes in memory
+    (data (i32.const 1424) "directly create a structurte\00")
     
-    ;; String from 1424 with 20 bytes in memory
-    (data (i32.const 1424) "this is a structure!\00")
+    ;; String from 1456 with 20 bytes in memory
+    (data (i32.const 1456) "this is a structure!\00")
     
-    ;; String from 1448 with 11 bytes in memory
-    (data (i32.const 1448) "test object\00")
+    ;; String from 1480 with 11 bytes in memory
+    (data (i32.const 1480) "test object\00")
     
-    ;; String from 1464 with 14 bytes in memory
-    (data (i32.const 1464) "js_object demo\00")
+    ;; String from 1496 with 14 bytes in memory
+    (data (i32.const 1496) "js_object demo\00")
     
-    ;; String from 1480 with 55 bytes in memory
-    (data (i32.const 1480) "Javascript object generate from VB.NET WebAssembly demo\00")
+    ;; String from 1512 with 55 bytes in memory
+    (data (i32.const 1512) "Javascript object generate from VB.NET WebAssembly demo\00")
     
-    ;; String from 1536 with 13 bytes in memory
-    (data (i32.const 1536) "vanillavb.app\00")
+    ;; String from 1568 with 13 bytes in memory
+    (data (i32.const 1568) "vanillavb.app\00")
     
-    ;; String from 1552 with 9 bytes in memory
-    (data (i32.const 1552) "js_object\00")
+    ;; String from 1584 with 9 bytes in memory
+    (data (i32.const 1584) "js_object\00")
     
-    ;; String from 1568 with 32 bytes in memory
-    (data (i32.const 1568) "Copyright (c) vanillavb.app 2019\00")
+    ;; String from 1600 with 32 bytes in memory
+    (data (i32.const 1600) "Copyright (c) vanillavb.app 2019\00")
     
-    ;; String from 1608 with 10 bytes in memory
-    (data (i32.const 1608) "dotvanilla\00")
+    ;; String from 1640 with 10 bytes in memory
+    (data (i32.const 1640) "dotvanilla\00")
     
-    ;; String from 1624 with 36 bytes in memory
-    (data (i32.const 1624) "62b3389d-5109-4740-9c6a-35bb022355b9\00")
+    ;; String from 1656 with 36 bytes in memory
+    (data (i32.const 1656) "62b3389d-5109-4740-9c6a-35bb022355b9\00")
     
-    ;; String from 1664 with 7 bytes in memory
-    (data (i32.const 1664) "1.0.0.0\00")
+    ;; String from 1696 with 7 bytes in memory
+    (data (i32.const 1696) "1.0.0.0\00")
     
-    ;; String from 1672 with 7 bytes in memory
-    (data (i32.const 1672) "1.0.0.0\00")
+    ;; String from 1704 with 7 bytes in memory
+    (data (i32.const 1704) "1.0.0.0\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -104,19 +104,19 @@
     ;;
     ;; class [13] circle
     ;;
-    (data (i32.const 13) "eyJjb21tZW50IjpudWxsLCJjbGFzcyI6ImNpcmNsZSIsImNsYXNzX2lkIjoxMywiZmllbGRzIjp7IngiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImYzMiIsInR5cGUiOjN9LCJ5Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmMzIiLCJ0eXBlIjozfSwiciI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sIm5hbWVPZlgiOnsiZ2VuZXJpYyI6W10sInJhdyI6IlsxMTI4XW5hbWUiLCJ0eXBlIjoxMH0sIm5hbWVPZlkiOnsiZ2VuZXJpYyI6W10sInJhdyI6IlsxMTI4XW5hbWUiLCJ0eXBlIjoxMH19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOm51bGx9\00")
+    (data (i32.const 13) "eyJjb21tZW50IjpudWxsLCJjbGFzcyI6ImNpcmNsZSIsImNsYXNzX2lkIjoxMywiZmllbGRzIjp7IngiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImYzMiIsInR5cGUiOjN9LCJ5Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmMzIiLCJ0eXBlIjozfSwiciI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sIm5hbWVPZlgiOnsiZ2VuZXJpYyI6W10sInJhdyI6IlsxMTYwXW5hbWUiLCJ0eXBlIjoxMH0sIm5hbWVPZlkiOnsiZ2VuZXJpYyI6W10sInJhdyI6IlsxMTYwXW5hbWUiLCJ0eXBlIjoxMH19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOm51bGx9\00")
     
-    ;; String from 520 with 552 bytes in memory
+    ;; String from 520 with 556 bytes in memory
     ;;
     ;; class [520] rectangle
     ;;
-    (data (i32.const 520) "eyJjb21tZW50IjpudWxsLCJjbGFzcyI6InJlY3RhbmdsZSIsImNsYXNzX2lkIjo1MjAsImZpZWxkcyI6eyJuYW1lIjp7ImdlbmVyaWMiOltdLCJyYXciOiJzdHJpbmciLCJ0eXBlIjo1fSwiaCI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sInciOnsiZ2VuZXJpYyI6W10sInJhdyI6ImkzMiIsInR5cGUiOjF9LCJ5Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmNjQiLCJ0eXBlIjo0fSwieCI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjY0IiwidHlwZSI6NH0sInJhZGl1cyI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjMyIiwidHlwZSI6M30sImlubmVyIjp7ImdlbmVyaWMiOltdLCJyYXciOiJbMTNdY2lyY2xlIiwidHlwZSI6MTB9fSwiaXNTdHJ1Y3QiOmZhbHNlLCJtZXRob2RzIjp7fSwibmFtZXNwYWNlIjpudWxsfQ==\00")
+    (data (i32.const 520) "eyJjb21tZW50IjpudWxsLCJjbGFzcyI6InJlY3RhbmdsZSIsImNsYXNzX2lkIjo1MjAsImZpZWxkcyI6eyJuYW1lIjp7ImdlbmVyaWMiOltdLCJyYXciOiJbMTE2MF1uYW1lIiwidHlwZSI6MTB9LCJoIjp7ImdlbmVyaWMiOltdLCJyYXciOiJpMzIiLCJ0eXBlIjoxfSwidyI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sInkiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImY2NCIsInR5cGUiOjR9LCJ4Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmNjQiLCJ0eXBlIjo0fSwicmFkaXVzIjp7ImdlbmVyaWMiOltdLCJyYXciOiJmMzIiLCJ0eXBlIjozfSwiaW5uZXIiOnsiZ2VuZXJpYyI6W10sInJhdyI6IlsxM11jaXJjbGUiLCJ0eXBlIjoxMH19LCJpc1N0cnVjdCI6ZmFsc2UsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOm51bGx9\00")
     
-    ;; String from 1128 with 260 bytes in memory
+    ;; String from 1160 with 260 bytes in memory
     ;;
-    ;; structure [1128] name
+    ;; structure [1160] name
     ;;
-    (data (i32.const 1128) "eyJjb21tZW50IjpudWxsLCJjbGFzcyI6Im5hbWUiLCJjbGFzc19pZCI6MTEyOCwiZmllbGRzIjp7InNvdXJjZSI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sIm5hbWUiOnsiZ2VuZXJpYyI6W10sInJhdyI6InN0cmluZyIsInR5cGUiOjV9fSwiaXNTdHJ1Y3QiOnRydWUsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOm51bGx9\00")
+    (data (i32.const 1160) "eyJjb21tZW50IjpudWxsLCJjbGFzcyI6Im5hbWUiLCJjbGFzc19pZCI6MTE2MCwiZmllbGRzIjp7InNvdXJjZSI6eyJnZW5lcmljIjpbXSwicmF3IjoiaTMyIiwidHlwZSI6MX0sIm5hbWUiOnsiZ2VuZXJpYyI6W10sInJhdyI6InN0cmluZyIsInR5cGUiOjV9fSwiaXNTdHJ1Y3QiOnRydWUsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOm51bGx9\00")
 
     ;; Pre-defined constant values
     (global $Math.E (mut f64) (f64.const 2.7182818284590451))
@@ -131,15 +131,20 @@
 (global $Double.MinValue (mut f64) (f64.const -1.7976931348623157e+308))
 
     ;; Global variables in this module
-    (global $Module1.cx (mut f64) (f64.const 1000))
-(global $Module1.test (mut i32) (i32.const 0))
-(global $name.demoNameString (mut i32) (i32.const 1112))
+    (global $objectGC.cx (mut f64) (f64.const 1000))
+(global $objectGC.test (mut i32) (i32.const 0))
+(global $name.demoNameString (mut i32) (i32.const 1144))
 
     ;; Export methods of this module
-    ;; export from VB.NET module: [Module1]
+    ;; export from VB.NET module: [objectGC]
     
-    (export "Module1.newCircle" (func $Module1.newCircle))
-    (export "Module1.getObject" (func $Module1.getObject))
+    (export "objectGC.newCircle" (func $objectGC.newCircle))
+    (export "objectGC.getObject" (func $objectGC.getObject))
+    
+    
+    ;; export from VB.NET module: [numberArray]
+    
+    (export "numberArray.createVector" (func $numberArray.createVector))
     
     
     ;; export from VB.NET module: [AssemblyInfo]
@@ -156,9 +161,9 @@
     
      
 
-    ;; functions in [Module1]
+    ;; functions in [objectGC]
     
-    (func $Module1.newCircle  (result i32)
+    (func $objectGC.newCircle  (result i32)
         ;; Public Function newCircle() As intptr
         
     (local $newObject_9a020000 i32)
@@ -169,25 +174,25 @@
     (local $memoryCopyTo_9f020000 i32)
     (local $memorySource_a0020000 i32)
     
-    (set_global $Module1.cx (f64.mul (get_global $Module1.cx) (f64.convert_s/i32 (i32.const 2))))
+    (set_global $objectGC.cx (f64.mul (get_global $objectGC.cx) (f64.convert_s/i32 (i32.const 2))))
     
     ;; Initialize a object instance of [[13]circle]
     ;; Object memory block begin at location: (get_local $newObject_9b020000)
     (set_local $newObject_9b020000 (call $global.ObjectManager.Allocate (i32.const 28) (i32.const 13)))
     ;; set field [circle::x]
-    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.demote/f64 (get_global $Module1.cx)))
+    (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.demote/f64 (get_global $objectGC.cx)))
     ;; set field [circle::y]
     (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 9999)))
     ;; Copy memory of structure value:
-    (set_local $memorySource_9e020000 (call $Module1.newStruct ))
+    (set_local $memorySource_9e020000 (call $objectGC.newStruct ))
     (set_local $memoryCopyTo_9d020000 (i32.add (get_local $newObject_9b020000) (i32.const 12)))
     ;; set field [name::source]
     (i32.store (i32.add (get_local $memoryCopyTo_9d020000) (i32.const 0)) (i32.load (i32.add (get_local $memorySource_9e020000) (i32.const 0))))
     ;; set field [name::name]
     (i32.store (i32.add (get_local $memoryCopyTo_9d020000) (i32.const 4)) (i32.load (i32.add (get_local $memorySource_9e020000) (i32.const 4))))
-    (set_local $newObject_9c020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 1128)))
+    (set_local $newObject_9c020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 1160)))
     ;; set field [name::name]
-    (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (i32.const 1392))
+    (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (i32.const 1424))
     ;; set field [name::source]
     (i32.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (i32.const 0))
     ;; Copy memory of structure value:
@@ -205,17 +210,17 @@
     )
     
     
-    (func $Module1.newStruct  (result i32)
+    (func $objectGC.newStruct  (result i32)
         ;; Public Function newStruct() As intptr
         
     (local $newObject_a1020000 i32)
     
     
-    ;; Initialize a object instance of [[1128]name]
+    ;; Initialize a object instance of [[1160]name]
     ;; Object memory block begin at location: (get_local $newObject_a1020000)
-    (set_local $newObject_a1020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 1128)))
+    (set_local $newObject_a1020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 1160)))
     ;; set field [name::name]
-    (i32.store (i32.add (get_local $newObject_a1020000) (i32.const 4)) (i32.const 1424))
+    (i32.store (i32.add (get_local $newObject_a1020000) (i32.const 4)) (i32.const 1456))
     ;; set field [name::source]
     (i32.store (i32.add (get_local $newObject_a1020000) (i32.const 0)) (i32.const 111111))
     ;; Initialize an object memory block with 8 bytes data
@@ -224,12 +229,47 @@
     )
     
     
-    (func $Module1.getObject  (result i32)
+    (func $objectGC.getObject  (result i32)
         ;; Public Function getObject() As intptr
         
     
     
-    (return (get_global $Module1.test))
+    (return (get_global $objectGC.test))
+    )
+    
+    
+    
+    
+    ;; functions in [numberArray]
+    
+    (func $numberArray.createVector  (result i32)
+        ;; Public Function createVector() As array(Of i32)
+        
+    (local $newObject_a2020000 i32)
+    (local $arrayOffset_a3020000 i32)
+    
+    
+    ;; Save (i32.const 10) array element data to memory:
+    ;; Array memory block begin at location: (get_global $global.ObjectManager)
+    ;; class_id/typealias_enum i32 data: (i32.const 1)/array(Of i32)
+    (i32.store (get_global $global.ObjectManager) (i32.const 1))
+    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 10))
+    ;; End of byte marks meta data, start write data blocks
+    ;; Offset object manager with (i32.add (i32.const 8) (i32.mul (i32.const 10) (i32.const 4))) bytes
+    (set_local $arrayOffset_a3020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
+    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a3020000) (i32.const -8)) (i32.add (i32.const 8) (i32.mul (i32.const 10) (i32.const 4)))))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 0)) (i32.const 1))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 4)) (i32.const 2))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 8)) (i32.const 3))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 12)) (i32.const 4))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 16)) (i32.const 5))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 20)) (i32.const 6))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 24)) (i32.const 7))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 28)) (i32.const 8))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 32)) (i32.const 9))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 36)) (i32.const 0))
+    ;; Assign array memory data to another expression
+    (return (i32.add (get_local $arrayOffset_a3020000) (i32.const -8)))
     )
     
     
@@ -242,7 +282,7 @@
         
     
     
-    (return (i32.const 1464))
+    (return (i32.const 1496))
     )
     
     
@@ -251,7 +291,7 @@
         
     
     
-    (return (i32.const 1480))
+    (return (i32.const 1512))
     )
     
     
@@ -260,7 +300,7 @@
         
     
     
-    (return (i32.const 1536))
+    (return (i32.const 1568))
     )
     
     
@@ -269,7 +309,7 @@
         
     
     
-    (return (i32.const 1552))
+    (return (i32.const 1584))
     )
     
     
@@ -278,7 +318,7 @@
         
     
     
-    (return (i32.const 1568))
+    (return (i32.const 1600))
     )
     
     
@@ -287,7 +327,7 @@
         
     
     
-    (return (i32.const 1608))
+    (return (i32.const 1640))
     )
     
     
@@ -296,7 +336,7 @@
         
     
     
-    (return (i32.const 1624))
+    (return (i32.const 1656))
     )
     
     
@@ -305,7 +345,7 @@
         
     
     
-    (return (i32.const 1664))
+    (return (i32.const 1696))
     )
     
     
@@ -314,7 +354,7 @@
         
     
     
-    (return (i32.const 1672))
+    (return (i32.const 1704))
     )
     
     
@@ -328,7 +368,9 @@
         ;; call of the global variable initialize
         (call $global.initializer )
 
-        (call $Module1.constructor )
+        (call $objectGC.constructor )
+
+(call $numberArray.constructor )
     )
 
     ;; Initializer for global variables if it is not a primitive abstract type
@@ -340,33 +382,45 @@
 
 ;; Initialize a object instance of [[520]rectangle]
 ;; Object memory block begin at location: (get_local $newObject_9a020000)
-(set_local $newObject_9a020000 (call $global.ObjectManager.Allocate (i32.const 36) (i32.const 520)))
+(set_local $newObject_9a020000 (call $global.ObjectManager.Allocate (i32.const 40) (i32.const 520)))
 ;; set field [rectangle::x]
-(f64.store (i32.add (get_local $newObject_9a020000) (i32.const 20)) (f64.convert_s/i32 (i32.const 2147483647)))
+(f64.store (i32.add (get_local $newObject_9a020000) (i32.const 24)) (f64.convert_s/i32 (i32.const 2147483647)))
 ;; set field [rectangle::y]
-(f64.store (i32.add (get_local $newObject_9a020000) (i32.const 12)) (f64.convert_s/i32 (i32.const 10)))
-;; set field [rectangle::name]
-(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (i32.const 0))
+(f64.store (i32.add (get_local $newObject_9a020000) (i32.const 16)) (f64.convert_s/i32 (i32.const 10)))
+;; Structure value is nothing!
 ;; set field [rectangle::h]
-(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 4)) (i32.const 1000))
-;; set field [rectangle::w]
 (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (i32.const 1000))
+;; set field [rectangle::w]
+(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 12)) (i32.const 1000))
 ;; set field [rectangle::radius]
-(f32.store (i32.add (get_local $newObject_9a020000) (i32.const 28)) (f32.const -99))
+(f32.store (i32.add (get_local $newObject_9a020000) (i32.const 32)) (f32.const -99))
 ;; set field [rectangle::inner]
-(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 32)) (i32.const 0))
-;; Initialize an object memory block with 36 bytes data
+(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 36)) (i32.const 0))
+;; Initialize an object memory block with 40 bytes data
 
-(set_global $Module1.test (get_local $newObject_9a020000))
+(set_global $objectGC.test (get_local $newObject_9a020000))
 )
 
-    (func $Module1.constructor  
+    (func $objectGC.constructor  
+    ;; Public Function constructor() As void
+    
+(local $newObject_a2020000 i32)
+
+(set_local $newObject_a2020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 1160)))
+;; set field [name::name]
+(i32.store (i32.add (get_local $newObject_a2020000) (i32.const 4)) (i32.const 1480))
+;; set field [name::source]
+(i32.store (i32.add (get_local $newObject_a2020000) (i32.const 0)) (i32.const 888888888))
+(i32.store (i32.add (get_global $objectGC.test) (i32.const 0)) (get_local $newObject_a2020000))
+(i32.store (i32.add (get_global $objectGC.test) (i32.const 36)) (call $objectGC.newCircle ))
+)
+
+(func $numberArray.constructor  
     ;; Public Function constructor() As void
     
 
 
-(i32.store (i32.add (get_global $Module1.test) (i32.const 0)) (i32.const 1448))
-(i32.store (i32.add (get_global $Module1.test) (i32.const 32)) (call $Module1.newCircle ))
+
 )
 
     (start $Application_SubNew)
