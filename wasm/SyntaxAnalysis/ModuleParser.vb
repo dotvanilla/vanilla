@@ -150,6 +150,13 @@ Namespace SyntaxAnalysis
             Return symbols
         End Function
 
+        ''' <summary>
+        ''' 在这里将会解析函数的具体实现内容
+        ''' </summary>
+        ''' <param name="modules"></param>
+        ''' <param name="symbols"></param>
+        ''' <param name="label$"></param>
+        ''' <returns></returns>
         <Extension>
         Friend Function CreateModule(modules As IEnumerable(Of ModuleBlockSyntax), symbols As SymbolTable, label$) As ModuleSymbol
             Dim project As New ModuleSymbol
@@ -185,7 +192,8 @@ Namespace SyntaxAnalysis
         End Function
 
         ''' <summary>
-        ''' 解析模块内的成员函数或者全局变量的声明
+        ''' 解析模块内的成员函数或者全局变量的声明。
+        ''' （对于函数解析操作而言，在这一步只是仅仅解析函数的头部申明，并不会解析具体的函数实现内容）
         ''' </summary>
         ''' <param name="main"></param>
         ''' <param name="symbols"></param>

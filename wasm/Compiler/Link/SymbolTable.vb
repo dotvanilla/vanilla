@@ -253,8 +253,14 @@ Namespace Compiler
             }.ToString
         End Function
 
+        ''' <summary>
+        ''' 这个操作只会解析函数的头部申明定义，并不会解析具体的函数实现过程
+        ''' </summary>
+        ''' <param name="methods"></param>
+        ''' <param name="module$"></param>
+        ''' <returns></returns>
         Public Function AddFunctionDeclares(methods As IEnumerable(Of MethodBlockSyntax), module$) As SymbolTable
-            For Each method In methods
+            For Each method As MethodBlockSyntax In methods
                 With method.FuncVariable(Me)
                     Dim func As New FuncSignature(.ByRef) With {
                         .parameters = method.ParseParameters(Me),

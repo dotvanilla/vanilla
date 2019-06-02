@@ -8,7 +8,7 @@ Module nestedTest
 
         line = New line With {.a = New point With {.x = 99, .y = 88}}
 
-        line.b = New point With {.x = 100, .y = 50000}
+        line.b = New point With {.x = 100, .y = 50000, .tag = "ABC"}
 
     End Sub
 
@@ -25,9 +25,11 @@ Namespace nestedTypes
 
     Public Structure point
         Public x, y As Single
+        Public tag As String
     End Structure
 
     Public Class line
         Public a, b As point
+        Public name As String = "this is a line"
     End Class
 End Namespace
