@@ -11,7 +11,11 @@
 
     Public Function newCircle() As circle
         cx *= 2
-        Return New circle With {.x = cx, .y = 9999, .struct = newStruct()}
+        Return New circle With {
+            .x = cx, .y = 9999,
+            .struct = newStruct(),
+            .struct2 = New structTest With {.name = "directly create a structurte"}
+        }
     End Function
 
     Private Function newStruct() As structTest

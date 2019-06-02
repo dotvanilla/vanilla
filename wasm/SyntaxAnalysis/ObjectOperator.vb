@@ -59,6 +59,9 @@ Imports Wasm.TypeInfo
 
 Namespace SyntaxAnalysis
 
+    ''' <summary>
+    ''' 用户自定义的class/structure类型的对象创建，成员字段的读写操作等
+    ''' </summary>
     Public Module ObjectOperator
 
         <Extension>
@@ -300,18 +303,7 @@ Namespace SyntaxAnalysis
                 Next
 
                 If DirectCast(initValue, UserObject).Meta.isStruct Then
-                    ' 将对象的内存复制到当前的offset上面
-                    Yield New CommentText("Copy memory of structure value:")
-
-                    Dim copyHelper As DeclareLocal = symbols.AddLocal(
-                        $"memoryCopy_{symbols.NextGuid}",
-                        TypeAbstract.i32
-                    )
-                    Dim copyProcess = fieldType.CopyTo(obj.memoryPtr, copyHelper, symbols, Nothing)
-
-                    Yield New SetLocalVariable(copyHelper, fieldOffset)
-
-                    For Each expression As Expression In DirectCast(copyProcess, UserObject)
+                    For Each expression As Expression In symbols.doStructCopy(fieldType, from:=obj.memoryPtr, [to]:=fieldOffset)
                         Yield expression
                     Next
 
@@ -322,6 +314,16 @@ Namespace SyntaxAnalysis
 
                 ' 但是如果是class引用类型的话，因为class引用是对象的内存在其他位置的
                 ' 所以在这里还需要通过下面的代码写入对应的内存为止才算完成
+            ElseIf fieldType = TypeAlias.intptr AndAlso symbols.FindByClassId(fieldType.class_id).isStruct Then
+                ' 如果对象的值是赋值或者函数调用产生的结构体
+                ' 则也需要执行内存复制
+                For Each expression As Expression In symbols.doStructCopy(fieldType, initValue, fieldOffset)
+                    Yield expression
+                Next
+
+                ' 对于结构体，因为其实值类型，是直接复制到内存实际位置的
+                ' 所以在这里就已经完成所有的操作了
+                Return
             End If
 
             ' 因为在VB代码之中，字段的初始化可能不是按照类型之中的定义顺序来的
@@ -333,6 +335,24 @@ Namespace SyntaxAnalysis
                 intptr:=fieldOffset,
                 value:=CTypeHandle.CType(fieldType, initValue, symbols)
             )
+        End Function
+
+        <Extension>
+        Private Iterator Function doStructCopy(symbols As SymbolTable, fieldType As TypeAbstract, from As Expression, [to] As Expression) As IEnumerable(Of Expression)
+            ' 将对象的内存复制到当前的offset上面
+            Yield New CommentText("Copy memory of structure value:")
+
+            Dim copyHelper As DeclareLocal = symbols.AddLocal(
+                $"memoryCopy_{symbols.NextGuid}",
+                TypeAbstract.i32
+            )
+            Dim copyProcess = fieldType.CopyTo(from, copyHelper, symbols, Nothing)
+
+            Yield New SetLocalVariable(copyHelper, [to])
+
+            For Each expression As Expression In DirectCast(copyProcess, UserObject)
+                Yield expression
+            Next
         End Function
 
         <Extension>

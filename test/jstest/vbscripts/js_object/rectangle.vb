@@ -1,9 +1,9 @@
-﻿Public Class structTest
+﻿Public Structure structTest
 
     Public name As String
     ' Public array As Double()
 
-End Class
+End Structure
 
 Public Class circle
 
@@ -11,7 +11,7 @@ Public Class circle
     Public r As Integer = 100
 
     Public struct As structTest
-
+    Public struct2 As structTest
 End Class
 
 Public Class rectangle
