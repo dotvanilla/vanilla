@@ -272,6 +272,15 @@ Namespace SyntaxAnalysis
             Return obj.With(Sub(o) o.Initialize = initializer)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="hashcode"></param>
+        ''' <param name="objType">这个类型信息是所新构造的用户类型，而非当前字段的类型</param>
+        ''' <param name="fieldName$"></param>
+        ''' <param name="initValue"></param>
+        ''' <param name="symbols"></param>
+        ''' <returns></returns>
         <Extension>
         Private Iterator Function initializeField(hashcode As DeclareLocal,
                                                   objType As ClassMeta,
@@ -294,8 +303,11 @@ Namespace SyntaxAnalysis
                     ' 将对象的内存复制到当前的offset上面
                     Yield New CommentText("Copy memory of structure value:")
 
-                    Dim copyHelper As DeclareLocal = symbols.AddLocal($"memoryCopy_{symbols.NextGuid}", TypeAbstract.i32)
-                    Dim copyProcess = New TypeAbstract(objType).CopyTo(obj.memoryPtr, copyHelper, symbols, Nothing)
+                    Dim copyHelper As DeclareLocal = symbols.AddLocal(
+                        $"memoryCopy_{symbols.NextGuid}",
+                        TypeAbstract.i32
+                    )
+                    Dim copyProcess = fieldType.CopyTo(obj.memoryPtr, copyHelper, symbols, Nothing)
 
                     Yield New SetLocalVariable(copyHelper, fieldOffset)
 

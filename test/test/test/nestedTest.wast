@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/2/2019 9:49:41 AM
+    ;; build: 6/2/2019 9:53:52 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -125,10 +125,10 @@
 (f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 88)))
 ;; Copy memory of structure value:
 (set_local $memoryCopy_9c020000 (i32.add (get_local $newObject_9a020000) (i32.const 0)))
-;; set field [nestedTypes.line::a]
-(i32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 0)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
-;; set field [nestedTypes.line::b]
-(i32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 8)) (i32.load (i32.add (get_local $newObject_9b020000) (i32.const 8))))
+;; set field [nestedTypes.point::y]
+(f32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 0)) (f32.load (i32.add (get_local $newObject_9b020000) (i32.const 0))))
+;; set field [nestedTypes.point::x]
+(f32.store (i32.add (get_local $memoryCopy_9c020000) (i32.const 4)) (f32.load (i32.add (get_local $newObject_9b020000) (i32.const 4))))
 ;; set field [nestedTypes.line::b]
 (i32.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (i32.const 0))
 ;; Initialize an object memory block with 16 bytes data
