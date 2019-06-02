@@ -1,5 +1,7 @@
 ﻿Public Structure name
 
+    Public Const demoNameString As String = "99999999"
+
     Public name As String
     ' Public array As Double()
     Public source As Integer

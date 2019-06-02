@@ -184,8 +184,16 @@ Namespace Compiler
                 .isStruct = meta.isStruct
             }
 
+            ' 20190602 因为可能会存在后续再字段类型之中补进
+            ' class_id的情况，造成额外的字符串偏移
+            ' 所以在这里根据类型为intptr自定义类型的字段数量每一个字段添加5个字符数量的padding
+            Dim padding = Aggregate field As TypeAbstract
+                          In fieldTable.Values
+                          Where field.type = TypeAlias.intptr
+                          Into Sum(10)
+
             Me.buffer += json
-            Me.offset += json.meta.Length + 1
+            Me.offset += json.meta.Length + 1 + padding
 
             Call seekBufferToNextMultipleOfEight()
 

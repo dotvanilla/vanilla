@@ -87,6 +87,7 @@ Public Module Extensions
         Dim symbols As New SymbolTable
         Dim vbcodes As ModuleBlockSyntax()
 
+        ' 在这个With代码块之中主要是完成头部申明的信息的解析
         With sourcefiles _
             .Select(Function(file) $"{dir}/{file}") _
             .getModules(symbols) _
@@ -107,7 +108,9 @@ Public Module Extensions
             Next
         End With
 
-        Dim project = vbcodes.CreateModule(symbols, vbproj.RootNamespace)
+        ' 从这里开始解析出函数的具体实现过程
+        ' 即整个应用程序的实现逻辑
+        Dim project As ModuleSymbol = vbcodes.CreateModule(symbols, vbproj.RootNamespace)
         Dim info = assemblyInfo.assmInfoModule(project.Memory)
 
         Return project.Join(info)
@@ -132,7 +135,7 @@ Public Module Extensions
             .ToArray
 
         Return New ModuleSymbol With {
-            .Memory = memory,
+            .memory = memory,
             .InternalFunctions = getStrings,
             .Exports = getStrings _
                 .Select(Function(func)
@@ -184,6 +187,11 @@ Public Module Extensions
         Next
     End Function
 
+    ''' <summary>
+    ''' 在这里解析某一个指定的VB源代码文件
+    ''' </summary>
+    ''' <param name="vbcode"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function CreateModule(vbcode As [Variant](Of FileInfo, String)) As ModuleSymbol
         Return ModuleParser.CreateModule(vbcode)
