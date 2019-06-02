@@ -14,13 +14,14 @@
         Return New circle With {
             .x = cx, .y = 9999,
             .struct = newStruct(),
-            .struct2 = New structTest With {.name = "directly create a structurte"}
+            .struct2 = New name With {.name = "directly create a structurte"}
         }
     End Function
 
-    Private Function newStruct() As structTest
-        Return New structTest With {
-        .name = "this is a structure!"
+    Private Function newStruct() As name
+        Return New name With {
+        .name = "this is a structure!",
+        .source = 111111
         }
     End Function
 

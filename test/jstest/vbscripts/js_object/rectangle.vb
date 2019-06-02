@@ -1,8 +1,8 @@
-﻿Public Structure structTest
+﻿Public Structure name
 
     Public name As String
     ' Public array As Double()
-
+    Public source As Integer
 End Structure
 
 Public Class circle
@@ -10,8 +10,8 @@ Public Class circle
     Public x, y As Single
     Public r As Integer = 100
 
-    Public struct As structTest
-    Public struct2 As structTest
+    Public struct As name
+    Public struct2 As name
 End Class
 
 Public Class rectangle
