@@ -190,7 +190,7 @@ Namespace Compiler
             Dim padding = Aggregate field As TypeAbstract
                           In fieldTable.Values
                           Where field.type = TypeAlias.intptr
-                          Into Sum(10)
+                          Into Sum(32)
 
             Me.buffer += json
             Me.offset += json.meta.Length + 1 + padding
