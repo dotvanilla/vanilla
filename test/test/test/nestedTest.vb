@@ -11,6 +11,14 @@ Module nestedTest
         line.b = New point With {.x = 100, .y = 50000}
 
     End Sub
+
+    Private Function newPoint() As point
+        Return New point With {.x = -1, .y = -1}
+    End Function
+
+    Sub copytest()
+        line = New line With {.a = newPoint()}
+    End Sub
 End Module
 
 Namespace nestedTypes

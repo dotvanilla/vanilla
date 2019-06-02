@@ -342,12 +342,14 @@ Namespace SyntaxAnalysis
             ' 将对象的内存复制到当前的offset上面
             Yield New CommentText("Copy memory of structure value:")
 
-            Dim copyHelper As DeclareLocal = symbols.AddLocal(
-                $"memoryCopy_{symbols.NextGuid}",
-                TypeAbstract.i32
-            )
-            Dim copyProcess = fieldType.CopyTo(from, copyHelper, symbols, Nothing)
+            Dim copyHelper As DeclareLocal = symbols.AddLocal($"memoryCopy_{symbols.NextGuid}", TypeAbstract.i32)
+            Dim memorySource As DeclareLocal = symbols.AddLocal($"memorySource_{symbols.NextGuid}", TypeAbstract.i32)
+            Dim copyProcess = fieldType.CopyTo(memorySource.GetReference, copyHelper, symbols, Nothing)
 
+            ' 20190602
+            ' 如果from是一个函数调用的话，则在copy的过程中会出现一只重复调用目标函数的问题
+            ' 所以在这里使用memorySource临时变量来避免这个bug
+            Yield New SetLocalVariable(memorySource, from)
             Yield New SetLocalVariable(copyHelper, [to])
 
             For Each expression As Expression In DirectCast(copyProcess, UserObject)
