@@ -15,9 +15,9 @@ End Module
 
 Namespace nestedTypes
 
-    Public Class point
+    Public Structure point
         Public x, y As Single
-    End Class
+    End Structure
 
     Public Class line
         Public a, b As point

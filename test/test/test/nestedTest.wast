@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/2/2019 1:19:09 AM
+    ;; build: 6/2/2019 9:18:56 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -54,17 +54,17 @@
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
         
-    ;; String from 13 with 292 bytes in memory
+    ;; String from 13 with 312 bytes in memory
     ;;
-    ;; class nestedTypes.[13] point
+    ;; class nestedTypes.[13] line
     ;;
-    (data (i32.const 13) "eyJjb21tZW50IjpudWxsLCJtZW1vcnlQdHIiOnsiVmFsdWUiOjEzfSwiY2xhc3MiOiJwb2ludCIsImNsYXNzX2lkIjoxMywiZmllbGRzIjp7IngiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImYzMiIsInR5cGUiOjN9LCJ5Ijp7ImdlbmVyaWMiOltdLCJyYXciOiJmMzIiLCJ0eXBlIjozfX0sImlzU3RydWN0IjpmYWxzZSwibWV0aG9kcyI6e30sIm5hbWVzcGFjZSI6Im5lc3RlZFR5cGVzIn0=\00")
+    (data (i32.const 13) "eyJjb21tZW50IjpudWxsLCJtZW1vcnlQdHIiOnsiVmFsdWUiOjEzfSwiY2xhc3MiOiJsaW5lIiwiY2xhc3NfaWQiOjEzLCJmaWVsZHMiOnsiYSI6eyJnZW5lcmljIjpbXSwicmF3IjoiWzMyMl1wb2ludCIsInR5cGUiOjEwfSwiYiI6eyJnZW5lcmljIjpbXSwicmF3IjoiWzMyMl1wb2ludCIsInR5cGUiOjEwfX0sImlzU3RydWN0IjpmYWxzZSwibWV0aG9kcyI6e30sIm5hbWVzcGFjZSI6Im5lc3RlZFR5cGVzIn0=\00")
     
-    ;; String from 306 with 312 bytes in memory
+    ;; String from 322 with 292 bytes in memory
     ;;
-    ;; class nestedTypes.[306] line
+    ;; structure nestedTypes.[322] point
     ;;
-    (data (i32.const 306) "eyJjb21tZW50IjpudWxsLCJtZW1vcnlQdHIiOnsiVmFsdWUiOjMwNn0sImNsYXNzIjoibGluZSIsImNsYXNzX2lkIjozMDYsImZpZWxkcyI6eyJiIjp7ImdlbmVyaWMiOltdLCJyYXciOiJbMTNdcG9pbnQiLCJ0eXBlIjoxMH0sImEiOnsiZ2VuZXJpYyI6W10sInJhdyI6IlsxM11wb2ludCIsInR5cGUiOjEwfX0sImlzU3RydWN0IjpmYWxzZSwibWV0aG9kcyI6e30sIm5hbWVzcGFjZSI6Im5lc3RlZFR5cGVzIn0=\00")
+    (data (i32.const 322) "eyJjb21tZW50IjpudWxsLCJtZW1vcnlQdHIiOnsiVmFsdWUiOjMyMn0sImNsYXNzIjoicG9pbnQiLCJjbGFzc19pZCI6MzIyLCJmaWVsZHMiOnsieSI6eyJnZW5lcmljIjpbXSwicmF3IjoiZjMyIiwidHlwZSI6M30sIngiOnsiZ2VuZXJpYyI6W10sInJhdyI6ImYzMiIsInR5cGUiOjN9fSwiaXNTdHJ1Y3QiOnRydWUsIm1ldGhvZHMiOnt9LCJuYW1lc3BhY2UiOiJuZXN0ZWRUeXBlcyJ9\00")
 
     ;; Pre-defined constant values
     (global $Math.E (mut f64) (f64.const 2.7182818284590451))
@@ -114,27 +114,27 @@
 (local $newObject_9c020000 i32)
 
 
-;; Initialize a object instance of [[306]line]
+;; Initialize a object instance of [[13]line]
 ;; Object memory block begin at location: (get_local $newObject_9a020000)
-(set_local $newObject_9a020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 306)))
-(set_local $newObject_9b020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 13)))
+(set_local $newObject_9a020000 (call $global.ObjectManager.Allocate (i32.const 16) (i32.const 13)))
+(set_local $newObject_9b020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
 ;; set field [nestedTypes.point::x]
-(f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 99)))
+(f32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 99)))
 ;; set field [nestedTypes.point::y]
-(f32.store (i32.add (get_local $newObject_9b020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 88)))
+(f32.store (i32.add (get_local $newObject_9b020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 88)))
 ;; set field [nestedTypes.line::a]
-(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 4)) (get_local $newObject_9b020000))
+(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (get_local $newObject_9b020000))
 ;; set field [nestedTypes.line::b]
-(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 0)) (i32.const 0))
-;; Initialize an object memory block with 8 bytes data
+(i32.store (i32.add (get_local $newObject_9a020000) (i32.const 8)) (i32.const 0))
+;; Initialize an object memory block with 16 bytes data
 
 (set_global $nestedTest.line (get_local $newObject_9a020000))
-(set_local $newObject_9c020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 13)))
+(set_local $newObject_9c020000 (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 322)))
 ;; set field [nestedTypes.point::x]
-(f32.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 100)))
+(f32.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 100)))
 ;; set field [nestedTypes.point::y]
-(f32.store (i32.add (get_local $newObject_9c020000) (i32.const 4)) (f32.convert_s/i32 (i32.const 50000)))
-(i32.store (i32.add (get_global $nestedTest.line) (i32.const 0)) (get_local $newObject_9c020000))
+(f32.store (i32.add (get_local $newObject_9c020000) (i32.const 0)) (f32.convert_s/i32 (i32.const 50000)))
+(i32.store (i32.add (get_global $nestedTest.line) (i32.const 8)) (get_local $newObject_9c020000))
 )
 
     (start $Application_SubNew)
