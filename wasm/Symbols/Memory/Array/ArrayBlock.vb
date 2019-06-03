@@ -130,7 +130,7 @@ Namespace Symbols.MemoryObject
             Dim class_id As Expression = Literal.i32(type.generic(Scan0).class_id)
             Dim getLocal As GetLocalVariable = memoryPtr.TryCast(Of GetLocalVariable)
 
-            Yield New SetLocalVariable(memoryPtr, Allocate.Call(sizeOf, Literal.i32(TypeAlias.array)))
+            Yield New SetLocalVariable(getLocal.var, Allocate.Call(sizeOf, Literal.i32(TypeAlias.array)))
             Yield New CommentText($"class_id/typealias_enum i32 data: {class_id}/{type.ToString}")
             ' 类型枚举值
             Yield BitConverter.save("i32", memoryPtr, class_id)
