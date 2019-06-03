@@ -47,8 +47,8 @@
             return cacheOfmeta[class_id];
         }
 
-        export function sizeOf(addressOf: number): number {
-            let meta: classMeta = getType(addressOf);
+        export function sizeOf(intptr: number, isClass_id: boolean = false): number {
+            let meta: classMeta = isClass_id ? lazyGettype(intptr) : getType(intptr);
             let size: number = meta.allocateSize;
 
             if (isNullOrUndefined(size) || size <= 0) {

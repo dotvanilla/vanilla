@@ -11,7 +11,7 @@ namespace vanilla {
             super(memory, littleEndian);
         }
 
-        private static toString(type: type): string {
+        private static toString(type: type): string | number {
             switch (type.type) {
                 case typeAlias.i32:
                     return "i32";
@@ -21,6 +21,17 @@ namespace vanilla {
                     return "i64";
                 case typeAlias.f64:
                     return "f64";
+                case typeAlias.intptr:
+                    // 因为可能是structure，并且structure是直接保存在内存之中的
+                    // 所以在这里需要做一些额外的判断
+                    let meta = WebAssembly.GarbageCollection.lazyGettype(parseInt(type.raw));
+
+                    if (meta.isStruct) {
+                        return WebAssembly.GarbageCollection.classSize(meta);
+                    } else {
+                        return "i32";
+                    }
+
                 default:
                     return "i32";
             }
@@ -34,18 +45,30 @@ namespace vanilla {
             // 然后是元素的数量
             let length: number = this.toInt32(intPtr + 4);
             let buffer = new DataView(this.buffer, intPtr + 8);
-            let type: string = arrayReader.toString(class_id);
-
+            let type: string | number = arrayReader.toString(class_id);
             // The output data buffer
             let data: number[] = [];
-            let load = arrayReader.getReader(buffer, type, this.littleEndian);
-            let offset: number = arrayReader.sizeOf(type);
 
-            intPtr = 0;
+            if (typeof type == "string") {
+                let load = arrayReader.getReader(buffer, type, this.littleEndian);
+                let offset: number = arrayReader.sizeOf(type);
 
-            for (var i: number = 0; i < length; i++) {
-                data.push(load(intPtr));
-                intPtr = intPtr + offset;
+                intPtr = 0;
+
+                for (var i: number = 0; i < length; i++) {
+                    data.push(load(intPtr));
+                    intPtr = intPtr + offset;
+                }
+            } else {
+                // 这个是一个结构体数组
+                // 将数组内的每一个元素的offset位置都读出来
+
+                // 跳过前4+4个字节
+                intPtr += 8;
+
+                for (var i: number = 0; i < length; i++) {
+                    data.push(intPtr + i * type);
+                }
             }
 
             return data;

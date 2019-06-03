@@ -123,7 +123,7 @@ declare namespace WebAssembly {
         function classOf(addressOf: number): number;
         function getType(addressOf: number): classMeta;
         function lazyGettype(class_id: number): classMeta;
-        function sizeOf(addressOf: number): number;
+        function sizeOf(intptr: number, isClass_id?: boolean): number;
         /**
          * 只需要计算所有的字段的大小即可
         */
