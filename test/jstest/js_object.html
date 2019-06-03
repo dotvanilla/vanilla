@@ -3,22 +3,24 @@
 
 <script>
 // WebAssembly Demo
-    vanilla.Wasm.showDebugMessage(true);
+    vanilla.Wasm.showDebugMessage(false);
     vanilla.Wasm.RunAssembly("../vbscripts/js_object.wasm", {
       run: app => {
         console.log(app);
 		
-		var intptr = app.Module1.getObject()		
+		var intptr = app.objectGC.getObject()		
 		
 		// WebAssembly.GarbageCollection.addObject(intptr, 350);
 		// WebAssembly.GarbageCollection.addObject(1077, 13);
 		
+      console.log(app.numberArray.createVector())
+
 		console.log(intptr);
 		console.log(WebAssembly.GarbageCollection.getType(intptr));
 		console.log(WebAssembly.ObjectManager.getObject(intptr))
 		
-console.log(WebAssembly.ObjectManager.getObject(app.Module1.newCircle()));
-console.log(WebAssembly.ObjectManager.getObject(app.Module1.newCircle()));
+console.log(WebAssembly.ObjectManager.getObject(app.objectGC.newCircle()));
+console.log(WebAssembly.ObjectManager.getObject(app.objectGC.newCircle()));
       },
       api: { console: true, text: true, array: true }
     });

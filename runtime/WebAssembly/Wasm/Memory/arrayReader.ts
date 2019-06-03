@@ -11,11 +11,15 @@ namespace vanilla {
             super(memory);
         }
 
-        public array(intPtr: number, type: string): number[] {
-            // 数组的起始前4个字节是数组长度
-            let length: number = this.toInt32(intPtr);
-            let uint8s = new Uint8Array(this.buffer, intPtr + 4);
-            let buffer = new DataView(uint8s);
+        /**
+         * 使用这个函数只会读取数值向量
+        */
+        public vector(intPtr: number): number[] {
+            // 数组的起始前4个字节是数组的元素类型
+            let class_id: number = this.toInt32(intPtr);
+            // 然后是元素的数量
+            let length: number = this.toInt32(intPtr + 4);
+            let buffer = new DataView(this.buffer, intPtr + 8);
 
             // The output data buffer
             let data: number[] = [];
@@ -63,10 +67,7 @@ namespace vanilla {
         }
 
         public toInt32(intPtr: number): number {
-            let uint8s = new Uint8Array(this.buffer, intPtr, 4);
-            let view = new DataView(uint8s);
-
-            return view.getInt32(0);
+            return new DataView(this.buffer, intPtr, 4).getInt32(0, true);
         }
     }
 }
