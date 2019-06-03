@@ -7,6 +7,7 @@
 
         let streamReader: vanilla.stringReader;
         let objectReader: vanilla.objectReader;
+        let arrayReader: vanilla.arrayReader;
 
         /**
          * 在这里主要是为了避免和内部的数值产生冲突
@@ -27,6 +28,7 @@
         export function load(bytes: vanilla.WasmMemory): void {
             streamReader = new vanilla.stringReader(bytes);
             objectReader = new vanilla.objectReader(bytes);
+            arrayReader = new vanilla.arrayReader(bytes);
             loadedMemory = bytes;
             hashCode += 100;
         }
@@ -72,9 +74,16 @@
         */
         export function getObject(key: number): any {
             if (key in hashTable) {
+                // get javascript object
                 return hashTable[key];
             } else if (GarbageCollection.exists(key)) {
-                return objectReader.readObject(key);
+                if (GarbageCollection.classOf(key) == typeAlias.array) {
+                    // get webassembly array
+                    return arrayReader.array(key);
+                } else {
+                    // get webassembly object
+                    return objectReader.readObject(key);
+                }
             } else {
                 return null;
             }

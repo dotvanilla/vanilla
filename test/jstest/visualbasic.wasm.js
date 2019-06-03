@@ -645,6 +645,14 @@ var vanilla;
          * The webassembly engine.
         */
         const engine = window.WebAssembly;
+        function typeOf(class_id) {
+            let alias = class_id < 10 ? class_id : typeAlias.intptr;
+            return {
+                type: alias,
+                raw: class_id.toString()
+            };
+        }
+        Wasm.typeOf = typeOf;
         /**
          * Run the compiled VisualBasic.NET assembly module
          *
@@ -970,11 +978,30 @@ var vanilla;
         constructor(memory) {
             super(memory);
         }
-        array(intPtr, type) {
-            // 数组的起始前4个字节是数组长度
-            let length = this.toInt32(intPtr);
-            let uint8s = new Uint8Array(this.buffer, intPtr + 4);
-            let buffer = new DataView(uint8s);
+        static toString(type) {
+            switch (type.type) {
+                case typeAlias.i32:
+                    return "i32";
+                case typeAlias.f32:
+                    return "f32";
+                case typeAlias.i64:
+                    return "i64";
+                case typeAlias.f64:
+                    return "f64";
+                default:
+                    return "i32";
+            }
+        }
+        /**
+         * 使用这个函数只会读取数值向量
+        */
+        vector(intPtr) {
+            // 数组的起始前4个字节是数组的元素类型
+            let class_id = vanilla.Wasm.typeOf(this.toInt32(intPtr));
+            // 然后是元素的数量
+            let length = this.toInt32(intPtr + 4);
+            let buffer = new DataView(this.buffer, intPtr + 8);
+            let type = arrayReader.toString(class_id);
             // The output data buffer
             let data = [];
             let load = arrayReader.getReader(buffer, type);
@@ -1021,9 +1048,7 @@ var vanilla;
             }
         }
         toInt32(intPtr) {
-            let uint8s = new Uint8Array(this.buffer, intPtr, 4);
-            let view = new DataView(uint8s);
-            return view.getInt32(0);
+            return new DataView(this.buffer, intPtr, 4).getInt32(0, true);
         }
     }
     vanilla.arrayReader = arrayReader;

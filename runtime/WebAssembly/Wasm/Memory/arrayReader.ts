@@ -29,9 +29,8 @@ namespace vanilla {
         /**
          * 使用这个函数只会读取数值向量
         */
-        public vector(intPtr: number): number[] {
-            // 数组的起始前4个字节是数组的元素类型
-            let class_id: type = Wasm.typeOf(this.toInt32(intPtr));
+        public vector(intPtr: number, class_id: type = Wasm.typeOf(this.toInt32(intPtr))): number[] {
+            // 数组的起始前4个字节是数组的元素类型         
             // 然后是元素的数量
             let length: number = this.toInt32(intPtr + 4);
             let buffer = new DataView(this.buffer, intPtr + 8);
@@ -50,6 +49,18 @@ namespace vanilla {
             }
 
             return data;
+        }
+
+        public array(intPtr: number): any[] {
+            let type = Wasm.typeOf(this.toInt32(intPtr));
+            let vector = this.vector(intPtr, type);
+
+            if (type.type = typeAlias.intptr) {
+                // all of the element in vector is intptr
+                return vector.map(p => WebAssembly.ObjectManager.getObject(p));
+            } else {
+                return <any>vector;
+            }
         }
 
         private static sizeOf(type: string): number {

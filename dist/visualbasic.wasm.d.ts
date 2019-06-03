@@ -12,7 +12,7 @@ interface classMeta {
 }
 interface type {
     type: typeAlias;
-    generic: type[];
+    generic?: type[];
     raw: string;
 }
 /**
@@ -120,6 +120,7 @@ declare namespace WebAssembly {
     module GarbageCollection {
         function addObject(addressOf: number, class_id: number): void;
         function exists(addressOf: number): boolean;
+        function classOf(addressOf: number): number;
         function getType(addressOf: number): classMeta;
         function lazyGettype(class_id: number): classMeta;
         function sizeOf(addressOf: number): number;
@@ -310,6 +311,7 @@ declare namespace vanilla {
      * The web assembly helper
     */
     module Wasm {
+        function typeOf(class_id: number): type;
         /**
          * Run the compiled VisualBasic.NET assembly module
          *
@@ -388,7 +390,12 @@ declare namespace vanilla {
          * @param memory The memory buffer
         */
         constructor(memory: WasmMemory);
-        array(intPtr: number, type: string): number[];
+        private static toString;
+        /**
+         * 使用这个函数只会读取数值向量
+        */
+        vector(intPtr: number, class_id?: type): number[];
+        array(intPtr: number): any[];
         private static sizeOf;
         private static getReader;
         toInt32(intPtr: number): number;

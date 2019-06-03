@@ -16,6 +16,14 @@
             return addressOf in allocates;
         }
 
+        export function classOf(addressOf: number): number {
+            if (addressOf in allocates) {
+                return allocates[addressOf];
+            } else {
+                return typeAlias.void;
+            }
+        }
+
         export function getType(addressOf: number): classMeta {
             let class_id: number = allocates[addressOf];
             let type: classMeta = lazyGettype(class_id);
