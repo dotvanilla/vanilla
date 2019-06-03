@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/2/2019 8:37:44 PM
+    ;; build: 6/3/2019 10:46:34 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -247,29 +247,29 @@
         
     (local $newObject_a2020000 i32)
     (local $arrayOffset_a3020000 i32)
+    (local $itemOffset_a4020000 i32)
     
     
     ;; Save (i32.const 10) array element data to memory:
-    ;; Array memory block begin at location: (get_global $global.ObjectManager)
+    ;; Array memory block begin at location: (get_local $arrayOffset_a3020000)
+    (set_local $arrayOffset_a3020000 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 10) (i32.const 4))) (i32.const 7)))
     ;; class_id/typealias_enum i32 data: (i32.const 1)/array(Of i32)
-    (i32.store (get_global $global.ObjectManager) (i32.const 1))
-    (i32.store (i32.add (get_global $global.ObjectManager) (i32.const 4)) (i32.const 10))
+    (i32.store (get_local $arrayOffset_a3020000) (i32.const 1))
+    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 4)) (i32.const 10))
     ;; End of byte marks meta data, start write data blocks
-    ;; Offset object manager with (i32.add (i32.const 8) (i32.mul (i32.const 10) (i32.const 4))) bytes
-    (set_local $arrayOffset_a3020000 (i32.add (get_global $global.ObjectManager) (i32.const 8)))
-    (set_global $global.ObjectManager (i32.add (i32.add (get_local $arrayOffset_a3020000) (i32.const -8)) (i32.add (i32.const 8) (i32.mul (i32.const 10) (i32.const 4)))))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 0)) (i32.const 1))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 4)) (i32.const 2))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 8)) (i32.const 3))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 12)) (i32.const 4))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 16)) (i32.const 5))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 20)) (i32.const 6))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 24)) (i32.const 7))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 28)) (i32.const 8))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 32)) (i32.const 9))
-    (i32.store (i32.add (get_local $arrayOffset_a3020000) (i32.const 36)) (i32.const 0))
+    (set_local $itemOffset_a4020000 (i32.add (get_local $arrayOffset_a3020000) (i32.const 8)))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 0)) (i32.const 1))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 4)) (i32.const 2))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 8)) (i32.const 3))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 12)) (i32.const 4))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 16)) (i32.const 5))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 20)) (i32.const 6))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 24)) (i32.const 7))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 28)) (i32.const 8))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 32)) (i32.const 9))
+    (i32.store (i32.add (get_local $itemOffset_a4020000) (i32.const 36)) (i32.const 0))
     ;; Assign array memory data to another expression
-    (return (i32.add (get_local $arrayOffset_a3020000) (i32.const -8)))
+    (return (get_local $arrayOffset_a3020000))
     )
     
     
