@@ -14,7 +14,7 @@ interface classMeta {
 
 interface type {
     type: typeAlias;
-    generic: type[];
+    generic?: type[];
     raw: string;
 }
 

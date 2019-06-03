@@ -11,15 +11,31 @@ namespace vanilla {
             super(memory);
         }
 
+        private static toString(type: type): string {
+            switch (type.type) {
+                case typeAlias.i32:
+                    return "i32";
+                case typeAlias.f32:
+                    return "f32";
+                case typeAlias.i64:
+                    return "i64";
+                case typeAlias.f64:
+                    return "f64";
+                default:
+                    return "i32";
+            }
+        }
+
         /**
          * 使用这个函数只会读取数值向量
         */
         public vector(intPtr: number): number[] {
             // 数组的起始前4个字节是数组的元素类型
-            let class_id: number = this.toInt32(intPtr);
+            let class_id: type = Wasm.typeOf(this.toInt32(intPtr));
             // 然后是元素的数量
             let length: number = this.toInt32(intPtr + 4);
             let buffer = new DataView(this.buffer, intPtr + 8);
+            let type: string = arrayReader.toString(class_id);
 
             // The output data buffer
             let data: number[] = [];

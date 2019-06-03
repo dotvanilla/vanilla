@@ -10,6 +10,15 @@
         */
         const engine: WebAssembly = (<any>window).WebAssembly;
 
+        export function typeOf(class_id: number): type {
+            let alias: typeAlias = class_id < 10 ? class_id : typeAlias.intptr;
+
+            return <type>{
+                type: alias,
+                raw: class_id.toString()
+            }
+        }
+
         /** 
          * Run the compiled VisualBasic.NET assembly module
          * 
