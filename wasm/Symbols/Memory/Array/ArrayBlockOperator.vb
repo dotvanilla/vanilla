@@ -1,48 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::8ab848d73f6d7aabd09470c9c6d4b998, Symbols\Memory\Array\ArrayBlockOperator.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ArrayBlockOperator
-    ' 
-    '         Function: GetArrayElement, GetArrayMember, (+2 Overloads) SetArrayElement, (+2 Overloads) writeArray, writeEmptyArray
-    '                   writeStructArray
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ArrayBlockOperator
+' 
+'         Function: GetArrayElement, GetArrayMember, (+2 Overloads) SetArrayElement, (+2 Overloads) writeArray, writeEmptyArray
+'                   writeStructArray
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -73,11 +73,12 @@ Namespace Symbols.MemoryObject
 
         <Extension>
         Public Function writeEmptyArray(symbols As SymbolTable, ofElement As TypeAbstract, length As Expression) As ArrayBlock
-            Dim arrayBlock As ArrayBlock = symbols.memory.AllocateArrayBlock(ofElement, length)
-            arrayBlock.itemOffset = "arrayOffset_" & symbols.NextGuid
-            arrayBlock.elements = {}
-
-            Call symbols.AddLocal(arrayBlock.itemOffset, "i32")
+            Dim intPtr As DeclareLocal = symbols.AddLocal("arrayOffset_" & symbols.NextGuid, TypeAbstract.i32)
+            Dim arrayBlock As New ArrayBlock(symbols) With {
+                .length = length,
+                .type = ofElement.MakeArrayType,
+                .memoryPtr = intPtr.GetReference
+            }
 
             Return arrayBlock
         End Function
@@ -99,10 +100,12 @@ Namespace Symbols.MemoryObject
             Dim save As New List(Of Expression)
             Dim size As Integer = sizeOf(ofElement, symbols)
             ' 在这里需要跳过数组前面的8个字节
-            Dim offset As New GetLocalVariable(arrayBlock.itemOffset)
+            Dim offset As DeclareLocal = symbols.AddLocal("itemOffset_" & symbols.NextGuid, TypeAbstract.i32)
+
+            save += New SetLocalVariable(offset, IMemoryObject.IndexOffset(arrayBlock.AddressOf, 8))
 
             If ofElement = TypeAlias.intptr AndAlso symbols.FindByClassId(ofElement.class_id).isStruct Then
-                save += symbols.writeStructArray(offset, size, arrayInitialize, ofElement)
+                save += symbols.writeStructArray(offset.GetReference, size, arrayInitialize, ofElement)
             Else
                 Dim byteType As String = ofElement.typefit
                 Dim i As VBInteger = Scan0
@@ -110,7 +113,7 @@ Namespace Symbols.MemoryObject
 
                 For Each element As Expression In arrayInitialize
                     element = CTypeHandle.CType(ofElement, element, symbols)
-                    location = IMemoryObject.IndexOffset(offset, ++i * size)
+                    location = IMemoryObject.IndexOffset(offset.GetReference, ++i * size)
                     save += BitConverter.save(byteType, location, element)
                 Next
             End If

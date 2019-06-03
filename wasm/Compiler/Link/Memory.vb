@@ -125,25 +125,6 @@ Namespace Compiler
         End Function
 
         ''' <summary>
-        ''' 为数组分配内存位置，然后返回数组在内存之中的起始位置
-        ''' </summary>
-        ''' <param name="ofElement"></param>
-        ''' <param name="count">数组之中的元素的数量</param>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' 和字符串数据不同，数组对象的内存不是静态分配的
-        ''' </remarks>
-        Public Function AllocateArrayBlock(ofElement As TypeAbstract, count As Expression) As ArrayBlock
-            Dim array As New ArrayBlock(symbols) With {
-                .length = count,
-                .type = ofElement.MakeArrayType,
-                .memoryPtr = IMemoryObject.ObjectManager.GetReference
-            }
-
-            Return array
-        End Function
-
-        ''' <summary>
         ''' 添加类型定义的meta信息，然后返回class_id，即该自定义类型的内存之中的位置
         ''' </summary>
         ''' <param name="meta"></param>

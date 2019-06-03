@@ -1,51 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::77e8d4badc8212b0e77afc54bebf2af5, Symbols\Memory\Array\ArrayBlock.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ArrayBlock
-    ' 
-    '         Properties: elements, elementSizeOf, itemOffset, length, sizeOf
-    '                     type
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: [AddressOf], GetEnumerator, IEnumerable_GetEnumerator, ToSExpression, TypeInfer
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ArrayBlock
+' 
+'         Properties: elements, elementSizeOf, itemOffset, length, sizeOf
+'                     type
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: [AddressOf], GetEnumerator, IEnumerable_GetEnumerator, ToSExpression, TypeInfer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -76,7 +76,6 @@ Namespace Symbols.MemoryObject
         ''' </summary>
         ''' <returns></returns>
         Public Property length As Expression
-        Public Property itemOffset As String
         Public Property elements As Expression()
 
         Dim symbols As SymbolTable
@@ -110,8 +109,9 @@ Namespace Symbols.MemoryObject
             Return type
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function [AddressOf]() As Expression
-            Return IndexOffset(New GetLocalVariable(itemOffset), Literal.i32(-8))
+            Return memoryPtr.TryCast(Of Expression)
         End Function
 
         ''' <summary>
@@ -128,7 +128,9 @@ Namespace Symbols.MemoryObject
             ' 在这里还需要写入一些基础信息
             ' https://vanillavb.app/#array_impl
             Dim class_id As Expression = Literal.i32(type.generic(Scan0).class_id)
+            Dim getLocal As GetLocalVariable = memoryPtr.TryCast(Of GetLocalVariable)
 
+            Yield New SetLocalVariable(memoryPtr, Allocate.Call(sizeOf, Literal.i32(TypeAlias.array)))
             Yield New CommentText($"class_id/typealias_enum i32 data: {class_id}/{type.ToString}")
             ' 类型枚举值
             Yield BitConverter.save("i32", memoryPtr, class_id)
@@ -137,18 +139,9 @@ Namespace Symbols.MemoryObject
 
             Yield New CommentText("End of byte marks meta data, start write data blocks")
 
-            Yield New CommentText($"Offset object manager with {sizeOf} bytes")
-            Yield New SetLocalVariable With {
-                .var = itemOffset,
-                .value = IndexOffset(memoryPtr, 8)
-            }
-            Yield New SetGlobalVariable(IMemoryObject.ObjectManager) With {
-                .value = ArrayBlock.IndexOffset(Me.AddressOf, sizeOf)
-            }
-
-            For Each x As Expression In elements.SafeQuery
-                If TypeOf x Is UserObject Then
-                    With DirectCast(x, UserObject)
+            For Each expression As Expression In elements.SafeQuery
+                If TypeOf expression Is UserObject Then
+                    With DirectCast(expression, UserObject)
                         If .Meta.isStruct Then
                             For Each internal As Expression In .AsEnumerable
                                 Yield internal
@@ -160,7 +153,7 @@ Namespace Symbols.MemoryObject
                         End If
                     End With
                 Else
-                    Yield x
+                    Yield expression
                 End If
             Next
         End Function
