@@ -42,7 +42,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 1712))
+    (global $global.ObjectManager (mut i32) (i32.const 1808))
 
     ;; memory allocate in javascript runtime
     (func $global.ObjectManager.Allocate (param $sizeof i32) (param $class_id i32) (result i32)
@@ -70,32 +70,53 @@
     ;; String from 1480 with 11 bytes in memory
     (data (i32.const 1480) "test object\00")
     
-    ;; String from 1496 with 14 bytes in memory
-    (data (i32.const 1496) "js_object demo\00")
+    ;; String from 1496 with 8 bytes in memory
+    (data (i32.const 1496) "AAAAAAAA\00")
     
-    ;; String from 1512 with 55 bytes in memory
-    (data (i32.const 1512) "Javascript object generate from VB.NET WebAssembly demo\00")
+    ;; String from 1512 with 8 bytes in memory
+    (data (i32.const 1512) "BBBBBBBB\00")
     
-    ;; String from 1568 with 13 bytes in memory
-    (data (i32.const 1568) "vanillavb.app\00")
+    ;; String from 1528 with 10 bytes in memory
+    (data (i32.const 1528) "CCCCCCCCCC\00")
     
-    ;; String from 1584 with 9 bytes in memory
-    (data (i32.const 1584) "js_object\00")
+    ;; String from 1544 with 10 bytes in memory
+    (data (i32.const 1544) "DDDDDDDDDD\00")
     
-    ;; String from 1600 with 32 bytes in memory
-    (data (i32.const 1600) "Copyright (c) vanillavb.app 2019\00")
+    ;; String from 1560 with 2 bytes in memory
+    (data (i32.const 1560) "EE\00")
     
-    ;; String from 1640 with 10 bytes in memory
-    (data (i32.const 1640) "dotvanilla\00")
+    ;; String from 1568 with 7 bytes in memory
+    (data (i32.const 1568) "FFFFFFF\00")
     
-    ;; String from 1656 with 36 bytes in memory
-    (data (i32.const 1656) "62b3389d-5109-4740-9c6a-35bb022355b9\00")
+    ;; String from 1576 with 8 bytes in memory
+    (data (i32.const 1576) "GGGGGGGG\00")
     
-    ;; String from 1696 with 7 bytes in memory
-    (data (i32.const 1696) "1.0.0.0\00")
+    ;; String from 1592 with 14 bytes in memory
+    (data (i32.const 1592) "js_object demo\00")
     
-    ;; String from 1704 with 7 bytes in memory
-    (data (i32.const 1704) "1.0.0.0\00")
+    ;; String from 1608 with 55 bytes in memory
+    (data (i32.const 1608) "Javascript object generate from VB.NET WebAssembly demo\00")
+    
+    ;; String from 1664 with 13 bytes in memory
+    (data (i32.const 1664) "vanillavb.app\00")
+    
+    ;; String from 1680 with 9 bytes in memory
+    (data (i32.const 1680) "js_object\00")
+    
+    ;; String from 1696 with 32 bytes in memory
+    (data (i32.const 1696) "Copyright (c) vanillavb.app 2019\00")
+    
+    ;; String from 1736 with 10 bytes in memory
+    (data (i32.const 1736) "dotvanilla\00")
+    
+    ;; String from 1752 with 36 bytes in memory
+    (data (i32.const 1752) "62b3389d-5109-4740-9c6a-35bb022355b9\00")
+    
+    ;; String from 1792 with 7 bytes in memory
+    (data (i32.const 1792) "1.0.0.0\00")
+    
+    ;; String from 1800 with 7 bytes in memory
+    (data (i32.const 1800) "1.0.0.0\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -145,6 +166,7 @@
     ;; export from VB.NET module: [numberArray]
     
     (export "numberArray.createVector" (func $numberArray.createVector))
+    (export "numberArray.namesVector" (func $numberArray.namesVector))
     
     
     ;; export from VB.NET module: [AssemblyInfo]
@@ -273,6 +295,33 @@
     )
     
     
+    (func $numberArray.namesVector  (result i32)
+        ;; Public Function namesVector() As array(Of string)
+        
+    (local $arrayOffset_a5020000 i32)
+    (local $itemOffset_a6020000 i32)
+    
+    
+    ;; Save (i32.const 7) array element data to memory:
+    ;; Array memory block begin at location: (get_local $arrayOffset_a5020000)
+    (set_local $arrayOffset_a5020000 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 7) (i32.const 4))) (i32.const 7)))
+    ;; class_id/typealias_enum i32 data: (i32.const 5)/array(Of string)
+    (i32.store (get_local $arrayOffset_a5020000) (i32.const 5))
+    (i32.store (i32.add (get_local $arrayOffset_a5020000) (i32.const 4)) (i32.const 7))
+    ;; End of byte marks meta data, start write data blocks
+    (set_local $itemOffset_a6020000 (i32.add (get_local $arrayOffset_a5020000) (i32.const 8)))
+    (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 0)) (i32.const 1496))
+    (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 4)) (i32.const 1512))
+    (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 8)) (i32.const 1528))
+    (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 12)) (i32.const 1544))
+    (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 16)) (i32.const 1560))
+    (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 20)) (i32.const 1568))
+    (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 24)) (i32.const 1576))
+    ;; Assign array memory data to another expression
+    (return (get_local $arrayOffset_a5020000))
+    )
+    
+    
     
     
     ;; functions in [AssemblyInfo]
@@ -282,7 +331,7 @@
         
     
     
-    (return (i32.const 1496))
+    (return (i32.const 1592))
     )
     
     
@@ -291,7 +340,7 @@
         
     
     
-    (return (i32.const 1512))
+    (return (i32.const 1608))
     )
     
     
@@ -300,7 +349,7 @@
         
     
     
-    (return (i32.const 1568))
+    (return (i32.const 1664))
     )
     
     
@@ -309,7 +358,7 @@
         
     
     
-    (return (i32.const 1584))
+    (return (i32.const 1680))
     )
     
     
@@ -318,7 +367,7 @@
         
     
     
-    (return (i32.const 1600))
+    (return (i32.const 1696))
     )
     
     
@@ -327,7 +376,7 @@
         
     
     
-    (return (i32.const 1640))
+    (return (i32.const 1736))
     )
     
     
@@ -336,7 +385,7 @@
         
     
     
-    (return (i32.const 1656))
+    (return (i32.const 1752))
     )
     
     
@@ -345,7 +394,7 @@
         
     
     
-    (return (i32.const 1696))
+    (return (i32.const 1792))
     )
     
     
@@ -354,7 +403,7 @@
         
     
     
-    (return (i32.const 1704))
+    (return (i32.const 1800))
     )
     
     

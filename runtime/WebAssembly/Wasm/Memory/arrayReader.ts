@@ -58,6 +58,8 @@ namespace vanilla {
             if (type.type == typeAlias.intptr) {
                 // all of the element in vector is intptr
                 return vector.map(p => WebAssembly.ObjectManager.getObject(p));
+            } else if (type.type == typeAlias.string) {
+                return vector.map(p => WebAssembly.ObjectManager.readText(p));
             } else {
                 return <any>vector;
             }
