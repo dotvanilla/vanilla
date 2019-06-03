@@ -133,6 +133,7 @@ Namespace Symbols.MemoryObject
             Dim i As VBInteger = Scan0
             Dim location As Expression
             Dim save As New List(Of Expression)
+            Dim class_id As Expression = Literal.i32(ofElement.class_id)
 
             ' 结构体类型比较特殊
             ' 会需要与引用类型的class区分开来
@@ -144,6 +145,7 @@ Namespace Symbols.MemoryObject
                 }
                 symbols.AddLocal(copy.name, "i32")
                 save += New SetLocalVariable(copy, location)
+                save += IMemoryObject.AddGCobject.Call(copy.GetReference, class_id)
 
                 If TypeOf element Is UserObject Then
                     ' 如果是创建的新对象的话，则修改指针位置后直接赋值

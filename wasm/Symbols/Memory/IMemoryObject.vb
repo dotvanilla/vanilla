@@ -75,6 +75,10 @@ Namespace Symbols.MemoryObject
             .type = TypeAbstract.i32
         }
 
+        ''' <summary>
+        ''' ``GC.addObject(offset, class_id)``
+        ''' </summary>
+        ''' <returns></returns>
         Public Shared ReadOnly Property AddGCobject As New ImportSymbol With {
             .name = "GC.addObject",
             .[module] = "GC",

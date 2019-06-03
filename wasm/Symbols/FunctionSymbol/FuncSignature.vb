@@ -107,6 +107,13 @@ Namespace Symbols
             Return result
         End Function
 
+        Public Overridable Function [Call](ParamArray params As Expression()) As Expression
+            Return New FuncInvoke(Me) With {
+                .[operator] = False,
+                .parameters = params
+            }
+        End Function
+
         Public Overrides Function ToSExpression() As String
             Throw New NotImplementedException()
         End Function

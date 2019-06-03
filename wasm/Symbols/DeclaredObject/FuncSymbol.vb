@@ -82,13 +82,6 @@ Namespace Symbols
             Call MyBase.New(funcVar)
         End Sub
 
-        Public Function [Call](ParamArray params As Expression()) As Expression
-            Return New FuncInvoke(Me) With {
-                .[operator] = False,
-                .parameters = params
-            }
-        End Function
-
         ''' <summary>
         ''' 因为webassembly只允许变量必须要定义在最开始的位置
         ''' 所以构建函数体的时候流程会有些复杂

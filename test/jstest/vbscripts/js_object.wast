@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/3/2019 10:46:34 PM
+    ;; build: 6/3/2019 11:42:34 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -347,18 +347,21 @@
     ;; End of byte marks meta data, start write data blocks
     (set_local $itemOffset_ab020000 (i32.add (get_local $arrayOffset_aa020000) (i32.const 8)))
     (set_local $structCopyOf_ac020000 (i32.add (get_local $itemOffset_ab020000) (i32.const 0)))
+    (call $GC.addObject (get_local $structCopyOf_ac020000) (i32.const 1160))
     (set_local $newObject_a7020000 (get_local $structCopyOf_ac020000))
     ;; set field [name::name]
     (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 4)) (i32.load (i32.add (i32.add (get_local $names) (i32.const 8)) (i32.mul (i32.const 0) (i32.const 4)))))
     ;; set field [name::source]
     (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 0)) (i32.const 0))
     (set_local $structCopyOf_ad020000 (i32.add (get_local $itemOffset_ab020000) (i32.const 8)))
+    (call $GC.addObject (get_local $structCopyOf_ad020000) (i32.const 1160))
     (set_local $newObject_a8020000 (get_local $structCopyOf_ad020000))
     ;; set field [name::name]
     (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 4)) (i32.load (i32.add (i32.add (get_local $names) (i32.const 8)) (i32.mul (i32.const 1) (i32.const 4)))))
     ;; set field [name::source]
     (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 0)) (i32.const 1))
     (set_local $structCopyOf_ae020000 (i32.add (get_local $itemOffset_ab020000) (i32.const 16)))
+    (call $GC.addObject (get_local $structCopyOf_ae020000) (i32.const 1160))
     (set_local $newObject_a9020000 (get_local $structCopyOf_ae020000))
     ;; set field [name::name]
     (i32.store (i32.add (get_local $newObject_a9020000) (i32.const 4)) (i32.load (i32.add (i32.add (get_local $names) (i32.const 8)) (i32.mul (i32.const 2) (i32.const 4)))))

@@ -126,10 +126,10 @@ Namespace Symbols
             }
         End Sub
 
-        Sub New(target As ImportSymbol)
+        Sub New(api As ImportSymbol)
             refer = New ReferenceSymbol With {
-                .symbol = target.name,
-                .[module] = If(target.definedInModule, target.module, Nothing),
+                .symbol = api.name,
+                .[module] = If(api.definedInModule, api.module, Nothing),
                 .type = SymbolType.Api
             }
         End Sub

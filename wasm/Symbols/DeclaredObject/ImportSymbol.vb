@@ -99,6 +99,13 @@ Namespace Symbols
             parameters = args
         End Sub
 
+        Public Overrides Function [Call](ParamArray params() As Expression) As Expression
+            Return New FuncInvoke(api:=Me) With {
+                .[operator] = False,
+                .parameters = params
+            }
+        End Function
+
         Public Overrides Function ToSExpression() As String
             Dim params$ = parameters _
                 .Select(Function(a) a.param) _
