@@ -998,8 +998,9 @@ var vanilla;
         /**
          * @param memory The memory buffer
         */
-        constructor(memory) {
-            super(memory);
+        constructor(memory, littleEndian = true) {
+            super(memory, littleEndian);
+            this.littleEndian = littleEndian;
         }
         static toString(type) {
             switch (type.type) {
@@ -1026,7 +1027,7 @@ var vanilla;
             let type = arrayReader.toString(class_id);
             // The output data buffer
             let data = [];
-            let load = arrayReader.getReader(buffer, type);
+            let load = arrayReader.getReader(buffer, type, this.littleEndian);
             let offset = arrayReader.sizeOf(type);
             intPtr = 0;
             for (var i = 0; i < length; i++) {
@@ -1057,10 +1058,10 @@ var vanilla;
                 throw `Unavailable for ${type}`;
             }
         }
-        static getReader(buffer, type) {
+        static getReader(buffer, type, littleEndian) {
             if (type == "i32") {
                 return function (offset) {
-                    return buffer.getInt32(offset);
+                    return buffer.getInt32(offset, littleEndian);
                 };
             }
             else if (type == "i64") {
@@ -1068,12 +1069,12 @@ var vanilla;
             }
             else if (type == "f32") {
                 return function (offset) {
-                    return buffer.getFloat32(offset);
+                    return buffer.getFloat32(offset, littleEndian);
                 };
             }
             else if (type == "f64") {
                 return function (offset) {
-                    return buffer.getFloat64(offset);
+                    return buffer.getFloat64(offset, littleEndian);
                 };
             }
             else {
@@ -1081,7 +1082,7 @@ var vanilla;
             }
         }
         toInt32(intPtr) {
-            return new DataView(this.buffer, intPtr, 4).getInt32(0, true);
+            return new DataView(this.buffer, intPtr, 4).getInt32(0, this.littleEndian);
         }
     }
     vanilla.arrayReader = arrayReader;

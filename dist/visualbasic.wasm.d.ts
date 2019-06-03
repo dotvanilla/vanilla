@@ -387,10 +387,11 @@ declare namespace vanilla {
 }
 declare namespace vanilla {
     class arrayReader extends memoryReader {
+        littleEndian: boolean;
         /**
          * @param memory The memory buffer
         */
-        constructor(memory: WasmMemory);
+        constructor(memory: WasmMemory, littleEndian?: boolean);
         private static toString;
         /**
          * 使用这个函数只会读取数值向量

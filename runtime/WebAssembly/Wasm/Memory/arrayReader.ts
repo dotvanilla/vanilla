@@ -7,8 +7,8 @@ namespace vanilla {
         /**
          * @param memory The memory buffer
         */
-        public constructor(memory: WasmMemory) {
-            super(memory);
+        public constructor(memory: WasmMemory, public littleEndian: boolean = true) {
+            super(memory, littleEndian);
         }
 
         private static toString(type: type): string {
@@ -38,7 +38,7 @@ namespace vanilla {
 
             // The output data buffer
             let data: number[] = [];
-            let load = arrayReader.getReader(buffer, type);
+            let load = arrayReader.getReader(buffer, type, this.littleEndian);
             let offset: number = arrayReader.sizeOf(type);
 
             intPtr = 0;
@@ -73,20 +73,20 @@ namespace vanilla {
             }
         }
 
-        private static getReader(buffer: DataView, type: string): (offset: number) => number {
+        private static getReader(buffer: DataView, type: string, littleEndian: boolean): (offset: number) => number {
             if (type == "i32") {
                 return function (offset) {
-                    return buffer.getInt32(offset);
+                    return buffer.getInt32(offset, littleEndian);
                 }
             } else if (type == "i64") {
                 throw "not implements";
             } else if (type == "f32") {
                 return function (offset) {
-                    return buffer.getFloat32(offset);
+                    return buffer.getFloat32(offset, littleEndian);
                 }
             } else if (type == "f64") {
                 return function (offset) {
-                    return buffer.getFloat64(offset);
+                    return buffer.getFloat64(offset, littleEndian);
                 }
             } else {
                 throw `Unavailable for ${type}`;
@@ -94,7 +94,7 @@ namespace vanilla {
         }
 
         public toInt32(intPtr: number): number {
-            return new DataView(this.buffer, intPtr, 4).getInt32(0, true);
+            return new DataView(this.buffer, intPtr, 4).getInt32(0, this.littleEndian);
         }
     }
 }
