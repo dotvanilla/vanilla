@@ -151,6 +151,7 @@ declare namespace WebAssembly {
         */
         function readText(intptr: number): string;
         function addText(text: string): number;
+        function readArray(intPtr: number): any[];
         /**
          * Get a object using its hash code
          *

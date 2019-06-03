@@ -67,6 +67,10 @@
             return key;
         }
 
+        export function readArray(intPtr: number): any[] {
+            return arrayReader.array(intPtr);
+        }
+
         /**
          * Get a object using its hash code
          * 

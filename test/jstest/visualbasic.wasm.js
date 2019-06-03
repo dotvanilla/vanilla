@@ -239,6 +239,15 @@ var WebAssembly;
             return addressOf in allocates;
         }
         GarbageCollection.exists = exists;
+        function classOf(addressOf) {
+            if (addressOf in allocates) {
+                return allocates[addressOf];
+            }
+            else {
+                return typeAlias.void;
+            }
+        }
+        GarbageCollection.classOf = classOf;
         function getType(addressOf) {
             let class_id = allocates[addressOf];
             let type = lazyGettype(class_id);
@@ -329,6 +338,7 @@ var WebAssembly;
     (function (ObjectManager) {
         let streamReader;
         let objectReader;
+        let arrayReader;
         /**
          * 在这里主要是为了避免和内部的数值产生冲突
         */
@@ -346,6 +356,7 @@ var WebAssembly;
         function load(bytes) {
             streamReader = new vanilla.stringReader(bytes);
             objectReader = new vanilla.objectReader(bytes);
+            arrayReader = new vanilla.arrayReader(bytes);
             loadedMemory = bytes;
             hashCode += 100;
         }
@@ -384,6 +395,10 @@ var WebAssembly;
             return key;
         }
         ObjectManager.addText = addText;
+        function readArray(intPtr) {
+            return arrayReader.array(intPtr);
+        }
+        ObjectManager.readArray = readArray;
         /**
          * Get a object using its hash code
          *
@@ -391,10 +406,18 @@ var WebAssembly;
         */
         function getObject(key) {
             if (key in hashTable) {
+                // get javascript object
                 return hashTable[key];
             }
             else if (WebAssembly.GarbageCollection.exists(key)) {
-                return objectReader.readObject(key);
+                if (WebAssembly.GarbageCollection.classOf(key) == typeAlias.array) {
+                    // get webassembly array
+                    return arrayReader.array(key);
+                }
+                else {
+                    // get webassembly object
+                    return objectReader.readObject(key);
+                }
             }
             else {
                 return null;
@@ -995,9 +1018,8 @@ var vanilla;
         /**
          * 使用这个函数只会读取数值向量
         */
-        vector(intPtr) {
-            // 数组的起始前4个字节是数组的元素类型
-            let class_id = vanilla.Wasm.typeOf(this.toInt32(intPtr));
+        vector(intPtr, class_id = vanilla.Wasm.typeOf(this.toInt32(intPtr))) {
+            // 数组的起始前4个字节是数组的元素类型         
             // 然后是元素的数量
             let length = this.toInt32(intPtr + 4);
             let buffer = new DataView(this.buffer, intPtr + 8);
@@ -1012,6 +1034,17 @@ var vanilla;
                 intPtr = intPtr + offset;
             }
             return data;
+        }
+        array(intPtr) {
+            let type = vanilla.Wasm.typeOf(this.toInt32(intPtr));
+            let vector = this.vector(intPtr, type);
+            if (type.type = typeAlias.intptr) {
+                // all of the element in vector is intptr
+                return vector.map(p => WebAssembly.ObjectManager.getObject(p));
+            }
+            else {
+                return vector;
+            }
         }
         static sizeOf(type) {
             if (type == "i32" || type == "f32") {
