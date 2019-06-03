@@ -55,7 +55,7 @@ namespace vanilla {
             let type = Wasm.typeOf(this.toInt32(intPtr));
             let vector = this.vector(intPtr, type);
 
-            if (type.type = typeAlias.intptr) {
+            if (type.type == typeAlias.intptr) {
                 // all of the element in vector is intptr
                 return vector.map(p => WebAssembly.ObjectManager.getObject(p));
             } else {
