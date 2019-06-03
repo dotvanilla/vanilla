@@ -14,10 +14,12 @@
 		// WebAssembly.GarbageCollection.addObject(1077, 13);
 		var array = app.numberArray.createVector();
 		var strings = app.numberArray.namesVector();
+		var structs = app.numberArray.structures();
 		
       console.log(array);
 console.log(WebAssembly.ObjectManager.readArray(array));
 	  console.log(WebAssembly.ObjectManager.getObject(strings));
+	  console.log(WebAssembly.ObjectManager.getObject(structs));
 	  
 		console.log(intptr);
 		console.log(WebAssembly.GarbageCollection.getType(intptr));

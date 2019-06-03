@@ -167,6 +167,7 @@
     
     (export "numberArray.createVector" (func $numberArray.createVector))
     (export "numberArray.namesVector" (func $numberArray.namesVector))
+    (export "numberArray.structures" (func $numberArray.structures))
     
     
     ;; export from VB.NET module: [AssemblyInfo]
@@ -319,6 +320,52 @@
     (i32.store (i32.add (get_local $itemOffset_a6020000) (i32.const 24)) (i32.const 1576))
     ;; Assign array memory data to another expression
     (return (get_local $arrayOffset_a5020000))
+    )
+    
+    
+    (func $numberArray.structures  (result i32)
+        ;; Public Function structures() As array(Of intptr)
+        
+    (local $names i32)
+    (local $newObject_a7020000 i32)
+    (local $newObject_a8020000 i32)
+    (local $newObject_a9020000 i32)
+    (local $arrayOffset_aa020000 i32)
+    (local $itemOffset_ab020000 i32)
+    (local $structCopyOf_ac020000 i32)
+    (local $structCopyOf_ad020000 i32)
+    (local $structCopyOf_ae020000 i32)
+    
+    (set_local $names (call $numberArray.namesVector ))
+    
+    ;; Save (i32.const 3) array element data to memory:
+    ;; Array memory block begin at location: (get_local $arrayOffset_aa020000)
+    (set_local $arrayOffset_aa020000 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 3) (i32.const 8))) (i32.const 7)))
+    ;; class_id/typealias_enum i32 data: (i32.const 1160)/array(Of intptr)
+    (i32.store (get_local $arrayOffset_aa020000) (i32.const 1160))
+    (i32.store (i32.add (get_local $arrayOffset_aa020000) (i32.const 4)) (i32.const 3))
+    ;; End of byte marks meta data, start write data blocks
+    (set_local $itemOffset_ab020000 (i32.add (get_local $arrayOffset_aa020000) (i32.const 8)))
+    (set_local $structCopyOf_ac020000 (i32.add (get_local $itemOffset_ab020000) (i32.const 0)))
+    (set_local $newObject_a7020000 (get_local $structCopyOf_ac020000))
+    ;; set field [name::name]
+    (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 4)) (i32.load (i32.add (i32.add (get_local $names) (i32.const 8)) (i32.mul (i32.const 0) (i32.const 4)))))
+    ;; set field [name::source]
+    (i32.store (i32.add (get_local $newObject_a7020000) (i32.const 0)) (i32.const 0))
+    (set_local $structCopyOf_ad020000 (i32.add (get_local $itemOffset_ab020000) (i32.const 8)))
+    (set_local $newObject_a8020000 (get_local $structCopyOf_ad020000))
+    ;; set field [name::name]
+    (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 4)) (i32.load (i32.add (i32.add (get_local $names) (i32.const 8)) (i32.mul (i32.const 1) (i32.const 4)))))
+    ;; set field [name::source]
+    (i32.store (i32.add (get_local $newObject_a8020000) (i32.const 0)) (i32.const 1))
+    (set_local $structCopyOf_ae020000 (i32.add (get_local $itemOffset_ab020000) (i32.const 16)))
+    (set_local $newObject_a9020000 (get_local $structCopyOf_ae020000))
+    ;; set field [name::name]
+    (i32.store (i32.add (get_local $newObject_a9020000) (i32.const 4)) (i32.load (i32.add (i32.add (get_local $names) (i32.const 8)) (i32.mul (i32.const 2) (i32.const 4)))))
+    ;; set field [name::source]
+    (i32.store (i32.add (get_local $newObject_a9020000) (i32.const 0)) (i32.const 2))
+    ;; Assign array memory data to another expression
+    (return (get_local $arrayOffset_aa020000))
     )
     
     
