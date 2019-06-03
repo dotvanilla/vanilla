@@ -12,9 +12,11 @@
 		
 		// WebAssembly.GarbageCollection.addObject(intptr, 350);
 		// WebAssembly.GarbageCollection.addObject(1077, 13);
+		var array = app.numberArray.createVector();
 		
-      console.log(app.numberArray.createVector())
-
+      console.log(array);
+console.log(WebAssembly.ObjectManager.readArray(array));
+	  
 		console.log(intptr);
 		console.log(WebAssembly.GarbageCollection.getType(intptr));
 		console.log(WebAssembly.ObjectManager.getObject(intptr))
