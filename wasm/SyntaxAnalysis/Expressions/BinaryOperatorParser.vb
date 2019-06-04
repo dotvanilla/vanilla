@@ -95,6 +95,11 @@ Namespace SyntaxAnalysis
             Return type
         End Function
 
+        <Extension>
+        Private Function isBinaryBool(op$, left As Expression, right As Expression, symbols As SymbolTable) As Boolean
+            Return op Like TypeOperator.LogicalOperators AndAlso (left.TypeInfer(symbols) = TypeAlias.boolean AndAlso right.TypeInfer(symbols) = TypeAlias.boolean)
+        End Function
+
         ''' <summary>
         ''' NOTE: div between two integer will convert to double div automatic. 
         ''' </summary>
@@ -115,7 +120,7 @@ Namespace SyntaxAnalysis
                 Return symbols.IsPredicate(left, right)
             ElseIf op Like TypeOperator.comparisonOp Then
                 Return symbols.DoComparison(left, right, op)
-            ElseIf op Like TypeOperator.LogicalOperators Then
+            ElseIf op.isBinaryBool(left, right, symbols) Then
                 Return symbols.DoLogical(left, right, op)
             Else
                 type = symbols.highOrderTransfer(left, right)
