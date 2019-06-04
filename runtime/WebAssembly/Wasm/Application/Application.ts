@@ -18,11 +18,15 @@
                 // do nothing
             }
 
-            if (!(ref.module in app)) {
-                app[ref.module] = {};
-            }
+            if (ref.module == "global" && ref.name == "GetMemorySize") {
+                app["GetMemorySize"] = obj;
+            } else {
+                if (!(ref.module in app)) {
+                    app[ref.module] = {};
+                }
 
-            app[ref.module][ref.name] = obj;
+                app[ref.module][ref.name] = obj;
+            }
         }
 
         return app;

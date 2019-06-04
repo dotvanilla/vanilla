@@ -253,6 +253,7 @@ declare namespace vanilla {
     interface AssemblyExport {
         AssemblyInfo: AssemblyInfo;
         memory: WasmMemory;
+        GetMemorySize: () => number;
     }
     interface RunDelegate {
         (assm: AssemblyExport): void;

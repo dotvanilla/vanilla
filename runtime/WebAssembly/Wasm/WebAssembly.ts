@@ -40,7 +40,7 @@
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
-                    let exportAssm = exportWasmApi(assembly);
+                    let exportAssm: AssemblyExport = exportWasmApi(assembly);
 
                     if (showDebugMessage()) {
                         console.log("Load external WebAssembly module success!");

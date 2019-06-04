@@ -3,6 +3,7 @@
     export interface AssemblyExport {
         AssemblyInfo: AssemblyInfo;
         memory: WasmMemory;
+        GetMemorySize: () => number;
     }
 
     export interface RunDelegate {
