@@ -154,6 +154,12 @@ Namespace TypeInfo
                     Else
                         Throw New NotImplementedException
                     End If
+                Case "<>"
+                    If type Like integerType OrElse type Like floatType Then
+                        Return $"{type}.ne"
+                    Else
+                        Throw New NotImplementedException
+                    End If
                 Case Else
                     If type = "i32" Then
                         Return I32ByteOperator(op)
@@ -174,7 +180,7 @@ Namespace TypeInfo
                 Case "Or" : Return "i32.or"
                 Case "Mod" : Return "i32.rem_s"
                 Case Else
-                    Throw New NotImplementedException
+                    Throw New NotImplementedException(op)
             End Select
         End Function
 
