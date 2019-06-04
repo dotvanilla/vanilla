@@ -150,6 +150,7 @@ Namespace Compiler.SExpression
 
     ;; memory allocate in javascript runtime
     {IMemoryObject.Allocate.ToSExpression}
+    {IMemoryObject.GetMemorySize.ToSExpression}
 
     ;; Memory data for string constant
     {stringsData}
@@ -165,6 +166,8 @@ Namespace Compiler.SExpression
     {globals.JoinBy(ASCII.LF)}
 
     ;; Export methods of this module
+    {New ExportSymbolExpression(IMemoryObject.GetMemorySize).ToSExpression}
+
     {[module].Exports.exportGroup.JoinBy(ASCII.LF & "    ")} 
 
 {internal.JoinBy(ASCII.LF)}

@@ -92,6 +92,17 @@ Namespace Symbols.MemoryObject
             .result = TypeAbstract.void
         }
 
+        Public Shared ReadOnly Property GetMemorySize As New FuncSymbol With {
+            .comment = "Export ``global.ObjectManager`` to javascript runtime.",
+            .parameters = {},
+            .name = "GetMemorySize",
+            .[module] = "global",
+            .result = TypeAbstract.i32,
+            .body = {
+                New ReturnValue(ObjectManager.GetReference)
+            }
+        }
+
         ''' <summary>
         ''' 进行新的用户对象的内存分配的函数
         ''' 

@@ -20,6 +20,10 @@
 
         export function addObject(addressOf: number, class_id: number) {
             allocates[addressOf] = class_id;
+
+            if (TypeScript.logging.outputEverything) {
+                console.log(`add a new object typeof #${class_id} at &${addressOf}`);
+            }
         }
 
         export function exists(addressOf: number): boolean {

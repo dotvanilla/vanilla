@@ -74,6 +74,20 @@ Namespace Symbols
         Public Property target As ReferenceSymbol
         Public Property [module] As String Implements IDeclaredObject.module
 
+        Sub New()
+        End Sub
+
+        Sub New(define As FuncSymbol)
+            Name = define.name
+            type = "func"
+            target = New ReferenceSymbol With {
+                .[module] = define.module,
+                .type = SymbolType.Func,
+                .symbol = define.name
+            }
+            [module] = define.module
+        End Sub
+
         Public Overrides Function ToSExpression() As String
             Return $"(export ""{target.module}.{Name}"" ({type} ${target}))"
         End Function
