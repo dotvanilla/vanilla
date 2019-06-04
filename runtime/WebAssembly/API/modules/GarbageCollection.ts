@@ -8,6 +8,16 @@
         const allocates: object = {};
         const cacheOfmeta: object = {};
 
+        export function summary() {
+            console.log("View memory allocation summary:");
+            console.table(allocates);
+            console.log("View cache of user defined class:");
+
+            for (let address in cacheOfmeta) {
+                console.log(cacheOfmeta[address]);
+            }
+        }
+
         export function addObject(addressOf: number, class_id: number) {
             allocates[addressOf] = class_id;
         }

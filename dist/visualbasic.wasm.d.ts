@@ -118,6 +118,7 @@ declare namespace WebAssembly {
      * 对WebAssembly模块的内存回收帮助模块
     */
     module GarbageCollection {
+        function summary(): void;
         function addObject(addressOf: number, class_id: number): void;
         function exists(addressOf: number): boolean;
         function classOf(addressOf: number): number;
