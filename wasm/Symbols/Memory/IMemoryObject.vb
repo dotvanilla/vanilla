@@ -162,6 +162,12 @@ Namespace Symbols.MemoryObject
                         },
                         New SetGlobalVariable(ObjectManager, IndexOffset(ObjectManager.GetReference, padding))
                     }
+                },
+                .[else] = New ExpressionGroup With {
+                    .comment = "add additional memory padding",
+                    .group = {
+                        New SetGlobalVariable(ObjectManager, IndexOffset(ObjectManager.GetReference, 8))
+                    }
                 }
             }
 
