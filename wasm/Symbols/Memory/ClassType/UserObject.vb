@@ -78,6 +78,18 @@ Namespace Symbols.MemoryObject
             Return Me.memoryPtr.TryCast(Of Expression).ToSExpression
         End Function
 
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            For Each symbol In Me.AddressOf.GetSymbolReference
+                Yield symbol
+            Next
+
+            For Each item In Initialize
+                For Each symbol In item.GetSymbolReference
+                    Yield symbol
+                Next
+            Next
+        End Function
+
         ''' <summary>
         ''' 这个枚举函数返回的是初始化语句
         ''' </summary>
