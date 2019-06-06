@@ -132,37 +132,12 @@ Namespace SyntaxAnalysis
                 End If
             End If
 
-            init = type.initAutofit(init, symbols)
+            init = namedVar.initAutofit(type, init, symbols)
 
             If Not moduleName.StringEmpty Then
                 Call symbols.AddGlobal(name, type, moduleName, init, isConst)
                 Return Nothing
             Else
-                If Not init Is Nothing Then
-                    If TypeOf init Is ArraySymbol Then
-                        Dim array As ArraySymbol = init
-
-                        If array.type = TypeAlias.array Then
-                            init = array.writeArray(symbols, array.type)
-                        Else
-                            ' 是一个list，需要导入额外的javascript api来完成功能
-                            Call symbols.doArrayImports(DirectCast(init, ArraySymbol).type)
-                        End If
-                    End If
-                Else
-                    If Not namedVar.ArrayBounds Is Nothing Then
-                        ' 这是一个VB6版本的数组申明语法
-                        init = namedVar.ArrayBounds _
-                            .Arguments _
-                            .First _
-                            .GetExpression _
-                            .ValueExpression(symbols)
-
-                        init = symbols.writeEmptyArray(type, init)
-                        type = type.MakeArrayType
-                    End If
-                End If
-
                 Return New DeclareLocal With {
                     .name = name,
                     .type = type,
@@ -173,7 +148,7 @@ Namespace SyntaxAnalysis
         End Function
 
         <Extension>
-        Private Function initAutofit(type As TypeAbstract, init As Expression, symbols As SymbolTable) As Expression
+        Private Function initAutofit(namedVar As ModifiedIdentifierSyntax, ByRef type As TypeAbstract, init As Expression, symbols As SymbolTable) As Expression
             If Not init Is Nothing Then
                 Select Case init.GetType
                     Case GetType(ArraySymbol)
@@ -201,6 +176,31 @@ Namespace SyntaxAnalysis
                 End If
 
                 init = CTypeHandle.CType(type, init, symbols)
+            End If
+
+            If Not init Is Nothing Then
+                If TypeOf init Is ArraySymbol Then
+                    Dim array As ArraySymbol = init
+
+                    If array.type = TypeAlias.array Then
+                        init = array.writeArray(symbols, array.type)
+                    Else
+                        ' 是一个list，需要导入额外的javascript api来完成功能
+                        Call symbols.doArrayImports(DirectCast(init, ArraySymbol).type)
+                    End If
+                End If
+            Else
+                If Not namedVar.ArrayBounds Is Nothing Then
+                    ' 这是一个VB6版本的数组申明语法
+                    init = namedVar.ArrayBounds _
+                            .Arguments _
+                            .First _
+                            .GetExpression _
+                            .ValueExpression(symbols)
+
+                    init = symbols.writeEmptyArray(type, init)
+                    type = type.MakeArrayType
+                End If
             End If
 
             Return init

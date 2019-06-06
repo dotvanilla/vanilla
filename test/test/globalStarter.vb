@@ -76,6 +76,7 @@ Module treeTest
 
     Sub FileTest()
         For Each file As String In {
+                "objectArrayTest.vb",
                 "nestedTest.vb",
                 "GCtest.vb",
                 "DeclareTest2.vb",
@@ -127,7 +128,7 @@ Module treeTest
         'Next
 
 
-        Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
+        '  Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
         ' Call projectTest("D:\repo\home\vbscripts\base64\base64.vbproj")
         ' Call projectTest("D:\vanilla\test\demo_proj\HelloWorld.vbproj")
 
