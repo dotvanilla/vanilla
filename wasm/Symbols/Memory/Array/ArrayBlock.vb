@@ -114,6 +114,18 @@ Namespace Symbols.MemoryObject
             Return memoryPtr.TryCast(Of Expression)
         End Function
 
+        Public Overrides Iterator Function GetSymbolReference() As IEnumerable(Of ReferenceSymbol)
+            For Each symbol In [AddressOf].GetSymbolReference
+                Yield symbol
+            Next
+
+            For Each item In elements
+                For Each symbol In item.GetSymbolReference
+                    Yield symbol
+                Next
+            Next
+        End Function
+
         ''' <summary>
         ''' 返回的是内存之中的首位置
         ''' </summary>

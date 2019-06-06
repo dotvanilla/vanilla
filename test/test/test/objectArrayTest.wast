@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/6/2019 11:26:16 PM
+    ;; build: 6/6/2019 11:48:28 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -118,6 +118,9 @@
     ;; Public Function initializer() As void
     
 (local $arrayOffset_9c020000 i32)
+(local $itemOffset_9d020000 i32)
+(local $newObject_9a020000 i32)
+(local $newObject_9b020000 i32)
 
 
 ;; Save (i32.const 2) array element data to memory:

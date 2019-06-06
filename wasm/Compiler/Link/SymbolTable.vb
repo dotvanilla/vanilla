@@ -364,6 +364,11 @@ Namespace Compiler
                     Dim reference As ReferenceSymbol() = init _
                         .GetSymbolReference _
                         .Where(Function(local) local.type = SymbolType.LocalVariable) _
+                        .GroupBy(Function(ref)
+                                     ' 20190606 因为这个是local变量，所以直接对symbol做分组即可去重复
+                                     Return ref.symbol
+                                 End Function) _
+                        .Select(Function(ref) ref.First) _
                         .ToArray
 
                     globalStarter += reference.Select(Function(local) Me.GetObjectSymbol(local.symbol))
