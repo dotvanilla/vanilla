@@ -1,13 +1,13 @@
 ﻿Module objectGC
 
-    Dim test As New rectangle With {.x = Integer.MaxValue, .y = 10}
+    Dim rect As New rectangle With {.x = Integer.MaxValue, .y = 10}
 
     Sub New()
-        test.name = New name With {
+        rect.name = New name With {
             .name = "test object",
             .source = 888888888
         }
-        test.inner = newCircle()
+        rect.inner = newCircle()
     End Sub
 
     Dim cx As Double = 1000
@@ -29,6 +29,6 @@
     End Function
 
     Public Function getObject() As rectangle
-        Return test
+        Return rect
     End Function
 End Module
