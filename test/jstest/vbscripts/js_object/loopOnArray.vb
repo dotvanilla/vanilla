@@ -6,9 +6,11 @@
     }
 
     Public Declare Sub print Lib "console" Alias "log" (item As rectangle)
+    Public Declare Sub println Lib "console" Alias "log" (info As String)
 
     Sub New()
         For i As Integer = 0 To rect.Length - 1
+            Call println($"index=#{i}")
             Call print(rect(i))
         Next
     End Sub
