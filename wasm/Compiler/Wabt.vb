@@ -84,7 +84,7 @@ Namespace Compiler
         ''' <returns></returns>
         <Extension>
         Private Function saveTemp([module] As [Variant](Of ModuleSymbol, String)) As String
-            With App.GetAppSysTempFile(".wast", App.PID, "wat2wasm")
+            With App.GetAppSysTempFile($"{RandomASCIIString(10, skipSymbols:=True)}.wast", App.PID, "wat2wasm_")
                 If [module] Like GetType(ModuleSymbol) Then
                     Call CType([module], ModuleSymbol) _
                         .ToSExpression _

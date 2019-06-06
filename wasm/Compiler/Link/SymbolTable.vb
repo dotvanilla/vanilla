@@ -66,6 +66,7 @@ Imports Wasm.Symbols
 Imports Wasm.Symbols.MemoryObject
 Imports Wasm.SyntaxAnalysis
 Imports Wasm.TypeInfo
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Compiler
 
@@ -87,7 +88,6 @@ Namespace Compiler
         Friend ReadOnly userClass As New Dictionary(Of String, ClassMeta)
 
         Dim locals As New Dictionary(Of String, DeclareLocal)
-        Dim uid As VBInteger = 666
         Dim globalStarter As New List(Of Expression)
 
         ''' <summary>
@@ -109,7 +109,7 @@ Namespace Compiler
         Public ReadOnly Property NextGuid As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return (++uid).ToHexString
+                Return App.GetNextUniqueName(RandomASCII(randf.seeds, skipSymbols:=True)) & RandomASCIIString(5, skipSymbols:=True)
             End Get
         End Property
 
