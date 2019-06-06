@@ -171,6 +171,11 @@ var WebAssembly;
                     return WebAssembly.ObjectManager.getObject(intPtr);
                 }
             }
+            else if (WebAssembly.GarbageCollection.exists(intPtr)) {
+                // 是一个正实数，并且在GC之中存在定义
+                // 则是webassembly内存之中的一个用户对象实例
+                return WebAssembly.ObjectManager.getObject(intPtr);
+            }
             else {
                 // 如何处理正实数？
                 return WebAssembly.ObjectManager.readText(intPtr);
@@ -231,8 +236,20 @@ var WebAssembly;
     (function (GarbageCollection) {
         const allocates = {};
         const cacheOfmeta = {};
+        function summary() {
+            console.log("View memory allocation summary:");
+            console.table(allocates);
+            console.log("View cache of user defined class:");
+            for (let address in cacheOfmeta) {
+                console.log(cacheOfmeta[address]);
+            }
+        }
+        GarbageCollection.summary = summary;
         function addObject(addressOf, class_id) {
             allocates[addressOf] = class_id;
+            if (TypeScript.logging.outputEverything) {
+                console.log(`add a new object typeof #${class_id} at &${addressOf}`);
+            }
         }
         GarbageCollection.addObject = addObject;
         function exists(addressOf) {
@@ -829,10 +846,15 @@ var vanilla;
                     else {
                         // do nothing
                     }
-                    if (!(ref.module in app)) {
-                        app[ref.module] = {};
+                    if (ref.module == "global" && ref.name == "GetMemorySize") {
+                        app["GetMemorySize"] = obj;
                     }
-                    app[ref.module][ref.name] = obj;
+                    else {
+                        if (!(ref.module in app)) {
+                            app[ref.module] = {};
+                        }
+                        app[ref.module][ref.name] = obj;
+                    }
                 }
                 return app;
             }

@@ -48,6 +48,10 @@
                 } else {
                     return ObjectManager.getObject(intPtr);
                 }
+            } else if (GarbageCollection.exists(intPtr)) {
+                // 是一个正实数，并且在GC之中存在定义
+                // 则是webassembly内存之中的一个用户对象实例
+                return ObjectManager.getObject(intPtr);
             } else {
                 // 如何处理正实数？
                 return ObjectManager.readText(intPtr);
