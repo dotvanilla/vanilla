@@ -62,6 +62,13 @@ Namespace Symbols.Blocks
         Public Property condition As Expression
         Public Property [isNot] As Boolean
 
+        Sub New()
+        End Sub
+
+        Sub New(i32 As Expression)
+            condition = i32
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>

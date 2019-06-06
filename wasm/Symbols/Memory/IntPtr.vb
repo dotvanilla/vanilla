@@ -102,6 +102,17 @@ Namespace Symbols.MemoryObject
             }
         End Function
 
+        Public Shared Operator Mod(intptr As IntPtr, x As Integer) As Expression
+            Return New FuncInvoke() With {
+                .[operator] = True,
+                .parameters = {intptr, Literal.i32(x)},
+                .refer = New ReferenceSymbol With {
+                    .type = SymbolType.Operator,
+                    .symbol = TypeOperator.I32ByteOperator("Mod")
+                }
+            }
+        End Operator
+
         Public Shared Operator +(intptr As IntPtr, offset As Integer) As IntPtr
             Return New IntPtr With {.expression = Add(intptr, Literal.i32(offset))}
         End Operator

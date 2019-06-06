@@ -51,6 +51,7 @@ Imports System.Runtime.Serialization
 Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
+Imports Wasm.Symbols.Blocks
 Imports Wasm.TypeInfo
 
 Namespace Symbols.MemoryObject
@@ -114,7 +115,8 @@ Namespace Symbols.MemoryObject
         Public Shared ReadOnly Property Allocate As New FuncSymbol With {
             .comment = "Add object information into javascript runtime",
             .locals = {
-                New DeclareLocal With {.name = "offset", .init = ObjectManager.GetReference, .type = TypeAbstract.i32}
+                New DeclareLocal With {.name = "offset", .init = ObjectManager.GetReference, .type = TypeAbstract.i32},
+                New DeclareLocal With {.name = "padding", .type = TypeAbstract.i32}
             },
             .parameters = {
                 "sizeof".param("i32"),
@@ -125,20 +127,51 @@ Namespace Symbols.MemoryObject
             .[module] = "global",
             .body = allocateSteps(
                 .locals(Scan0).GetReference,
+                .locals(1).GetReference,
                 New GetLocalVariable(.parameters(Scan0).Name),
                 New GetLocalVariable(.parameters(1).Name)
             ).ToArray
         }
 
-        Private Shared Iterator Function allocateSteps(local As GetLocalVariable,
+        Private Shared Iterator Function allocateSteps(local As GetLocalVariable, padding As GetLocalVariable,
                                                        sizeof As GetLocalVariable,
                                                        class_id As GetLocalVariable) As IEnumerable(Of Expression)
+            ' 赋值分配新对象的内存地址
             Yield New SetLocalVariable With {
                 .var = local.var,
                 .value = ObjectManager.GetReference
             }
             ' 将全局指针位移目标内存区域大小完成分配操作
             Yield New SetGlobalVariable(ObjectManager, IndexOffset(local, sizeof))
+
+            ' 将当前的内存起始位置padding为8的整数倍
+            'Dim pos As Integer = Offset
+            Yield New SetLocalVariable With {
+                .var = padding.var,
+                .value = New IntPtr(ObjectManager.GetReference) Mod 8
+            }
+
+            Yield New IfBlock With {
+                .condition = New BooleanSymbol(padding),
+                .guid = App.GetNextUniqueName("ifBlock_"),
+                .[then] = New ExpressionGroup With {
+                    .group = {
+                        New SetLocalVariable With {
+                            .var = padding.var,
+                            .value = 8 - New IntPtr(padding)
+                        },
+                        New SetGlobalVariable(ObjectManager, IndexOffset(ObjectManager.GetReference, padding))
+                    }
+                }
+            }
+
+            'If pos Mod 8 = 0 Then
+            '    ' Already on a 8 byte multiple
+            '    Return
+            'Else
+            '    Offset += (8 - (pos Mod 8))
+            'End If
+
             ' 将对象写入javascript环境之中的内存回收模块
             Yield New FuncInvoke(AddGCobject) With {
                 .[operator] = False,
