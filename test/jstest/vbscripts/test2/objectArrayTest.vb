@@ -2,14 +2,19 @@
 
 Module objectArrayTest
 
-    Dim ps As Point() = {
-        New Point With {.x = 100, .y = 500},
-        New Point With {.x = 1, .y = .x * 999, .name = "Hello world"}
-    }
-
     Declare Sub dump Lib "console" Alias "log" (obj As Point)
     Declare Sub println Lib "console" Alias "log" (info As String)
     Declare Sub warning Lib "console" Alias "warn" (info As String)
+    Declare Sub viewLine Lib "console" Alias "log" (line As line)
+
+    Dim ps As Point() = {
+        New Point With {.x = 100, .y = 500},
+        New Point With {.x = 1, .y = .x * 999, .name = "Hello world"},
+        New Point With {.name = "b:Point"},
+        New Point With {.name = "c:Point"}
+    }
+
+    Dim lines As line()
 
     ''' <summary>
     ''' no bug
@@ -24,6 +29,10 @@ Module objectArrayTest
             Call dump(item)
         Next
 
+        lines = {
+            New line With {.a = ps(0), .b = ps(1)},
+            New line With {.a = ps(2), .b = ps(3)}
+        }
     End Sub
 
     ''' <summary>
@@ -36,6 +45,10 @@ Module objectArrayTest
             Call println(info:=$"#{i} addressOf:=&{ps(i)}, name:={ps(i).name}")
             Call println(info:=$"   [x,y]:=[{ps(i).x},{ps(i).y}]")
             Call dump(ps(i))
+        Next
+
+        For j As Integer = 0 To lines.Length - 1
+            Call viewLine(lines(j))
         Next
     End Sub
 
@@ -59,6 +72,10 @@ Namespace arrayObjects
     Public Class Point
         Public x, y As Double
         Public name As String = "ABC"
+    End Class
+
+    Public Class line
+        Public a, b As Point
     End Class
 
 End Namespace
