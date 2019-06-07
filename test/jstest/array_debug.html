@@ -1,0 +1,16 @@
+<meta name="webassembly" content="../vbscripts/test2/objectArrayTest.wasm" />
+
+<script src="linq.min.js"></script>
+<script src="visualbasic.wasm.js"></script>
+
+<script>
+// WebAssembly Demo
+    vanilla.Wasm.showDebugMessage(false);
+    vanilla.Wasm.RunAssembly("@webassembly", {
+      run: app => {
+        console.log(app);	
+      },
+      api: { console: true, text: true, array: true }
+    });
+
+</script>
