@@ -39,8 +39,12 @@
     (func $objectArrayTest.dump (import "console" "log") (param $obj i32) )
 ;; Declare Function println Lib "console" Alias "log" (info As string) As void
     (func $objectArrayTest.println (import "console" "log") (param $info i32) )
+;; Declare Function warning Lib "console" Alias "warn" (info As string) As void
+    (func $objectArrayTest.warning (import "console" "warn") (param $info i32) )
 ;; Declare Function i32.toString Lib "string" Alias "toString" (x As i32) As string
     (func $i32.toString (import "string" "toString") (param $x i32) (result i32))
+;; Declare Function f64.toString Lib "string" Alias "toString" (x As f64) As string
+    (func $f64.toString (import "string" "toString") (param $x f64) (result i32))
     
     ;; Only allows one memory block in each module
     (memory (import "env" "bytechunks") 1)
@@ -48,7 +52,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $global.ObjectManager (mut i32) (i32.const 448))
+    (global $global.ObjectManager (mut i32) (i32.const 528))
 
     ;; memory allocate in javascript runtime
     (func $global.ObjectManager.Allocate (param $sizeof i32) (param $class_id i32) (result i32)
@@ -97,14 +101,32 @@
     ;; String from 392 with 8 bytes in memory
     (data (i32.const 392) ", name:=\00")
     
-    ;; String from 408 with 1 bytes in memory
-    (data (i32.const 408) "#\00")
+    ;; String from 408 with 11 bytes in memory
+    (data (i32.const 408) "   [x,y]:=[\00")
     
-    ;; String from 416 with 13 bytes in memory
-    (data (i32.const 416) " addressOf:=&\00")
+    ;; String from 424 with 1 bytes in memory
+    (data (i32.const 424) ",\00")
     
-    ;; String from 432 with 8 bytes in memory
-    (data (i32.const 432) ", name:=\00")
+    ;; String from 432 with 1 bytes in memory
+    (data (i32.const 432) "]\00")
+    
+    ;; String from 440 with 24 bytes in memory
+    (data (i32.const 440) "Assign a random [x,y]:=[\00")
+    
+    ;; String from 472 with 1 bytes in memory
+    (data (i32.const 472) ",\00")
+    
+    ;; String from 480 with 1 bytes in memory
+    (data (i32.const 480) "]\00")
+    
+    ;; String from 488 with 1 bytes in memory
+    (data (i32.const 488) "#\00")
+    
+    ;; String from 496 with 13 bytes in memory
+    (data (i32.const 496) " addressOf:=&\00")
+    
+    ;; String from 512 with 8 bytes in memory
+    (data (i32.const 512) ", name:=\00")
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -145,25 +167,52 @@
     (func $objectArrayTest.printArray  
         ;; Public Function printArray() As void
         
-    (local $newObject_v0000bi1GH2 i32)
-    (local $newObject_00000c0AwyW i32)
-    (local $arrayOffset_80000d3z1w3 i32)
-    (local $itemOffset_60000eYoMq7 i32)
+    (local $newObject_r0000b35uC8 i32)
+    (local $newObject_j0000cats64 i32)
+    (local $arrayOffset_n0000d02d76 i32)
+    (local $itemOffset_W0000e9FHe5 i32)
+    (local $i i32)
+    
+    (call $objectArrayTest.modifyArray )
+    (set_local $i (i32.const 0))
+    ;; For i As Integer = 0 To ps.Length - 1
+    
+    (block $block_e0000ftZXqO 
+        (loop $loop_g0000gqeR86
+    
+                    (br_if $block_e0000ftZXqO (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayTest.ps) (i32.const 4))) (i32.const 1))))
+            (call $objectArrayTest.println (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 368) (call $i32.toString (get_local $i))) (i32.const 376)) (call $i32.toString (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))))) (i32.const 392)) (call $i32.toString (i32.load (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 16))))))
+            (call $objectArrayTest.println (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 408) (call $f64.toString (f64.load (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 0))))) (i32.const 424)) (call $f64.toString (f64.load (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 8))))) (i32.const 432)))
+            (call $objectArrayTest.dump (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))))
+            ;; For loop control step: (i32.const 1)
+            (set_local $i (i32.add (get_local $i) (i32.const 1)))
+            (br $loop_g0000gqeR86)
+            ;; For Loop Next On loop_g0000gqeR86
+    
+        )
+    )
+    )
+    
+    
+    (func $objectArrayTest.modifyArray  
+        ;; Public Function modifyArray() As void
+        
     (local $i i32)
     
     (set_local $i (i32.const 0))
     ;; For i As Integer = 0 To ps.Length - 1
     
-    (block $block_60000fAtm6m 
-        (loop $loop_30000gX8GVJ
+    (block $block_M0000h9Y25a 
+        (loop $loop_U0000i0G1Mk
     
-                    (br_if $block_60000fAtm6m (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayTest.ps) (i32.const 4))) (i32.const 1))))
-            (call $objectArrayTest.println (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 368) (call $i32.toString (get_local $i))) (i32.const 376)) (call $i32.toString (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))))) (i32.const 392)) (call $i32.toString (i32.load (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 16))))))
-            (call $objectArrayTest.dump (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))))
+                    (br_if $block_M0000h9Y25a (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayTest.ps) (i32.const 4))) (i32.const 1))))
+            (f64.store (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 0)) (call $Math.random ))
+            (f64.store (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 8)) (f64.mul (call $Math.random ) (f64.convert_s/i32 (i32.const 100))))
+            (call $objectArrayTest.warning (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 440) (call $f64.toString (f64.load (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 0))))) (i32.const 472)) (call $f64.toString (f64.load (i32.add (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))) (i32.const 8))))) (i32.const 480)))
             ;; For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_30000gX8GVJ)
-            ;; For Loop Next On loop_30000gX8GVJ
+            (br $loop_U0000i0G1Mk)
+            ;; For Loop Next On loop_U0000i0G1Mk
     
         )
     )
@@ -196,38 +245,38 @@
     (func $global.initializer  
     ;; Public Function initializer() As void
     
-(local $arrayOffset_80000d3z1w3 i32)
-(local $itemOffset_60000eYoMq7 i32)
-(local $newObject_v0000bi1GH2 i32)
-(local $newObject_00000c0AwyW i32)
+(local $arrayOffset_n0000d02d76 i32)
+(local $itemOffset_W0000e9FHe5 i32)
+(local $newObject_r0000b35uC8 i32)
+(local $newObject_j0000cats64 i32)
 
 
 ;; Save (i32.const 2) array element data to memory:
-;; Array memory block begin at location: (get_local $arrayOffset_80000d3z1w3)
-(set_local $arrayOffset_80000d3z1w3 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 2) (i32.const 4))) (i32.const 7)))
+;; Array memory block begin at location: (get_local $arrayOffset_n0000d02d76)
+(set_local $arrayOffset_n0000d02d76 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 2) (i32.const 4))) (i32.const 7)))
 ;; class_id/typealias_enum i32 data: (i32.const 24)/array(Of intptr)
-(i32.store (get_local $arrayOffset_80000d3z1w3) (i32.const 24))
-(i32.store (i32.add (get_local $arrayOffset_80000d3z1w3) (i32.const 4)) (i32.const 2))
+(i32.store (get_local $arrayOffset_n0000d02d76) (i32.const 24))
+(i32.store (i32.add (get_local $arrayOffset_n0000d02d76) (i32.const 4)) (i32.const 2))
 ;; End of byte marks meta data, start write data blocks
-(set_local $itemOffset_60000eYoMq7 (i32.add (get_local $arrayOffset_80000d3z1w3) (i32.const 8)))
-(set_local $newObject_v0000bi1GH2 (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
+(set_local $itemOffset_W0000e9FHe5 (i32.add (get_local $arrayOffset_n0000d02d76) (i32.const 8)))
+(set_local $newObject_r0000b35uC8 (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
 ;; set field [arrayObjects.Point::x]
-(f64.store (i32.add (get_local $newObject_v0000bi1GH2) (i32.const 0)) (f64.convert_s/i32 (i32.const 100)))
+(f64.store (i32.add (get_local $newObject_r0000b35uC8) (i32.const 0)) (f64.convert_s/i32 (i32.const 100)))
 ;; set field [arrayObjects.Point::y]
-(f64.store (i32.add (get_local $newObject_v0000bi1GH2) (i32.const 8)) (f64.convert_s/i32 (i32.const 500)))
+(f64.store (i32.add (get_local $newObject_r0000b35uC8) (i32.const 8)) (f64.convert_s/i32 (i32.const 500)))
 ;; set field [arrayObjects.Point::name]
-(i32.store (i32.add (get_local $newObject_v0000bi1GH2) (i32.const 16)) (i32.const 13))
-(i32.store (i32.add (get_local $itemOffset_60000eYoMq7) (i32.const 0)) (get_local $newObject_v0000bi1GH2))
-(set_local $newObject_00000c0AwyW (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
+(i32.store (i32.add (get_local $newObject_r0000b35uC8) (i32.const 16)) (i32.const 13))
+(i32.store (i32.add (get_local $itemOffset_W0000e9FHe5) (i32.const 0)) (get_local $newObject_r0000b35uC8))
+(set_local $newObject_j0000cats64 (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
 ;; set field [arrayObjects.Point::x]
-(f64.store (i32.add (get_local $newObject_00000c0AwyW) (i32.const 0)) (f64.convert_s/i32 (i32.const 1)))
+(f64.store (i32.add (get_local $newObject_j0000cats64) (i32.const 0)) (f64.convert_s/i32 (i32.const 1)))
 ;; set field [arrayObjects.Point::y]
-(f64.store (i32.add (get_local $newObject_00000c0AwyW) (i32.const 8)) (f64.mul (f64.load (i32.add (get_local $newObject_00000c0AwyW) (i32.const 0))) (f64.convert_s/i32 (i32.const 999))))
+(f64.store (i32.add (get_local $newObject_j0000cats64) (i32.const 8)) (f64.mul (f64.load (i32.add (get_local $newObject_j0000cats64) (i32.const 0))) (f64.convert_s/i32 (i32.const 999))))
 ;; set field [arrayObjects.Point::name]
-(i32.store (i32.add (get_local $newObject_00000c0AwyW) (i32.const 16)) (i32.const 352))
-(i32.store (i32.add (get_local $itemOffset_60000eYoMq7) (i32.const 4)) (get_local $newObject_00000c0AwyW))
+(i32.store (i32.add (get_local $newObject_j0000cats64) (i32.const 16)) (i32.const 352))
+(i32.store (i32.add (get_local $itemOffset_W0000e9FHe5) (i32.const 4)) (get_local $newObject_j0000cats64))
 ;; Assign array memory data to another expression
-(set_global $objectArrayTest.ps (get_local $arrayOffset_80000d3z1w3))
+(set_global $objectArrayTest.ps (get_local $arrayOffset_n0000d02d76))
 )
 
     (func $objectArrayTest.constructor  
@@ -240,17 +289,17 @@
 (set_local $i (i32.const 0))
 ;; For i As Integer = 0 To ps.Length - 1
 
-(block $block_q0000ha13H8 
-    (loop $loop_z0000iRt5dY
+(block $block_I0000jFptR3 
+    (loop $loop_Z0000k4sxOU
 
-                (br_if $block_q0000ha13H8 (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayTest.ps) (i32.const 4))) (i32.const 1))))
+                (br_if $block_I0000jFptR3 (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayTest.ps) (i32.const 4))) (i32.const 1))))
         (set_local $item (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))))
-        (call $objectArrayTest.println (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 408) (call $i32.toString (get_local $i))) (i32.const 416)) (call $i32.toString (get_local $item))) (i32.const 432)) (call $i32.toString (i32.load (i32.add (get_local $item) (i32.const 16))))))
+        (call $objectArrayTest.println (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 488) (call $i32.toString (get_local $i))) (i32.const 496)) (call $i32.toString (get_local $item))) (i32.const 512)) (call $i32.toString (i32.load (i32.add (get_local $item) (i32.const 16))))))
         (call $objectArrayTest.dump (get_local $item))
         ;; For loop control step: (i32.const 1)
         (set_local $i (i32.add (get_local $i) (i32.const 1)))
-        (br $loop_z0000iRt5dY)
-        ;; For Loop Next On loop_z0000iRt5dY
+        (br $loop_Z0000k4sxOU)
+        ;; For Loop Next On loop_Z0000k4sxOU
 
     )
 )
