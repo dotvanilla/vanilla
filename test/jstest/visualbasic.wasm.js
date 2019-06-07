@@ -693,6 +693,18 @@ var vanilla;
             };
         }
         Wasm.typeOf = typeOf;
+        function filepathOf(ref) {
+            if (Strings.Empty(ref)) {
+                throw `The given WebAssembly module path can not be empty!`;
+            }
+            else if (ref.charAt(0) == "@") {
+                // is a <meta> tag value
+                return $ts(ref);
+            }
+            else {
+                return ref;
+            }
+        }
         /**
          * Run the compiled VisualBasic.NET assembly module
          *
@@ -703,7 +715,7 @@ var vanilla;
          *
         */
         function RunAssembly(module, opts) {
-            fetch(module)
+            fetch(module = filepathOf(module))
                 .then(function (response) {
                 if (response.ok) {
                     return response.arrayBuffer();
