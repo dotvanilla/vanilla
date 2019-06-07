@@ -22,13 +22,23 @@
             return this.AssemblyTitle;
         }
 
+        /**
+         * Read ``AssemblyInfo.vb`` of target vbproj
+        */
         public static readAssemblyInfo(assm: IWasm): AssemblyInfo {
             let webassm: any = assm.instance.exports;
             let readText = function (name: string) {
                 let ref: string = `AssemblyInfo.${name}`;
-                let out = webassm[ref];
+                let out: Delegate.Func<number> = webassm[ref];
 
-                return WebAssembly.ObjectManager.readText(out());
+                // 20190607 如果是单文件编译，而非整个vbproj项目的编译
+                // 则AssemblyInfo是缺失的
+                // 则这个时候全部返回空字符串就好了
+                if (isNullOrUndefined(out)) {
+                    return "";
+                } else {
+                    return WebAssembly.ObjectManager.readText(out());
+                }
             }
 
             return new AssemblyInfo(

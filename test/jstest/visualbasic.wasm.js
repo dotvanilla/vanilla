@@ -662,12 +662,23 @@ var vanilla;
         toString() {
             return this.AssemblyTitle;
         }
+        /**
+         * Read ``AssemblyInfo.vb`` of target vbproj
+        */
         static readAssemblyInfo(assm) {
             let webassm = assm.instance.exports;
             let readText = function (name) {
                 let ref = `AssemblyInfo.${name}`;
                 let out = webassm[ref];
-                return WebAssembly.ObjectManager.readText(out());
+                // 20190607 如果是单文件编译，而非整个vbproj项目的编译
+                // 则AssemblyInfo是缺失的
+                // 则这个时候全部返回空字符串就好了
+                if (isNullOrUndefined(out)) {
+                    return "";
+                }
+                else {
+                    return WebAssembly.ObjectManager.readText(out());
+                }
             };
             return new AssemblyInfo(readText("AssemblyTitle"), readText("AssemblyDescription"), readText("AssemblyCompany"), readText("AssemblyProduct"), readText("AssemblyCopyright"), readText("AssemblyTrademark"), readText("Guid"), readText("AssemblyVersion"), readText("AssemblyFileVersion"));
         }
@@ -727,10 +738,13 @@ var vanilla;
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
-                let exportAssm = exportWasmApi(assembly);
+                var exportAssm;
                 if (showDebugMessage()) {
                     console.log("Load external WebAssembly module success!");
                     console.log(assembly);
+                }
+                exportAssm = exportWasmApi(assembly);
+                if (showDebugMessage()) {
                     console.log("VisualBasic.NET Project AssemblyInfo:");
                     console.log(exportAssm.AssemblyInfo);
                 }

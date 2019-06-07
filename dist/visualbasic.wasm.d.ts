@@ -246,6 +246,9 @@ declare namespace vanilla {
         AssemblyFileVersion: string;
         constructor(AssemblyTitle: string, AssemblyDescription: string, AssemblyCompany: string, AssemblyProduct: string, AssemblyCopyright: string, AssemblyTrademark: string, Guid: string, AssemblyVersion: string, AssemblyFileVersion: string);
         toString(): string;
+        /**
+         * Read ``AssemblyInfo.vb`` of target vbproj
+        */
         static readAssemblyInfo(assm: IWasm): AssemblyInfo;
     }
 }

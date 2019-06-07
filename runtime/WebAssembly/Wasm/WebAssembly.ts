@@ -51,11 +51,16 @@
                 .then(buffer => new Uint8Array(buffer))
                 .then(module => ExecuteInternal(module, opts))
                 .then(assembly => {
-                    let exportAssm: AssemblyExport = exportWasmApi(assembly);
+                    var exportAssm: AssemblyExport;
 
                     if (showDebugMessage()) {
                         console.log("Load external WebAssembly module success!");
                         console.log(assembly);
+                    }
+
+                    exportAssm = exportWasmApi(assembly);
+
+                    if (showDebugMessage()) {
                         console.log("VisualBasic.NET Project AssemblyInfo:");
                         console.log(exportAssm.AssemblyInfo);
                     }
