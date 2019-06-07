@@ -47,6 +47,8 @@ Module objectArrayTest
             Call dump(ps(i))
         Next
 
+        Call println("As the point and line object is reference type, so the point value in lines array is also changed!")
+
         For j As Integer = 0 To lines.Length - 1
             Call viewLine(lines(j))
         Next
