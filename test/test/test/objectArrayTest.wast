@@ -135,10 +135,10 @@
     (func $objectArrayTest.GetPoints  (result i32)
         ;; Public Function GetPoints() As array(Of intptr)
         
-    (local $newObject_v0000b0mY96 i32)
-    (local $newObject_S0000c3pX2u i32)
-    (local $arrayOffset_m0000dVS9a0 i32)
-    (local $itemOffset_O0000ebq00O i32)
+    (local $newObject_W0000be1Lir i32)
+    (local $newObject_10000cx7v1S i32)
+    (local $arrayOffset_40000d2V0l4 i32)
+    (local $itemOffset_v0000epQ1Of i32)
     
     (return (get_global $objectArrayTest.ps))
     )
@@ -161,38 +161,38 @@
     (func $global.initializer  
     ;; Public Function initializer() As void
     
-(local $arrayOffset_m0000dVS9a0 i32)
-(local $itemOffset_O0000ebq00O i32)
-(local $newObject_v0000b0mY96 i32)
-(local $newObject_S0000c3pX2u i32)
+(local $arrayOffset_40000d2V0l4 i32)
+(local $itemOffset_v0000epQ1Of i32)
+(local $newObject_W0000be1Lir i32)
+(local $newObject_10000cx7v1S i32)
 
 
 ;; Save (i32.const 2) array element data to memory:
-;; Array memory block begin at location: (get_local $arrayOffset_m0000dVS9a0)
-(set_local $arrayOffset_m0000dVS9a0 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 2) (i32.const 4))) (i32.const 7)))
+;; Array memory block begin at location: (get_local $arrayOffset_40000d2V0l4)
+(set_local $arrayOffset_40000d2V0l4 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 2) (i32.const 4))) (i32.const 7)))
 ;; class_id/typealias_enum i32 data: (i32.const 24)/array(Of intptr)
-(i32.store (get_local $arrayOffset_m0000dVS9a0) (i32.const 24))
-(i32.store (i32.add (get_local $arrayOffset_m0000dVS9a0) (i32.const 4)) (i32.const 2))
+(i32.store (get_local $arrayOffset_40000d2V0l4) (i32.const 24))
+(i32.store (i32.add (get_local $arrayOffset_40000d2V0l4) (i32.const 4)) (i32.const 2))
 ;; End of byte marks meta data, start write data blocks
-(set_local $itemOffset_O0000ebq00O (i32.add (get_local $arrayOffset_m0000dVS9a0) (i32.const 8)))
-(set_local $newObject_v0000b0mY96 (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
+(set_local $itemOffset_v0000epQ1Of (i32.add (get_local $arrayOffset_40000d2V0l4) (i32.const 8)))
+(set_local $newObject_W0000be1Lir (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
 ;; set field [arrayObjects.Point::x]
-(f64.store (i32.add (get_local $newObject_v0000b0mY96) (i32.const 0)) (f64.convert_s/i32 (i32.const 100)))
+(f64.store (i32.add (get_local $newObject_W0000be1Lir) (i32.const 0)) (f64.convert_s/i32 (i32.const 100)))
 ;; set field [arrayObjects.Point::y]
-(f64.store (i32.add (get_local $newObject_v0000b0mY96) (i32.const 8)) (f64.convert_s/i32 (i32.const 500)))
+(f64.store (i32.add (get_local $newObject_W0000be1Lir) (i32.const 8)) (f64.convert_s/i32 (i32.const 500)))
 ;; set field [arrayObjects.Point::name]
-(i32.store (i32.add (get_local $newObject_v0000b0mY96) (i32.const 16)) (i32.const 13))
-(i32.store (i32.add (get_local $itemOffset_O0000ebq00O) (i32.const 0)) (get_local $newObject_v0000b0mY96))
-(set_local $newObject_S0000c3pX2u (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
+(i32.store (i32.add (get_local $newObject_W0000be1Lir) (i32.const 16)) (i32.const 13))
+(i32.store (i32.add (get_local $itemOffset_v0000epQ1Of) (i32.const 0)) (get_local $newObject_W0000be1Lir))
+(set_local $newObject_10000cx7v1S (call $global.ObjectManager.Allocate (i32.const 20) (i32.const 24)))
 ;; set field [arrayObjects.Point::x]
-(f64.store (i32.add (get_local $newObject_S0000c3pX2u) (i32.const 0)) (f64.convert_s/i32 (i32.const 1)))
+(f64.store (i32.add (get_local $newObject_10000cx7v1S) (i32.const 0)) (f64.convert_s/i32 (i32.const 1)))
 ;; set field [arrayObjects.Point::y]
-(f64.store (i32.add (get_local $newObject_S0000c3pX2u) (i32.const 8)) (f64.mul (f64.load (i32.add (get_local $newObject_S0000c3pX2u) (i32.const 0))) (f64.convert_s/i32 (i32.const 999))))
+(f64.store (i32.add (get_local $newObject_10000cx7v1S) (i32.const 8)) (f64.mul (f64.load (i32.add (get_local $newObject_10000cx7v1S) (i32.const 0))) (f64.convert_s/i32 (i32.const 999))))
 ;; set field [arrayObjects.Point::name]
-(i32.store (i32.add (get_local $newObject_S0000c3pX2u) (i32.const 16)) (i32.const 352))
-(i32.store (i32.add (get_local $itemOffset_O0000ebq00O) (i32.const 4)) (get_local $newObject_S0000c3pX2u))
+(i32.store (i32.add (get_local $newObject_10000cx7v1S) (i32.const 16)) (i32.const 352))
+(i32.store (i32.add (get_local $itemOffset_v0000epQ1Of) (i32.const 4)) (get_local $newObject_10000cx7v1S))
 ;; Assign array memory data to another expression
-(set_global $objectArrayTest.ps (get_local $arrayOffset_m0000dVS9a0))
+(set_global $objectArrayTest.ps (get_local $arrayOffset_40000d2V0l4))
 )
 
     (func $objectArrayTest.constructor  
@@ -205,17 +205,17 @@
 (set_local $i (i32.const 0))
 ;; For i As Integer = 0 To ps.Length - 1
 
-(block $block_60000fe5egy 
-    (loop $loop_y0000g5F9az
+(block $block_S0000fS4PU6 
+    (loop $loop_70000gSjq1h
 
-                (br_if $block_60000fe5egy (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayTest.ps) (i32.const 4))) (i32.const 1))))
+                (br_if $block_S0000fS4PU6 (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayTest.ps) (i32.const 4))) (i32.const 1))))
         (set_local $item (i32.load (i32.add (i32.add (get_global $objectArrayTest.ps) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4)))))
         (call $objectArrayTest.println (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 368) (call $i32.toString (get_local $i))) (i32.const 376)) (call $i32.toString (get_local $item))) (i32.const 392)) (call $i32.toString (i32.load (i32.add (get_local $item) (i32.const 16))))))
         (call $objectArrayTest.dump (get_local $item))
         ;; For loop control step: (i32.const 1)
         (set_local $i (i32.add (get_local $i) (i32.const 1)))
-        (br $loop_y0000g5F9az)
-        ;; For Loop Next On loop_y0000g5F9az
+        (br $loop_70000gSjq1h)
+        ;; For Loop Next On loop_70000gSjq1h
 
     )
 )

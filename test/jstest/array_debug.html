@@ -8,7 +8,12 @@
     vanilla.Wasm.showDebugMessage(false);
     vanilla.Wasm.RunAssembly("@webassembly", {
       run: app => {
-        console.log(app);	
+
+		  let objectArray = app.objectArrayTest.GetPoints();
+          
+		  console.log(app);	
+		  console.log("array addressof := &" + objectArray);
+		  console.log(WebAssembly.ObjectManager.getObject(objectArray));
       },
       api: { console: true, text: true, array: true }
     });

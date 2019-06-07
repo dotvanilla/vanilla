@@ -16,7 +16,7 @@ Module objectArrayTest
         For i As Integer = 0 To ps.Length - 1
             item = ps(i)
 
-            Call println($"#{i} addressOf:=&{item}, name:={item.name}")
+            Call println(info:=$"#{i} addressOf:=&{item}, name:={item.name}")
             Call dump(item)
         Next
 
