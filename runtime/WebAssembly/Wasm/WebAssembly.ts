@@ -19,6 +19,17 @@
             }
         }
 
+        function filepathOf(ref: string): string {
+            if (Strings.Empty(ref)) {
+                throw `The given WebAssembly module path can not be empty!`;
+            } else if (ref.charAt(0) == "@") {
+                // is a <meta> tag value
+                return <any>$ts(ref);
+            } else {
+                return ref;
+            }
+        }
+
         /** 
          * Run the compiled VisualBasic.NET assembly module
          * 
@@ -29,7 +40,7 @@
          *         
         */
         export function RunAssembly(module: string, opts: Config): void {
-            fetch(module)
+            fetch(module = filepathOf(module))
                 .then(function (response) {
                     if (response.ok) {
                         return response.arrayBuffer();
