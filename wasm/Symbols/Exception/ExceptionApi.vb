@@ -1,4 +1,4 @@
-﻿Namespace Symbols.Exception
+﻿Namespace Symbols.[Error]
 
     Module ExceptionApi
 

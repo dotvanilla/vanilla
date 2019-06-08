@@ -1,7 +1,7 @@
 ﻿Imports Wasm.Compiler
 Imports Wasm.TypeInfo
 
-Namespace Symbols.Exception
+Namespace Symbols.[Error]
 
     ''' <summary>
     ''' Exception handler model for WebAssembly
