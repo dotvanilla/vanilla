@@ -70,14 +70,14 @@ Namespace Symbols.Blocks
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' 返回的值都是逻辑值
         ''' </summary>
         ''' <param name="symbolTable"></param>
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function TypeInfer(symbolTable As SymbolTable) As TypeAbstract
-            Return New TypeAbstract("i32")
+            Return New TypeAbstract(TypeAlias.boolean)
         End Function
 
         Public Overrides Function ToSExpression() As String

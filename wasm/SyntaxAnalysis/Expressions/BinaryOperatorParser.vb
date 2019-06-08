@@ -1,47 +1,47 @@
 ﻿#Region "Microsoft.VisualBasic::b7c98781845b42967c05c0a4071166b3, SyntaxAnalysis\Expressions\BinaryOperatorParser.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module BinaryOperatorParser
-    ' 
-    '         Function: (+2 Overloads) BinaryStack, DoComparison, DoLogical, highOrderTransfer, IsPredicate
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module BinaryOperatorParser
+' 
+'         Function: (+2 Overloads) BinaryStack, DoComparison, DoLogical, highOrderTransfer, IsPredicate
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +50,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Compiler
 Imports Wasm.Symbols
+Imports Wasm.Symbols.Blocks
 Imports Wasm.TypeInfo
 
 Namespace SyntaxAnalysis
@@ -162,12 +163,21 @@ Namespace SyntaxAnalysis
             End If
         End Function
 
+        ''' <summary>
+        ''' 产生的是一个逻辑值表达式
+        ''' </summary>
+        ''' <param name="symbols"></param>
+        ''' <param name="left"></param>
+        ''' <param name="right"></param>
+        ''' <param name="op$"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function DoLogical(symbols As SymbolTable, left As Expression, right As Expression, op$) As Expression
+            Dim logical As FuncInvoke
+
             left = CTypeHandle.CBool(left, symbols)
             right = CTypeHandle.CBool(right, symbols)
-
-            Return New FuncInvoke With {
+            logical = New FuncInvoke With {
                 .[operator] = True,
                 .parameters = {left, right},
                 .refer = New ReferenceSymbol With {
@@ -175,6 +185,8 @@ Namespace SyntaxAnalysis
                     .type = SymbolType.LogicalOperator
                 }
             }
+
+            Return New BooleanSymbol With {.condition = logical}
         End Function
 
         <Extension>
