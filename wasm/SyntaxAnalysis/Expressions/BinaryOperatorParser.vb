@@ -192,23 +192,43 @@ Namespace SyntaxAnalysis
         <Extension>
         Public Function DoComparison(symbols As SymbolTable, left As Expression, right As Expression, op$) As Expression
             Dim type As TypeAbstract = symbols.highOrderTransfer(left, right)
+            Dim opSymbol As String = TypeOperator.Compares(type.typefit, op)
+            Dim result As Expression
 
-            Return New FuncInvoke With {
-                .[operator] = True,
-                .parameters = {left, right},
-                .refer = New ReferenceSymbol With {
-                    .symbol = TypeOperator.Compares(type.typefit, op),
-                    .type = SymbolType.LogicalOperator
+            If opSymbol Is Nothing Then
+                ' 可能是i32位运算
+                result = New FuncInvoke With {
+                    .[operator] = True,
+                    .parameters = {left, right},
+                    .comment = "i32 bit operation",
+                    .refer = New ReferenceSymbol With {
+                        .symbol = TypeOperator.I32ByteOperator(op),
+                        .type = SymbolType.Operator
+                    }
                 }
-            }
+            Else
+                result = New FuncInvoke With {
+                    .[operator] = True,
+                    .parameters = {left, right},
+                    .refer = New ReferenceSymbol With {
+                        .symbol = opSymbol,
+                        .type = SymbolType.LogicalOperator
+                    }
+                }
+                result = New BooleanSymbol(result)
+            End If
+
+            Return result
         End Function
 
         <Extension>
         Public Function IsPredicate(symbols As SymbolTable, left As Expression, right As Expression) As Expression
+            Dim logical As Expression
+
             If left.isLiteralNothing OrElse right.isLiteralNothing Then
                 ' xxx is nothing / nothing is xxx
                 ' 因为nothing总是i32类型，所以在这里应该生成的是是否等于i32 0的判断
-                Return New FuncInvoke With {
+                logical = New FuncInvoke With {
                     .[operator] = True,
                     .parameters = {left, right},
                     .refer = New ReferenceSymbol With {
@@ -220,6 +240,8 @@ Namespace SyntaxAnalysis
                 ' a is b
                 Throw New NotImplementedException
             End If
+
+            Return New BooleanSymbol(logical)
         End Function
     End Module
 End Namespace

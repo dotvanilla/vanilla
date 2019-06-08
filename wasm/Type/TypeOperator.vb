@@ -120,7 +120,7 @@ Namespace TypeInfo
         ''' <param name="op"></param>
         ''' <returns></returns>
         ''' <remarks>
-        ''' 
+        ''' 在这里应该产生的是一个逻辑值比较
         ''' </remarks>
         Public Function Compares(type$, op$) As String
             Select Case op
@@ -161,16 +161,21 @@ Namespace TypeInfo
                         Throw New NotImplementedException
                     End If
                 Case Else
-                    If type = "i32" Then
-                        Return I32ByteOperator(op)
-                    ElseIf type = "boolean" Then
+                    If type = "boolean" Then
                         Return BooleanLogical(op)
+                    ElseIf type = "i32" Then
+                        Return Nothing
                     Else
                         Throw New NotImplementedException
                     End If
             End Select
         End Function
 
+        ''' <summary>
+        ''' i32整形数的位运算符号
+        ''' </summary>
+        ''' <param name="op"></param>
+        ''' <returns></returns>
         Public Function I32ByteOperator(op As String) As String
             ' 有一些位相关的操作只能够执行在i32上面
             Select Case op
