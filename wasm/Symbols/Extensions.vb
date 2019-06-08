@@ -50,7 +50,7 @@ Imports Wasm.Symbols.Blocks
 
 Namespace Symbols
 
-    Module Extensions
+    <HideModuleName> Module Extensions
 
         <Extension>
         Public Function IsNullOrEmpty(group As ExpressionGroup) As Boolean
