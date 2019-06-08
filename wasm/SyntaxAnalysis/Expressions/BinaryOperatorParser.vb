@@ -193,7 +193,7 @@ Namespace SyntaxAnalysis
 
         <Extension>
         Public Function IsPredicate(symbols As SymbolTable, left As Expression, right As Expression) As Expression
-            If left.IsLiteralNothing OrElse right.IsLiteralNothing Then
+            If left.isLiteralNothing OrElse right.isLiteralNothing Then
                 ' xxx is nothing / nothing is xxx
                 ' 因为nothing总是i32类型，所以在这里应该生成的是是否等于i32 0的判断
                 Return New FuncInvoke With {

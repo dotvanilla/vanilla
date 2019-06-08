@@ -339,7 +339,7 @@ Namespace SyntaxAnalysis
 
         <Extension>
         Private Iterator Function doStructCopy(symbols As SymbolTable, fieldType As TypeAbstract, from As Expression, [to] As Expression) As IEnumerable(Of Expression)
-            If from.IsLiteralNothing Then
+            If from.isLiteralNothing Then
                 ' 空值的时候就不需要执行内存复制了
                 Yield New CommentText("Structure value is nothing!")
                 Return

@@ -172,7 +172,7 @@ Namespace Symbols
         ''' <returns></returns>
         Public ReadOnly Property Sign As Integer
             Get
-                If IsNumberLiteral Then
+                If isNumberLiteral Then
                     Return Math.Sign(Double.Parse(value))
                 Else
                     Throw New InvalidOperationException($"Constant value '{value}' is not numeric type!")
@@ -180,7 +180,12 @@ Namespace Symbols
             End Get
         End Property
 
-        Public Overrides ReadOnly Property IsLiteralNothing As Boolean
+        ''' <summary>
+        ''' Current literal expression is a literal token expression of 
+        ''' ``Nothing`` or ``null`` in general programing language.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides ReadOnly Property isLiteralNothing As Boolean
             Get
                 Select Case type.type
                     Case TypeAlias.boolean, TypeAlias.f32, TypeAlias.f64, TypeAlias.i32, TypeAlias.i64, TypeAlias.void, TypeAlias.string

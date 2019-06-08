@@ -134,7 +134,7 @@ Namespace TypeInfo
                 ' 1. left accept any type
                 ' 2. left is the same type as right
                 Return right
-            ElseIf right.IsLiteralNothing Then
+            ElseIf right.isLiteralNothing Then
                 ' nothing 可以赋值给任意类型
                 Return Literal.Nothing(left)
             ElseIf TypeOf right Is LiteralExpression AndAlso IsDirectCastCapable(left.type, rightTypeInfer.type) Then

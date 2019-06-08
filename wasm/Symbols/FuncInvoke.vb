@@ -87,7 +87,7 @@ Namespace Symbols
                     Return False
                 ElseIf parameters.Length = 0 Then
                     Return False
-                ElseIf Not parameters(Scan0).IsNumberLiteral Then
+                ElseIf Not parameters(Scan0).isNumberLiteral Then
                     Return False
                 Else
                     Dim first As LiteralExpression = parameters(Scan0)
