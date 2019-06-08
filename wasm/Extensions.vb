@@ -60,7 +60,7 @@ Imports Wasm.Compiler
 Imports Wasm.Symbols
 Imports Wasm.SyntaxAnalysis
 Imports Wasm.TypeInfo
-Imports Vbproj = Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.Project
+Imports Vbproj = Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj.Project
 
 Public Module Extensions
 
