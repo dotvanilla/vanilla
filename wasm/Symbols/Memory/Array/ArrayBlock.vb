@@ -119,7 +119,7 @@ Namespace Symbols.MemoryObject
                 Yield symbol
             Next
 
-            For Each item In elements
+            For Each item As Expression In elements.SafeQuery
                 For Each symbol In item.GetSymbolReference
                     Yield symbol
                 Next

@@ -12,6 +12,13 @@ Module nestedTest
 
     End Sub
 
+    Public Function getArray() As line()
+        Return {
+            New line With {.a = newPoint(), .b = New point With {.tag = "GG"}},
+            New line With {.b = New point, .a = newPoint(), .name = New [nameOf] With {.name = "#2", .source = 2}}
+        }
+    End Function
+
     Private Function newPoint() As point
         Return New point With {.x = -1, .y = -1}
     End Function
@@ -30,6 +37,11 @@ Namespace nestedTypes
 
     Public Class line
         Public a, b As point
+        Public name As [nameOf]
+    End Class
+
+    Public Class [nameOf]
         Public name As String = "this is a line"
+        Public source As Integer = -99999
     End Class
 End Namespace
