@@ -232,7 +232,7 @@ Namespace Symbols.MemoryObject
                                         index As Expression,
                                         ofElement As TypeAbstract,
                                         right As Expression,
-                                        symbols As SymbolTable) As Expression
+                                        symbols As SymbolTable) As [Variant](Of Expression, Expression())
 
             ' 从webassembly内存之中读取数据
             ' 对于数组对象而言，其值是一个内存区块的起始位置来的
@@ -244,10 +244,20 @@ Namespace Symbols.MemoryObject
 
             ' 然后得到实际的内存中的位置
             intptr = ArrayBlock.IndexOffset(intptr, offset)
-            ' 最后使用load读取内存数据
+            ' 最后使用save保存内存数据
             save = BitConverter.save(ofElement, intptr, CTypeHandle.CType(ofElement, right, symbols))
 
-            Return save
+            ' 20190612 如果右边的值表达式是一个新对象的创建，则会需要返回多个表达式
+            If TypeOf right Is UserObject Then
+                Dim returnsMultiple As New List(Of Expression)
+
+                returnsMultiple += DirectCast(right, UserObject).ToArray
+                returnsMultiple += save
+
+                Return returnsMultiple.ToArray
+            Else
+                Return save
+            End If
         End Function
 
         <Extension>

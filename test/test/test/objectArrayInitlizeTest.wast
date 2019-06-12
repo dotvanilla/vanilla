@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 1.3.0.22
-    ;; build: 6/12/2019 6:55:47 PM
+    ;; build: 6/12/2019 7:11:03 PM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -115,39 +115,44 @@
     (func $global.initializer  
     ;; Public Function initializer() As void
     
-(local $arrayOffset_d0000bAN7Ba i32)
+(local $arrayOffset_o0000blO9re i32)
 
 
 ;; Save (i32.const 100) array element data to memory:
-;; Array memory block begin at location: (get_local $arrayOffset_d0000bAN7Ba)
-(set_local $arrayOffset_d0000bAN7Ba (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 100) (i32.const 4))) (i32.const 7)))
+;; Array memory block begin at location: (get_local $arrayOffset_o0000blO9re)
+(set_local $arrayOffset_o0000blO9re (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 100) (i32.const 4))) (i32.const 7)))
 ;; class_id/typealias_enum i32 data: (i32.const 13)/array(Of intptr)
-(i32.store (get_local $arrayOffset_d0000bAN7Ba) (i32.const 13))
-(i32.store (i32.add (get_local $arrayOffset_d0000bAN7Ba) (i32.const 4)) (i32.const 100))
+(i32.store (get_local $arrayOffset_o0000blO9re) (i32.const 13))
+(i32.store (i32.add (get_local $arrayOffset_o0000blO9re) (i32.const 4)) (i32.const 100))
 ;; End of byte marks meta data, start write data blocks
 ;; Assign array memory data to another expression
-(set_global $objectArrayInitlizeTest.list (get_local $arrayOffset_d0000bAN7Ba))
+(set_global $objectArrayInitlizeTest.list (get_local $arrayOffset_o0000blO9re))
 )
 
     (func $objectArrayInitlizeTest.constructor  
     ;; Public Function constructor() As void
     
-(local $arrayOffset_d0000bAN7Ba i32)
+(local $arrayOffset_o0000blO9re i32)
 (local $i i32)
-(local $newObject_v0000e3FKC8 i32)
+(local $newObject_60000eaEMLD i32)
 
 (set_local $i (i32.const 0))
 ;; For i As Integer = 0 To list.Length - 1
 
-(block $block_f0000c5d81D 
-    (loop $loop_K0000dNsZQZ
+(block $block_B0000c1S0T0 
+    (loop $loop_V0000d1f4sD
 
-                (br_if $block_f0000c5d81D (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayInitlizeTest.list) (i32.const 4))) (i32.const 1))))
-        (i32.store (i32.add (i32.add (get_global $objectArrayInitlizeTest.list) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4))) (get_local $newObject_v0000e3FKC8))
+                (br_if $block_B0000c1S0T0 (i32.gt_s (get_local $i) (i32.sub (i32.load (i32.add (get_global $objectArrayInitlizeTest.list) (i32.const 4))) (i32.const 1))))
+        (set_local $newObject_60000eaEMLD (call $global.ObjectManager.Allocate (i32.const 8) (i32.const 13)))
+        ;; set field [objectarrayInitModel.circle::x]
+        (f32.store (i32.add (get_local $newObject_60000eaEMLD) (i32.const 0)) (f32.demote/f64 (call $Math.random )))
+        ;; set field [objectarrayInitModel.circle::y]
+        (f32.store (i32.add (get_local $newObject_60000eaEMLD) (i32.const 4)) (f32.demote/f64 (call $Math.random )))
+        (i32.store (i32.add (i32.add (get_global $objectArrayInitlizeTest.list) (i32.const 8)) (i32.mul (get_local $i) (i32.const 4))) (get_local $newObject_60000eaEMLD))
         ;; For loop control step: (i32.const 1)
         (set_local $i (i32.add (get_local $i) (i32.const 1)))
-        (br $loop_K0000dNsZQZ)
-        ;; For Loop Next On loop_K0000dNsZQZ
+        (br $loop_V0000d1f4sD)
+        ;; For Loop Next On loop_V0000d1f4sD
 
     )
 )
