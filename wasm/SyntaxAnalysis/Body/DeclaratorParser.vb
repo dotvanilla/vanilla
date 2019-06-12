@@ -178,7 +178,7 @@ Namespace SyntaxAnalysis
                 init = CTypeHandle.CType(type, init, symbols)
             End If
 
-            If Not init Is Nothing Then
+            If Not init Is Nothing AndAlso Not init.isLiteralNothing Then
                 If TypeOf init Is ArraySymbol Then
                     Dim array As ArraySymbol = init
 
