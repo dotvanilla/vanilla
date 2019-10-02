@@ -108,7 +108,7 @@ Namespace Symbols.MemoryObject
                 save += symbols.writeStructArray(offset.GetReference, size, arrayInitialize, ofElement)
             Else
                 Dim byteType As String = ofElement.typefit
-                Dim i As VBInteger = Scan0
+                Dim i As i32 = Scan0
                 Dim location As Expression
 
                 For Each element As Expression In arrayInitialize
@@ -130,7 +130,7 @@ Namespace Symbols.MemoryObject
                                           arrayInitialize As Expression(),
                                           ofElement As TypeAbstract) As IEnumerable(Of Expression)
             Dim copy As DeclareLocal
-            Dim i As VBInteger = Scan0
+            Dim i As i32 = Scan0
             Dim location As Expression
             Dim save As New List(Of Expression)
             Dim class_id As Expression = Literal.i32(ofElement.class_id)
