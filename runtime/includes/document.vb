@@ -46,4 +46,6 @@
 
 Public Module document
 
+    Public Declare Function getElementById Lib "document" Alias "getElementById" (id As String) As Integer
+
 End Module
