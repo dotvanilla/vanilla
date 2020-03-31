@@ -68,7 +68,7 @@ declare namespace WebAssembly {
         type: number;
         items: any[];
         private intptrs;
-        readonly length: number;
+        get length(): number;
         /**
          * @param type 0 for number, 1 for string, 2 for others
         */
