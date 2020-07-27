@@ -257,7 +257,7 @@ Namespace Symbols
             Select Case type
                 Case "string"
                     Select Case tokens(1)
-                        Case "add", "replace", "trim"
+                        Case "add", "replace", "trim", "substr"
                             Return New TypeAbstract(TypeAlias.string)
                         Case "length", "indexOf"
                             Return New TypeAbstract(TypeAlias.i32)
