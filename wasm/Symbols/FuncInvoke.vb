@@ -267,6 +267,8 @@ Namespace Symbols
                             Return New TypeAbstract(genericType)
                         Case "set"
                             Return TypeAbstract.void
+                        Case "toArray"
+                            Return New TypeAbstract(TypeAlias.array)
                         Case Else
                             Throw New NotImplementedException(refer.symbol)
                     End Select
