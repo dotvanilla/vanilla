@@ -145,7 +145,7 @@ Namespace Symbols.JavaScriptImports
                 "input".param(TypeAlias.string),
                 "deli".param(TypeAlias.string)
             },
-            .result = New TypeAbstract(TypeAlias.intptr)
+            .result = New TypeAbstract(TypeAlias.array)
         }
 
         Public Function Method(name As String) As ImportSymbol

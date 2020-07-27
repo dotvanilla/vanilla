@@ -172,6 +172,16 @@ Namespace TypeInfo
                         Return right
                     End If
                 Case Else
+                    If rightTypeInfer.type = TypeAlias.intptr Then
+                        If Not left.type Like TypeExtensions.NumberOrders Then
+                            ' right side is intptr 
+                            ' and left is reference type
+                            ' cast directly
+                            Call $"direct cast intptr to reference type {left}".__DEBUG_ECHO
+                            Return right
+                        End If
+                    End If
+
                     Throw New InvalidCastException($"{rightTypeInfer} -> {left}")
             End Select
         End Function
