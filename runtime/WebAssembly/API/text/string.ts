@@ -76,5 +76,12 @@
 
             return text.indexOf(findText);
         }
+
+        export function substr(input: number, start: number, len: number): number {
+            let text: string = ObjectManager.readText(input);
+            let subtext: string = text.substr(start, len);
+
+            return ObjectManager.addText(subtext);
+        }
     }
 }

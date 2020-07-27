@@ -35,6 +35,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="API\buffer\BitConvertor.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="API\document\document.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -103,6 +106,7 @@
     <Folder Include="API\document\" />
     <Folder Include="API\" />
     <Folder Include="API\modules\" />
+    <Folder Include="API\buffer\" />
     <Folder Include="API\text\" />
     <Folder Include="Wasm\" />
     <Folder Include="Wasm\Memory\" />
