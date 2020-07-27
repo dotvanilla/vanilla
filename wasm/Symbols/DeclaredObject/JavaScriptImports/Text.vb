@@ -8,7 +8,7 @@ Namespace Symbols.JavaScriptImports
             .importAlias = "parseFloat",
             .definedInModule = False,
             .[module] = "string",
-            .name = "parseFloat",
+            .name = "string.parseFloat",
             .package = "string",
             .parameters = {"input".param(TypeAlias.string)},
             .result = New TypeAbstract(TypeAlias.f64)
@@ -18,7 +18,7 @@ Namespace Symbols.JavaScriptImports
             .importAlias = "parseInt",
             .definedInModule = False,
             .[module] = "string",
-            .name = "parseInt",
+            .name = "string.parseInt",
             .package = "string",
             .parameters = {"input".param(TypeAlias.string)},
             .result = New TypeAbstract(TypeAlias.i32)

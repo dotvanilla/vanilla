@@ -265,17 +265,24 @@ Namespace SyntaxAnalysis
                         Select Case typeName
                             Case NameOf(System.Double), NameOf(System.Single)
                                 If methodName = NameOf(Double.Parse) Then
-                                    Return JavaScriptImports.parseFloat
+                                    funcDeclare = symbols.FindModuleMemberFunction("string", "parseFloat")
+                                    argumentFirst = Nothing
+                                    leftArguments = funcDeclare.parameters
+                                Else
+                                    Throw New NotImplementedException($"{typeName}.{methodName}")
                                 End If
                             Case "Integer", "Long"
                                 If methodName = NameOf(Integer.Parse) Then
-                                    Return JavaScriptImports.parseInt
+                                    funcDeclare = symbols.FindModuleMemberFunction("string", "parseInt")
+                                    argumentFirst = Nothing
+                                    leftArguments = funcDeclare.parameters
+                                Else
+                                    Throw New NotImplementedException($"{typeName}.{methodName}")
                                 End If
                             Case Else
                                 ' do nothing
+                                Throw New NotImplementedException($"{typeName}.{methodName}")
                         End Select
-
-                        Throw New NotImplementedException($"{typeName}.{methodName}")
                     End With
                 Else
                     Throw New NotImplementedException

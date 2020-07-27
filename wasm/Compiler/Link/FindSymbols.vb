@@ -81,6 +81,13 @@ Namespace Compiler
                     Dim Api As ImportSymbol = JavaScriptImports.Math.Method(name)
                     Call symbols.addRequired(Api)
                     Return Api
+                ElseIf context = "string" Then
+                    Select Case name
+                        Case "parseFloat"
+                            Return JavaScriptImports.Text.parseFloat
+                        Case Else
+                            Return Nothing
+                    End Select
                 Else
                     Return Nothing
                 End If

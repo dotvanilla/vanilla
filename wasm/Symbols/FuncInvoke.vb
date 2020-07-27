@@ -256,7 +256,12 @@ Namespace Symbols
 
             Select Case type
                 Case "string"
-                    Return JavaScriptImports.String.JavaScriptSymbol(refer, tokens(1)).result
+                    Select Case tokens(1)
+                        Case "parseFloat" : Return New TypeAbstract(TypeAlias.f64)
+                        Case "parseInt" : Return New TypeAbstract(TypeAlias.i32)
+                        Case Else
+                            Return JavaScriptImports.String.JavaScriptSymbol(refer, tokens(1)).result
+                    End Select
                 Case "array", "list"
                     Select Case tokens(1)
                         Case "push"
