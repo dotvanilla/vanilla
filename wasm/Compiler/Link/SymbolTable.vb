@@ -166,7 +166,7 @@ Namespace Compiler
                 .Select(Function(g) g.fullName) _
                 .ToArray
 
-            Call JavaScriptImports.Math.DoImports(Me)
+            Call JavaScriptImports.DoImports(Me, [module]:=GetType(Math))
             Call addRequired(IMemoryObject.AddGCobject)
         End Sub
 

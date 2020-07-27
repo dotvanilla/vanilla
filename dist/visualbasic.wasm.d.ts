@@ -97,6 +97,10 @@ declare namespace WebAssembly {
     }
 }
 declare namespace WebAssembly {
+    module BitConvertor {
+    }
+}
+declare namespace WebAssembly {
     module Document {
         function getElementById(id: number): number;
         function writeElementText(nodeObj: number, text: number): void;
@@ -215,6 +219,7 @@ declare namespace WebAssembly {
         function replace(text: number, find: number, replacement: number): number;
         function indexOf(input: number, find: number): number;
         function substr(input: number, start: number, len: number): number;
+        function split(input: number, delimiter: number): number;
     }
 }
 declare namespace vanilla {

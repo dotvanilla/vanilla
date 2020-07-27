@@ -83,5 +83,13 @@
 
             return ObjectManager.addText(subtext);
         }
+
+        export function split(input: number, delimiter: number): number {
+            let text: string = ObjectManager.readText(input);
+            let deli: string = ObjectManager.readText(delimiter);
+            let strings: string[] = text.split(deli);
+
+            return ObjectManager.addObject(strings);
+        }
     }
 }

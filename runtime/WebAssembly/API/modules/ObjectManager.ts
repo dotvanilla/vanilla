@@ -124,7 +124,7 @@
          * Add any object to a internal hashTable and then returns its hash code.
         */
         export function addObject(o: any): number {
-            var key: number = hashCode;
+            let key: number = hashCode;
 
             hashTable[key] = o;
             hashCode++;

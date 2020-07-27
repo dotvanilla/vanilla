@@ -261,6 +261,8 @@ Namespace Symbols
                             Return New TypeAbstract(TypeAlias.string)
                         Case "length", "indexOf"
                             Return New TypeAbstract(TypeAlias.i32)
+                        Case "split"
+                            Return New TypeAbstract(TypeAlias.array)
                         Case Else
                             Throw New NotImplementedException(refer.symbol)
                     End Select

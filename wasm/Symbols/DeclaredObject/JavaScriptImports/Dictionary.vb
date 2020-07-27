@@ -60,10 +60,10 @@ Namespace Symbols.JavaScriptImports
         ''' Set key-value and then returns the table hash code
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property SetValue As New ImportSymbol With {
+        Public ReadOnly Property Add As New ImportSymbol With {
             .importAlias = "set",
             .[module] = "table",
-            .Name = "table.set",
+            .name = "table.set",
             .definedInModule = False,
             .package = NameOf(Dictionary),
             .result = TypeAbstract.void,
@@ -77,7 +77,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property GetValue As New ImportSymbol With {
             .importAlias = "get",
             .[module] = "table",
-            .Name = "table.get",
+            .name = "table.get",
             .definedInModule = False,
             .package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.any),
@@ -87,10 +87,10 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        Public ReadOnly Property RemoveValue As New ImportSymbol With {
+        Public ReadOnly Property Remove As New ImportSymbol With {
             .importAlias = "delete",
             .[module] = "table",
-            .Name = "table.delete",
+            .name = "table.delete",
             .definedInModule = False,
             .package = NameOf(Dictionary),
             .result = TypeAbstract.void,
@@ -103,7 +103,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Create As New ImportSymbol With {
             .importAlias = "create",
             .[module] = "table",
-            .Name = "table.new",
+            .name = "table.new",
             .definedInModule = False,
             .package = NameOf(Dictionary),
             .result = New TypeAbstract(TypeAlias.table),
@@ -111,12 +111,13 @@ Namespace Symbols.JavaScriptImports
         }
 
         Public Function Method(name As String) As ImportSymbol
-            Select Case name
-                Case "Add" : Return Dictionary.SetValue
-                Case "Remove" : Return Dictionary.RemoveValue
-                Case Else
-                    Throw New NotImplementedException
-            End Select
+            Static index As Dictionary(Of String, ImportSymbol) = InternalIndexer.HandleVisualBasicSymbols(GetType(Dictionary))
+
+            If index.ContainsKey(name) Then
+                Return index(name)
+            Else
+                Throw New MissingPrimaryKeyException($"Dictionary(Of any, any).{name}")
+            End If
         End Function
     End Module
 End Namespace

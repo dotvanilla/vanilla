@@ -135,16 +135,27 @@ Namespace Symbols.JavaScriptImports
             .result = New TypeAbstract(TypeAlias.string)
         }
 
+        Public ReadOnly Property Split As New ImportSymbol With {
+            .importAlias = "split",
+            .[module] = "string",
+            .name = "string.split",
+            .definedInModule = False,
+            .package = "string",
+            .parameters = {
+                "input".param(TypeAlias.string),
+                "deli".param(TypeAlias.string)
+            },
+            .result = New TypeAbstract(TypeAlias.intptr)
+        }
+
         Public Function Method(name As String) As ImportSymbol
-            Select Case name
-                Case "Length" : Return Length
-                Case "Replace" : Return Replace
-                Case "IndexOf" : Return IndexOf
-                Case "Trim" : Return Trim
-                Case NameOf(System.String.Substring) : Return SubString
-                Case Else
-                    Throw New NotImplementedException(name)
-            End Select
+            Static index As Dictionary(Of String, ImportSymbol) = InternalIndexer.HandleVisualBasicSymbols(GetType([String]))
+
+            If index.ContainsKey(name) Then
+                Return index(name)
+            Else
+                Throw New MissingMethodException($"String.{name}")
+            End If
         End Function
 
         ''' <summary>

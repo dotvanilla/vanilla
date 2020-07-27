@@ -155,7 +155,7 @@ Namespace Symbols
                 Return newTable.ToSExpression
             End If
 
-            Dim tableAppend = JavaScriptImports.Dictionary.SetValue
+            Dim tableAppend = JavaScriptImports.Dictionary.Add
             Dim table As Expression = New FuncInvoke(tableAppend) With {
                 .parameters = {
                     newTable,
