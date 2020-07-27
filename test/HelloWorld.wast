@@ -4,8 +4,8 @@
     ;;
     ;; WASM for VisualBasic.NET
     ;; 
-    ;; version: 1.78.7513.15719
-    ;; build: 7/27/2020 8:43:59 AM
+    ;; version: 1.78.7513.15987
+    ;; build: 7/27/2020 8:52:55 AM
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -342,24 +342,24 @@
     (func $Math.PoissonPDF (param $k i32) (param $lambda f64) (result f64)
         ;; Public Function PoissonPDF(k As i32, lambda As f64) As f64
         
-    (local $arrayOffset_20000b9c9d1 i32)
-    (local $itemOffset_20000cCP3mP i32)
+    (local $arrayOffset_70000b5w8Dl i32)
+    (local $itemOffset_90000cj40iE i32)
     (local $result f64)
     
     (set_local $result (call $Math.Exp (f64.sub (f64.const 0) (get_local $lambda))))
-    ;; Start Do While Block block_z0000dv3u08
+    ;; Start Do While Block block_90000d7HnPD
     
-    (block $block_z0000dv3u08 
-        (loop $loop_W0000e8j14H
+    (block $block_90000d7HnPD 
+        (loop $loop_80000eK2vxY
     
-                    (br_if $block_z0000dv3u08 (i32.eqz (i32.ge_s (get_local $k) (i32.const 1))))
+                    (br_if $block_90000d7HnPD (i32.eqz (i32.ge_s (get_local $k) (i32.const 1))))
             (set_local $result (f64.mul (get_local $result) (f64.div (get_local $lambda) (f64.convert_s/i32 (get_local $k)))))
             (set_local $k (i32.sub (get_local $k) (i32.const 1)))
-            (br $loop_W0000e8j14H)
+            (br $loop_80000eK2vxY)
     
         )
     )
-    ;; End Loop loop_W0000e8j14H
+    ;; End Loop loop_80000eK2vxY
     (return (get_local $result))
     )
     
@@ -513,23 +513,23 @@
 (func $array.constructor  
     ;; Public Function constructor() As void
     
-(local $arrayOffset_20000b9c9d1 i32)
-(local $itemOffset_20000cCP3mP i32)
+(local $arrayOffset_70000b5w8Dl i32)
+(local $itemOffset_90000cj40iE i32)
 
 
 ;; Save (i32.const 3) array element data to memory:
-;; Array memory block begin at location: (get_local $arrayOffset_20000b9c9d1)
-(set_local $arrayOffset_20000b9c9d1 (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 3) (i32.const 4))) (i32.const 7)))
+;; Array memory block begin at location: (get_local $arrayOffset_70000b5w8Dl)
+(set_local $arrayOffset_70000b5w8Dl (call $global.ObjectManager.Allocate (i32.add (i32.const 8) (i32.mul (i32.const 3) (i32.const 4))) (i32.const 7)))
 ;; class_id/typealias_enum i32 data: (i32.const 5)/array(Of string)
-(i32.store (get_local $arrayOffset_20000b9c9d1) (i32.const 5))
-(i32.store (i32.add (get_local $arrayOffset_20000b9c9d1) (i32.const 4)) (i32.const 3))
+(i32.store (get_local $arrayOffset_70000b5w8Dl) (i32.const 5))
+(i32.store (i32.add (get_local $arrayOffset_70000b5w8Dl) (i32.const 4)) (i32.const 3))
 ;; End of byte marks meta data, start write data blocks
-(set_local $itemOffset_20000cCP3mP (i32.add (get_local $arrayOffset_20000b9c9d1) (i32.const 8)))
-(i32.store (i32.add (get_local $itemOffset_20000cCP3mP) (i32.const 0)) (i32.const 368))
-(i32.store (i32.add (get_local $itemOffset_20000cCP3mP) (i32.const 4)) (i32.const 384))
-(i32.store (i32.add (get_local $itemOffset_20000cCP3mP) (i32.const 8)) (i32.const 416))
+(set_local $itemOffset_90000cj40iE (i32.add (get_local $arrayOffset_70000b5w8Dl) (i32.const 8)))
+(i32.store (i32.add (get_local $itemOffset_90000cj40iE) (i32.const 0)) (i32.const 368))
+(i32.store (i32.add (get_local $itemOffset_90000cj40iE) (i32.const 4)) (i32.const 384))
+(i32.store (i32.add (get_local $itemOffset_90000cj40iE) (i32.const 8)) (i32.const 416))
 ;; Assign array memory data to another expression
-(set_global $array.stringArray (get_local $arrayOffset_20000b9c9d1))
+(set_global $array.stringArray (get_local $arrayOffset_70000b5w8Dl))
 )
 
 (func $console.constructor  
