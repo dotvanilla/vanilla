@@ -220,6 +220,8 @@ declare namespace WebAssembly {
         function indexOf(input: number, find: number): number;
         function substr(input: number, start: number, len: number): number;
         function split(input: number, delimiter: number): number;
+        function parseFloat(input: number): number;
+        function parseInt(input: number): number;
     }
 }
 declare namespace vanilla {

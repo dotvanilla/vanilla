@@ -92,6 +92,14 @@
             return ObjectManager.addObject(strings);
         }
 
+        export function parseFloat(input: number): number {
+            let text: string = ObjectManager.readText(input);
+            return globalThis.parseFloat(text);
+        }
 
+        export function parseInt(input: number): number {
+            let text: string = ObjectManager.readText(input);
+            return globalThis.parseInt(text);
+        }
     }
 }
