@@ -50,6 +50,12 @@
             let a: number[] = ObjectManager.getObject(array);
             return a.length;
         }
+
+        export function toArray(array: number): number {
+            let a: number[] = ObjectManager.getObject(array);
+            let copy = [...a];
+            return ObjectManager.addObject(copy);
+        }
     }
 
     export class WasmArray {

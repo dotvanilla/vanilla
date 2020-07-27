@@ -63,6 +63,7 @@ declare namespace WebAssembly {
         function get(array: number, index: number): number;
         function set(array: number, index: number, value: number): number;
         function length(array: number): number;
+        function toArray(array: number): number;
     }
     class WasmArray {
         type: number;
