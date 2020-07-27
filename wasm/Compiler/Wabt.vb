@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
 
 Namespace Compiler
@@ -95,11 +96,11 @@ Namespace Compiler
                 If [module] Like GetType(ModuleSymbol) Then
                     Call CType([module], ModuleSymbol) _
                         .ToSExpression _
-                        .SaveTo(.ByRef)
+                        .SaveTo(.ByRef, encoding:=Encodings.UTF8WithoutBOM.CodePage)
                 Else
                     Call CType([module], String) _
                         .SolveStream _
-                        .SaveTo(.ByRef)
+                        .SaveTo(.ByRef, encoding:=Encodings.UTF8WithoutBOM.CodePage)
                 End If
 
                 Return .ByRef
