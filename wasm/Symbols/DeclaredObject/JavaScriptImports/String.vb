@@ -121,7 +121,7 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
-        Public ReadOnly Property SubString As New ImportSymbol With {
+        Public ReadOnly Property Substring As New ImportSymbol With {
             .importAlias = "substr",
             .[module] = "string",
             .name = "string.substr",
@@ -155,6 +155,16 @@ Namespace Symbols.JavaScriptImports
                 Return index(name)
             Else
                 Throw New MissingMethodException($"String.{name}")
+            End If
+        End Function
+
+        Public Function JavaScriptSymbol(refer As ReferenceSymbol, token As String) As ImportSymbol
+            Static index As Dictionary(Of String, ImportSymbol) = InternalIndexer.HandleJavaScriptSymbols(GetType([String]))
+
+            If index.ContainsKey(token) Then
+                Return index(token)
+            Else
+                Throw New MissingPrimaryKeyException(refer.symbol)
             End If
         End Function
 

@@ -256,16 +256,7 @@ Namespace Symbols
 
             Select Case type
                 Case "string"
-                    Select Case tokens(1)
-                        Case "add", "replace", "trim", "substr"
-                            Return New TypeAbstract(TypeAlias.string)
-                        Case "length", "indexOf"
-                            Return New TypeAbstract(TypeAlias.i32)
-                        Case "split"
-                            Return New TypeAbstract(TypeAlias.array)
-                        Case Else
-                            Throw New NotImplementedException(refer.symbol)
-                    End Select
+                    Return JavaScriptImports.String.JavaScriptSymbol(refer, tokens(1)).result
                 Case "array", "list"
                     Select Case tokens(1)
                         Case "push"
