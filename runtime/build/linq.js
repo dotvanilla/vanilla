@@ -1,18 +1,11 @@
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -386,7 +379,7 @@ var LINQIterator = /** @class */ (function () {
         get: function () {
             return this.sequence.length;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     LINQIterator.prototype.reset = function () {
@@ -447,7 +440,7 @@ var Enumerable;
     */
     function OrderBy(source, key) {
         // array clone
-        var clone = __spreadArray([], source);
+        var clone = source.slice();
         clone.sort(function (a, b) {
             // a - b
             return key(a) - key(b);
@@ -617,7 +610,7 @@ var IEnumerator = /** @class */ (function (_super) {
         get: function () {
             return $ts.typeof(this.First);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     ;
@@ -641,7 +634,7 @@ var IEnumerator = /** @class */ (function (_super) {
      * 在明确类型信息的情况下进行强制类型转换
     */
     IEnumerator.prototype.ctype = function () {
-        return new IEnumerator(__spreadArray([], this.sequence));
+        return new IEnumerator(this.sequence.slice());
     };
     IEnumerator.getArray = function (source) {
         if (!source) {
@@ -650,10 +643,10 @@ var IEnumerator = /** @class */ (function (_super) {
         else if (Array.isArray(source)) {
             // 2018-07-31 为了防止外部修改source导致sequence数组被修改
             // 在这里进行数组复制，防止出现这种情况
-            return __spreadArray([], source);
+            return source.slice();
         }
         else {
-            return __spreadArray([], source.sequence);
+            return source.sequence.slice();
         }
     };
     IEnumerator.prototype.indexOf = function (x) {
@@ -666,7 +659,7 @@ var IEnumerator = /** @class */ (function (_super) {
         get: function () {
             return this.sequence[0];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(IEnumerator.prototype, "Last", {
@@ -676,7 +669,7 @@ var IEnumerator = /** @class */ (function (_super) {
         get: function () {
             return this.sequence[this.Count - 1];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     /**
@@ -1070,7 +1063,7 @@ var IEnumerator = /** @class */ (function (_super) {
     IEnumerator.prototype.ToArray = function (clone) {
         if (clone === void 0) { clone = true; }
         if (clone) {
-            return __spreadArray([], this.sequence);
+            return this.sequence.slice();
         }
         else {
             return this.sequence;
@@ -1147,7 +1140,7 @@ var DOMEnumerator = /** @class */ (function (_super) {
         get: function () {
             return this.First.tagName;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(DOMEnumerator.prototype, "type", {
@@ -1164,7 +1157,7 @@ var DOMEnumerator = /** @class */ (function (_super) {
                 return this.tagName;
             }
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     /**
@@ -1807,7 +1800,7 @@ var NamedValue = /** @class */ (function () {
         get: function () {
             return $ts.typeof(this.value);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(NamedValue.prototype, "IsEmpty", {
@@ -1817,7 +1810,7 @@ var NamedValue = /** @class */ (function () {
         get: function () {
             return Strings.Empty(this.name) && (!this.value || this.value == undefined);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     NamedValue.prototype.valueOf = function () {
@@ -2469,7 +2462,7 @@ var TypeScript;
                 get: function () {
                     return !this.class;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TypeInfo.prototype, "isArray", {
@@ -2479,7 +2472,7 @@ var TypeScript;
                 get: function () {
                     return this.typeOf == "array";
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             Object.defineProperty(TypeInfo.prototype, "isEnumerator", {
@@ -2489,7 +2482,7 @@ var TypeScript;
                 get: function () {
                     return this.typeOf == "object" && ((this.class == "IEnumerator" || this.class == "DOMEnumerator") || Reflection.Internal.isEnumeratorSignature(this));
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             /**
@@ -3042,7 +3035,7 @@ var Dictionary = /** @class */ (function (_super) {
         get: function () {
             return Framework.Extensions.extend(this.maps);
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     ///**
@@ -3081,7 +3074,7 @@ var Dictionary = /** @class */ (function (_super) {
         get: function () {
             return $from(Object.keys(this.maps));
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Dictionary.prototype, "Values", {
@@ -3091,7 +3084,7 @@ var Dictionary = /** @class */ (function (_super) {
         get: function () {
             return this.Select(function (m) { return m.value; });
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Dictionary.FromMaps = function (maps) {
@@ -3203,7 +3196,7 @@ var TypeScript;
             get: function () {
                 return this.queryArguments.ToArray(false);
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         ;
@@ -3586,7 +3579,7 @@ var TypeScript;
             get: function () {
                 return $ts.mode <= warningLevel;
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         Object.defineProperty(logging, "outputEverything", {
@@ -3596,7 +3589,7 @@ var TypeScript;
             get: function () {
                 return $ts.mode == anyoutputLevel;
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         Object.defineProperty(logging, "outputError", {
@@ -3606,7 +3599,7 @@ var TypeScript;
             get: function () {
                 return $ts.mode == errorOnly;
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         logging.warning = function (msg) {
@@ -3992,7 +3985,7 @@ var data;
             get: function () {
                 return [this.min, this.max];
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         Object.defineProperty(NumericRange.prototype, "Length", {
@@ -4004,7 +3997,7 @@ var data;
             get: function () {
                 return this.max - this.min;
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         // #endregion
@@ -4951,7 +4944,7 @@ var Group = /** @class */ (function (_super) {
         get: function () {
             return this.sequence;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     /**
@@ -5024,14 +5017,14 @@ var Matrix = /** @class */ (function (_super) {
         get: function () {
             return this.sequence.length;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Matrix.prototype, "columns", {
         get: function () {
             return this.sequence[0].length;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Matrix.emptyMatrix = function (m, n, fill) {
@@ -5119,7 +5112,7 @@ var Pointer = /** @class */ (function (_super) {
         get: function () {
             return this.p >= this.Count;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Pointer.prototype, "Current", {
@@ -5129,7 +5122,7 @@ var Pointer = /** @class */ (function (_super) {
         get: function () {
             return this.sequence[this.p];
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Pointer.prototype, "Next", {
@@ -5142,7 +5135,7 @@ var Pointer = /** @class */ (function (_super) {
             this.p = this.p + 1;
             return x;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     /**
@@ -5993,7 +5986,7 @@ var DOM;
                         return false;
                     }
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             return StatusChanged;
@@ -6020,7 +6013,7 @@ var HTMLTsElement = /** @class */ (function () {
         get: function () {
             return this.node;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     /**
@@ -6416,7 +6409,7 @@ var TypeScript;
                 get: function () {
                     return this.sequence;
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             /**
@@ -7374,7 +7367,7 @@ var TypeScript;
                         valid: false
                     };
                 },
-                enumerable: false,
+                enumerable: true,
                 configurable: true
             });
             w3color.prototype.toRgbString = function () {
@@ -7830,7 +7823,7 @@ var StringBuilder = /** @class */ (function () {
         get: function () {
             return this.buffer.length;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     /**
@@ -7866,7 +7859,7 @@ var Internal;
                     return false;
                 }
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         /**
@@ -8215,21 +8208,21 @@ var Bootstrap = /** @class */ (function () {
         get: function () {
             return getAllUrlParams().Item("app") || Router.appName || "/";
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Bootstrap.prototype, "appStatus", {
         get: function () {
             return this.status;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Object.defineProperty(Bootstrap.prototype, "appHookMsg", {
         get: function () {
             return this.hookUnload;
         },
-        enumerable: false,
+        enumerable: true,
         configurable: true
     });
     Bootstrap.prototype.isCurrentAppPath = function () {
@@ -8457,7 +8450,7 @@ var Framework;
                 array = data.ToArray();
             }
             else if (type.isArray) {
-                array = __spreadArray([], data);
+                array = data.slice();
             }
             else {
                 var x = data;
@@ -8802,7 +8795,7 @@ var TypeScript;
             get: function () {
                 return (new Date).getTime() - this.time;
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         return CheckPoint;
@@ -9818,7 +9811,7 @@ var csv;
             get: function () {
                 return new IEnumerator(this.sequence[0]);
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         Object.defineProperty(dataframe.prototype, "contents", {
@@ -9828,7 +9821,7 @@ var csv;
             get: function () {
                 return this.Skip(1);
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         /**
@@ -10080,9 +10073,9 @@ var csv;
              * 因为这个属性会返回这个行的数组值的复制对象
             */
             get: function () {
-                return __spreadArray([], this.sequence);
+                return this.sequence.slice();
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         Object.defineProperty(row.prototype, "rowLine", {
@@ -10094,7 +10087,7 @@ var csv;
                     .Select(row.autoEscape)
                     .JoinBy(",");
             },
-            enumerable: false,
+            enumerable: true,
             configurable: true
         });
         /**

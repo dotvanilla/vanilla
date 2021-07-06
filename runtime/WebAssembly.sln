@@ -7,6 +7,8 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "WebAssembly", "WebAssembly\
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Linq.ts", "Linq.ts\LINQ.ts\Linq.ts.njsproj", "{E0AEC189-6D05-47E4-9F69-DAFE43AC8398}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{D064B922-1126-4829-8C4D-10796651BAEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0AEC189-6D05-47E4-9F69-DAFE43AC8398} = {D064B922-1126-4829-8C4D-10796651BAEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9FFF072-C3CA-4E73-AEF6-FF385EC05799}

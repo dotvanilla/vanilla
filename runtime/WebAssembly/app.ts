@@ -1,1 +1,1 @@
-﻿/// <reference path="../../modules/linq.d.ts" />
+﻿/// <reference path="../build/linq.d.ts" />
