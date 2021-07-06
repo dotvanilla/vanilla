@@ -4,6 +4,8 @@
     <RootNamespace>Wasm.NET5</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Wasm.NET5.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
