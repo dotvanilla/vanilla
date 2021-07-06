@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Wasm.NET5</RootNamespace>
+    <RootNamespace>Wasm</RootNamespace>
     <TargetFramework>net5.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <OutputType>Exe</OutputType>
-    <StartupObject>Wasm.NET5.Program</StartupObject>
+    <StartupObject>Sub Main</StartupObject>
+    <AssemblyName>vanilla</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
