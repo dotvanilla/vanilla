@@ -63,12 +63,13 @@ declare namespace WebAssembly {
         function get(array: number, index: number): number;
         function set(array: number, index: number, value: number): number;
         function length(array: number): number;
+        function toArray(array: number): number;
     }
     class WasmArray {
         type: number;
         items: any[];
         private intptrs;
-        readonly length: number;
+        get length(): number;
         /**
          * @param type 0 for number, 1 for string, 2 for others
         */
@@ -94,6 +95,10 @@ declare namespace WebAssembly {
         function table(obj: number): void;
         function trace(message: number): void;
         function debug(message: number): void;
+    }
+}
+declare namespace WebAssembly {
+    module BitConvertor {
     }
 }
 declare namespace WebAssembly {
@@ -214,6 +219,10 @@ declare namespace WebAssembly {
         function length(text: number): number;
         function replace(text: number, find: number, replacement: number): number;
         function indexOf(input: number, find: number): number;
+        function substr(input: number, start: number, len: number): number;
+        function split(input: number, delimiter: number): number;
+        function parseFloat(input: number): number;
+        function parseInt(input: number): number;
     }
 }
 declare namespace vanilla {
@@ -281,7 +290,7 @@ declare namespace vanilla {
         /**
          * The VB.NET application memory configuration.
         */
-        page: {
+        page?: {
             init?: number;
             /**
              * Config max memory page size for your VB.NET app

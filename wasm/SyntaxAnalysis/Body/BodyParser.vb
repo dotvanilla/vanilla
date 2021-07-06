@@ -232,7 +232,7 @@ Namespace SyntaxAnalysis
                 ElseIf symbols.GetUnderlyingType(objName) = GetType(DictionaryBase).FullName Then
                     Dim key = symbols.StringConstant(memberName)
 
-                    Return New FuncInvoke(JavaScriptImports.Dictionary.SetValue) With {
+                    Return New FuncInvoke(JavaScriptImports.Dictionary.Add) With {
                         .parameters = {
                             symbols.GetObjectReference(objName),
                             key, right

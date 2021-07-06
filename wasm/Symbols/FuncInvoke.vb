@@ -257,12 +257,10 @@ Namespace Symbols
             Select Case type
                 Case "string"
                     Select Case tokens(1)
-                        Case "add", "replace", "trim"
-                            Return New TypeAbstract(TypeAlias.string)
-                        Case "length", "indexOf"
-                            Return New TypeAbstract(TypeAlias.i32)
+                        Case "parseFloat" : Return New TypeAbstract(TypeAlias.f64)
+                        Case "parseInt" : Return New TypeAbstract(TypeAlias.i32)
                         Case Else
-                            Throw New NotImplementedException(refer.symbol)
+                            Return JavaScriptImports.String.JavaScriptSymbol(refer, tokens(1)).result
                     End Select
                 Case "array", "list"
                     Select Case tokens(1)
@@ -274,6 +272,8 @@ Namespace Symbols
                             Return New TypeAbstract(genericType)
                         Case "set"
                             Return TypeAbstract.void
+                        Case "toArray"
+                            Return New TypeAbstract(TypeAlias.array)
                         Case Else
                             Throw New NotImplementedException(refer.symbol)
                     End Select

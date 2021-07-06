@@ -195,11 +195,12 @@ Namespace SyntaxAnalysis
                 .name = "newObject_" & symbols.NextGuid,
                 .type = type
             }
+            Dim size As Integer = objType.sizeOf
             ' 创建用户自定义类型的对象实例
             Dim obj As New UserObject With {
                 .memoryPtr = New GetLocalVariable(hashcode),
                 .UnderlyingType = type,
-                .width = objType.sizeOf,
+                .width = size,
                 .Meta = objType
             }
 

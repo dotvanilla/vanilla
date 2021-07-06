@@ -30,7 +30,7 @@
         /**
          * The VB.NET application memory configuration.
         */
-        page: {
+        page?: {
             init?: number,
             /**
              * Config max memory page size for your VB.NET app

@@ -51,6 +51,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 Imports Wasm.Symbols
 
 Namespace Compiler
@@ -65,17 +66,23 @@ Namespace Compiler
         Sub New()
             If wat2wasm.FileExists Then
                 Return
+            Else
+                Call My.Resources.wat2wasm.FlushStream(wat2wasm)
             End If
 
             ' Release compiler if not exists.
-            With App.GetAppSysTempFile(".zip")
-                Call My.Resources.wabt_1_0_11_win64.FlushStream(.ByRef)
-                Call UnZip.ImprovedExtractToDirectory(.ByRef, wat2wasm.ParentPath, Overwrite.Always)
+            'With App.GetAppSysTempFile(".zip")
+            '    Call My.Resources.wabt_1_0_11_win64.FlushStream(.ByRef)
+            '    Call UnZip.ImprovedExtractToDirectory(.ByRef, wat2wasm.ParentPath, Overwrite.Always)
 
-                If Not wat2wasm.FileExists Then
-                    Throw New UnauthorizedAccessException($"Access Denied on filesystem location: {wat2wasm.ParentPath}")
-                End If
-            End With
+            '    If Not wat2wasm.FileExists Then
+            '        Throw New UnauthorizedAccessException($"Access Denied on filesystem location: {wat2wasm.ParentPath}")
+            '    End If
+            'End With
+
+            If Not wat2wasm.FileExists Then
+                Throw New UnauthorizedAccessException($"Access Denied on filesystem location: {wat2wasm.ParentPath}")
+            End If
         End Sub
 
         ''' <summary>
@@ -89,11 +96,11 @@ Namespace Compiler
                 If [module] Like GetType(ModuleSymbol) Then
                     Call CType([module], ModuleSymbol) _
                         .ToSExpression _
-                        .SaveTo(.ByRef)
+                        .SaveTo(.ByRef, encoding:=Encodings.UTF8WithoutBOM.CodePage)
                 Else
                     Call CType([module], String) _
                         .SolveStream _
-                        .SaveTo(.ByRef)
+                        .SaveTo(.ByRef, encoding:=Encodings.UTF8WithoutBOM.CodePage)
                 End If
 
                 Return .ByRef

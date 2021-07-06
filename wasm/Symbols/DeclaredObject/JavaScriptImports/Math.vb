@@ -1,59 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::ef4fd9e77661f4a66f59dbd4e7c6478d, Symbols\DeclaredObject\JavaScriptImports\Math.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Math
-    ' 
-    '         Properties: Ceiling, Cos, Exp, Floor, Pow
-    '                     Rnd, Sqrt
-    ' 
-    '         Function: Method
-    ' 
-    '         Sub: DoImports
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Math
+' 
+'         Properties: Ceiling, Cos, Exp, Floor, Pow
+'                     Rnd, Sqrt
+' 
+'         Function: Method
+' 
+'         Sub: DoImports
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports Wasm.Compiler
-Imports Wasm.SyntaxAnalysis
 Imports Wasm.TypeInfo
 
 Namespace Symbols.JavaScriptImports
@@ -173,28 +169,14 @@ Namespace Symbols.JavaScriptImports
             .result = TypeAbstract.f64
         }
 
-        ''' <summary>
-        ''' Do math imports for webassembly application by default
-        ''' </summary>
-        ''' <param name="symbols"></param>
-        <Extension> Public Sub DoImports(symbols As SymbolTable)
-            For Each api As PropertyInfo In GetType(Math).GetProperties()
-                Call symbols.addRequired(api.GetValue(Nothing))
-            Next
-        End Sub
-
         Public Function Method(name As String) As ImportSymbol
-            Select Case name
-                Case NameOf(System.Math.Pow) : Return Pow
-                Case NameOf(System.Math.Exp) : Return Exp
-                Case NameOf(System.Math.Cos) : Return Cos
-                Case NameOf(VBMath.Rnd) : Return Rnd
-                Case NameOf(System.Math.Ceiling) : Return Ceiling
-                Case NameOf(System.Math.Floor) : Return Floor
-                Case NameOf(System.Math.Sqrt) : Return Sqrt
-                Case Else
-                    Throw New NotImplementedException
-            End Select
+            Static index As Dictionary(Of String, ImportSymbol) = InternalIndexer.HandleVisualBasicSymbols(GetType(Math))
+
+            If index.ContainsKey(name) Then
+                Return index(name)
+            Else
+                Throw New MissingMethodException($"Math.{name}")
+            End If
         End Function
     End Module
 End Namespace

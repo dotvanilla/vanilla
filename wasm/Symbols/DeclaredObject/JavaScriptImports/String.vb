@@ -1,49 +1,49 @@
 ﻿#Region "Microsoft.VisualBasic::684e33d1e50cfaaac6e7dac20d80f940, Symbols\DeclaredObject\JavaScriptImports\String.vb"
 
-    ' Author:
-    ' 
-    '       xieguigang (I@xieguigang.me)
-    '       asuka (evia@lilithaf.me)
-    '       wasm project (developer@vanillavb.app)
-    ' 
-    ' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
-    ' 
-    ' 
-    ' MIT License
-    ' 
-    ' 
-    ' Permission is hereby granted, free of charge, to any person obtaining a copy
-    ' of this software and associated documentation files (the "Software"), to deal
-    ' in the Software without restriction, including without limitation the rights
-    ' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ' copies of the Software, and to permit persons to whom the Software is
-    ' furnished to do so, subject to the following conditions:
-    ' 
-    ' The above copyright notice and this permission notice shall be included in all
-    ' copies or substantial portions of the Software.
-    ' 
-    ' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ' SOFTWARE.
+' Author:
+' 
+'       xieguigang (I@xieguigang.me)
+'       asuka (evia@lilithaf.me)
+'       wasm project (developer@vanillavb.app)
+' 
+' Copyright (c) 2019 developer@vanillavb.app, VanillaBasic(https://vanillavb.app)
+' 
+' 
+' MIT License
+' 
+' 
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+' 
+' The above copyright notice and this permission notice shall be included in all
+' copies or substantial portions of the Software.
+' 
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+' SOFTWARE.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module [String]
-    ' 
-    '         Properties: Append, IndexOf, Length, Replace, Trim
-    ' 
-    '         Function: Method, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module [String]
+' 
+'         Properties: Append, IndexOf, Length, Replace, Trim
+' 
+'         Function: Method, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -59,7 +59,7 @@ Namespace Symbols.JavaScriptImports
         ''' <returns></returns>
         Public ReadOnly Property Append As New ImportSymbol With {
             .importAlias = "add",
-            .Name = "string.add",
+            .name = "string.add",
             .package = "string",
             .definedInModule = False,
             .[module] = "string",
@@ -73,7 +73,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Length As New ImportSymbol With {
             .importAlias = "length",
             .[module] = "string",
-            .Name = "string.length",
+            .name = "string.length",
             .definedInModule = False,
             .package = "string",
             .result = TypeAbstract.i32,
@@ -85,7 +85,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Trim As New ImportSymbol With {
             .importAlias = "trim",
             .[module] = "string",
-            .Name = "string.trim",
+            .name = "string.trim",
             .definedInModule = False,
             .package = "string",
             .result = New TypeAbstract(TypeAlias.string),
@@ -97,7 +97,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property Replace As New ImportSymbol With {
             .importAlias = "replace",
             .[module] = "string",
-            .Name = "string.replace",
+            .name = "string.replace",
             .definedInModule = False,
             .package = "string",
             .result = New TypeAbstract(TypeAlias.string),
@@ -111,7 +111,7 @@ Namespace Symbols.JavaScriptImports
         Public ReadOnly Property IndexOf As New ImportSymbol With {
             .importAlias = "indexOf",
             .[module] = "string",
-            .Name = "string.indexOf",
+            .name = "string.indexOf",
             .definedInModule = False,
             .package = "string",
             .result = TypeAbstract.i32,
@@ -121,15 +121,51 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
+        Public ReadOnly Property Substring As New ImportSymbol With {
+            .importAlias = "substr",
+            .[module] = "string",
+            .name = "string.substr",
+            .definedInModule = False,
+            .package = "string",
+            .parameters = {
+                "input".param(TypeAlias.string),
+                "start".param(TypeAlias.i32),
+                "length".param(TypeAlias.i32)
+            },
+            .result = New TypeAbstract(TypeAlias.string)
+        }
+
+        Public ReadOnly Property Split As New ImportSymbol With {
+            .importAlias = "split",
+            .[module] = "string",
+            .name = "string.split",
+            .definedInModule = False,
+            .package = "string",
+            .parameters = {
+                "input".param(TypeAlias.string),
+                "deli".param(TypeAlias.string)
+            },
+            .result = New TypeAbstract(TypeAlias.array)
+        }
+
         Public Function Method(name As String) As ImportSymbol
-            Select Case name
-                Case "Length" : Return Length
-                Case "Replace" : Return Replace
-                Case "IndexOf" : Return IndexOf
-                Case "Trim" : Return Trim
-                Case Else
-                    Throw New NotImplementedException
-            End Select
+            Static index As Dictionary(Of String, ImportSymbol) = InternalIndexer.HandleVisualBasicSymbols(GetType([String]))
+
+            If index.ContainsKey(name) Then
+                Return index(name)
+            Else
+                Throw New MissingMethodException($"String.{name}")
+            End If
+        End Function
+
+        Public Function JavaScriptSymbol(refer As ReferenceSymbol, token As String) As ImportSymbol
+            Static index As Dictionary(Of String, ImportSymbol) = InternalIndexer.HandleJavaScriptSymbols(GetType([String]))
+
+            If index.ContainsKey(token) Then
+                Return index(token)
+            Else
+                Throw New MissingPrimaryKeyException(refer.symbol)
+            End If
         End Function
 
         ''' <summary>
@@ -140,7 +176,7 @@ Namespace Symbols.JavaScriptImports
         Public Function ToString(Optional type As String = "i32") As ImportSymbol
             Return New ImportSymbol With {
                 .importAlias = "toString",
-                .Name = $"{type}.toString",
+                .name = $"{type}.toString",
                 .[module] = "string",
                 .definedInModule = False,
                 .package = "string",

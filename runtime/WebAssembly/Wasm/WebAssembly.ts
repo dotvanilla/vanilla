@@ -22,11 +22,8 @@
         function filepathOf(ref: string): string {
             if (Strings.Empty(ref)) {
                 throw `The given WebAssembly module path can not be empty!`;
-            } else if (ref.charAt(0) == "@") {
-                // is a <meta> tag value
-                return <any>$ts(ref);
             } else {
-                return ref;
+                return $ts.url(ref, true);
             }
         }
 

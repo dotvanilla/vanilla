@@ -257,6 +257,33 @@ Namespace SyntaxAnalysis
                             Throw New NotImplementedException
                         End If
                     End With
+                ElseIf TypeOf target Is PredefinedTypeSyntax Then
+                    With DirectCast(target, PredefinedTypeSyntax)
+                        Dim typeName As String = .Keyword.ValueText
+                        Dim methodName As String = funcName
+
+                        Select Case typeName
+                            Case NameOf(System.Double), NameOf(System.Single)
+                                If methodName = NameOf(Double.Parse) Then
+                                    funcDeclare = symbols.FindModuleMemberFunction("string", "parseFloat")
+                                    argumentFirst = Nothing
+                                    leftArguments = funcDeclare.parameters
+                                Else
+                                    Throw New NotImplementedException($"{typeName}.{methodName}")
+                                End If
+                            Case "Integer", "Long"
+                                If methodName = NameOf(Integer.Parse) Then
+                                    funcDeclare = symbols.FindModuleMemberFunction("string", "parseInt")
+                                    argumentFirst = Nothing
+                                    leftArguments = funcDeclare.parameters
+                                Else
+                                    Throw New NotImplementedException($"{typeName}.{methodName}")
+                                End If
+                            Case Else
+                                ' do nothing
+                                Throw New NotImplementedException($"{typeName}.{methodName}")
+                        End Select
+                    End With
                 Else
                     Throw New NotImplementedException
                 End If

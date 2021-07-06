@@ -162,6 +162,16 @@ Namespace Symbols.JavaScriptImports
             }
         }
 
+        Public ReadOnly Property ToArray As New ImportSymbol With {
+            .importAlias = "toArray",
+            .name = "array.toArray",
+            .definedInModule = False,
+            .[module] = "array",
+            .package = NameOf(Array),
+            .parameters = {"list".param(TypeAlias.list)},
+            .result = New TypeAbstract(TypeAlias.i32)
+        }
+
         ' ReadOnly arrayOp As Index(Of String) = {GetArrayElement.Name, SetArrayElement.Name}
 
         Public Function IsArrayOperation(func As FuncSignature) As Boolean
@@ -180,8 +190,10 @@ Namespace Symbols.JavaScriptImports
                     Throw New NotImplementedException
                 Case "Length", "Count"
                     Return Array.Length
+                Case "ToArray"
+                    Return ToArray
                 Case Else
-                    Throw New NotImplementedException
+                    Throw New NotImplementedException($"List(Of {ofElement}).{name}")
             End Select
         End Function
 

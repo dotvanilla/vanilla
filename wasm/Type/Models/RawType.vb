@@ -158,7 +158,11 @@ Namespace TypeInfo
         End Function
 
         Public Function AsGeneric(container As Type) As RawType
-            Return container.MakeGenericType(raw.TryCast(Of Type))
+            If raw Like GetType(String) Then
+                Return container.MakeGenericType(Type.GetType(raw.TryCast(Of String)))
+            Else
+                Return container.MakeGenericType(raw.TryCast(Of Type))
+            End If
         End Function
 
         Public Overrides Function ToString() As String

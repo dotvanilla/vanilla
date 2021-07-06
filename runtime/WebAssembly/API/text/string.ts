@@ -76,5 +76,30 @@
 
             return text.indexOf(findText);
         }
+
+        export function substr(input: number, start: number, len: number): number {
+            let text: string = ObjectManager.readText(input);
+            let subtext: string = text.substr(start, len);
+
+            return ObjectManager.addText(subtext);
+        }
+
+        export function split(input: number, delimiter: number): number {
+            let text: string = ObjectManager.readText(input);
+            let deli: string = ObjectManager.readText(delimiter);
+            let strings: string[] = text.split(deli);
+
+            return ObjectManager.addObject(strings);
+        }
+
+        export function parseFloat(input: number): number {
+            let text: string = ObjectManager.readText(input);
+            return globalThis.parseFloat(text);
+        }
+
+        export function parseInt(input: number): number {
+            let text: string = ObjectManager.readText(input);
+            return globalThis.parseInt(text);
+        }
     }
 }
