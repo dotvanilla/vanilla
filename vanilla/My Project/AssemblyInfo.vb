@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
+#if netcore5=0
 <Assembly: AssemblyTitle("WebAssembly compiler for VisualBasic")>
 <Assembly: AssemblyDescription("WebAssembly compiler for VisualBasic")>
 <Assembly: AssemblyCompany("MIT Licensed")>
@@ -33,3 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.9.*")>
 <Assembly: AssemblyFileVersion("2.33.*")>
+#end if

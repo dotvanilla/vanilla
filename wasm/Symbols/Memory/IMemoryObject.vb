@@ -48,8 +48,12 @@
 #End Region
 
 Imports System.Runtime.Serialization
-Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
+#If netcore5 = 1 Then
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#Else
+Imports System.Web.Script.Serialization
+#End If
 Imports Microsoft.VisualBasic.Language
 Imports Wasm.Symbols.Blocks
 Imports Wasm.TypeInfo
