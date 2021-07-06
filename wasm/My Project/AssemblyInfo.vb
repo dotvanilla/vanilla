@@ -7,7 +7,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-#if netcore5=1
+#If netcore5 = 0 Then
 <Assembly: AssemblyTitle("WebAssembly Compiler for Microsoft VisualBasic.NET")>
 <Assembly: AssemblyDescription("WebAssembly Compiler for Microsoft VisualBasic.NET")>
 <Assembly: AssemblyCompany("sciBASIC.NET")>
@@ -33,4 +33,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.78.*")>
 <Assembly: AssemblyFileVersion("1.66.*")>
-#end if
+#End If

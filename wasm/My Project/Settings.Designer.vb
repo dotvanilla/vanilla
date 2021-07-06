@@ -10,7 +10,7 @@
 
 Option Strict On
 Option Explicit On
-#if netcore5=1
+#if netcore5=0
 
 Namespace My
     
