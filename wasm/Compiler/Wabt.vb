@@ -48,7 +48,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
@@ -92,7 +91,7 @@ Namespace Compiler
         ''' <returns></returns>
         <Extension>
         Private Function saveTemp([module] As [Variant](Of ModuleSymbol, String)) As String
-            With App.GetAppSysTempFile($"{RandomASCIIString(10, skipSymbols:=True)}.wast", App.PID, "wat2wasm_")
+            With TempFileSystem.GetAppSysTempFile($"{RandomASCIIString(10, skipSymbols:=True)}.wast", App.PID, "wat2wasm_")
                 If [module] Like GetType(ModuleSymbol) Then
                     Call CType([module], ModuleSymbol) _
                         .ToSExpression _
@@ -129,7 +128,7 @@ Namespace Compiler
         ''' <returns></returns>
         Public Function CompileWast(wast As String, config As Wat2wasm) As String
             With New IORedirectFile(wat2wasm, $"{saveTemp(wast).CLIPath} {config}", debug:=False)
-                Call config.output.ParentPath.MkDIR
+                Call config.output.ParentPath.MakeDir
                 Call .Run()
 
                 Return .StandardOutput
