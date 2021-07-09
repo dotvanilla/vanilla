@@ -21,10 +21,11 @@ Namespace Syntax
         ''' [member name => value]
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Members As Dictionary(Of String, LiteralValue)
+        Public ReadOnly Property Members As New Dictionary(Of String, LiteralValue)
 
-        Sub New()
-
+        Sub New(name As String, type As Type)
+            Me.Name = name
+            Throw New NotImplementedException
         End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String

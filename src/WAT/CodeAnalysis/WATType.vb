@@ -21,6 +21,27 @@
             End Select
         End Sub
 
+        Public Shared Function GetUnderlyingType(value As Type, wasm As Workspace) As WATType
+            Select Case value
+                Case GetType(Integer), GetType(UInteger), GetType(Byte), GetType(SByte), GetType(Short), GetType(UShort)
+                    Return WATType.i32
+
+                Case GetType(Long), GetType(ULong)
+                    Return WATType.i64
+
+                Case GetType(Single)
+                    Return WATType.f32
+
+                Case GetType(Double), GetType(Decimal)
+                    Return WATType.f64
+
+                Case GetType(String)
+
+                Case Else
+                    Throw New InvalidProgramException(value.FullName)
+            End Select
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"({UnderlyingWATType.Description})"
         End Function
