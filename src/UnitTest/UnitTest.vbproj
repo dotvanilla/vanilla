@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>UnitTest</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <StartupObject>UnitTest.Test</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\modules\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\modules\vs_solutions\dev-kit\VisualStudio\VisualStudio.NET5.vbproj" />
+    <ProjectReference Include="..\Roslyn\Roslyn.vbproj" />
+    <ProjectReference Include="..\WAT\WAT.vbproj" />
+  </ItemGroup>
+
+</Project>
