@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>VanillaBasic.Roslyn</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>VanillaBasic.Roslyn</AssemblyName>
+    <Description>WebAssembly Compiler for Microsoft VisualBasic</Description>
+    <Product>https://vanillavb.app/</Product>
+    <Company>https://vanillavb.app/</Company>
+    <PackageProjectUrl>https://vanillavb.app/</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Authors>developer@vanillavb.app</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\modules\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\WAT\WAT.vbproj" />
+  </ItemGroup>
+
+</Project>
