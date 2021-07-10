@@ -2,7 +2,7 @@
 
 Namespace Syntax
 
-    Public Class FunctionDeclare : Inherits WATSyntax
+    Public Class FunctionDeclare : Inherits WATSymbol
 
         Public Overrides ReadOnly Property Type As WATType
             Get

@@ -1,6 +1,6 @@
 ﻿Namespace Syntax
 
-    Public Class DeclareGlobal : Inherits WATSyntax
+    Public Class DeclareLocal : Inherits WATSymbol
 
         Public Overrides ReadOnly Property Type As CodeAnalysis.WATType
             Get
