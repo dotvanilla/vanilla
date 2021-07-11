@@ -8,7 +8,7 @@
         Public ReadOnly Property Workspace As Workspace
 
         Sub New(workspace As Workspace)
-            Me.Workspace = workspace
+            Call MyBase.New(workspace.DefaultNamespace, Nothing)
         End Sub
 
     End Class

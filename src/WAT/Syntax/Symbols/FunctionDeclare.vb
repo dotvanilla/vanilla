@@ -5,14 +5,14 @@ Namespace Syntax
     Public Class FunctionDeclare : Inherits WATSymbol
 
         Public Overrides ReadOnly Property Type As WATType
-            Get
-                Throw New NotImplementedException()
-            End Get
-        End Property
 
         Public Property parameters As DeclareLocal()
         Public Property locals As DeclareLocal()
         Public Property body As WATSyntax()
+
+        Sub New(type As WATType)
+            Me.Type = type
+        End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Throw New NotImplementedException()

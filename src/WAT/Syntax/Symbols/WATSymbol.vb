@@ -1,4 +1,6 @@
-﻿Namespace Syntax
+﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
+
+Namespace Syntax
 
     Public MustInherit Class WATSymbol : Inherits WATSyntax
 

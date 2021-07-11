@@ -7,9 +7,15 @@ Namespace CodeAnalysis
     ''' </summary>
     Public Class Workspace
 
+        Public ReadOnly Property DefaultNamespace As String
+
         Public Property Methods As New Dictionary(Of String, FunctionDeclare)
         Public Property EnumVals As New Dictionary(Of String, EnumSymbol)
         Public Property Types
+
+        Sub New(defaultNamespace As String)
+            Me.DefaultNamespace = defaultNamespace
+        End Sub
 
         Public Sub AddStaticMethod(func As FunctionDeclare)
             Methods.Add(func.Name, func)
