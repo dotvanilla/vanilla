@@ -24,6 +24,12 @@ Namespace CodeAnalysis.Memory
             End Get
         End Property
 
+        Public ReadOnly Property nchars As Integer
+            Get
+                Return Value.Length
+            End Get
+        End Property
+
         Public Function ToSExpression() As String
             Dim lines As New List(Of String)
             Dim nchars As Integer = Strings.Len(Value)

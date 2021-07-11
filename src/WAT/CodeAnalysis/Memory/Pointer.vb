@@ -10,6 +10,14 @@ Namespace CodeAnalysis.Memory
 
         Public Property Scan0 As Integer
 
+        Sub New(i As Integer)
+            Scan0 = i
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Scan0.ToHexString
+        End Function
+
     End Class
 
     Public Class InstancePtr : Inherits MemoryPtr
