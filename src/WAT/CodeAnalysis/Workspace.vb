@@ -13,7 +13,11 @@ Namespace CodeAnalysis
         Public Property AssemblyInfo As AssemblyInfo
         Public Property Methods As New Dictionary(Of String, FunctionDeclare)
         Public Property EnumVals As New Dictionary(Of String, EnumSymbol)
-        Public Property Types
+        ''' <summary>
+        ''' defined types in current project
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Types As New Dictionary(Of String, TypeSchema)
 
         Sub New(defaultNamespace As String)
             Me.DefaultNamespace = defaultNamespace
@@ -22,6 +26,14 @@ Namespace CodeAnalysis
         Public Sub AddStaticMethod(func As FunctionDeclare)
             Methods.Add(func.FullName, func)
         End Sub
+
+        Public Iterator Function GetPublicApi() As IEnumerable(Of FunctionDeclare)
+            For Each type As TypeSchema In Types.Values
+                For Each name As String In type.ExportApi
+                    Yield Methods($"{type.FullName}.{name}")
+                Next
+            Next
+        End Function
 
         Public Overloads Function [GetType](name As String, [imports] As NamespaceContext) As WATType
 
