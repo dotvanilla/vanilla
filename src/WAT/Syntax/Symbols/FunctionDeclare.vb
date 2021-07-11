@@ -1,4 +1,5 @@
 ﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.Compiler
 
 Namespace Syntax
 
@@ -22,7 +23,7 @@ Namespace Syntax
         End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return FunctionWriter.ToSExpression(Me, env.global.Workspace)
         End Function
     End Class
 End Namespace

@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace Compiler
 
@@ -11,6 +12,8 @@ Namespace Compiler
         Public Function ToSExpression(project As Workspace) As String
             Dim buildTime As String = Now.ToString
             Dim wasmSummary As AssemblyInfo = project.AssemblyInfo
+            Dim exportGroup As FunctionDeclare() = project.GetPublicApi.ToArray
+            Dim exportApiSText As String = exportGroup.ToSExpression(project)
 
             Return $"(module ;; Microsoft VisualBasic Project {project.DefaultNamespace}
 
@@ -55,7 +58,7 @@ Namespace Compiler
     ;; Export methods of this module
     {{New ExportSymbolExpression(IMemoryObject.GetMemorySize).ToSExpression}}
 
-    {{[module].Exports.exportGroup.JoinBy(ASCII.LF & ""    "")}} 
+    {exportApiSText} 
 
     {{internal.JoinBy(ASCII.LF)}}
 
