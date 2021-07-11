@@ -5,5 +5,7 @@
     ''' </summary>
     Public Class Environment
 
+        Public Property [global] As ProjectEnvironment
+
     End Class
 End Namespace

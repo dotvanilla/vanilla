@@ -24,26 +24,28 @@ Public NotInheritable Class Scanner
     End Function
 
     Public Function AddModules(vb As [Variant](Of FileInfo, String)) As Scanner
+        Dim [global] As New ProjectEnvironment(Workspace)
+
         For Each [module] As ModuleBlockSyntax In GetCodeModules(vb)
-            Call ParseModule(code:=[module])
+            Call ParseModule(code:=[module], [global]:=[global])
         Next
 
         Return Me
     End Function
 
-    Public Sub ParseModule(code As ModuleBlockSyntax)
+    Private Sub ParseModule(code As ModuleBlockSyntax, [global] As ProjectEnvironment)
         For Each func As MethodBlockSyntax In code.Members.OfType(Of MethodBlockSyntax)
-            Call Workspace.AddStaticMethod(ParseFunction(func))
+            Call Workspace.AddStaticMethod(ParseFunction(func, [global]))
         Next
     End Sub
 
-    Public Function ParseFunction(func As MethodBlockSyntax) As WATSyntax
+    Private Function ParseFunction(func As MethodBlockSyntax, [global] As ProjectEnvironment) As WATSyntax
         Dim returnValue As WATType
 
         If func.SubOrFunctionStatement.SubOrFunctionKeyword.ValueText = "Sub" Then
             returnValue = WATType.void
         Else
-
+            returnValue = func.SubOrFunctionStatement.AsClause.ParseAsType(env:=[global])
         End If
 
     End Function
