@@ -15,7 +15,9 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "VisualStudio.NET5", "..\..\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "webassembly", "webassembly", "{034FF08D-03F4-4A4D-B23E-0AE2A6556073}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UnitTest", "..\UnitTest\UnitTest\UnitTest.vbproj", "{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "UnitTest", "..\UnitTest\UnitTest.vbproj", "{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SimpleHelloWorld", "..\..\test\SimpleHelloWorld\SimpleHelloWorld.vbproj", "{DB54701E-A966-48E2-8320-DEB97C106202}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -149,8 +151,8 @@ Global
 		{FD27810C-0A67-4A55-A663-E86A59374094}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Debug|x64.Build.0 = Debug|Any CPU
+		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Debug|x64.ActiveCfg = Debug|x64
+		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Debug|x64.Build.0 = Debug|x64
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.LipidSearch|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.LipidSearch|Any CPU.Build.0 = Debug|Any CPU
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.LipidSearch|x64.ActiveCfg = Debug|Any CPU
@@ -175,6 +177,34 @@ Global
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
 		{BD40E2FA-5CCD-4E14-971C-CE1AB52BB7FC}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Debug|x64.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.LipidSearch|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.LipidSearch|Any CPU.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.LipidSearch|x64.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.LipidSearch|x64.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.mzkit|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.mzkit|Any CPU.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.mzkit|x64.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.mzkit|x64.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.NPSearch|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.NPSearch|Any CPU.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.NPSearch|x64.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.NPSearch|x64.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.PlantMAT|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.PlantMAT|Any CPU.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.PlantMAT|x64.ActiveCfg = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.PlantMAT|x64.Build.0 = Debug|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Release|x64.ActiveCfg = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Release|x64.Build.0 = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Rsharp_app_release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
+		{DB54701E-A966-48E2-8320-DEB97C106202}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

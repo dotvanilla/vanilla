@@ -1,4 +1,5 @@
-﻿Imports VanillaBasic.Roslyn
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj
+Imports VanillaBasic.Roslyn
 
 Module Test
 
@@ -7,7 +8,8 @@ Module Test
     End Sub
 
     Sub ParseSimple()
-        Dim code = New Scanner().AddModules("D:\vanilla\src\UnitTest\Program.vb")
+        Dim vb As Project = Project.Load("D:\vanilla\test\SimpleHelloWorld\SimpleHelloWorld.vbproj")
+        Dim code = New Scanner(vb).AddModules("D:\vanilla\src\UnitTest\Program.vb")
 
         Pause()
     End Sub
