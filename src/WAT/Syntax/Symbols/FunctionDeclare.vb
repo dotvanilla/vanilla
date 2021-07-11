@@ -27,7 +27,7 @@ Namespace Syntax
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return MyBase.ToString()
+            Return $"Public Function {[namespace]}.{Name}({parameters.Select(Function(a) $"{a.Name} As {a.Type.UnderlyingVBType.FullName}").JoinBy(", ")}) As {Type.UnderlyingVBType.FullName}"
         End Function
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
