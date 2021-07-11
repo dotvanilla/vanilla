@@ -39,12 +39,14 @@ Public NotInheritable Class Scanner
     End Function
 
     Private Sub ParseModule(code As ModuleBlockSyntax, [global] As ProjectEnvironment)
+        Dim env As New Environment(code.ModuleStatement.Identifier.ValueText, container:=[global])
+
         For Each func As MethodBlockSyntax In code.Members.OfType(Of MethodBlockSyntax)
-            Call Workspace.AddStaticMethod(ParseFunction(func, [global]))
+            Call Workspace.AddStaticMethod(ParseFunction(func, [global]:=env))
         Next
     End Sub
 
-    Private Function ParseFunction(func As MethodBlockSyntax, [global] As ProjectEnvironment) As WATSyntax
+    Private Function ParseFunction(func As MethodBlockSyntax, [global] As Environment) As WATSyntax
         Dim returnValue As WATType
 
         If func.SubOrFunctionStatement.SubOrFunctionKeyword.ValueText = "Sub" Then
@@ -54,7 +56,8 @@ Public NotInheritable Class Scanner
         End If
 
         Return New FunctionDeclare(returnValue) With {
-            .Name = func.SubOrFunctionStatement.Identifier.ValueText
+            .Name = func.SubOrFunctionStatement.Identifier.ValueText,
+            .[namespace] = [global].FullName
         }
     End Function
 

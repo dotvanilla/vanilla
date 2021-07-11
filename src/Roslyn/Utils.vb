@@ -16,7 +16,7 @@ Module Utils
     End Function
 
     <Extension>
-    Public Function ParseAsType([as] As SimpleAsClauseSyntax, env As ProjectEnvironment) As WATType
+    Public Function ParseAsType([as] As SimpleAsClauseSyntax, env As Environment) As WATType
 
     End Function
 End Module

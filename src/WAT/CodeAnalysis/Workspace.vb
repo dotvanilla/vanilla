@@ -18,11 +18,15 @@ Namespace CodeAnalysis
         End Sub
 
         Public Sub AddStaticMethod(func As FunctionDeclare)
-            Methods.Add(func.Name, func)
+            Methods.Add(func.FullName, func)
         End Sub
 
         Public Overloads Function [GetType](name As String, [imports] As NamespaceContext) As WATType
 
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return DefaultNamespace
         End Function
 
     End Class

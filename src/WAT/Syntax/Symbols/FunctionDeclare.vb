@@ -9,6 +9,13 @@ Namespace Syntax
         Public Property parameters As DeclareLocal()
         Public Property locals As DeclareLocal()
         Public Property body As WATSyntax()
+        Public Property [namespace] As String
+
+        Public ReadOnly Property FullName As String
+            Get
+                Return $"{[namespace]}.{Name}"
+            End Get
+        End Property
 
         Sub New(type As WATType)
             Me.Type = type

@@ -19,8 +19,8 @@
         Public ReadOnly Property Container As Environment
 
         Sub New(name As String, Optional container As Environment = Nothing)
-            Me.FullName = $"{container.FullName}.{name}"
             Me.Container = container
+            Me.FullName = If(container Is Nothing, name, $"{container.FullName}.{name}")
         End Sub
 
     End Class
