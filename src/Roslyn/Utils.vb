@@ -28,8 +28,10 @@ Module Utils
 
         Select Case type.GetType
             Case GetType(PredefinedTypeSyntax)
-                Return WATType.GetUnderlyingType(predefinedTypes(DirectCast(type, PredefinedTypeSyntax).Keyword.ValueText), env.Workspace)
+                Dim system As Type = predefinedTypes(DirectCast(type, PredefinedTypeSyntax).Keyword.ValueText)
+                Dim elementType As WATType = WATType.GetUnderlyingType(system, env.Workspace)
 
+                Return elementType
             Case GetType(ArrayTypeSyntax)
                 Return New ArrayType(DirectCast(type, ArrayTypeSyntax).ElementType.ParseType(env))
 
