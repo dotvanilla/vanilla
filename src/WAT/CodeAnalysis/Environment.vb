@@ -15,6 +15,12 @@
             End Get
         End Property
 
+        Public ReadOnly Property Workspace As Workspace
+            Get
+                Return [global].Workspace
+            End Get
+        End Property
+
         Public ReadOnly Property FullName As String
         Public ReadOnly Property Container As Environment
 

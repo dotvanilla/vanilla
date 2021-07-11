@@ -17,6 +17,24 @@ Module Utils
 
     <Extension>
     Public Function ParseAsType([as] As SimpleAsClauseSyntax, env As Environment) As WATType
+        Return [as].Type.ParseType(env)
+    End Function
 
+    <Extension>
+    Public Function ParseType(type As TypeSyntax, env As Environment) As WATType
+        Static predefinedTypes As New Dictionary(Of String, Type) From {
+            {"Integer", GetType(Integer)}
+        }
+
+        Select Case type.GetType
+            Case GetType(PredefinedTypeSyntax)
+                Return WATType.GetUnderlyingType(predefinedTypes(DirectCast(type, PredefinedTypeSyntax).Keyword.ValueText), env.Workspace)
+
+            Case GetType(ArrayTypeSyntax)
+                Return New ArrayType(DirectCast(type, ArrayTypeSyntax).ElementType.ParseType(env))
+
+            Case Else
+                Throw New NotImplementedException(type.GetType.FullName)
+        End Select
     End Function
 End Module

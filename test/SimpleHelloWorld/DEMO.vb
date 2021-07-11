@@ -1,7 +1,8 @@
 ﻿Module DEMO
 
-    Sub Main()
+    Public Function Main() As Integer()
         Console.WriteLine("Hello World!")
-    End Sub
+        Return {0}
+    End Function
 
 End Module

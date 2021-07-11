@@ -11,7 +11,7 @@
         Public Shared ReadOnly Property f64 As New WATType(WATElements.f64)
         Public Shared ReadOnly Property void As New WATType(GetType(Void))
 
-        Private Sub New(elementType As Type)
+        Protected Sub New(elementType As Type)
             UnderlyingVBType = elementType
 
             If elementType Is GetType(Void) Then
@@ -21,7 +21,12 @@
             End If
         End Sub
 
-        Private Sub New(elementType As WATElements)
+        Protected Sub New(clone As WATType)
+            UnderlyingVBType = clone.UnderlyingVBType
+            UnderlyingWATType = clone.UnderlyingWATType
+        End Sub
+
+        Protected Sub New(elementType As WATElements)
             UnderlyingWATType = elementType
 
             Select Case elementType
