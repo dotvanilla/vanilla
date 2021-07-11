@@ -7,7 +7,7 @@ Module Test
     End Sub
 
     Sub ParseSimple()
-        Dim code = Scanner.GetCodeModules("D:\vanilla\src\UnitTest\Program.vb")
+        Dim code = New Scanner().AddModules("D:\vanilla\src\UnitTest\Program.vb")
 
         Pause()
     End Sub

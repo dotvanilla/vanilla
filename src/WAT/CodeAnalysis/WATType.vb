@@ -9,6 +9,17 @@
         Public Shared ReadOnly Property i64 As New WATType(WATElements.i64)
         Public Shared ReadOnly Property f32 As New WATType(WATElements.f32)
         Public Shared ReadOnly Property f64 As New WATType(WATElements.f64)
+        Public Shared ReadOnly Property void As New WATType(GetType(Void))
+
+        Private Sub New(elementType As Type)
+            UnderlyingVBType = elementType
+
+            If elementType Is GetType(Void) Then
+                UnderlyingWATType = WATElements.void
+            Else
+                UnderlyingWATType = WATElements.i32
+            End If
+        End Sub
 
         Private Sub New(elementType As WATElements)
             UnderlyingWATType = elementType
