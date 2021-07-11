@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development
-Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
 

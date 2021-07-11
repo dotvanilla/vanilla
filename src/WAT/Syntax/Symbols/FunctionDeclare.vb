@@ -22,6 +22,14 @@ Namespace Syntax
             Me.Type = type
         End Sub
 
+        ''' <summary>
+        ''' VB declare
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overrides Function ToString() As String
+            Return MyBase.ToString()
+        End Function
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Return FunctionWriter.ToSExpression(Me, env.global.Workspace)
         End Function

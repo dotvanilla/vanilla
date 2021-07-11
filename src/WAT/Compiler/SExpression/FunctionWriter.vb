@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
 
@@ -8,12 +9,44 @@ Namespace Compiler
 
         <Extension>
         Public Function ToSExpression(api As FunctionDeclare, workspace As Workspace) As String
+            Dim par As String = api.parameters.Select(Function(a) a.GetParameterExpression).JoinBy(" ")
+            Dim result As String = api.Type.UnderlyingWATType
+            Dim buildBody As String() = api.body _
+                .Select(Function(line)
+                            Return line.ToSExpression(Nothing, Nothing)
+                        End Function) _
+                .ToArray
 
+            If result = "void" Then
+                result = ""
+            Else
+                result = $"(result {result})"
+            End If
+
+            Return $"(func ${api.namespace}.{api.Name} {par} {result}
+    ;; {api.ToString}
+    {buildBody.JoinBy(vbCrLf)}
+)"
         End Function
 
         <Extension>
         Public Function ToSExpression(list As IEnumerable(Of FunctionDeclare), workspace As Workspace) As String
-            Return list.Select(Function(api) api.ToSExpression(workspace)).JoinBy(vbCrLf & vbCrLf)
+            Return list _
+                .GroupBy(Function(fun) fun.namespace) _
+                .Select(Function(group)
+                            Dim str As New StringBuilder($";; functions in [{group.Key}]" & vbCrLf)
+
+                            Call str.AppendLine()
+
+                            For Each api As FunctionDeclare In group
+                                Call str.AppendLine(api.ToSExpression(workspace))
+                            Next
+
+                            Call str.AppendLine()
+
+                            Return str.ToString
+                        End Function) _
+                .JoinBy(vbCrLf & vbCrLf)
         End Function
     End Module
 End Namespace
