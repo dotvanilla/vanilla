@@ -15,6 +15,7 @@ Public NotInheritable Class Scanner
 
     Sub New(proj As vbproj.Project)
         Workspace = New Workspace(proj.RootNamespace)
+        Workspace.AssemblyInfo = proj.AssemblyInfo
     End Sub
 
     Private Function GetCodeModules(vb As [Variant](Of FileInfo, String), [global] As ProjectEnvironment) As ModuleBlockSyntax()

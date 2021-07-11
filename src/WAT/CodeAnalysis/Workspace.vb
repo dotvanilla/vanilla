@@ -1,4 +1,5 @@
-﻿Imports VanillaBasic.WebAssembly.Syntax
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace CodeAnalysis
 
@@ -9,6 +10,7 @@ Namespace CodeAnalysis
 
         Public ReadOnly Property DefaultNamespace As String
 
+        Public Property AssemblyInfo As AssemblyInfo
         Public Property Methods As New Dictionary(Of String, FunctionDeclare)
         Public Property EnumVals As New Dictionary(Of String, EnumSymbol)
         Public Property Types
@@ -31,10 +33,4 @@ Namespace CodeAnalysis
 
     End Class
 
-    Public Class NamespaceContext
-
-        Public Property NamespaceList As String()
-        Public Property NameAlias As New Dictionary(Of String, String)
-
-    End Class
 End Namespace
