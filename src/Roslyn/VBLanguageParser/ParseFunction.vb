@@ -4,6 +4,7 @@ Imports VanillaBasic.WebAssembly.Syntax
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports any = Microsoft.VisualBasic.Scripting
+Imports Microsoft.CodeAnalysis
 
 Namespace VBLanguageParser
 
@@ -25,8 +26,25 @@ Namespace VBLanguageParser
             Return New FunctionDeclare(returnValue) With {
                 .Name = func.SubOrFunctionStatement.Identifier.ValueText,
                 .[namespace] = context.FullName,
-                .parameters = pars
+                .parameters = pars,
+                .body = func.Statements.LoadBody(.locals, context)
             }
+        End Function
+
+        <Extension>
+        Private Function LoadBody(funcBody As SyntaxList(Of StatementSyntax), ByRef locals As DeclareLocal(), context As Environment) As WATSyntax()
+            Dim localList As New Dictionary(Of String, DeclareLocal)
+            Dim body As New List(Of WATSyntax)
+
+            For Each line As StatementSyntax In funcBody
+
+            Next
+
+            locals = localList _
+                .Values _
+                .ToArray
+
+            Return body.ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
