@@ -24,7 +24,8 @@ Namespace VBLanguageParser
 
             Return New FunctionDeclare(returnValue) With {
                 .Name = func.SubOrFunctionStatement.Identifier.ValueText,
-                .[namespace] = context.FullName
+                .[namespace] = context.FullName,
+                .parameters = pars
             }
         End Function
 
