@@ -1,0 +1,48 @@
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.Syntax
+
+Namespace VBLanguageParser
+
+    Module LineParser
+
+        <Extension>
+        Public Iterator Function Parse(statement As StatementSyntax, context As Environment) As IEnumerable(Of WATSyntax)
+            Select Case statement.GetType
+                Case GetType(LocalDeclarationStatementSyntax)
+                    ' Return DirectCast(statement, LocalDeclarationStatementSyntax).LocalDeclare(symbols).ToArray
+                Case GetType(AssignmentStatementSyntax)
+                    ' Return DirectCast(statement, AssignmentStatementSyntax).ValueAssign(symbols)
+                Case GetType(ReturnStatementSyntax)
+                    Yield DirectCast(statement, ReturnStatementSyntax).GetReturnValue(context)
+                Case GetType(WhileBlockSyntax)
+                    ' Return DirectCast(statement, WhileBlockSyntax).DoWhile(symbols).ToArray
+                Case GetType(MultiLineIfBlockSyntax)
+                    ' Return DirectCast(statement, MultiLineIfBlockSyntax).IfBlock(symbols)
+                Case GetType(ForBlockSyntax)
+                    ' Return DirectCast(statement, ForBlockSyntax).ForLoop(symbols).ToArray
+                Case GetType(CallStatementSyntax)
+                    Yield DirectCast(statement, CallStatementSyntax).Invocation.ParseValue(context)
+                Case GetType(ExpressionStatementSyntax)
+                    Yield DirectCast(statement, ExpressionStatementSyntax).Expression.ParseValue(context)
+                Case GetType(DoLoopBlockSyntax)
+                    ' Return DirectCast(statement, DoLoopBlockSyntax).DoLoop(symbols).ToArray
+                Case GetType(ExitStatementSyntax)
+                    ' Return DirectCast(statement, ExitStatementSyntax).ExitBlock(symbols)
+                Case Else
+                    Throw New NotImplementedException(statement.GetType.FullName)
+            End Select
+
+            Throw New NotImplementedException
+        End Function
+
+        <Extension>
+        Private Function GetReturnValue(rtvl As ReturnStatementSyntax, context As Environment) As ReturnValue
+            Dim value As WATSyntax = rtvl.Expression.ParseValue(context)
+            Dim returns As New ReturnValue With {.Value = value}
+
+            Return returns
+        End Function
+    End Module
+End Namespace

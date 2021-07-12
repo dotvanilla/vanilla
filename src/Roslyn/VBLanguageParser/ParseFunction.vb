@@ -1,10 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
-Imports VanillaBasic.WebAssembly.Syntax
-Imports VanillaBasic.WebAssembly.CodeAnalysis
-Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
-Imports any = Microsoft.VisualBasic.Scripting
 Imports Microsoft.CodeAnalysis
+Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
+Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.Syntax
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace VBLanguageParser
 
@@ -36,8 +36,8 @@ Namespace VBLanguageParser
             Dim localList As New Dictionary(Of String, DeclareLocal)
             Dim body As New List(Of WATSyntax)
 
-            For Each line As StatementSyntax In funcBody
-
+            For Each line As StatementSyntax In funcBody.ExceptType(Of EndBlockStatementSyntax)
+                Call body.AddRange(line.Parse(context))
             Next
 
             locals = localList _
