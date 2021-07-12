@@ -3,10 +3,13 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
 
-Module MemberAccessParser
+Namespace VBLanguageParser
 
-    <Extension>
-    Public Function ParseReference(indexer As MemberAccessExpressionSyntax, context As Environment) As WATSyntax
+    Module MemberAccessParser
 
-    End Function
-End Module
+        <Extension>
+        Public Function ParseReference(indexer As MemberAccessExpressionSyntax, context As Environment) As WATSyntax
+
+        End Function
+    End Module
+End Namespace
