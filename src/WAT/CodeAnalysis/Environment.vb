@@ -15,7 +15,7 @@
             End Get
         End Property
 
-        Public ReadOnly Property Workspace As Workspace
+        Public Overridable ReadOnly Property Workspace As Workspace
             Get
                 Return [global].Workspace
             End Get

@@ -18,7 +18,7 @@ Namespace CodeAnalysis
         ''' </summary>
         ''' <returns></returns>
         Public Property Types As New Dictionary(Of String, TypeSchema)
-        Public Property Memory As MemoryBuffer
+        Public Property Memory As New MemoryBuffer
 
         Sub New(defaultNamespace As String)
             Me.DefaultNamespace = defaultNamespace

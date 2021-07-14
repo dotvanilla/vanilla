@@ -5,11 +5,13 @@
     ''' </summary>
     Public Class ProjectEnvironment : Inherits Environment
 
-        Public ReadOnly Property Workspace As Workspace
+        Public Overrides ReadOnly Property Workspace As Workspace
         Public ReadOnly Property [Imports] As New NamespaceContext
 
         Sub New(workspace As Workspace)
             Call MyBase.New(workspace.DefaultNamespace, Nothing)
+
+            Me.Workspace = workspace
         End Sub
 
     End Class
