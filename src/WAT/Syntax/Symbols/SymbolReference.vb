@@ -13,5 +13,13 @@ Namespace Syntax
         Public Overrides Function ToString() As String
             Return Name
         End Function
+
+        Public Shared Operator =(symbol As SymbolReference, name As String) As Boolean
+            Return symbol.Name = name
+        End Operator
+
+        Public Shared Operator <>(symbol As SymbolReference, name As String) As Boolean
+            Return Not symbol = name
+        End Operator
     End Class
 End Namespace

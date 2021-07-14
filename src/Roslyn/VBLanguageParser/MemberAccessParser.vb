@@ -12,7 +12,32 @@ Namespace VBLanguageParser
             Dim target = indexer.Expression.ParseValue(context)
             Dim member = indexer.Name.ParseValue(context)
 
+            If TypeOf target Is SymbolReference AndAlso DirectCast(target, SymbolReference) = NameOf(Console) Then
+                Return member.TranslateConsoleApi
+            Else
+                Throw New NotImplementedException
+            End If
+        End Function
 
+        <Extension>
+        Private Function TranslateConsoleApi(member As WATSyntax) As JavaScriptTranslation
+            Static Console As New SymbolReference With {.Name = NameOf(Console)}
+
+            If Not TypeOf member Is SymbolReference Then
+                Throw New NotImplementedException
+            End If
+
+            Dim dotnet As New MemberAccess With {.target = Console, .member = member, .accessor = AccessorType.Method}
+
+            Select Case DirectCast(member, SymbolReference).Name
+                Case "WriteLine", "Write"
+                    Return New JavaScriptTranslation With {
+                        .DotNetFramework = dotnet,
+                        .JavaScript = "console.log"
+                    }
+                Case Else
+                    Throw New NotImplementedException
+            End Select
         End Function
     End Module
 End Namespace

@@ -1,4 +1,6 @@
-﻿Namespace Syntax
+﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
+
+Namespace Syntax
 
     ''' <summary>
     ''' mapping the javascript api function into .NET framework api function.
@@ -6,7 +8,7 @@
     ''' <remarks>
     ''' example as: ``console.log`` -> ``Console.WriteLine``
     ''' </remarks>
-    Public Class JavaScriptTranslation
+    Public Class JavaScriptTranslation : Inherits WATSyntax
 
         ''' <summary>
         ''' 所被映射的.NET Framework函数，例如<see cref="Console.WriteLine"/>
@@ -20,5 +22,10 @@
         ''' <returns></returns>
         Public Property JavaScript As String
 
+        Public Overrides ReadOnly Property Type As WATType
+
+        Public Overrides Function ToSExpression(env As Environment, indent As String) As String
+            Throw New NotImplementedException()
+        End Function
     End Class
 End Namespace
