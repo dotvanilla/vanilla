@@ -64,7 +64,7 @@ Namespace VBLanguageParser
             Next
 
             Return New FunctionInvoke() With {
-                .Arguments = par,
+                .Arguments = par.Values.ToArray,
                 .Func = target
             }
         End Function

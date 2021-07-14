@@ -11,14 +11,17 @@ Namespace Syntax
         Public Overrides ReadOnly Property Type As WATType
 
         Public Property Func As WATSyntax
-        Public Property Arguments As Dictionary(Of String, WATSyntax)
+        Public Property Arguments As WATSyntax()
 
         Sub New()
 
         End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Dim arguments As String() = Me.Arguments.Select(Function(a) a.ToSExpression(env, indent)).ToArray
+            Dim calls As String = $"(call ${Func.ToSExpression(env, indent)} {arguments.JoinBy(" ")})"
+
+            Return calls
         End Function
     End Class
 End Namespace
