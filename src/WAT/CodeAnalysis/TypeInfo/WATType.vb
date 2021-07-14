@@ -72,5 +72,12 @@
             Return $"({UnderlyingWATType.Description})"
         End Function
 
+        Public Shared Operator =(a As WATType, b As WATType) As Boolean
+            Return (a.UnderlyingWATType = b.UnderlyingWATType) AndAlso (a.UnderlyingVBType Is b.UnderlyingVBType)
+        End Operator
+
+        Public Shared Operator <>(a As WATType, b As WATType) As Boolean
+            Return Not a = b
+        End Operator
     End Class
 End Namespace

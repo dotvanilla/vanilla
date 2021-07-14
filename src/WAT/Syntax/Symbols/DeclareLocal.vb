@@ -12,7 +12,7 @@ Namespace Syntax
         End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return $"(local ${Name} {Type.UnderlyingWATType})"
         End Function
 
         Public Function GetParameterExpression() As String
