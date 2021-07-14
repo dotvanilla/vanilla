@@ -5,6 +5,8 @@ Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.Roslyn.VBLanguageParser
 Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.Syntax
+Imports TypeSchema = VanillaBasic.WebAssembly.CodeAnalysis.TypeSchema
 
 ''' <summary>
 ''' the syntax parser of the VisualBasic source file.
@@ -42,10 +44,29 @@ Public NotInheritable Class Scanner
     End Function
 
     Private Sub ParseModule(code As ModuleBlockSyntax, [global] As ProjectEnvironment)
-        Dim env As New Environment(code.ModuleStatement.Identifier.ValueText, container:=[global])
+        Dim moduleName As String = code.ModuleStatement.Identifier.ValueText
+        Dim env As New Environment(moduleName, container:=[global])
+        Dim isPublic As Boolean = False
+        Dim exports As New List(Of String)
+        Dim closure As FunctionDeclare
 
         For Each func As MethodBlockSyntax In code.Members.OfType(Of MethodBlockSyntax)
-            Call Workspace.AddStaticMethod(func.RunParser(env))
+            isPublic = False
+            closure = func.RunParser(isPublic, env)
+            Workspace.AddStaticMethod(closure)
+
+            If isPublic Then
+                exports.Add(closure.Name)
+            End If
         Next
+
+        Dim standardModule As New TypeSchema With {
+            .IsStandardModule = True,
+            .Name = moduleName,
+            .ExportApi = exports.ToArray,
+            .[Namespace] = [global].FullName
+        }
+
+        Call [global].Workspace.Types.Add(standardModule.FullName, standardModule)
     End Sub
 End Class

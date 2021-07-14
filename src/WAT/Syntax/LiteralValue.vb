@@ -27,7 +27,7 @@ Namespace Syntax
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Select Case Type
-                Case WATType.i32
+                Case WATType.i32, WATType.string
                     Return $"i32.const {Value}"
                 Case WATType.i64
                     Return $"i64.const {Value}"

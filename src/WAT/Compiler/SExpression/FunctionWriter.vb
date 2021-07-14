@@ -10,7 +10,7 @@ Namespace Compiler
         <Extension>
         Public Function ToSExpression(api As FunctionDeclare, workspace As Workspace) As String
             Dim par As String = api.parameters.Select(Function(a) a.GetParameterExpression).JoinBy(" ")
-            Dim result As String = api.Type.UnderlyingWATType
+            Dim result As String = api.Type.UnderlyingWATType.Description
             Dim buildBody As String() = api.body _
                 .Select(Function(line)
                             Return line.ToSExpression(Nothing, Nothing)

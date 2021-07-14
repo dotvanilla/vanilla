@@ -5,6 +5,7 @@
         Public Property Name As String
         Public Property [Namespace] As String
         Public Property ExportApi As String()
+        Public Property IsStandardModule As Boolean
 
         Public ReadOnly Property FullName As String
             Get

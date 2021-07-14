@@ -11,7 +11,7 @@ Namespace VBLanguageParser
     Module ParseFunction
 
         <Extension>
-        Public Function RunParser(func As MethodBlockSyntax, context As Environment) As FunctionDeclare
+        Public Function RunParser(func As MethodBlockSyntax, ByRef isPublic As Boolean, context As Environment) As FunctionDeclare
             Dim returnValue As WATType
             Dim pars As DeclareLocal() = func.SubOrFunctionStatement _
                 .ParseParameters(context) _
@@ -23,6 +23,11 @@ Namespace VBLanguageParser
             Else
                 returnValue = func.SubOrFunctionStatement.AsClause.ParseAsType(env:=context)
             End If
+
+            isPublic = func.SubOrFunctionStatement _
+                .Modifiers _
+                .Where(Function(w) w.ValueText = "Public") _
+                .Any
 
             Return New FunctionDeclare(returnValue) With {
                 .Name = methodName,
