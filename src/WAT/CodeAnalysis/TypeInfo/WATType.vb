@@ -10,6 +10,7 @@
         Public Shared ReadOnly Property f32 As New WATType(WATElements.f32)
         Public Shared ReadOnly Property f64 As New WATType(WATElements.f64)
         Public Shared ReadOnly Property void As New WATType(GetType(Void))
+        Public Shared ReadOnly Property [string] As New WATType(WATElements.string)
 
         Protected Sub New(elementType As Type)
             UnderlyingVBType = elementType
@@ -32,8 +33,17 @@
             Select Case elementType
                 Case WATElements.f32 : UnderlyingVBType = GetType(Single)
                 Case WATElements.f64 : UnderlyingVBType = GetType(Double)
-                Case WATElements.i32 : UnderlyingVBType = GetType(Integer)
+                Case WATElements.i32,
+                     WATElements.string,
+                     WATElements.table,
+                     WATElements.list,
+                     WATElements.array
+
+                    UnderlyingVBType = GetType(Integer)
+
                 Case WATElements.i64 : UnderlyingVBType = GetType(Long)
+                Case Else
+                    Throw New NotImplementedException
             End Select
         End Sub
 

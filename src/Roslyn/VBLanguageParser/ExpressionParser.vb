@@ -24,16 +24,35 @@ Namespace VBLanguageParser
 
         <Extension>
         Private Function GetLiteralvalue(x As LiteralExpressionSyntax, context As Environment) As WATSyntax
-            Return New LiteralValue(x.Token.Value)
+            Dim value As Object = x.Token.Value
+            Dim buffer = context.Workspace.Memory
+
+            Select Case value.GetType
+                Case GetType(String)
+                    Dim i As Integer = buffer.AddString(x.Token.ValueText)
+                    Dim str As New LiteralValue(i, WATType.string)
+
+                    Return str
+                Case Else
+                    Return New LiteralValue(value)
+            End Select
         End Function
 
         <Extension>
         Private Function ParseFunctionInvoke(calls As InvocationExpressionSyntax, context As Environment) As WATSyntax
             Dim par As New Dictionary(Of String, WATSyntax)
             Dim target As WATSyntax = calls.Expression.ParseValue(context)
+            Dim i As Integer = 0
 
             For Each arg As ArgumentSyntax In calls.ArgumentList.Arguments
+                Select Case arg.GetType
+                    Case GetType(SimpleArgumentSyntax)
+                        par("$" & i) = DirectCast(arg, SimpleArgumentSyntax).Expression.ParseValue(context)
+                    Case Else
+                        Throw New NotImplementedException
+                End Select
 
+                i += 1
             Next
 
             Return New FunctionInvoke() With {
