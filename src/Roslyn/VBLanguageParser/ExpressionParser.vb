@@ -14,10 +14,17 @@ Namespace VBLanguageParser
                     Return DirectCast(expression, InvocationExpressionSyntax).ParseFunctionInvoke(context)
                 Case GetType(MemberAccessExpressionSyntax)
                     Return DirectCast(expression, MemberAccessExpressionSyntax).ParseReference(context)
+                Case GetType(LiteralExpressionSyntax)
+                    Return DirectCast(expression, LiteralExpressionSyntax).GetLiteralvalue(context)
 
                 Case Else
                     Throw New NotImplementedException(expression.GetType.FullName)
             End Select
+        End Function
+
+        <Extension>
+        Private Function GetLiteralvalue(x As LiteralExpressionSyntax, context As Environment) As WATSyntax
+            Return New LiteralValue(x.Token.Value)
         End Function
 
         <Extension>

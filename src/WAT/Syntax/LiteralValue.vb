@@ -9,6 +9,7 @@ Namespace Syntax
 
         Sub New(value As Object)
             Me.Value = value
+            Me.Type = WATType.GetElementType(value.GetType)
         End Sub
 
         Public Shared Function GetUnderlyingType(value As Object, wasm As Workspace) As WATType

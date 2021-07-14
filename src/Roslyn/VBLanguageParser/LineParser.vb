@@ -16,6 +16,7 @@ Namespace VBLanguageParser
                     ' Return DirectCast(statement, AssignmentStatementSyntax).ValueAssign(symbols)
                 Case GetType(ReturnStatementSyntax)
                     Yield DirectCast(statement, ReturnStatementSyntax).GetReturnValue(context)
+                    Return
                 Case GetType(WhileBlockSyntax)
                     ' Return DirectCast(statement, WhileBlockSyntax).DoWhile(symbols).ToArray
                 Case GetType(MultiLineIfBlockSyntax)
@@ -24,8 +25,10 @@ Namespace VBLanguageParser
                     ' Return DirectCast(statement, ForBlockSyntax).ForLoop(symbols).ToArray
                 Case GetType(CallStatementSyntax)
                     Yield DirectCast(statement, CallStatementSyntax).Invocation.ParseValue(context)
+                    Return
                 Case GetType(ExpressionStatementSyntax)
                     Yield DirectCast(statement, ExpressionStatementSyntax).Expression.ParseValue(context)
+                    Return
                 Case GetType(DoLoopBlockSyntax)
                     ' Return DirectCast(statement, DoLoopBlockSyntax).DoLoop(symbols).ToArray
                 Case GetType(ExitStatementSyntax)

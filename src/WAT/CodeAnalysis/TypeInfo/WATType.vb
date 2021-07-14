@@ -38,6 +38,16 @@
         End Sub
 
         Public Shared Function GetUnderlyingType(value As Type, wasm As Workspace) As WATType
+            Dim type As WATType = GetElementType(value)
+
+            If type Is Nothing Then
+                Throw New InvalidProgramException(value.FullName)
+            End If
+
+            Return type
+        End Function
+
+        Public Shared Function GetElementType(value As Type) As WATType
             Select Case value
                 Case GetType(Integer), GetType(UInteger), GetType(Byte), GetType(SByte), GetType(Short), GetType(UShort)
                     Return WATType.i32
@@ -52,9 +62,9 @@
                     Return WATType.f64
 
                 Case GetType(String)
-
+                    Throw New NotImplementedException
                 Case Else
-                    Throw New InvalidProgramException(value.FullName)
+                    Return Nothing
             End Select
         End Function
 
