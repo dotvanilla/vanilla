@@ -9,6 +9,9 @@ Namespace VBLanguageParser
 
         <Extension>
         Public Function ParseReference(indexer As MemberAccessExpressionSyntax, context As Environment) As WATSyntax
+            Dim target = indexer.Expression.ParseValue(context)
+            Dim member = indexer.Name.ParseValue(context)
+
 
         End Function
     End Module

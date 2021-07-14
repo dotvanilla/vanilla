@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
@@ -6,6 +7,11 @@ Imports VanillaBasic.WebAssembly.Syntax
 Namespace VBLanguageParser
 
     Module Expressionparser
+
+        <Extension>
+        Public Function GetSymbol(name As IdentifierNameSyntax) As SymbolReference
+            Return New SymbolReference With {.Name = name.Identifier.Text}
+        End Function
 
         <Extension>
         Public Function ParseValue(expression As ExpressionSyntax, context As Environment) As WATSyntax
@@ -16,6 +22,8 @@ Namespace VBLanguageParser
                     Return DirectCast(expression, MemberAccessExpressionSyntax).ParseReference(context)
                 Case GetType(LiteralExpressionSyntax)
                     Return DirectCast(expression, LiteralExpressionSyntax).GetLiteralvalue(context)
+                Case GetType(IdentifierNameSyntax)
+                    Return DirectCast(expression, IdentifierNameSyntax).GetSymbol
 
                 Case Else
                     Throw New NotImplementedException(expression.GetType.FullName)

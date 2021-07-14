@@ -16,6 +16,7 @@ Namespace VBLanguageParser
             Dim pars As DeclareLocal() = func.SubOrFunctionStatement _
                 .ParseParameters(context) _
                 .ToArray
+            Dim methodName As String = func.SubOrFunctionStatement.Identifier.ValueText
 
             If func.SubOrFunctionStatement.SubOrFunctionKeyword.ValueText = "Sub" Then
                 returnValue = WATType.void
@@ -24,7 +25,7 @@ Namespace VBLanguageParser
             End If
 
             Return New FunctionDeclare(returnValue) With {
-                .Name = func.SubOrFunctionStatement.Identifier.ValueText,
+                .Name = methodName,
                 .[namespace] = context.FullName,
                 .parameters = pars,
                 .body = func.Statements.LoadBody(.locals, context)
