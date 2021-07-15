@@ -43,7 +43,7 @@ Namespace CodeAnalysis.Memory
                 lines += ";;"
             End If
 
-            lines += $"(data (i32.const {MemoryPtr}) ""{Value}\00"")"
+            lines += $"(data (i32.const {DirectCast(MemoryPtr, StaticPtr).Scan0}) ""{Value}\00"")"
 
             Return lines _
                 .Select(Function(line) "    " & line) _
