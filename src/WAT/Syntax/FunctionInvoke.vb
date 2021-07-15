@@ -14,12 +14,16 @@ Namespace Syntax
         Public Property Arguments As WATSyntax()
 
         Sub New()
+        End Sub
 
+        Sub New(func As FunctionDeclare, ParamArray arguments As WATSyntax())
+            Me.Func = New SymbolReference(func.FullName)
+            Me.Arguments = arguments
         End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Dim arguments As String() = Me.Arguments.Select(Function(a) a.ToSExpression(env, indent)).ToArray
-            Dim calls As String = $"(call ${Func.ToSExpression(env, indent)} {arguments.JoinBy(" ")})"
+            Dim calls As String = $"(call {Func.ToSExpression(env, indent)} {arguments.JoinBy(" ")})"
 
             Return calls
         End Function

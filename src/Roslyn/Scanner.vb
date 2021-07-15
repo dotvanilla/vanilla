@@ -49,14 +49,20 @@ Public NotInheritable Class Scanner
         Dim isPublic As Boolean = False
         Dim exports As New List(Of String)
         Dim closure As FunctionDeclare
+        Dim sharedSubNew As FunctionDeclare = Nothing
 
         For Each func As MethodBlockSyntax In code.Members.OfType(Of MethodBlockSyntax)
             isPublic = False
             closure = func.RunParser(isPublic, env)
-            Workspace.AddStaticMethod(closure)
 
-            If isPublic Then
-                exports.Add(closure.Name)
+            If closure.Name = "New" AndAlso closure.Type Is WATType.void Then
+                sharedSubNew = closure
+            Else
+                Workspace.AddStaticMethod(closure)
+
+                If isPublic Then
+                    exports.Add(closure.Name)
+                End If
             End If
         Next
 
@@ -64,8 +70,19 @@ Public NotInheritable Class Scanner
             .IsStandardModule = True,
             .Name = moduleName,
             .ExportApi = exports.ToArray,
-            .[Namespace] = [global].FullName
+            .[Namespace] = [global].FullName,
+            .Initializer = sharedSubNew
         }
+
+        If standardModule.Initializer Is Nothing Then
+            standardModule.Initializer = New FunctionDeclare(WATType.void) With {
+                .body = {},
+                .locals = {},
+                .Name = "SubNew",
+                .[namespace] = standardModule.FullName,
+                .parameters = {}
+            }
+        End If
 
         Call [global].Workspace.Types.Add(standardModule.FullName, standardModule)
     End Sub

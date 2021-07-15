@@ -6,8 +6,25 @@ Namespace Syntax
 
         Public Overrides ReadOnly Property Type As WATType
 
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' name应该是不包含有``$``符号的
+        ''' </summary>
+        ''' <param name="name"></param>
+        Sub New(name As String)
+            Me.Name = name
+        End Sub
+
+        ''' <summary>
+        ''' 这个函数会自动给<see cref="Name"/>添加一个``$``符号前缀
+        ''' </summary>
+        ''' <param name="env"></param>
+        ''' <param name="indent"></param>
+        ''' <returns></returns>
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return $"${Name}"
         End Function
 
         Public Overrides Function ToString() As String

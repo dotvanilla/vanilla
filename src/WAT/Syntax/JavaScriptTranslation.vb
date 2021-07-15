@@ -25,7 +25,7 @@ Namespace Syntax
         Public Overrides ReadOnly Property Type As WATType
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Return JavaScript
+            Return "$" & JavaScript
         End Function
     End Class
 End Namespace
