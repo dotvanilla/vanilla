@@ -6,12 +6,14 @@ Namespace Syntax
 
         Public Overrides ReadOnly Property Type As WATType
             Get
-                Throw New NotImplementedException()
+                Return Value.Type
             End Get
         End Property
 
+        Public Property Value As WATSyntax
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return $"(global ${Name} (mut {Type.UnderlyingWATType.ToString}) ({Value.ToSExpression(env, indent)}))"
         End Function
     End Class
 End Namespace

@@ -40,8 +40,8 @@ Namespace Compiler
     ;; all of these string is base64 encoded json object
     {{objectMeta}}
 
-    ;; Pre-defined constant values
-    {{predefinedGlobals.JoinBy(ASCII.LF)}}
+    ;; Math constant values in .NET Framework
+    {MathConstant.GetVBMathConstants.JoinBy(ASCII.LF)}
 
     ;; Global variables in this module
     {{Globals.JoinBy(ASCII.LF)}}
