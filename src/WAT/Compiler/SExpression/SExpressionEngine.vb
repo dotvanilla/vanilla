@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.CodeAnalysis.Memory
 Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace Compiler
@@ -9,23 +10,14 @@ Namespace Compiler
 
         <Extension>
         Public Function ToSExpression(project As Workspace) As String
-            Dim buildTime As String = Now.ToString
-            Dim wasmSummary As AssemblyInfo = project.AssemblyInfo
             Dim exportGroup As FunctionDeclare() = project.GetPublicApi.ToArray
             Dim exportApiSText As String = exportGroup.ToSExpression(project)
+            Dim stringsData As String() = project.Memory _
+                .Where(Function(m) TypeOf m Is StringLiteral) _
+                .Select(Function(str) DirectCast(str, StringLiteral).ToSExpression) _
+                .ToArray
 
-            Return $"(module ;; Microsoft VisualBasic Project {project.DefaultNamespace}
-
-    ;; Auto-Generated VisualBasic.NET WebAssembly Code
-    ;;
-    ;; WASM for VisualBasic.NET
-    ;; 
-    ;; version: {wasmSummary.AssemblyVersion}
-    ;; build: {buildTime}
-    ;; 
-    ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
-
-    ;; imports must occur before all non-import definitions
+            Return project.WriteProjectModule($";; imports must occur before all non-import definitions
 
     {{[imports].JoinBy(ASCII.LF)}}
     
@@ -42,7 +34,7 @@ Namespace Compiler
     {{IMemoryObject.GetMemorySize.ToSExpression}}
 
     ;; Memory data for string constant
-    {{stringsData}}
+    {stringsData.JoinBy(ASCII.LF)}
     
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
@@ -60,9 +52,7 @@ Namespace Compiler
     {exportApiSText} 
 
     {{internal.JoinBy(ASCII.LF)}}
-
-    {{[module].starter}}
-)"
+")
         End Function
     End Module
 End Namespace

@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
 
@@ -25,7 +26,7 @@ Namespace Compiler
 
             Return $"(func ${api.namespace}.{api.Name} {par} {result}
     ;; {api.ToString}
-    {buildBody.JoinBy(vbCrLf)}
+    {buildBody.JoinBy(ASCII.LF)}
 )"
         End Function
 
@@ -46,7 +47,7 @@ Namespace Compiler
 
                             Return str.ToString
                         End Function) _
-                .JoinBy(vbCrLf & vbCrLf)
+                .JoinBy(ASCII.LF)
         End Function
     End Module
 End Namespace
