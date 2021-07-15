@@ -1,4 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.Serialization.Bencoding
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.CodeAnalysis.Memory
@@ -9,13 +12,21 @@ Namespace Compiler
     Public Module SExpressionEngine
 
         <Extension>
+        Private Function EncodeAssemblyInfo(project As Workspace) As String
+            Dim data As AssemblyInfo = project.AssemblyInfo
+            Dim obj As Dictionary(Of String, String) = data.GetJson.LoadJSON(Of Dictionary(Of String, String))
+            Dim scan0 As Integer = project.Memory.AddString(obj.ToBEncodeString)
+            Dim memory As StringLiteral = project.Memory(scan0)
+
+            Return memory.ToSExpression
+        End Function
+
+        <Extension>
         Public Function ToSExpression(project As Workspace) As String
             Dim exportGroup As ExportSymbol() = project.GetPublicApi.ToArray
             Dim internal As String() = project.Methods.Values.ToSExpression(project).ToArray
-            Dim stringsData As String() = project.Memory _
-                .Where(Function(m) TypeOf m Is StringLiteral) _
-                .Select(Function(str) DirectCast(str, StringLiteral).ToSExpression) _
-                .ToArray
+            Dim stringsData As String() = StringWriter.StringExpressions(project.Memory)
+            Dim assemblyInfo As String = project.EncodeAssemblyInfo
 
             Return project.WriteProjectModule($";; imports must occur before all non-import definitions
 
@@ -36,6 +47,9 @@ Namespace Compiler
     ;; Memory data for string constant
     {stringsData.JoinBy(ASCII.LF)}
     
+    ;; AssemblyInfo.vb
+    {assemblyInfo}
+
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
     {{objectMeta}}

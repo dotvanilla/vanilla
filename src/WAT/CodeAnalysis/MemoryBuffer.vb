@@ -30,6 +30,18 @@ Namespace CodeAnalysis
             End Get
         End Property
 
+        Default Public ReadOnly Property GetByOffSet(i As Integer) As MemoryObject
+            Get
+                For Each item In Me.Where(Function(m) TypeOf m.MemoryPtr Is StaticPtr)
+                    If DirectCast(item.MemoryPtr, StaticPtr).Scan0 = i Then
+                        Return item
+                    End If
+                Next
+
+                Return Nothing
+            End Get
+        End Property
+
         ''' <summary>
         ''' Moves the position of the <seealso cref="offset"/> to the next position aligned on
         ''' 8 bytes. If the buffer position is already a multiple of 8 the position will
@@ -50,7 +62,9 @@ Namespace CodeAnalysis
         ''' 函数返回的是数据的内存位置
         ''' </summary>
         ''' <param name="str"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' 返回目标对象在内存中的起始位置，可以通过<see cref="GetByOffSet"/>属性重新得到这个字符串数据
+        ''' </returns>
         Public Function AddString(str As String) As Integer
             Dim buffer As New StringLiteral With {
                 .Value = str,
