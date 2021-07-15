@@ -10,8 +10,8 @@ Namespace Compiler
 
         <Extension>
         Public Function ToSExpression(project As Workspace) As String
-            Dim exportGroup As FunctionDeclare() = project.GetPublicApi.ToArray
-            Dim exportApiSText As String = exportGroup.ToSExpression(project)
+            Dim exportGroup As ExportSymbol() = project.GetPublicApi.ToArray
+            Dim internal As String() = project.Methods.Values.ToSExpression(project).ToArray
             Dim stringsData As String() = project.Memory _
                 .Where(Function(m) TypeOf m Is StringLiteral) _
                 .Select(Function(str) DirectCast(str, StringLiteral).ToSExpression) _
@@ -49,9 +49,9 @@ Namespace Compiler
     ;; Export methods of this module
     {{New ExportSymbolExpression(IMemoryObject.GetMemorySize).ToSExpression}}
 
-    {exportApiSText} 
+    {exportGroup.Select(Function(api) api.ToSExpression).JoinBy(ASCII.LF)} 
 
-    {{internal.JoinBy(ASCII.LF)}}
+    {internal.JoinBy(ASCII.LF)}
 ")
         End Function
     End Module

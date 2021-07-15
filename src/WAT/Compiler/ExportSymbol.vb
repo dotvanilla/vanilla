@@ -82,6 +82,10 @@ Namespace Compiler
             [module] = define.namespace.Split("."c).Last
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return ToSExpression()
+        End Function
+
         Public Function ToSExpression() As String
             Return $"(export ""{[module]}.{Name}"" ({type} ${target}))"
         End Function

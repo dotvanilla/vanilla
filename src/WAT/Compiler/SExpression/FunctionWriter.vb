@@ -31,23 +31,20 @@ Namespace Compiler
         End Function
 
         <Extension>
-        Public Function ToSExpression(list As IEnumerable(Of FunctionDeclare), workspace As Workspace) As String
-            Return list _
-                .GroupBy(Function(fun) fun.namespace) _
-                .Select(Function(group)
-                            Dim str As New StringBuilder($";; functions in [{group.Key}]" & vbCrLf)
+        Public Iterator Function ToSExpression(list As IEnumerable(Of FunctionDeclare), workspace As Workspace) As IEnumerable(Of String)
+            For Each group In list.GroupBy(Function(fun) fun.namespace)
+                Dim str As New StringBuilder($";; functions in [{group.Key}]" & vbCrLf)
 
-                            Call str.AppendLine()
+                Call str.AppendLine()
 
-                            For Each api As FunctionDeclare In group
-                                Call str.AppendLine(api.ToSExpression(workspace))
-                            Next
+                For Each api As FunctionDeclare In group
+                    Call str.AppendLine(api.ToSExpression(workspace))
+                Next
 
-                            Call str.AppendLine()
+                Call str.AppendLine()
 
-                            Return str.ToString
-                        End Function) _
-                .JoinBy(ASCII.LF)
+                Yield str.ToString
+            Next
         End Function
     End Module
 End Namespace

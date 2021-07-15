@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports VanillaBasic.WebAssembly.Compiler
 Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace CodeAnalysis
@@ -20,6 +21,12 @@ Namespace CodeAnalysis
         Public Property Types As New Dictionary(Of String, TypeSchema)
         Public Property Memory As New MemoryBuffer
 
+        Default Public ReadOnly Property PublicApi(export As ExportSymbol) As FunctionDeclare
+            Get
+                Return Methods(export.target.Name)
+            End Get
+        End Property
+
         Sub New(defaultNamespace As String)
             Me.DefaultNamespace = defaultNamespace
         End Sub
@@ -28,10 +35,10 @@ Namespace CodeAnalysis
             Methods.Add(func.FullName, func)
         End Sub
 
-        Public Iterator Function GetPublicApi() As IEnumerable(Of FunctionDeclare)
+        Public Iterator Function GetPublicApi() As IEnumerable(Of ExportSymbol)
             For Each type As TypeSchema In Types.Values
                 For Each name As String In type.ExportApi
-                    Yield Methods($"{type.FullName}.{name}")
+                    Yield New ExportSymbol(Methods($"{type.FullName}.{name}"))
                 Next
             Next
         End Function
