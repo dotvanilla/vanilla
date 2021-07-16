@@ -12,6 +12,14 @@ Namespace Syntax
         Public Property ModuleName As String
         Public Property ImportsName As String
 
+        Sub New(type As WATType)
+            Me.Type = type
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return ToSExpression(Nothing, "")
+        End Function
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Dim arguments As String() = Parameters _
                 .SafeQuery _
