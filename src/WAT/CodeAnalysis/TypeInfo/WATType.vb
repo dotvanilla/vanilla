@@ -35,6 +35,11 @@
             UnderlyingWATType = clone.UnderlyingWATType
         End Sub
 
+        Sub New(fullName As String)
+            UnderlyingVBType = New VBType(fullName)
+            UnderlyingWATType = WATElements.i32
+        End Sub
+
         Protected Sub New(elementType As WATElements)
             UnderlyingWATType = elementType
 

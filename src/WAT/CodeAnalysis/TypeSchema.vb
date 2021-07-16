@@ -1,4 +1,5 @@
-﻿Imports VanillaBasic.WebAssembly.Syntax
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace CodeAnalysis
 
@@ -24,7 +25,13 @@ Namespace CodeAnalysis
         Public Property Initializer As FunctionDeclare
 
         Public Function GetWATType() As WATType
+            Static cache As New Dictionary(Of String, WATType)
 
+            Return cache.ComputeIfAbsent(
+                key:=FullName,
+                lazyValue:=Function()
+                               Return New WATType(FullName)
+                           End Function)
         End Function
 
         Public Overrides Function ToString() As String
