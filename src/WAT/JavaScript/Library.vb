@@ -29,7 +29,7 @@ Namespace JavaScript
 
                 Yield New ImportsFunction(type) With {
                     .ImportsName = api.Name,
-                    .ModuleName = javascriptModule,
+                    .ModuleName = If(dllImports.Value, javascriptModule),
                     .Name = dllImports.EntryPoint,
                     .Parameters = parameters
                 }

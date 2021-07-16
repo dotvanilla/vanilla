@@ -34,6 +34,7 @@ Namespace CodeAnalysis
             Me.DefaultNamespace = defaultNamespace
 
             Call Library.Imports(Of JavaScript.Math)(Me)
+            Call Library.Imports(Of JavaScript.Console)(Me)
         End Sub
 
         Public Sub AddStaticMethod(func As FunctionDeclare)
