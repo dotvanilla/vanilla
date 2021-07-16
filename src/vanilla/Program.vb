@@ -50,8 +50,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj
 Imports Microsoft.VisualBasic.CommandLine
-Imports Wasm.Compiler
-Imports Wasm.Symbols
+Imports VanillaBasic.Roslyn
+Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.Compiler
 
 ''' <summary>
 ''' 在进行编译的时候会遵循下面的搜索规则：
@@ -75,18 +76,20 @@ Module Program
     ''' <param name="args"></param>
     ''' <returns></returns>
     Private Function CompileTargetFileRoutine(file As String, args As CommandLine) As Integer
-        Dim moduleSymbol As ModuleSymbol
+        Dim project As Scanner
         Dim out$
         Dim debug As Boolean = args("/debug")
 
         If file.ExtensionSuffix.TextEquals("vb") Then
-            moduleSymbol = Wasm.CreateModule(file)
+            project = New Scanner
+            project.AddModules(file)
             out = args("/out") Or file.ChangeSuffix("wasm")
         Else
             Dim profile$ = args("/profile") Or "Release|AnyCPU"
             Dim vbproj As Project = file.LoadXml(Of Project)
 
-            moduleSymbol = Wasm.CreateModuleFromProject(vbproj:=file)
+            project = New Scanner(vbproj)
+            vbproj.EnumerateSourceFiles(fullName:=True).DoEach(AddressOf project.AddModules)
             out = args("/out") Or vbproj.GetOutputWasm(profile)
 
             If profile.Split("|"c).First = "Debug" Then
@@ -94,13 +97,13 @@ Module Program
             End If
         End If
 
-        Call moduleSymbol.CreateWasm(debug, out)
+        Call project.Workspace.CreateWasm(debug, out)
 
         Return 0
     End Function
 
     <Extension>
-    Private Sub CreateWasm(moduleSymbol As ModuleSymbol, debug As Boolean, out$)
+    Private Sub CreateWasm(moduleSymbol As Workspace, debug As Boolean, out$)
         Call moduleSymbol.ToSExpression.SaveTo(out.ChangeSuffix("wast"))
         Call moduleSymbol.HexDump(verbose:=True).SaveTo(out.ChangeSuffix("dmp"))
 

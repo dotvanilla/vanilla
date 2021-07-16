@@ -1,6 +1,7 @@
 Imports System.IO
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.Roslyn.VBLanguageParser
@@ -18,6 +19,11 @@ Public NotInheritable Class Scanner
     Sub New(proj As vbproj.Project)
         Workspace = New Workspace(proj.RootNamespace)
         Workspace.AssemblyInfo = proj.AssemblyInfo
+    End Sub
+
+    Sub New()
+        Workspace = New Workspace("")
+        Workspace.AssemblyInfo = New AssemblyInfo
     End Sub
 
     Private Function GetCodeModules(vb As [Variant](Of FileInfo, String), [global] As ProjectEnvironment) As ModuleBlockSyntax()
