@@ -71,6 +71,8 @@
         End Function
 
         Public Shared Function GetElementType(value As Type) As WATType
+            Static byrefString As Type = Type.GetType("System.String&")
+
             Select Case value
                 Case GetType(Integer), GetType(UInteger),
                      GetType(Byte), GetType(SByte),
@@ -87,8 +89,11 @@
                 Case GetType(Double), GetType(Decimal)
                     Return WATType.f64
 
-                Case GetType(String)
+                Case GetType(String), byrefString
                     Return WATType.string
+
+                Case GetType(Void)
+                    Return WATType.void
 
                 Case Else
                     Return Nothing
@@ -96,7 +101,13 @@
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"({UnderlyingWATType.Description})"
+            Dim WASM As WATElements = UnderlyingWATType
+
+            If UnderlyingWATType = WATElements.void Then
+                WASM = WATElements.i32
+            End If
+
+            Return $"({WASM.Description})"
         End Function
 
         Public Shared Operator =(a As WATType, b As WATType) As Boolean
