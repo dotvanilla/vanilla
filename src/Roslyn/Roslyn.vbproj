@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>VanillaBasic.Roslyn</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>.NETCoreApp,Version=v5.0</TargetFramework>
     <AssemblyName>VanillaBasic.Roslyn</AssemblyName>
     <Description>WebAssembly Compiler for Microsoft VisualBasic</Description>
     <Product>https://vanillavb.app/</Product>
@@ -13,6 +13,34 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Platforms>AnyCPU;ARM32;x64</Platforms>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>VanillaBasic.Roslyn.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>VanillaBasic.Roslyn.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM32'">
+    <DocumentationFile>VanillaBasic.Roslyn.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM32'">
+    <DocumentationFile>VanillaBasic.Roslyn.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>VanillaBasic.Roslyn.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>VanillaBasic.Roslyn.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
