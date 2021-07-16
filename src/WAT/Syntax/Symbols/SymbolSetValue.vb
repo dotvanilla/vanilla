@@ -2,7 +2,7 @@
 
 Namespace Syntax
 
-    Public Class SetGlobal : Inherits WATSyntax
+    Public Class SymbolSetValue : Inherits WATSyntax
 
         Public Overrides ReadOnly Property Type As WATType
             Get
@@ -12,6 +12,7 @@ Namespace Syntax
 
         Public Property Target As WATSyntax
         Public Property Value As WATSyntax
+        Public Property isGlobal As Boolean
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Throw New NotImplementedException()

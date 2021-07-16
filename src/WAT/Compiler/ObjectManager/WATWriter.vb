@@ -82,7 +82,7 @@ Namespace Compiler
                 ElseIf codeName = "stfld" Then
                     Dim target As FieldInfo = line.Operand
                     Dim type As WATType = WATType.GetUnderlyingType(target.FieldType, project)
-                    Dim setGlobal As New SetGlobal With {
+                    Dim setGlobal As New SymbolSetValue With {
                         .Target = New SymbolReference(type) With {
                             .Name = $"{target.DeclaringType.Name}.{target.Name}"
                         },
