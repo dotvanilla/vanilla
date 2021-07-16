@@ -23,6 +23,10 @@ Namespace CodeAnalysis
         ''' <returns></returns>
         Public Property Initializer As FunctionDeclare
 
+        Public Function GetWATType() As WATType
+
+        End Function
+
         Public Overrides Function ToString() As String
             Return FullName
         End Function

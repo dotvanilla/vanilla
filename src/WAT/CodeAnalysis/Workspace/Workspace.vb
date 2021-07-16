@@ -48,7 +48,16 @@ Namespace CodeAnalysis
         End Function
 
         Public Overloads Function [GetType](name As String, [imports] As NamespaceContext) As WATType
+            Dim fullName As String = [imports].SolveFullName(name)
+            Dim type As WATType
 
+            If fullName.StartsWith("System.") Then
+                type = WATType.GetUnderlyingType(System.Type.GetType(fullName), Me)
+            Else
+                type = Types(fullName).GetWATType
+            End If
+
+            Return type
         End Function
 
         Public Overrides Function ToString() As String
