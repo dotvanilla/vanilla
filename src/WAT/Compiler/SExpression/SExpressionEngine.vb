@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -21,22 +22,36 @@ Namespace Compiler
             Return memory.ToSExpression
         End Function
 
+        Private Function WriteJavascriptImports(project As Workspace) As String
+            Dim [imports] As New List(Of String)
+
+            For Each library In project.Imports.Values.GroupBy(Function(i) i.ModuleName)
+                [imports] += $";; JAVASCRIPT [{library.Key}]"
+
+                For Each api As ImportsFunction In library
+                    [imports] += api.ToSExpression(Nothing, "")
+                Next
+            Next
+
+            Return $";; Javascript function imports into current WebAssembly Module
+;;
+;; ----- NOTE: imports must occur before all non-import definitions ------
+
+    {[imports].JoinBy(ASCII.LF)}
+    
+;; ----- END OF JAVASCRIPT IMPORTS -----"
+        End Function
+
         <Extension>
         Public Function ToSExpression(project As Workspace) As String
             Dim exportGroup As ExportSymbol() = project.GetPublicApi.ToArray
             Dim internal As String() = project.Methods.Values.ToSExpression(project).ToArray
             Dim stringsData As String() = StringWriter.StringExpressions(project.Memory)
             Dim assemblyInfo As String = project.EncodeAssemblyInfo
-            Dim [imports] As String() = project.Imports.Values _
-                .Select(Function(i)
-                            Return i.ToSExpression(Nothing, "")
-                        End Function) _
-                .ToArray
+            Dim imports$ = WriteJavascriptImports(project)
 
-            Return project.WriteProjectModule($";; imports must occur before all non-import definitions
+            Return project.WriteProjectModule($"{[imports]}    
 
-    {[imports].JoinBy(ASCII.LF)}
-    
     ;; Only allows one memory block in each module
     (memory (import ""env"" ""bytechunks"") 1)
 
