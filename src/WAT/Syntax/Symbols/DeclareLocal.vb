@@ -12,11 +12,11 @@ Namespace Syntax
         End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Return $"(local ${Name} {Type.UnderlyingWATType})"
+            Return $"(local ${Name} {Type.UnderlyingWATType.Description})"
         End Function
 
         Public Function GetParameterExpression() As String
-            Return $"(param ${Name} {Type.UnderlyingWATType})"
+            Return $"(param ${Name} {Type.UnderlyingWATType.Description})"
         End Function
     End Class
 End Namespace
