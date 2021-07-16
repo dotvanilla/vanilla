@@ -15,8 +15,14 @@ Namespace Compiler
         End Function
 
         <Extension>
-        Private Iterator Function GetMethods(heapMgr As Type, project As Workspace) As IEnumerable(Of FunctionDeclare)
+        Private Iterator Function GetMethods(heapMgr As Type, project As Workspace, exports As List(Of ExportSymbol)) As IEnumerable(Of FunctionDeclare)
             For Each method As MethodInfo In heapMgr.GetMethods
+                If method.MethodImplementationFlags = MethodImplAttributes.InternalCall Then
+                    Continue For
+                ElseIf method.Attributes.HasFlag(MethodAttributes.Virtual) Then
+                    Continue For
+                End If
+
                 Dim IL As New MethodBodyReader(method)
                 Dim body As WATSyntax() = GetWASM(IL).ToArray
                 Dim parameters As DeclareLocal() = method _
@@ -32,18 +38,28 @@ Namespace Compiler
                     .body = body.ToArray
                 }
 
+                If method.IsPublic Then
+                    Call exports.Add(New ExportSymbol(func))
+                End If
+
                 Yield func
             Next
         End Function
 
         Public Function WriteWAT(project As Workspace) As String
             Dim heapMgr As Type = GetType(ObjectManager)
-            Dim methods As FunctionDeclare() = heapMgr.GetMethods(project).ToArray
+            Dim exports As New List(Of ExportSymbol)
+            Dim methods As FunctionDeclare() = heapMgr.GetMethods(project, exports).ToArray
             Dim wast As String() = methods.ToSExpression(project).ToArray
 
             Return $"    
     ;; memory allocate in javascript runtime
-    {wast.JoinBy(ASCII.LF)}"
+    {wast.JoinBy(ASCII.LF)}
+    
+    ;; Export Api to JavaScript runtime for
+    ;; expose GC in WASM module.
+    {exports.Select(Function(api) api.ToSExpression).JoinBy(ASCII.LF)}
+    "
         End Function
 
         Public Function GetHeapSize0(memory As MemoryBuffer) As String

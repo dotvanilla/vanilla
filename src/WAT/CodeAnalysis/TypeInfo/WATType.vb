@@ -72,7 +72,10 @@
 
         Public Shared Function GetElementType(value As Type) As WATType
             Select Case value
-                Case GetType(Integer), GetType(UInteger), GetType(Byte), GetType(SByte), GetType(Short), GetType(UShort)
+                Case GetType(Integer), GetType(UInteger),
+                     GetType(Byte), GetType(SByte),
+                     GetType(Short), GetType(UShort)
+
                     Return WATType.i32
 
                 Case GetType(Long), GetType(ULong)
@@ -85,7 +88,8 @@
                     Return WATType.f64
 
                 Case GetType(String)
-                    Throw New NotImplementedException
+                    Return WATType.string
+
                 Case Else
                     Return Nothing
             End Select

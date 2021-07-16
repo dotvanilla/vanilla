@@ -79,8 +79,6 @@ Namespace Compiler
     {{Globals.JoinBy(ASCII.LF)}}
 
     ;; Export methods of this module
-    {{New ExportSymbolExpression(IMemoryObject.GetMemorySize).ToSExpression}}
-
     {exportGroup.Select(Function(api) api.ToSExpression).JoinBy(ASCII.LF)} 
 
     {internal.JoinBy(ASCII.LF)}
