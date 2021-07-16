@@ -22,6 +22,7 @@ Namespace CodeAnalysis
         Public Property Types As New Dictionary(Of String, TypeSchema)
         Public Property Memory As New MemoryBuffer
         Public Property [Imports] As New Dictionary(Of String, ImportsFunction)
+        Public Property GlobalSymbols As New Dictionary(Of String, DeclareGlobal)
 
         Default Public ReadOnly Property PublicApi(export As ExportSymbol) As FunctionDeclare
             Get

@@ -52,6 +52,11 @@ Namespace Compiler
             Dim imports$ = WriteJavascriptImports(project)
             Dim typeMetas As String() = project.ObjectMetaData.ToArray
             Dim heapMgr As String = WATWriter.WriteWAT(project)
+            Dim globals As String() = project.GlobalSymbols.Values _
+                .Select(Function(a)
+                            Return a.ToSExpression(Nothing, Nothing)
+                        End Function) _
+                .ToArray
 
             Return project.WriteProjectModule($"{[imports]}    
 
@@ -76,7 +81,7 @@ Namespace Compiler
     {MathConstant.GetVBMathConstants.JoinBy(ASCII.LF)}
 
     ;; Global variables in this module
-    {{Globals.JoinBy(ASCII.LF)}}
+    {globals.JoinBy(ASCII.LF)}
 
     ;; Export methods of this module
     {exportGroup.Select(Function(api) api.ToSExpression).JoinBy(ASCII.LF)} 
