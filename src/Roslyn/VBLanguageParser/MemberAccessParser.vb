@@ -33,7 +33,7 @@ Namespace VBLanguageParser
                 Case "WriteLine", "Write"
                     Return New JavaScriptTranslation With {
                         .DotNetFramework = dotnet,
-                        .JavaScript = "console.log"
+                        .JavaScript = "Console.WriteLine"
                     }
                 Case Else
                     Throw New NotImplementedException
