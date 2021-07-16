@@ -40,8 +40,7 @@ Namespace Compiler
             Dim buildTime As String = Now.ToString
             Dim wasmSummary As AssemblyInfo = project.AssemblyInfo
             Dim app_start As String = project.writeStarter
-
-            Return $"(module ;; Microsoft VisualBasic Project {project.DefaultNamespace}
+            Dim WAST As String = $"(module ;; Microsoft VisualBasic Project {project.DefaultNamespace}
 
     ;; Auto-Generated VisualBasic.NET WebAssembly Code
     ;;
@@ -56,7 +55,9 @@ Namespace Compiler
 
     {app_start}
 )
-"
+".Replace("©", "(c)")
+
+            Return WAST
         End Function
     End Module
 End Namespace
