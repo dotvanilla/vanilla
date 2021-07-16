@@ -27,10 +27,15 @@ Namespace Compiler
             Dim internal As String() = project.Methods.Values.ToSExpression(project).ToArray
             Dim stringsData As String() = StringWriter.StringExpressions(project.Memory)
             Dim assemblyInfo As String = project.EncodeAssemblyInfo
+            Dim [imports] As String() = project.Imports.Values _
+                .Select(Function(i)
+                            Return i.ToSExpression(Nothing, "")
+                        End Function) _
+                .ToArray
 
             Return project.WriteProjectModule($";; imports must occur before all non-import definitions
 
-    {{[imports].JoinBy(ASCII.LF)}}
+    {[imports].JoinBy(ASCII.LF)}
     
     ;; Only allows one memory block in each module
     (memory (import ""env"" ""bytechunks"") 1)
