@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports VanillaBasic.WebAssembly.Compiler
+Imports VanillaBasic.WebAssembly.JavaScript
 Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace CodeAnalysis
@@ -20,6 +21,7 @@ Namespace CodeAnalysis
         ''' <returns></returns>
         Public Property Types As New Dictionary(Of String, TypeSchema)
         Public Property Memory As New MemoryBuffer
+        Public Property [Imports] As New Dictionary(Of String, ImportsFunction)
 
         Default Public ReadOnly Property PublicApi(export As ExportSymbol) As FunctionDeclare
             Get
@@ -29,6 +31,8 @@ Namespace CodeAnalysis
 
         Sub New(defaultNamespace As String)
             Me.DefaultNamespace = defaultNamespace
+
+            Call Library.Imports(Of JavaScript.Math)(Me)
         End Sub
 
         Public Sub AddStaticMethod(func As FunctionDeclare)
