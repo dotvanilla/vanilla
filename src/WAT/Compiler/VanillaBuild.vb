@@ -1,4 +1,5 @@
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 
@@ -39,16 +40,22 @@ Namespace Compiler
         ''' </summary>
         ''' <param name="[module]">The module symbol object or wast source file text content.</param>
         ''' <returns></returns>
-        Private Shared Function tempfile_WAST([module] As Workspace) As String
+        Private Shared Function tempfile_WAST([module] As [Variant](Of Workspace, String)) As String
             Dim tempfile As String = TempFileSystem.GetAppSysTempFile(
                 ext:=$"{RandomASCIIString(10, skipSymbols:=True)}.wast",
                 sessionID:=App.PID,
                 prefix:="wat2wasm_"
             )
 
-            Call [module] _
-                .ToSExpression _
-                .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+            If [module] Like GetType(Workspace) Then
+                Call [module].TryCast(Of Workspace) _
+                    .ToSExpression _
+                    .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+            Else
+                Call CType([module], String) _
+                    .SolveStream _
+                    .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+            End If
 
             Return tempfile
         End Function
@@ -68,5 +75,36 @@ Namespace Compiler
             Return stdOut
         End Function
 
+        ''' <summary>
+        ''' Compile VB.NET module parse result to webAssembly binary
+        ''' </summary>
+        ''' <param name="[module]"></param>
+        ''' <returns>
+        ''' This function returns the compiler standard output
+        ''' </returns>
+        Public Shared Function Compile([module] As Workspace, config As Wat2wasm) As String
+            Dim stdOut As String = CommandLine.Call(
+                app:=wat2wasm,
+                args:=$"{tempfile_WAST([module]).CLIPath} {config}",
+                debug:=False
+            )
+
+            Return stdOut
+        End Function
+
+        ''' <summary>
+        ''' Compile wast file to wasm binary and then returns the compiler log.
+        ''' </summary>
+        ''' <param name="wast">The file text</param>
+        ''' <returns></returns>
+        Public Shared Function CompileWast(wast As String, config As Wat2wasm) As String
+            Dim stdOut As String = CommandLine.Call(
+                app:=wat2wasm,
+                args:=$"{tempfile_WAST(wast).CLIPath} {config}",
+                debug:=False
+            )
+
+            Return stdOut
+        End Function
     End Class
 End Namespace
