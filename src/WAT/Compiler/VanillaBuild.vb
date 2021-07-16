@@ -60,7 +60,11 @@ Namespace Compiler
             Return tempfile
         End Function
 
-        Public Shared Function HexDump([module] As Workspace, Optional verbose As Boolean = False) As String
+        Public Shared Sub WastDump([module] As Workspace, file As String)
+            Call [module].ToSExpression.SaveTo(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+        End Sub
+
+        Public Shared Function HexDump([module] As Workspace, file As String, Optional verbose As Boolean = False) As String
             Dim config As New Wat2wasm With {
                 .verbose = verbose,
                 .dumpModule = True,
@@ -71,6 +75,8 @@ Namespace Compiler
                 args:=$"{tempfile_WAST([module]).CLIPath} {config}",
                 debug:=False
             )
+
+            Call stdOut.SaveTo(file)
 
             Return stdOut
         End Function

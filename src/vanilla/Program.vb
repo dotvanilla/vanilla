@@ -104,9 +104,6 @@ Module Program
 
     <Extension>
     Private Sub CreateWasm(moduleSymbol As Workspace, debug As Boolean, out$)
-        Call moduleSymbol.ToSExpression.SaveTo(out.ChangeSuffix("wast"))
-        Call moduleSymbol.HexDump(verbose:=True).SaveTo(out.ChangeSuffix("dmp"))
-
         Dim config As New Wat2wasm With {.output = out}
 
         If debug Then
@@ -115,9 +112,9 @@ Module Program
             config.verbose = True
         End If
 
-        Call Wasm.Compiler _
-            .Compile(moduleSymbol, config) _
-            .SaveTo(out.ChangeSuffix("log"))
+        Call VanillaBuild.WastDump(moduleSymbol, out.ChangeSuffix("wast"))
+        Call VanillaBuild.HexDump(moduleSymbol, out.ChangeSuffix("dmp"), verbose:=True)
+        Call VanillaBuild.Compile(moduleSymbol, config)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -132,7 +129,7 @@ Module Program
             .Select(AddressOf LoadXml(Of Project)) _
             .ToArray
         Dim out$
-        Dim moduleSymbol As ModuleSymbol
+        Dim moduleSymbol As Scanner
 
         If vbprojs.IsNullOrEmpty Then
             ' Compile each file as single WebAssembly module
@@ -141,9 +138,9 @@ Module Program
         Else
             For Each proj As Project In vbprojs
                 out = proj.GetOutputWasm()
-                moduleSymbol = Wasm.CreateModuleFromProject(proj)
+                moduleSymbol = New Scanner(proj)
 
-                Call moduleSymbol.CreateWasm(False, out)
+                Call moduleSymbol.Workspace.CreateWasm(False, out)
             Next
         End If
 
