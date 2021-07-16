@@ -13,8 +13,13 @@ Namespace Syntax
         ''' name应该是不包含有``$``符号的
         ''' </summary>
         ''' <param name="name"></param>
-        Sub New(name As String)
+        Sub New(name As String, Optional type As WATType = Nothing)
             Me.Name = name
+            Me.Type = type
+        End Sub
+
+        Sub New(type As WATType)
+            Me.Type = type
         End Sub
 
         ''' <summary>
