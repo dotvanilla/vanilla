@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports VanillaBasic.WebAssembly.Syntax
+Imports Microsoft.VisualBasic.Serialization.Bencoding
 
 Namespace CodeAnalysis
 
@@ -36,6 +37,16 @@ Namespace CodeAnalysis
 
         Public Overrides Function ToString() As String
             Return FullName
+        End Function
+
+        Public Function GetBEncodeMetaDataString() As String
+            Dim obj As New Dictionary(Of String, Object)
+
+            obj!Name = Name
+            obj!Namespace = [Namespace]
+            obj!ExportApi = ExportApi
+
+            Return obj.ToBEncodeString()
         End Function
 
     End Class

@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.CodeAnalysis.Memory
 Imports VanillaBasic.WebAssembly.Syntax
+Imports TypeSchema = VanillaBasic.WebAssembly.CodeAnalysis.TypeSchema
 
 Namespace Compiler
 
@@ -49,6 +50,7 @@ Namespace Compiler
             Dim stringsData As String() = StringWriter.StringExpressions(project.Memory)
             Dim assemblyInfo As String = project.EncodeAssemblyInfo
             Dim imports$ = WriteJavascriptImports(project)
+            Dim typeMetas As String() = project.ObjectMetaData.ToArray
 
             Return project.WriteProjectModule($"{[imports]}    
 
@@ -72,7 +74,7 @@ Namespace Compiler
 
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
-    {{objectMeta}}
+    {typeMetas.JoinBy(ASCII.LF)}
 
     ;; Math constant values in .NET Framework
     {MathConstant.GetVBMathConstants.JoinBy(ASCII.LF)}
@@ -87,6 +89,32 @@ Namespace Compiler
 
     {internal.JoinBy(ASCII.LF)}
 ")
+        End Function
+
+        <Extension>
+        Private Iterator Function ObjectMetaData(project As Workspace) As IEnumerable(Of String)
+            Dim i As Integer = 0
+
+            For Each type As TypeSchema In project.Types.Values
+                If type.IsStandardModule Then
+                    Continue For
+                Else
+                    i += 1
+                End If
+
+                Dim meta As String = type.GetBEncodeMetaDataString
+                Dim scan0 As Integer = project.Memory.AddString(meta)
+                Dim memory As StringLiteral = project.Memory(scan0)
+
+                Yield memory.ToSExpression
+            Next
+
+            If i = 0 Then
+                Yield ""
+                Yield ";; ------------------------------------"
+                Yield ";; No user type meta data at here...."
+                Yield ";; ------------------------------------"
+            End If
         End Function
     End Module
 End Namespace
