@@ -28,13 +28,13 @@ Namespace Syntax
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Select Case Type
                 Case WATType.i32, WATType.string
-                    Return $"i32.const {Value}"
+                    Return $"(i32.const {Value})"
                 Case WATType.i64
-                    Return $"i64.const {Value}"
+                    Return $"(i64.const {Value})"
                 Case WATType.f32
-                    Return $"f32.const {Value}"
+                    Return $"(f32.const {Value})"
                 Case WATType.f64
-                    Return $"f64.const {Value}"
+                    Return $"(f64.const {Value})"
                 Case Else
                     Throw New InvalidCastException
             End Select
