@@ -8,3 +8,11 @@
     End Function
 
 End Module
+
+Public Class People
+
+    Public Property FirstName As String
+    Public Property MiddleName As String
+    Public Property LastName As String
+
+End Class
