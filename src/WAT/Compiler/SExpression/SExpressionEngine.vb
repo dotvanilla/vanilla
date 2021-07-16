@@ -51,20 +51,16 @@ Namespace Compiler
             Dim assemblyInfo As String = project.EncodeAssemblyInfo
             Dim imports$ = WriteJavascriptImports(project)
             Dim typeMetas As String() = project.ObjectMetaData.ToArray
+            Dim heapMgr As String = WATWriter.WriteWAT(project)
 
             Return project.WriteProjectModule($"{[imports]}    
 
     ;; Only allows one memory block in each module
     (memory (import ""env"" ""bytechunks"") 1)
 
-    ;; A global object manager for create user object in WebAssembly
-    ;; Its initialize value is the total size of the string data
-    ;; of this webassembly module
-    {{objectManager}}
+    {WATWriter.GetHeapSize0(project.Memory)}
 
-    ;; memory allocate in javascript runtime
-    {{IMemoryObject.Allocate.ToSExpression}}
-    {{IMemoryObject.GetMemorySize.ToSExpression}}
+    {heapMgr}
 
     ;; Memory data for string constant
     {stringsData.JoinBy(ASCII.LF)}

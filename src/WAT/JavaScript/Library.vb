@@ -23,17 +23,7 @@ Namespace JavaScript
                 Dim parameters As DeclareLocal() = api _
                     .GetParameters _
                     .Select(Function(a)
-                                Dim par As WATType = WATType.GetUnderlyingType(a.ParameterType, workspace)
-                                Dim [default] As LiteralValue = Nothing
-
-                                If a.IsOptional Then
-                                    [default] = New LiteralValue(a.DefaultValue)
-                                End If
-
-                                Return New DeclareLocal(par) With {
-                                    .Name = a.Name,
-                                    .DefaultValue = [default]
-                                }
+                                Return ToParameter(a, workspace)
                             End Function) _
                     .ToArray
 
@@ -44,6 +34,20 @@ Namespace JavaScript
                     .Parameters = parameters
                 }
             Next
+        End Function
+
+        Public Shared Function ToParameter(a As ParameterInfo, workspace As Workspace) As DeclareLocal
+            Dim par As WATType = WATType.GetUnderlyingType(a.ParameterType, workspace)
+            Dim [default] As LiteralValue = Nothing
+
+            If a.IsOptional Then
+                [default] = New LiteralValue(a.DefaultValue)
+            End If
+
+            Return New DeclareLocal(par) With {
+                .Name = a.Name,
+                .DefaultValue = [default]
+            }
         End Function
 
         Public Shared Sub [Imports](Of T As Class)(workspace As Workspace)
