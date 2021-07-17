@@ -6,6 +6,10 @@ Namespace Syntax
 
         Public Property isGlobal As Boolean
 
+        Sub New(Optional type As WATType = Nothing)
+            Call MyBase.New(type)
+        End Sub
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             If isGlobal Then
                 Return $"(get_global ${Name})"

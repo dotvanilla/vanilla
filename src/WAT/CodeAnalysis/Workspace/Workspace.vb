@@ -23,6 +23,7 @@ Namespace CodeAnalysis
         Public Property Memory As New MemoryBuffer
         Public Property [Imports] As New Dictionary(Of String, ImportsFunction)
         Public Property GlobalSymbols As New Dictionary(Of String, DeclareGlobal)
+        Public Property MSIL As IMSILTranslation
 
         Default Public ReadOnly Property PublicApi(export As ExportSymbol) As FunctionDeclare
             Get

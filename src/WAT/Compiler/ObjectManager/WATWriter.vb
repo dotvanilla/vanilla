@@ -20,7 +20,7 @@ Namespace Compiler
                 End If
 
                 Dim IL As New MethodBodyReader(method)
-                Dim body As WATSyntax() = New MSILAsm(IL, project).GetWASM.ToArray
+                Dim body As WATSyntax() = project.MSIL(method.GetParameters, IL.AsEnumerable, project).ToArray
                 Dim parameters As DeclareLocal() = method _
                     .GetParameters _
                     .Select(Function(a)

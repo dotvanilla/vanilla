@@ -17,12 +17,12 @@ Public NotInheritable Class Scanner
     Public ReadOnly Property Workspace As Workspace
 
     Sub New(proj As vbproj.Project)
-        Workspace = New Workspace(proj.RootNamespace)
+        Workspace = New Workspace(proj.RootNamespace) With {.MSIL = AddressOf MSIL.ParseMSIL}
         Workspace.AssemblyInfo = proj.AssemblyInfo
     End Sub
 
     Sub New()
-        Workspace = New Workspace("")
+        Workspace = New Workspace("") With {.MSIL = AddressOf MSIL.ParseMSIL}
         Workspace.AssemblyInfo = New AssemblyInfo
     End Sub
 
