@@ -4,6 +4,8 @@
 
         Public HeapSize As Integer
 
+        ' Public Declare Sub AddObject Lib "JavaScriptGC" Alias "addObject" (offset As Integer, class_id As Integer)
+
         Public Function GetMemorySize() As Integer
             ' 0000: nop                                Performs an operation without behavior.
             ' 0001: ldarg.0                            Loads the argument at index 0 onto the evaluation stack.
@@ -32,6 +34,7 @@
             ' 0022: ret
             Dim offset As Integer = HeapSize
             HeapSize = offset + sizeof
+            ' AddObject(offset, class_id)
             Return offset
         End Function
 
