@@ -10,7 +10,7 @@ Namespace CodeAnalysis
     ''' </summary>
     Public Class Workspace
 
-        Public ReadOnly Property DefaultNamespace As String
+        Public Property DefaultNamespace As String
 
         Public Property AssemblyInfo As AssemblyInfo
         Public Property Methods As New Dictionary(Of String, FunctionDeclare)

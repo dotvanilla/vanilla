@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.WebAssembly.CodeAnalysis.Memory
+Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace CodeAnalysis
 
@@ -41,6 +42,16 @@ Namespace CodeAnalysis
                 Return Nothing
             End Get
         End Property
+
+        Sub New(data As IEnumerable(Of MemoryObject))
+            For Each item In data
+                buffer.Add(item)
+                offset += CInt(DirectCast(item.sizeOf, LiteralValue).Value)
+            Next
+        End Sub
+
+        Sub New()
+        End Sub
 
         ''' <summary>
         ''' Moves the position of the <seealso cref="offset"/> to the next position aligned on
