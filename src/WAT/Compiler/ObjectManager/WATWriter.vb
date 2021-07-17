@@ -48,6 +48,16 @@ Namespace Compiler
             Dim methods As FunctionDeclare() = CType(heapMgr, TypeInfo).GetMethods(project, exports).ToArray
             Dim wast As String() = methods.ToSExpression(project).ToArray
 
+            For Each field As FieldInfo In CType(heapMgr, TypeInfo).DeclaredMembers.OfType(Of FieldInfo)
+                Dim globalSymbol As New DeclareGlobal With {
+                    .Name = $"{heapMgr.Name}.{field.Name}",
+                    .Value = New LiteralValue(project.Memory.TotalSize),
+                    .Annotation = $"{heapMgr.FullName}::{field.Name}"
+                }
+
+                project.GlobalSymbols.Add(globalSymbol.Name, globalSymbol)
+            Next
+
             Return $"    
     ;; memory allocate in javascript runtime
     {wast.JoinBy(ASCII.LF)}
