@@ -1,4 +1,5 @@
 ﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.CodeAnalysis.TypeInfo.Operator
 
 Namespace Syntax
 
@@ -33,7 +34,7 @@ Namespace Syntax
         End Function
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return $"({SymbolMap.GetOperator(Type, [operator])} {left.ToSExpression(env, indent)} {right.ToSExpression(env, indent)})"
         End Function
     End Class
 End Namespace

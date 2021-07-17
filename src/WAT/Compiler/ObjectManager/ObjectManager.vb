@@ -36,7 +36,7 @@
         End Function
 
         Friend Function AllocateArray(sizeof As Integer, class_id As Integer, length As Integer) As Integer
-
+            Return HeapSize
         End Function
 
     End Class
