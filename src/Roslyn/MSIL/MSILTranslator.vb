@@ -12,14 +12,14 @@ Namespace MSIL
     ''' </summary>
     Friend Class MSILTranslator
 
-        ReadOnly instructions As ILInstruction()
+        ReadOnly MSIL As ILInstruction()
         ReadOnly arguments As Object()
         ReadOnly stack As New Stack(Of Object)
         ReadOnly locals As Object() = New Object(255 - 1) {}
         ReadOnly workspace As Workspace
 
         Sub New(parameters As ParameterInfo(), methodBody As IEnumerable(Of ILInstruction), workspace As Workspace)
-            Me.instructions = methodBody.ToArray
+            Me.MSIL = methodBody.ToArray
             Me.workspace = workspace
             Me.arguments = New List(Of Object) From {Me} + ParseArguments(parameters)
         End Sub
@@ -36,16 +36,17 @@ Namespace MSIL
         End Function
 
         Public Iterator Function Interpret() As IEnumerable(Of WATSyntax)
-            Dim offsetToIndexMapping = instructions _
+            Dim offsetToIndexMapping = MSIL _
                 .Select(Function(instruction, index) (instruction.Offset, index)) _
                 .ToDictionary(Function(x) x.Offset,
                               Function(x)
                                   Return x.index
                               End Function)
             Dim flowIndexer As Integer = 0
+            Dim code As New Value(Of WATSyntax)
 
-            While flowIndexer < instructions.Count
-                Dim currentInstruction = instructions(flowIndexer)
+            While flowIndexer < MSIL.Length
+                Dim currentInstruction = MSIL(flowIndexer)
 
                 Select Case currentInstruction.Code.FlowControl
                     Case FlowControl.Branch, FlowControl.Cond_Branch
@@ -65,7 +66,10 @@ Namespace MSIL
                     Case FlowControl.Meta
                         Throw New NotSupportedException(currentInstruction.ToString())
                     Case FlowControl.Next
-                        InterpretNextInstruction(currentInstruction)
+                        If code = InterpretNextInstruction(currentInstruction) IsNot Nothing Then
+                            Yield CType(code, WATSyntax)
+                        End If
+
                         flowIndexer += 1
                     Case FlowControl.Return
                         If currentInstruction.Code.Name = "ret" Then
@@ -84,10 +88,15 @@ Namespace MSIL
         End Function
 
         Private Function CastToSymbolReference(obj As WATSyntax) As WATSyntax
-
+            Select Case obj.GetType
+                Case GetType(DeclareLocal)
+                    Return New SymbolGetValue(obj)
+                Case Else
+                    Return obj
+            End Select
         End Function
 
-        Private Sub InterpretNextInstruction(ByVal instruction As ILInstruction)
+        Private Function InterpretNextInstruction(ByVal instruction As ILInstruction) As WATSyntax
             Select Case instruction.Code.Name
                 Case "add", "add.ovf"
                     Dim op2 As WATSyntax = DirectCast(PopFromStack(), WATSyntax)
@@ -272,12 +281,20 @@ Namespace MSIL
                     'arrayValues(index) = value
 
                 Case "stfld"
-                    'Dim newFieldValue = PopFromStack()
-                    'Dim instanceRef = PopFromStack()
-                    'Dim instance = GetFromHeap(instanceRef)
-                    'Dim fieldName = TryCast(instruction.Operand, FieldInfo).Name
-                    'instance(fieldName) = newFieldValue
+                    Dim newFieldValue = PopFromStack()
+                    Dim instanceRef = PopFromStack()
+                    Dim field As FieldInfo = instruction.Operand
+                    Dim fieldName = field.Name
+                    Dim typeName As String = field.DeclaringType.Name
 
+                    Return New SymbolSetValue() With {
+                        .isGlobal = True,
+                        .Target = New SymbolReference With {
+                            .Name = $"{typeName}.{fieldName}"
+                        },
+                        .Value = CastToSymbolReference(newFieldValue),
+                        .Annotation = instruction.ToString
+                    }
                 Case "stind.ref"
                     'Dim value = PopFromStack()
                     'Dim objectRef = CType(PopFromStack(), Guid)
@@ -302,7 +319,9 @@ Namespace MSIL
                 Case Else
                     Throw New NotImplementedException(instruction.Code.Name & " is not implemented.")
             End Select
-        End Sub
+
+            Return Nothing
+        End Function
 
         Private Sub InterpretCallInstruction(ByVal instruction As ILInstruction)
             Select Case instruction.Code.Name

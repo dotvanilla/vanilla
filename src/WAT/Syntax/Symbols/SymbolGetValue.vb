@@ -10,6 +10,13 @@ Namespace Syntax
             Call MyBase.New(type)
         End Sub
 
+        Sub New(local As DeclareLocal)
+            Call MyBase.New(local.Type)
+
+            isGlobal = False
+            Name = local.Name
+        End Sub
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             If isGlobal Then
                 Return $"(get_global ${Name})"

@@ -11,6 +11,10 @@ Namespace Syntax
             Me.Type = type
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return ToSExpression(Nothing, Nothing)
+        End Function
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Return $"(local ${Name} {Type.UnderlyingWATType.Description})"
         End Function
