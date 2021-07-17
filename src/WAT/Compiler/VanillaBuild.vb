@@ -49,6 +49,7 @@ Namespace Compiler
 
             If [module] Like GetType(Workspace) Then
                 Call [module].TryCast(Of Workspace) _
+                    .Copy _
                     .ToSExpression _
                     .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage)
             Else
@@ -61,7 +62,10 @@ Namespace Compiler
         End Function
 
         Public Shared Sub WastDump([module] As Workspace, file As String)
-            Call [module].ToSExpression.SaveTo(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+            Call [module] _
+                .Copy _
+                .ToSExpression _
+                .SaveTo(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
         End Sub
 
         Public Shared Function HexDump([module] As Workspace, file As String, Optional verbose As Boolean = False) As String

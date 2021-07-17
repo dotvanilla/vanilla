@@ -38,6 +38,12 @@ Namespace CodeAnalysis
             Call Library.Imports(Of JavaScript.Console)(Me)
         End Sub
 
+        ''' <summary>
+        ''' clone workspace object
+        ''' </summary>
+        Friend Sub New()
+        End Sub
+
         Public Sub AddStaticMethod(func As FunctionDeclare)
             Methods.Add(func.FullName, func)
         End Sub

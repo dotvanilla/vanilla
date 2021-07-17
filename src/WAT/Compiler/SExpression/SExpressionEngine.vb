@@ -51,6 +51,9 @@ Namespace Compiler
             Dim assemblyInfo As String = project.EncodeAssemblyInfo
             Dim imports$ = WriteJavascriptImports(project)
             Dim typeMetas As String() = project.ObjectMetaData.ToArray
+
+            ' 必须要放在最后一步添加
+            ' 因为前面还有一些动态添加的字符串
             Dim heapMgr As String = WATWriter.WriteWAT(project)
             Dim globals As String() = project.GlobalSymbols.Values _
                 .Select(Function(a)
