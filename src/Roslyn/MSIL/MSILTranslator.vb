@@ -14,9 +14,8 @@ Namespace MSIL
 
         ReadOnly MSIL As ILInstruction()
         ReadOnly arguments As Object()
-        ReadOnly stack As New Stack(Of Object)
-        ReadOnly locals As Object() = New Object(255 - 1) {}
         ReadOnly workspace As Workspace
+        ReadOnly stack As New EvaluationStack
 
         Sub New(parameters As ParameterInfo(), methodBody As IEnumerable(Of ILInstruction), workspace As Workspace)
             Me.MSIL = methodBody.ToArray
@@ -73,7 +72,7 @@ Namespace MSIL
                         flowIndexer += 1
                     Case FlowControl.Return
                         If currentInstruction.Code.Name = "ret" Then
-                            If stack.Count > 0 Then
+                            If stack.size > 0 Then
                                 Yield New ReturnValue(stack.Pop)
                             End If
 
@@ -99,8 +98,8 @@ Namespace MSIL
         Private Function InterpretNextInstruction(ByVal instruction As ILInstruction) As WATSyntax
             Select Case instruction.Code.Name
                 Case "add", "add.ovf"
-                    Dim op2 As WATSyntax = DirectCast(PopFromStack(), WATSyntax)
-                    Dim op1 As WATSyntax = DirectCast(PopFromStack(), WATSyntax)
+                    Dim op2 As WATSyntax = DirectCast(stack.PopFromStack(), WATSyntax)
+                    Dim op1 As WATSyntax = DirectCast(stack.PopFromStack(), WATSyntax)
                     Dim add As New BinaryOperator With {
                         .[operator] = "+",
                         .left = CastToSymbolReference(op1),
@@ -108,37 +107,43 @@ Namespace MSIL
                         .Annotation = instruction.ToString
                     }
 
-                    PushToStack(add)
+                    stack.PushToStack(add)
 
                 Case "ceq"
-                    Dim op2 As Object = PopFromStack()
-                    Dim op1 As Object = PopFromStack()
-                    PushToStack(If(op1 Is op2, 1, 0))
+                    Dim op2 As Object = stack.PopFromStack()
+                    Dim op1 As Object = stack.PopFromStack()
+
+                    stack.PushToStack(If(op1 Is op2, 1, 0))
 
                 Case "cgt"
-                    Dim op2 As Object = PopFromStack()
-                    Dim op1 As Object = PopFromStack()
-                    Me.PushToStack(If(op1 > op2, 1, 0))
+                    Dim op2 As Object = stack.PopFromStack()
+                    Dim op1 As Object = stack.PopFromStack()
+
+                    stack.PushToStack(If(op1 > op2, 1, 0))
 
                 Case "clt"
-                    Dim value2 As Object = PopFromStack()
-                    Dim value1 As Object = PopFromStack()
-                    Me.PushToStack(If(value1 < value2, 1, 0))
+                    Dim value2 As Object = stack.PopFromStack()
+                    Dim value1 As Object = stack.PopFromStack()
+
+                    stack.PushToStack(If(value1 < value2, 1, 0))
 
                 Case "conv.i4"
-                    Dim value = PopFromStack()
-                    PushToStack(Convert.ToInt32(value))
+                    Dim value = stack.PopFromStack()
+
+                    stack.PushToStack(Convert.ToInt32(value))
 
                 Case "div"
-                    Dim op2 As Object = PopFromStack()
-                    Dim op1 As Object = PopFromStack()
-                    PushToStack(op1 / op2)
+                    Dim op2 As Object = stack.PopFromStack()
+                    Dim op1 As Object = stack.PopFromStack()
+
+                    stack.PushToStack(op1 / op2)
 
                 Case "dup"
-                    Dim value = PopFromStack()
+                    Dim value = stack.PopFromStack()
                     Dim duplicate = value
-                    PushToStack(value)
-                    PushToStack(duplicate)
+
+                    stack.PushToStack(value)
+                    stack.PushToStack(duplicate)
 
                 Case "isinst"
                     'Dim objReference = PopFromStack()
@@ -162,30 +167,30 @@ Namespace MSIL
                         argPosition = Convert.ToInt32(index)
                     End If
 
-                    PushToStack(arguments(argPosition))
+                    stack.PushToStack(arguments(argPosition))
 
                 Case "ldc.i4.0"
-                    PushToStack(0)
+                    stack.PushToStack(0)
                 Case "ldc.i4.1"
-                    PushToStack(1)
+                    stack.PushToStack(1)
                 Case "ldc.i4.2"
-                    PushToStack(2)
+                    stack.PushToStack(2)
                 Case "ldc.i4.3"
-                    PushToStack(3)
+                    stack.PushToStack(3)
                 Case "ldc.i4.4"
-                    PushToStack(4)
+                    stack.PushToStack(4)
                 Case "ldc.i4.5"
-                    PushToStack(5)
+                    stack.PushToStack(5)
                 Case "ldc.i4.6"
-                    PushToStack(6)
+                    stack.PushToStack(6)
                 Case "ldc.i4.7"
-                    PushToStack(7)
+                    stack.PushToStack(7)
                 Case "ldc.i4.8"
-                    PushToStack(8)
+                    stack.PushToStack(8)
                 Case "ldc.i4.m1"
-                    PushToStack(-1)
+                    stack.PushToStack(-1)
                 Case "ldc.i4.s"
-                    PushToStack(Convert.ToInt32(instruction.Operand))
+                    stack.PushToStack(Convert.ToInt32(instruction.Operand))
                 Case "ldelem.i1", "ldelem.i2", "ldelem.i4"
                     'Dim index As Integer = CInt(PopFromStack())
                     'Dim arrayReference = CType(PopFromStack(), Guid)
@@ -211,13 +216,13 @@ Namespace MSIL
                     'PushToStack(arrayValues(index))
 
                 Case "ldfld"
-                    Dim instanceRef = PopFromStack()
+                    Dim instanceRef = stack.PopFromStack()
                     Dim field As FieldInfo = TryCast(instruction.Operand, FieldInfo)
                     Dim fieldName = field.Name
                     Dim typeName As String = field.DeclaringType.Name
                     Dim type As WATType = WATType.GetUnderlyingType(field.FieldType, workspace)
 
-                    PushToStack(New SymbolGetValue(type) With {.isGlobal = True, .Name = $"{typeName}.{fieldName}", .Annotation = instruction.ToString})
+                    stack.PushToStack(New SymbolGetValue(type) With {.isGlobal = True, .Name = $"{typeName}.{fieldName}", .Annotation = instruction.ToString})
 
                 Case "ldind.ref"
                     ' address is already on the stack
@@ -228,17 +233,17 @@ Namespace MSIL
                     'PushToStack(arrayInstance("Length"))
 
                 Case "ldloc.0"
-                    PushLocalToStack(0)
+                    stack.PushLocalToStack(0)
                 Case "ldloc.1"
-                    PushLocalToStack(1)
+                    stack.PushLocalToStack(1)
                 Case "ldloc.2"
-                    PushLocalToStack(2)
+                    stack.PushLocalToStack(2)
                 Case "ldloc.3"
-                    PushLocalToStack(3)
+                    stack.PushLocalToStack(3)
                 Case "ldloc.s"
-                    PushLocalToStack(instruction.Operand)
+                    stack.PushLocalToStack(instruction.Operand)
                 Case "ldnull"
-                    PushToStack(Nothing)
+                    stack.PushToStack(Nothing)
                 Case "ldstr"
                     'Dim stringInstance As Object
                     'Dim reference = CreateObjectInstance(LookUpType(GetType(String)), stringInstance)
@@ -265,7 +270,7 @@ Namespace MSIL
 
                 Case "nop"
                 Case "pop"
-                    PopFromStack()
+                    stack.PopFromStack()
                 Case "stelem.i1", "stelem.i2", "stelem.i4"
                     'Dim value As Integer = CInt(PopFromStack())
                     'Dim index As Integer = CInt(PopFromStack())
@@ -281,8 +286,8 @@ Namespace MSIL
                     'arrayValues(index) = value
 
                 Case "stfld"
-                    Dim newFieldValue = PopFromStack()
-                    Dim instanceRef = PopFromStack()
+                    Dim newFieldValue = stack.PopFromStack()
+                    Dim instanceRef = stack.PopFromStack()
                     Dim field As FieldInfo = instruction.Operand
                     Dim fieldName = field.Name
                     Dim typeName As String = field.DeclaringType.Name
@@ -302,19 +307,20 @@ Namespace MSIL
                     'instance("Value") = GetFromHeap(value)("Value")
 
                 Case "stloc.0"
-                    PopFromStackToLocal(0)
+                    stack.PopFromStackToLocal(0)
                 Case "stloc.1"
-                    PopFromStackToLocal(1)
+                    stack.PopFromStackToLocal(1)
                 Case "stloc.2"
-                    PopFromStackToLocal(2)
+                    stack.PopFromStackToLocal(2)
                 Case "stloc.3"
-                    PopFromStackToLocal(3)
+                    stack.PopFromStackToLocal(3)
                 Case "stloc.s"
-                    PopFromStackToLocal(instruction.Operand)
+                    stack.PopFromStackToLocal(instruction.Operand)
                 Case "sub"
-                    Dim op2 As Object = PopFromStack()
-                    Dim op1 As Object = PopFromStack()
-                    PushToStack(op1 - op2)
+                    Dim op2 As Object = stack.PopFromStack()
+                    Dim op1 As Object = stack.PopFromStack()
+
+                    stack.PushToStack(op1 - op2)
 
                 Case Else
                     Throw New NotImplementedException(instruction.Code.Name & " is not implemented.")
@@ -367,48 +373,12 @@ Namespace MSIL
                 Case "br", "br.s"
                     Return instruction.Operand
                 Case "brfalse", "brfalse.s"
-                    Return If(CInt(PopFromStack()) = 0, CInt(instruction.Operand), -1)
+                    Return If(CInt(stack.PopFromStack()) = 0, CInt(instruction.Operand), -1)
                 Case "brtrue", "brtrue.s"
-                    Return If(CInt(PopFromStack()) = 1, CInt(instruction.Operand), -1)
+                    Return If(CInt(stack.PopFromStack()) = 1, CInt(instruction.Operand), -1)
                 Case Else
                     Throw New NotImplementedException(instruction.Code.Name & " is not implemented.")
             End Select
         End Function
-
-#Region "Stack, heap and locals manipulation"
-
-
-#Region "Current method call stack and locals"
-
-        Private Function PopArgumentsFromStack(ParametersCount As Integer) As List(Of Object)
-            Dim args = New Object(ParametersCount - 1) {}
-
-            For i = ParametersCount - 1 To 0 Step -1
-                args(i) = PopFromStack()
-            Next
-
-            Return New List(Of Object)(args)
-        End Function
-
-        Friend Sub PushToStack(ByVal value As Object)
-            stack.Push(value)
-        End Sub
-
-        Friend Function PopFromStack() As Object
-            Return stack.Pop()
-        End Function
-
-        Private Sub PushLocalToStack(ByVal index As Byte)
-            PushToStack(locals(index))
-        End Sub
-
-        Private Sub PopFromStackToLocal(ByVal index As Byte)
-            locals(index) = stack.Pop()
-        End Sub
-
-#End Region
-
-#End Region
-
     End Class
 End Namespace
