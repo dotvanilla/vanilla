@@ -11,8 +11,11 @@ Namespace VBLanguageParser
     Module Expressionparser
 
         <Extension>
-        Public Function GetSymbol(name As IdentifierNameSyntax) As SymbolReference
-            Return New SymbolReference With {.Name = name.Identifier.Text}
+        Public Function GetSymbol(name As IdentifierNameSyntax, context As Environment) As SymbolReference
+            Dim symbol As String = name.Identifier.Text
+            Dim type As WATType = context.GetSymbolType(symbol)
+
+            Return New SymbolReference(symbol, type)
         End Function
 
         <Extension>
@@ -25,7 +28,7 @@ Namespace VBLanguageParser
                 Case GetType(LiteralExpressionSyntax)
                     Return DirectCast(expression, LiteralExpressionSyntax).GetLiteralvalue(context)
                 Case GetType(IdentifierNameSyntax)
-                    Return DirectCast(expression, IdentifierNameSyntax).GetSymbol
+                    Return DirectCast(expression, IdentifierNameSyntax).GetSymbol(context)
                 Case GetType(BinaryExpressionSyntax)
                     Return DirectCast(expression, BinaryExpressionSyntax).GetBinary(context)
 

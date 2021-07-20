@@ -23,11 +23,22 @@
 
         Public ReadOnly Property FullName As String
         Public ReadOnly Property Container As Environment
+        Public ReadOnly Property Symbols As New Dictionary(Of String, WATType)
 
         Sub New(name As String, Optional container As Environment = Nothing)
             Me.Container = container
             Me.FullName = If(container Is Nothing, name, $"{container.FullName}.{name}")
         End Sub
+
+        Public Function GetSymbolType(name As String) As WATType
+            If Symbols.ContainsKey(name) Then
+                Return Symbols(name)
+            ElseIf Workspace.GlobalSymbols.ContainsKey(name) Then
+                Return Workspace.GlobalSymbols(name).Type
+            Else
+                Return Nothing
+            End If
+        End Function
 
     End Class
 End Namespace
