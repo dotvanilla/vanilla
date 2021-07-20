@@ -14,7 +14,7 @@ Namespace Compiler
             Dim result As String = api.Type.UnderlyingWATType.ToString
             Dim buildBody As String() = api.body _
                 .Select(Function(line)
-                            Return line.ToSExpression(Nothing, Nothing)
+                            Return Drop.AutoDropValueStack(line).ToSExpression(Nothing, Nothing)
                         End Function) _
                 .ToArray
 
