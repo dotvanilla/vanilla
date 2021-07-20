@@ -3,7 +3,7 @@
 Namespace Syntax
 
     ''' <summary>
-    ''' 
+    ''' drop unused stack value
     ''' </summary>
     ''' <remarks>
     ''' Your imported function $array_push has a return value of i32. You does not consume 
