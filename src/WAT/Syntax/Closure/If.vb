@@ -10,7 +10,7 @@ Namespace Syntax
             End Get
         End Property
 
-        Public Property condition As BoolLogical
+        Public Property condition As BooleanLogical
         Public Property [then] As Closure
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String

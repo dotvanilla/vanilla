@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
@@ -47,6 +48,13 @@ Namespace VBLanguageParser
             Dim returns As New ReturnValue With {.Value = value}
 
             Return returns
+        End Function
+
+        <Extension>
+        Public Function ParseClosure(funcBody As SyntaxList(Of StatementSyntax), context As Environment) As Closure
+            Dim body As New Closure
+            body.multipleLines = funcBody.LoadBody(body.locals, context)
+            Return body
         End Function
     End Module
 End Namespace

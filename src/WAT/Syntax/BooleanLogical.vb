@@ -2,7 +2,7 @@
 
 Namespace Syntax
 
-    Public Class BoolLogical : Inherits WATSyntax
+    Public Class BooleanLogical : Inherits WATSyntax
 
         Public Overrides ReadOnly Property Type As WATType
             Get
@@ -10,8 +10,14 @@ Namespace Syntax
             End Get
         End Property
 
+        Public Property expression As WATSyntax
+
+        Sub New(b As WATSyntax)
+            expression = b
+        End Sub
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return expression.ToSExpression(env, indent)
         End Function
     End Class
 End Namespace
