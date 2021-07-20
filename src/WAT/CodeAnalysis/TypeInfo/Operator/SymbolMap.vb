@@ -1,4 +1,6 @@
-﻿Namespace CodeAnalysis.TypeInfo.Operator
+﻿Imports System.Runtime.CompilerServices
+
+Namespace CodeAnalysis.TypeInfo.Operator
 
     Public Module SymbolMap
 
@@ -8,6 +10,16 @@
             {"*", "mul"},
             {"/", "div"}
         }
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function IsValidDirectMapOperator(op As String) As Boolean
+            Return SymbolMaps.ContainsKey(op)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetDirectMapOperator(op As String) As String
+            Return SymbolMaps(op)
+        End Function
 
         Public Function GetOperator(type As WATType, [operator] As String) As String
             If SymbolMaps.ContainsKey([operator]) Then

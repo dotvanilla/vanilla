@@ -26,6 +26,8 @@ Namespace VBLanguageParser
         ''' </summary>
         ''' <returns></returns>
         Public Function BinaryStack(left As WATSyntax, right As WATSyntax, op$, context As Environment) As WATSyntax
+            Dim type As WATType
+
             If op = "/" Then
                 ' require type conversion if left and right is integer
                 ' 对于除法，必须要首先转换为浮点型才能够完成运算
@@ -42,8 +44,15 @@ Namespace VBLanguageParser
             ElseIf op Like ComparisonOperators Then
                 Return context.DoComparison(left, right, op)
             Else
-                Throw New NotImplementedException
+                type = context.highOrderTransfer(left, right)
             End If
+
+            Return New BinaryOperator With {
+                .left = left,
+                .right = right,
+                .[operator] = op,
+                .Annotation = "Binary"
+            }
         End Function
 
         <Extension>

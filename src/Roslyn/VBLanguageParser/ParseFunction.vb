@@ -29,6 +29,10 @@ Namespace VBLanguageParser
                 .Where(Function(w) w.ValueText = "Public") _
                 .Any
 
+            For Each par As DeclareLocal In pars
+                context.Symbols.Add(par.Name, par.Type)
+            Next
+
             Return New FunctionDeclare(returnValue) With {
                 .Name = methodName,
                 .[namespace] = context.FullName,
@@ -39,16 +43,21 @@ Namespace VBLanguageParser
 
         <Extension>
         Friend Function LoadBody(funcBody As SyntaxList(Of StatementSyntax), ByRef locals As DeclareLocal(), context As Environment) As WATSyntax()
-            Dim localList As New Dictionary(Of String, DeclareLocal)
+            Dim localList As New List(Of DeclareLocal)
             Dim body As New List(Of WATSyntax)
 
             For Each line As StatementSyntax In funcBody.ExceptType(Of EndBlockStatementSyntax)
-                Call body.AddRange(line.Parse(context))
+                For Each item As WATSyntax In line.Parse(context)
+                    If TypeOf item Is DeclareLocal Then
+                        localList.Add(DirectCast(item, DeclareLocal))
+                        context.Symbols.Add(localList.Last.Name, localList.Last.Type)
+                    End If
+
+                    Call body.Add(item)
+                Next
             Next
 
-            locals = localList _
-                .Values _
-                .ToArray
+            locals = localList.ToArray
 
             Return body.ToArray
         End Function
