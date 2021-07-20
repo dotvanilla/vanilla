@@ -7,6 +7,14 @@
         Return 0
     End Function
 
+    Public Function fact(n As Integer) As Integer
+        If n = 0 OrElse n = 1 Then
+            Return 1
+        Else
+            Return n * fact(n - 1)
+        End If
+    End Function
+
 End Module
 
 Public Class People
