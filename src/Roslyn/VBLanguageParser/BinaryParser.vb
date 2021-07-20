@@ -40,10 +40,38 @@ Namespace VBLanguageParser
             ElseIf op.isBinaryBool(left, right) Then
                 Return New BooleanLogical(context.DoLogical(left, right, op))
             ElseIf op Like ComparisonOperators Then
-
+                Return context.DoComparison(left, right, op)
+            Else
+                Throw New NotImplementedException
             End If
         End Function
 
+        <Extension>
+        Public Function DoComparison(context As Environment, left As WATSyntax, right As WATSyntax, op$) As WATSyntax
+            Dim type As WATType = context.highOrderTransfer(left, right)
+            Dim opSymbol As String = SymbolMap.Compares(type.UnderlyingWATType.Description, op)
+            Dim result As WATSyntax
+
+            If opSymbol Is Nothing Then
+                ' 可能是i32位运算
+                result = New BinaryOperator With {
+                    .[operator] = op,
+                    .left = left,
+                    .right = right,
+                    .Annotation = "i32 bit operation"
+                }
+            Else
+                result = New BinaryOperator With {
+                    .[operator] = op,
+                    .left = left,
+                    .right = right,
+                    .Annotation = "logical comparision"
+                }
+                result = New BooleanLogical(result)
+            End If
+
+            Return result
+        End Function
 
         <Extension>
         Private Function highOrderTransfer(context As Environment, ByRef left As WATSyntax, ByRef right As WATSyntax) As WATType
