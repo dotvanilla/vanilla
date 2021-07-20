@@ -20,7 +20,8 @@ Namespace VBLanguageParser
                 Case GetType(WhileBlockSyntax)
                     ' Return DirectCast(statement, WhileBlockSyntax).DoWhile(symbols).ToArray
                 Case GetType(MultiLineIfBlockSyntax)
-                    ' Return DirectCast(statement, MultiLineIfBlockSyntax).IfBlock(symbols)
+                    Yield DirectCast(statement, MultiLineIfBlockSyntax).IfBlock(context)
+                    Return
                 Case GetType(ForBlockSyntax)
                     ' Return DirectCast(statement, ForBlockSyntax).ForLoop(symbols).ToArray
                 Case GetType(CallStatementSyntax)
@@ -37,7 +38,7 @@ Namespace VBLanguageParser
                     Throw New NotImplementedException(statement.GetType.FullName)
             End Select
 
-            Throw New NotImplementedException
+            Throw New NotImplementedException(statement.GetType.FullName)
         End Function
 
         <Extension>

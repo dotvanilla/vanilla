@@ -13,6 +13,7 @@
         Public Shared ReadOnly Property f64 As New WATType(WATElements.f64)
         Public Shared ReadOnly Property void As New WATType(GetType(Void))
         Public Shared ReadOnly Property [string] As New WATType(WATElements.string)
+        Public Shared ReadOnly Property [boolean] As New WATType(GetType(Boolean))
 
         Public ReadOnly Property IsUserType As Boolean
             Get
@@ -94,6 +95,9 @@
 
                 Case GetType(Void)
                     Return WATType.void
+
+                Case GetType(Boolean)
+                    Return WATType.boolean
 
                 Case Else
                     Return Nothing
