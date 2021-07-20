@@ -71,6 +71,17 @@
             Return type
         End Function
 
+        Public Shared Function GetElementType(name As String) As WATType
+            Select Case name
+                Case NameOf(i32) : Return i32
+                Case NameOf(i64) : Return i64
+                Case NameOf(f32) : Return f32
+                Case NameOf(f64) : Return f64
+                Case Else
+                    Throw New NotImplementedException(name)
+            End Select
+        End Function
+
         Public Shared Function GetElementType(value As Type) As WATType
             Static byrefString As Type = Type.GetType("System.String&")
 

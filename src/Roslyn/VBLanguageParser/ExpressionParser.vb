@@ -1,7 +1,9 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.CodeAnalysis.TypeInfo.Operator
 Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace VBLanguageParser
@@ -24,10 +26,43 @@ Namespace VBLanguageParser
                     Return DirectCast(expression, LiteralExpressionSyntax).GetLiteralvalue(context)
                 Case GetType(IdentifierNameSyntax)
                     Return DirectCast(expression, IdentifierNameSyntax).GetSymbol
+                Case GetType(BinaryExpressionSyntax)
+                    Return DirectCast(expression, BinaryExpressionSyntax).GetBinary(context)
 
                 Case Else
                     Throw New NotImplementedException(expression.GetType.FullName)
             End Select
+        End Function
+
+        <Extension>
+        Private Function GetBinary(bin As BinaryExpressionSyntax, context As Environment) As WATSyntax
+            Dim left As WATSyntax = bin.Left.ParseValue(context)
+            Dim right As WATSyntax = bin.Right.ParseValue(context)
+            Dim opName As String = bin.OperatorToken.ValueText
+
+            Return BinaryStack(left, right, opName, context)
+        End Function
+
+        Public ReadOnly Property LogicalOperators As Index(Of String) = {"And", "Or", "AndAlso", "OrElse"}
+
+        ''' <summary>
+        ''' NOTE: div between two integer will convert to double div automatic. 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function BinaryStack(left As WATSyntax, right As WATSyntax, op$, context As Environment) As WATSyntax
+            If op = "/" Then
+                ' require type conversion if left and right is integer
+                ' 对于除法，必须要首先转换为浮点型才能够完成运算
+                left = CTypeHandle.CDbl(left, context)
+                right = CTypeHandle.CDbl(right, context)
+
+                Return New BinaryOperator With {
+                    .left = left,
+                    .[operator] = op,
+                    .right = right
+                }
+            ElseIf 
+            End If
         End Function
 
         <Extension>
