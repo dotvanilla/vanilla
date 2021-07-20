@@ -6,7 +6,7 @@ Namespace Syntax
 
         Public Overrides ReadOnly Property Type As WATType
             Get
-                Throw New NotImplementedException()
+                Return WATType.boolean
             End Get
         End Property
 

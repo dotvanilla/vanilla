@@ -38,7 +38,7 @@ Namespace VBLanguageParser
         End Function
 
         <Extension>
-        Private Function LoadBody(funcBody As SyntaxList(Of StatementSyntax), ByRef locals As DeclareLocal(), context As Environment) As WATSyntax()
+        Friend Function LoadBody(funcBody As SyntaxList(Of StatementSyntax), ByRef locals As DeclareLocal(), context As Environment) As WATSyntax()
             Dim localList As New Dictionary(Of String, DeclareLocal)
             Dim body As New List(Of WATSyntax)
 
