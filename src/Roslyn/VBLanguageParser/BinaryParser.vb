@@ -63,8 +63,8 @@ Namespace VBLanguageParser
                 type = rt
             End If
 
-            left = CTypeHandle.CType(type, left, symbols)
-            right = CTypeHandle.CType(type, right, symbols)
+            left = CTypeHandle.CType(type, left, context)
+            right = CTypeHandle.CType(type, right, context)
 
             Return type
         End Function

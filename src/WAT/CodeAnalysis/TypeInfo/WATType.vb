@@ -6,6 +6,7 @@
 
         Public ReadOnly Property UnderlyingWATType As WATElements
         Public ReadOnly Property UnderlyingVBType As VBType
+        Public ReadOnly Property Generic As WATType()
 
         Public Shared ReadOnly Property i32 As New WATType(WATElements.i32)
         Public Shared ReadOnly Property i64 As New WATType(WATElements.i64)

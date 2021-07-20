@@ -1,4 +1,5 @@
 ﻿
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace CodeAnalysis
@@ -16,5 +17,22 @@ Namespace CodeAnalysis
             WATElements.f64
         }
 
+        Friend ReadOnly integerType As Index(Of String) = {"i32", "i64"}
+        Friend ReadOnly floatType As Index(Of String) = {"f32", "f64"}
+
+        <Extension>
+        Public Function MakeArrayType(type As WATType) As WATType
+            Throw New NotImplementedException
+        End Function
+
+        Public Function IsDirectCastCapable(left As WATElements, right As WATElements) As Boolean
+            If left.ToString Like integerType Then
+                Return right.ToString Like integerType
+            ElseIf left.ToString Like floatType Then
+                Return right.ToString Like floatType
+            End If
+
+            Return False
+        End Function
     End Module
 End Namespace

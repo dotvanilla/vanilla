@@ -9,6 +9,7 @@ Namespace CodeAnalysis
         f32
         f64
 
+        <Description("i32")> any
         <Description("i32")> [string]
         <Description("i32")> array
         <Description("i32")> list
