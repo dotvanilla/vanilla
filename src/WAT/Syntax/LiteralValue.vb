@@ -41,6 +41,10 @@ Namespace Syntax
             Me.Type = type
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return ToSExpression(Nothing, Nothing)
+        End Function
+
         Public Shared Function [Nothing](type As WATType) As LiteralValue
             Return New LiteralValue(0, type) With {
                 .Annotation = $"Nothing(Of {type.ToString})"
