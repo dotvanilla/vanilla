@@ -26,10 +26,18 @@ Namespace CodeAnalysis
         Public ReadOnly Property FullName As String
         Public ReadOnly Property Container As Environment
         Public ReadOnly Property Symbols As New Dictionary(Of String, WATType)
+        ''' <summary>
+        ''' usualy is the function name 
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property SymbolName As String
+        Public ReadOnly Property Type As WATType
 
-        Sub New(name As String, Optional container As Environment = Nothing)
+        Sub New(name As String, Optional container As Environment = Nothing, Optional type As WATType = Nothing)
             Me.Container = container
             Me.FullName = If(container Is Nothing, name, $"{container.FullName}.{name}")
+            Me.SymbolName = name
+            Me.Type = If(type, WATType.void)
         End Sub
 
         Public Function GetSymbolType(target As WATSyntax) As WATType

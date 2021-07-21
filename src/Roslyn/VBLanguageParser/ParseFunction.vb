@@ -21,7 +21,10 @@ Namespace VBLanguageParser
             If func.SubOrFunctionStatement.SubOrFunctionKeyword.ValueText = "Sub" Then
                 returnValue = WATType.void
             Else
-                returnValue = func.SubOrFunctionStatement.AsClause.ParseAsType(env:=context)
+                returnValue = func _
+                    .SubOrFunctionStatement _
+                    .AsClause _
+                    .ParseAsType(env:=context)
             End If
 
             isPublic = func.SubOrFunctionStatement _
@@ -39,7 +42,7 @@ Namespace VBLanguageParser
                 .Name = methodName,
                 .[namespace] = context.FullName,
                 .parameters = pars,
-                .body = func.Statements.LoadBody(.locals, context)
+                .body = func.Statements.LoadBody(.locals, New Environment(methodName, context, returnValue))
             }
         End Function
 
