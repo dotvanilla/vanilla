@@ -1,4 +1,4 @@
-/// <reference path="../modules/linq.d.ts" />
+/// <reference path="linq.d.ts" />
 interface classMeta {
     namespace: string;
     class: string;
@@ -69,7 +69,7 @@ declare namespace WebAssembly {
         type: number;
         items: any[];
         private intptrs;
-        get length(): number;
+        readonly length: number;
         /**
          * @param type 0 for number, 1 for string, 2 for others
         */

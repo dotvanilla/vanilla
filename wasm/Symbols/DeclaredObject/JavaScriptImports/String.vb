@@ -47,6 +47,9 @@
 
 #End Region
 
+#If netcore5 = 1 Then
+Imports System.Data
+#End If
 Imports Wasm.TypeInfo
 
 Namespace Symbols.JavaScriptImports
