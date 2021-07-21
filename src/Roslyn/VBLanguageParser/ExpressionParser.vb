@@ -15,6 +15,11 @@ Namespace VBLanguageParser
             Dim symbol As String = name.Identifier.Text
             Dim type As WATType = context.GetSymbolType(symbol)
 
+            ' 可能是递归调用
+            If symbol = context.SymbolName Then
+                symbol = context.FullName
+            End If
+
             Return New SymbolReference(symbol, type)
         End Function
 

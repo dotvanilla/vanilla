@@ -51,11 +51,17 @@ Namespace CodeAnalysis
         Public Function GetSymbolType(name As String) As WATType
             If Symbols.ContainsKey(name) Then
                 Return Symbols(name)
+            ElseIf Container IsNot Nothing Then
+                Return Container.GetSymbolType(name)
             ElseIf Workspace.GlobalSymbols.ContainsKey(name) Then
                 Return Workspace.GlobalSymbols(name).Type
             Else
                 Return Nothing
             End If
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{Type} {FullName}"
         End Function
 
     End Class
