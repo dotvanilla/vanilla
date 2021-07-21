@@ -14,13 +14,33 @@ Namespace Syntax
         Public Property [then] As Closure
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return $"
+    (if {condition.ToSExpression(env, indent)} 
+        (then
+            {Closure.InternalBlock([then], env, "        ")}
+        ) 
+    )"
         End Function
     End Class
 
     Public Class IfElse : Inherits [If]
 
         Public Property [else] As Closure
+
+        Private Function getElseCode(env As Environment, indent As String) As String
+            Return $"(else
+        {Closure.InternalBlock(Me.else, env, indent & "        ")}
+    )"
+        End Function
+
+        Public Overrides Function ToSExpression(env As Environment, indent As String) As String
+            Return $"
+    (if {condition.ToSExpression(env, indent)} 
+        (then
+            {Closure.InternalBlock([then], env, "        ")}
+        ) {getElseCode(env, indent)}
+    )"
+        End Function
 
     End Class
 
