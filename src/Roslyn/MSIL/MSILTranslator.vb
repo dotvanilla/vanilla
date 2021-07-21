@@ -89,7 +89,7 @@ Namespace MSIL
         Private Function CastToSymbolReference(obj As WATSyntax) As WATSyntax
             Select Case obj.GetType
                 Case GetType(DeclareLocal)
-                    Return New SymbolGetValue(obj)
+                    Return New SymbolGetValue(DirectCast(obj, DeclareLocal))
                 Case Else
                     Return obj
             End Select

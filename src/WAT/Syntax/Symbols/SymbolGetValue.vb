@@ -17,6 +17,13 @@ Namespace Syntax
             Name = local.Name
         End Sub
 
+        Sub New(symbol As SymbolReference)
+            Call MyBase.New(symbol.Type)
+
+            isGlobal = False
+            Name = symbol.Name
+        End Sub
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             If isGlobal Then
                 Return $"(get_global ${Name})"

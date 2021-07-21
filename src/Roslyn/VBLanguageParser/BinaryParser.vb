@@ -10,9 +10,28 @@ Namespace VBLanguageParser
     Module BinaryParser
 
         <Extension>
+        Public Function FixSymbol(data As WATSyntax, context As Environment) As WATSyntax
+            If Not TypeOf data Is SymbolReference Then
+                Return data
+            End If
+
+            Dim symbolName As String = DirectCast(data, SymbolReference).Name
+
+            If context.Level = SymbolTypes.Function Then
+                If context.Symbols.ContainsKey(symbolName) Then
+                    Return New SymbolGetValue(DirectCast(data, SymbolReference)) With {.isGlobal = False}
+                ElseIf symbolName <> context.SymbolName Then
+                    Return New SymbolGetValue(DirectCast(data, SymbolReference)) With {.isGlobal = True}
+                End If
+            End If
+
+            Throw New NotImplementedException
+        End Function
+
+        <Extension>
         Public Function GetBinary(bin As BinaryExpressionSyntax, context As Environment) As WATSyntax
-            Dim left As WATSyntax = bin.Left.ParseValue(context)
-            Dim right As WATSyntax = bin.Right.ParseValue(context)
+            Dim left As WATSyntax = bin.Left.ParseValue(context).FixSymbol(context)
+            Dim right As WATSyntax = bin.Right.ParseValue(context).FixSymbol(context)
             Dim opName As String = bin.OperatorToken.ValueText
 
             Return BinaryStack(left, right, opName, context)

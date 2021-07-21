@@ -27,8 +27,24 @@ Namespace Syntax
             Return $"(drop {Value.ToSExpression(env, indent)})"
         End Function
 
+        Private Shared Function CanBeDrop(line As WATSyntax) As Boolean
+            If TypeOf line Is ReturnValue Then
+                Return False
+            ElseIf TypeOf line Is [If] Then
+                Return False
+            ElseIf TypeOf line Is IfElse Then
+                Return False
+            ElseIf TypeOf line Is [ElseIf] Then
+                Return False
+            ElseIf TypeOf line Is SymbolSetValue Then
+                Return False
+            Else
+                Return Not (line.Type Is WATType.void OrElse line.Type.UnderlyingWATType = WATElements.void)
+            End If
+        End Function
+
         Public Shared Function AutoDropValueStack(line As WATSyntax) As WATSyntax
-            If Not TypeOf line Is ReturnValue AndAlso (line.Type Is WATType.void OrElse line.Type.UnderlyingWATType = WATElements.void) Then
+            If CanBeDrop(line) Then
                 ' https://github.com/WebAssembly/wabt/issues/1067
                 '
                 ' required a drop if target produce values

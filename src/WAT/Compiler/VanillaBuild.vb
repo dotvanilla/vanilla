@@ -51,11 +51,13 @@ Namespace Compiler
                 Call [module].TryCast(Of Workspace) _
                     .Copy _
                     .ToSExpression _
-                    .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+                    .LineIterators _
+                    .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage, newLine:=ASCII.LF)
             Else
                 Call CType([module], String) _
                     .SolveStream _
-                    .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+                    .LineIterators _
+                    .SaveTo(tempfile, encoding:=Encodings.UTF8WithoutBOM.CodePage, newLine:=ASCII.LF)
             End If
 
             Return tempfile
@@ -74,10 +76,12 @@ Namespace Compiler
                 .dumpModule = True,
                 .debugParser = True
             }
+            Dim errLog As String = Nothing
             Dim stdOut As String = CommandLine.Call(
                 app:=wat2wasm,
                 args:=$"{tempfile_WAST([module]).CLIPath} {config}",
-                debug:=False
+                debug:=False,
+                stdErr:=errLog
             )
 
             Call stdOut.SaveTo(file)
@@ -93,10 +97,12 @@ Namespace Compiler
         ''' This function returns the compiler standard output
         ''' </returns>
         Public Shared Function Compile([module] As Workspace, config As Wat2wasm) As String
+            Dim errLog As String = Nothing
             Dim stdOut As String = CommandLine.Call(
                 app:=wat2wasm,
                 args:=$"{tempfile_WAST([module]).CLIPath} {config}",
-                debug:=False
+                debug:=False,
+                stdErr:=errLog
             )
 
             Return stdOut

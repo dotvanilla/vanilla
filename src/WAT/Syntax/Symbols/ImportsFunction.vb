@@ -25,8 +25,13 @@ Namespace Syntax
                 .SafeQuery _
                 .Select(Function(a) a.GetParameterExpression) _
                 .ToArray
+            Dim result As String = ""
 
-            Return $"(func ${Name} (import ""{ModuleName}"" ""{ImportsName}"") {arguments.JoinBy(" ")} (result {Type.UnderlyingWATType.Description}))"
+            If Type.UnderlyingWATType <> WATElements.void Then
+                result = $"(result {Type.UnderlyingWATType.Description})"
+            End If
+
+            Return $"(func ${Name} (import ""{ModuleName}"" ""{ImportsName}"") {arguments.JoinBy(" ")} {result})"
         End Function
     End Class
 End Namespace

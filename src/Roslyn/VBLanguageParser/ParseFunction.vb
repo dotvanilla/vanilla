@@ -17,6 +17,7 @@ Namespace VBLanguageParser
                 .ParseParameters(context) _
                 .ToArray
             Dim methodName As String = func.SubOrFunctionStatement.Identifier.ValueText
+            Dim namespace$ = context.FullName
 
             If func.SubOrFunctionStatement.SubOrFunctionKeyword.ValueText = "Sub" Then
                 returnValue = WATType.void
@@ -33,6 +34,9 @@ Namespace VBLanguageParser
                 .Any
 
             context.Symbols.Add(methodName, returnValue)
+            context = New Environment(methodName, context, returnValue) With {
+                .Level = SymbolTypes.Function
+            }
 
             For Each par As DeclareLocal In pars
                 context.Symbols.Add(par.Name, par.Type)
@@ -40,9 +44,9 @@ Namespace VBLanguageParser
 
             Return New FunctionDeclare(returnValue) With {
                 .Name = methodName,
-                .[namespace] = context.FullName,
+                .[namespace] = [namespace],
                 .parameters = pars,
-                .body = func.Statements.LoadBody(.locals, New Environment(methodName, context, returnValue))
+                .body = func.Statements.LoadBody(.locals, context)
             }
         End Function
 

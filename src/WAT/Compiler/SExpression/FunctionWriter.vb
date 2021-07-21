@@ -22,6 +22,27 @@ Namespace Compiler
                 result = ""
             Else
                 result = $"(result {result})"
+
+                If Not TypeOf api.body.Last Is ReturnValue Then
+                    Dim rtvl As ReturnValue
+                    Dim value As Object
+
+                    Select Case api.Type.UnderlyingWATType
+                        Case WATElements.any, WATElements.array, WATElements.i32, WATElements.list, WATElements.string, WATElements.table
+                            value = 0%
+                        Case WATElements.i64
+                            value = 0&
+                        Case WATElements.f32
+                            value = 0!
+                        Case WATElements.f64
+                            value = 0#
+                        Case Else
+                            Throw New NotImplementedException
+                    End Select
+
+                    rtvl = New ReturnValue(New LiteralValue(value))
+                    buildBody.Add(rtvl.ToSExpression(Nothing, ""))
+                End If
             End If
 
             Return $"(func ${api.namespace}.{api.Name} {par} {result}

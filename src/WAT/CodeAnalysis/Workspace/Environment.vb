@@ -2,6 +2,13 @@
 
 Namespace CodeAnalysis
 
+    Public Enum SymbolTypes
+        Project
+        [Namespace]
+        [Module]
+        [Function]
+    End Enum
+
     ''' <summary>
     ''' local environment/module environment for find symbol reference
     ''' </summary>
@@ -25,6 +32,10 @@ Namespace CodeAnalysis
 
         Public ReadOnly Property FullName As String
         Public ReadOnly Property Container As Environment
+        ''' <summary>
+        ''' local symbols or global symbols
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Symbols As New Dictionary(Of String, WATType)
         ''' <summary>
         ''' usualy is the function name 
@@ -32,6 +43,7 @@ Namespace CodeAnalysis
         ''' <returns></returns>
         Public ReadOnly Property SymbolName As String
         Public ReadOnly Property Type As WATType
+        Public Property Level As SymbolTypes = SymbolTypes.Module
 
         Sub New(name As String, Optional container As Environment = Nothing, Optional type As WATType = Nothing)
             Me.Container = container
