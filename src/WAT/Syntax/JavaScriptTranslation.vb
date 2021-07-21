@@ -22,7 +22,18 @@ Namespace Syntax
         ''' <returns></returns>
         Public Property JavaScript As String
 
+        ''' <summary>
+        ''' the result value type of this function returns
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides ReadOnly Property Type As WATType
+
+        Sub New()
+        End Sub
+
+        Sub New(type As WATType)
+            Me.Type = type
+        End Sub
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
             Return "$" & JavaScript

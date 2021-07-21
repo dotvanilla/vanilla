@@ -1,4 +1,6 @@
-﻿Namespace CodeAnalysis
+﻿Imports VanillaBasic.WebAssembly.Syntax
+
+Namespace CodeAnalysis
 
     ''' <summary>
     ''' local environment/module environment for find symbol reference
@@ -29,6 +31,14 @@
             Me.Container = container
             Me.FullName = If(container Is Nothing, name, $"{container.FullName}.{name}")
         End Sub
+
+        Public Function GetSymbolType(target As WATSyntax) As WATType
+            If TypeOf target Is JavaScriptTranslation OrElse TypeOf target Is SymbolReference Then
+                Return target.Type
+            Else
+                Throw New NotImplementedException(target.GetType.FullName)
+            End If
+        End Function
 
         Public Function GetSymbolType(name As String) As WATType
             If Symbols.ContainsKey(name) Then

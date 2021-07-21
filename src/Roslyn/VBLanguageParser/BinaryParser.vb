@@ -18,9 +18,6 @@ Namespace VBLanguageParser
             Return BinaryStack(left, right, opName, context)
         End Function
 
-        Public ReadOnly Property LogicalOperators As Index(Of String) = {"And", "Or", "AndAlso", "OrElse"}
-        Public ReadOnly Property ComparisonOperators As Index(Of String) = {">", ">=", "<", "<=", "=", "<>"}
-
         ''' <summary>
         ''' NOTE: div between two integer will convert to double div automatic. 
         ''' </summary>

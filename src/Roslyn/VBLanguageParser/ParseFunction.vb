@@ -29,6 +29,8 @@ Namespace VBLanguageParser
                 .Where(Function(w) w.ValueText = "Public") _
                 .Any
 
+            context.Symbols.Add(methodName, returnValue)
+
             For Each par As DeclareLocal In pars
                 context.Symbols.Add(par.Name, par.Type)
             Next

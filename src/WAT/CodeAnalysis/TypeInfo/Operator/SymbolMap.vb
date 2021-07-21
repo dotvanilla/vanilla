@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace CodeAnalysis.TypeInfo.Operator
 
@@ -10,6 +11,9 @@ Namespace CodeAnalysis.TypeInfo.Operator
             {"*", "mul"},
             {"/", "div"}
         }
+
+        Public ReadOnly Property LogicalOperators As Index(Of String) = {"And", "Or", "AndAlso", "OrElse"}
+        Public ReadOnly Property ComparisonOperators As Index(Of String) = {">", ">=", "<", "<=", "=", "<>"}
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsValidDirectMapOperator(op As String) As Boolean
@@ -24,8 +28,10 @@ Namespace CodeAnalysis.TypeInfo.Operator
         Public Function GetOperator(type As WATType, [operator] As String) As String
             If SymbolMaps.ContainsKey([operator]) Then
                 Return $"{type.UnderlyingWATType.Description}.{SymbolMaps([operator])}"
+            ElseIf [operator] Like LogicalOperators Then
+                Return BooleanLogical([operator])
             Else
-                Throw New NotImplementedException
+                Return Compares(type.UnderlyingWATType.ToString, [operator])
             End If
         End Function
 

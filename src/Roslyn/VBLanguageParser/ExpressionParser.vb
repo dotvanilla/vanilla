@@ -73,7 +73,7 @@ Namespace VBLanguageParser
             Return New FunctionInvoke() With {
                 .Arguments = par.Values.ToArray,
                 .Func = target
-            }
+            }.SetReturnValue(context.GetSymbolType(target))
         End Function
     End Module
 End Namespace

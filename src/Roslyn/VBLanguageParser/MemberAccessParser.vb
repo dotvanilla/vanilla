@@ -31,7 +31,7 @@ Namespace VBLanguageParser
 
             Select Case DirectCast(member, SymbolReference).Name
                 Case "WriteLine", "Write"
-                    Return New JavaScriptTranslation With {
+                    Return New JavaScriptTranslation(WATType.void) With {
                         .DotNetFramework = dotnet,
                         .JavaScript = "Console.WriteLine"
                     }

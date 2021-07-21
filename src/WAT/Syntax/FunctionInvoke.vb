@@ -21,8 +21,22 @@ Namespace Syntax
             Me.Arguments = arguments
         End Sub
 
+        ''' <summary>
+        ''' set the result type of the target function
+        ''' </summary>
+        ''' <param name="rtvl"></param>
+        ''' <returns></returns>
+        Public Function SetReturnValue(rtvl As WATType) As FunctionInvoke
+            _Type = rtvl
+            Return Me
+        End Function
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Dim arguments As String() = Me.Arguments.Select(Function(a) a.ToSExpression(env, indent)).ToArray
+            Dim arguments As String() = Me.Arguments _
+                .Select(Function(a)
+                            Return a.ToSExpression(env, indent)
+                        End Function) _
+                .ToArray
             Dim calls As String = $"(call {Func.ToSExpression(env, indent)} {arguments.JoinBy(" ")})"
 
             Return calls

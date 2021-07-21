@@ -28,9 +28,17 @@ Namespace Syntax
                     Else
                         Return right
                     End If
+                Case "AndAlso", "OrElse"
+                    Return WATType.boolean
+                Case "<<", ">>"
+                    Return left.Type
                 Case Else
-                    Throw New NotImplementedException
+                    Return WATType.boolean
             End Select
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{Type} ({left} {[operator]} {right})"
         End Function
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
