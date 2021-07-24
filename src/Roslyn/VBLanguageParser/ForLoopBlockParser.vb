@@ -17,33 +17,23 @@ Namespace VBLanguageParser
         <Extension>
         Public Function ParseForLoop(forBlock As ForBlockSyntax, context As Environment) As [For]
             Dim control As WATSyntax = forBlock.controlVariable(context)
-            Dim init = forBlock.ForStatement.FromValue.ValueExpression(symbols)
-            Dim final = forBlock.ForStatement.ToValue.ValueExpression(symbols)
-            Dim stepValue As Expression
-
-            ' set for loop variable init value
-            If TypeOf control Is DeclareLocal Then
-                Yield New SetLocalVariable With {
-                    .var = DirectCast(control, DeclareLocal).Name,
-                    .Value = CTypeHandle.CType(control.TypeInfer(symbols), init, symbols)
-                }
-            Else
-                Yield control
-            End If
+            Dim init = forBlock.ForStatement.FromValue.ParseValue(context)
+            Dim final = forBlock.ForStatement.ToValue.ParseValue(context)
+            Dim stepValue As WATSyntax
+            Dim forLoop As New [For] With {
+                .Annotation = forBlock.ForStatement.ToString,
+                .control = control
+            }
 
             If forBlock.ForStatement.StepClause Is Nothing Then
                 ' 默认是1
-                stepValue = New LiteralExpression(1, control.TypeInfer(symbols))
+                stepValue = New LiteralValue(1, control.Type)
             Else
                 stepValue = forBlock.ForStatement _
                     .StepClause _
                     .StepValue _
-                    .ValueExpression(symbols)
+                    .ParseValue(context)
             End If
-
-            Yield New CommentText With {
-                .Text = forBlock.ForStatement.ToString
-            }
 
             Dim block As New [Loop] With {
                 .Guid = $"block_{symbols.NextGuid}",
@@ -51,7 +41,7 @@ Namespace VBLanguageParser
             }
             Dim break As New br_if With {
                 .blockLabel = block.guid,
-                .condition = parseForLoopTest(control, stepValue, final, symbols)
+                .condition = parseForLoopTest(control, stepValue, final, context)
             }
             Dim [next] As New br With {.blockLabel = block.loopID}
             Dim internal As New List(Of Expression)
