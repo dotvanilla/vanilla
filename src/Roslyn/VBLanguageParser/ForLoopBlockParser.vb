@@ -40,7 +40,8 @@ Namespace VBLanguageParser
 
             Dim break As New br_if With {
                 .blockLabel = forLoop.guid,
-                .condition = ParseForLoopTest(control, stepValue, final, context)
+                .condition = ParseForLoopTest(control, stepValue, final, context),
+                .Annotation = .condition.ToString
             }
             Dim [next] As New br With {.blockLabel = forLoop.loopID}
             Dim internal As New List(Of WATSyntax)

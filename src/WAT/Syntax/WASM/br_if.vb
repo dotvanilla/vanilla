@@ -11,7 +11,9 @@ Namespace Syntax.WASM
         Public Property condition As BooleanLogical
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Return $"(br_if ${blockLabel} {condition})"
+            Return $"
+    ;; {Annotation}
+    {indent}(br_if ${blockLabel} {condition.ToSExpression(env, indent)})"
         End Function
     End Class
 End Namespace

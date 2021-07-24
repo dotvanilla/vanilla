@@ -23,5 +23,13 @@ Namespace Syntax
             }
         End Function
 
+        Public Overrides Function ToSExpression(env As Environment, indent As String) As String
+            Return $"    
+    ;; {Annotation}
+    {SetLocalVariable(env).ToSExpression(env, indent)}
+    {MyBase.ToSExpression(env, indent)}
+    "
+        End Function
+
     End Class
 End Namespace
