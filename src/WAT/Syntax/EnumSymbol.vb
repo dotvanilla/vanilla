@@ -23,6 +23,12 @@ Namespace Syntax
         ''' <returns></returns>
         Public ReadOnly Property Members As New Dictionary(Of String, LiteralValue)
 
+        Public ReadOnly Property UnderlyingType As VBType
+            Get
+                Return Type.UnderlyingVBType
+            End Get
+        End Property
+
         Sub New(name As String, type As Type)
             Me.Name = name
             Throw New NotImplementedException

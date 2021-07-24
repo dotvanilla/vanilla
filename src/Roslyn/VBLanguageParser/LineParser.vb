@@ -24,7 +24,8 @@ Namespace VBLanguageParser
                     Yield DirectCast(statement, MultiLineIfBlockSyntax).IfBlock(context)
                     Return
                 Case GetType(ForBlockSyntax)
-                    ' Return DirectCast(statement, ForBlockSyntax).ForLoop(symbols).ToArray
+                    Yield DirectCast(statement, ForBlockSyntax).ParseForLoop(context)
+                    Return
                 Case GetType(CallStatementSyntax)
                     Yield DirectCast(statement, CallStatementSyntax).Invocation.ParseValue(context)
                     Return

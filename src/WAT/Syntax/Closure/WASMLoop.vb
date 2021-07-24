@@ -1,5 +1,4 @@
-﻿Imports System.Configuration
-Imports VanillaBasic.WebAssembly.CodeAnalysis
+﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
 
 Namespace Syntax
 

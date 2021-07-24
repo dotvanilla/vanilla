@@ -62,6 +62,14 @@
             End Select
         End Sub
 
+        Public Shared Function GetUnderlyingType(value As VBType, wasm As Environment) As WATType
+            If value.IsknownType Then
+                Return GetUnderlyingType(value.Type, wasm.Workspace)
+            Else
+                Return New WATType(value.FullName)
+            End If
+        End Function
+
         Public Shared Function GetUnderlyingType(value As Type, wasm As Workspace) As WATType
             Dim type As WATType = GetElementType(value)
 

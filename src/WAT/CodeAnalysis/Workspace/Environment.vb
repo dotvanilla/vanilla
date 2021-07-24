@@ -1,4 +1,5 @@
-﻿Imports VanillaBasic.WebAssembly.Syntax
+﻿Imports System.Runtime.CompilerServices
+Imports VanillaBasic.WebAssembly.Syntax
 
 Namespace CodeAnalysis
 
@@ -15,6 +16,7 @@ Namespace CodeAnalysis
     Public Class Environment
 
         Public ReadOnly Property [global] As ProjectEnvironment
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If Container Is Nothing Then
                     Return Me
@@ -25,6 +27,7 @@ Namespace CodeAnalysis
         End Property
 
         Public Overridable ReadOnly Property Workspace As Workspace
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return [global].Workspace
             End Get
@@ -72,9 +75,19 @@ Namespace CodeAnalysis
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return $"{Type} {FullName}"
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetEnumType(name As String) As EnumSymbol
+            Return Workspace.EnumVals(name)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function HaveEnumType(name As String) As Boolean
+            Return Workspace.EnumVals.ContainsKey(name)
+        End Function
     End Class
 End Namespace
