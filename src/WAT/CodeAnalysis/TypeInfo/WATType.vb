@@ -18,6 +18,7 @@ Namespace CodeAnalysis
         Public Shared ReadOnly Property void As New WATType(GetType(Void))
         Public Shared ReadOnly Property [string] As New WATType(WATElements.string)
         Public Shared ReadOnly Property [boolean] As New WATType(GetType(Boolean))
+        Public Shared ReadOnly Property any As New WATType(WATElements.any)
 
         Public ReadOnly Property IsUserType As Boolean
             Get
@@ -60,6 +61,7 @@ Namespace CodeAnalysis
                     UnderlyingVBType = New VBType(GetType(Integer))
 
                 Case WATElements.i64 : UnderlyingVBType = New VBType(GetType(Long))
+                Case WATElements.any : UnderlyingVBType = New VBType(GetType(Object))
                 Case Else
                     Throw New NotImplementedException
             End Select

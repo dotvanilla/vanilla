@@ -45,7 +45,18 @@ Namespace Syntax.Literal
             Return ToSExpression(Nothing, Nothing)
         End Function
 
-        Public Shared Function [Nothing](type As WATType) As LiteralValue
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="type">
+        ''' default is object type
+        ''' </param>
+        ''' <returns></returns>
+        Public Shared Function [Nothing](Optional type As WATType = Nothing) As LiteralValue
+            If type Is Nothing Then
+                type = WATType.any
+            End If
+
             Return New LiteralValue(0, type) With {
                 .Annotation = $"Nothing(Of {type.ToString})"
             }

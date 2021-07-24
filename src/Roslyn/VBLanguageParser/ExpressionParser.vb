@@ -29,7 +29,7 @@ Namespace VBLanguageParser
                 Case GetType(MemberAccessExpressionSyntax)
                     Return DirectCast(expression, MemberAccessExpressionSyntax).ParseReference(context)
                 Case GetType(LiteralExpressionSyntax)
-                    Return DirectCast(expression, LiteralExpressionSyntax).GetLiteralvalue(context)
+                    Return DirectCast(expression, LiteralExpressionSyntax).GetLiteralvalue(Nothing, context)
                 Case GetType(IdentifierNameSyntax)
                     Return DirectCast(expression, IdentifierNameSyntax).GetSymbol(context)
                 Case GetType(BinaryExpressionSyntax)
@@ -40,19 +40,43 @@ Namespace VBLanguageParser
             End Select
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="type">can be nothing</param>
+        ''' <param name="context"></param>
+        ''' <returns></returns>
         <Extension>
-        Private Function GetLiteralvalue(x As LiteralExpressionSyntax, context As Environment) As WATSyntax
+        Friend Function GetLiteralvalue(x As LiteralExpressionSyntax, type As WATType, context As Environment) As WATSyntax
             Dim value As Object = x.Token.Value
             Dim buffer = context.Workspace.Memory
 
-            Select Case value.GetType
+            If value Is Nothing Then
+                ' 是空值常量，则直接返回整形数0表示空指针
+                Return LiteralValue.Nothing(type)
+            ElseIf type Is Nothing Then
+                type = WATType.GetElementType(value.GetType)
+            End If
+
+            Select Case type.UnderlyingVBType.Type
                 Case GetType(String)
                     Dim i As Integer = buffer.AddString(x.Token.ValueText)
                     Dim str As New LiteralValue(i, WATType.string)
 
                     Return str
+                Case GetType(Boolean)
+
+                    ' 在常量下，逻辑值是i32 1 或者 0
+                    If value = True Then
+                        value = 1
+                    Else
+                        value = 0
+                    End If
+
+                    Return New LiteralValue(value, WATType.boolean)
                 Case Else
-                    Return New LiteralValue(value)
+                    Return New LiteralValue(value, type)
             End Select
         End Function
 

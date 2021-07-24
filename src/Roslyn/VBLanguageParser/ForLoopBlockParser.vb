@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.WebAssembly.CodeAnalysis
@@ -18,7 +19,7 @@ Namespace VBLanguageParser
         ''' <returns></returns>
         <Extension>
         Public Function ParseForLoop(forBlock As ForBlockSyntax, context As Environment) As [For]
-            Dim control As WATSyntax = forBlock.controlVariable(context)
+            Dim control As WATSyntax = forBlock.ParseControlVariable(context)
             Dim init = forBlock.ForStatement.FromValue.ParseValue(context)
             Dim final = forBlock.ForStatement.ToValue.ParseValue(context)
             Dim stepValue As WATSyntax
@@ -114,8 +115,8 @@ Namespace VBLanguageParser
         End Function
 
         <Extension>
-        Private Function controlVariable(forBlock As ForBlockSyntax, context As Environment) As WATSyntax
-            Dim control = forBlock.ForStatement.ControlVariable
+        Private Function ParseControlVariable(forBlock As ForBlockSyntax, context As Environment) As WATSyntax
+            Dim control As VisualBasicSyntaxNode = forBlock.ForStatement.ControlVariable
 
             If TypeOf control Is VariableDeclaratorSyntax Then
                 Dim declareCtl = DirectCast(control, VariableDeclaratorSyntax) _
