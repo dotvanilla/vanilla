@@ -39,14 +39,14 @@ Namespace VBLanguageParser
 
         <Extension>
         Friend Function ParseDeclarator(var As VariableDeclaratorSyntax,
-                                        symbols As Environment,
+                                        context As Environment,
                                         moduleName$,
                                         isConst As Boolean) As IEnumerable(Of DeclareLocal)
             Dim fieldNames = var.Names
 
             Return fieldNames _
                 .Select(Function(namedVar)
-                            Return namedVar.ParserInternal(var, symbols, moduleName, isConst)
+                            Return namedVar.ParserInternal(var, context, moduleName, isConst)
                         End Function) _
                 .Where(Function(x) Not x Is Nothing) _
                 .ToArray
@@ -64,19 +64,19 @@ Namespace VBLanguageParser
         <Extension>
         Public Function AsType(ByRef name$,
                                [asClause] As AsClauseSyntax,
-                               symbols As Environment,
+                               context As Environment,
                                Optional initType As WATType = Nothing) As WATType
 
             Dim type As WATType
 
             If Not asClause Is Nothing Then
                 If TypeOf asClause Is SimpleAsClauseSyntax Then
-                    type = WATType.GetUnderlyingType(GetAsType(asClause, symbols), symbols)
+                    type = WATType.GetUnderlyingType(GetAsType(asClause, context), context)
                 ElseIf TypeOf asClause Is AsNewClauseSyntax Then
                     Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
-                    Dim objType As VBType = DeclaratorParser.GetType([new].Type, symbols)
+                    Dim objType As VBType = DeclaratorParser.GetType([new].Type, context)
 
-                    type = WATType.GetUnderlyingType(objType, symbols)
+                    type = WATType.GetUnderlyingType(objType, context)
                 Else
                     Throw New NotImplementedException
                 End If
@@ -94,14 +94,14 @@ Namespace VBLanguageParser
         ''' Parse type define from [``As Type``] expression.
         ''' </summary>
         ''' <param name="[as]">``As Type``</param>
-        ''' <param name="symbols"></param>
+        ''' <param name="context"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetAsType([as] As SimpleAsClauseSyntax, symbols As Environment) As VBType
+        Public Function GetAsType([as] As SimpleAsClauseSyntax, context As Environment) As VBType
             If [as] Is Nothing Then
                 Return GetType(Void)
             Else
-                Return [GetType]([as].Type, symbols)
+                Return [GetType]([as].Type, context)
             End If
         End Function
 
@@ -113,14 +113,14 @@ Namespace VBLanguageParser
         End Function
 
         <Extension>
-        Public Function [GetType](asType As TypeSyntax, symbols As Environment) As VBType
+        Public Function [GetType](asType As TypeSyntax, context As Environment) As VBType
             If TypeOf asType Is PredefinedTypeSyntax Then
                 Return DirectCast(asType, PredefinedTypeSyntax).PredefinedType
             ElseIf TypeOf asType Is ArrayTypeSyntax Then
-                Return DirectCast(asType, ArrayTypeSyntax).arrayType(symbols)
+                Return DirectCast(asType, ArrayTypeSyntax).arrayType(context)
             ElseIf TypeOf asType Is GenericNameSyntax Then
                 Dim generic = DirectCast(asType, GenericNameSyntax)
-                Dim define = generic.GetGenericType(symbols)
+                Dim define = generic.GetGenericType(context)
                 Dim tokenType = define.Value
 
                 ' 在javascript之中 array 和 list是一样的
@@ -133,16 +133,16 @@ Namespace VBLanguageParser
                     Throw New NotImplementedException
                 End If
             Else
-                Return DirectCast(asType, IdentifierNameSyntax).definedType(symbols)
+                Return DirectCast(asType, IdentifierNameSyntax).definedType(context)
             End If
         End Function
 
         <Extension>
-        Private Function definedType(type As IdentifierNameSyntax, symbols As Environment) As VBType
+        Private Function definedType(type As IdentifierNameSyntax, context As Environment) As VBType
             Dim token$ = type.Identifier.objectName
 
-            If symbols.HaveEnumType(token) Then
-                Dim [const] As EnumSymbol = symbols.GetEnumType(token)
+            If context.HaveEnumType(token) Then
+                Dim [const] As EnumSymbol = context.GetEnumType(token)
                 Return [const].UnderlyingType
             ElseIf token = "Array" Then
                 Return GetType(Array)
@@ -170,11 +170,11 @@ Namespace VBLanguageParser
         End Function
 
         <Extension>
-        Public Function GetGenericType(generic As GenericNameSyntax, symbols As Environment) As NamedValue(Of VBType())
+        Public Function GetGenericType(generic As GenericNameSyntax, context As Environment) As NamedValue(Of VBType())
             Dim typeName = generic.objectName
             Dim types = generic.TypeArgumentList.Arguments
             Dim elementType As VBType() = types _
-                .Select(Function(T) DeclaratorParser.GetType(T, symbols)) _
+                .Select(Function(T) DeclaratorParser.GetType(T, context)) _
                 .ToArray
 
             Return New NamedValue(Of VBType()) With {
@@ -184,8 +184,8 @@ Namespace VBLanguageParser
         End Function
 
         <Extension>
-        Private Function arrayType(type As ArrayTypeSyntax, symbols As Environment) As VBType
-            Dim tokenType As VBType = [GetType](type.ElementType, symbols)
+        Private Function arrayType(type As ArrayTypeSyntax, context As Environment) As VBType
+            Dim tokenType As VBType = [GetType](type.ElementType, context)
             Dim array As VBType = tokenType.MakeArrayType
 
             For i As Integer = 1 To type.RankSpecifiers.Count - 1
@@ -198,7 +198,7 @@ Namespace VBLanguageParser
         <Extension>
         Private Function ParserInternal(namedVar As ModifiedIdentifierSyntax,
                                         var As VariableDeclaratorSyntax,
-                                        symbols As Environment,
+                                        context As Environment,
                                         moduleName$,
                                         isConst As Boolean) As DeclareLocal
 

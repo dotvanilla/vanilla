@@ -15,6 +15,14 @@
         End If
     End Function
 
+    Public Function forLoop() As Integer
+        For i As Integer = 0 To 10 Step 1
+            Return i
+        Next
+
+        Return -1
+    End Function
+
 End Module
 
 Public Class People

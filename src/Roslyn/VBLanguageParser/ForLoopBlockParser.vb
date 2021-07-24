@@ -114,12 +114,12 @@ Namespace VBLanguageParser
         End Function
 
         <Extension>
-        Private Function controlVariable(forBlock As ForBlockSyntax, symbols As Environment) As WATSyntax
+        Private Function controlVariable(forBlock As ForBlockSyntax, context As Environment) As WATSyntax
             Dim control = forBlock.ForStatement.ControlVariable
 
             If TypeOf control Is VariableDeclaratorSyntax Then
                 Dim declareCtl = DirectCast(control, VariableDeclaratorSyntax) _
-                    .ParseDeclarator(symbols, Nothing, isConst:=False) _
+                    .ParseDeclarator(context, Nothing, isConst:=False) _
                     .First
 
                 Return declareCtl
