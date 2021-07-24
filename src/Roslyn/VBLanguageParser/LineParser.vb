@@ -48,6 +48,14 @@ Namespace VBLanguageParser
             Dim value As WATSyntax = rtvl.Expression.ParseValue(context)
             Dim returns As New ReturnValue With {.Value = value}
 
+            If TypeOf value Is SymbolReference Then
+                Dim readSymbol As New SymbolGetValue(value.Type) With {
+                    .Name = DirectCast(value, SymbolReference).Name
+                }
+                readSymbol.isGlobal = Not context.Symbols.ContainsKey(readSymbol.Name)
+                returns.Value = readSymbol
+            End If
+
             Return returns
         End Function
 
