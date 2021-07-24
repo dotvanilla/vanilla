@@ -1,4 +1,6 @@
-﻿Namespace CodeAnalysis
+﻿Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
+
+Namespace CodeAnalysis
 
     ''' <summary>
     ''' Type model in WebAssembly compiler
@@ -90,6 +92,10 @@
                 Case Else
                     Throw New NotImplementedException(name)
             End Select
+        End Function
+
+        Public Shared Function FromTypeChar(c As Char) As WATType
+            Return GetElementType(Patterns.CharToType(c))
         End Function
 
         Public Shared Function GetElementType(value As Type) As WATType
