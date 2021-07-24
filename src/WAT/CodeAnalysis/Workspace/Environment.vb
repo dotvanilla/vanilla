@@ -89,5 +89,9 @@ Namespace CodeAnalysis
         Public Function HaveEnumType(name As String) As Boolean
             Return Workspace.EnumVals.ContainsKey(name)
         End Function
+
+        Public Sub AddLocal(x As DeclareLocal)
+            Call Symbols.Add(x.Name, x.Type)
+        End Sub
     End Class
 End Namespace

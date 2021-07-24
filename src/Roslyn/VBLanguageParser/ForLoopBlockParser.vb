@@ -3,6 +3,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 Imports VanillaBasic.WebAssembly.Syntax.WASM
 
 Namespace VBLanguageParser
@@ -64,24 +65,22 @@ Namespace VBLanguageParser
         End Function
 
         <Extension>
-        Private Function ctlGetLocal(control As Expression) As GetLocalVariable
+        Private Function ctlGetLocal(control As WATSyntax) As SymbolGetValue
             If TypeOf control Is DeclareLocal Then
-                Return New GetLocalVariable With {
-                    .var = DirectCast(control, DeclareLocal).Name
+                Return New SymbolGetValue With {
+                    .Name = DirectCast(control, DeclareLocal).Name
                 }
             Else
                 Return control
             End If
         End Function
 
-        Private Function parseForLoopTest(control As Expression, [step] As Expression, [to] As Expression, symbols As SymbolTable) As BooleanSymbol
-            Dim ctlVar As GetLocalVariable = control.ctlGetLocal
-            Dim ctrlTest As BooleanSymbol
+        Private Function parseForLoopTest(control As WATSyntax, [step] As WATSyntax, [to] As WATSyntax, symbols As Environment) As BooleanLogical
+            Dim ctlVar As SymbolGetValue = control.ctlGetLocal
+            Dim ctrlTest As BooleanLogical
 
             If TypeOf control Is DeclareLocal Then
-                With DirectCast(control, DeclareLocal)
-                    Call symbols.AddLocal(.ByRef)
-                End With
+                Call symbols.AddLocal(DirectCast(control, DeclareLocal))
             End If
 
             ' for i = 0 to 10 step 1
@@ -98,8 +97,8 @@ Namespace VBLanguageParser
             '    break
             ' end if
 
-            If TypeOf [step] Is LiteralExpression Then
-                With DirectCast([step], LiteralExpression)
+            If TypeOf [step] Is NumberLiteral Then
+                With DirectCast([step], NumberLiteral)
                     If .Sign > 0 Then
                         ctrlTest = BooleanSymbol.BinaryCompares(ctlVar, [to], ">", symbols)
                     Else

@@ -1,6 +1,6 @@
 ﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
 
-Namespace Syntax
+Namespace Syntax.Literal
 
     Public Class LiteralValue : Inherits WATSyntax
 
