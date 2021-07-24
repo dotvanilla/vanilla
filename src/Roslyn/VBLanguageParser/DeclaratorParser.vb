@@ -1,5 +1,6 @@
 ﻿
 Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -39,27 +40,19 @@ Namespace VBLanguageParser
         'End Function
 
         <Extension>
-        Friend Iterator Function ParseDeclarator(var As VariableDeclaratorSyntax,
-                                                 context As Environment,
-                                                 moduleName$,
-                                                 isConst As Boolean) As IEnumerable(Of DeclareLocal)
-            Dim fieldNames = var.Names
+        Friend Iterator Function ParseDeclarator(x As VariableDeclaratorSyntax, context As Environment) As IEnumerable(Of DeclareLocal)
+            Dim fieldNames As SeparatedSyntaxList(Of ModifiedIdentifierSyntax) = x.Names
             Dim local As New Value(Of DeclareLocal)
 
             For Each namedVar In fieldNames
-                If Not local = namedVar.ParserInternal(var, context, moduleName, isConst) Is Nothing Then
+                If Not local = namedVar.ParserInternal(x, context) Is Nothing Then
                     Yield CType(local, DeclareLocal)
                 End If
             Next
         End Function
 
         <Extension>
-        Private Function ParserInternal(namedVar As ModifiedIdentifierSyntax,
-                                        var As VariableDeclaratorSyntax,
-                                        context As Environment,
-                                        moduleName$,
-                                        isConst As Boolean) As DeclareLocal
-
+        Private Function ParserInternal(namedVar As ModifiedIdentifierSyntax, var As VariableDeclaratorSyntax, context As Environment) As DeclareLocal
             Dim name$ = namedVar.Identifier.objectName
             Dim type As WATType = Nothing
             Dim init As WATSyntax = Nothing
@@ -72,33 +65,27 @@ Namespace VBLanguageParser
             End If
 
             If Not var.Initializer Is Nothing Then
-                init = var.Initializer.GetInitialize(symbols, type)
-                type = name.AsType(var.AsClause, symbols, init.Type)
+                init = var.Initializer.GetInitialize(context, type)
+                type = name.AsType(var.AsClause, context, init.Type)
             Else
                 init = Nothing
 
                 If type Is Nothing Then
-                    type = name.AsType(var.AsClause, symbols)
+                    type = name.AsType(var.AsClause, context)
                 End If
 
                 If TypeOf var.AsClause Is AsNewClauseSyntax Then
-                    init = DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression.AsNewObject(type, symbols)
+                    ' init = DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression.AsNewObject(type, symbols)
+                    Throw New NotImplementedException
                 End If
             End If
 
-            init = namedVar.initAutofit(type, init, symbols)
+            ' init = namedVar.initAutofit(type, init, symbols)
 
-            If Not moduleName.StringEmpty Then
-                Call symbols.AddGlobal(name, type, moduleName, init, isConst)
-                Return Nothing
-            Else
-                Return New DeclareLocal With {
-                    .Name = name,
-                    .Type = type,
-                    .init = init,
-                    .isConst = isConst
-                }
-            End If
+            Return New DeclareLocal(type) With {
+                .Name = name,
+                .DefaultValue = init
+            }
         End Function
 
         '<Extension>

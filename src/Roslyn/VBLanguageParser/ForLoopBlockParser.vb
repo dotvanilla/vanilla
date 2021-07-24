@@ -120,7 +120,7 @@ Namespace VBLanguageParser
 
             If TypeOf control Is VariableDeclaratorSyntax Then
                 Dim declareCtl = DirectCast(control, VariableDeclaratorSyntax) _
-                    .ParseDeclarator(context, Nothing, isConst:=False) _
+                    .ParseDeclarator(context) _
                     .First
 
                 Return declareCtl
