@@ -20,8 +20,8 @@ Namespace VBLanguageParser
         <Extension>
         Public Function ParseForLoop(forBlock As ForBlockSyntax, context As Environment) As [For]
             Dim control As WATSyntax = forBlock.ParseControlVariable(context)
-            Dim init = forBlock.ForStatement.FromValue.ParseValue(context)
-            Dim final = forBlock.ForStatement.ToValue.ParseValue(context)
+            Dim init As WATSyntax = forBlock.ForStatement.FromValue.ParseValue(context)
+            Dim final As WATSyntax = forBlock.ForStatement.ToValue.ParseValue(context)
             Dim stepValue As WATSyntax
             Dim forLoop As New [For] With {
                 .Annotation = forBlock.ForStatement.ToString,
@@ -40,12 +40,12 @@ Namespace VBLanguageParser
 
             Dim break As New br_if With {
                 .blockLabel = forLoop.guid,
-                .condition = parseForLoopTest(control, stepValue, final, context)
+                .condition = ParseForLoopTest(control, stepValue, final, context)
             }
             Dim [next] As New br With {.blockLabel = forLoop.loopID}
             Dim internal As New List(Of WATSyntax)
-            Dim controlVar = control.ctlGetLocal
-            Dim doStep = BinaryParser.BinaryStack(controlVar, stepValue, "+", context)
+            Dim controlVar As SymbolGetValue = control.ForControlGetLocal
+            Dim doStep As WATSyntax = BinaryParser.BinaryStack(controlVar, stepValue, "+", context)
             Dim locals As DeclareLocal() = Nothing
 
             internal += break
@@ -62,14 +62,16 @@ Namespace VBLanguageParser
 
             forLoop.multipleLines = internal
             forLoop.locals = locals
+            forLoop.initFrom = init
+            forLoop.stepvalue = stepValue
 
             Return forLoop
         End Function
 
         <Extension>
-        Private Function ctlGetLocal(control As WATSyntax) As SymbolGetValue
+        Private Function ForControlGetLocal(control As WATSyntax) As SymbolGetValue
             If TypeOf control Is DeclareLocal Then
-                Return New SymbolGetValue With {
+                Return New SymbolGetValue(control.Type) With {
                     .Name = DirectCast(control, DeclareLocal).Name
                 }
             Else
@@ -77,8 +79,8 @@ Namespace VBLanguageParser
             End If
         End Function
 
-        Private Function parseForLoopTest(control As WATSyntax, [step] As WATSyntax, [to] As WATSyntax, context As Environment) As BooleanLogical
-            Dim ctlVar As SymbolGetValue = control.ctlGetLocal
+        Private Function ParseForLoopTest(control As WATSyntax, [step] As WATSyntax, [to] As WATSyntax, context As Environment) As BooleanLogical
+            Dim ctlVar As SymbolGetValue = control.ForControlGetLocal
             Dim ctrlTest As BooleanLogical
 
             If TypeOf control Is DeclareLocal Then

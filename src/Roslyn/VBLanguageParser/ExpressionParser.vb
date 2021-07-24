@@ -34,10 +34,32 @@ Namespace VBLanguageParser
                     Return DirectCast(expression, IdentifierNameSyntax).GetSymbol(context)
                 Case GetType(BinaryExpressionSyntax)
                     Return DirectCast(expression, BinaryExpressionSyntax).GetBinary(context)
-
+                Case GetType(UnaryExpressionSyntax)
+                    Return DirectCast(expression, UnaryExpressionSyntax).GetUnaryValue(context)
                 Case Else
                     Throw New NotImplementedException(expression.GetType.FullName)
             End Select
+        End Function
+
+        <Extension>
+        Public Function GetUnaryValue(unary As UnaryExpressionSyntax, context As Environment) As WATSyntax
+            Dim unaryOperator As String = unary.OperatorToken.ValueText
+            Dim value As WATSyntax = unary.Operand.ParseValue(context)
+
+            If TypeOf value Is LiteralValue Then
+                Dim constVal As NumberLiteral = DirectCast(value, NumberLiteral)
+
+                Select Case unaryOperator
+                    Case "-"
+                        Return New NumberLiteral(-1 * constVal.Value)
+                    Case "+"
+                        Return constVal
+                    Case Else
+                        Throw New NotImplementedException
+                End Select
+            Else
+                Return New UnaryOperator(unaryOperator, value)
+            End If
         End Function
 
         ''' <summary>
@@ -76,7 +98,7 @@ Namespace VBLanguageParser
 
                     Return New LiteralValue(value, WATType.boolean)
                 Case Else
-                    Return New LiteralValue(value, type)
+                    Return New NumberLiteral(value, type)
             End Select
         End Function
 

@@ -1,4 +1,5 @@
 ﻿
+Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports stdNum = System.Math
 
 Namespace Syntax.Literal
@@ -13,6 +14,10 @@ Namespace Syntax.Literal
 
         Sub New(i As Integer)
             Call MyBase.New(i)
+        End Sub
+
+        Sub New(number As Object, type As WATType)
+            Call MyBase.New(number, type)
         End Sub
     End Class
 End Namespace
