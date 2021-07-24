@@ -36,13 +36,14 @@ Namespace Compiler
                 Next
             Next
 
-            Return $";; Javascript function imports into current WebAssembly Module
-;;
-;; ----- NOTE: imports must occur before all non-import definitions ------
+            Return $"
+    ;; Javascript function imports into current WebAssembly Module
+    ;;
+    ;; ----- NOTE: imports must occur before all non-import definitions ------
 
     {[imports].JoinBy(Indent)}
     
-;; ----- END OF JAVASCRIPT IMPORTS -----"
+    ;; ----- END OF JAVASCRIPT IMPORTS -----"
         End Function
 
         <Extension>

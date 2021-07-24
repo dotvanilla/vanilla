@@ -61,11 +61,11 @@ Namespace Compiler
 
             Return $"    
     ;; memory allocate in javascript runtime
-    {wast.JoinBy(ASCII.LF)}
+    {wast.JoinBy(SExpressionEngine.Indent)}
     
     ;; Export Api to JavaScript runtime for
     ;; expose GC in WASM module.
-    {exports.Select(Function(api) api.ToSExpression).JoinBy(ASCII.LF)}
+    {exports.Select(Function(api) api.ToSExpression).JoinBy(SExpressionEngine.Indent)}
     "
         End Function
 
