@@ -1,7 +1,8 @@
 ﻿Namespace CodeAnalysis
 
-
-
+    ''' <summary>
+    ''' Type model in WebAssembly compiler
+    ''' </summary>
     Public Class WATType
 
         Public ReadOnly Property UnderlyingWATType As WATElements
