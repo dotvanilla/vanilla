@@ -14,9 +14,9 @@ Namespace VBLanguageParser
         <Extension>
         Public Function RunParser(func As MethodBlockSyntax, ByRef isPublic As Boolean, context As Environment) As FunctionDeclare
             Dim returnValue As WATType
-            Dim pars As DeclareLocal() = func.SubOrFunctionStatement _
+            Dim pars As Dictionary(Of String, DeclareLocal) = func.SubOrFunctionStatement _
                 .ParseParameters(context) _
-                .ToArray
+                .ToDictionary(Function(x) x.Name)
             Dim methodName As String = func.SubOrFunctionStatement.Identifier.ValueText
             Dim namespace$ = context.FullName
 
@@ -39,19 +39,21 @@ Namespace VBLanguageParser
                 .Level = SymbolTypes.Function
             }
 
-            For Each par As DeclareLocal In pars
+            For Each par As DeclareLocal In pars.Values
                 context.AddLocal(par)
             Next
 
             Return New FunctionDeclare(returnValue) With {
                 .Name = methodName,
                 .[namespace] = [namespace],
-                .parameters = pars,
+                .parameters = pars.Values.ToArray,
                 .body = func.Statements.LoadBody(Nothing, context),
                 .locals = context.Symbols _
                     .Values _
                     .Where(Function(x)
-                               Return Not x.Name.StringEmpty
+                               ' removes function parameters and
+                               ' function name
+                               Return (Not x.Name.StringEmpty) AndAlso (Not pars.ContainsKey(x.Name))
                            End Function) _
                     .ToArray
             }
