@@ -20,8 +20,15 @@ Namespace Syntax
             Throw New NotImplementedException()
         End Function
 
-        Friend Shared Function InternalBlock([then] As Closure, env As Environment, indent As String) As String
-            Return [then].multipleLines _
+        ''' <summary>
+        ''' line joins
+        ''' </summary>
+        ''' <param name="block"></param>
+        ''' <param name="env"></param>
+        ''' <param name="indent"></param>
+        ''' <returns></returns>
+        Friend Shared Function InternalBlock(block As Closure, env As Environment, indent As String) As String
+            Return block.multipleLines _
                 .SafeQuery _
                 .Select(Function(line)
                             Return indent & line.ToSExpression(env, indent)

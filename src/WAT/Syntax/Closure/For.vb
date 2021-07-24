@@ -1,6 +1,6 @@
 ﻿Namespace Syntax
 
-    Public Class [For]
+    Public Class [For] : Inherits Closure
 
     End Class
 End Namespace
