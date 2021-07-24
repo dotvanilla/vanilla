@@ -16,7 +16,7 @@ Namespace CodeAnalysis
         Public Shared ReadOnly Property f32 As New WATType(WATElements.f32)
         Public Shared ReadOnly Property f64 As New WATType(WATElements.f64)
         Public Shared ReadOnly Property void As New WATType(GetType(Void))
-        Public Shared ReadOnly Property [string] As New WATType(WATElements.string)
+        Public Shared ReadOnly Property [string] As New WATType(GetType(String))
         Public Shared ReadOnly Property [boolean] As New WATType(GetType(Boolean))
         Public Shared ReadOnly Property any As New WATType(WATElements.any)
 
