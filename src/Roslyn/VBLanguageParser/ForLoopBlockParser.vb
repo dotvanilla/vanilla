@@ -2,6 +2,7 @@
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
 Imports VanillaBasic.WebAssembly.Syntax.Literal
@@ -19,7 +20,7 @@ Namespace VBLanguageParser
         ''' <returns></returns>
         <Extension>
         Public Function ParseForLoop(forBlock As ForBlockSyntax, context As Environment) As [For]
-            Dim control As WATSyntax = forBlock.ParseControlVariable(context)
+            Dim control As DeclareLocal = forBlock.ParseControlVariable(context)
             Dim init As WATSyntax = forBlock.ForStatement.FromValue.ParseValue(context)
             Dim final As WATSyntax = forBlock.ForStatement.ToValue.ParseValue(context)
             Dim stepValue As WATSyntax
@@ -65,6 +66,10 @@ Namespace VBLanguageParser
             forLoop.locals = locals
             forLoop.initFrom = init
             forLoop.stepvalue = stepValue
+
+            For Each symbol As DeclareLocal In forLoop.locals
+                Call context.AddLocal(symbol)
+            Next
 
             Return forLoop
         End Function

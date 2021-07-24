@@ -34,20 +34,26 @@ Namespace VBLanguageParser
                 .Where(Function(w) w.ValueText = "Public") _
                 .Any
 
-            context.Symbols.Add(methodName, returnValue)
+            context.Symbols.Add(methodName, New DeclareLocal(returnValue))
             context = New Environment(methodName, context, returnValue) With {
                 .Level = SymbolTypes.Function
             }
 
             For Each par As DeclareLocal In pars
-                context.Symbols.Add(par.Name, par.Type)
+                context.AddLocal(par)
             Next
 
             Return New FunctionDeclare(returnValue) With {
                 .Name = methodName,
                 .[namespace] = [namespace],
                 .parameters = pars,
-                .body = func.Statements.LoadBody(.locals, context)
+                .body = func.Statements.LoadBody(Nothing, context),
+                .locals = context.Symbols _
+                    .Values _
+                    .Where(Function(x)
+                               Return Not x.Name.StringEmpty
+                           End Function) _
+                    .ToArray
             }
         End Function
 
@@ -59,8 +65,8 @@ Namespace VBLanguageParser
             For Each line As StatementSyntax In funcBody.ExceptType(Of EndBlockStatementSyntax)
                 For Each item As WATSyntax In line.Parse(context)
                     If TypeOf item Is DeclareLocal Then
-                        localList.Add(DirectCast(item, DeclareLocal))
-                        context.Symbols.Add(localList.Last.Name, localList.Last.Type)
+                        Call localList.Add(DirectCast(item, DeclareLocal))
+                        Call context.AddLocal(localList.Last)
                     End If
 
                     Call body.Add(item)

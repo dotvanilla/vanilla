@@ -33,7 +33,7 @@ Namespace CodeAnalysis
         ''' local symbols or global symbols
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Symbols As New Dictionary(Of String, WATType)
+        Public ReadOnly Property Symbols As New Dictionary(Of String, DeclareLocal)
         ''' <summary>
         ''' usualy is the function name 
         ''' </summary>
@@ -59,7 +59,7 @@ Namespace CodeAnalysis
 
         Public Function GetSymbolType(name As String) As WATType
             If Symbols.ContainsKey(name) Then
-                Return Symbols(name)
+                Return Symbols(name).Type
             ElseIf Container IsNot Nothing Then
                 Return Container.GetSymbolType(name)
             ElseIf Workspace.GlobalSymbols.ContainsKey(name) Then
@@ -85,7 +85,7 @@ Namespace CodeAnalysis
         End Function
 
         Public Sub AddLocal(x As DeclareLocal)
-            Call Symbols.Add(x.Name, x.Type)
+            Call Symbols.Add(x.Name, x)
         End Sub
     End Class
 End Namespace
