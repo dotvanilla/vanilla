@@ -13,6 +13,8 @@ Namespace Compiler
 
     Public Module SExpressionEngine
 
+        Public Const Indent As String = vbLf & "    "
+
         <Extension>
         Private Function EncodeAssemblyInfo(project As Workspace) As String
             Dim data As AssemblyInfo = project.AssemblyInfo
@@ -38,7 +40,7 @@ Namespace Compiler
 ;;
 ;; ----- NOTE: imports must occur before all non-import definitions ------
 
-    {[imports].JoinBy(ASCII.LF)}
+    {[imports].JoinBy(Indent)}
     
 ;; ----- END OF JAVASCRIPT IMPORTS -----"
         End Function
@@ -71,25 +73,25 @@ Namespace Compiler
     {heapMgr}
 
     ;; Memory data for string constant
-    {stringsData.JoinBy(ASCII.LF)}
+    {stringsData.JoinBy(Indent)}
     
     ;; AssemblyInfo.vb
     {assemblyInfo}
 
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object
-    {typeMetas.JoinBy(ASCII.LF)}
+    {typeMetas.JoinBy(Indent)}
 
     ;; Math constant values in .NET Framework
-    {MathConstant.GetVBMathConstants.JoinBy(ASCII.LF)}
+    {MathConstant.GetVBMathConstants.JoinBy(Indent)}
 
     ;; Global variables in this module
-    {globals.JoinBy(ASCII.LF)}
+    {globals.JoinBy(Indent)}
 
     ;; Export methods of this module
-    {exportGroup.Select(Function(api) api.ToSExpression).JoinBy(ASCII.LF)} 
+    {exportGroup.Select(Function(api) api.ToSExpression).JoinBy(Indent)} 
 
-    {internal.JoinBy(ASCII.LF)}
+    {internal.JoinBy(Indent)}
 ")
         End Function
 
