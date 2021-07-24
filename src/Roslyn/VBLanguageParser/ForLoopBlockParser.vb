@@ -3,6 +3,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.WASM
 
 Namespace VBLanguageParser
 
@@ -35,26 +36,23 @@ Namespace VBLanguageParser
                     .ParseValue(context)
             End If
 
-            Dim block As New [Loop] With {
-                .Guid = $"block_{symbols.NextGuid}",
-                .loopID = $"loop_{symbols.NextGuid}"
-            }
             Dim break As New br_if With {
-                .blockLabel = block.guid,
+                .blockLabel = forLoop.guid,
                 .condition = parseForLoopTest(control, stepValue, final, context)
             }
-            Dim [next] As New br With {.blockLabel = block.loopID}
-            Dim internal As New List(Of Expression)
+            Dim [next] As New br With {.blockLabel = forLoop.loopID}
+            Dim internal As New List(Of WATSyntax)
             Dim controlVar = control.ctlGetLocal
-            Dim doStep = BinaryOperatorParser.BinaryStack(controlVar, stepValue, "+", symbols)
+            Dim doStep = BinaryParser.BinaryStack(controlVar, stepValue, "+", context)
+            Dim locals As DeclareLocal() = Nothing
 
             internal += break
-            internal += forBlock.Statements.ParseBlockInternal(symbols)
+            internal += forBlock.Statements.LoadBody(locals, context)
             ' 更新循环控制变量的值
             internal += New CommentText With {
                 .Text = $"For loop control step: {stepValue.ToSExpression}"
 }
-            internal += New SetLocalVariable With {.var = controlVar.var, .value = doStep}
+            internal += New SetLocalVariable With {.var = controlVar.var, .Value = doStep}
             internal += [next]
             internal += New CommentText With {
                 .Text = $"For Loop Next On {[next].blockLabel}"

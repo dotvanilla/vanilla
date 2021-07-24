@@ -1,6 +1,6 @@
 ﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
 
-Namespace Syntax
+Namespace Syntax.WASM
 
     ''' <summary>
     ''' drop unused stack value
@@ -13,7 +13,7 @@ Namespace Syntax
     ''' 
     ''' https://github.com/WebAssembly/wabt/issues/1067
     ''' </remarks>
-    Public Class Drop : Inherits WATSyntax
+    Public Class drop : Inherits WATSyntax
 
         Public Overrides ReadOnly Property Type As WATType
             Get
@@ -48,7 +48,7 @@ Namespace Syntax
                 ' https://github.com/WebAssembly/wabt/issues/1067
                 '
                 ' required a drop if target produce values
-                Return New Drop With {.Value = line}
+                Return New drop With {.Value = line}
             Else
                 Return line
             End If

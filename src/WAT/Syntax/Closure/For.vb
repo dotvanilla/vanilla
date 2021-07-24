@@ -3,7 +3,7 @@ Imports VanillaBasic.WebAssembly.CodeAnalysis
 
 Namespace Syntax
 
-    Public Class [For] : Inherits Closure
+    Public Class [For] : Inherits WASMLoop
 
         Public Property control As DeclareLocal
         Public Property stepvalue As WATSyntax
