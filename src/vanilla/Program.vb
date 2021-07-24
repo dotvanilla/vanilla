@@ -103,8 +103,8 @@ Module Program
     End Function
 
     <Extension>
-    Private Sub CreateWasm(moduleSymbol As Workspace, debug As Boolean, out$)
-        Dim config As New Wat2wasm With {.output = out}
+    Private Sub CreateWasm(VisualBasic As Workspace, debug As Boolean, output$)
+        Dim config As New Wat2wasm With {.output = output}
 
         If debug Then
             config.debugNames = True
@@ -112,9 +112,9 @@ Module Program
             config.verbose = True
         End If
 
-        Call VanillaBuild.WastDump(moduleSymbol, out.ChangeSuffix("wast"))
-        Call VanillaBuild.HexDump(moduleSymbol, out.ChangeSuffix("dmp"), verbose:=True)
-        Call VanillaBuild.Compile(moduleSymbol, config)
+        Call VanillaBuild.WastDump(VisualBasic, output.ChangeSuffix("*.wast"))
+        Call VanillaBuild.HexDump(VisualBasic, output.ChangeSuffix("*.dmp"), verbose:=True)
+        Call VanillaBuild.Compile(VisualBasic, config)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
