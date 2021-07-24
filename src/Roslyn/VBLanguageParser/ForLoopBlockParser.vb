@@ -51,17 +51,18 @@ Namespace VBLanguageParser
             internal += forBlock.Statements.LoadBody(locals, context)
             ' 更新循环控制变量的值
             internal += New CommentText With {
-                .Text = $"For loop control step: {stepValue.ToSExpression}"
+                .Text = $"For loop control step: {stepValue.ToSExpression(context, "")}"
 }
-            internal += New SetLocalVariable With {.var = controlVar.var, .Value = doStep}
+            internal += New SymbolSetValue With {.Target = New SymbolReference(controlVar.Name), .Value = doStep}
             internal += [next]
             internal += New CommentText With {
                 .Text = $"For Loop Next On {[next].blockLabel}"
             }
 
-            block.internal = internal
+            forLoop.multipleLines = internal
+            forLoop.locals = locals
 
-            Yield block
+            Return forLoop
         End Function
 
         <Extension>
@@ -75,12 +76,12 @@ Namespace VBLanguageParser
             End If
         End Function
 
-        Private Function parseForLoopTest(control As WATSyntax, [step] As WATSyntax, [to] As WATSyntax, symbols As Environment) As BooleanLogical
+        Private Function parseForLoopTest(control As WATSyntax, [step] As WATSyntax, [to] As WATSyntax, context As Environment) As BooleanLogical
             Dim ctlVar As SymbolGetValue = control.ctlGetLocal
             Dim ctrlTest As BooleanLogical
 
             If TypeOf control Is DeclareLocal Then
-                Call symbols.AddLocal(DirectCast(control, DeclareLocal))
+                Call context.AddLocal(DirectCast(control, DeclareLocal))
             End If
 
             ' for i = 0 to 10 step 1
@@ -100,13 +101,13 @@ Namespace VBLanguageParser
             If TypeOf [step] Is NumberLiteral Then
                 With DirectCast([step], NumberLiteral)
                     If .Sign > 0 Then
-                        ctrlTest = BooleanSymbol.BinaryCompares(ctlVar, [to], ">", symbols)
+                        ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], ">", context)
                     Else
-                        ctrlTest = BooleanSymbol.BinaryCompares(ctlVar, [to], "<", symbols)
+                        ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], "<", context)
                     End If
                 End With
             Else
-                ctrlTest = BooleanSymbol.BinaryCompares(ctlVar, [to], "=", symbols)
+                ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], "=", context)
             End If
 
             Return ctrlTest

@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.CodeAnalysis.TypeInfo.Operator
 Imports VanillaBasic.WebAssembly.Syntax
@@ -8,6 +7,11 @@ Imports VanillaBasic.WebAssembly.Syntax
 Namespace VBLanguageParser
 
     Module BinaryParser
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function BinaryCompares(left As WATSyntax, right As WATSyntax, op$, context As Environment) As BooleanLogical
+            Return New BooleanLogical(BinaryParser.BinaryStack(left, right, op, context))
+        End Function
 
         <Extension>
         Public Function FixSymbol(data As WATSyntax, context As Environment) As WATSyntax
