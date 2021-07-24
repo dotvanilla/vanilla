@@ -81,7 +81,7 @@ Namespace VBLanguageParser
                     Throw New NotImplementedException
                 End If
             ElseIf name.Last Like Patterns.TypeChar Then
-                type = New TypeAbstract(TypeExtensions.TypeCharWasm(name.Last))
+                type = New WATType(TypeExtensions.TypeCharWasm(name.Last))
                 name = name.Substring(0, name.Length - 1)
             Else
                 type = initType
