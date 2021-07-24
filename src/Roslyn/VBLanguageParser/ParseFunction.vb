@@ -4,6 +4,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace VBLanguageParser

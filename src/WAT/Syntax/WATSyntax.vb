@@ -1,4 +1,5 @@
 ﻿Imports VanillaBasic.WebAssembly.CodeAnalysis
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace Syntax
 

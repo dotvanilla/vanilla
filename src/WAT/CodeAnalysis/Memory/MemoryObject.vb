@@ -1,4 +1,5 @@
 ﻿Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace CodeAnalysis.Memory
 

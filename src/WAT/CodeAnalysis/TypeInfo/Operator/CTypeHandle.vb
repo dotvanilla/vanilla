@@ -1,5 +1,6 @@
 ﻿Imports VanillaBasic.WebAssembly.Compiler
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace CodeAnalysis.TypeInfo.Operator
 

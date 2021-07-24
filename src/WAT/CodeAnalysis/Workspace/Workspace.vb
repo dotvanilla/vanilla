@@ -2,6 +2,7 @@
 Imports VanillaBasic.WebAssembly.Compiler
 Imports VanillaBasic.WebAssembly.JavaScript
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace CodeAnalysis
 

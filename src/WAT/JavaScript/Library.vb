@@ -2,6 +2,7 @@
 Imports System.Runtime.InteropServices
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace JavaScript
 

@@ -1,10 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports VanillaBasic.WebAssembly.CodeAnalysis
-Imports VanillaBasic.WebAssembly.CodeAnalysis.TypeInfo.Operator
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace VBLanguageParser
 

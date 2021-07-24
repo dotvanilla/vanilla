@@ -1,14 +1,8 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace CodeAnalysis
-
-    Public Enum SymbolTypes
-        Project
-        [Namespace]
-        [Module]
-        [Function]
-    End Enum
 
     ''' <summary>
     ''' local environment/module environment for find symbol reference

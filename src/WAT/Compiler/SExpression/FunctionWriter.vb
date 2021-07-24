@@ -3,6 +3,8 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Text
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
+Imports VanillaBasic.WebAssembly.Syntax.WASM
 
 Namespace Compiler
 

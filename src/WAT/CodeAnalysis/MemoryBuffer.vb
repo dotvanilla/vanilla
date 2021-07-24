@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.WebAssembly.CodeAnalysis.Memory
-Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace CodeAnalysis
 
@@ -13,7 +13,7 @@ Namespace CodeAnalysis
         Dim buffer As New List(Of MemoryObject)
 
         ''' <summary>
-        ''' 因为<see cref="TypeAlias"/>之中基础类型都是小于10的
+        ''' 因为<see cref="WATElements"/>之中基础类型都是小于10的
         ''' 所以在这里offset从10开始，从而能够避免class_id小于10
         ''' 导致用户自定义类型被误判为基础类型
         ''' </summary>
