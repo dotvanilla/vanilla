@@ -16,13 +16,13 @@ Namespace Compiler
         Public Const Indent As String = vbLf & "    "
 
         <Extension>
-        Private Function EncodeAssemblyInfo(project As Workspace) As String
+        Private Function EncodeAssemblyInfo(project As Workspace) As StringLiteral
             Dim data As AssemblyInfo = project.AssemblyInfo
             Dim obj As Dictionary(Of String, String) = data.GetJson.LoadJSON(Of Dictionary(Of String, String))
             Dim scan0 As Integer = project.Memory.AddString(obj.ToBEncodeString)
             Dim memory As StringLiteral = project.Memory(scan0)
 
-            Return memory.ToSExpression
+            Return memory
         End Function
 
         Private Function WriteJavascriptImports(project As Workspace) As String
@@ -51,7 +51,7 @@ Namespace Compiler
             Dim exportGroup As ExportSymbol() = project.GetPublicApi.ToArray
             Dim internal As String() = project.Methods.Values.ToSExpression(project).ToArray
             Dim stringsData As String() = StringWriter.StringExpressions(project.Memory)
-            Dim assemblyInfo As String = project.EncodeAssemblyInfo
+            Dim assemblyInfo As StringLiteral = project.EncodeAssemblyInfo
             Dim imports$ = WriteJavascriptImports(project)
             Dim typeMetas As String() = project.ObjectMetaData.ToArray
 
@@ -77,7 +77,13 @@ Namespace Compiler
     {stringsData.JoinBy(Indent)}
     
     ;; AssemblyInfo.vb
-    {assemblyInfo}
+    {assemblyInfo.ToSExpression}
+
+    (func $AssemblyInfo (result i32)
+        (return (i32.const {DirectCast(assemblyInfo.MemoryPtr, StaticPtr).Scan0}))    
+    )
+
+    (export ""AssemblyInfo"" (func $AssemblyInfo)) 
 
     ;; Memory data for user defined class object its meta data
     ;; all of these string is base64 encoded json object

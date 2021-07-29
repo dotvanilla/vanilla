@@ -99,7 +99,7 @@ Namespace CodeAnalysis.TypeInfo.Operator
             Dim operator$ = Nothing
 
             Select Case type.UnderlyingWATType
-                Case WATElements.i32
+                Case WATElements.i32, WATElements.boolean
                     ' 直接转换
                     Return exp
                 Case Else

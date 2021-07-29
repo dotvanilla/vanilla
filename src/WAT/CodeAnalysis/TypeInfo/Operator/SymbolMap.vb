@@ -86,6 +86,8 @@ Namespace CodeAnalysis.TypeInfo.Operator
                 Case "="
                     If type Like integerType OrElse type Like floatType Then
                         Return $"{type}.eq"
+                    ElseIf type = NameOf(WATElements.boolean) Then
+                        Return $"i32.eq"
                     Else
                         Throw New NotImplementedException
                     End If
