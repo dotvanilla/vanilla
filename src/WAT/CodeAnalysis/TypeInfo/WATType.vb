@@ -16,8 +16,8 @@ Namespace CodeAnalysis
         Public Shared ReadOnly Property f32 As New WATType(WATElements.f32)
         Public Shared ReadOnly Property f64 As New WATType(WATElements.f64)
         Public Shared ReadOnly Property void As New WATType(GetType(Void))
-        Public Shared ReadOnly Property [string] As New WATType(GetType(String))
-        Public Shared ReadOnly Property [boolean] As New WATType(GetType(Boolean))
+        Public Shared ReadOnly Property [string] As New WATType(WATElements.string)
+        Public Shared ReadOnly Property [boolean] As New WATType(WATElements.boolean)
         Public Shared ReadOnly Property any As New WATType(WATElements.any)
 
         Public ReadOnly Property IsUserType As Boolean
@@ -53,15 +53,16 @@ Namespace CodeAnalysis
                 Case WATElements.f32 : UnderlyingVBType = New VBType(GetType(Single))
                 Case WATElements.f64 : UnderlyingVBType = New VBType(GetType(Double))
                 Case WATElements.i32,
-                     WATElements.string,
                      WATElements.table,
                      WATElements.list,
                      WATElements.array
 
                     UnderlyingVBType = New VBType(GetType(Integer))
 
+                Case WATElements.string : UnderlyingVBType = New VBType(GetType(String))
                 Case WATElements.i64 : UnderlyingVBType = New VBType(GetType(Long))
                 Case WATElements.any : UnderlyingVBType = New VBType(GetType(Object))
+                Case WATElements.boolean : UnderlyingVBType = New VBType(GetType(Boolean))
                 Case Else
                     Throw New NotImplementedException
             End Select
