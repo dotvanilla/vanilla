@@ -41,7 +41,7 @@ Namespace JavaScript
         ''' <summary>
         ''' ``sb.ToString()``
         ''' </summary>
-        Public Declare Function ToString Lib "StringBuilder" Alias "StringBuilder.ToString" (sb As Integer) As String
+        Public Shadows Declare Function ToString Lib "StringBuilder" Alias "StringBuilder.ToString" (sb As Integer) As String
 
         ''' <summary>
         ''' ``sb.Clear()``

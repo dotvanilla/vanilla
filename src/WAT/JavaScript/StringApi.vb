@@ -6,7 +6,7 @@ Namespace JavaScript
     Public Class StringApi
 
         ''' <summary>
-        ''' ``a & b`` 字符串连接
+        ''' ``a &amp; b`` 字符串连接
         ''' </summary>
         Public Declare Function [Add] Lib "string" Alias "string.add" (a As String, b As String) As String
 
@@ -53,7 +53,7 @@ Namespace JavaScript
         ''' <summary>
         ''' ``s.Equals(other)`` / ``s = other``
         ''' </summary>
-        Public Declare Function Equals Lib "string" Alias "string.equals" (a As String, b As String) As Integer
+        Public Shadows Declare Function Equals Lib "string" Alias "string.equals" (a As String, b As String) As Integer
 
     End Class
 End Namespace

@@ -3,7 +3,7 @@ Imports System.Text
 Imports System.IO
 Imports System.Collections.Generic
 
-Namespace VanillaBasic.WebAssembly.Compiler
+Namespace Compiler
 
     ' Wat2WasmCompiler：wat2wasm.exe 的 VB.NET 命令行封装。
     ' 通过属性设置全部命令行开关，运行进程并捕获 stdout/stderr，

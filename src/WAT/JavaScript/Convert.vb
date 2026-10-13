@@ -19,7 +19,7 @@ Namespace JavaScript
         ''' <summary>
         ''' ``Convert.ToString(value)``
         ''' </summary>
-        Public Declare Function ToString Lib "Convert" Alias "Convert.ToString" (value As Integer) As String
+        Public Shadows Declare Function ToString Lib "Convert" Alias "Convert.ToString" (value As Integer) As String
 
     End Class
 End Namespace

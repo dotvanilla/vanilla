@@ -1,4 +1,4 @@
-Namespace VanillaBasic.WebAssembly.Compiler
+Namespace Compiler
 
     ' Wat2WasmResult：wat2wasm.exe 一次运行的封装结果。
     ' 调用方依据 Success 与 OutputFile 自行读取生成的 .wasm 文件。
