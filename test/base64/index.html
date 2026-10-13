@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Base64 wasm 模块在线测试 · Vanilla</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --panel2: #0b0f16;
+            --border: #30363d;
+            --fg: #e6edf3;
+            --dim: #8b949e;
+            --accent: #58a6ff;
+            --ok: #3fb950;
+            --warn: #d29922;
+            --err: #f85149;
+            --mono: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, "Liberation Mono", monospace;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(1200px 600px at 15% -10%, #17233a 0%, var(--bg) 55%);
+            color: var(--fg);
+            font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Microsoft YaHei", Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 36px 20px 60px;
+        }
+
+        main { width: min(960px, 100%); }
+
+        h1 { font-size: 22px; margin: 0 0 6px; letter-spacing: .2px; }
+        h2 { font-size: 15px; margin: 0 0 14px; color: var(--fg); font-weight: 600; }
+        .sub { color: var(--dim); font-size: 13px; margin-bottom: 20px; line-height: 1.7; }
+        code { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+        }
+
+        .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+        button {
+            appearance: none;
+            border: 1px solid var(--accent);
+            background: linear-gradient(180deg, #1f6feb, #1a5fd0);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            padding: 9px 16px;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: filter .15s ease, transform .05s ease;
+        }
+        button:hover { filter: brightness(1.12); }
+        button:active { transform: translateY(1px); }
+        button:disabled { opacity: .45; cursor: default; filter: none; }
+        button.ghost {
+            background: transparent;
+            color: var(--fg);
+            border-color: var(--border);
+        }
+        button.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+        textarea {
+            width: 100%;
+            min-height: 84px;
+            resize: vertical;
+            background: var(--panel2);
+            color: var(--fg);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 12px;
+            font-family: var(--mono);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        textarea:focus { outline: none; border-color: var(--accent); }
+
+        label.chk { color: var(--dim); font-size: 13px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+        input[type=checkbox] { accent-color: #1f6feb; }
+
+        .out {
+            margin-top: 14px;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 14px;
+        }
+
+        .field { display: grid; grid-template-columns: 128px 1fr; gap: 8px 14px; font-size: 13px; }
+        .field dt { color: var(--dim); }
+        .field dd {
+            margin: 0;
+            font-family: var(--mono);
+            word-break: break-all;
+            white-space: pre-wrap;
+            min-height: 18px;
+        }
+
+        pre.console {
+            margin: 0;
+            padding: 14px;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            font-family: var(--mono);
+            font-size: 12.5px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 140px;
+            max-height: 340px;
+            overflow: auto;
+        }
+        .line-log { color: var(--fg); }
+        .line-info { color: var(--accent); }
+        .line-warn { color: var(--warn); }
+        .line-error { color: var(--err); }
+        .line-sys { color: var(--dim); }
+
+        table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+        th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        th { color: var(--dim); font-weight: 600; }
+        td.mono { font-family: var(--mono); word-break: break-all; }
+        tr:last-child td { border-bottom: none; }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-family: var(--mono);
+            padding: 2px 9px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .s-idle { color: var(--dim); }
+        .s-load { color: var(--warn); }
+        .s-ready { color: var(--ok); }
+        .s-busy { color: var(--accent); }
+        .s-err { color: var(--err); }
+
+        .ok { color: var(--ok); }
+        .err { color: var(--err); }
+        .dim { color: var(--dim); }
+
+        details { margin-top: 12px; }
+        summary { color: var(--dim); font-size: 12.5px; cursor: pointer; }
+        details p { color: var(--dim); font-size: 12.5px; line-height: 1.7; margin: 10px 0 0; }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>
+            Base64 wasm 模块在线测试
+            <span id="state" class="badge s-idle">未加载</span>
+        </h1>
+        <div class="sub">
+            调用 <code>Base64Codec.EncodeText</code> / <code>Base64Codec.DecodeText</code> 完成
+            UTF-8 ⇄ Base64 的双向转换，并与浏览器的原生实现逐字节比对。<br>
+            模块：<code>base64.wasm</code>（由 <code>test/base64/base64.vbproj</code> 编译）·
+            运行时：<code>dist/visualbasic.wasm.js</code>
+        </div>
+
+        <div class="card">
+            <h2>1 · 模块运行状态</h2>
+            <div class="row">
+                <button id="btn-load" type="button">加载 / 重新加载模块</button>
+                <button id="btn-main" type="button" class="ghost" disabled>执行 wasm 内置 Program.Main()</button>
+            </div>
+            <div class="out">
+                <dl class="field">
+                    <dt>运行时版本</dt>
+                    <dd id="st-version">-</dd>
+                    <dt>实例化状态</dt>
+                    <dd id="st-instantiate">-</dd>
+                    <dt>线性内存</dt>
+                    <dd id="st-memory">-</dd>
+                    <dt>导出函数</dt>
+                    <dd id="st-exports">-</dd>
+                    <dt>AssemblyTitle</dt>
+                    <dd id="st-title">-</dd>
+                    <dt>AssemblyVersion</dt>
+                    <dd id="st-assmver">-</dd>
+                </dl>
+            </div>
+            <details>
+                <summary>如何在本机打开这个页面？</summary>
+                <p>
+                    wasm 通过 <code>fetch</code> 加载，因此需要用 HTTP 方式打开（<code>file://</code> 会被浏览器的同源策略拦截）：<br>
+                    <code>cd &lt;repo&gt;/test/base64 &amp;&amp; python -m http.server 8080</code><br>
+                    然后访问 <code>http://localhost:8080/index.html</code>。<br>
+                    若 <code>base64.wasm</code> 不存在，先执行：<br>
+                    <code>vanilla.exe test/base64/base64.vbproj /out test/base64/base64.wasm</code>
+                </p>
+            </details>
+        </div>
+
+        <div class="card">
+            <h2>2 · 编码 / 解码测试</h2>
+            <textarea id="input" spellcheck="false" placeholder="在此输入要测试的文本，例如：Man / 你好，Base64！">Man</textarea>
+            <div class="row" style="margin-top:12px">
+                <button id="btn-encode" type="button" disabled>编码为 Base64</button>
+                <button id="btn-decode" type="button" class="ghost" disabled>解码 Base64</button>
+                <button id="btn-swap" type="button" class="ghost" disabled>把结果作为新输入</button>
+                <label class="chk"><input type="checkbox" id="live" checked>输入时实时编码</label>
+            </div>
+            <div class="out">
+                <dl class="field">
+                    <dt>输入原文</dt>
+                    <dd id="r-input">-</dd>
+                    <dt>UTF-8 字节</dt>
+                    <dd id="r-bytes">-</dd>
+                    <dt>wasm 结果</dt>
+                    <dd id="r-result">-</dd>
+                    <dt>浏览器参考值</dt>
+                    <dd id="r-ref">-</dd>
+                    <dt>比对</dt>
+                    <dd id="r-verify">-</dd>
+                    <dt>往返一致性</dt>
+                    <dd id="r-roundtrip">-</dd>
+                    <dt>线性内存指针</dt>
+                    <dd id="r-ptr">-</dd>
+                    <dt>调用耗时</dt>
+                    <dd id="r-time">-</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>3 · 内置样例验收</h2>
+            <div class="row">
+                <button id="btn-samples" type="button" class="ghost" disabled>运行固定样例并断言</button>
+                <button id="btn-stress" type="button" class="ghost" disabled>随机字符串压力测试（500 组）</button>
+            </div>
+            <div id="samples" style="margin-top:14px">
+                <p class="dim" style="font-size:12.5px;margin:0">尚未运行。</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>4 · wasm 侧 console 输出</h2>
+            <pre id="console" class="console"><span class="line-sys">等待模块加载……</span></pre>
+            <div class="row" style="margin-top:12px">
+                <button id="btn-clear" type="button" class="ghost">清空输出</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../dist/visualbasic.wasm.js"></script>
+    <script>
+        'use strict';
+
+        var WASM_URL = './base64.wasm';
+
+        var el = function (id) { return document.getElementById(id); };
+        var screen = el('console');
+        var stateBadge = el('state');
+
+        var app = null;
+
+        //#region 页面状态与日志
+
+        function setState(text, cls) {
+            stateBadge.textContent = text;
+            stateBadge.className = 'badge ' + cls;
+        }
+
+        function writeLog(level, text) {
+            var span = document.createElement('span');
+            span.className = 'line-' + level;
+            span.textContent = text + '\n';
+            screen.appendChild(span);
+            screen.scrollTop = screen.scrollHeight;
+        }
+
+        /** 把 wasm 侧 console.* 输出重定向到页面上的 console 面板 */
+        function withCapturedConsole(fn) {
+            var native = {
+                log: console.log, info: console.info, warn: console.warn,
+                error: console.error, debug: console.debug
+            };
+            var to = function (level) {
+                return function () {
+                    writeLog(level, Array.prototype.join.call(arguments, ' '));
+                };
+            };
+            console.log = to('log');
+            console.info = to('info');
+            console.warn = to('warn');
+            console.error = to('error');
+            console.debug = to('log');
+            try {
+                return fn();
+            } finally {
+                console.log = native.log;
+                console.info = native.info;
+                console.warn = native.warn;
+                console.error = native.error;
+                console.debug = native.debug;
+            }
+        }
+
+        //#endregion
+
+        //#region 浏览器侧参考实现（用于和 wasm 结果逐字节比对）
+
+        var B64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+        var utf8Encoder = new TextEncoder();
+        var utf8Decoder = new TextDecoder('utf-8');
+
+        function bytesToHex(bytes) {
+            var parts = [];
+            for (var i = 0; i < bytes.length; i++) {
+                parts.push(('0' + bytes[i].toString(16)).slice(-2));
+            }
+            return parts.length ? parts.join(' ') : '(空)';
+        }
+
+        function jsEncodeBase64(text) {
+            var bytes = utf8Encoder.encode(text);
+            var out = '';
+            for (var i = 0; i < bytes.length; i += 3) {
+                var b1 = bytes[i];
+                var b2 = bytes[i + 1];
+                var b3 = bytes[i + 2];
+                var n = (b1 << 16) | ((b2 || 0) << 8) | (b3 || 0);
+
+                out += B64_ALPHABET[(n >> 18) & 63] + B64_ALPHABET[(n >> 12) & 63];
+
+                if (b2 === undefined) {
+                    out += '==';
+                } else if (b3 === undefined) {
+                    out += B64_ALPHABET[(n >> 6) & 63] + '=';
+                } else {
+                    out += B64_ALPHABET[(n >> 6) & 63] + B64_ALPHABET[n & 63];
+                }
+            }
+            return out;
+        }
+
+        function jsDecodeBase64(base64) {
+            var clean = base64.replace(/\s+/g, '');
+
+            if (clean.length % 4 !== 0) {
+                throw new Error('长度不是 4 的倍数');
+            }
+
+            var bytes = [];
+            for (var i = 0; i < clean.length; i += 4) {
+                var c3 = clean[i + 2];
+                var c4 = clean[i + 3];
+                var v1 = B64_ALPHABET.indexOf(clean[i]);
+                var v2 = B64_ALPHABET.indexOf(clean[i + 1]);
+                var v3 = c3 === '=' ? 0 : B64_ALPHABET.indexOf(c3);
+                var v4 = c4 === '=' ? 0 : B64_ALPHABET.indexOf(c4);
+
+                if (v1 < 0 || v2 < 0 || v3 < 0 || v4 < 0) {
+                    throw new Error('包含非法的 Base64 字符');
+                }
+
+                var n = (v1 << 18) | (v2 << 12) | (v3 << 6) | v4;
+
+                bytes.push((n >> 16) & 255);
+                if (c3 !== '=') { bytes.push((n >> 8) & 255); }
+                if (c4 !== '=') { bytes.push(n & 255); }
+            }
+            return utf8Decoder.decode(new Uint8Array(bytes));
+        }
+
+        //#endregion
+
+        //#region 调用 wasm 导出
+
+        /** 以「线性内存 C 字符串」契约调用一个 `(i32) -> i32` 的 wasm 导出函数 */
+        function invokeText(name, text) {
+            if (!app) { throw new Error('模块尚未加载'); }
+
+            var fn = app.exports[name];
+            if (typeof fn !== 'function') {
+                throw new Error('wasm 模块没有导出 ' + name);
+            }
+
+            var inPtr = Vanilla.writeText(text);
+            var t0 = performance.now();
+            var outPtr = fn(inPtr);
+            var us = (performance.now() - t0) * 1000;
+
+            return {
+                value: Vanilla.readText(outPtr),
+                inPtr: inPtr,
+                outPtr: outPtr,
+                us: us
+            };
+        }
+
+        function memoryKiB() {
+            return app ? (app.memory.buffer.byteLength / 1024).toFixed(0) + ' KiB' : '-';
+        }
+
+        //#endregion
+
+        //#region 加载模块
+
+        function setEnabled(ready) {
+            ['btn-encode', 'btn-decode', 'btn-swap', 'btn-samples', 'btn-stress', 'btn-main']
+                .forEach(function (id) { el(id).disabled = !ready; });
+        }
+
+        async function loadModule() {
+            el('btn-load').disabled = true;
+            setEnabled(false);
+            setState('加载中…', 's-load');
+            writeLog('sys', '> fetch ' + WASM_URL + ' 并实例化 ……');
+
+            try {
+                var t0 = performance.now();
+                app = await Vanilla.run(WASM_URL);
+                var loadMs = performance.now() - t0;
+                var info = Vanilla.AssemblyInfo.read(app.instance);
+                var exports = Object.keys(app.exports);
+
+                el('st-version').textContent = 'Vanilla ' + Vanilla.version;
+                el('st-instantiate').textContent = '成功（' + loadMs.toFixed(2) + ' ms）';
+                el('st-memory').textContent = memoryKiB();
+                el('st-exports').textContent = exports.length + ' 个：' + exports.join('、');
+                el('st-title').textContent = info.AssemblyTitle || '(未设置)';
+                el('st-assmver').textContent = info.AssemblyVersion || '(未设置)';
+
+                writeLog('info', '> 实例化完成，耗时 ' + loadMs.toFixed(2) + ' ms');
+                writeLog('sys', '> 线性内存 ' + memoryKiB() + ' · 导出 ' + exports.length + ' 个');
+
+                setState('就绪', 's-ready');
+                setEnabled(true);
+                await encode();
+            } catch (err) {
+                setState('加载失败', 's-err');
+                writeLog('error', '> 加载失败：' + (err && err.message ? err.message : err));
+                el('st-instantiate').textContent = '失败：' + (err && err.message ? err.message : err);
+            } finally {
+                el('btn-load').disabled = false;
+            }
+        }
+
+        //#endregion
+
+        //#region 编码 / 解码
+
+        function showResult(o, resultText, refText, verifyLabel) {
+            el('r-input').textContent = JSON.stringify(o.input);
+            el('r-bytes').textContent = o.bytesHex;
+            el('r-result').textContent = JSON.stringify(resultText);
+            el('r-ref').textContent = JSON.stringify(refText);
+            el('r-verify').innerHTML = verifyLabel;
+            el('r-roundtrip').innerHTML = o.roundTrip;
+            el('r-ptr').textContent = '输入 @' + o.inPtr + ' → 输出 @' + o.outPtr +
+                '（内存 ' + memoryKiB() + '）';
+            el('r-time').textContent = o.us.toFixed(1) + ' µs';
+        }
+
+        function clearResult() {
+            ['r-input', 'r-bytes', 'r-result', 'r-ref', 'r-verify', 'r-roundtrip', 'r-ptr', 'r-time']
+                .forEach(function (id) { el(id).textContent = '-'; });
+        }
+
+        async function encode() {
+            if (!app) { return; }
+            var text = el('input').value;
+            setState('编码中…', 's-busy');
+
+            try {
+                var r = invokeText('Base64Codec.EncodeText', text);
+                var reference = jsEncodeBase64(text);
+                var match = r.value === reference;
+
+                // 往返：把 wasm 自己编码出来的结果再交给 wasm 解码
+                var back = invokeText('Base64Codec.DecodeText', r.value);
+                var roundTripOk = back.value === text;
+
+                showResult({
+                    input: text,
+                    bytesHex: bytesToHex(utf8Encoder.encode(text)),
+                    inPtr: r.inPtr,
+                    outPtr: r.outPtr,
+                    us: r.us,
+                    roundTrip: roundTripOk
+                        ? '<span class="ok">通过</span> <span class="dim">（wasm 解码回原文：' +
+                          JSON.stringify(back.value) + '）</span>'
+                        : '<span class="err">失败</span> <span class="dim">（wasm 解码得到：' +
+                          JSON.stringify(back.value) + '）</span>'
+                }, r.value, reference,
+                    match
+                        ? '<span class="ok">一致 ✓</span> <span class="dim">与浏览器参考实现完全相同</span>'
+                        : '<span class="err">不一致 ✗</span>');
+
+                writeLog('log', 'EncodeText(' + JSON.stringify(text) + ') = ' +
+                    JSON.stringify(r.value) + '  [' + r.us.toFixed(1) + ' µs]' +
+                    (match ? ' ✓' : ' ✗ 与参考实现不一致'));
+
+                setState('就绪', 's-ready');
+            } catch (err) {
+                writeLog('error', 'EncodeText 调用异常：' + (err && err.message ? err.message : err));
+                setState('运行出错', 's-err');
+            }
+        }
+
+        async function decode() {
+            if (!app) { return; }
+            var text = el('input').value.trim();
+            setState('解码中…', 's-busy');
+
+            try {
+                var reference = jsDecodeBase64(text);
+                var r = invokeText('Base64Codec.DecodeText', text);
+                var match = r.value === reference;
+
+                // 往返：把 wasm 解码出来的文本再编码回去
+                var back = invokeText('Base64Codec.EncodeText', r.value);
+                var roundTripOk = back.value === text;
+                var bytes = utf8Encoder.encode(r.value);
+
+                showResult({
+                    input: text,
+                    bytesHex: bytesToHex(bytes),
+                    inPtr: r.inPtr,
+                    outPtr: r.outPtr,
+                    us: r.us,
+                    roundTrip: roundTripOk
+                        ? '<span class="ok">通过</span> <span class="dim">（wasm 编码回原串：' +
+                          JSON.stringify(back.value) + '）</span>'
+                        : '<span class="err">失败</span> <span class="dim">（wasm 编码得到：' +
+                          JSON.stringify(back.value) + '）</span>'
+                }, r.value, reference,
+                    match
+                        ? '<span class="ok">一致 ✓</span> <span class="dim">与浏览器参考实现完全相同</span>'
+                        : '<span class="err">不一致 ✗</span>');
+
+                writeLog('log', 'DecodeText(' + JSON.stringify(text) + ') = ' +
+                    JSON.stringify(r.value) + '  [' + r.us.toFixed(1) + ' µs]' +
+                    (match ? ' ✓' : ' ✗ 与参考实现不一致'));
+
+                setState('就绪', 's-ready');
+            } catch (err) {
+                // 说明：当前编译器对 VB 的 Throw 语句是「忽略」处理，
+                // 因此 wasm 侧不会抛出 ArgumentException，非法输入由浏览器参考实现先拦下。
+                writeLog('warn', 'DecodeText 无法完成：' + (err && err.message ? err.message : err));
+                clearResult();
+                el('r-input').textContent = JSON.stringify(text);
+                el('r-verify').innerHTML = '<span class="err">输入不是合法的 Base64</span>';
+                setState('就绪', 's-ready');
+            }
+        }
+
+        //#endregion
+
+        //#region 内置样例验收
+
+        var SAMPLES = ['Man', 'Ma', 'M', '你好，Base64！', '', 'Hello, World!'];
+
+        async function runSamples() {
+            if (!app) { return; }
+
+            var rows = [];
+            var passed = 0;
+
+            for (var i = 0; i < SAMPLES.length; i++) {
+                var text = SAMPLES[i];
+                try {
+                    var encoded = invokeText('Base64Codec.EncodeText', text);
+                    var expected = jsEncodeBase64(text);
+                    var decoded = invokeText('Base64Codec.DecodeText', expected);
+
+                    var ok1 = encoded.value === expected;
+                    var ok2 = decoded.value === text;
+
+                    if (ok1 && ok2) { passed++; }
+
+                    rows.push('<tr><td class="mono">' + JSON.stringify(text) + '</td>' +
+                        '<td class="mono">' + JSON.stringify(expected) + '</td>' +
+                        '<td class="mono">' + JSON.stringify(encoded.value) + '</td>' +
+                        '<td>' + (ok1 ? '<span class="ok">PASS</span>' : '<span class="err">FAIL</span>') + '</td>' +
+                        '<td>' + (ok2 ? '<span class="ok">PASS</span>' : '<span class="err">FAIL</span>') + '</td></tr>');
+                } catch (err) {
+                    rows.push('<tr><td class="mono">' + JSON.stringify(text) + '</td>' +
+                        '<td colspan="4"><span class="err">异常：' +
+                        (err && err.message ? err.message : err) + '</span></td></tr>');
+                }
+            }
+
+            el('samples').innerHTML =
+                '<table><thead><tr><th>输入</th><th>.NET / 浏览器参考值</th><th>wasm 编码结果</th>' +
+                '<th>编码</th><th>解码往返</th></tr></thead><tbody>' + rows.join('') + '</tbody></table>' +
+                '<p style="font-size:12.5px;margin:12px 0 0" class="' + (passed === SAMPLES.length ? 'ok' : 'err') + '">' +
+                '固定样例 ' + passed + ' / ' + SAMPLES.length + ' 通过（每行同时校验编码结果与解码往返）</p>';
+
+            writeLog('info', '> 固定样例验收：' + passed + ' / ' + SAMPLES.length + ' 通过');
+        }
+
+        async function runStress() {
+            if (!app) { return; }
+
+            var ROUNDS = 500;
+            var memBefore = app.memory.buffer.byteLength;
+            var failed = 0;
+            var t0 = performance.now();
+            var checksum = 0;
+
+            for (var i = 0; i < ROUNDS; i++) {
+                // 生成 0~48 个可打印 ASCII 字符，覆盖 3 字节分组的各种余数
+                var len = i % 49;
+                var chars = [];
+                for (var k = 0; k < len; k++) {
+                    chars.push(String.fromCharCode(32 + ((i * 31 + k * 17) % 95)));
+                }
+                var text = chars.join('');
+
+                try {
+                    var encoded = invokeText('Base64Codec.EncodeText', text);
+                    if (encoded.value !== jsEncodeBase64(text)) { failed++; continue; }
+
+                    var decoded = invokeText('Base64Codec.DecodeText', encoded.value);
+                    if (decoded.value !== text) { failed++; continue; }
+
+                    checksum += encoded.value.length;
+                } catch (err) {
+                    failed++;
+                }
+            }
+
+            var ms = performance.now() - t0;
+            var memAfter = app.memory.buffer.byteLength;
+
+            el('samples').innerHTML =
+                '<table><tbody>' +
+                '<tr><td>测试组数</td><td class="mono">' + ROUNDS + ' 组随机文本（长度 0~48）</td></tr>' +
+                '<tr><td>编码 + 解码校验</td><td class="mono">' + (failed === 0
+                    ? '<span class="ok">全部通过</span>'
+                    : '<span class="err">' + failed + ' 组失败</span>') + '</td></tr>' +
+                '<tr><td>总耗时</td><td class="mono">' + ms.toFixed(1) + ' ms（' +
+                    (ms / ROUNDS * 1000).toFixed(1) + ' µs/组）</td></tr>' +
+                '<tr><td>结果长度累加</td><td class="mono">' + checksum + '</td></tr>' +
+                '<tr><td>线性内存</td><td class="mono">' + (memBefore / 1024).toFixed(0) + ' KiB → ' +
+                    (memAfter / 1024).toFixed(0) + ' KiB</td></tr>' +
+                '</tbody></table>';
+
+            el('st-memory').textContent = memoryKiB();
+            writeLog('info', '> 压力测试 ' + ROUNDS + ' 组，失败 ' + failed + ' 组，耗时 ' + ms.toFixed(1) +
+                ' ms，内存 ' + (memBefore / 1024).toFixed(0) + ' → ' + (memAfter / 1024).toFixed(0) + ' KiB');
+        }
+
+        //#endregion
+
+        //#region 事件绑定
+
+        var liveTimer = null;
+
+        el('btn-load').addEventListener('click', function () { loadModule(); });
+
+        el('btn-main').addEventListener('click', function () {
+            if (!app) { return; }
+
+            setState('运行中…', 's-busy');
+            writeLog('sys', '> 调用 wasm 内置 Program.Main()（含 61 组随机数据交叉验证）……');
+
+            try {
+                // 保持 console 捕获，让 wasm 的 Console.WriteLine 直接流到页面面板
+                var ret = withCapturedConsole(function () { return app.exports['Program.Main'](); });
+                writeLog('sys', '> Program.Main() 返回 ' + ret + '（Void 方法无返回值）');
+                el('st-memory').textContent = memoryKiB();
+                setState('就绪', 's-ready');
+            } catch (err) {
+                writeLog('error', '> Program.Main() 异常：' + (err && err.message ? err.message : err));
+                setState('运行出错', 's-err');
+            }
+        });
+
+        el('btn-encode').addEventListener('click', function () { encode(); });
+        el('btn-decode').addEventListener('click', function () { decode(); });
+
+        el('btn-swap').addEventListener('click', function () {
+            var result = el('r-result').textContent;
+            if (!result || result === '-') { return; }
+            try {
+                el('input').value = JSON.parse(result);
+            } catch (e) {
+                el('input').value = result;
+            }
+            encode();
+        });
+
+        el('btn-samples').addEventListener('click', function () { runSamples(); });
+        el('btn-stress').addEventListener('click', function () { runStress(); });
+
+        el('btn-clear').addEventListener('click', function () {
+            screen.textContent = '';
+        });
+
+        el('input').addEventListener('input', function () {
+            if (!el('live').checked) { return; }
+            clearTimeout(liveTimer);
+            liveTimer = setTimeout(function () { encode(); }, 250);
+        });
+
+        el('input').addEventListener('keydown', function (ev) {
+            if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) {
+                ev.preventDefault();
+                encode();
+            }
+        });
+
+        //#endregion
+
+        // 页面打开后自动加载模块，便于直接观察 wasm 的运行状态
+        window.addEventListener('load', function () {
+            loadModule();
+        });
+    </script>
+</body>
+
+</html>
