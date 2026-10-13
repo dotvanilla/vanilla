@@ -21,19 +21,31 @@ Namespace CodeAnalysis.Memory
 
         Public Overrides ReadOnly Property sizeOf As WATSyntax
             Get
-                Return New LiteralValue(Value.Length)
+                Return New LiteralValue(nchars)
             End Get
         End Property
 
+        ''' <summary>
+        ''' 字符串在数据段之中占用的<strong>字节</strong>数目（UTF-8 编码之后的大小）
+        ''' </summary>
+        ''' <remarks>
+        ''' 注意：这里必须是 UTF-8 编码之后得到的字节数，而不是字符个数。
+        ''' 非 ASCII 字符（例如中文）在 UTF-8 之中会占用多个字节，
+        ''' 如果按照字符个数来计算内存偏移量，则会导致后续字符串的内存地址发生重叠。
+        ''' </remarks>
         Public ReadOnly Property nchars As Integer
             Get
-                Return Value.Length
+                If String.IsNullOrEmpty(Value) Then
+                    Return 0
+                Else
+                    Return System.Text.Encoding.UTF8.GetByteCount(Value)
+                End If
             End Get
         End Property
 
         Public Function ToSExpression() As String
             Dim lines As New List(Of String)
-            Dim nchars As Integer = Strings.Len(Value)
+            Dim nchars As Integer = Me.nchars
 
             lines += $""
             lines += $";; String from {MemoryPtr} with {nchars} bytes in memory"
