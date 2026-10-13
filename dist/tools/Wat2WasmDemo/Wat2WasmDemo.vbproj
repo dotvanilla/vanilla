@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Wat2WasmDemo</RootNamespace>
+    <AssemblyName>Wat2WasmDemo</AssemblyName>
+    <OptionStrict>On</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <LangVersion>Latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Wat2WasmLib\Wat2WasmLib.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 构建后把 wat2wasm.exe 复制到输出目录，保证默认 ExecutablePath 可用 -->
+    <None Include="..\wat2wasm.exe" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
