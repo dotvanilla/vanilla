@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:42:54
+    ;; build: 2026-10-13 16:48:59
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -32,6 +32,7 @@
     (func $Math.Random (import "Math" "random")  (result f64))
     ;; JAVASCRIPT [console]
     (func $Console.WriteLine (import "console" "log") (param $msg i32) )
+    (func $print (import "console" "print") (param $data i32) (param $color i32) )
     ;; JAVASCRIPT [Encoding]
     (func $Encoding.UTF8.GetBytes (import "Encoding" "GetBytes") (param $text i32) (result i32))
     (func $Encoding.UTF8.GetString (import "Encoding" "GetString") (param $bytes i32) (result i32))
@@ -272,7 +273,18 @@
     ;; Export methods of this module
      
 
-    
+    ;; functions in [.testStrucutre]
+
+
+    ;; Public Function .testStrucutre.createValue() As circle
+    (func $.testStrucutre.createValue  (result i32)
+
+        
+
+        (return (i32.const 0))
+    )
+
+
 
 
     
@@ -289,12 +301,25 @@
     )
 
 
+;; functions in [.testStrucutre]
+
+
+    ;; Public Function .testStrucutre.SubNew() As System.Void
+    (func $.testStrucutre.SubNew  
+
+        
+
+        
+    )
+
+
     ;; #endregion
 
     ;; --------------------------------------------------
     ;; Microsoft.VisualBasic.My.Application_Startup Event
     (func $MyApplication_Startup
         (call $.structuretest.circle.SubNew )
+(call $.testStrucutre.SubNew )
     )
     ;; --------------------------------------------------
 

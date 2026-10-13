@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:42:16
+    ;; build: 2026-10-13 16:48:42
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -283,7 +283,7 @@
     (local $x i32)
 
         (set_local $i (i32.const 999))
-        (drop (i32.const 0))
+        (drop (call $.incrementTest.show (get_local $i)))
         (set_local $x (get_local $i))
         (return (f64.convert_s/i32 (get_local $i)))
     )

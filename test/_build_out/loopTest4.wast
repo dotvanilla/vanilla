@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:47:40
+    ;; build: 2026-10-13 16:48:47
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -282,15 +282,6 @@
         
 
         
-    (block $WASMClosure_br_b329dbd58bc42ff3 
-        (loop $loop_tmp54e311acc924a95d
-
-                        
-    ;; loop test (VanillaBasic.WebAssembly.Syntax.FunctionInvoke)
-                (br_if $loop_tmp54e311acc924a95d (call $.loopTest4.test ))
-
-        )
-    )
     )
 
     ;; Public Function .loopTest4.test(reverse As System.Boolean) As System.Boolean
