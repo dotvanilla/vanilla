@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:54:43
+    ;; build: 2026-10-13 16:55:19
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -221,7 +221,7 @@
     ;; AssemblyInfo.vb
         
     ;; String from e8010000 with 531 bytes in memory
-    (data (i32.const 488) "d15:AssemblyCompany22:https://vanillavb.app/17:AssemblyCopyright22:https://vanillavb.app/19:AssemblyDescription46:WebAssembly Compiler for Microsoft VisualBasic19:AssemblyFileVersion0:16:AssemblyFullName6:base6428:AssemblyInformationalVersion0:15:AssemblyProduct22:https://vanillavb.app/13:AssemblyTitle46:WebAssembly Compiler for Microsoft VisualBasic17:AssemblyTrademark22:https://vanillavb.app/15:AssemblyVersion0:9:BuiltTime0:10:ComVisible5:False4:Guid36:f45ebe40-1963-4688-8992-efd513675ddc4:Name0:15:TargetFramework7:net10.0e\00")
+    (data (i32.const 488) "d15:AssemblyCompany22:https://vanillavb.app/17:AssemblyCopyright22:https://vanillavb.app/19:AssemblyDescription46:WebAssembly Compiler for Microsoft VisualBasic19:AssemblyFileVersion0:16:AssemblyFullName6:base6428:AssemblyInformationalVersion0:15:AssemblyProduct22:https://vanillavb.app/13:AssemblyTitle46:WebAssembly Compiler for Microsoft VisualBasic17:AssemblyTrademark22:https://vanillavb.app/15:AssemblyVersion0:9:BuiltTime0:10:ComVisible5:False4:Guid36:5cbf5281-d6f7-44fb-af57-53a033a557b34:Name0:15:TargetFramework7:net10.0e\00")
 
     (func $AssemblyInfo (result i32)
         (return (i32.const 488))    
@@ -302,7 +302,7 @@
     (export "AssemblyInfo.Name" (func $AssemblyInfo.Name))
         
     ;; String from e0040000 with 36 bytes in memory
-    (data (i32.const 1248) "f45ebe40-1963-4688-8992-efd513675ddc\00")
+    (data (i32.const 1248) "5cbf5281-d6f7-44fb-af57-53a033a557b3\00")
     (func $AssemblyInfo.Guid (result i32)
         (return (i32.const 1248))
     )
@@ -408,12 +408,12 @@
         (set_local $sb (call $StringBuilder.New ))
         (set_local $i (i32.const 0))
         
-    (block $WASMClosure_br_3ce79db40f8a3e3c 
-        (loop $loop_tmp7034c0a1c8e65b41
+    (block $WASMClosure_br_17925ffc4885e959 
+        (loop $loop_tmp39d91e9f81cc2dc0
 
                         
     ;; while ((boolean) (i32) ((i32) (i + (i32.const 3)) <= VanillaBasic.WebAssembly.Syntax.FunctionInvoke))
-                (br_if $WASMClosure_br_3ce79db40f8a3e3c (i32.eqz (i32.le_s (i32.add (get_local $i) (i32.const 3)) (call $Array.length (get_local $data)))))
+                (br_if $WASMClosure_br_17925ffc4885e959 (i32.eqz (i32.le_s (i32.add (get_local $i) (i32.const 3)) (call $Array.length (get_local $data)))))
             (set_local $b1 (call $Array.get.i32 (get_local $data) (get_local $i)))
             (set_local $b2 (call $Array.get.i32 (get_local $data) (i32.add (get_local $i) (i32.const 1))))
             (set_local $b3 (call $Array.get.i32 (get_local $data) (i32.add (get_local $i) (i32.const 2))))
@@ -423,7 +423,7 @@
             (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (i32.shr_s (get_local $combined) (i32.const 6)) (i32.const 63)))))
             (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (get_local $combined) (i32.const 63)))))
             (set_local $i (i32.add (get_local $i) (i32.const 3)))
-            (br $loop_tmp7034c0a1c8e65b41)
+            (br $loop_tmp39d91e9f81cc2dc0)
 
         )
     )
@@ -493,12 +493,12 @@
     ;; For j As Integer = 0 To base64.Length - 3
     (set_local $j (i32.const 0))
     
-    (block $WASMClosure_br_b5a26c14613135f0 
-        (loop $loop_tmp56f84b43dd69b231
+    (block $WASMClosure_br_2bcecaafe88dee25 
+        (loop $loop_tmp6cfc4d697050d606
 
                         
     ;; (boolean) (boolean) (i32) (j = (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 3)))
-                (br_if $WASMClosure_br_b5a26c14613135f0 (i32.eq (get_local $j) (i32.sub (call $string.length (get_local $base64)) (i32.const 3))))
+                (br_if $WASMClosure_br_2bcecaafe88dee25 (i32.eq (get_local $j) (i32.sub (call $string.length (get_local $base64)) (i32.const 3))))
             
     (if (call $string.equals (call $string.charAt (get_local $base64) (get_local $j)) (i32.const 96)) 
         (then
@@ -507,8 +507,8 @@
     )
                         ;;For loop control step: (i32.const 1)
             (set_local $j (i32.add (get_local $j) (i32.const 1)))
-            (br $loop_tmp56f84b43dd69b231)
-                        ;;For Loop Next On loop_tmp56f84b43dd69b231
+            (br $loop_tmp6cfc4d697050d606)
+                        ;;For Loop Next On loop_tmp6cfc4d697050d606
 
         )
     )
@@ -531,12 +531,12 @@
         (set_local $outPos (i32.const 0))
         (set_local $i (i32.const 0))
         
-    (block $WASMClosure_br_eea6c93e818517fc 
-        (loop $loop_tmp415175a91dc83c48
+    (block $WASMClosure_br_d718724185510653 
+        (loop $loop_tmpf9d99810d051ea23
 
                         
     ;; while ((boolean) (i32) (i < VanillaBasic.WebAssembly.Syntax.FunctionInvoke))
-                (br_if $WASMClosure_br_eea6c93e818517fc (i32.eqz (i32.lt_s (get_local $i) (call $string.length (get_local $base64)))))
+                (br_if $WASMClosure_br_d718724185510653 (i32.eqz (i32.lt_s (get_local $i) (call $string.length (get_local $base64)))))
             (set_local $v1 (call $base64.Base64Codec.CharToValue (call $string.charAt (get_local $base64) (get_local $i))))
             (set_local $v2 (call $base64.Base64Codec.CharToValue (call $string.charAt (get_local $base64) (i32.add (get_local $i) (i32.const 1)))))
             (set_local $c3 (call $string.charAt (get_local $base64) (i32.add (get_local $i) (i32.const 2))))
@@ -561,7 +561,7 @@
         ) 
     )
             (set_local $i (i32.add (get_local $i) (i32.const 4)))
-            (br $loop_tmp415175a91dc83c48)
+            (br $loop_tmpf9d99810d051ea23)
 
         )
     )
@@ -577,12 +577,12 @@
     ;; For i As Integer = 0 To Alphabet.Length - 1
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_af20d2b8cd42a122 
-        (loop $loop_tmp9f9d05e98b3d366e
+    (block $WASMClosure_br_efefe850c09bdf12 
+        (loop $loop_tmpdac1411620935afd
 
                         
     ;; (boolean) (boolean) (i32) (i = (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
-                (br_if $WASMClosure_br_af20d2b8cd42a122 (i32.eq (get_local $i) (i32.sub (call $string.length (get_global $Alphabet)) (i32.const 1))))
+                (br_if $WASMClosure_br_efefe850c09bdf12 (i32.eq (get_local $i) (i32.sub (call $string.length (get_global $Alphabet)) (i32.const 1))))
             
     (if (call $string.equals (call $string.charAt (get_global $Alphabet) (get_local $i)) (get_local $c)) 
         (then
@@ -591,8 +591,8 @@
     )
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp9f9d05e98b3d366e)
-                        ;;For Loop Next On loop_tmp9f9d05e98b3d366e
+            (br $loop_tmpdac1411620935afd)
+                        ;;For Loop Next On loop_tmpdac1411620935afd
 
         )
     )
@@ -631,28 +631,28 @@
     ;; For len As Integer = 0 To 60
     (set_local $len (i32.const 0))
     
-    (block $WASMClosure_br_e6ae2ed0b0d8f2df 
-        (loop $loop_tmpb283c8a18b536cac
+    (block $WASMClosure_br_56eb60f791ba7409 
+        (loop $loop_tmp1cd37d27e808693c
 
                         
     ;; (boolean) (boolean) (i32) (len = (i32.const 60))
-                (br_if $WASMClosure_br_e6ae2ed0b0d8f2df (i32.eq (get_local $len) (i32.const 60)))
+                (br_if $WASMClosure_br_56eb60f791ba7409 (i32.eq (get_local $len) (i32.const 60)))
             (set_local $sb (call $StringBuilder.New ))
                 
     ;; For k As Integer = 1 To len
     (set_local $k (i32.const 1))
     
-    (block $WASMClosure_br_05a79de37f2c7004 
-        (loop $loop_tmp1b07820bcdee34d2
+    (block $WASMClosure_br_376066c20fef3365 
+        (loop $loop_tmp7e9a097ca5e7236d
 
                                 
     ;; (boolean) (boolean) (i32) (k = len)
-                        (br_if $WASMClosure_br_05a79de37f2c7004 (i32.eq (get_local $k) (get_local $len)))
+                        (br_if $WASMClosure_br_376066c20fef3365 (i32.eq (get_local $k) (get_local $len)))
                     (drop (call $StringBuilder.Append (get_local $sb) (call $Strings.ChrW (call $Random.Next (get_local $rnd) (i32.const 32) (i32.const 55295)))))
                                         ;;For loop control step: (i32.const 1)
                     (set_local $k (i32.add (get_local $k) (i32.const 1)))
-                    (br $loop_tmp1b07820bcdee34d2)
-                                        ;;For Loop Next On loop_tmp1b07820bcdee34d2
+                    (br $loop_tmp7e9a097ca5e7236d)
+                                        ;;For Loop Next On loop_tmp7e9a097ca5e7236d
 
         )
     )
@@ -669,8 +669,8 @@
     )
                         ;;For loop control step: (i32.const 1)
             (set_local $len (i32.add (get_local $len) (i32.const 1)))
-            (br $loop_tmpb283c8a18b536cac)
-                        ;;For Loop Next On loop_tmpb283c8a18b536cac
+            (br $loop_tmp1cd37d27e808693c)
+                        ;;For Loop Next On loop_tmp1cd37d27e808693c
 
         )
     )

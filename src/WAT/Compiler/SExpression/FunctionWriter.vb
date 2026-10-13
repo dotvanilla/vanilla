@@ -12,10 +12,6 @@ Namespace Compiler
 
         <Extension>
         Public Function ToSExpression(func As FunctionDeclare, workspace As Workspace) As String
-            If func.Name = "EncodeBytes" Then
-                Call System.Console.Error.WriteLine($"[emit] {func.namespace}.{func.Name} body={If(func.body Is Nothing, -1, func.body.Length)}")
-            End If
-
             Dim par As String = func.parameters.Select(Function(a) a.GetParameterExpression).JoinBy(" ")
             Dim result As String
             Dim buildBody As String() = func.body _
