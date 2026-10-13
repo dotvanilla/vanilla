@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 13:23:50
+    ;; build: 2026-10-13 16:48:27
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -32,6 +32,7 @@
     (func $Math.Random (import "Math" "random")  (result f64))
     ;; JAVASCRIPT [console]
     (func $Console.WriteLine (import "console" "log") (param $msg i32) )
+    (func $print (import "console" "print") (param $x f64) )
     ;; JAVASCRIPT [Encoding]
     (func $Encoding.UTF8.GetBytes (import "Encoding" "GetBytes") (param $text i32) (result i32))
     (func $Encoding.UTF8.GetString (import "Encoding" "GetString") (param $bytes i32) (result i32))
@@ -268,23 +269,62 @@
     (global $Double.MaxValue (mut f64) (f64.const 1.7976931348623157E+308))
 
     ;; Global variables in this module
+    (global $data (mut i32) (i32.const 0))
     (global $ObjectManager.HeapSize (mut i32) (i32.const 432))
 
     ;; Export methods of this module
      
 
-    
+    ;; functions in [.arrayTest2]
+
+
+    ;; Public Function .arrayTest2.returnArrayTest() As System.Int32
+    (func $.arrayTest2.returnArrayTest  (result i32)
+
+        
+
+        (return (i32.const 0))
+    )
+
+    ;; Public Function .arrayTest2.readTest() As System.Single
+    (func $.arrayTest2.readTest  (result f32)
+
+        
+
+        (return (f32.const 0))
+    )
+
+    ;; Public Function .arrayTest2.setValueTest(x As System.Int32) As System.Void
+    (func $.arrayTest2.setValueTest (param $x i32) 
+
+        
+
+        
+    )
+
+
 
 
     
     ;; #region "VisualBasic Application Initialize Of Each Modules"
+        ;; functions in [.arrayTest2]
+
+
+    ;; Public Function .arrayTest2.SubNew() As System.Void
+    (func $.arrayTest2.SubNew  
+
         
+
+        
+    )
+
+
     ;; #endregion
 
     ;; --------------------------------------------------
     ;; Microsoft.VisualBasic.My.Application_Startup Event
     (func $MyApplication_Startup
-        
+        (call $.arrayTest2.SubNew )
     )
     ;; --------------------------------------------------
 

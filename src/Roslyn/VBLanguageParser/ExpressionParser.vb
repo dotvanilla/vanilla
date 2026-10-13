@@ -129,7 +129,7 @@ Namespace VBLanguageParser
                 If Not func Is Nothing Then
                     Return New FunctionInvoke With {
                         .Func = New SymbolReference(func.FullName),
-                        .Arguments = {}
+                        .Arguments = CastFunctionArguments(func, {}, context)
                     }.SetReturnValue(func.Type)
                 End If
             End If

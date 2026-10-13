@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 15:28:29
+    ;; build: 2026-10-13 16:48:36
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -287,17 +287,17 @@
     ;; For i As Integer = 0 To 100
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_8d4f6bf1b3f93604 
-        (loop $loop_tmp08e60f57e9e84319
+    (block $WASMClosure_br_0d87b0ded69fccdc 
+        (loop $loop_tmp9caeb0b2d7af7610
 
                         
     ;; (boolean) (boolean) (i32) (i = (i32.const 100))
-                (br_if $WASMClosure_br_8d4f6bf1b3f93604 (i32.eq (get_local $i) (i32.const 100)))
-            (i32.const 0)
+                (br_if $WASMClosure_br_0d87b0ded69fccdc (i32.eq (get_local $i) (i32.const 100)))
+            (drop (i32.const 0))
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp08e60f57e9e84319)
-                        ;;For Loop Next On loop_tmp08e60f57e9e84319
+            (br $loop_tmp9caeb0b2d7af7610)
+                        ;;For Loop Next On loop_tmp9caeb0b2d7af7610
 
         )
     )
@@ -306,16 +306,16 @@
     ;; For i As Integer = 1000 To 1 Step -2
     (set_local $i (i32.const 1000))
     
-    (block $WASMClosure_br_782cf8bcb79dfb43 
-        (loop $loop_tmp5384529d0bb417c4
+    (block $WASMClosure_br_e91f3cc8e618c14d 
+        (loop $loop_tmpe3b3df06aafbe815
 
                         
     ;; (boolean) (boolean) (i32) (i < (i32.const 1))
-                (br_if $WASMClosure_br_782cf8bcb79dfb43 (i32.lt_s (get_local $i) (i32.const 1)))
+                (br_if $WASMClosure_br_e91f3cc8e618c14d (i32.lt_s (get_local $i) (i32.const 1)))
                         ;;For loop control step: (i32.const -2)
             (set_local $i (i32.add (get_local $i) (i32.const -2)))
-            (br $loop_tmp5384529d0bb417c4)
-                        ;;For Loop Next On loop_tmp5384529d0bb417c4
+            (br $loop_tmpe3b3df06aafbe815)
+                        ;;For Loop Next On loop_tmpe3b3df06aafbe815
 
         )
     )

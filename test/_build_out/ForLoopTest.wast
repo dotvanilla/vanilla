@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 15:28:27
+    ;; build: 2026-10-13 16:48:36
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -291,17 +291,17 @@
     ;; For i As Integer = zero To 100 Step ForLoopTest.delta
     (set_local $i (i32.wrap/i64 (get_global $zero)))
     
-    (block $WASMClosure_br_602cd28284e191ab 
-        (loop $loop_tmp3d9c935dda6118ca
+    (block $WASMClosure_br_4a096c7e304ad6f8 
+        (loop $loop_tmp3fe0e206b48fb872
 
                         
     ;; (boolean) (boolean) (i32) (i = (i32.const 100))
-                (br_if $WASMClosure_br_602cd28284e191ab (i32.eq (get_local $i) (i32.const 100)))
+                (br_if $WASMClosure_br_4a096c7e304ad6f8 (i32.eq (get_local $i) (i32.const 100)))
             (set_local $x (f64.add (get_local $x) (f64.promote/f32 (get_local $delta))))
                         ;;For loop control step: (i32.const 0)
             (set_local $i (i32.add (get_local $i) (i32.const 0)))
-            (br $loop_tmp3d9c935dda6118ca)
-                        ;;For Loop Next On loop_tmp3d9c935dda6118ca
+            (br $loop_tmp3fe0e206b48fb872)
+                        ;;For Loop Next On loop_tmp3fe0e206b48fb872
 
         )
     )

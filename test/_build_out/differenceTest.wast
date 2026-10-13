@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 14:26:40
+    ;; build: 2026-10-13 16:48:34
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -292,7 +292,7 @@
         (set_local $s1 (i32.const 0))
         (set_local $s2 (get_local $s1))
         (drop (i32.const 0))
-        (drop (i32.const 0))
+        (call $.ClassStructureDifferenceTest.modifyTest (get_local $s1))
     )
 
     ;; Public Function .ClassStructureDifferenceTest.modifyTest(s As circleStruct) As System.Void

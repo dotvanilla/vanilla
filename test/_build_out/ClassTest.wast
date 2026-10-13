@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 14:26:31
+    ;; build: 2026-10-13 16:48:29
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -300,7 +300,7 @@
 
         
 
-        (set_global $globalObject (i32.const 0))
+        (set_global $globalObject (call $.Runtest.returnObjecttest (i64.const 777)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (return (i32.mul (i32.const 0) (i32.const 0)))
@@ -314,7 +314,7 @@
 
         (set_local $s (i32.const 0))
         (drop (i32.const 0))
-        (set_local $c (i32.const 0))
+        (set_local $c (call $.Runtest.returnObjecttest (i64.const 0)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
