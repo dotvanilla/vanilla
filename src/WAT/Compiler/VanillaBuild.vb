@@ -90,7 +90,13 @@ Namespace Compiler
 
             Dim result As Wat2WasmResult = compiler.DumpModule(wast, compiler.OutputFile)
             Dim text As String = If(result.Success, result.StandardOutput, result.StandardError)
+
             Call text.SaveTo(file)
+
+            If Not result.Success Then
+                Call Console.WriteLine(text)
+            End If
+
             Return text
         End Function
 

@@ -48,9 +48,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports System.Xml.Linq
 Imports Microsoft.VisualBasic.ApplicationServices.Development
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj
 Imports Microsoft.VisualBasic.CommandLine
 Imports VanillaBasic.Roslyn
