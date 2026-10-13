@@ -75,10 +75,30 @@ Namespace Syntax
             End Select
         End Function
 
+        ''' <summary>
+        ''' 整型位运算 / 整除 / 取模的指令映射（操作数在解析阶段已经统一为 i32）
+        ''' </summary>
+        Private Shared ReadOnly bitwiseOps As New Dictionary(Of String, String) From {
+            {"And", "and"},
+            {"Or", "or"},
+            {"Xor", "xor"},
+            {"\", "div_s"},
+            {"Mod", "rem_s"},
+            {"<<", "shl"},
+            {">>", "shr_s"}
+        }
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
+            Dim leftCode As String = left.ToSExpression(env, indent)
+            Dim rightCode As String = right.ToSExpression(env, indent)
+
+            If bitwiseOps.ContainsKey([operator]) Then
+                Return $"({Type.UnderlyingWATType.Description}.{bitwiseOps([operator])} {leftCode} {rightCode})"
+            End If
+
             Dim opType As WATType = If(IsComparison([operator]), ComparisonType(), Type)
 
-            Return $"({SymbolMap.GetOperator(opType, [operator])} {left.ToSExpression(env, indent)} {right.ToSExpression(env, indent)})"
+            Return $"({SymbolMap.GetOperator(opType, [operator])} {leftCode} {rightCode})"
         End Function
     End Class
 End Namespace

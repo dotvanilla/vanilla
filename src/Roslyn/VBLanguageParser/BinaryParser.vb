@@ -48,7 +48,10 @@ Namespace VBLanguageParser
         Public Function BinaryStack(left As WATSyntax, right As WATSyntax, op$, context As Environment) As WATSyntax
             Dim type As WATType
 
-            If op = "/" Then
+            If op = "&" OrElse (op = "+" AndAlso (left.Type Is WATType.string OrElse right.Type Is WATType.string)) Then
+                ' 字符串连接：a & b / a + b
+                Return MakeStringConcat(left, right, context)
+            ElseIf op = "/" Then
                 ' require type conversion if left and right is integer
                 ' 对于除法，必须要首先转换为浮点型才能够完成运算
                 left = CTypeHandle.CDbl(left, context)
@@ -59,10 +62,31 @@ Namespace VBLanguageParser
                     .[operator] = op,
                     .right = right
                 }
+            ElseIf op = "^" Then
+                ' 幂运算 -> Math.Pow
+                Return MakePower(left, right, context)
+            ElseIf op = "Is" OrElse op = "IsNot" Then
+                ' ``Is`` / ``IsNot`` 引用比较：按 i32 指针比较处理
+                Return New BooleanLogical(New BinaryOperator With {
+                    .left = ReferenceOperand(left, context),
+                    .right = ReferenceOperand(right, context),
+                    .[operator] = If(op = "Is", "=", "<>"),
+                    .Annotation = op
+                })
             ElseIf op.isBinaryBool(left, right) Then
+                ' 布尔逻辑运算（And / Or / AndAlso / OrElse）
                 Return New BooleanLogical(context.DoLogical(left, right, op))
             ElseIf op Like ComparisonOperators Then
                 Return context.DoComparison(left, right, op)
+            ElseIf op = "\" OrElse op = "Mod" OrElse op = "<<" OrElse op = ">>" OrElse
+                   op = "And" OrElse op = "Or" OrElse op = "Xor" Then
+                ' 整型位运算 / 整除 / 取模：两个操作数统一转换为 i32
+                Return New BinaryOperator With {
+                    .left = CTypeHandle.CInt(left, context),
+                    .[operator] = op,
+                    .right = CTypeHandle.CInt(right, context),
+                    .Annotation = "i32 bit operation"
+                }
             Else
                 type = context.highOrderTransfer(left, right)
             End If
@@ -148,6 +172,43 @@ Namespace VBLanguageParser
         <Extension>
         Private Function isBinaryBool(op$, left As WATSyntax, right As WATSyntax) As Boolean
             Return op Like LogicalOperators AndAlso (left.Type Is WATType.boolean AndAlso right.Type Is WATType.boolean)
+        End Function
+
+        ''' <summary>
+        ''' 引用比较的操作数：``Nothing`` 直接使用 i32 零值，其他值统一转换为 i32 指针
+        ''' </summary>
+        Private Function ReferenceOperand(value As WATSyntax, context As Environment) As WATSyntax
+            If value Is Nothing OrElse value.isLiteralNothing Then
+                Return New LiteralValue(0, WATType.i32)
+            Else
+                Return CTypeHandle.CInt(value, context)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 生成字符串连接调用 ``string.add``
+        ''' </summary>
+        Private Function MakeStringConcat(left As WATSyntax, right As WATSyntax, context As Environment) As WATSyntax
+            Return New FunctionInvoke With {
+                .Func = New JavaScriptTranslation(WATType.string) With {.JavaScript = "string.add"},
+                .Arguments = {
+                    CTypeHandle.[CType](WATType.string, left, context),
+                    CTypeHandle.[CType](WATType.string, right, context)
+                }
+            }.SetReturnValue(WATType.string)
+        End Function
+
+        ''' <summary>
+        ''' 生成幂运算调用 ``Math.Pow``（f64）
+        ''' </summary>
+        Private Function MakePower(left As WATSyntax, right As WATSyntax, context As Environment) As WATSyntax
+            Return New FunctionInvoke With {
+                .Func = New JavaScriptTranslation(WATType.f64) With {.JavaScript = "Math.Pow"},
+                .Arguments = {
+                    CTypeHandle.CDbl(left, context),
+                    CTypeHandle.CDbl(right, context)
+                }
+            }.SetReturnValue(WATType.f64)
         End Function
     End Module
 End Namespace

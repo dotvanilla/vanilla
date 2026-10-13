@@ -37,6 +37,11 @@ Namespace CodeAnalysis
 
             Call Library.Imports(Of JavaScript.Math)(Me)
             Call Library.Imports(Of JavaScript.Console)(Me)
+            Call Library.Imports(Of JavaScript.Text)(Me)
+            Call Library.Imports(Of JavaScript.Convert)(Me)
+            Call Library.Imports(Of JavaScript.Random)(Me)
+            Call Library.Imports(Of JavaScript.StringApi)(Me)
+            Call Library.Imports(Of JavaScript.ArrayApi)(Me)
         End Sub
 
         ''' <summary>

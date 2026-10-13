@@ -29,13 +29,21 @@ Namespace Syntax.Literal
             End Get
         End Property
 
-        Sub New(name As String, type As Type)
+        Sub New(name As String, type As WATType)
             Me.Name = name
-            Throw New NotImplementedException
+            Me.Type = type
         End Sub
 
+        Public Function GetMember(name As String) As LiteralValue
+            If Members.ContainsKey(name) Then
+                Return Members(name)
+            Else
+                Return Nothing
+            End If
+        End Function
+
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Throw New NotImplementedException()
+            Return $"(enum ${Name})"
         End Function
     End Class
 End Namespace
