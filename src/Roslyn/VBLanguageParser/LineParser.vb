@@ -153,7 +153,7 @@ Namespace VBLanguageParser
         ''' </summary>
         <Extension>
         Private Function ParseWhile(stmt As WhileBlockSyntax, context As Environment) As WATSyntax
-            Dim test As WATSyntax = stmt.Condition.ParseValue(context)
+            Dim test As WATSyntax = stmt.WhileStatement.Condition.ParseValue(context)
             Dim body As WATSyntax() = stmt.Statements.LoadBody(Nothing, context)
 
             Return MakeWhileLoop(test, body, context)
