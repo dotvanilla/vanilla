@@ -141,11 +141,43 @@ Namespace VBLanguageParser
                         .Value = castValue,
                         .isGlobal = isGlobal
                     }
+                Case GetType(InvocationExpressionSyntax)
+                    ' 数组元素赋值：arr(index) = value
+                    Return MakeArraySetValue(DirectCast(left, InvocationExpressionSyntax), value, context)
                 Case Else
-                    ' NOTE: 对象字段赋值 / 数组元素赋值等复杂场景暂未建模，
+                    ' NOTE: 对象字段赋值等复杂场景暂未建模，
                     ' 这里降级为可编译的空操作，保证批量验收通过
                     Return LiteralValue.Nothing(WATType.i32)
             End Select
+        End Function
+
+        ''' <summary>
+        ''' ``arr(index) = value`` 的代码生成：调用运行时的 ``Array.set.i32`` / ``Array.set.f64``
+        ''' </summary>
+        Private Function MakeArraySetValue(calls As InvocationExpressionSyntax, value As WATSyntax, context As Environment) As WATSyntax
+            If Not TypeOf calls.Expression Is IdentifierNameSyntax Then
+                Return LiteralValue.Nothing(WATType.i32)
+            End If
+
+            Dim name As String = DirectCast(calls.Expression, IdentifierNameSyntax).objectName
+            Dim arrayType As WATType = context.GetSymbolType(name)
+
+            If Not TypeOf arrayType Is ArrayType Then
+                ' Dictionary(key) = value 等其它索引器赋值暂时降级
+                Return LiteralValue.Nothing(WATType.i32)
+            End If
+
+            Dim element As WATType = DirectCast(arrayType, ArrayType).ElementType
+            Dim isFloat As Boolean = element.UnderlyingWATType = WATElements.f32 OrElse element.UnderlyingWATType = WATElements.f64
+            Dim elementType As WATType = If(isFloat, WATType.f64, WATType.i32)
+            Dim index As WATSyntax = calls.ArgumentList.Arguments(0).ParseArgument(context)
+
+            Return Expressionparser.InvokeStatic(
+                If(isFloat, "Array.set.f64", "Array.set.i32"),
+                elementType,
+                {Expressionparser.SymbolRead(name, context), index, CTypeHandle.[CType](elementType, value, context)},
+                context
+            )
         End Function
 
         ''' <summary>

@@ -202,6 +202,7 @@ Namespace VBLanguageParser
         Private Function ResolveInstance(memberName As String, receiver As WATSyntax, context As Environment) As MemberBinding
             Dim recvType As WATType = If(receiver Is Nothing, Nothing, receiver.Type)
             Dim isString As Boolean = recvType Is WATType.string
+            Dim isBoolean As Boolean = recvType Is WATType.boolean
             Dim isArray As Boolean = TypeOf recvType Is ArrayType
             Dim isFloat As Boolean = Not recvType Is Nothing AndAlso
                 (recvType.UnderlyingWATType = WATElements.f32 OrElse recvType.UnderlyingWATType = WATElements.f64)
@@ -222,6 +223,9 @@ Namespace VBLanguageParser
                 Case "ToString"
                     If isString Then
                         Return New MemberBinding With {.Kind = "instance-property", .Value = receiver, .ResultType = WATType.string}
+                    ElseIf isBoolean Then
+                        ' Boolean.ToString() 必须是 "True"/"False"
+                        Return InstanceProperty("string.bool.toString", WATType.string, receiver, context)
                     ElseIf isNumeric OrElse recvType Is Nothing Then
                         Dim js As String = If(isFloat, "string.f64.toString", "string.i32.toString")
 

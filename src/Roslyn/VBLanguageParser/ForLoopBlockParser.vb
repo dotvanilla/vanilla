@@ -30,8 +30,8 @@ Namespace VBLanguageParser
             }
 
             If forBlock.ForStatement.StepClause Is Nothing Then
-                ' 默认是1
-                stepValue = New LiteralValue(1, control.Type)
+                ' 默认是1（必须是 NumberLiteral，因为下面需要依据步长的符号来决定循环的退出条件）
+                stepValue = New NumberLiteral(1, control.Type)
             Else
                 stepValue = forBlock.ForStatement _
                     .StepClause _
@@ -97,33 +97,48 @@ Namespace VBLanguageParser
                 DirectCast(ctlVar, SymbolGetValue).isGlobal = False
             End If
 
-            ' for i = 0 to 10 step 1
-            ' equals to
+            ' VB 的 For 循环语义等价于：
             '
-            ' if i >= 10 then
-            '    break
-            ' end if
-
-            ' for i = 10 to 0 step -1
-            ' equals to
+            '   step > 0 :  while i <= to   （即 i >  to 的时候退出）
+            '   step < 0 :  while i >= to   （即 i <  to 的时候退出）
             '
-            ' if i <= 0 then
-            '    break
-            ' end if
-
-            If TypeOf [step] Is NumberLiteral Then
-                With DirectCast([step], NumberLiteral)
-                    If .Sign > 0 Then
-                        ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], ">", context)
-                    Else
-                        ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], "<", context)
-                    End If
-                End With
+            ' NOTE: 这里**必须**使用 ">"/"<" 作为退出条件，而不能使用 "="。
+            ' 使用 "=" 的时候，如果循环的起始值已经大于结束值（例如
+            ' ``For k As Integer = 1 To len`` 且 ``len = 0``），循环变量永远不可能
+            ' 等于结束值，循环就永远无法退出 —— 表现为运行期死循环。
+            If StepSign([step]) < 0 Then
+                ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], "<", context)
             Else
-                ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], "=", context)
+                ctrlTest = BinaryParser.BinaryCompares(ctlVar, [to], ">", context)
             End If
 
             Return ctrlTest
+        End Function
+
+        ''' <summary>
+        ''' 判断 For 循环步长的符号：返回负数表示递减循环。
+        ''' 在无法于编译期确定步长的时候，默认为递增（这可以保证循环一定能够终止）。
+        ''' </summary>
+        Private Function StepSign([step] As WATSyntax) As Integer
+            If [step] Is Nothing Then
+                Return 1
+            ElseIf TypeOf [step] Is NumberLiteral Then
+                Return DirectCast([step], NumberLiteral).Sign
+            ElseIf TypeOf [step] Is LiteralValue Then
+                Dim value As Object = DirectCast([step], LiteralValue).Value
+
+                If TypeOf value Is Integer Then
+                    Return Math.Sign(CInt(value))
+                ElseIf TypeOf value Is Long Then
+                    Return Math.Sign(CLng(value))
+                ElseIf TypeOf value Is Single Then
+                    Return Math.Sign(CSng(value))
+                ElseIf TypeOf value Is Double Then
+                    Return Math.Sign(CDbl(value))
+                End If
+            End If
+
+            Return 1
         End Function
 
         <Extension>
