@@ -132,15 +132,21 @@ Namespace VBLanguageParser
 
         <Extension>
         Private Function highOrderTransfer(context As Environment, ByRef left As WATSyntax, ByRef right As WATSyntax) As WATType
-            Dim type As WATType
+            Dim lt As WATType = If(left Is Nothing, Nothing, left.Type)
+            Dim rt As WATType = If(right Is Nothing, Nothing, right.Type)
+
+            If lt Is Nothing Then
+                Return If(rt, WATType.i32)
+            ElseIf rt Is Nothing Then
+                Return lt
+            End If
 
             ' 其他的运算符则需要两边的类型保持一致
             ' 往高位转换
             ' i32 -> f32 -> i64 -> f64
-            Dim lt = left.Type
-            Dim rt = right.Type
-            Dim li = TypeExtensions.NumberOrders(lt.UnderlyingWATType)
-            Dim ri = TypeExtensions.NumberOrders(rt.UnderlyingWATType)
+            Dim li As Integer = TypeExtensions.NumberOrders(lt.UnderlyingWATType)
+            Dim ri As Integer = TypeExtensions.NumberOrders(rt.UnderlyingWATType)
+            Dim type As WATType
 
             If li > ri Then
                 type = lt
@@ -148,8 +154,8 @@ Namespace VBLanguageParser
                 type = rt
             End If
 
-            left = CTypeHandle.CType(type, left, context)
-            right = CTypeHandle.CType(type, right, context)
+            left = CTypeHandle.[CType](type, left, context)
+            right = CTypeHandle.[CType](type, right, context)
 
             Return type
         End Function

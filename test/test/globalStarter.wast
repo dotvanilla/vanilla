@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:40:56
+    ;; build: 2026-10-13 16:52:11
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -129,43 +129,25 @@
     ;; Memory data for string constant
         
     ;; String from 0d000000 with 34 bytes in memory
-    (data (i32.const 13) "..\Demo\vbscript\HelloWorld\App.vb\00")
+    (data (i32.const 13) "..\\Demo\\vbscript\\HelloWorld\\App.vb\00")
         
     ;; String from 30000000 with 32 bytes in memory
-    (data (i32.const 48) "..\Demo\vbscript\HelloWorld.wasm\00")
+    (data (i32.const 48) "..\\Demo\\vbscript\\HelloWorld.wasm\00")
         
     ;; String from 58000000 with 32 bytes in memory
-    (data (i32.const 88) "..\Demo\vbscript\HelloWorld.wast\00")
+    (data (i32.const 88) "..\\Demo\\vbscript\\HelloWorld.wast\00")
         
     ;; String from 80000000 with 31 bytes in memory
-    (data (i32.const 128) "..\Demo\vbscript\HelloWorld.dmp\00")
+    (data (i32.const 128) "..\\Demo\\vbscript\\HelloWorld.dmp\00")
         
     ;; String from a0000000 with 270 bytes in memory
-    (data (i32.const 160) "Module Main
-
-Public Function Main(x As Integer, Optional y& = 99) As Long
-
-Dim z% = (1+1) / x 
-Dim a& = 88888
-
-x = z * y * 2
-
-return x / 99 + a
-End Function
-
-Public Function Test1(a As Double) As Double
-
-return a + Main(a, -1)
-
-End Function
-
-End Module\00")
+    (data (i32.const 160) "Module Main\0d\0a\0d\0aPublic Function Main(x As Integer, Optional y& = 99) As Long\0d\0a\0d\0aDim z% = (1+1) / x \0d\0aDim a& = 88888\0d\0a\0d\0ax = z * y * 2\0d\0a\0d\0areturn x / 99 + a\0d\0aEnd Function\0d\0a\0d\0aPublic Function Test1(a As Double) As Double\0d\0a\0d\0areturn a + Main(a, -1)\0d\0a\0d\0aEnd Function\0d\0a\0d\0aEnd Module\00")
         
     ;; String from b0010000 with 12 bytes in memory
-    (data (i32.const 432) "X:\test.wasm\00")
+    (data (i32.const 432) "X:\\test.wasm\00")
         
     ;; String from c0010000 with 11 bytes in memory
-    (data (i32.const 448) "X:\test.dmp\00")
+    (data (i32.const 448) "X:\\test.dmp\00")
         
     ;; String from d0010000 with 4 bytes in memory
     (data (i32.const 464) "wasm\00")
@@ -186,66 +168,40 @@ End Module\00")
     (data (i32.const 504) "dmp\00")
         
     ;; String from 00020000 with 26 bytes in memory
-    (data (i32.const 512) "..\Demo\PoissonPDF\Math.vb\00")
+    (data (i32.const 512) "..\\Demo\\PoissonPDF\\Math.vb\00")
         
     ;; String from 20020000 with 23 bytes in memory
-    (data (i32.const 544) "..\Demo\PoissonPDF.wasm\00")
+    (data (i32.const 544) "..\\Demo\\PoissonPDF.wasm\00")
         
     ;; String from 38020000 with 23 bytes in memory
-    (data (i32.const 568) "..\Demo\PoissonPDF.wast\00")
+    (data (i32.const 568) "..\\Demo\\PoissonPDF.wast\00")
         
     ;; String from 50020000 with 22 bytes in memory
-    (data (i32.const 592) "..\Demo\PoissonPDF.dmp\00")
+    (data (i32.const 592) "..\\Demo\\PoissonPDF.dmp\00")
         
     ;; String from 68020000 with 176 bytes in memory
-    (data (i32.const 616) "
-Module Test
-
-Dim x As Double
-Dim y&, z As Single
-
-Public Function AddAndSet(x As Double) As Integer
-
-Test.x = Test.x + x
-Return Test.x
-
-End Function
-
-End Module
-\00")
+    (data (i32.const 616) "\0d\0aModule Test\0d\0a\0d\0aDim x As Double\0d\0aDim y&, z As Single\0d\0a\0d\0aPublic Function AddAndSet(x As Double) As Integer\0d\0a\0d\0aTest.x = Test.x + x\0d\0aReturn Test.x\0d\0a\0d\0aEnd Function\0d\0a\0d\0aEnd Module\0d\0a\00")
         
     ;; String from 20030000 with 14 bytes in memory
-    (data (i32.const 800) "X:\global.wasm\00")
+    (data (i32.const 800) "X:\\global.wasm\00")
         
     ;; String from 30030000 with 14 bytes in memory
-    (data (i32.const 816) "X:\global.wast\00")
+    (data (i32.const 816) "X:\\global.wast\00")
         
     ;; String from 40030000 with 13 bytes in memory
-    (data (i32.const 832) "X:\global.dmp\00")
+    (data (i32.const 832) "X:\\global.dmp\00")
         
     ;; String from 50030000 with 139 bytes in memory
-    (data (i32.const 848) "Module Test
-
-Public Function Abs(x as Double) As Long
-
-If x > 0 Then
-Return 1
-Else 
-Return -10
-End If
-
-End Function
-
-End Module\00")
+    (data (i32.const 848) "Module Test\0d\0a\0d\0aPublic Function Abs(x as Double) As Long\0d\0a\0d\0aIf x > 0 Then\0d\0aReturn 1\0d\0aElse \0d\0aReturn -10\0d\0aEnd If\0d\0a\0d\0aEnd Function\0d\0a\0d\0aEnd Module\00")
         
     ;; String from e0030000 with 10 bytes in memory
-    (data (i32.const 992) "X:\iF.wasm\00")
+    (data (i32.const 992) "X:\\iF.wasm\00")
         
     ;; String from f0030000 with 10 bytes in memory
-    (data (i32.const 1008) "X:\iF.wast\00")
+    (data (i32.const 1008) "X:\\iF.wast\00")
         
     ;; String from 00040000 with 9 bytes in memory
-    (data (i32.const 1024) "X:\iF.dmp\00")
+    (data (i32.const 1024) "X:\\iF.dmp\00")
     
     ;; AssemblyInfo.vb
         
@@ -389,7 +345,14 @@ End Module\00")
     (global $ObjectManager.HeapSize (mut i32) (i32.const 1456))
 
     ;; Export methods of this module
-     
+    (export "treeTest.documentApitest" (func $.treeTest.documentApitest))
+    (export "treeTest.FileTest" (func $.treeTest.FileTest))
+    (export "treeTest.Main" (func $.treeTest.Main))
+    (export "treeTest.projectTest" (func $.treeTest.projectTest))
+    (export "treeTest.filetest" (func $.treeTest.filetest))
+    (export "treeTest.testDemo" (func $.treeTest.testDemo))
+    (export "treeTest.globalTest" (func $.treeTest.globalTest))
+    (export "treeTest.IfTest" (func $.treeTest.IfTest)) 
 
     ;; functions in [.treeTest]
 

@@ -90,7 +90,7 @@ Module Program
             Dim vbproj As VBProject = Nothing
 
             Try
-                vbproj = file.LoadXml(Of VBProject)
+                vbproj = VBProject.Load(file, parseDoc:=False)
             Catch ex As Exception
                 ' GCModeller 的 VBProject 类型无法被 XmlSerializer 反序列化
                 ' （其 VBDocument.Types 是 Dictionary，XmlSerializer 不支持这种成员），
@@ -184,6 +184,16 @@ Module Program
             Next
         Next
 
+        If sourceFiles.Count = 0 Then
+            ' SDK 风格的项目文件（例如 test/base64/base64.vbproj）没有显式的 <Compile> 项，
+            ' 此时默认递归 glob 项目目录下的所有 .vb 源文件。
+            For Each path As String In Directory.GetFiles(baseDir, "*.vb", SearchOption.AllDirectories)
+                If Not IsBuildOutputPath(path) Then
+                    sourceFiles.Add(path)
+                End If
+            Next
+        End If
+
         Dim project As New Scanner(rootNamespace, GetFallbackAssemblyInfo(file))
 
         For Each path$ In sourceFiles.Distinct
@@ -233,6 +243,16 @@ Module Program
                 Next
             End If
         End If
+    End Function
+
+    ''' <summary>
+    ''' 判断路径是否位于编译输出目录（bin / obj）之中
+    ''' </summary>
+    Private Function IsBuildOutputPath(path As String) As Boolean
+        Dim normalized As String = path.Replace("/"c, "\"c)
+
+        Return normalized.IndexOf("\bin\", StringComparison.OrdinalIgnoreCase) >= 0 OrElse
+               normalized.IndexOf("\obj\", StringComparison.OrdinalIgnoreCase) >= 0
     End Function
 
     Private Function ResolveIncludePath(baseDir As String, path As String) As String

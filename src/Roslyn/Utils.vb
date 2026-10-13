@@ -134,17 +134,14 @@ Module Utils
     ''' 宽容模式下统一的“跳过”日志（去重），用于批量编译时定位被跳过的语法节点
     ''' </summary>
     Friend Sub ReportSkipped(what As String, ex As Exception)
-        Static reported As New HashSet(Of String)
         Dim key As String = what & "|" & ex.GetType.Name & "|" & ex.Message
 
-        SyncLock reported
-            If reported.Contains(key) Then
-                Return
-            End If
+        Dim frame As String = ""
 
-            Call reported.Add(key)
-        End SyncLock
+        If Not String.IsNullOrEmpty(ex.StackTrace) Then
+            frame = ex.StackTrace.Split(ChrW(10)).FirstOrDefault()
+        End If
 
-        Call System.Console.Error.WriteLine($"[skip] {what}: {ex.GetType().Name}: {ex.Message}")
+        Call System.Console.Error.WriteLine($"[skip] {what}: {ex.GetType().Name}: {ex.Message} @ {frame?.Trim()}")
     End Sub
 End Module

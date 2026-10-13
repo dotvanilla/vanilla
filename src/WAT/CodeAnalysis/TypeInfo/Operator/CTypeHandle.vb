@@ -98,24 +98,42 @@ Namespace CodeAnalysis.TypeInfo.Operator
         End Function
 
         Public Function [CBool](exp As WATSyntax, context As Environment) As WATSyntax
-            Dim type As WATType = exp.Type
-            Dim operator$ = Nothing
+            If exp Is Nothing OrElse exp.Type Is Nothing Then
+                Return New LiteralValue(0, WATType.i32)
+            End If
 
-            Select Case type.UnderlyingWATType
+            Select Case exp.Type.UnderlyingWATType
                 Case WATElements.i32, WATElements.boolean
                     ' 直接转换
                     Return exp
+                Case WATElements.i64
+                    Return New UnaryOperator("i32.wrap/i64", exp)
+                Case WATElements.f32
+                    Return New UnaryOperator("i32.trunc_s/f32", exp)
+                Case WATElements.f64
+                    Return New UnaryOperator("i32.trunc_s/f64", exp)
                 Case Else
-                    Throw New NotImplementedException
+                    ' 引用类型（字符串/数组/对象）在 wasm 之中就是 i32
+                    Return exp
             End Select
         End Function
 
         Public Function [CInt](exp As WATSyntax, context As Environment) As WATSyntax
-            Dim type As WATType = exp.Type
-            Dim operator$
+            If exp Is Nothing OrElse exp.Type Is Nothing Then
+                Return New LiteralValue(0, WATType.i32)
+            End If
 
-            Select Case type.UnderlyingWATType
-                Case WATElements.i32
+            Dim operator$ = Nothing
+
+            Select Case exp.Type.UnderlyingWATType
+                Case WATElements.i32,
+                     WATElements.boolean,
+                     WATElements.string,
+                     WATElements.any,
+                     WATElements.array,
+                     WATElements.list,
+                     WATElements.table,
+                     WATElements.intptr
                     Return exp
                 Case WATElements.i64
                     [operator] = "i32.wrap/i64"
@@ -124,17 +142,20 @@ Namespace CodeAnalysis.TypeInfo.Operator
                 Case WATElements.f64
                     [operator] = "i32.trunc_s/f64"
                 Case Else
-                    Throw New NotImplementedException
+                    Return exp
             End Select
 
             Return New UnaryOperator([operator], exp)
         End Function
 
         Public Function [CLng](exp As WATSyntax, context As Environment) As WATSyntax
-            Dim type As WATType = exp.Type
-            Dim operator$
+            If exp Is Nothing OrElse exp.Type Is Nothing Then
+                Return New LiteralValue(0L, WATType.i64)
+            End If
 
-            Select Case type.UnderlyingWATType
+            Dim operator$ = Nothing
+
+            Select Case exp.Type.UnderlyingWATType
                 Case WATElements.i32
                     [operator] = "i64.extend_s/i32"
                 Case WATElements.i64
@@ -144,17 +165,21 @@ Namespace CodeAnalysis.TypeInfo.Operator
                 Case WATElements.f64
                     [operator] = "i64.trunc_s/f64"
                 Case Else
-                    Throw New NotImplementedException
+                    ' 引用类型等无法直接转换：降级为 0
+                    Return New LiteralValue(0L, WATType.i64)
             End Select
 
             Return New UnaryOperator([operator], exp)
         End Function
 
         Public Function [CSng](exp As WATSyntax, context As Environment) As WATSyntax
-            Dim type As WATType = exp.Type
-            Dim operator$
+            If exp Is Nothing OrElse exp.Type Is Nothing Then
+                Return New LiteralValue(0.0F, WATType.f32)
+            End If
 
-            Select Case type.UnderlyingWATType
+            Dim operator$ = Nothing
+
+            Select Case exp.Type.UnderlyingWATType
                 Case WATElements.i32
                     [operator] = "f32.convert_s/i32"
                 Case WATElements.i64
@@ -164,17 +189,20 @@ Namespace CodeAnalysis.TypeInfo.Operator
                 Case WATElements.f64
                     [operator] = "f32.demote/f64"
                 Case Else
-                    Throw New NotImplementedException
+                    Return New LiteralValue(0.0F, WATType.f32)
             End Select
 
             Return New UnaryOperator([operator], exp)
         End Function
 
         Public Function [CDbl](exp As WATSyntax, context As Environment) As WATSyntax
-            Dim type As WATType = exp.Type
-            Dim operator$
+            If exp Is Nothing OrElse exp.Type Is Nothing Then
+                Return New LiteralValue(0.0R, WATType.f64)
+            End If
 
-            Select Case type.UnderlyingWATType
+            Dim operator$ = Nothing
+
+            Select Case exp.Type.UnderlyingWATType
                 Case WATElements.i32
                     [operator] = "f64.convert_s/i32"
                 Case WATElements.i64
@@ -184,7 +212,8 @@ Namespace CodeAnalysis.TypeInfo.Operator
                 Case WATElements.f64
                     Return exp
                 Case Else
-                    Throw New NotImplementedException(type.UnderlyingWATType.Description)
+                    ' 引用类型等无法直接转换：降级为 0
+                    Return New LiteralValue(0.0R, WATType.f64)
             End Select
 
             Return New UnaryOperator([operator], exp)

@@ -29,10 +29,11 @@ Namespace VBLanguageParser
                     .ParseAsType(env:=context)
             End If
 
-            isPublic = func.SubOrFunctionStatement _
+            ' VB 之中 Module 的成员默认是 Public 的，只有在显式声明为
+            ' Private / Friend / Protected 的时候才不是公开的
+            isPublic = Not func.SubOrFunctionStatement _
                 .Modifiers _
-                .Where(Function(w) w.ValueText = "Public") _
-                .Any
+                .Any(Function(w) w.ValueText = "Private" OrElse w.ValueText = "Friend" OrElse w.ValueText = "Protected")
 
             context.Symbols.Add(methodName, New DeclareLocal(returnValue))
             context = New Environment(methodName, context, returnValue) With {
@@ -91,6 +92,8 @@ Namespace VBLanguageParser
             Dim body As New List(Of WATSyntax)
 
             For Each line As StatementSyntax In funcBody.ExceptType(Of EndBlockStatementSyntax)
+                Dim before As Integer = body.Count
+
                 Try
                     For Each item As WATSyntax In line.Parse(context)
                         If TypeOf item Is DeclareLocal Then
@@ -107,6 +110,10 @@ Namespace VBLanguageParser
                     ' 宽容处理：单条语句解析失败时跳过该语句，保证整份文件仍然可以生成合法的 wast
                     Call ReportSkipped($"statement {line.GetType().Name} in {context.FullName}", ex)
                 End Try
+
+                If context.SymbolName = "EncodeBytes" Then
+                    Call System.Console.Error.WriteLine($"[trace] {line.GetType().Name} -> +{body.Count - before}")
+                End If
             Next
 
             locals = localList.ToArray
