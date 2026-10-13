@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>VanillaBasic.Roslyn</RootNamespace>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>VanillaBasic.Roslyn</AssemblyName>
     <Description>WebAssembly Compiler for Microsoft VisualBasic</Description>
     <Product>https://vanillavb.app/</Product>
@@ -51,13 +51,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.0.0-2.final" />
-    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="4.0.0-2.final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="5.9.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="5.9.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\modules\Microsoft.VisualBasic.Core\src\Core.vbproj" />
-    <ProjectReference Include="..\..\modules\vs_solutions\dev-kit\VisualStudio\VisualStudio.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\src\runtime\sciBASIC#\vs_solutions\dev\VisualStudio\VisualStudio.NET5.vbproj" />
     <ProjectReference Include="..\WAT\WAT.vbproj" />
   </ItemGroup>
 
