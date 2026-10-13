@@ -175,7 +175,7 @@ Namespace Compiler
         Public Property noCheck As Boolean
 
         Public Overrides Function ToString() As String
-            Return Me.GetCLI
+            Return Me.GetCLI.LineTokens.JoinBy(" ")
         End Function
 
         Public Shared Widening Operator CType(output As String) As Wat2wasm

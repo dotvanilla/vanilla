@@ -76,10 +76,14 @@ Namespace Compiler
                 .dumpModule = True,
                 .debugParser = True
             }
+            Dim debug As String = $"{tempfile_WAST([module]).CLIPath} {config}"
+
+            Call Console.WriteLine($"{wat2wasm} {debug}")
+
             Dim errLog As String = Nothing
             Dim stdOut As String = CommandLine.Call(
                 app:=wat2wasm,
-                args:=$"{tempfile_WAST([module]).CLIPath} {config}",
+                args:=debug,
                 debug:=False,
                 stdErr:=errLog
             )
