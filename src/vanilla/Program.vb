@@ -46,7 +46,10 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Xml.Linq
+Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj
 Imports Microsoft.VisualBasic.CommandLine
@@ -86,7 +89,18 @@ Module Program
             out = args("/out") Or file.ChangeSuffix("wasm")
         Else
             Dim profile$ = args("/profile") Or "Release|AnyCPU"
-            Dim vbproj As VBProject = file.LoadXml(Of VBProject)
+            Dim vbproj As VBProject = Nothing
+
+            Try
+                vbproj = file.LoadXml(Of VBProject)
+            Catch ex As Exception
+                ' GCModeller 的 VBProject 类型无法被 XmlSerializer 反序列化
+                ' （其 VBDocument.Types 是 Dictionary，XmlSerializer 不支持这种成员），
+                ' 在这里回退到一个轻量级的 vbproj XML 解析流程。
+                Call System.Console.Error.WriteLine($"Load vbproj '{file}' failure, fallback to lightweight parser: {ex.Message}")
+
+                Return CompileVbprojFallback(file, args)
+            End Try
 
             project = New Scanner(vbproj)
             vbproj.EnumerateSourceFiles(fullName:=True).DoEach(AddressOf project.AddModules)
@@ -145,5 +159,91 @@ Module Program
         End If
 
         Return 0
+    End Function
+
+    ''' <summary>
+    ''' 轻量级的 vbproj 编译流程：直接在 XML 之中读取根命名空间以及编译文件列表，
+    ''' 从而绕开 GCModeller 的 ``VBProject`` 的 ``XmlSerializer`` 反序列化缺陷。
+    ''' </summary>
+    Private Function CompileVbprojFallback(file As String, args As CommandLine) As Integer
+        Dim doc As XDocument = XDocument.Load(file)
+        Dim ns As XNamespace = doc.Root.Name.Namespace
+        Dim rootNamespace$ = doc.Descendants(ns + "RootNamespace") _
+            .Select(Function(x) x.Value) _
+            .FirstOrDefault()
+        Dim baseDir$ = file.ParentPath
+        Dim sourceFiles As New List(Of String)
+
+        For Each node As XElement In doc.Descendants(ns + "Compile")
+            Dim include As String = CStr(node.Attribute("Include"))
+
+            If String.IsNullOrEmpty(include) Then
+                Continue For
+            End If
+
+            For Each path$ In ExpandVbInclude(baseDir, include)
+                sourceFiles.Add(path)
+            Next
+        Next
+
+        Dim project As New Scanner(rootNamespace, GetFallbackAssemblyInfo(file))
+
+        For Each path$ In sourceFiles.Distinct
+            Call project.AddModules(path)
+        Next
+
+        Dim out$ = args("/out") Or $"{baseDir}/{System.IO.Path.GetFileNameWithoutExtension(file)}.wasm"
+
+        Call project.Workspace.CreateWasm(args("/debug"), out)
+
+        Return 0
+    End Function
+
+    Private Function GetFallbackAssemblyInfo(vbproj As String) As AssemblyInfo
+        Try
+            Return vbproj.GetAssemblyInfo
+        Catch ex As Exception
+            Return New AssemblyInfo
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 展开 ``&lt;Compile Include="..." /&gt;`` 之中可能包含通配符的路径。
+    ''' </summary>
+    Private Iterator Function ExpandVbInclude(baseDir As String, include As String) As IEnumerable(Of String)
+        Dim pattern$ = include.Replace("\"c, "/"c)
+        Dim wildcard As Integer = pattern.IndexOfAny({"*"c, "?"c})
+
+        If wildcard < 0 Then
+            Dim full$ = ResolveIncludePath(baseDir, pattern)
+
+            If File.Exists(full) Then
+                Yield full
+            End If
+        Else
+            ' 形如 **\*.vb 或者 *.vb 的通配符
+            Dim slash As Integer = pattern.LastIndexOf("/"c)
+            Dim dir$ = If(slash < 0, "", pattern.Substring(0, slash)) _
+                .Replace("**", "") _
+                .Trim("/"c)
+            Dim file$ = pattern.Substring(slash + 1)
+            Dim root$ = ResolveIncludePath(baseDir, dir)
+
+            If Directory.Exists(root) Then
+                For Each path$ In Directory.GetFiles(root, file$, SearchOption.AllDirectories)
+                    Yield path
+                Next
+            End If
+        End If
+    End Function
+
+    Private Function ResolveIncludePath(baseDir As String, path As String) As String
+        If String.IsNullOrEmpty(path) Then
+            Return baseDir
+        ElseIf System.IO.Path.IsPathRooted(path) Then
+            Return path
+        Else
+            Return $"{baseDir}/{path}"
+        End If
     End Function
 End Module

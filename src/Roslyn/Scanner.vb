@@ -17,13 +17,23 @@ Public NotInheritable Class Scanner
     Public ReadOnly Property Workspace As Workspace
 
     Sub New(proj As VBProject)
-        Workspace = New Workspace(proj.RootNamespace) With {.MSIL = AddressOf MSIL.ParseMSIL}
-        Workspace.AssemblyInfo = proj.AssemblyInfo
+        Call Me.New(proj.RootNamespace, proj.AssemblyInfo)
+    End Sub
+
+    ''' <summary>
+    ''' 直接使用根命名空间以及程序集信息来构造扫描器，
+    ''' 用于在无法使用 <see cref="VBProject"/> 的 ``XmlSerializer`` 反序列化时（例如 vbproj 之中包含
+    ''' 无法被序列化的 ``Dictionary`` 成员）提供一个轻量级的替代构造方式。
+    ''' </summary>
+    ''' <param name="rootNamespace"></param>
+    ''' <param name="assemblyInfo"></param>
+    Sub New(rootNamespace As String, assemblyInfo As AssemblyInfo)
+        Workspace = New Workspace(If(rootNamespace, "")) With {.MSIL = AddressOf MSIL.ParseMSIL}
+        Workspace.AssemblyInfo = If(assemblyInfo, New AssemblyInfo)
     End Sub
 
     Sub New()
-        Workspace = New Workspace("") With {.MSIL = AddressOf MSIL.ParseMSIL}
-        Workspace.AssemblyInfo = New AssemblyInfo
+        Call Me.New("", New AssemblyInfo)
     End Sub
 
     Private Function GetCodeModules(vb As [Variant](Of FileInfo, String), [global] As ProjectEnvironment) As ModuleBlockSyntax()
