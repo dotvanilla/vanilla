@@ -118,12 +118,12 @@ Module Program
 
     <Extension>
     Private Sub CreateWasm(VisualBasic As Workspace, debug As Boolean, output$)
-        Dim config As New Wat2wasm With {.output = output}
+        Dim config As New Wat2WasmCompiler With {.OutputFile = output}
 
         If debug Then
-            config.debugNames = True
-            config.debugParser = True
-            config.verbose = True
+            config.DebugNames = True
+            config.DebugParser = True
+            config.VerboseCount = 1
         End If
 
         Call VanillaBuild.WastDump(VisualBasic, output.ChangeSuffix("*.wast"))

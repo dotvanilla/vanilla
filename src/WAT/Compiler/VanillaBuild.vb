@@ -70,43 +70,43 @@ Namespace Compiler
                 .SaveTo(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
         End Sub
 
+        ''' <summary>
+        ''' Dump the wasm module as a hex/text representation into <paramref name="file"/>.
+        ''' Uses the new <see cref="Wat2WasmCompiler"/> wrapper (replaces the old
+        ''' sciBASIC# CommandLine.Call + Wat2wasm parameter model).
+        ''' </summary>
         Public Shared Function HexDump([module] As Workspace, file As String, Optional verbose As Boolean = False) As String
-            Dim config As New Wat2wasm With {
-                .verbose = verbose,
-                .dumpModule = True,
-                .debugParser = True
-            }
-            Dim debug As String = $"{tempfile_WAST([module]).CLIPath} {config}"
-            Dim errLog As String = Nothing
-            Dim stdOut As String = CommandLine.Call(
-                app:=wat2wasm,
-                args:=debug,
-                debug:=False,
-                stdErr:=errLog
+            Dim wast As String = tempfile_WAST([module])
+            Dim compiler As New Wat2WasmCompiler()
+            compiler.ExecutablePath = wat2wasm
+            compiler.DumpModuleEnabled = True
+            compiler.DebugParser = True
+            compiler.VerboseCount = If(verbose, 1, 0)
+            compiler.OutputFile = TempFileSystem.GetAppSysTempFile(
+                ext:=".wasm",
+                sessionID:=App.PID,
+                prefix:="wat2wasm_hexdump_"
             )
 
-            Call stdOut.SaveTo(file)
-
-            Return stdOut
+            Dim result As Wat2WasmResult = compiler.DumpModule(wast, compiler.OutputFile)
+            Dim text As String = If(result.Success, result.StandardOutput, result.StandardError)
+            Call text.SaveTo(file)
+            Return text
         End Function
 
         ''' <summary>
-        ''' Compile VB.NET module parse result to webAssembly binary
+        ''' Compile VB.NET module parse result to webAssembly binary.
         ''' </summary>
         ''' <param name="[module]"></param>
         ''' <returns>
-        ''' This function returns the compiler standard output
+        ''' This function returns the compiler standard output (or standard error on failure).
         ''' </returns>
-        Public Shared Function Compile([module] As Workspace, config As Wat2wasm) As String
-            Dim errLog As String = Nothing
-            Dim stdOut As String = CommandLine.Call(
-                app:=wat2wasm,
-                args:=$"{tempfile_WAST([module]).CLIPath} {config}",
-                debug:=False,
-                stdErr:=errLog
-            )
+        Public Shared Function Compile([module] As Workspace, compiler As Wat2WasmCompiler) As String
+            Dim wast As String = tempfile_WAST([module])
+            compiler.ExecutablePath = wat2wasm
 
-            Return stdOut
+            Dim result As Wat2WasmResult = compiler.Compile(wast, compiler.OutputFile)
+            Return If(result.Success, result.StandardOutput, result.StandardError)
         End Function
 
         ''' <summary>
@@ -114,14 +114,11 @@ Namespace Compiler
         ''' </summary>
         ''' <param name="wast">The file text</param>
         ''' <returns></returns>
-        Public Shared Function CompileWast(wast As String, config As Wat2wasm) As String
-            Dim stdOut As String = CommandLine.Call(
-                app:=wat2wasm,
-                args:=$"{tempfile_WAST(wast).CLIPath} {config}",
-                debug:=False
-            )
+        Public Shared Function CompileWast(wast As String, compiler As Wat2WasmCompiler) As String
+            compiler.ExecutablePath = wat2wasm
 
-            Return stdOut
+            Dim result As Wat2WasmResult = compiler.Compile(tempfile_WAST(wast), compiler.OutputFile)
+            Return If(result.Success, result.StandardOutput, result.StandardError)
         End Function
     End Class
 End Namespace
