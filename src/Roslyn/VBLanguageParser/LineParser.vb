@@ -6,6 +6,7 @@ Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.CodeAnalysis.TypeInfo.Operator
 Imports VanillaBasic.WebAssembly.Syntax
 Imports VanillaBasic.WebAssembly.Syntax.Literal
+Imports VanillaBasic.WebAssembly.Syntax.WASM
 
 Namespace VBLanguageParser
 
@@ -57,11 +58,8 @@ Namespace VBLanguageParser
                 Case GetType(ExitStatementSyntax),
                      GetType(ContinueStatementSyntax),
                      GetType(ThrowStatementSyntax),
-                     GetType(AddHandlerStatementSyntax),
-                     GetType(RemoveHandlerStatementSyntax),
                      GetType(RaiseEventStatementSyntax),
-                     GetType(SelectBlockSyntax),
-                     GetType(OnErrorStatementSyntax)
+                     GetType(SelectBlockSyntax)
                     ' NOTE: 这些语句在编译验收阶段暂时忽略（保留为占位，保证生成合法的 wast）
                     Return
                 Case Else
