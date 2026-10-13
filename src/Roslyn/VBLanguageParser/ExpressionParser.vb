@@ -286,15 +286,25 @@ Namespace VBLanguageParser
 
             Select Case typeName
                 Case "StringBuilder"
-                    Return InvokeStatic("StringBuilder.New", WATType.i32, {}, context)
+                    ' NOTE: 返回值必须带上 StringBuilder 的类型信息，否则 ``sb.ToString()``
+                    ' 会被误判为数值类型的 ToString 而返回对象的句柄数字。
+                    Return InvokeStatic("StringBuilder.New", ReferenceType("System.Text.StringBuilder"), {}, context)
                 Case "Random"
-                    Return InvokeStatic("Random.New", WATType.i32, args, context)
+                    Return InvokeStatic("Random.New", ReferenceType("System.Random"), args, context)
                 Case "String"
                     Return InvokeStatic("Strings.NewString", WATType.string, args, context)
                 Case Else
                     ' 用户自定义类型 / 集合类型暂时降级为空指针
                     Return LiteralValue.Nothing(WATType.i32)
             End Select
+        End Function
+
+        ''' <summary>
+        ''' 生成一个运行时对象的引用类型：在 wasm 之中它仍然是 i32 指针，但保留其 .NET 类型信息，
+        ''' 从而让成员访问解析能够区分对象引用与数值。
+        ''' </summary>
+        Friend Function ReferenceType(fullName As String) As WATType
+            Return New WATType(fullName)
         End Function
 
         <Extension>

@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:52
+    ;; build: 2026-10-13 17:17:13
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -63,6 +63,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -91,7 +92,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $WATMemoryBufferSize (mut i32) (i32.const 488))
+    (global $WATMemoryBufferSize (mut i32) (i32.const 632))
 
         
     ;; memory allocate in javascript runtime
@@ -132,139 +133,151 @@
 
     ;; Memory data for string constant
         
-    ;; String from 0d000000 with 7 bytes in memory
-    (data (i32.const 13) "Nothing\00")
+    ;; String from 0d000000 with 9 bytes in memory
+    (data (i32.const 13) "Nothing 1\00")
         
-    ;; String from 18000000 with 4 bytes in memory
-    (data (i32.const 24) "test\00")
+    ;; String from 18000000 with 49 bytes in memory
+    (data (i32.const 24) "This message should never display on the console!\00")
         
-    ;; String from 20000000 with 1 bytes in memory
-    (data (i32.const 32) "a\00")
+    ;; String from 50000000 with 9 bytes in memory
+    (data (i32.const 80) "Nothing 2\00")
         
-    ;; String from 28000000 with 15 bytes in memory
-    (data (i32.const 40) " is not nothing\00")
+    ;; String from 60000000 with 57 bytes in memory
+    (data (i32.const 96) "This message is also should never display on the console!\00")
         
-    ;; String from 38000000 with 1 bytes in memory
-    (data (i32.const 56) "a\00")
+    ;; String from a0000000 with 7 bytes in memory
+    (data (i32.const 160) "Nothing\00")
         
-    ;; String from 40000000 with 1 bytes in memory
-    (data (i32.const 64) "b\00")
+    ;; String from a8000000 with 4 bytes in memory
+    (data (i32.const 168) "test\00")
+        
+    ;; String from b0000000 with 1 bytes in memory
+    (data (i32.const 176) "a\00")
+        
+    ;; String from b8000000 with 15 bytes in memory
+    (data (i32.const 184) " is not nothing\00")
+        
+    ;; String from c8000000 with 1 bytes in memory
+    (data (i32.const 200) "a\00")
+        
+    ;; String from d0000000 with 1 bytes in memory
+    (data (i32.const 208) "b\00")
     
     ;; AssemblyInfo.vb
         
-    ;; String from 48000000 with 295 bytes in memory
-    (data (i32.const 72) "d15:AssemblyCompany0:17:AssemblyCopyright0:19:AssemblyDescription0:19:AssemblyFileVersion0:16:AssemblyFullName0:28:AssemblyInformationalVersion0:15:AssemblyProduct0:13:AssemblyTitle0:17:AssemblyTrademark0:15:AssemblyVersion0:9:BuiltTime0:10:ComVisible5:False4:Guid0:4:Name0:15:TargetFramework0:e\00")
+    ;; String from d8000000 with 295 bytes in memory
+    (data (i32.const 216) "d15:AssemblyCompany0:17:AssemblyCopyright0:19:AssemblyDescription0:19:AssemblyFileVersion0:16:AssemblyFullName0:28:AssemblyInformationalVersion0:15:AssemblyProduct0:13:AssemblyTitle0:17:AssemblyTrademark0:15:AssemblyVersion0:9:BuiltTime0:10:ComVisible5:False4:Guid0:4:Name0:15:TargetFramework0:e\00")
 
     (func $AssemblyInfo (result i32)
-        (return (i32.const 72))    
+        (return (i32.const 216))    
     )
 
     (export "AssemblyInfo" (func $AssemblyInfo)) 
 
     ;; AssemblyInfo fields (consumed by the javascript runtime)
         
-    ;; String from 70010000 with 0 bytes in memory
-    (data (i32.const 368) "\00")
+    ;; String from 00020000 with 0 bytes in memory
+    (data (i32.const 512) "\00")
     (func $AssemblyInfo.AssemblyTitle (result i32)
-        (return (i32.const 368))
+        (return (i32.const 512))
     )
     (export "AssemblyInfo.AssemblyTitle" (func $AssemblyInfo.AssemblyTitle))
         
-    ;; String from 78010000 with 0 bytes in memory
-    (data (i32.const 376) "\00")
+    ;; String from 08020000 with 0 bytes in memory
+    (data (i32.const 520) "\00")
     (func $AssemblyInfo.AssemblyDescription (result i32)
-        (return (i32.const 376))
+        (return (i32.const 520))
     )
     (export "AssemblyInfo.AssemblyDescription" (func $AssemblyInfo.AssemblyDescription))
         
-    ;; String from 80010000 with 0 bytes in memory
-    (data (i32.const 384) "\00")
+    ;; String from 10020000 with 0 bytes in memory
+    (data (i32.const 528) "\00")
     (func $AssemblyInfo.AssemblyCompany (result i32)
-        (return (i32.const 384))
+        (return (i32.const 528))
     )
     (export "AssemblyInfo.AssemblyCompany" (func $AssemblyInfo.AssemblyCompany))
         
-    ;; String from 88010000 with 0 bytes in memory
-    (data (i32.const 392) "\00")
+    ;; String from 18020000 with 0 bytes in memory
+    (data (i32.const 536) "\00")
     (func $AssemblyInfo.AssemblyProduct (result i32)
-        (return (i32.const 392))
+        (return (i32.const 536))
     )
     (export "AssemblyInfo.AssemblyProduct" (func $AssemblyInfo.AssemblyProduct))
         
-    ;; String from 90010000 with 0 bytes in memory
-    (data (i32.const 400) "\00")
+    ;; String from 20020000 with 0 bytes in memory
+    (data (i32.const 544) "\00")
     (func $AssemblyInfo.AssemblyCopyright (result i32)
-        (return (i32.const 400))
+        (return (i32.const 544))
     )
     (export "AssemblyInfo.AssemblyCopyright" (func $AssemblyInfo.AssemblyCopyright))
         
-    ;; String from 98010000 with 0 bytes in memory
-    (data (i32.const 408) "\00")
+    ;; String from 28020000 with 0 bytes in memory
+    (data (i32.const 552) "\00")
     (func $AssemblyInfo.AssemblyTrademark (result i32)
-        (return (i32.const 408))
+        (return (i32.const 552))
     )
     (export "AssemblyInfo.AssemblyTrademark" (func $AssemblyInfo.AssemblyTrademark))
         
-    ;; String from a0010000 with 0 bytes in memory
-    (data (i32.const 416) "\00")
+    ;; String from 30020000 with 0 bytes in memory
+    (data (i32.const 560) "\00")
     (func $AssemblyInfo.AssemblyInformationalVersion (result i32)
-        (return (i32.const 416))
+        (return (i32.const 560))
     )
     (export "AssemblyInfo.AssemblyInformationalVersion" (func $AssemblyInfo.AssemblyInformationalVersion))
         
-    ;; String from a8010000 with 0 bytes in memory
-    (data (i32.const 424) "\00")
+    ;; String from 38020000 with 0 bytes in memory
+    (data (i32.const 568) "\00")
     (func $AssemblyInfo.TargetFramework (result i32)
-        (return (i32.const 424))
+        (return (i32.const 568))
     )
     (export "AssemblyInfo.TargetFramework" (func $AssemblyInfo.TargetFramework))
         
-    ;; String from b0010000 with 5 bytes in memory
-    (data (i32.const 432) "False\00")
+    ;; String from 40020000 with 5 bytes in memory
+    (data (i32.const 576) "False\00")
     (func $AssemblyInfo.ComVisible (result i32)
-        (return (i32.const 432))
+        (return (i32.const 576))
     )
     (export "AssemblyInfo.ComVisible" (func $AssemblyInfo.ComVisible))
         
-    ;; String from b8010000 with 0 bytes in memory
-    (data (i32.const 440) "\00")
+    ;; String from 48020000 with 0 bytes in memory
+    (data (i32.const 584) "\00")
     (func $AssemblyInfo.Name (result i32)
-        (return (i32.const 440))
+        (return (i32.const 584))
     )
     (export "AssemblyInfo.Name" (func $AssemblyInfo.Name))
         
-    ;; String from c0010000 with 0 bytes in memory
-    (data (i32.const 448) "\00")
+    ;; String from 50020000 with 0 bytes in memory
+    (data (i32.const 592) "\00")
     (func $AssemblyInfo.Guid (result i32)
-        (return (i32.const 448))
+        (return (i32.const 592))
     )
     (export "AssemblyInfo.Guid" (func $AssemblyInfo.Guid))
         
-    ;; String from c8010000 with 0 bytes in memory
-    (data (i32.const 456) "\00")
+    ;; String from 58020000 with 0 bytes in memory
+    (data (i32.const 600) "\00")
     (func $AssemblyInfo.AssemblyVersion (result i32)
-        (return (i32.const 456))
+        (return (i32.const 600))
     )
     (export "AssemblyInfo.AssemblyVersion" (func $AssemblyInfo.AssemblyVersion))
         
-    ;; String from d0010000 with 0 bytes in memory
-    (data (i32.const 464) "\00")
+    ;; String from 60020000 with 0 bytes in memory
+    (data (i32.const 608) "\00")
     (func $AssemblyInfo.AssemblyFileVersion (result i32)
-        (return (i32.const 464))
+        (return (i32.const 608))
     )
     (export "AssemblyInfo.AssemblyFileVersion" (func $AssemblyInfo.AssemblyFileVersion))
         
-    ;; String from d8010000 with 0 bytes in memory
-    (data (i32.const 472) "\00")
+    ;; String from 68020000 with 0 bytes in memory
+    (data (i32.const 616) "\00")
     (func $AssemblyInfo.AssemblyFullName (result i32)
-        (return (i32.const 472))
+        (return (i32.const 616))
     )
     (export "AssemblyInfo.AssemblyFullName" (func $AssemblyInfo.AssemblyFullName))
         
-    ;; String from e0010000 with 0 bytes in memory
-    (data (i32.const 480) "\00")
+    ;; String from 70020000 with 0 bytes in memory
+    (data (i32.const 624) "\00")
     (func $AssemblyInfo.BuiltTime (result i32)
-        (return (i32.const 480))
+        (return (i32.const 624))
     )
     (export "AssemblyInfo.BuiltTime" (func $AssemblyInfo.BuiltTime))
 
@@ -290,7 +303,7 @@
 
     ;; Global variables in this module
     (global $nullString (mut i32) (i32.const 0))
-    (global $ObjectManager.HeapSize (mut i32) (i32.const 488))
+    (global $ObjectManager.HeapSize (mut i32) (i32.const 632))
 
     ;; Export methods of this module
     (export "nullreferenceTest.isNothing" (func $.nullreferenceTest.isNothing))
@@ -306,6 +319,23 @@
         
 
         
+    (if (i32.eq (get_global $nullString) (i32.const 0)) 
+        (then
+                    (drop (i32.const 0))
+        ) (else
+                    (drop (i32.const 0))
+            (drop (i32.const 0))
+    )
+    )
+        
+    (if (i32.eq (i32.const 0) (get_global $nullString)) 
+        (then
+                    (drop (i32.const 0))
+        ) (else
+                    (drop (i32.const 0))
+            (drop (i32.const 0))
+    )
+    )
     )
 
     ;; Public Function .nullreferenceTest.noReturns() As System.Void

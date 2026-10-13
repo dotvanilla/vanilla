@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:41
+    ;; build: 2026-10-13 17:17:03
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -345,7 +346,14 @@
     (global $ObjectManager.HeapSize (mut i32) (i32.const 1456))
 
     ;; Export methods of this module
-     
+    (export "treeTest.documentApitest" (func $.treeTest.documentApitest))
+    (export "treeTest.FileTest" (func $.treeTest.FileTest))
+    (export "treeTest.Main" (func $.treeTest.Main))
+    (export "treeTest.projectTest" (func $.treeTest.projectTest))
+    (export "treeTest.filetest" (func $.treeTest.filetest))
+    (export "treeTest.testDemo" (func $.treeTest.testDemo))
+    (export "treeTest.globalTest" (func $.treeTest.globalTest))
+    (export "treeTest.IfTest" (func $.treeTest.IfTest)) 
 
     ;; functions in [.treeTest]
 

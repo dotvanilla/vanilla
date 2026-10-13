@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:49
+    ;; build: 2026-10-13 17:17:10
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -271,7 +272,7 @@
     (global $ObjectManager.HeapSize (mut i32) (i32.const 432))
 
     ;; Export methods of this module
-     
+    (export "multipleLevelLoops.Main" (func $.multipleLevelLoops.Main)) 
 
     ;; functions in [.multipleLevelLoops]
 
@@ -282,28 +283,34 @@
         (local $i i32)
 
         
-    (block $WASMClosure_br_1a8c22da1987c39a 
-        (loop $loop_tmp32f609ded1ce2ad4
+    (block $WASMClosure_br_45ab6d7ba557fccf 
+        (loop $loop_tmp2ea7f3fc3db917c1
 
                         
-    (block $WASMClosure_br_3b64c3b649494a3e 
-        (loop $loop_tmp4f7b3dd6de418766
+    (block $WASMClosure_br_a103951736c3b9ef 
+        (loop $loop_tmp33f15c0d48240e22
 
                                 
     ;; while ((boolean) (i32) (i < (i32.const 999)))
-                        (br_if $WASMClosure_br_3b64c3b649494a3e (i32.eqz (i32.lt_s (get_local $i) (i32.const 999))))
+                        (br_if $WASMClosure_br_a103951736c3b9ef (i32.eqz (i32.lt_s (get_local $i) (i32.const 999))))
                     
-    (block $WASMClosure_br_1e6538adee2297f0 
-        (loop $loop_tmpab2dfc9fa96dba70
+    (block $WASMClosure_br_86b4284cd0729b29 
+        (loop $loop_tmp0369d08f1583e12f
 
                                         (set_local $i (i32.add (get_local $i) (i32.const 1)))
                             
+    (if (i32.eq (i32.rem_s (get_local $i) (i32.const 3)) (i32.const 0)) 
+        (then
+            
+        ) 
+    )
+                            
     ;; loop test ((boolean) (i32) (i > (i32.const 50)))
-                                (br_if $loop_tmpab2dfc9fa96dba70 (i32.eqz (i32.gt_s (get_local $i) (i32.const 50))))
+                                (br_if $loop_tmp0369d08f1583e12f (i32.eqz (i32.gt_s (get_local $i) (i32.const 50))))
 
         )
     )
-                    (br $loop_tmp4f7b3dd6de418766)
+                    (br $loop_tmp33f15c0d48240e22)
 
         )
     )
@@ -313,7 +320,7 @@
             
         ) 
     )
-            (br $loop_tmp32f609ded1ce2ad4)
+            (br $loop_tmp2ea7f3fc3db917c1)
 
         )
     )

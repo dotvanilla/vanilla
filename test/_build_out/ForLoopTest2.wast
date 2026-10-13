@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:36
+    ;; build: 2026-10-13 17:16:58
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -271,7 +272,7 @@
     (global $ObjectManager.HeapSize (mut i32) (i32.const 432))
 
     ;; Export methods of this module
-     
+    (export "ForLoopTest2.Main" (func $.ForLoopTest2.Main)) 
 
     ;; functions in [.ForLoopTest2]
 
@@ -287,17 +288,17 @@
     ;; For i As Integer = 0 To 100
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_0d87b0ded69fccdc 
-        (loop $loop_tmp9caeb0b2d7af7610
+    (block $WASMClosure_br_6b11e794ef5715c3 
+        (loop $loop_tmp0593a35bc4649fe5
 
                         
-    ;; (boolean) (boolean) (i32) (i = (i32.const 100))
-                (br_if $WASMClosure_br_0d87b0ded69fccdc (i32.eq (get_local $i) (i32.const 100)))
-            (drop (i32.const 0))
+    ;; (boolean) (boolean) (i32) (i > (i32.const 100))
+                (br_if $WASMClosure_br_6b11e794ef5715c3 (i32.gt_s (get_local $i) (i32.const 100)))
+            (drop (call $Array.set.f64 (get_local $a) (get_local $i) (call $Math.Pow (f64.convert_s/i32 (get_local $i)) (f64.convert_s/i32 (i32.const 2)))))
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp9caeb0b2d7af7610)
-                        ;;For Loop Next On loop_tmp9caeb0b2d7af7610
+            (br $loop_tmp0593a35bc4649fe5)
+                        ;;For Loop Next On loop_tmp0593a35bc4649fe5
 
         )
     )
@@ -306,16 +307,17 @@
     ;; For i As Integer = 1000 To 1 Step -2
     (set_local $i (i32.const 1000))
     
-    (block $WASMClosure_br_e91f3cc8e618c14d 
-        (loop $loop_tmpe3b3df06aafbe815
+    (block $WASMClosure_br_cb8fa290cdb38d73 
+        (loop $loop_tmp6a66625b1cd616bb
 
                         
     ;; (boolean) (boolean) (i32) (i < (i32.const 1))
-                (br_if $WASMClosure_br_e91f3cc8e618c14d (i32.lt_s (get_local $i) (i32.const 1)))
+                (br_if $WASMClosure_br_cb8fa290cdb38d73 (i32.lt_s (get_local $i) (i32.const 1)))
+            (drop (call $Array.set.f64 (get_local $a) (get_local $i) (call $Math.Pow (call $Array.get.f64 (get_local $a) (get_local $i)) (f64.const 0))))
                         ;;For loop control step: (i32.const -2)
             (set_local $i (i32.add (get_local $i) (i32.const -2)))
-            (br $loop_tmpe3b3df06aafbe815)
-                        ;;For Loop Next On loop_tmpe3b3df06aafbe815
+            (br $loop_tmp6a66625b1cd616bb)
+                        ;;For Loop Next On loop_tmp6a66625b1cd616bb
 
         )
     )

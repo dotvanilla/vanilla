@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:27
+    ;; build: 2026-10-13 17:16:48
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -63,6 +63,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -273,7 +274,9 @@
     (global $ObjectManager.HeapSize (mut i32) (i32.const 432))
 
     ;; Export methods of this module
-     
+    (export "arrayTest2.returnArrayTest" (func $.arrayTest2.returnArrayTest))
+    (export "arrayTest2.readTest" (func $.arrayTest2.readTest))
+    (export "arrayTest2.setValueTest" (func $.arrayTest2.setValueTest)) 
 
     ;; functions in [.arrayTest2]
 
@@ -281,17 +284,39 @@
     ;; Public Function .arrayTest2.returnArrayTest() As System.Int32
     (func $.arrayTest2.returnArrayTest  (result i32)
 
-        
+        (local $x f64)
 
+        (set_local $x (call $Array.get.f64 (get_global $data) (i32.const 1)))
         (return (i32.const 0))
     )
 
     ;; Public Function .arrayTest2.readTest() As System.Single
     (func $.arrayTest2.readTest  (result f32)
 
-        
+        (local $x i64)
+    (local $i i32)
 
-        (return (f32.const 0))
+        (set_local $x (i64.trunc_s/f64 (call $Array.get.f64 (get_global $data) (i32.const 9999))))
+            
+    ;; For i As Integer = 0 To data.Length - 1
+    (set_local $i (i32.const 0))
+    
+    (block $WASMClosure_br_bc75e81f1da0fa82 
+        (loop $loop_tmp310ee306bf468d16
+
+                        
+    ;; (boolean) (boolean) (i32) (i > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
+                (br_if $WASMClosure_br_bc75e81f1da0fa82 (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_global $data)) (i32.const 1))))
+            (drop (i32.const 0))
+                        ;;For loop control step: (i32.const 1)
+            (set_local $i (i32.add (get_local $i) (i32.const 1)))
+            (br $loop_tmp310ee306bf468d16)
+                        ;;For Loop Next On loop_tmp310ee306bf468d16
+
+        )
+    )
+    
+        (return (f32.convert_s/i64 (get_local $x)))
     )
 
     ;; Public Function .arrayTest2.setValueTest(x As System.Int32) As System.Void
@@ -299,7 +324,8 @@
 
         
 
-        
+        (drop (call $Array.set.f64 (get_global $data) (i32.add (get_local $x) (i32.const 1)) (f64.const 0)))
+        (drop (i32.const 0))
     )
 
 

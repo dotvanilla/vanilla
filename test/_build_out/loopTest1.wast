@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:44
+    ;; build: 2026-10-13 17:17:06
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -271,7 +272,7 @@
     (global $ObjectManager.HeapSize (mut i32) (i32.const 432))
 
     ;; Export methods of this module
-     
+    (export "loopTest1.Main" (func $.loopTest1.Main)) 
 
     ;; functions in [.loopTest1]
 
@@ -282,14 +283,14 @@
         
 
         
-    (block $WASMClosure_br_0932935629c69954 
-        (loop $loop_tmp7cf8e7fe2d62522b
+    (block $WASMClosure_br_250e6b94244837ad 
+        (loop $loop_tmp3f0de7bd426e1c52
 
                         
     ;; while ((i32.const 1))
-                (br_if $WASMClosure_br_0932935629c69954 (i32.eqz (i32.const 1)))
+                (br_if $WASMClosure_br_250e6b94244837ad (i32.eqz (i32.const 1)))
             (drop (call $.loopTest1.doNothing ))
-            (br $loop_tmp7cf8e7fe2d62522b)
+            (br $loop_tmp3f0de7bd426e1c52)
 
         )
     )

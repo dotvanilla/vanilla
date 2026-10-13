@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:58
+    ;; build: 2026-10-13 17:17:20
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -277,7 +278,9 @@
     (global $ObjectManager.HeapSize (mut i32) (i32.const 576))
 
     ;; Export methods of this module
-     
+    (export "structurearrayTest.createarray" (func $.structurearrayTest.createarray))
+    (export "structurearrayTest.fillArraytest" (func $.structurearrayTest.fillArraytest))
+    (export "structurearrayTest.createClassArray" (func $.structurearrayTest.createClassArray)) 
 
     ;; functions in [.structurearrayTest]
 
@@ -294,9 +297,29 @@
     (func $.structurearrayTest.fillArraytest  
 
         (local $a i32)
+    (local $i i32)
 
         (set_local $a (call $Array.New (i32.add (i32.const 100) (i32.const 1))))
         (set_local $a (i32.const 0))
+            
+    ;; For i As Integer = 0 To a.Length - 1
+    (set_local $i (i32.const 0))
+    
+    (block $WASMClosure_br_a00c1eb6317339d1 
+        (loop $loop_tmp239c584525ac284f
+
+                        
+    ;; (boolean) (boolean) (i32) (i > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
+                (br_if $WASMClosure_br_a00c1eb6317339d1 (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_local $a)) (i32.const 1))))
+            (drop (call $Array.set.i32 (get_local $a) (get_local $i) (i32.const 0)))
+                        ;;For loop control step: (i32.const 1)
+            (set_local $i (i32.add (get_local $i) (i32.const 1)))
+            (br $loop_tmp239c584525ac284f)
+                        ;;For Loop Next On loop_tmp239c584525ac284f
+
+        )
+    )
+    
     )
 
     ;; Public Function .structurearrayTest.createStruct() As circle

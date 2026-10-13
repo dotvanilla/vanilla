@@ -265,18 +265,18 @@ Namespace VBLanguageParser
         ''' <summary>
         ''' 判断一个 <see cref="WATType"/> 是否对应于 CLR 的数值类型
         ''' </summary>
-        Private Function IsNumericType(type As WATType) As Boolean
-            If type Is Nothing OrElse type.UnderlyingVBType Is Nothing Then
+        Private Function IsNumericType(watType As WATType) As Boolean
+            If watType Is Nothing OrElse watType.UnderlyingVBType Is Nothing Then
                 Return False
             End If
 
-            Dim clr As Type = type.UnderlyingVBType.Type
+            Dim clr As Global.System.Type = watType.UnderlyingVBType.Type
 
             If clr Is Nothing Then
                 Return False
             End If
 
-            Select Case Type.GetTypeCode(clr)
+            Select Case Global.System.Type.GetTypeCode(clr)
                 Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16,
                      TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,
                      TypeCode.Single, TypeCode.Double, TypeCode.Decimal, TypeCode.Boolean

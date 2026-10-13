@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:33
+    ;; build: 2026-10-13 17:16:54
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -282,7 +283,7 @@
     (global $ObjectManager.HeapSize (mut i32) (i32.const 464))
 
     ;; Export methods of this module
-     
+    (export "dictionarytest.addValues" (func $.dictionarytest.addValues)) 
 
     ;; functions in [.dictionarytest]
 
@@ -303,6 +304,7 @@
         (drop (i32.const 0))
         (drop (i32.const 0))
         (set_local $z (i32.const 0))
+        (set_local $zz (i64.const 0))
         (drop (i32.const 0))
         (set_local $v (i32.const 0))
         (set_local $index (i32.const 0))

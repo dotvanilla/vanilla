@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:36
+    ;; build: 2026-10-13 17:16:57
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -291,17 +292,17 @@
     ;; For i As Integer = zero To 100 Step ForLoopTest.delta
     (set_local $i (i32.wrap/i64 (get_global $zero)))
     
-    (block $WASMClosure_br_4a096c7e304ad6f8 
-        (loop $loop_tmp3fe0e206b48fb872
+    (block $WASMClosure_br_9f35bc30280ead0b 
+        (loop $loop_tmpc9585d92674d7d04
 
                         
-    ;; (boolean) (boolean) (i32) (i = (i32.const 100))
-                (br_if $WASMClosure_br_4a096c7e304ad6f8 (i32.eq (get_local $i) (i32.const 100)))
+    ;; (boolean) (boolean) (i32) (i > (i32.const 100))
+                (br_if $WASMClosure_br_9f35bc30280ead0b (i32.gt_s (get_local $i) (i32.const 100)))
             (set_local $x (f64.add (get_local $x) (f64.promote/f32 (get_local $delta))))
                         ;;For loop control step: (i32.const 0)
             (set_local $i (i32.add (get_local $i) (i32.const 0)))
-            (br $loop_tmp3fe0e206b48fb872)
-                        ;;For Loop Next On loop_tmp3fe0e206b48fb872
+            (br $loop_tmpc9585d92674d7d04)
+                        ;;For Loop Next On loop_tmpc9585d92674d7d04
 
         )
     )

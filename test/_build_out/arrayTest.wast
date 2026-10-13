@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:48:26
+    ;; build: 2026-10-13 17:16:47
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -65,6 +65,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -309,9 +310,30 @@
     (func $.arrayTest.arrayLoop  (result i32)
 
         (local $ints i32)
+    (local $i i32)
 
         (set_local $ints (i32.const 0))
         (set_global $ints2 (get_local $ints))
+        (drop (i32.const 0))
+            
+    ;; For i As Integer = 0 To ints.Length
+    (set_local $i (i32.const 0))
+    
+    (block $WASMClosure_br_6444cd1b409bb8ae 
+        (loop $loop_tmp8b7120f697692201
+
+                        
+    ;; (boolean) (boolean) (i32) (i > VanillaBasic.WebAssembly.Syntax.FunctionInvoke)
+                (br_if $WASMClosure_br_6444cd1b409bb8ae (i32.gt_s (get_local $i) (call $Array.length (get_local $ints))))
+            (drop (i32.const 0))
+                        ;;For loop control step: (i32.const 1)
+            (set_local $i (i32.add (get_local $i) (i32.const 1)))
+            (br $loop_tmp8b7120f697692201)
+                        ;;For Loop Next On loop_tmp8b7120f697692201
+
+        )
+    )
+    
         (return (i32.const 0))
     )
 
@@ -349,9 +371,13 @@
     (func $.arrayTest.createArray  (result i32)
 
         (local $str i32)
+    (local $strAtFirst i32)
 
         (set_local $str (i32.const 0))
+        (set_local $strAtFirst (call $Array.get.i32 (get_local $str) (i32.const 0)))
         (drop (i32.const 0))
+        (drop (i32.const 0))
+        (drop (call $Array.set.i32 (get_local $str) (i32.const 4) (i32.const 72)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
