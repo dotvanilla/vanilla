@@ -43,10 +43,25 @@ Namespace CodeAnalysis
             End Get
         End Property
 
+        ''' <summary>
+        ''' 从一个已经存在的内存缓冲区<paramref name="data"/>重建内存缓冲区（用于 <see cref="Workspace"/> 的拷贝）。
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <remarks>
+        ''' 在这里推进 <see cref="offset"/> 的时候，每一个字符串都必须按照 <see cref="AddString"/> 的规则
+        ''' 加上字符串结束的零字节（+1）并且做 8 字节对齐，否则后续新增的字符串会与已经存在的字符串
+        ''' 的结束符<strong>重叠</strong>（实测表现为 ``"Hello World!"`` 与紧跟在后面的数据粘连在一起）。
+        ''' </remarks>
         Sub New(data As IEnumerable(Of MemoryObject))
             For Each item In data
                 buffer.Add(item)
-                offset += CInt(DirectCast(item.sizeOf, LiteralValue).Value)
+
+                If TypeOf item Is StringLiteral Then
+                    offset += DirectCast(item, StringLiteral).nchars + 1
+                    Call seekBufferToNextMultipleOfEight()
+                Else
+                    offset += CInt(DirectCast(item.sizeOf, LiteralValue).Value)
+                End If
             Next
         End Sub
 
