@@ -67,8 +67,8 @@ Module Utils
             Case "string"
                 Return WATType.string
             Case "char"
-                ' 字符使用 i32 的编码值来表示
-                Return WATType.i32
+                ' 字符使用单字符字符串来表示（与 string.charAt 保持一致）
+                Return WATType.string
             Case "byte", "sbyte", "short", "ushort", "integer", "uinteger"
                 Return WATType.i32
             Case "long", "ulong"

@@ -76,6 +76,9 @@ Namespace VBLanguageParser
             ElseIf op.isBinaryBool(left, right) Then
                 ' 布尔逻辑运算（And / Or / AndAlso / OrElse）
                 Return New BooleanLogical(context.DoLogical(left, right, op))
+            ElseIf op Like ComparisonOperators AndAlso (left.Type Is WATType.string OrElse right.Type Is WATType.string) Then
+                ' 字符串比较（= / <> 等）
+                Return MakeStringCompare(left, right, op, context)
             ElseIf op Like ComparisonOperators Then
                 Return context.DoComparison(left, right, op)
             ElseIf op = "\" OrElse op = "Mod" OrElse op = "<<" OrElse op = ">>" OrElse
@@ -196,6 +199,25 @@ Namespace VBLanguageParser
                     CTypeHandle.[CType](WATType.string, right, context)
                 }
             }.SetReturnValue(WATType.string)
+        End Function
+
+        ''' <summary>
+        ''' 生成字符串比较调用 ``string.equals``
+        ''' </summary>
+        Private Function MakeStringCompare(left As WATSyntax, right As WATSyntax, op As String, context As Environment) As WATSyntax
+            Dim equals As WATSyntax = New FunctionInvoke With {
+                .Func = New JavaScriptTranslation(WATType.i32) With {.JavaScript = "string.equals"},
+                .Arguments = {
+                    CTypeHandle.[CType](WATType.string, left, context),
+                    CTypeHandle.[CType](WATType.string, right, context)
+                }
+            }.SetReturnValue(WATType.i32)
+
+            If op = "<>" Then
+                equals = New UnaryOperator("i32.eqz", equals)
+            End If
+
+            Return New BooleanLogical(equals)
         End Function
 
         ''' <summary>

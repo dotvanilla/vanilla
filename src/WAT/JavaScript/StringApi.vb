@@ -16,9 +16,9 @@ Namespace JavaScript
         Public Declare Function Length Lib "string" Alias "string.length" (s As String) As Integer
 
         ''' <summary>
-        ''' ``s(i)``，返回字符的编码值
+        ''' ``s(i)``，返回单个字符（以单字符字符串表示）
         ''' </summary>
-        Public Declare Function CharAt Lib "string" Alias "string.charAt" (s As String, index As Integer) As Integer
+        Public Declare Function CharAt Lib "string" Alias "string.charAt" (s As String, index As Integer) As String
 
         ''' <summary>
         ''' ``s.Substring(start, len)``

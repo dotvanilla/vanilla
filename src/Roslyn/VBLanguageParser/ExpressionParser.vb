@@ -118,8 +118,11 @@ Namespace VBLanguageParser
                 ' 是空值常量，则直接返回整形数0表示空指针
                 Return LiteralValue.Nothing(type)
             ElseIf TypeOf value Is Char Then
-                ' 字符常量使用其编码值来表示
-                Return New LiteralValue(AscW(CChar(value)), WATType.i32)
+                ' 字符常量使用单字符字符串来表示
+                Dim ch As String = CChar(value).ToString()
+                Dim ptr As Integer = buffer.AddString(ch)
+
+                Return New LiteralValue(ptr, WATType.string)
             ElseIf type Is Nothing Then
                 type = WATType.GetElementType(value.GetType)
 
@@ -165,7 +168,7 @@ Namespace VBLanguageParser
                 If TypeOf symType Is ArrayType Then
                     Return ArrayGet(symType, SymbolRead(name, context), args.FirstOrDefault, context)
                 ElseIf symType Is WATType.string Then
-                    Return InvokeStatic("string.charAt", WATType.i32, {SymbolRead(name, context), args.FirstOrDefault}, context)
+                    Return InvokeStatic("string.charAt", WATType.string, {SymbolRead(name, context), args.FirstOrDefault}, context)
                 End If
             End If
 
@@ -406,6 +409,61 @@ Namespace VBLanguageParser
                 Case Else
                     Return Nothing
             End Select
+        End Function
+
+        ''' <summary>
+        ''' 查找目标函数：优先选择与当前模块同名的函数，其次选择任意同名函数
+        ''' </summary>
+        Friend Function ResolveFunction(name As String, context As Environment) As FunctionDeclare
+            Dim candidates As FunctionDeclare() = context.Workspace.Methods.Values _
+                .Where(Function(f) f.Name = name) _
+                .ToArray
+
+            If candidates.Length = 0 Then
+                Return Nothing
+            End If
+
+            Dim prefix As String = ModulePrefix(context)
+            Dim sameModule As FunctionDeclare = candidates.FirstOrDefault(Function(f) f.[namespace] = prefix)
+
+            If Not sameModule Is Nothing Then
+                Return sameModule
+            Else
+                Return candidates(0)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 解析形如 ``ModuleName.FunctionName`` 的跨模块函数调用
+        ''' </summary>
+        Friend Function ResolveModuleFunction(path As String, memberName As String, context As Environment) As FunctionDeclare
+            If String.IsNullOrEmpty(path) Then
+                Return Nothing
+            End If
+
+            Dim owner As String = path.Split("."c).Last
+            Dim suffix As String = "." & owner
+
+            Return context.Workspace.Methods.Values.FirstOrDefault(
+                Function(f) f.Name = memberName AndAlso f.[namespace].EndsWith(suffix)
+            )
+        End Function
+
+        ''' <summary>
+        ''' 计算当前环境所属的模块命名空间前缀
+        ''' </summary>
+        Friend Function ModulePrefix(context As Environment) As String
+            Dim e As Environment = context
+
+            While Not e Is Nothing AndAlso Not e.Container Is Nothing AndAlso Not TypeOf e.Container Is ProjectEnvironment
+                e = e.Container
+            End While
+
+            If e Is Nothing Then
+                Return ""
+            Else
+                Return e.FullName
+            End If
         End Function
     End Module
 End Namespace
