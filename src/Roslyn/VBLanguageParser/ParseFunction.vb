@@ -59,6 +59,32 @@ Namespace VBLanguageParser
             }
         End Function
 
+        ''' <summary>
+        ''' 仅解析方法的签名（名称/返回类型/参数），用于支持前向引用
+        ''' </summary>
+        <Extension>
+        Public Function ParseSignature(func As MethodBlockSyntax, context As Environment) As FunctionDeclare
+            Dim returnValue As WATType
+
+            If func.SubOrFunctionStatement.SubOrFunctionKeyword.ValueText = "Sub" Then
+                returnValue = WATType.void
+            Else
+                returnValue = func.SubOrFunctionStatement.AsClause.ParseAsType(env:=context)
+            End If
+
+            Dim pars As Dictionary(Of String, DeclareLocal) = func.SubOrFunctionStatement _
+                .ParseParameters(context) _
+                .ToDictionary(Function(x) x.Name)
+
+            Return New FunctionDeclare(returnValue) With {
+                .Name = func.SubOrFunctionStatement.Identifier.ValueText,
+                .[namespace] = context.FullName,
+                .parameters = pars.Values.ToArray,
+                .body = {},
+                .locals = {}
+            }
+        End Function
+
         <Extension>
         Friend Function LoadBody(funcBody As SyntaxList(Of StatementSyntax), ByRef locals As DeclareLocal(), context As Environment) As WATSyntax()
             Dim localList As New List(Of DeclareLocal)

@@ -119,6 +119,19 @@ Public NotInheritable Class Scanner
             End Select
         Next
 
+        ' 第一遍：先注册所有方法的签名，从而支持方法之间的前向引用
+        For Each func As MethodBlockSyntax In code.Members.OfType(Of MethodBlockSyntax)
+            Try
+                Dim signature As FunctionDeclare = func.ParseSignature(moduleEnv)
+
+                If Not (signature.Name = "New" AndAlso signature.Type Is WATType.void) Then
+                    Call AddMethod(signature)
+                End If
+            Catch ex As Exception
+                Call ReportSkipped($"signature {moduleEnv.FullName}.{func.SubOrFunctionStatement?.Identifier.ValueText}", ex)
+            End Try
+        Next
+
         For Each func As MethodBlockSyntax In code.Members.OfType(Of MethodBlockSyntax)
             Try
                 isPublic = False
@@ -127,7 +140,7 @@ Public NotInheritable Class Scanner
                 If closure.Name = "New" AndAlso closure.Type Is WATType.void Then
                     sharedSubNew = closure
                 Else
-                    Call AddMethod(closure)
+                    Call RegisterMethod(closure)
 
                     If isPublic Then
                         exports.Add(closure.Name)
@@ -167,6 +180,19 @@ Public NotInheritable Class Scanner
         Dim typeEnv As New Environment(name, env)
         Dim isPublic As Boolean = False
 
+        ' 第一遍：注册方法签名以支持前向引用
+        For Each func As MethodBlockSyntax In members.OfType(Of MethodBlockSyntax)
+            Try
+                Dim signature As FunctionDeclare = func.ParseSignature(typeEnv)
+
+                If Not (signature.Name = "New" AndAlso signature.Type Is WATType.void) Then
+                    Call AddMethod(signature)
+                End If
+            Catch ex As Exception
+                Call ReportSkipped($"signature {typeEnv.FullName}.{func.SubOrFunctionStatement?.Identifier.ValueText}", ex)
+            End Try
+        Next
+
         For Each func As MethodBlockSyntax In members.OfType(Of MethodBlockSyntax)
             Try
                 isPublic = False
@@ -177,7 +203,7 @@ Public NotInheritable Class Scanner
                     Continue For
                 End If
 
-                Call AddMethod(closure)
+                Call RegisterMethod(closure)
             Catch ex As Exception
                 Call ReportSkipped($"type member {typeEnv.FullName}.{func.SubOrFunctionStatement?.Identifier.ValueText}", ex)
             End Try
@@ -325,6 +351,17 @@ Public NotInheritable Class Scanner
 
     Private Sub AddMethod(func As FunctionDeclare)
         If Not Workspace.Methods.ContainsKey(func.FullName) Then
+            Call Workspace.AddStaticMethod(func)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' 注册（或者用完整解析结果覆盖）一个方法
+    ''' </summary>
+    Private Sub RegisterMethod(func As FunctionDeclare)
+        If Workspace.Methods.ContainsKey(func.FullName) Then
+            Workspace.Methods(func.FullName) = func
+        Else
             Call Workspace.AddStaticMethod(func)
         End If
     End Sub

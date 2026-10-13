@@ -13,7 +13,7 @@ Namespace Compiler
         <Extension>
         Public Function ToSExpression(func As FunctionDeclare, workspace As Workspace) As String
             Dim par As String = func.parameters.Select(Function(a) a.GetParameterExpression).JoinBy(" ")
-            Dim result As String = func.Type.UnderlyingWATType.ToString
+            Dim result As String = func.Type.UnderlyingWATType.Description
             Dim buildBody As String() = func.body _
                 .Select(Function(line)
                             Return drop.AutoDropValueStack(line).ToSExpression(Nothing, "    ")

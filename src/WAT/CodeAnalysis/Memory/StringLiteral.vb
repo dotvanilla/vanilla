@@ -44,11 +44,52 @@ Namespace CodeAnalysis.Memory
                 lines += ";;"
             End If
 
-            lines += $"(data (i32.const {DirectCast(MemoryPtr, StaticPtr).Scan0}) ""{Value}\00"")"
+            lines += $"(data (i32.const {DirectCast(MemoryPtr, StaticPtr).Scan0}) ""{Escape(Value)}\00"")"
 
             Return lines _
                 .Select(Function(line) "    " & line) _
                 .JoinBy(ASCII.LF)
+        End Function
+
+        ''' <summary>
+        ''' 将字符串转义为 wasm text 格式之中的字节串（反斜杠/引号/控制字符以及非 ASCII 字符）
+        ''' </summary>
+        Private Shared Function Escape(value As String) As String
+            If value Is Nothing Then
+                Return ""
+            End If
+
+            Dim sb As New System.Text.StringBuilder(value.Length)
+
+            For Each ch As Char In value
+                Dim code As Integer = AscW(ch)
+
+                Select Case ch
+                    Case "\"c
+                        Call sb.Append("\\")
+                    Case """"c
+                        Call sb.Append("\""")
+                    Case ChrW(10)
+                        Call sb.Append("\0a")
+                    Case ChrW(13)
+                        Call sb.Append("\0d")
+                    Case ChrW(9)
+                        Call sb.Append("\09")
+                    Case Else
+                        If code < 32 OrElse code >= 128 Then
+                            ' 非 ASCII 字符按照 UTF-8 字节序列进行转义
+                            Dim bytes As Byte() = System.Text.Encoding.UTF8.GetBytes({ch})
+
+                            For Each b As Byte In bytes
+                                Call sb.Append("\" & b.ToString("x2"))
+                            Next
+                        Else
+                            Call sb.Append(ch)
+                        End If
+                End Select
+            Next
+
+            Return sb.ToString
         End Function
     End Class
 End Namespace

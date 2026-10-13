@@ -41,7 +41,7 @@ Namespace VBLanguageParser
                 Case GetType(LiteralExpressionSyntax)
                     Return DirectCast(expression, LiteralExpressionSyntax).GetLiteralvalue(Nothing, context)
                 Case GetType(IdentifierNameSyntax)
-                    Return DirectCast(expression, IdentifierNameSyntax).GetSymbol(context)
+                    Return DirectCast(expression, IdentifierNameSyntax).ParseIdentifierValue(context)
                 Case GetType(BinaryExpressionSyntax)
                     Return DirectCast(expression, BinaryExpressionSyntax).GetBinary(context)
                 Case GetType(UnaryExpressionSyntax)
@@ -111,6 +111,30 @@ Namespace VBLanguageParser
                 Case Else
                     Return value
             End Select
+        End Function
+
+        ''' <summary>
+        ''' 标识符求值：如果该标识符既不是局部变量也不是全局变量，但对应一个函数，
+        ''' 则按照 VB 的语义自动进行无参数调用（例如 ``Loop While test``）。
+        ''' </summary>
+        <Extension>
+        Friend Function ParseIdentifierValue(name As IdentifierNameSyntax, context As Environment) As WATSyntax
+            Dim symbol As String = name.objectName
+
+            If Not context.Symbols.ContainsKey(symbol) AndAlso
+               Not context.Workspace.GlobalSymbols.ContainsKey(symbol) AndAlso
+               Not context.HaveEnumType(symbol) Then
+                Dim func As FunctionDeclare = ResolveFunction(symbol, context)
+
+                If Not func Is Nothing Then
+                    Return New FunctionInvoke With {
+                        .Func = New SymbolReference(func.FullName),
+                        .Arguments = {}
+                    }.SetReturnValue(func.Type)
+                End If
+            End If
+
+            Return name.GetSymbol(context)
         End Function
 
         ''' <summary>
