@@ -55,5 +55,10 @@ Namespace JavaScript
         ''' </summary>
         Public Shadows Declare Function Equals Lib "string" Alias "string.equals" (a As String, b As String) As Integer
 
+        ''' <summary>
+        ''' ``Boolean.ToString()`` —— 返回 ``"True"`` / ``"False"``（与 .NET 保持一致）
+        ''' </summary>
+        Public Declare Function BoolToString Lib "string" Alias "string.bool.toString" (x As Integer) As String
+
     End Class
 End Namespace
