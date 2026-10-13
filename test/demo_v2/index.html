@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vanilla WebAssembly Runtime Demo</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: #30363d;
+            --fg: #e6edf3;
+            --dim: #8b949e;
+            --accent: #58a6ff;
+            --ok: #3fb950;
+            --warn: #d29922;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(1200px 600px at 20% -10%, #17233a 0%, var(--bg) 55%);
+            color: var(--fg);
+            font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        main { width: min(880px, 100%); }
+
+        h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: .2px; }
+        .sub { color: var(--dim); font-size: 13px; margin-bottom: 22px; }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+        }
+
+        button {
+            appearance: none;
+            border: 1px solid var(--accent);
+            background: linear-gradient(180deg, #1f6feb, #1a5fd0);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: filter .15s ease, transform .05s ease;
+        }
+        button:hover { filter: brightness(1.12); }
+        button:active { transform: translateY(1px); }
+        button:disabled { opacity: .5; cursor: default; }
+
+        pre {
+            margin: 14px 0 0;
+            padding: 14px;
+            background: #0b0f16;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            font-family: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 120px;
+        }
+
+        .line-log { color: var(--fg); }
+        .line-warn { color: var(--warn); }
+        .line-info { color: var(--accent); }
+        .line-error { color: #f85149; }
+        .line-sys { color: var(--dim); }
+
+        dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; font-size: 13px; }
+        dt { color: var(--dim); }
+        dd { margin: 0; font-family: ui-monospace, Consolas, monospace; }
+
+        .badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            color: var(--ok);
+            margin-left: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Vanilla WebAssembly Runtime <span class="badge">v2 · lightweight</span></h1>
+        <div class="sub">
+            Demo module: <code>demo.wasm</code> (hand authored <code>demo.wast</code>) ·
+            runtime: <code>visualbasic.wasm.js</code>
+        </div>
+
+        <div class="card">
+            <button id="run" type="button">Run demo (console + math)</button>
+            <pre id="screen">Click "Run demo" to instantiate demo.wasm and execute App.RunApp().</pre>
+        </div>
+
+        <div class="card">
+            <dl>
+                <dt>Runtime version</dt>
+                <dd id="rt-version">-</dd>
+                <dt>Instantiation</dt>
+                <dd id="rt-load">-</dd>
+                <dt>App.RunApp()</dt>
+                <dd id="rt-run">-</dd>
+                <dt>AssemblyTitle</dt>
+                <dd id="rt-title">-</dd>
+                <dt>AssemblyVersion</dt>
+                <dd id="rt-assmver">-</dd>
+                <dt>Linear memory</dt>
+                <dd id="rt-mem">-</dd>
+            </dl>
+        </div>
+    </main>
+
+    <script src="../../dist/visualbasic.wasm.js"></script>
+    <script>
+        const screen = document.getElementById('screen');
+        const btn = document.getElementById('run');
+
+        function writeLine(level, text) {
+            const span = document.createElement('span');
+            span.className = 'line-' + level;
+            span.textContent = text + '\n';
+            screen.appendChild(span);
+        }
+
+        btn.addEventListener('click', async function () {
+            btn.disabled = true;
+            screen.textContent = '';
+            try {
+                document.getElementById('rt-version').textContent = Vanilla.version;
+
+                // mirror the wasm console.* imports into the on-screen terminal
+                const nativeConsole = console;
+                const target = {
+                    log: (...a) => writeLine('log', a.join(' ')),
+                    info: (...a) => writeLine('info', a.join(' ')),
+                    warn: (...a) => writeLine('warn', a.join(' ')),
+                    error: (...a) => writeLine('error', a.join(' ')),
+                    debug: (...a) => writeLine('log', a.join(' '))
+                };
+
+                writeLine('sys', '> fetching and instantiating demo.wasm ...');
+                const t0 = performance.now();
+                const app = await Vanilla.run('./demo.wasm');
+                const loadMs = performance.now() - t0;
+                writeLine('sys', `> instantiated in ${loadMs.toFixed(2)} ms`);
+                writeLine('sys', '> calling App.RunApp() ...');
+
+                console.log = target.log;
+                console.info = target.info;
+                console.warn = target.warn;
+                console.error = target.error;
+                console.debug = target.debug;
+
+                const t1 = performance.now();
+                let ret = 0;
+                try {
+                    ret = app.App.RunApp();
+                } finally {
+                    console.log = nativeConsole.log;
+                    console.info = nativeConsole.info;
+                    console.warn = nativeConsole.warn;
+                    console.error = nativeConsole.error;
+                    console.debug = nativeConsole.debug;
+                }
+                const runMs = performance.now() - t1;
+                writeLine('sys', `> App.RunApp() returned ${ret} in ${runMs.toFixed(2)} ms`);
+
+                const info = Vanilla.AssemblyInfo.read(app.instance);
+                document.getElementById('rt-load').textContent = loadMs.toFixed(2) + ' ms';
+                document.getElementById('rt-run').textContent = runMs.toFixed(2) + ' ms';
+                document.getElementById('rt-title').textContent = info.AssemblyTitle;
+                document.getElementById('rt-assmver').textContent = info.AssemblyVersion;
+                document.getElementById('rt-mem').textContent =
+                    (app.memory.buffer.byteLength / 1024) + ' KiB';
+            } catch (err) {
+                writeLine('error', 'ERROR: ' + (err && err.stack ? err.stack : err));
+            } finally {
+                document.getElementById('rt-load').textContent =
+                    document.getElementById('rt-load').textContent || '-';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
