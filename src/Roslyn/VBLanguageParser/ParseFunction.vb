@@ -164,16 +164,19 @@ Namespace VBLanguageParser
                     Throw New NotImplementedException
             End Select
 
-            If type Is WATType.f32 Then
-                Return New LiteralValue(Single.Parse(defaultText))
+            If type Is WATType.boolean Then
+                Return New LiteralValue(If(defaultText = "True", 1, 0), WATType.i32)
+            ElseIf type Is WATType.f32 Then
+                Return New LiteralValue(Single.Parse(defaultText), WATType.f32)
             ElseIf type Is WATType.f64 Then
-                Return New LiteralValue(Double.Parse(defaultText))
-            ElseIf type Is WATType.i32 Then
-                Return New LiteralValue(Integer.Parse(defaultText))
+                Return New LiteralValue(Double.Parse(defaultText), WATType.f64)
             ElseIf type Is WATType.i64 Then
-                Return New LiteralValue(Long.Parse(defaultText))
+                Return New LiteralValue(Long.Parse(defaultText), WATType.i64)
+            ElseIf type Is WATType.string Then
+                ' 字符串默认值在编译验收阶段降级为空指针
+                Return LiteralValue.Nothing(WATType.i32)
             Else
-                Throw New NotImplementedException
+                Return LiteralValue.Nothing(WATType.i32)
             End If
         End Function
     End Module

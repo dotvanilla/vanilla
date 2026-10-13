@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:42:34
+    ;; build: 2026-10-13 16:47:42
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -283,7 +283,7 @@
 
 
     ;; Public Function .nestedTest.getArray() As System.Int32
-    (func $.nestedTest.getArray  (result array)
+    (func $.nestedTest.getArray  (result i32)
 
         
 

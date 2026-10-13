@@ -31,7 +31,8 @@ Namespace Syntax
             Return block.multipleLines _
                 .SafeQuery _
                 .Select(Function(line)
-                            Return indent & line.ToSExpression(env, indent)
+                            ' 嵌套代码块之中的表达式语句同样需要自动 drop，否则会造成堆栈不平衡
+                            Return indent & WASM.drop.AutoDropValueStack(line).ToSExpression(env, indent)
                         End Function) _
                 .JoinBy(ASCII.LF)
         End Function

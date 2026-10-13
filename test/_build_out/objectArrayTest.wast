@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:42:42
+    ;; build: 2026-10-13 16:47:43
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -292,7 +292,7 @@
 
         
 
-        (drop (i32.const 0))
+        (call $.objectArrayTest.modifyArray )
         (drop (i32.const 0))
     )
 
@@ -305,7 +305,7 @@
     )
 
     ;; Public Function .objectArrayTest.GetPoints() As System.Int32
-    (func $.objectArrayTest.GetPoints  (result array)
+    (func $.objectArrayTest.GetPoints  (result i32)
 
         
 

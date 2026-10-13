@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:43:04
+    ;; build: 2026-10-13 16:47:41
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -298,7 +298,7 @@
 
 
     ;; Public Function .Modulemethod_test.arraytypeInferTest() As System.Int32
-    (func $.Modulemethod_test.arraytypeInferTest  (result array)
+    (func $.Modulemethod_test.arraytypeInferTest  (result i32)
 
         
 
@@ -320,7 +320,7 @@
 
         (drop (call $.Modulemethod_test.test ))
         (drop (i32.const 0))
-        (drop (i32.const 0))
+        (drop (call $.Modulemethod_test.ThisIsAInternalFunction ))
     )
 
     ;; Public Function .Modulemethod_test.ThisIsAInternalFunction() As System.Int32
@@ -369,7 +369,7 @@
     )
 
     ;; Public Function .module2.returnANonUniqueSymbol() As System.Int32
-    (func $.module2.returnANonUniqueSymbol  (result array)
+    (func $.module2.returnANonUniqueSymbol  (result i32)
 
         (local $a i32)
 
@@ -378,7 +378,7 @@
     )
 
     ;; Public Function .module2.test(gg As System.String) As System.Int32
-    (func $.module2.test (param $gg i32) (result array)
+    (func $.module2.test (param $gg i32) (result i32)
 
         
 

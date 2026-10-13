@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 16:42:52
+    ;; build: 2026-10-13 16:47:44
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -309,24 +309,27 @@
     ;; Public Function .Stringstest.stringmemberTest() As System.Void
     (func $.Stringstest.stringmemberTest  
 
-        
+        (local $length i64)
+    (local $lenPlus100 i64)
 
-        
+        (drop (i32.const 0))
+        (set_local $length (i64.extend_s/i32 (call $string.length (call $.Stringstest.Hello ))))
+        (set_local $lenPlus100 (i64.add (i64.extend_s/i32 (get_global $b)) (get_local $length)))
     )
 
     ;; Public Function .Stringstest.Main() As System.String
-    (func $.Stringstest.Main  (result string)
+    (func $.Stringstest.Main  (result i32)
 
         (local $str i32)
 
-        (set_local $str (call $string.add (call $string.add (call $string.i32.toString (i32.const 0)) (i32.const 24)) (call $string.i32.toString (i32.const 0))))
+        (set_local $str (call $string.add (call $string.add (call $.Stringstest.Hello ) (i32.const 24)) (call $.Stringstest.World )))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (return (get_local $str))
     )
 
     ;; Public Function .Stringstest.Hello() As System.String
-    (func $.Stringstest.Hello  (result string)
+    (func $.Stringstest.Hello  (result i32)
 
         
 
@@ -334,7 +337,7 @@
     )
 
     ;; Public Function .Stringstest.World() As System.String
-    (func $.Stringstest.World  (result string)
+    (func $.Stringstest.World  (result i32)
 
         
 

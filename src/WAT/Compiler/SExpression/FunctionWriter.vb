@@ -13,17 +13,17 @@ Namespace Compiler
         <Extension>
         Public Function ToSExpression(func As FunctionDeclare, workspace As Workspace) As String
             Dim par As String = func.parameters.Select(Function(a) a.GetParameterExpression).JoinBy(" ")
-            Dim result As String = func.Type.UnderlyingWATType.Description
+            Dim result As String
             Dim buildBody As String() = func.body _
                 .Select(Function(line)
                             Return drop.AutoDropValueStack(line).ToSExpression(Nothing, "    ")
                         End Function) _
                 .ToArray
 
-            If result = "void" Then
+            If func.Type.UnderlyingWATType = WATElements.void Then
                 result = ""
             Else
-                result = $"(result {result})"
+                result = $"(result {func.Type.UnderlyingWATType.Description})"
                 func.FixImplictReturns(buildBody)
             End If
 
@@ -51,8 +51,6 @@ Namespace Compiler
                 Dim value As Object
 
                 Select Case func.Type.UnderlyingWATType
-                    Case WATElements.any, WATElements.array, WATElements.i32, WATElements.list, WATElements.string, WATElements.table
-                        value = 0%
                     Case WATElements.i64
                         value = 0&
                     Case WATElements.f32
@@ -60,7 +58,8 @@ Namespace Compiler
                     Case WATElements.f64
                         value = 0#
                     Case Else
-                        Throw New NotImplementedException
+                        ' i32 / boolean / string / array / 用户自定义类型等统一使用 i32 零值
+                        value = 0%
                 End Select
 
                 rtvl = New ReturnValue(New LiteralValue(value))

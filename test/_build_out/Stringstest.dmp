@@ -1,3 +1,1350 @@
-﻿Z:/tmp/1/vanilla/9120/wat2wasm_f8cd331972a7a178420VjZf6G7.wast:318:39: error: unexpected token string, expected ).
-    (func $.Stringstest.Main  (result string)
-                                      ^^^^^^
+﻿0000000: 0061 736d                                 ; WASM_BINARY_MAGIC
+0000004: 0100 0000                                 ; WASM_BINARY_VERSION
+; section "Type" (1)
+0000008: 01                                        ; section code
+0000009: 00                                        ; section size (guess)
+000000a: 0d                                        ; num types
+; type 0
+000000b: 60                                        ; func
+000000c: 02                                        ; num params
+000000d: 7c                                        ; f64
+000000e: 7c                                        ; f64
+000000f: 01                                        ; num results
+0000010: 7c                                        ; f64
+; type 1
+0000011: 60                                        ; func
+0000012: 01                                        ; num params
+0000013: 7c                                        ; f64
+0000014: 01                                        ; num results
+0000015: 7c                                        ; f64
+; type 2
+0000016: 60                                        ; func
+0000017: 00                                        ; num params
+0000018: 01                                        ; num results
+0000019: 7c                                        ; f64
+; type 3
+000001a: 60                                        ; func
+000001b: 01                                        ; num params
+000001c: 7f                                        ; i32
+000001d: 00                                        ; num results
+; type 4
+000001e: 60                                        ; func
+000001f: 01                                        ; num params
+0000020: 7f                                        ; i32
+0000021: 01                                        ; num results
+0000022: 7f                                        ; i32
+; type 5
+0000023: 60                                        ; func
+0000024: 00                                        ; num params
+0000025: 01                                        ; num results
+0000026: 7f                                        ; i32
+; type 6
+0000027: 60                                        ; func
+0000028: 02                                        ; num params
+0000029: 7f                                        ; i32
+000002a: 7f                                        ; i32
+000002b: 01                                        ; num results
+000002c: 7f                                        ; i32
+; type 7
+000002d: 60                                        ; func
+000002e: 01                                        ; num params
+000002f: 7c                                        ; f64
+0000030: 01                                        ; num results
+0000031: 7f                                        ; i32
+; type 8
+0000032: 60                                        ; func
+0000033: 03                                        ; num params
+0000034: 7f                                        ; i32
+0000035: 7f                                        ; i32
+0000036: 7f                                        ; i32
+0000037: 01                                        ; num results
+0000038: 7f                                        ; i32
+; type 9
+0000039: 60                                        ; func
+000003a: 01                                        ; num params
+000003b: 7f                                        ; i32
+000003c: 01                                        ; num results
+000003d: 7c                                        ; f64
+; type 10
+000003e: 60                                        ; func
+000003f: 02                                        ; num params
+0000040: 7f                                        ; i32
+0000041: 7f                                        ; i32
+0000042: 01                                        ; num results
+0000043: 7c                                        ; f64
+; type 11
+0000044: 60                                        ; func
+0000045: 03                                        ; num params
+0000046: 7f                                        ; i32
+0000047: 7f                                        ; i32
+0000048: 7c                                        ; f64
+0000049: 01                                        ; num results
+000004a: 7f                                        ; i32
+; type 12
+000004b: 60                                        ; func
+000004c: 00                                        ; num params
+000004d: 00                                        ; num results
+0000009: 44                                        ; FIXUP section size
+; section "Import" (2)
+000004e: 02                                        ; section code
+000004f: 00                                        ; section size (guess)
+0000050: 38                                        ; num imports
+; import header 0
+0000051: 04                                        ; string length
+0000052: 4d61 7468                                Math  ; import module name
+0000056: 03                                        ; string length
+0000057: 706f 77                                  pow  ; import field name
+000005a: 00                                        ; import kind
+000005b: 00                                        ; import signature index
+; import header 1
+000005c: 04                                        ; string length
+000005d: 4d61 7468                                Math  ; import module name
+0000061: 04                                        ; string length
+0000062: 7371 7274                                sqrt  ; import field name
+0000066: 00                                        ; import kind
+0000067: 01                                        ; import signature index
+; import header 2
+0000068: 04                                        ; string length
+0000069: 4d61 7468                                Math  ; import module name
+000006d: 03                                        ; string length
+000006e: 6578 70                                  exp  ; import field name
+0000071: 00                                        ; import kind
+0000072: 01                                        ; import signature index
+; import header 3
+0000073: 04                                        ; string length
+0000074: 4d61 7468                                Math  ; import module name
+0000078: 03                                        ; string length
+0000079: 6c6f 67                                  log  ; import field name
+000007c: 00                                        ; import kind
+000007d: 01                                        ; import signature index
+; import header 4
+000007e: 04                                        ; string length
+000007f: 4d61 7468                                Math  ; import module name
+0000083: 05                                        ; string length
+0000084: 6c6f 6731 30                             log10  ; import field name
+0000089: 00                                        ; import kind
+000008a: 01                                        ; import signature index
+; import header 5
+000008b: 04                                        ; string length
+000008c: 4d61 7468                                Math  ; import module name
+0000090: 03                                        ; string length
+0000091: 636f 73                                  cos  ; import field name
+0000094: 00                                        ; import kind
+0000095: 01                                        ; import signature index
+; import header 6
+0000096: 04                                        ; string length
+0000097: 4d61 7468                                Math  ; import module name
+000009b: 03                                        ; string length
+000009c: 7369 6e                                  sin  ; import field name
+000009f: 00                                        ; import kind
+00000a0: 01                                        ; import signature index
+; import header 7
+00000a1: 04                                        ; string length
+00000a2: 4d61 7468                                Math  ; import module name
+00000a6: 03                                        ; string length
+00000a7: 7461 6e                                  tan  ; import field name
+00000aa: 00                                        ; import kind
+00000ab: 01                                        ; import signature index
+; import header 8
+00000ac: 04                                        ; string length
+00000ad: 4d61 7468                                Math  ; import module name
+00000b1: 05                                        ; string length
+00000b2: 666c 6f6f 72                             floor  ; import field name
+00000b7: 00                                        ; import kind
+00000b8: 01                                        ; import signature index
+; import header 9
+00000b9: 04                                        ; string length
+00000ba: 4d61 7468                                Math  ; import module name
+00000be: 04                                        ; string length
+00000bf: 6365 696c                                ceil  ; import field name
+00000c3: 00                                        ; import kind
+00000c4: 01                                        ; import signature index
+; import header 10
+00000c5: 04                                        ; string length
+00000c6: 4d61 7468                                Math  ; import module name
+00000ca: 05                                        ; string length
+00000cb: 726f 756e 64                             round  ; import field name
+00000d0: 00                                        ; import kind
+00000d1: 01                                        ; import signature index
+; import header 11
+00000d2: 04                                        ; string length
+00000d3: 4d61 7468                                Math  ; import module name
+00000d7: 03                                        ; string length
+00000d8: 6162 73                                  abs  ; import field name
+00000db: 00                                        ; import kind
+00000dc: 01                                        ; import signature index
+; import header 12
+00000dd: 04                                        ; string length
+00000de: 4d61 7468                                Math  ; import module name
+00000e2: 03                                        ; string length
+00000e3: 6d69 6e                                  min  ; import field name
+00000e6: 00                                        ; import kind
+00000e7: 00                                        ; import signature index
+; import header 13
+00000e8: 04                                        ; string length
+00000e9: 4d61 7468                                Math  ; import module name
+00000ed: 03                                        ; string length
+00000ee: 6d61 78                                  max  ; import field name
+00000f1: 00                                        ; import kind
+00000f2: 00                                        ; import signature index
+; import header 14
+00000f3: 04                                        ; string length
+00000f4: 4d61 7468                                Math  ; import module name
+00000f8: 06                                        ; string length
+00000f9: 7261 6e64 6f6d                           random  ; import field name
+00000ff: 00                                        ; import kind
+0000100: 02                                        ; import signature index
+; import header 15
+0000101: 07                                        ; string length
+0000102: 636f 6e73 6f6c 65                        console  ; import module name
+0000109: 03                                        ; string length
+000010a: 6c6f 67                                  log  ; import field name
+000010d: 00                                        ; import kind
+000010e: 03                                        ; import signature index
+; import header 16
+000010f: 07                                        ; string length
+0000110: 636f 6e73 6f6c 65                        console  ; import module name
+0000117: 05                                        ; string length
+0000118: 5072 696e 74                             Print  ; import field name
+000011d: 00                                        ; import kind
+000011e: 04                                        ; import signature index
+; import header 17
+000011f: 08                                        ; string length
+0000120: 456e 636f 6469 6e67                      Encoding  ; import module name
+0000128: 08                                        ; string length
+0000129: 4765 7442 7974 6573                      GetBytes  ; import field name
+0000131: 00                                        ; import kind
+0000132: 04                                        ; import signature index
+; import header 18
+0000133: 08                                        ; string length
+0000134: 456e 636f 6469 6e67                      Encoding  ; import module name
+000013c: 09                                        ; string length
+000013d: 4765 7453 7472 696e 67                   GetString  ; import field name
+0000146: 00                                        ; import kind
+0000147: 04                                        ; import signature index
+; import header 19
+0000148: 0d                                        ; string length
+0000149: 5374 7269 6e67 4275 696c 6465 72         StringBuilder  ; import module name
+0000156: 10                                        ; string length
+0000157: 4e65 7753 7472 696e 6742 7569 6c64 6572  NewStringBuilder  ; import field name
+0000167: 00                                        ; import kind
+0000168: 05                                        ; import signature index
+; import header 20
+0000169: 0d                                        ; string length
+000016a: 5374 7269 6e67 4275 696c 6465 72         StringBuilder  ; import module name
+0000177: 06                                        ; string length
+0000178: 4170 7065 6e64                           Append  ; import field name
+000017e: 00                                        ; import kind
+000017f: 06                                        ; import signature index
+; import header 21
+0000180: 0d                                        ; string length
+0000181: 5374 7269 6e67 4275 696c 6465 72         StringBuilder  ; import module name
+000018e: 0a                                        ; string length
+000018f: 4170 7065 6e64 4368 6172                 AppendChar  ; import field name
+0000199: 00                                        ; import kind
+000019a: 06                                        ; import signature index
+; import header 22
+000019b: 0d                                        ; string length
+000019c: 5374 7269 6e67 4275 696c 6465 72         StringBuilder  ; import module name
+00001a9: 0a                                        ; string length
+00001aa: 4170 7065 6e64 4c69 6e65                 AppendLine  ; import field name
+00001b4: 00                                        ; import kind
+00001b5: 06                                        ; import signature index
+; import header 23
+00001b6: 0d                                        ; string length
+00001b7: 5374 7269 6e67 4275 696c 6465 72         StringBuilder  ; import module name
+00001c4: 08                                        ; string length
+00001c5: 546f 5374 7269 6e67                      ToString  ; import field name
+00001cd: 00                                        ; import kind
+00001ce: 04                                        ; import signature index
+; import header 24
+00001cf: 0d                                        ; string length
+00001d0: 5374 7269 6e67 4275 696c 6465 72         StringBuilder  ; import module name
+00001dd: 05                                        ; string length
+00001de: 436c 6561 72                             Clear  ; import field name
+00001e3: 00                                        ; import kind
+00001e4: 04                                        ; import signature index
+; import header 25
+00001e5: 07                                        ; string length
+00001e6: 5374 7269 6e67 73                        Strings  ; import module name
+00001ed: 05                                        ; string length
+00001ee: 456d 7074 79                             Empty  ; import field name
+00001f3: 00                                        ; import kind
+00001f4: 05                                        ; import signature index
+; import header 26
+00001f5: 07                                        ; string length
+00001f6: 5374 7269 6e67 73                        Strings  ; import module name
+00001fd: 04                                        ; string length
+00001fe: 4368 7257                                ChrW  ; import field name
+0000202: 00                                        ; import kind
+0000203: 04                                        ; import signature index
+; import header 27
+0000204: 07                                        ; string length
+0000205: 5374 7269 6e67 73                        Strings  ; import module name
+000020c: 09                                        ; string length
+000020d: 4e65 7753 7472 696e 67                   NewString  ; import field name
+0000216: 00                                        ; import kind
+0000217: 06                                        ; import signature index
+; import header 28
+0000218: 07                                        ; string length
+0000219: 5374 7269 6e67 73                        Strings  ; import module name
+0000220: 06                                        ; string length
+0000221: 436f 6e63 6174                           Concat  ; import field name
+0000227: 00                                        ; import kind
+0000228: 06                                        ; import signature index
+; import header 29
+0000229: 07                                        ; string length
+000022a: 5374 7269 6e67 73                        Strings  ; import module name
+0000231: 04                                        ; string length
+0000232: 4a6f 696e                                Join  ; import field name
+0000236: 00                                        ; import kind
+0000237: 06                                        ; import signature index
+; import header 30
+0000238: 07                                        ; string length
+0000239: 5374 7269 6e67 73                        Strings  ; import module name
+0000240: 04                                        ; string length
+0000241: 4173 6357                                AscW  ; import field name
+0000245: 00                                        ; import kind
+0000246: 04                                        ; import signature index
+; import header 31
+0000247: 06                                        ; string length
+0000248: 7374 7269 6e67                           string  ; import module name
+000024e: 0b                                        ; string length
+000024f: 4933 3254 6f53 7472 696e 67              I32ToString  ; import field name
+000025a: 00                                        ; import kind
+000025b: 04                                        ; import signature index
+; import header 32
+000025c: 06                                        ; string length
+000025d: 7374 7269 6e67                           string  ; import module name
+0000263: 0b                                        ; string length
+0000264: 4636 3454 6f53 7472 696e 67              F64ToString  ; import field name
+000026f: 00                                        ; import kind
+0000270: 07                                        ; import signature index
+; import header 33
+0000271: 06                                        ; string length
+0000272: 7374 7269 6e67                           string  ; import module name
+0000278: 03                                        ; string length
+0000279: 4164 64                                  Add  ; import field name
+000027c: 00                                        ; import kind
+000027d: 06                                        ; import signature index
+; import header 34
+000027e: 06                                        ; string length
+000027f: 7374 7269 6e67                           string  ; import module name
+0000285: 06                                        ; string length
+0000286: 4c65 6e67 7468                           Length  ; import field name
+000028c: 00                                        ; import kind
+000028d: 04                                        ; import signature index
+; import header 35
+000028e: 06                                        ; string length
+000028f: 7374 7269 6e67                           string  ; import module name
+0000295: 06                                        ; string length
+0000296: 4368 6172 4174                           CharAt  ; import field name
+000029c: 00                                        ; import kind
+000029d: 06                                        ; import signature index
+; import header 36
+000029e: 06                                        ; string length
+000029f: 7374 7269 6e67                           string  ; import module name
+00002a5: 09                                        ; string length
+00002a6: 5375 6273 7472 696e 67                   Substring  ; import field name
+00002af: 00                                        ; import kind
+00002b0: 08                                        ; import signature index
+; import header 37
+00002b1: 06                                        ; string length
+00002b2: 7374 7269 6e67                           string  ; import module name
+00002b8: 07                                        ; string length
+00002b9: 5265 706c 6163 65                        Replace  ; import field name
+00002c0: 00                                        ; import kind
+00002c1: 08                                        ; import signature index
+; import header 38
+00002c2: 06                                        ; string length
+00002c3: 7374 7269 6e67                           string  ; import module name
+00002c9: 04                                        ; string length
+00002ca: 5472 696d                                Trim  ; import field name
+00002ce: 00                                        ; import kind
+00002cf: 04                                        ; import signature index
+; import header 39
+00002d0: 06                                        ; string length
+00002d1: 7374 7269 6e67                           string  ; import module name
+00002d7: 07                                        ; string length
+00002d8: 496e 6465 784f 66                        IndexOf  ; import field name
+00002df: 00                                        ; import kind
+00002e0: 06                                        ; import signature index
+; import header 40
+00002e1: 06                                        ; string length
+00002e2: 7374 7269 6e67                           string  ; import module name
+00002e8: 07                                        ; string length
+00002e9: 546f 5570 7065 72                        ToUpper  ; import field name
+00002f0: 00                                        ; import kind
+00002f1: 04                                        ; import signature index
+; import header 41
+00002f2: 06                                        ; string length
+00002f3: 7374 7269 6e67                           string  ; import module name
+00002f9: 07                                        ; string length
+00002fa: 546f 4c6f 7765 72                        ToLower  ; import field name
+0000301: 00                                        ; import kind
+0000302: 04                                        ; import signature index
+; import header 42
+0000303: 06                                        ; string length
+0000304: 7374 7269 6e67                           string  ; import module name
+000030a: 06                                        ; string length
+000030b: 4571 7561 6c73                           Equals  ; import field name
+0000311: 00                                        ; import kind
+0000312: 06                                        ; import signature index
+; import header 43
+0000313: 07                                        ; string length
+0000314: 436f 6e76 6572 74                        Convert  ; import module name
+000031b: 0e                                        ; string length
+000031c: 546f 4261 7365 3634 5374 7269 6e67       ToBase64String  ; import field name
+000032a: 00                                        ; import kind
+000032b: 04                                        ; import signature index
+; import header 44
+000032c: 07                                        ; string length
+000032d: 436f 6e76 6572 74                        Convert  ; import module name
+0000334: 10                                        ; string length
+0000335: 4672 6f6d 4261 7365 3634 5374 7269 6e67  FromBase64String  ; import field name
+0000345: 00                                        ; import kind
+0000346: 04                                        ; import signature index
+; import header 45
+0000347: 07                                        ; string length
+0000348: 436f 6e76 6572 74                        Convert  ; import module name
+000034f: 08                                        ; string length
+0000350: 546f 5374 7269 6e67                      ToString  ; import field name
+0000358: 00                                        ; import kind
+0000359: 04                                        ; import signature index
+; import header 46
+000035a: 06                                        ; string length
+000035b: 5261 6e64 6f6d                           Random  ; import module name
+0000361: 03                                        ; string length
+0000362: 4e65 77                                  New  ; import field name
+0000365: 00                                        ; import kind
+0000366: 04                                        ; import signature index
+; import header 47
+0000367: 06                                        ; string length
+0000368: 5261 6e64 6f6d                           Random  ; import module name
+000036e: 04                                        ; string length
+000036f: 4e65 7874                                Next  ; import field name
+0000373: 00                                        ; import kind
+0000374: 08                                        ; import signature index
+; import header 48
+0000375: 06                                        ; string length
+0000376: 5261 6e64 6f6d                           Random  ; import module name
+000037c: 0a                                        ; string length
+000037d: 4e65 7874 446f 7562 6c65                 NextDouble  ; import field name
+0000387: 00                                        ; import kind
+0000388: 09                                        ; import signature index
+; import header 49
+0000389: 05                                        ; string length
+000038a: 4172 7261 79                             Array  ; import module name
+000038f: 03                                        ; string length
+0000390: 4e65 77                                  New  ; import field name
+0000393: 00                                        ; import kind
+0000394: 04                                        ; import signature index
+; import header 50
+0000395: 05                                        ; string length
+0000396: 4172 7261 79                             Array  ; import module name
+000039b: 06                                        ; string length
+000039c: 4c65 6e67 7468                           Length  ; import field name
+00003a2: 00                                        ; import kind
+00003a3: 04                                        ; import signature index
+; import header 51
+00003a4: 05                                        ; string length
+00003a5: 4172 7261 79                             Array  ; import module name
+00003aa: 06                                        ; string length
+00003ab: 4765 7449 3332                           GetI32  ; import field name
+00003b1: 00                                        ; import kind
+00003b2: 06                                        ; import signature index
+; import header 52
+00003b3: 05                                        ; string length
+00003b4: 4172 7261 79                             Array  ; import module name
+00003b9: 06                                        ; string length
+00003ba: 5365 7449 3332                           SetI32  ; import field name
+00003c0: 00                                        ; import kind
+00003c1: 08                                        ; import signature index
+; import header 53
+00003c2: 05                                        ; string length
+00003c3: 4172 7261 79                             Array  ; import module name
+00003c8: 06                                        ; string length
+00003c9: 4765 7446 3634                           GetF64  ; import field name
+00003cf: 00                                        ; import kind
+00003d0: 0a                                        ; import signature index
+; import header 54
+00003d1: 05                                        ; string length
+00003d2: 4172 7261 79                             Array  ; import module name
+00003d7: 06                                        ; string length
+00003d8: 5365 7446 3634                           SetF64  ; import field name
+00003de: 00                                        ; import kind
+00003df: 0b                                        ; import signature index
+; import header 55
+00003e0: 03                                        ; string length
+00003e1: 656e 76                                  env  ; import module name
+00003e4: 0a                                        ; string length
+00003e5: 6279 7465 6368 756e 6b73                 bytechunks  ; import field name
+00003ef: 02                                        ; import kind
+00003f0: 00                                        ; limits: flags
+00003f1: 01                                        ; limits: initial
+; move data: [50, 3f2) -> [51, 3f3)
+000004f: a207                                      ; FIXUP section size
+; section "Function" (3)
+00003f3: 03                                        ; section code
+00003f4: 00                                        ; section size (guess)
+00003f5: 19                                        ; num functions
+00003f6: 05                                        ; function 0 signature index
+00003f7: 06                                        ; function 1 signature index
+00003f8: 08                                        ; function 2 signature index
+00003f9: 05                                        ; function 3 signature index
+00003fa: 05                                        ; function 4 signature index
+00003fb: 05                                        ; function 5 signature index
+00003fc: 05                                        ; function 6 signature index
+00003fd: 05                                        ; function 7 signature index
+00003fe: 05                                        ; function 8 signature index
+00003ff: 05                                        ; function 9 signature index
+0000400: 05                                        ; function 10 signature index
+0000401: 05                                        ; function 11 signature index
+0000402: 05                                        ; function 12 signature index
+0000403: 05                                        ; function 13 signature index
+0000404: 05                                        ; function 14 signature index
+0000405: 05                                        ; function 15 signature index
+0000406: 05                                        ; function 16 signature index
+0000407: 05                                        ; function 17 signature index
+0000408: 05                                        ; function 18 signature index
+0000409: 0c                                        ; function 19 signature index
+000040a: 05                                        ; function 20 signature index
+000040b: 05                                        ; function 21 signature index
+000040c: 05                                        ; function 22 signature index
+000040d: 0c                                        ; function 23 signature index
+000040e: 0c                                        ; function 24 signature index
+00003f4: 1a                                        ; FIXUP section size
+; section "Global" (6)
+000040f: 06                                        ; section code
+0000410: 00                                        ; section size (guess)
+0000411: 10                                        ; num globals
+0000412: 7f                                        ; i32
+0000413: 01                                        ; global mutability
+0000414: 41                                        ; i32.const
+0000415: f003                                      ; i32 literal
+0000417: 0b                                        ; end
+0000418: 7c                                        ; f64
+0000419: 01                                        ; global mutability
+000041a: 44                                        ; f64.const
+000041b: 182d 4454 fb21 0940                       ; f64 literal
+0000423: 0b                                        ; end
+0000424: 7c                                        ; f64
+0000425: 01                                        ; global mutability
+0000426: 44                                        ; f64.const
+0000427: 6957 148b 0abf 0540                       ; f64 literal
+000042f: 0b                                        ; end
+0000430: 7c                                        ; f64
+0000431: 01                                        ; global mutability
+0000432: 44                                        ; f64.const
+0000433: 182d 4454 fb21 1940                       ; f64 literal
+000043b: 0b                                        ; end
+000043c: 7f                                        ; i32
+000043d: 01                                        ; global mutability
+000043e: 41                                        ; i32.const
+000043f: 8080 8080 78                              ; i32 literal
+0000444: 0b                                        ; end
+0000445: 7f                                        ; i32
+0000446: 01                                        ; global mutability
+0000447: 41                                        ; i32.const
+0000448: ffff ffff 07                              ; i32 literal
+000044d: 0b                                        ; end
+000044e: 7e                                        ; i64
+000044f: 01                                        ; global mutability
+0000450: 42                                        ; i64.const
+0000451: 8080 8080 8080 8080 807f                  ; i64 literal
+000045b: 0b                                        ; end
+000045c: 7e                                        ; i64
+000045d: 01                                        ; global mutability
+000045e: 42                                        ; i64.const
+000045f: ffff ffff ffff ffff ff00                  ; i64 literal
+0000469: 0b                                        ; end
+000046a: 7d                                        ; f32
+000046b: 01                                        ; global mutability
+000046c: 43                                        ; f32.const
+000046d: ffff 7fff                                 ; f32 literal
+0000471: 0b                                        ; end
+0000472: 7d                                        ; f32
+0000473: 01                                        ; global mutability
+0000474: 43                                        ; f32.const
+0000475: ffff 7f7f                                 ; f32 literal
+0000479: 0b                                        ; end
+000047a: 7c                                        ; f64
+000047b: 01                                        ; global mutability
+000047c: 44                                        ; f64.const
+000047d: ffff ffff ffff efff                       ; f64 literal
+0000485: 0b                                        ; end
+0000486: 7c                                        ; f64
+0000487: 01                                        ; global mutability
+0000488: 44                                        ; f64.const
+0000489: ffff ffff ffff ef7f                       ; f64 literal
+0000491: 0b                                        ; end
+0000492: 7c                                        ; f64
+0000493: 01                                        ; global mutability
+0000494: 44                                        ; f64.const
+0000495: 0000 0000 0000 0000                       ; f64 literal
+000049d: 0b                                        ; end
+000049e: 7f                                        ; i32
+000049f: 01                                        ; global mutability
+00004a0: 41                                        ; i32.const
+00004a1: 00                                        ; i32 literal
+00004a2: 0b                                        ; end
+00004a3: 7f                                        ; i32
+00004a4: 01                                        ; global mutability
+00004a5: 41                                        ; i32.const
+00004a6: 00                                        ; i32 literal
+00004a7: 0b                                        ; end
+00004a8: 7f                                        ; i32
+00004a9: 01                                        ; global mutability
+00004aa: 41                                        ; i32.const
+00004ab: f003                                      ; i32 literal
+00004ad: 0b                                        ; end
+; move data: [411, 4ae) -> [412, 4af)
+0000410: 9d01                                      ; FIXUP section size
+; section "Export" (7)
+00004af: 07                                        ; section code
+00004b0: 00                                        ; section size (guess)
+00004b1: 15                                        ; num exports
+00004b2: 12                                        ; string length
+00004b3: 5741 534d 2e47 6574 4d65 6d6f 7279 5369  WASM.GetMemorySi
+00004c3: 7a65                                     ze  ; export name
+00004c5: 00                                        ; export kind
+00004c6: 37                                        ; export func index
+00004c7: 0c                                        ; string length
+00004c8: 4173 7365 6d62 6c79 496e 666f            AssemblyInfo  ; export name
+00004d4: 00                                        ; export kind
+00004d5: 3a                                        ; export func index
+00004d6: 1a                                        ; string length
+00004d7: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+00004e7: 656d 626c 7954 6974 6c65                 emblyTitle  ; export name
+00004f1: 00                                        ; export kind
+00004f2: 3b                                        ; export func index
+00004f3: 20                                        ; string length
+00004f4: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000504: 656d 626c 7944 6573 6372 6970 7469 6f6e  emblyDescription  ; export name
+0000514: 00                                        ; export kind
+0000515: 3c                                        ; export func index
+0000516: 1c                                        ; string length
+0000517: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000527: 656d 626c 7943 6f6d 7061 6e79            emblyCompany  ; export name
+0000533: 00                                        ; export kind
+0000534: 3d                                        ; export func index
+0000535: 1c                                        ; string length
+0000536: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000546: 656d 626c 7950 726f 6475 6374            emblyProduct  ; export name
+0000552: 00                                        ; export kind
+0000553: 3e                                        ; export func index
+0000554: 1e                                        ; string length
+0000555: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000565: 656d 626c 7943 6f70 7972 6967 6874       emblyCopyright  ; export name
+0000573: 00                                        ; export kind
+0000574: 3f                                        ; export func index
+0000575: 1e                                        ; string length
+0000576: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000586: 656d 626c 7954 7261 6465 6d61 726b       emblyTrademark  ; export name
+0000594: 00                                        ; export kind
+0000595: 40                                        ; export func index
+0000596: 29                                        ; string length
+0000597: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+00005a7: 656d 626c 7949 6e66 6f72 6d61 7469 6f6e  emblyInformation
+00005b7: 616c 5665 7273 696f 6e                   alVersion  ; export name
+00005c0: 00                                        ; export kind
+00005c1: 41                                        ; export func index
+00005c2: 1c                                        ; string length
+00005c3: 4173 7365 6d62 6c79 496e 666f 2e54 6172  AssemblyInfo.Tar
+00005d3: 6765 7446 7261 6d65 776f 726b            getFramework  ; export name
+00005df: 00                                        ; export kind
+00005e0: 42                                        ; export func index
+00005e1: 17                                        ; string length
+00005e2: 4173 7365 6d62 6c79 496e 666f 2e43 6f6d  AssemblyInfo.Com
+00005f2: 5669 7369 626c 65                        Visible  ; export name
+00005f9: 00                                        ; export kind
+00005fa: 43                                        ; export func index
+00005fb: 11                                        ; string length
+00005fc: 4173 7365 6d62 6c79 496e 666f 2e4e 616d  AssemblyInfo.Nam
+000060c: 65                                       e  ; export name
+000060d: 00                                        ; export kind
+000060e: 44                                        ; export func index
+000060f: 11                                        ; string length
+0000610: 4173 7365 6d62 6c79 496e 666f 2e47 7569  AssemblyInfo.Gui
+0000620: 64                                       d  ; export name
+0000621: 00                                        ; export kind
+0000622: 45                                        ; export func index
+0000623: 1c                                        ; string length
+0000624: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000634: 656d 626c 7956 6572 7369 6f6e            emblyVersion  ; export name
+0000640: 00                                        ; export kind
+0000641: 46                                        ; export func index
+0000642: 20                                        ; string length
+0000643: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000653: 656d 626c 7946 696c 6556 6572 7369 6f6e  emblyFileVersion  ; export name
+0000663: 00                                        ; export kind
+0000664: 47                                        ; export func index
+0000665: 1d                                        ; string length
+0000666: 4173 7365 6d62 6c79 496e 666f 2e41 7373  AssemblyInfo.Ass
+0000676: 656d 626c 7946 756c 6c4e 616d 65         emblyFullName  ; export name
+0000683: 00                                        ; export kind
+0000684: 48                                        ; export func index
+0000685: 16                                        ; string length
+0000686: 4173 7365 6d62 6c79 496e 666f 2e42 7569  AssemblyInfo.Bui
+0000696: 6c74 5469 6d65                           ltTime  ; export name
+000069c: 00                                        ; export kind
+000069d: 49                                        ; export func index
+000069e: 1c                                        ; string length
+000069f: 5374 7269 6e67 7374 6573 742e 7374 7269  Stringstest.stri
+00006af: 6e67 6d65 6d62 6572 5465 7374            ngmemberTest  ; export name
+00006bb: 00                                        ; export kind
+00006bc: 4a                                        ; export func index
+00006bd: 10                                        ; string length
+00006be: 5374 7269 6e67 7374 6573 742e 4d61 696e  Stringstest.Main  ; export name
+00006ce: 00                                        ; export kind
+00006cf: 4b                                        ; export func index
+00006d0: 11                                        ; string length
+00006d1: 5374 7269 6e67 7374 6573 742e 4865 6c6c  Stringstest.Hell
+00006e1: 6f                                       o  ; export name
+00006e2: 00                                        ; export kind
+00006e3: 4c                                        ; export func index
+00006e4: 11                                        ; string length
+00006e5: 5374 7269 6e67 7374 6573 742e 576f 726c  Stringstest.Worl
+00006f5: 64                                       d  ; export name
+00006f6: 00                                        ; export kind
+00006f7: 4d                                        ; export func index
+; move data: [4b1, 6f8) -> [4b2, 6f9)
+00004b0: c704                                      ; FIXUP section size
+; section "Start" (8)
+00006f9: 08                                        ; section code
+00006fa: 00                                        ; section size (guess)
+00006fb: 4f                                        ; start func index
+00006fa: 01                                        ; FIXUP section size
+; section "Code" (10)
+00006fc: 0a                                        ; section code
+00006fd: 00                                        ; section size (guess)
+00006fe: 19                                        ; num functions
+; function body 0
+00006ff: 00                                        ; func body size (guess)
+0000700: 00                                        ; local decl count
+0000701: 23                                        ; global.get
+0000702: 0f                                        ; global index
+0000703: 0f                                        ; return
+0000704: 0b                                        ; end
+00006ff: 05                                        ; FIXUP func body size
+; function body 1
+0000705: 00                                        ; func body size (guess)
+0000706: 00                                        ; local decl count
+0000707: 23                                        ; global.get
+0000708: 0f                                        ; global index
+0000709: 20                                        ; local.get
+000070a: 00                                        ; local index
+000070b: 6a                                        ; i32.add
+000070c: 24                                        ; global.set
+000070d: 0f                                        ; global index
+000070e: 23                                        ; global.get
+000070f: 0f                                        ; global index
+0000710: 0f                                        ; return
+0000711: 0b                                        ; end
+0000705: 0c                                        ; FIXUP func body size
+; function body 2
+0000712: 00                                        ; func body size (guess)
+0000713: 00                                        ; local decl count
+0000714: 23                                        ; global.get
+0000715: 0f                                        ; global index
+0000716: 0f                                        ; return
+0000717: 0b                                        ; end
+0000712: 05                                        ; FIXUP func body size
+; function body 3
+0000718: 00                                        ; func body size (guess)
+0000719: 00                                        ; local decl count
+000071a: 41                                        ; i32.const
+000071b: d000                                      ; i32 literal
+000071d: 0f                                        ; return
+000071e: 0b                                        ; end
+0000718: 06                                        ; FIXUP func body size
+; function body 4
+000071f: 00                                        ; func body size (guess)
+0000720: 00                                        ; local decl count
+0000721: 41                                        ; i32.const
+0000722: f802                                      ; i32 literal
+0000724: 0f                                        ; return
+0000725: 0b                                        ; end
+000071f: 06                                        ; FIXUP func body size
+; function body 5
+0000726: 00                                        ; func body size (guess)
+0000727: 00                                        ; local decl count
+0000728: 41                                        ; i32.const
+0000729: 8003                                      ; i32 literal
+000072b: 0f                                        ; return
+000072c: 0b                                        ; end
+0000726: 06                                        ; FIXUP func body size
+; function body 6
+000072d: 00                                        ; func body size (guess)
+000072e: 00                                        ; local decl count
+000072f: 41                                        ; i32.const
+0000730: 8803                                      ; i32 literal
+0000732: 0f                                        ; return
+0000733: 0b                                        ; end
+000072d: 06                                        ; FIXUP func body size
+; function body 7
+0000734: 00                                        ; func body size (guess)
+0000735: 00                                        ; local decl count
+0000736: 41                                        ; i32.const
+0000737: 9003                                      ; i32 literal
+0000739: 0f                                        ; return
+000073a: 0b                                        ; end
+0000734: 06                                        ; FIXUP func body size
+; function body 8
+000073b: 00                                        ; func body size (guess)
+000073c: 00                                        ; local decl count
+000073d: 41                                        ; i32.const
+000073e: 9803                                      ; i32 literal
+0000740: 0f                                        ; return
+0000741: 0b                                        ; end
+000073b: 06                                        ; FIXUP func body size
+; function body 9
+0000742: 00                                        ; func body size (guess)
+0000743: 00                                        ; local decl count
+0000744: 41                                        ; i32.const
+0000745: a003                                      ; i32 literal
+0000747: 0f                                        ; return
+0000748: 0b                                        ; end
+0000742: 06                                        ; FIXUP func body size
+; function body 10
+0000749: 00                                        ; func body size (guess)
+000074a: 00                                        ; local decl count
+000074b: 41                                        ; i32.const
+000074c: a803                                      ; i32 literal
+000074e: 0f                                        ; return
+000074f: 0b                                        ; end
+0000749: 06                                        ; FIXUP func body size
+; function body 11
+0000750: 00                                        ; func body size (guess)
+0000751: 00                                        ; local decl count
+0000752: 41                                        ; i32.const
+0000753: b003                                      ; i32 literal
+0000755: 0f                                        ; return
+0000756: 0b                                        ; end
+0000750: 06                                        ; FIXUP func body size
+; function body 12
+0000757: 00                                        ; func body size (guess)
+0000758: 00                                        ; local decl count
+0000759: 41                                        ; i32.const
+000075a: b803                                      ; i32 literal
+000075c: 0f                                        ; return
+000075d: 0b                                        ; end
+0000757: 06                                        ; FIXUP func body size
+; function body 13
+000075e: 00                                        ; func body size (guess)
+000075f: 00                                        ; local decl count
+0000760: 41                                        ; i32.const
+0000761: c003                                      ; i32 literal
+0000763: 0f                                        ; return
+0000764: 0b                                        ; end
+000075e: 06                                        ; FIXUP func body size
+; function body 14
+0000765: 00                                        ; func body size (guess)
+0000766: 00                                        ; local decl count
+0000767: 41                                        ; i32.const
+0000768: c803                                      ; i32 literal
+000076a: 0f                                        ; return
+000076b: 0b                                        ; end
+0000765: 06                                        ; FIXUP func body size
+; function body 15
+000076c: 00                                        ; func body size (guess)
+000076d: 00                                        ; local decl count
+000076e: 41                                        ; i32.const
+000076f: d003                                      ; i32 literal
+0000771: 0f                                        ; return
+0000772: 0b                                        ; end
+000076c: 06                                        ; FIXUP func body size
+; function body 16
+0000773: 00                                        ; func body size (guess)
+0000774: 00                                        ; local decl count
+0000775: 41                                        ; i32.const
+0000776: d803                                      ; i32 literal
+0000778: 0f                                        ; return
+0000779: 0b                                        ; end
+0000773: 06                                        ; FIXUP func body size
+; function body 17
+000077a: 00                                        ; func body size (guess)
+000077b: 00                                        ; local decl count
+000077c: 41                                        ; i32.const
+000077d: e003                                      ; i32 literal
+000077f: 0f                                        ; return
+0000780: 0b                                        ; end
+000077a: 06                                        ; FIXUP func body size
+; function body 18
+0000781: 00                                        ; func body size (guess)
+0000782: 00                                        ; local decl count
+0000783: 41                                        ; i32.const
+0000784: e803                                      ; i32 literal
+0000786: 0f                                        ; return
+0000787: 0b                                        ; end
+0000781: 06                                        ; FIXUP func body size
+; function body 19
+0000788: 00                                        ; func body size (guess)
+0000789: 01                                        ; local decl count
+000078a: 02                                        ; local type count
+000078b: 7e                                        ; i64
+000078c: 41                                        ; i32.const
+000078d: 00                                        ; i32 literal
+000078e: 1a                                        ; drop
+000078f: 10                                        ; call
+0000790: 4c                                        ; function index
+0000791: 10                                        ; call
+0000792: 22                                        ; function index
+0000793: ac                                        ; i64.extend_i32_s
+0000794: 21                                        ; local.set
+0000795: 00                                        ; local index
+0000796: 23                                        ; global.get
+0000797: 0e                                        ; global index
+0000798: ac                                        ; i64.extend_i32_s
+0000799: 20                                        ; local.get
+000079a: 00                                        ; local index
+000079b: 7c                                        ; i64.add
+000079c: 21                                        ; local.set
+000079d: 01                                        ; local index
+000079e: 0b                                        ; end
+0000788: 16                                        ; FIXUP func body size
+; function body 20
+000079f: 00                                        ; func body size (guess)
+00007a0: 01                                        ; local decl count
+00007a1: 01                                        ; local type count
+00007a2: 7f                                        ; i32
+00007a3: 10                                        ; call
+00007a4: 4c                                        ; function index
+00007a5: 41                                        ; i32.const
+00007a6: 18                                        ; i32 literal
+00007a7: 10                                        ; call
+00007a8: 21                                        ; function index
+00007a9: 10                                        ; call
+00007aa: 4d                                        ; function index
+00007ab: 10                                        ; call
+00007ac: 21                                        ; function index
+00007ad: 21                                        ; local.set
+00007ae: 00                                        ; local index
+00007af: 41                                        ; i32.const
+00007b0: 00                                        ; i32 literal
+00007b1: 1a                                        ; drop
+00007b2: 41                                        ; i32.const
+00007b3: 00                                        ; i32 literal
+00007b4: 1a                                        ; drop
+00007b5: 20                                        ; local.get
+00007b6: 00                                        ; local index
+00007b7: 0f                                        ; return
+00007b8: 0b                                        ; end
+000079f: 19                                        ; FIXUP func body size
+; function body 21
+00007b9: 00                                        ; func body size (guess)
+00007ba: 00                                        ; local decl count
+00007bb: 41                                        ; i32.const
+00007bc: c000                                      ; i32 literal
+00007be: 0f                                        ; return
+00007bf: 0b                                        ; end
+00007b9: 06                                        ; FIXUP func body size
+; function body 22
+00007c0: 00                                        ; func body size (guess)
+00007c1: 00                                        ; local decl count
+00007c2: 41                                        ; i32.const
+00007c3: c800                                      ; i32 literal
+00007c5: 0f                                        ; return
+00007c6: 0b                                        ; end
+00007c0: 06                                        ; FIXUP func body size
+; function body 23
+00007c7: 00                                        ; func body size (guess)
+00007c8: 00                                        ; local decl count
+00007c9: 44                                        ; f64.const
+00007ca: 0070 1c21 362b a042                       ; f64 literal
+00007d2: 24                                        ; global.set
+00007d3: 0c                                        ; global index
+00007d4: 41                                        ; i32.const
+00007d5: e300                                      ; i32 literal
+00007d7: 24                                        ; global.set
+00007d8: 0d                                        ; global index
+00007d9: 41                                        ; i32.const
+00007da: e400                                      ; i32 literal
+00007dc: 24                                        ; global.set
+00007dd: 0e                                        ; global index
+00007de: 0b                                        ; end
+00007c7: 17                                        ; FIXUP func body size
+; function body 24
+00007df: 00                                        ; func body size (guess)
+00007e0: 00                                        ; local decl count
+00007e1: 10                                        ; call
+00007e2: 4e                                        ; function index
+00007e3: 0b                                        ; end
+00007df: 04                                        ; FIXUP func body size
+; move data: [6fe, 7e4) -> [6ff, 7e5)
+00006fd: e601                                      ; FIXUP section size
+; section "Data" (11)
+00007e5: 0b                                        ; section code
+00007e6: 00                                        ; section size (guess)
+00007e7: 18                                        ; num data segments
+; data segment header 0
+00007e8: 00                                      
+00007e9: 41                                        ; i32.const
+00007ea: 0d                                        ; i32 literal
+00007eb: 0b                                        ; end
+00007ec: 04                                        ; data segment size
+; data segment data 0
+00007ed: 4141 4100                                 ; data segment data
+; data segment header 1
+00007f1: 00                                      
+00007f2: 41                                        ; i32.const
+00007f3: 18                                        ; i32 literal
+00007f4: 0b                                        ; end
+00007f5: 02                                        ; data segment size
+; data segment data 1
+00007f6: 2000                                      ; data segment data
+; data segment header 2
+00007f8: 00                                      
+00007f9: 41                                        ; i32.const
+00007fa: 20                                        ; i32 literal
+00007fb: 0b                                        ; end
+00007fc: 05                                        ; data segment size
+; data segment data 2
+00007fd: 6c65 7420 00                              ; data segment data
+; data segment header 3
+0000802: 00                                      
+0000803: 41                                        ; i32.const
+0000804: 28                                        ; i32 literal
+0000805: 0b                                        ; end
+0000806: 04                                        ; data segment size
+; data segment data 3
+0000807: 202b 2000                                 ; data segment data
+; data segment header 4
+000080b: 00                                      
+000080c: 41                                        ; i32.const
+000080d: 30                                        ; i32 literal
+000080e: 0b                                        ; end
+000080f: 04                                        ; data segment size
+; data segment data 4
+0000810: 202f 2000                                 ; data segment data
+; data segment header 5
+0000814: 00                                      
+0000815: 41                                        ; i32.const
+0000816: 38                                        ; i32 literal
+0000817: 0b                                        ; end
+0000818: 04                                        ; data segment size
+; data segment data 5
+0000819: 203d 2000                                 ; data segment data
+; data segment header 6
+000081d: 00                                      
+000081e: 41                                        ; i32.const
+000081f: c000                                      ; i32 literal
+0000821: 0b                                        ; end
+0000822: 06                                        ; data segment size
+; data segment data 6
+0000823: 4865 6c6c 6f00                            ; data segment data
+; data segment header 7
+0000829: 00                                      
+000082a: 41                                        ; i32.const
+000082b: c800                                      ; i32 literal
+000082d: 0b                                        ; end
+000082e: 06                                        ; data segment size
+; data segment data 7
+000082f: 576f 726c 6400                            ; data segment data
+; data segment header 8
+0000835: 00                                      
+0000836: 41                                        ; i32.const
+0000837: d000                                      ; i32 literal
+0000839: 0b                                        ; end
+000083a: a802                                      ; data segment size
+; data segment data 8
+000083c: 6431 353a 4173 7365 6d62 6c79 436f 6d70 
+000084c: 616e 7930 3a31 373a 4173 7365 6d62 6c79 
+000085c: 436f 7079 7269 6768 7430 3a31 393a 4173 
+000086c: 7365 6d62 6c79 4465 7363 7269 7074 696f 
+000087c: 6e30 3a31 393a 4173 7365 6d62 6c79 4669 
+000088c: 6c65 5665 7273 696f 6e30 3a31 363a 4173 
+000089c: 7365 6d62 6c79 4675 6c6c 4e61 6d65 303a 
+00008ac: 3238 3a41 7373 656d 626c 7949 6e66 6f72 
+00008bc: 6d61 7469 6f6e 616c 5665 7273 696f 6e30 
+00008cc: 3a31 353a 4173 7365 6d62 6c79 5072 6f64 
+00008dc: 7563 7430 3a31 333a 4173 7365 6d62 6c79 
+00008ec: 5469 746c 6530 3a31 373a 4173 7365 6d62 
+00008fc: 6c79 5472 6164 656d 6172 6b30 3a31 353a 
+000090c: 4173 7365 6d62 6c79 5665 7273 696f 6e30 
+000091c: 3a39 3a42 7569 6c74 5469 6d65 303a 3130 
+000092c: 3a43 6f6d 5669 7369 626c 6535 3a46 616c 
+000093c: 7365 343a 4775 6964 303a 343a 4e61 6d65 
+000094c: 303a 3135 3a54 6172 6765 7446 7261 6d65 
+000095c: 776f 726b 303a 6500                       ; data segment data
+; data segment header 9
+0000964: 00                                      
+0000965: 41                                        ; i32.const
+0000966: f802                                      ; i32 literal
+0000968: 0b                                        ; end
+0000969: 01                                        ; data segment size
+; data segment data 9
+000096a: 00                                        ; data segment data
+; data segment header 10
+000096b: 00                                      
+000096c: 41                                        ; i32.const
+000096d: 8003                                      ; i32 literal
+000096f: 0b                                        ; end
+0000970: 01                                        ; data segment size
+; data segment data 10
+0000971: 00                                        ; data segment data
+; data segment header 11
+0000972: 00                                      
+0000973: 41                                        ; i32.const
+0000974: 8803                                      ; i32 literal
+0000976: 0b                                        ; end
+0000977: 01                                        ; data segment size
+; data segment data 11
+0000978: 00                                        ; data segment data
+; data segment header 12
+0000979: 00                                      
+000097a: 41                                        ; i32.const
+000097b: 9003                                      ; i32 literal
+000097d: 0b                                        ; end
+000097e: 01                                        ; data segment size
+; data segment data 12
+000097f: 00                                        ; data segment data
+; data segment header 13
+0000980: 00                                      
+0000981: 41                                        ; i32.const
+0000982: 9803                                      ; i32 literal
+0000984: 0b                                        ; end
+0000985: 01                                        ; data segment size
+; data segment data 13
+0000986: 00                                        ; data segment data
+; data segment header 14
+0000987: 00                                      
+0000988: 41                                        ; i32.const
+0000989: a003                                      ; i32 literal
+000098b: 0b                                        ; end
+000098c: 01                                        ; data segment size
+; data segment data 14
+000098d: 00                                        ; data segment data
+; data segment header 15
+000098e: 00                                      
+000098f: 41                                        ; i32.const
+0000990: a803                                      ; i32 literal
+0000992: 0b                                        ; end
+0000993: 01                                        ; data segment size
+; data segment data 15
+0000994: 00                                        ; data segment data
+; data segment header 16
+0000995: 00                                      
+0000996: 41                                        ; i32.const
+0000997: b003                                      ; i32 literal
+0000999: 0b                                        ; end
+000099a: 01                                        ; data segment size
+; data segment data 16
+000099b: 00                                        ; data segment data
+; data segment header 17
+000099c: 00                                      
+000099d: 41                                        ; i32.const
+000099e: b803                                      ; i32 literal
+00009a0: 0b                                        ; end
+00009a1: 06                                        ; data segment size
+; data segment data 17
+00009a2: 4661 6c73 6500                            ; data segment data
+; data segment header 18
+00009a8: 00                                      
+00009a9: 41                                        ; i32.const
+00009aa: c003                                      ; i32 literal
+00009ac: 0b                                        ; end
+00009ad: 01                                        ; data segment size
+; data segment data 18
+00009ae: 00                                        ; data segment data
+; data segment header 19
+00009af: 00                                      
+00009b0: 41                                        ; i32.const
+00009b1: c803                                      ; i32 literal
+00009b3: 0b                                        ; end
+00009b4: 01                                        ; data segment size
+; data segment data 19
+00009b5: 00                                        ; data segment data
+; data segment header 20
+00009b6: 00                                      
+00009b7: 41                                        ; i32.const
+00009b8: d003                                      ; i32 literal
+00009ba: 0b                                        ; end
+00009bb: 01                                        ; data segment size
+; data segment data 20
+00009bc: 00                                        ; data segment data
+; data segment header 21
+00009bd: 00                                      
+00009be: 41                                        ; i32.const
+00009bf: d803                                      ; i32 literal
+00009c1: 0b                                        ; end
+00009c2: 01                                        ; data segment size
+; data segment data 21
+00009c3: 00                                        ; data segment data
+; data segment header 22
+00009c4: 00                                      
+00009c5: 41                                        ; i32.const
+00009c6: e003                                      ; i32 literal
+00009c8: 0b                                        ; end
+00009c9: 01                                        ; data segment size
+; data segment data 22
+00009ca: 00                                        ; data segment data
+; data segment header 23
+00009cb: 00                                      
+00009cc: 41                                        ; i32.const
+00009cd: e803                                      ; i32 literal
+00009cf: 0b                                        ; end
+00009d0: 01                                        ; data segment size
+; data segment data 23
+00009d1: 00                                        ; data segment data
+; move data: [7e7, 9d2) -> [7e8, 9d3)
+00007e6: eb03                                      ; FIXUP section size
+;; dump
+0000000: 0061 736d 0100 0000 0144 0d60 027c 7c01 
+0000010: 7c60 017c 017c 6000 017c 6001 7f00 6001 
+0000020: 7f01 7f60 0001 7f60 027f 7f01 7f60 017c 
+0000030: 017f 6003 7f7f 7f01 7f60 017f 017c 6002 
+0000040: 7f7f 017c 6003 7f7f 7c01 7f60 0000 02a2 
+0000050: 0738 044d 6174 6803 706f 7700 0004 4d61 
+0000060: 7468 0473 7172 7400 0104 4d61 7468 0365 
+0000070: 7870 0001 044d 6174 6803 6c6f 6700 0104 
+0000080: 4d61 7468 056c 6f67 3130 0001 044d 6174 
+0000090: 6803 636f 7300 0104 4d61 7468 0373 696e 
+00000a0: 0001 044d 6174 6803 7461 6e00 0104 4d61 
+00000b0: 7468 0566 6c6f 6f72 0001 044d 6174 6804 
+00000c0: 6365 696c 0001 044d 6174 6805 726f 756e 
+00000d0: 6400 0104 4d61 7468 0361 6273 0001 044d 
+00000e0: 6174 6803 6d69 6e00 0004 4d61 7468 036d 
+00000f0: 6178 0000 044d 6174 6806 7261 6e64 6f6d 
+0000100: 0002 0763 6f6e 736f 6c65 036c 6f67 0003 
+0000110: 0763 6f6e 736f 6c65 0550 7269 6e74 0004 
+0000120: 0845 6e63 6f64 696e 6708 4765 7442 7974 
+0000130: 6573 0004 0845 6e63 6f64 696e 6709 4765 
+0000140: 7453 7472 696e 6700 040d 5374 7269 6e67 
+0000150: 4275 696c 6465 7210 4e65 7753 7472 696e 
+0000160: 6742 7569 6c64 6572 0005 0d53 7472 696e 
+0000170: 6742 7569 6c64 6572 0641 7070 656e 6400 
+0000180: 060d 5374 7269 6e67 4275 696c 6465 720a 
+0000190: 4170 7065 6e64 4368 6172 0006 0d53 7472 
+00001a0: 696e 6742 7569 6c64 6572 0a41 7070 656e 
+00001b0: 644c 696e 6500 060d 5374 7269 6e67 4275 
+00001c0: 696c 6465 7208 546f 5374 7269 6e67 0004 
+00001d0: 0d53 7472 696e 6742 7569 6c64 6572 0543 
+00001e0: 6c65 6172 0004 0753 7472 696e 6773 0545 
+00001f0: 6d70 7479 0005 0753 7472 696e 6773 0443 
+0000200: 6872 5700 0407 5374 7269 6e67 7309 4e65 
+0000210: 7753 7472 696e 6700 0607 5374 7269 6e67 
+0000220: 7306 436f 6e63 6174 0006 0753 7472 696e 
+0000230: 6773 044a 6f69 6e00 0607 5374 7269 6e67 
+0000240: 7304 4173 6357 0004 0673 7472 696e 670b 
+0000250: 4933 3254 6f53 7472 696e 6700 0406 7374 
+0000260: 7269 6e67 0b46 3634 546f 5374 7269 6e67 
+0000270: 0007 0673 7472 696e 6703 4164 6400 0606 
+0000280: 7374 7269 6e67 064c 656e 6774 6800 0406 
+0000290: 7374 7269 6e67 0643 6861 7241 7400 0606 
+00002a0: 7374 7269 6e67 0953 7562 7374 7269 6e67 
+00002b0: 0008 0673 7472 696e 6707 5265 706c 6163 
+00002c0: 6500 0806 7374 7269 6e67 0454 7269 6d00 
+00002d0: 0406 7374 7269 6e67 0749 6e64 6578 4f66 
+00002e0: 0006 0673 7472 696e 6707 546f 5570 7065 
+00002f0: 7200 0406 7374 7269 6e67 0754 6f4c 6f77 
+0000300: 6572 0004 0673 7472 696e 6706 4571 7561 
+0000310: 6c73 0006 0743 6f6e 7665 7274 0e54 6f42 
+0000320: 6173 6536 3453 7472 696e 6700 0407 436f 
+0000330: 6e76 6572 7410 4672 6f6d 4261 7365 3634 
+0000340: 5374 7269 6e67 0004 0743 6f6e 7665 7274 
+0000350: 0854 6f53 7472 696e 6700 0406 5261 6e64 
+0000360: 6f6d 034e 6577 0004 0652 616e 646f 6d04 
+0000370: 4e65 7874 0008 0652 616e 646f 6d0a 4e65 
+0000380: 7874 446f 7562 6c65 0009 0541 7272 6179 
+0000390: 034e 6577 0004 0541 7272 6179 064c 656e 
+00003a0: 6774 6800 0405 4172 7261 7906 4765 7449 
+00003b0: 3332 0006 0541 7272 6179 0653 6574 4933 
+00003c0: 3200 0805 4172 7261 7906 4765 7446 3634 
+00003d0: 000a 0541 7272 6179 0653 6574 4636 3400 
+00003e0: 0b03 656e 760a 6279 7465 6368 756e 6b73 
+00003f0: 0200 0103 1a19 0506 0805 0505 0505 0505 
+0000400: 0505 0505 0505 0505 050c 0505 050c 0c06 
+0000410: 9d01 107f 0141 f003 0b7c 0144 182d 4454 
+0000420: fb21 0940 0b7c 0144 6957 148b 0abf 0540 
+0000430: 0b7c 0144 182d 4454 fb21 1940 0b7f 0141 
+0000440: 8080 8080 780b 7f01 41ff ffff ff07 0b7e 
+0000450: 0142 8080 8080 8080 8080 807f 0b7e 0142 
+0000460: ffff ffff ffff ffff ff00 0b7d 0143 ffff 
+0000470: 7fff 0b7d 0143 ffff 7f7f 0b7c 0144 ffff 
+0000480: ffff ffff efff 0b7c 0144 ffff ffff ffff 
+0000490: ef7f 0b7c 0144 0000 0000 0000 0000 0b7f 
+00004a0: 0141 000b 7f01 4100 0b7f 0141 f003 0b07 
+00004b0: c704 1512 5741 534d 2e47 6574 4d65 6d6f 
+00004c0: 7279 5369 7a65 0037 0c41 7373 656d 626c 
+00004d0: 7949 6e66 6f00 3a1a 4173 7365 6d62 6c79 
+00004e0: 496e 666f 2e41 7373 656d 626c 7954 6974 
+00004f0: 6c65 003b 2041 7373 656d 626c 7949 6e66 
+0000500: 6f2e 4173 7365 6d62 6c79 4465 7363 7269 
+0000510: 7074 696f 6e00 3c1c 4173 7365 6d62 6c79 
+0000520: 496e 666f 2e41 7373 656d 626c 7943 6f6d 
+0000530: 7061 6e79 003d 1c41 7373 656d 626c 7949 
+0000540: 6e66 6f2e 4173 7365 6d62 6c79 5072 6f64 
+0000550: 7563 7400 3e1e 4173 7365 6d62 6c79 496e 
+0000560: 666f 2e41 7373 656d 626c 7943 6f70 7972 
+0000570: 6967 6874 003f 1e41 7373 656d 626c 7949 
+0000580: 6e66 6f2e 4173 7365 6d62 6c79 5472 6164 
+0000590: 656d 6172 6b00 4029 4173 7365 6d62 6c79 
+00005a0: 496e 666f 2e41 7373 656d 626c 7949 6e66 
+00005b0: 6f72 6d61 7469 6f6e 616c 5665 7273 696f 
+00005c0: 6e00 411c 4173 7365 6d62 6c79 496e 666f 
+00005d0: 2e54 6172 6765 7446 7261 6d65 776f 726b 
+00005e0: 0042 1741 7373 656d 626c 7949 6e66 6f2e 
+00005f0: 436f 6d56 6973 6962 6c65 0043 1141 7373 
+0000600: 656d 626c 7949 6e66 6f2e 4e61 6d65 0044 
+0000610: 1141 7373 656d 626c 7949 6e66 6f2e 4775 
+0000620: 6964 0045 1c41 7373 656d 626c 7949 6e66 
+0000630: 6f2e 4173 7365 6d62 6c79 5665 7273 696f 
+0000640: 6e00 4620 4173 7365 6d62 6c79 496e 666f 
+0000650: 2e41 7373 656d 626c 7946 696c 6556 6572 
+0000660: 7369 6f6e 0047 1d41 7373 656d 626c 7949 
+0000670: 6e66 6f2e 4173 7365 6d62 6c79 4675 6c6c 
+0000680: 4e61 6d65 0048 1641 7373 656d 626c 7949 
+0000690: 6e66 6f2e 4275 696c 7454 696d 6500 491c 
+00006a0: 5374 7269 6e67 7374 6573 742e 7374 7269 
+00006b0: 6e67 6d65 6d62 6572 5465 7374 004a 1053 
+00006c0: 7472 696e 6773 7465 7374 2e4d 6169 6e00 
+00006d0: 4b11 5374 7269 6e67 7374 6573 742e 4865 
+00006e0: 6c6c 6f00 4c11 5374 7269 6e67 7374 6573 
+00006f0: 742e 576f 726c 6400 4d08 014f 0ae6 0119 
+0000700: 0500 230f 0f0b 0c00 230f 2000 6a24 0f23 
+0000710: 0f0f 0b05 0023 0f0f 0b06 0041 d000 0f0b 
+0000720: 0600 41f8 020f 0b06 0041 8003 0f0b 0600 
+0000730: 4188 030f 0b06 0041 9003 0f0b 0600 4198 
+0000740: 030f 0b06 0041 a003 0f0b 0600 41a8 030f 
+0000750: 0b06 0041 b003 0f0b 0600 41b8 030f 0b06 
+0000760: 0041 c003 0f0b 0600 41c8 030f 0b06 0041 
+0000770: d003 0f0b 0600 41d8 030f 0b06 0041 e003 
+0000780: 0f0b 0600 41e8 030f 0b16 0102 7e41 001a 
+0000790: 104c 1022 ac21 0023 0eac 2000 7c21 010b 
+00007a0: 1901 017f 104c 4118 1021 104d 1021 2100 
+00007b0: 4100 1a41 001a 2000 0f0b 0600 41c0 000f 
+00007c0: 0b06 0041 c800 0f0b 1700 4400 701c 2136 
+00007d0: 2ba0 4224 0c41 e300 240d 41e4 0024 0e0b 
+00007e0: 0400 104e 0b0b eb03 1800 410d 0b04 4141 
+00007f0: 4100 0041 180b 0220 0000 4120 0b05 6c65 
+0000800: 7420 0000 4128 0b04 202b 2000 0041 300b 
+0000810: 0420 2f20 0000 4138 0b04 203d 2000 0041 
+0000820: c000 0b06 4865 6c6c 6f00 0041 c800 0b06 
+0000830: 576f 726c 6400 0041 d000 0ba8 0264 3135 
+0000840: 3a41 7373 656d 626c 7943 6f6d 7061 6e79 
+0000850: 303a 3137 3a41 7373 656d 626c 7943 6f70 
+0000860: 7972 6967 6874 303a 3139 3a41 7373 656d 
+0000870: 626c 7944 6573 6372 6970 7469 6f6e 303a 
+0000880: 3139 3a41 7373 656d 626c 7946 696c 6556 
+0000890: 6572 7369 6f6e 303a 3136 3a41 7373 656d 
+00008a0: 626c 7946 756c 6c4e 616d 6530 3a32 383a 
+00008b0: 4173 7365 6d62 6c79 496e 666f 726d 6174 
+00008c0: 696f 6e61 6c56 6572 7369 6f6e 303a 3135 
+00008d0: 3a41 7373 656d 626c 7950 726f 6475 6374 
+00008e0: 303a 3133 3a41 7373 656d 626c 7954 6974 
+00008f0: 6c65 303a 3137 3a41 7373 656d 626c 7954 
+0000900: 7261 6465 6d61 726b 303a 3135 3a41 7373 
+0000910: 656d 626c 7956 6572 7369 6f6e 303a 393a 
+0000920: 4275 696c 7454 696d 6530 3a31 303a 436f 
+0000930: 6d56 6973 6962 6c65 353a 4661 6c73 6534 
+0000940: 3a47 7569 6430 3a34 3a4e 616d 6530 3a31 
+0000950: 353a 5461 7267 6574 4672 616d 6577 6f72 
+0000960: 6b30 3a65 0000 41f8 020b 0100 0041 8003 
+0000970: 0b01 0000 4188 030b 0100 0041 9003 0b01 
+0000980: 0000 4198 030b 0100 0041 a003 0b01 0000 
+0000990: 41a8 030b 0100 0041 b003 0b01 0000 41b8 
+00009a0: 030b 0646 616c 7365 0000 41c0 030b 0100 
+00009b0: 0041 c803 0b01 0000 41d0 030b 0100 0041 
+00009c0: d803 0b01 0000 41e0 030b 0100 0041 e803 
+00009d0: 0b01 00                                 

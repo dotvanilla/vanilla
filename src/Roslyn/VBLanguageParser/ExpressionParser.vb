@@ -409,13 +409,14 @@ Namespace VBLanguageParser
                 Return args
             End If
 
-            Dim casted(args.Length - 1) As WATSyntax
+            Dim padded As WATSyntax() = PadArguments(args, api.Parameters)
+            Dim casted(padded.Length - 1) As WATSyntax
 
-            For i As Integer = 0 To args.Length - 1
-                If i < api.Parameters.Length AndAlso Not api.Parameters(i) Is Nothing AndAlso Not api.Parameters(i).Type Is Nothing Then
-                    casted(i) = CTypeHandle.[CType](api.Parameters(i).Type, args(i), context)
+            For i As Integer = 0 To padded.Length - 1
+                If Not api.Parameters(i) Is Nothing AndAlso Not api.Parameters(i).Type Is Nothing Then
+                    casted(i) = CTypeHandle.[CType](api.Parameters(i).Type, padded(i), context)
                 Else
-                    casted(i) = args(i)
+                    casted(i) = padded(i)
                 End If
             Next
 
@@ -423,24 +424,67 @@ Namespace VBLanguageParser
         End Function
 
         ''' <summary>
-        ''' 按照目标函数的参数类型对调用参数进行类型转换
+        ''' 按照目标函数的参数类型对调用参数进行类型转换（省略的可选参数使用零值补齐）
         ''' </summary>
         Friend Function CastFunctionArguments(func As FunctionDeclare, args As WATSyntax(), context As Environment) As WATSyntax()
-            If args Is Nothing OrElse args.Length = 0 OrElse func Is Nothing OrElse func.parameters Is Nothing Then
+            If func Is Nothing OrElse func.parameters Is Nothing Then
                 Return args
             End If
 
-            Dim casted(args.Length - 1) As WATSyntax
+            Dim padded As WATSyntax() = PadArguments(args, func.parameters)
+            Dim casted(padded.Length - 1) As WATSyntax
 
-            For i As Integer = 0 To args.Length - 1
-                If i < func.parameters.Length AndAlso Not func.parameters(i) Is Nothing AndAlso Not func.parameters(i).Type Is Nothing Then
-                    casted(i) = CTypeHandle.[CType](func.parameters(i).Type, args(i), context)
+            For i As Integer = 0 To padded.Length - 1
+                If Not func.parameters(i) Is Nothing AndAlso Not func.parameters(i).Type Is Nothing Then
+                    casted(i) = CTypeHandle.[CType](func.parameters(i).Type, padded(i), context)
                 Else
-                    casted(i) = args(i)
+                    casted(i) = padded(i)
                 End If
             Next
 
             Return casted
+        End Function
+
+        ''' <summary>
+        ''' 使用零值补齐被省略的参数（可选参数）
+        ''' </summary>
+        Friend Function PadArguments(args As WATSyntax(), pars As DeclareLocal()) As WATSyntax()
+            If pars Is Nothing Then
+                Return args
+            End If
+
+            Dim source As WATSyntax() = If(args, {})
+            Dim result As New List(Of WATSyntax)
+
+            For i As Integer = 0 To pars.Length - 1
+                If i < source.Length AndAlso Not source(i) Is Nothing Then
+                    result.Add(source(i))
+                ElseIf Not pars(i) Is Nothing Then
+                    result.Add(ZeroValue(pars(i).Type))
+                End If
+            Next
+
+            Return result.ToArray
+        End Function
+
+        ''' <summary>
+        ''' 生成指定 wasm 类型的零值常量
+        ''' </summary>
+        Friend Function ZeroValue(type As WATType) As WATSyntax
+            If type Is Nothing Then
+                Return New LiteralValue(0, WATType.i32)
+            End If
+
+            Select Case type.UnderlyingWATType
+                Case WATElements.i64
+                    Return New LiteralValue(0L, WATType.i64)
+                Case WATElements.f32
+                    Return New LiteralValue(0.0F, WATType.f32)
+                Case WATElements.f64
+                    Return New LiteralValue(0.0R, WATType.f64)
+                Case Else
+                    Return New LiteralValue(0, WATType.i32)
+            End Select
         End Function
 
         <Extension>
