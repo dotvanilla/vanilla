@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:17:06
+    ;; build: 2026-10-13 17:19:08
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -283,14 +283,14 @@
         
 
         
-    (block $WASMClosure_br_250e6b94244837ad 
-        (loop $loop_tmp3f0de7bd426e1c52
+    (block $WASMClosure_br_874542e862cfeef1 
+        (loop $loop_tmp0dca7f39b31dcf83
 
                         
     ;; while ((i32.const 1))
-                (br_if $WASMClosure_br_250e6b94244837ad (i32.eqz (i32.const 1)))
+                (br_if $WASMClosure_br_874542e862cfeef1 (i32.eqz (i32.const 1)))
             (drop (call $.loopTest1.doNothing ))
-            (br $loop_tmp3f0de7bd426e1c52)
+            (br $loop_tmp0dca7f39b31dcf83)
 
         )
     )
