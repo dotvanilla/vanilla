@@ -58,6 +58,12 @@ Namespace CodeAnalysis.TypeInfo.Operator
         ''' 在这里应该产生的是一个逻辑值比较
         ''' </remarks>
         Public Function Compares(type$, op$) As String
+            ' 在 wasm 之中，boolean 与 i32 的表示是完全一致的；
+            ' 比较运算符中的 boolean 需要用 i32 的指令来实现。
+            If type = NameOf(WATElements.boolean) Then
+                type = NameOf(WATElements.i32)
+            End If
+
             Select Case op
                 Case ">"
                     If type Like integerType Then
