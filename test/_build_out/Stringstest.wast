@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:17:19
+    ;; build: 2026-10-13 17:18:28
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -325,7 +325,7 @@
     (local $format i32)
 
         (set_local $str (call $string.add (call $string.add (call $.Stringstest.Hello ) (i32.const 24)) (call $.Stringstest.World )))
-        (set_local $format (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 32) (call $string.i32.toString (get_global $a))) (i32.const 40)) (call $string.i32.toString (get_global $b))) (i32.const 48)) (call $string.f64.toString (get_global $C))) (i32.const 56)) (call $string.i32.toString (i32.add (get_global $a) (i32.div (f64.convert_s/i32 (get_global $b)) (get_global $C))))))
+        (set_local $format (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (call $string.add (i32.const 32) (call $string.i32.toString (get_global $a))) (i32.const 40)) (call $string.i32.toString (get_global $b))) (i32.const 48)) (call $string.f64.toString (get_global $C))) (i32.const 56)) (call $string.f64.toString (f64.add (f64.convert_s/i32 (get_global $a)) (f64.div (f64.convert_s/i32 (get_global $b)) (get_global $C))))))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (return (get_local $str))

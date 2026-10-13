@@ -17,7 +17,10 @@ Namespace Syntax
 
         Private Function CheckWATType() As WATType
             Select Case [operator]
-                Case "+", "-", "*"
+                Case "+", "-", "*", "/"
+                    ' NOTE: 除法（"/"）的两个操作数在 BinaryParser 之中已经被统一转换为 f64，
+                    ' 因此这里返回操作数的类型即可得到 f64.div；如果落到下面的 Case Else
+                    ' 则会得到 boolean 类型，进而生成非法指令 ``i32.div``。
                     Dim left As WATType = Me.left.Type
                     Dim right As WATType = Me.right.Type
 

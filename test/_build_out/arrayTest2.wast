@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:16:48
+    ;; build: 2026-10-13 17:18:51
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -301,17 +301,17 @@
     ;; For i As Integer = 0 To data.Length - 1
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_bc75e81f1da0fa82 
-        (loop $loop_tmp310ee306bf468d16
+    (block $WASMClosure_br_e6789919497224b4 
+        (loop $loop_tmpace17f85705bee69
 
                         
     ;; (boolean) (boolean) (i32) (i > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
-                (br_if $WASMClosure_br_bc75e81f1da0fa82 (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_global $data)) (i32.const 1))))
+                (br_if $WASMClosure_br_e6789919497224b4 (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_global $data)) (i32.const 1))))
             (drop (i32.const 0))
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp310ee306bf468d16)
-                        ;;For Loop Next On loop_tmp310ee306bf468d16
+            (br $loop_tmpace17f85705bee69)
+                        ;;For Loop Next On loop_tmpace17f85705bee69
 
         )
     )
@@ -324,7 +324,7 @@
 
         
 
-        (drop (call $Array.set.f64 (get_global $data) (i32.add (get_local $x) (i32.const 1)) (f64.const 0)))
+        (drop (call $Array.set.f64 (get_global $data) (i32.add (get_local $x) (i32.const 1)) (f64.div (f64.convert_s/i32 (i32.mul (get_local $x) (i32.const 2))) (f64.convert_s/i32 (i32.sub (call $Array.length (get_global $data)) (i32.const 1))))))
         (drop (i32.const 0))
     )
 
