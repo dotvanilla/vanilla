@@ -128,7 +128,9 @@ Public Module Base64Codec
 
         ' 还原后的总字节数：组数 × 3 - 填充数
         '   "xxxx"→3字节   "xxx="→2字节   "xx=="→1字节
-        Dim totalBytes As Integer = base64.Length \ 4 * 3 - padCount
+        ' 注意：VB 中 \（整除）的优先级低于 *，必须加括号，否则会被解析为
+        ' base64.Length \ (4*3)，长度不足 12 的输入会得到 totalBytes=0 导致数组越界
+        Dim totalBytes As Integer = (base64.Length \ 4) * 3 - padCount
         Dim result(totalBytes - 1) As Byte
         Dim outPos As Integer = 0
 
