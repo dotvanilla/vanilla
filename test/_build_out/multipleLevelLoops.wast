@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:19:13
+    ;; build: 2026-10-13 17:20:41
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -283,19 +283,19 @@
         (local $i i32)
 
         
-    (block $WASMClosure_br_37122c870eaa53fd 
-        (loop $loop_tmp7a9d8cdd087f799a
+    (block $WASMClosure_br_486541339c47f5e2 
+        (loop $loop_tmp2dd879f1d5ad993a
 
                         
-    (block $WASMClosure_br_38486e66650547cf 
-        (loop $loop_tmpf530da572a76a0dc
+    (block $WASMClosure_br_c2331218832b0a26 
+        (loop $loop_tmp71087f45a5ec51b0
 
                                 
     ;; while ((boolean) (i32) (i < (i32.const 999)))
-                        (br_if $WASMClosure_br_38486e66650547cf (i32.eqz (i32.lt_s (get_local $i) (i32.const 999))))
+                        (br_if $WASMClosure_br_c2331218832b0a26 (i32.eqz (i32.lt_s (get_local $i) (i32.const 999))))
                     
-    (block $WASMClosure_br_9fbf21d04fb7bdd5 
-        (loop $loop_tmpdb45c36fad1d087c
+    (block $WASMClosure_br_65eb85ad6b4adff2 
+        (loop $loop_tmp8c98e9c20cb8b3ab
 
                                         (set_local $i (i32.add (get_local $i) (i32.const 1)))
                             
@@ -306,11 +306,11 @@
     )
                             
     ;; loop test ((boolean) (i32) (i > (i32.const 50)))
-                                (br_if $loop_tmpdb45c36fad1d087c (i32.eqz (i32.gt_s (get_local $i) (i32.const 50))))
+                                (br_if $loop_tmp8c98e9c20cb8b3ab (i32.eqz (i32.gt_s (get_local $i) (i32.const 50))))
 
         )
     )
-                    (br $loop_tmpf530da572a76a0dc)
+                    (br $loop_tmp71087f45a5ec51b0)
 
         )
     )
@@ -320,7 +320,7 @@
             
         ) 
     )
-            (br $loop_tmp7a9d8cdd087f799a)
+            (br $loop_tmp2dd879f1d5ad993a)
 
         )
     )

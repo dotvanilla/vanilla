@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:19:18
+    ;; build: 2026-10-13 17:20:46
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -326,19 +326,19 @@
     ;; For i As Integer = 0 To ps.Length - 1
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_bd2767463ee73158 
-        (loop $loop_tmp3c728a2a6d780a64
+    (block $WASMClosure_br_7416824fd603117a 
+        (loop $loop_tmp3c72c14dfee687ec
 
                         
     ;; (boolean) (boolean) (i32) (i > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
-                (br_if $WASMClosure_br_bd2767463ee73158 (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_global $ps)) (i32.const 1))))
+                (br_if $WASMClosure_br_7416824fd603117a (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_global $ps)) (i32.const 1))))
             (drop (i32.const 0))
             (drop (i32.const 0))
             (drop (i32.const 0))
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp3c728a2a6d780a64)
-                        ;;For Loop Next On loop_tmp3c728a2a6d780a64
+            (br $loop_tmp3c72c14dfee687ec)
+                        ;;For Loop Next On loop_tmp3c72c14dfee687ec
 
         )
     )
@@ -348,17 +348,17 @@
     ;; For j As Integer = 0 To lines.Length - 1
     (set_local $j (i32.const 0))
     
-    (block $WASMClosure_br_fc7b01bf8f7f2507 
-        (loop $loop_tmpef6bbf0a2f170c5a
+    (block $WASMClosure_br_1a190f2c39c4d978 
+        (loop $loop_tmp14eed7b80f183f2b
 
                         
     ;; (boolean) (boolean) (i32) (j > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
-                (br_if $WASMClosure_br_fc7b01bf8f7f2507 (i32.gt_s (get_local $j) (i32.sub (call $Array.length (get_global $lines)) (i32.const 1))))
+                (br_if $WASMClosure_br_1a190f2c39c4d978 (i32.gt_s (get_local $j) (i32.sub (call $Array.length (get_global $lines)) (i32.const 1))))
             (drop (i32.const 0))
                         ;;For loop control step: (i32.const 1)
             (set_local $j (i32.add (get_local $j) (i32.const 1)))
-            (br $loop_tmpef6bbf0a2f170c5a)
-                        ;;For Loop Next On loop_tmpef6bbf0a2f170c5a
+            (br $loop_tmp14eed7b80f183f2b)
+                        ;;For Loop Next On loop_tmp14eed7b80f183f2b
 
         )
     )
@@ -374,19 +374,19 @@
     ;; For i As Integer = 0 To ps.Length - 1
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_96f7041667dfb645 
-        (loop $loop_tmp239a841e54d24e05
+    (block $WASMClosure_br_eb06342ad9cb465c 
+        (loop $loop_tmp9f8f30f520814e87
 
                         
     ;; (boolean) (boolean) (i32) (i > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
-                (br_if $WASMClosure_br_96f7041667dfb645 (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_global $ps)) (i32.const 1))))
+                (br_if $WASMClosure_br_eb06342ad9cb465c (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_global $ps)) (i32.const 1))))
             (drop (i32.const 0))
             (drop (i32.const 0))
             (drop (i32.const 0))
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp239a841e54d24e05)
-                        ;;For Loop Next On loop_tmp239a841e54d24e05
+            (br $loop_tmp9f8f30f520814e87)
+                        ;;For Loop Next On loop_tmp9f8f30f520814e87
 
         )
     )

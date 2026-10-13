@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:19:23
+    ;; build: 2026-10-13 17:20:50
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -305,17 +305,17 @@
     ;; For i As Integer = 0 To a.Length - 1
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_f0163d9c09b7d8f3 
-        (loop $loop_tmpcd8edb1c9ebe7ad2
+    (block $WASMClosure_br_c6b0a3b5eb09629e 
+        (loop $loop_tmp8cd721b679ba44e1
 
                         
     ;; (boolean) (boolean) (i32) (i > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
-                (br_if $WASMClosure_br_f0163d9c09b7d8f3 (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_local $a)) (i32.const 1))))
+                (br_if $WASMClosure_br_c6b0a3b5eb09629e (i32.gt_s (get_local $i) (i32.sub (call $Array.length (get_local $a)) (i32.const 1))))
             (drop (call $Array.set.i32 (get_local $a) (get_local $i) (i32.const 0)))
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmpcd8edb1c9ebe7ad2)
-                        ;;For Loop Next On loop_tmpcd8edb1c9ebe7ad2
+            (br $loop_tmp8cd721b679ba44e1)
+                        ;;For Loop Next On loop_tmp8cd721b679ba44e1
 
         )
     )

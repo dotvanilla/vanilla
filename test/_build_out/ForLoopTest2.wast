@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:19:01
+    ;; build: 2026-10-13 17:20:28
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -288,17 +288,17 @@
     ;; For i As Integer = 0 To 100
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_3f1c77c4a76e5af0 
-        (loop $loop_tmp19a3073f51fcada6
+    (block $WASMClosure_br_d3cdf505279a636e 
+        (loop $loop_tmpd299c3356d310ed0
 
                         
     ;; (boolean) (boolean) (i32) (i > (i32.const 100))
-                (br_if $WASMClosure_br_3f1c77c4a76e5af0 (i32.gt_s (get_local $i) (i32.const 100)))
+                (br_if $WASMClosure_br_d3cdf505279a636e (i32.gt_s (get_local $i) (i32.const 100)))
             (drop (call $Array.set.f64 (get_local $a) (get_local $i) (call $Math.Pow (f64.convert_s/i32 (get_local $i)) (f64.convert_s/i32 (i32.const 2)))))
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp19a3073f51fcada6)
-                        ;;For Loop Next On loop_tmp19a3073f51fcada6
+            (br $loop_tmpd299c3356d310ed0)
+                        ;;For Loop Next On loop_tmpd299c3356d310ed0
 
         )
     )
@@ -307,17 +307,17 @@
     ;; For i As Integer = 1000 To 1 Step -2
     (set_local $i (i32.const 1000))
     
-    (block $WASMClosure_br_489cb3b2f2172961 
-        (loop $loop_tmpcb2bca4ed1e28db6
+    (block $WASMClosure_br_84917b6ff9bf8df0 
+        (loop $loop_tmpa0c6c920bb34ed14
 
                         
     ;; (boolean) (boolean) (i32) (i < (i32.const 1))
-                (br_if $WASMClosure_br_489cb3b2f2172961 (i32.lt_s (get_local $i) (i32.const 1)))
+                (br_if $WASMClosure_br_84917b6ff9bf8df0 (i32.lt_s (get_local $i) (i32.const 1)))
             (drop (call $Array.set.f64 (get_local $a) (get_local $i) (call $Math.Pow (call $Array.get.f64 (get_local $a) (get_local $i)) (f64.div (f64.convert_s/i32 (i32.const 1)) (f64.convert_s/i32 (i32.const 2))))))
                         ;;For loop control step: (i32.const -2)
             (set_local $i (i32.add (get_local $i) (i32.const -2)))
-            (br $loop_tmpcb2bca4ed1e28db6)
-                        ;;For Loop Next On loop_tmpcb2bca4ed1e28db6
+            (br $loop_tmpa0c6c920bb34ed14)
+                        ;;For Loop Next On loop_tmpa0c6c920bb34ed14
 
         )
     )
