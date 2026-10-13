@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 12:53:18
+    ;; build: 2026-10-13 15:28:29
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -279,23 +279,43 @@
     ;; Public Function .ForLoopTest2.Main() As System.Void
     (func $.ForLoopTest2.Main  
 
-        (local $i i32)
+        (local $a i32)
+    (local $i i32)
 
+        (set_local $a (i32.const 0))
             
     ;; For i As Integer = 0 To 100
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_a97206f7eaa51e51 
-        (loop $loop_tmp529254a3e5826e57
+    (block $WASMClosure_br_8d4f6bf1b3f93604 
+        (loop $loop_tmp08e60f57e9e84319
 
                         
     ;; (boolean) (boolean) (i32) (i = (i32.const 100))
-                (br_if $WASMClosure_br_a97206f7eaa51e51 (i32.eq (get_local $i) (i32.const 100)))
+                (br_if $WASMClosure_br_8d4f6bf1b3f93604 (i32.eq (get_local $i) (i32.const 100)))
             (i32.const 0)
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmp529254a3e5826e57)
-                        ;;For Loop Next On loop_tmp529254a3e5826e57
+            (br $loop_tmp08e60f57e9e84319)
+                        ;;For Loop Next On loop_tmp08e60f57e9e84319
+
+        )
+    )
+    
+            
+    ;; For i As Integer = 1000 To 1 Step -2
+    (set_local $i (i32.const 1000))
+    
+    (block $WASMClosure_br_782cf8bcb79dfb43 
+        (loop $loop_tmp5384529d0bb417c4
+
+                        
+    ;; (boolean) (boolean) (i32) (i < (i32.const 1))
+                (br_if $WASMClosure_br_782cf8bcb79dfb43 (i32.lt_s (get_local $i) (i32.const 1)))
+                        ;;For loop control step: (i32.const -2)
+            (set_local $i (i32.add (get_local $i) (i32.const -2)))
+            (br $loop_tmp5384529d0bb417c4)
+                        ;;For Loop Next On loop_tmp5384529d0bb417c4
 
         )
     )

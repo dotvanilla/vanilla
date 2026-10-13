@@ -71,17 +71,26 @@ Namespace Syntax.Literal
         End Function
 
         Public Overrides Function ToSExpression(env As Environment, indent As String) As String
-            Select Case Type
-                Case WATType.i32, WATType.string
-                    Return $"(i32.const {Value})"
-                Case WATType.i64
+            ' 按照底层的 wasm 基本类型来生成常量指令
+            Select Case Type.UnderlyingWATType
+                Case WATElements.i64
                     Return $"(i64.const {Value})"
-                Case WATType.f32
+                Case WATElements.f32
                     Return $"(f32.const {Value})"
-                Case WATType.f64
+                Case WATElements.f64
                     Return $"(f64.const {Value})"
+                Case WATElements.i32,
+                     WATElements.boolean,
+                     WATElements.string,
+                     WATElements.any,
+                     WATElements.array,
+                     WATElements.list,
+                     WATElements.table,
+                     WATElements.intptr,
+                     WATElements.void
+                    Return $"(i32.const {Value})"
                 Case Else
-                    Throw New InvalidCastException
+                    Return $"(i32.const {Value})"
             End Select
         End Function
     End Class

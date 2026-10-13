@@ -28,7 +28,8 @@ Namespace VBLanguageParser
 
             If Not asClause Is Nothing Then
                 If TypeOf asClause Is SimpleAsClauseSyntax Then
-                    type = WATType.GetUnderlyingType(GetAsType(asClause, context), context)
+                    ' 统一走 Utils.ParseType，支持数组/泛型/用户自定义类型
+                    type = DirectCast(asClause, SimpleAsClauseSyntax).Type.ParseType(context)
                 ElseIf TypeOf asClause Is AsNewClauseSyntax Then
                     Dim [new] As ObjectCreationExpressionSyntax = DirectCast(asClause, AsNewClauseSyntax).NewExpression
                     Dim objType As VBType = AsTypeHandler.GetType([new].Type, context)

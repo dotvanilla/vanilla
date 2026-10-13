@@ -81,7 +81,18 @@ Namespace VBLanguageParser
             Select Case unaryOperator
                 Case "-"
                     If TypeOf value Is NumberLiteral Then
-                        Return New NumberLiteral(-CDbl(DirectCast(value, NumberLiteral).Value), value.Type)
+                        Dim raw As Object = DirectCast(value, NumberLiteral).Value
+                        Dim neg As Object
+
+                        If TypeOf raw Is Integer Then
+                            neg = -CInt(raw)
+                        ElseIf TypeOf raw Is Long Then
+                            neg = -CLng(raw)
+                        Else
+                            neg = -CDbl(raw)
+                        End If
+
+                        Return New NumberLiteral(neg, value.Type)
                     Else
                         Return New BinaryOperator With {
                             .left = New LiteralValue(0, value.Type),
@@ -210,7 +221,7 @@ Namespace VBLanguageParser
                 If Not func Is Nothing Then
                     Return New FunctionInvoke With {
                         .Func = New SymbolReference(func.FullName),
-                        .Arguments = args
+                        .Arguments = CastFunctionArguments(func, args, context)
                     }.SetReturnValue(func.Type)
                 End If
 
@@ -334,7 +345,7 @@ Namespace VBLanguageParser
         End Function
 
         Friend Function ArrayGet(arrayType As WATType, array As WATSyntax, index As WATSyntax, context As Environment) As WATSyntax
-            Dim element As WATType = If(TypeOf arrayType Is ArrayType, DirectCast(arrayType, ArrayType), WATType.i32)
+            Dim element As WATType = If(TypeOf arrayType Is ArrayType, DirectCast(arrayType, ArrayType).ElementType, WATType.i32)
             Dim e As WATElements = element.UnderlyingWATType
 
             If e = WATElements.f32 OrElse e = WATElements.f64 Then
@@ -348,8 +359,64 @@ Namespace VBLanguageParser
         Friend Function InvokeStatic(jsName As String, resultType As WATType, args As WATSyntax(), context As Environment) As WATSyntax
             Return New FunctionInvoke With {
                 .Func = New JavaScriptTranslation(resultType) With {.JavaScript = jsName},
-                .Arguments = args
+                .Arguments = CastArguments(jsName, args, context)
             }.SetReturnValue(resultType)
+        End Function
+
+        ''' <summary>
+        ''' 按照目标导入函数的参数类型对调用参数进行类型转换
+        ''' </summary>
+        Friend Function CastArguments(jsName As String, args As WATSyntax(), context As Environment) As WATSyntax()
+            If args Is Nothing OrElse args.Length = 0 Then
+                Return {}
+            End If
+
+            If context Is Nothing OrElse context.Workspace Is Nothing Then
+                Return args
+            End If
+
+            Dim api As ImportsFunction = Nothing
+
+            If context.Workspace.Imports.ContainsKey(jsName) Then
+                api = context.Workspace.Imports(jsName)
+            End If
+
+            If api Is Nothing OrElse api.Parameters Is Nothing Then
+                Return args
+            End If
+
+            Dim casted(args.Length - 1) As WATSyntax
+
+            For i As Integer = 0 To args.Length - 1
+                If i < api.Parameters.Length AndAlso Not api.Parameters(i) Is Nothing AndAlso Not api.Parameters(i).Type Is Nothing Then
+                    casted(i) = CTypeHandle.[CType](api.Parameters(i).Type, args(i), context)
+                Else
+                    casted(i) = args(i)
+                End If
+            Next
+
+            Return casted
+        End Function
+
+        ''' <summary>
+        ''' 按照目标函数的参数类型对调用参数进行类型转换
+        ''' </summary>
+        Friend Function CastFunctionArguments(func As FunctionDeclare, args As WATSyntax(), context As Environment) As WATSyntax()
+            If args Is Nothing OrElse args.Length = 0 OrElse func Is Nothing OrElse func.parameters Is Nothing Then
+                Return args
+            End If
+
+            Dim casted(args.Length - 1) As WATSyntax
+
+            For i As Integer = 0 To args.Length - 1
+                If i < func.parameters.Length AndAlso Not func.parameters(i) Is Nothing AndAlso Not func.parameters(i).Type Is Nothing Then
+                    casted(i) = CTypeHandle.[CType](func.parameters(i).Type, args(i), context)
+                Else
+                    casted(i) = args(i)
+                End If
+            Next
+
+            Return casted
         End Function
 
         <Extension>

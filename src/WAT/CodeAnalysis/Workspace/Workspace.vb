@@ -57,7 +57,11 @@ Namespace CodeAnalysis
         Public Iterator Function GetPublicApi() As IEnumerable(Of ExportSymbol)
             For Each type As TypeSchema In Types.Values
                 For Each name As String In type.ExportApi
-                    Yield New ExportSymbol(Methods($"{type.FullName}.{name}"))
+                    Dim key As String = $"{type.FullName}.{name}"
+
+                    If Methods.ContainsKey(key) Then
+                        Yield New ExportSymbol(Methods(key))
+                    End If
                 Next
             Next
         End Function

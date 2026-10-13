@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 12:53:20
+    ;; build: 2026-10-13 15:28:31
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -286,9 +286,9 @@
     (local $z f64)
 
         (drop (i32.const 0))
-        (set_local $x (i32.trunc_s/f64 (call $Math.Exp (i32.const 9))))
+        (set_local $x (i32.trunc_s/f64 (call $Math.Exp (f64.convert_s/i32 (i32.const 9)))))
         (set_local $y (i32.trunc_s/f64 (call $Math.Pow (f64.const 2.718281828459045) (f64.convert_s/i32 (i32.const 9)))))
-        (set_local $y2 (call $Math.Pow (f64.const 2.718281828459045) (i32.const 9)))
+        (set_local $y2 (call $Math.Pow (f64.const 2.718281828459045) (f64.convert_s/i32 (i32.const 9))))
         (set_local $g (i32.const 0))
         (set_local $z (call $Math.Pow (f64.convert_s/i32 (get_local $x)) (f64.convert_s/i32 (i32.const 2))))
     )

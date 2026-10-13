@@ -46,7 +46,7 @@ Namespace Compiler
 
         <Extension>
         Private Sub FixImplictReturns(func As FunctionDeclare, ByRef buildBody As String())
-            If Not TypeOf func.body.Last Is ReturnValue Then
+            If func.body Is Nothing OrElse func.body.Length = 0 OrElse Not TypeOf func.body.Last() Is ReturnValue Then
                 Dim rtvl As ReturnValue
                 Dim value As Object
 

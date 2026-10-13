@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 12:53:06
+    ;; build: 2026-10-13 14:26:34
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -316,7 +316,7 @@
         
     (if (i32.eqz (get_local $globalNameRefere)) 
         (then
-                    (return (i32.const -100))
+                    (return (f32.convert_s/i32 (i32.const -100)))
         ) 
     )
         (return (f32.const 0))

@@ -93,6 +93,10 @@ Namespace VBLanguageParser
                 Call context.AddLocal(DirectCast(control, DeclareLocal))
             End If
 
+            If TypeOf ctlVar Is SymbolGetValue Then
+                DirectCast(ctlVar, SymbolGetValue).isGlobal = False
+            End If
+
             ' for i = 0 to 10 step 1
             ' equals to
             '

@@ -59,7 +59,7 @@ Public NotInheritable Class Scanner
         Return Me
     End Function
 
-    Private Sub ParseMembers(members As SyntaxList(Of StatementSyntax), env As Environment)
+    Private Sub ParseMembers(members As IEnumerable(Of StatementSyntax), env As Environment)
         For Each member As StatementSyntax In members
             Try
                 Select Case member.GetType
@@ -110,6 +110,15 @@ Public NotInheritable Class Scanner
             Call RegisterDeclare(decl, moduleEnv)
         Next
 
+        ' 处理模块内部嵌套的类型 / 枚举 / 子模块
+        For Each nested As StatementSyntax In code.Members
+            Select Case nested.GetType
+                Case GetType(ModuleBlockSyntax), GetType(ClassBlockSyntax), GetType(StructureBlockSyntax),
+                     GetType(EnumBlockSyntax), GetType(NamespaceBlockSyntax)
+                    Call ParseMembers({nested}, moduleEnv)
+            End Select
+        Next
+
         For Each func As MethodBlockSyntax In code.Members.OfType(Of MethodBlockSyntax)
             Try
                 isPublic = False
@@ -142,7 +151,7 @@ Public NotInheritable Class Scanner
             .IsStandardModule = True,
             .Name = moduleName,
             .ExportApi = exports.ToArray,
-            .[Namespace] = moduleEnv.FullName,
+            .[Namespace] = env.FullName,
             .Initializer = sharedSubNew
         }
 

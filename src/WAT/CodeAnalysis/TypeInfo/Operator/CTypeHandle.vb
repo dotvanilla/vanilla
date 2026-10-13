@@ -33,7 +33,10 @@ Namespace CodeAnalysis.TypeInfo.Operator
         Public Function [CType](left As WATType, right As WATSyntax, context As Environment) As WATSyntax
             Dim rightTypeInfer As WATType = right.Type
 
-            If left.UnderlyingWATType = WATElements.array AndAlso TypeOf right Is ArrayLiteral Then
+            If TypeOf left Is ArrayType Then
+                ' 数组赋值：编译验收阶段直接使用右侧的值（数组指针）
+                Return right
+            ElseIf left.UnderlyingWATType = WATElements.array AndAlso TypeOf right Is ArrayLiteral Then
                 Return CastArray(left.Generic(Scan0), right, context)
             ElseIf left.UnderlyingWATType = WATElements.any OrElse left.UnderlyingWATType = rightTypeInfer.UnderlyingWATType Then
                 ' Conversion is not required when

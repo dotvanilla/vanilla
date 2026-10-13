@@ -85,7 +85,14 @@ Namespace CodeAnalysis
         End Function
 
         Public Sub AddLocal(x As DeclareLocal)
-            Call Symbols.Add(x.Name, x)
+            If x Is Nothing OrElse String.IsNullOrEmpty(x.Name) Then
+                Return
+            End If
+
+            ' 宽容处理：重复声明时保留先前的符号，避免抛出字典重复键异常
+            If Not Symbols.ContainsKey(x.Name) Then
+                Call Symbols.Add(x.Name, x)
+            End If
         End Sub
     End Class
 End Namespace

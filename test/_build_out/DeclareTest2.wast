@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 12:53:07
+    ;; build: 2026-10-13 14:26:36
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -281,7 +281,7 @@
 
         (local $bottomRow i32)
 
-        (set_local $bottomRow (i32.trunc_s/f64 (call $Math.Floor (i32.const 1000))))
+        (set_local $bottomRow (i32.trunc_s/f64 (call $Math.Floor (f64.convert_s/i32 (i32.const 1000)))))
     )
 
 

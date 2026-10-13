@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 12:53:09
+    ;; build: 2026-10-13 14:26:38
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -293,6 +293,9 @@
         (local $table i32)
     (local $z i32)
     (local $zz i64)
+    (local $v i32)
+    (local $index i32)
+    (local $matrix i32)
 
         (set_local $table (i32.const 0))
         (set_local $table (i32.const 0))
@@ -301,6 +304,9 @@
         (drop (i32.const 0))
         (set_local $z (i32.const 0))
         (drop (i32.const 0))
+        (set_local $v (i32.const 0))
+        (set_local $index (i32.const 0))
+        (set_local $matrix (i32.const 0))
     )
 
 

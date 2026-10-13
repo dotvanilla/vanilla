@@ -262,6 +262,13 @@ Namespace VBLanguageParser
         <Extension>
         Private Function GetReturnValue(rtvl As ReturnStatementSyntax, context As Environment) As ReturnValue
             Dim value As WATSyntax = rtvl.Expression.ParseValue(context)
+            Dim returnType As WATType = context.Type
+
+            ' 将返回值转换为函数声明的返回类型
+            If Not returnType Is Nothing AndAlso returnType.UnderlyingWATType <> WATElements.void Then
+                value = CTypeHandle.[CType](returnType, value, context)
+            End If
+
             Dim returns As New ReturnValue With {.Value = value}
 
             If TypeOf value Is SymbolReference Then

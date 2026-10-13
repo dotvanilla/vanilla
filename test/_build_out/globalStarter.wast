@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 12:53:28
+    ;; build: 2026-10-13 15:28:44
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -400,7 +400,7 @@ End Module\00")
         (local $moduletest i32)
 
         (set_local $moduletest (i32.const 0))
-        (call $Console.WriteLine (i32.const 0))
+        (call $Console.WriteLine (call $string.i32.toString (i32.const 0)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
@@ -428,7 +428,7 @@ End Module\00")
         (drop (i32.const 0))
         (set_local $code (i32.const 160))
         (set_local $moduleMain (i32.const 0))
-        (call $Console.WriteLine (i32.const 0))
+        (call $Console.WriteLine (call $string.i32.toString (i32.const 0)))
         (set_local $log (i32.const 0))
         (set_local $hex (i32.const 0))
         (drop (i32.const 0))
@@ -441,7 +441,7 @@ End Module\00")
         (local $moduletest i32)
 
         (set_local $moduletest (i32.const 0))
-        (call $Console.WriteLine (i32.const 0))
+        (call $Console.WriteLine (call $string.i32.toString (i32.const 0)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
@@ -454,7 +454,7 @@ End Module\00")
         (local $moduletest i32)
 
         (set_local $moduletest (i32.const 0))
-        (call $Console.WriteLine (i32.const 0))
+        (call $Console.WriteLine (call $string.i32.toString (i32.const 0)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
@@ -466,7 +466,7 @@ End Module\00")
         (local $moduletest i32)
 
         (set_local $moduletest (i32.const 0))
-        (call $Console.WriteLine (i32.const 0))
+        (call $Console.WriteLine (call $string.i32.toString (i32.const 0)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
@@ -481,7 +481,7 @@ End Module\00")
 
         (set_local $code (i32.const 616))
         (set_local $moduletest (i32.const 0))
-        (call $Console.WriteLine (i32.const 0))
+        (call $Console.WriteLine (call $string.i32.toString (i32.const 0)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
@@ -496,7 +496,7 @@ End Module\00")
 
         (set_local $code (i32.const 848))
         (set_local $moduletest (i32.const 0))
-        (call $Console.WriteLine (i32.const 0))
+        (call $Console.WriteLine (call $string.i32.toString (i32.const 0)))
         (drop (i32.const 0))
         (drop (i32.const 0))
         (drop (i32.const 0))
