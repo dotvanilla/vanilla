@@ -67,16 +67,30 @@ Namespace VBLanguageParser
             If Not var.Initializer Is Nothing Then
                 init = var.Initializer.GetInitialize(context, type)
                 type = name.AsType(var.AsClause, context, init.Type)
+            ElseIf TypeOf var.AsClause Is AsNewClauseSyntax Then
+                ' ``Dim x As New T(...)``
+                Dim [new] As ObjectCreationExpressionSyntax = DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression
+
+                init = [new].ParseObjectCreation(context)
+                type = init.Type
+            ElseIf Not namedVar.ArrayBounds Is Nothing Then
+                ' ``Dim arr(n) As T``  ==>  分配一个长度为 n+1 的数组
+                Dim elementType As WATType = name.AsType(var.AsClause, context)
+
+                If elementType Is Nothing Then
+                    elementType = WATType.i32
+                End If
+
+                Dim bound As WATSyntax = namedVar.ArrayBounds.Arguments(0).ParseArgument(context)
+                Dim size As WATSyntax = BinaryParser.BinaryStack(bound, New LiteralValue(1, WATType.i32), "+", context)
+
+                init = Expressionparser.InvokeStatic("Array.New", WATType.i32, {size}, context)
+                type = New ArrayType(elementType)
             Else
                 init = Nothing
 
                 If type Is Nothing Then
                     type = name.AsType(var.AsClause, context)
-                End If
-
-                If TypeOf var.AsClause Is AsNewClauseSyntax Then
-                    ' init = DirectCast(var.AsClause, AsNewClauseSyntax).NewExpression.AsNewObject(type, symbols)
-                    Throw New NotImplementedException
                 End If
             End If
 

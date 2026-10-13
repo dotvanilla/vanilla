@@ -1,5 +1,6 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ApplicationServices.Development
@@ -210,6 +211,7 @@ Public NotInheritable Class Scanner
                 If Not Workspace.GlobalSymbols.ContainsKey([declare].Name) Then
                     Workspace.GlobalSymbols.Add([declare].Name, New DeclareGlobal With {
                         .Name = [declare].Name,
+                        .DeclaredType = [declare].Type,
                         .Value = ZeroLiteral([declare].Type)
                     })
                 End If
