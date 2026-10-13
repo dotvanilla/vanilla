@@ -235,7 +235,21 @@ Public NotInheritable Class Scanner
             library = DirectCast(decl.LibraryName, LiteralExpressionSyntax).Token.ValueText
         End If
 
-        Dim entry As String = If(decl.AliasClause Is Nothing, name, decl.AliasClause.Identifier.ValueText)
+        Dim entry As String = name
+        Dim aliasToken As SyntaxToken = decl.DescendantTokens() _
+            .FirstOrDefault(Function(t) t.Kind = SyntaxKind.AliasKeyword)
+
+        If aliasToken.RawKind <> 0 Then
+            Dim ident As SyntaxToken = decl.DescendantTokens() _
+                .SkipWhile(Function(t) t <> aliasToken) _
+                .Skip(1) _
+                .FirstOrDefault()
+
+            If ident.RawKind <> 0 AndAlso ident.Kind = SyntaxKind.IdentifierToken Then
+                entry = ident.Text
+            End If
+        End If
+
         Dim returnType As WATType = If(decl.AsClause Is Nothing, WATType.void, decl.AsClause.ParseAsType(env))
         Dim pars As DeclareLocal() = decl.ParameterList _
             .Parameters _
@@ -285,13 +299,13 @@ Public NotInheritable Class Scanner
     End Sub
 
     Private Function GetEnumUnderlying(code As EnumBlockSyntax) As WATType
-        Dim asClause As TypeSyntax = code.EnumStatement.UnderlyingType
+        Dim asClause As AsClauseSyntax = code.EnumStatement.UnderlyingType
 
-        If asClause Is Nothing Then
+        If asClause Is Nothing OrElse Not TypeOf asClause Is SimpleAsClauseSyntax Then
             Return WATType.i32
         End If
 
-        Dim type As WATType = asClause.ParseType(New ProjectEnvironment(Workspace))
+        Dim type As WATType = DirectCast(asClause, SimpleAsClauseSyntax).ParseAsType(New ProjectEnvironment(Workspace))
 
         If type.UnderlyingWATType = WATElements.i64 Then
             Return WATType.i64

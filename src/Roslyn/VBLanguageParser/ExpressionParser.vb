@@ -227,14 +227,11 @@ Namespace VBLanguageParser
 
         <Extension>
         Friend Function ParseArgument(arg As ArgumentSyntax, context As Environment) As WATSyntax
-            Select Case arg.GetType
-                Case GetType(SimpleArgumentSyntax)
-                    Return DirectCast(arg, SimpleArgumentSyntax).Expression.ParseValue(context)
-                Case GetType(NamedArgumentSyntax)
-                    Return DirectCast(arg, NamedArgumentSyntax).Expression.ParseValue(context)
-                Case Else
-                    Return LiteralValue.Nothing(WATType.i32)
-            End Select
+            If TypeOf arg Is SimpleArgumentSyntax Then
+                Return DirectCast(arg, SimpleArgumentSyntax).Expression.ParseValue(context)
+            Else
+                Return LiteralValue.Nothing(WATType.i32)
+            End If
         End Function
 
         <Extension>

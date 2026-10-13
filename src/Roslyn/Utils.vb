@@ -89,7 +89,7 @@ Module Utils
     ''' </summary>
     Private Function MapUserType(name As String, env As Environment) As WATType
         If env.HaveEnumType(name) Then
-            Return WATType.GetUnderlyingType(env.GetEnumType(name).UnderlyingType, env.Workspace)
+            Return WATType.GetUnderlyingType(env.GetEnumType(name).UnderlyingType, env)
         Else
             ' 用户自定义的引用类型在 wasm 之中使用 i32 指针表示
             Return New WATType(name)

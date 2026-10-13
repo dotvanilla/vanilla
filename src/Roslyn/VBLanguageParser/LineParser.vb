@@ -183,10 +183,11 @@ Namespace VBLanguageParser
             Else
                 ' Do ... Loop  ==>  无限循环
                 Dim loopNode As New WASMLoop
+                Dim lines As New List(Of WATSyntax)
 
-                loopNode.multipleLines = body _
-                    .Append(New br With {.blockLabel = loopNode.loopID}) _
-                    .ToArray
+                lines.AddRange(body)
+                lines.Add(New br With {.blockLabel = loopNode.loopID})
+                loopNode.multipleLines = lines.ToArray
 
                 Return loopNode
             End If

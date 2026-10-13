@@ -3,6 +3,7 @@ Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.CodeAnalysis.TypeInfo.Operator
 Imports VanillaBasic.WebAssembly.Syntax
+Imports VanillaBasic.WebAssembly.Syntax.Literal
 
 Namespace VBLanguageParser
 

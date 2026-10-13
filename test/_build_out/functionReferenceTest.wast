@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 12:40:49
+    ;; build: 2026-10-13 12:53:20
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -16,8 +16,67 @@
 
     ;; JAVASCRIPT [Math]
     (func $Math.Pow (import "Math" "pow") (param $base f64) (param $exponent f64) (result f64))
+    (func $Math.Sqrt (import "Math" "sqrt") (param $x f64) (result f64))
+    (func $Math.Exp (import "Math" "exp") (param $x f64) (result f64))
+    (func $Math.Log (import "Math" "log") (param $x f64) (result f64))
+    (func $Math.Log10 (import "Math" "log10") (param $x f64) (result f64))
+    (func $Math.Cos (import "Math" "cos") (param $x f64) (result f64))
+    (func $Math.Sin (import "Math" "sin") (param $x f64) (result f64))
+    (func $Math.Tan (import "Math" "tan") (param $x f64) (result f64))
+    (func $Math.Floor (import "Math" "floor") (param $x f64) (result f64))
+    (func $Math.Ceiling (import "Math" "ceil") (param $x f64) (result f64))
+    (func $Math.Round (import "Math" "round") (param $x f64) (result f64))
+    (func $Math.Abs (import "Math" "abs") (param $x f64) (result f64))
+    (func $Math.Min (import "Math" "min") (param $a f64) (param $b f64) (result f64))
+    (func $Math.Max (import "Math" "max") (param $a f64) (param $b f64) (result f64))
+    (func $Math.Random (import "Math" "random")  (result f64))
     ;; JAVASCRIPT [console]
     (func $Console.WriteLine (import "console" "log") (param $msg i32) )
+    ;; JAVASCRIPT [Encoding]
+    (func $Encoding.UTF8.GetBytes (import "Encoding" "GetBytes") (param $text i32) (result i32))
+    (func $Encoding.UTF8.GetString (import "Encoding" "GetString") (param $bytes i32) (result i32))
+    ;; JAVASCRIPT [StringBuilder]
+    (func $StringBuilder.New (import "StringBuilder" "NewStringBuilder")  (result i32))
+    (func $StringBuilder.Append (import "StringBuilder" "Append") (param $sb i32) (param $text i32) (result i32))
+    (func $StringBuilder.AppendChar (import "StringBuilder" "AppendChar") (param $sb i32) (param $c i32) (result i32))
+    (func $StringBuilder.AppendLine (import "StringBuilder" "AppendLine") (param $sb i32) (param $text i32) (result i32))
+    (func $StringBuilder.ToString (import "StringBuilder" "ToString") (param $sb i32) (result i32))
+    (func $StringBuilder.Clear (import "StringBuilder" "Clear") (param $sb i32) (result i32))
+    ;; JAVASCRIPT [Strings]
+    (func $String.Empty (import "Strings" "Empty")  (result i32))
+    (func $Strings.ChrW (import "Strings" "ChrW") (param $code i32) (result i32))
+    (func $Strings.NewString (import "Strings" "NewString") (param $c i32) (param $n i32) (result i32))
+    (func $Strings.Concat (import "Strings" "Concat") (param $a i32) (param $b i32) (result i32))
+    (func $Strings.Join (import "Strings" "Join") (param $separator i32) (param $array i32) (result i32))
+    (func $Strings.AscW (import "Strings" "AscW") (param $text i32) (result i32))
+    ;; JAVASCRIPT [string]
+    (func $string.i32.toString (import "string" "I32ToString") (param $x i32) (result i32))
+    (func $string.f64.toString (import "string" "F64ToString") (param $x f64) (result i32))
+    (func $string.add (import "string" "Add") (param $a i32) (param $b i32) (result i32))
+    (func $string.length (import "string" "Length") (param $s i32) (result i32))
+    (func $string.charAt (import "string" "CharAt") (param $s i32) (param $index i32) (result i32))
+    (func $string.substr (import "string" "Substring") (param $s i32) (param $start i32) (param $len i32) (result i32))
+    (func $string.replace (import "string" "Replace") (param $s i32) (param $find i32) (param $replacement i32) (result i32))
+    (func $string.trim (import "string" "Trim") (param $s i32) (result i32))
+    (func $string.indexOf (import "string" "IndexOf") (param $s i32) (param $find i32) (result i32))
+    (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
+    (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
+    (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    ;; JAVASCRIPT [Convert]
+    (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
+    (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
+    (func $Convert.ToString (import "Convert" "ToString") (param $value i32) (result i32))
+    ;; JAVASCRIPT [Random]
+    (func $Random.New (import "Random" "New") (param $seed i32) (result i32))
+    (func $Random.Next (import "Random" "Next") (param $rnd i32) (param $minValue i32) (param $maxValue i32) (result i32))
+    (func $Random.NextDouble (import "Random" "NextDouble") (param $rnd i32) (result f64))
+    ;; JAVASCRIPT [Array]
+    (func $Array.New (import "Array" "New") (param $size i32) (result i32))
+    (func $Array.length (import "Array" "Length") (param $array i32) (result i32))
+    (func $Array.get.i32 (import "Array" "GetI32") (param $array i32) (param $index i32) (result i32))
+    (func $Array.set.i32 (import "Array" "SetI32") (param $array i32) (param $index i32) (param $value i32) (result i32))
+    (func $Array.get.f64 (import "Array" "GetF64") (param $array i32) (param $index i32) (result f64))
+    (func $Array.set.f64 (import "Array" "SetF64") (param $array i32) (param $index i32) (param $value f64) (result i32))
     
     ;; ----- END OF JAVASCRIPT IMPORTS -----    
 
@@ -214,16 +273,36 @@
     ;; Export methods of this module
      
 
-    
+    ;; functions in [.functionReferenceTest]
+
+
+    ;; Public Function .functionReferenceTest.Main() As System.Void
+    (func $.functionReferenceTest.Main  
+
+        (local $x i32)
+    (local $y i32)
+    (local $y2 f64)
+    (local $g i32)
+    (local $z f64)
+
+        (drop (i32.const 0))
+        (set_local $x (i32.trunc_s/f64 (call $Math.Exp (i32.const 9))))
+        (set_local $y (i32.trunc_s/f64 (call $Math.Pow (f64.const 2.718281828459045) (f64.convert_s/i32 (i32.const 9)))))
+        (set_local $y2 (call $Math.Pow (f64.const 2.718281828459045) (i32.const 9)))
+        (set_local $g (i32.const 0))
+        (set_local $z (call $Math.Pow (f64.convert_s/i32 (get_local $x)) (f64.convert_s/i32 (i32.const 2))))
+    )
+
+
 
 
     
     ;; #region "VisualBasic Application Initialize Of Each Modules"
-        ;; functions in [.rectangleArrayTest2]
+        ;; functions in [.functionReferenceTest]
 
 
-    ;; Public Function .rectangleArrayTest2.SubNew() As System.Void
-    (func $.rectangleArrayTest2.SubNew  
+    ;; Public Function .functionReferenceTest.SubNew() As System.Void
+    (func $.functionReferenceTest.SubNew  
 
         
 
@@ -236,7 +315,7 @@
     ;; --------------------------------------------------
     ;; Microsoft.VisualBasic.My.Application_Startup Event
     (func $MyApplication_Startup
-        (call $.rectangleArrayTest2.SubNew )
+        (call $.functionReferenceTest.SubNew )
     )
     ;; --------------------------------------------------
 
