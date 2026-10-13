@@ -232,6 +232,10 @@ Namespace VBLanguageParser
                     allArgs.AddRange(args)
 
                     Return InvokeStatic(binding.JavaScript, binding.ResultType, allArgs.ToArray, context)
+                ElseIf binding.Kind = "instance-property" AndAlso args.Length = 0 Then
+                    ' 形如 ``x.ToString()`` / ``x.Length()`` 这类以属性形式建模、但没有额外参数的成员调用：
+                    ' binding.Value 已经是完整的调用表达式（例如 ``string.i32.toString(x)``）
+                    Return binding.Value
                 Else
                     Return LiteralValue.Nothing(WATType.i32)
                 End If

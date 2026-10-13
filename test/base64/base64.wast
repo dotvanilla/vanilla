@@ -5,7 +5,7 @@
     ;; WASM for VisualBasic.NET
     ;; 
     ;; version: 
-    ;; build: 2026-10-13 17:07:19
+    ;; build: 2026-10-13 17:15:50
     ;; 
     ;; Want to know how it works? please visit https://vanillavb.app/#compiler_design_notes
 
@@ -62,6 +62,7 @@
     (func $string.upper (import "string" "ToUpper") (param $s i32) (result i32))
     (func $string.lower (import "string" "ToLower") (param $s i32) (result i32))
     (func $string.equals (import "string" "Equals") (param $a i32) (param $b i32) (result i32))
+    (func $string.bool.toString (import "string" "BoolToString") (param $x i32) (result i32))
     ;; JAVASCRIPT [Convert]
     (func $Convert.ToBase64String (import "Convert" "ToBase64String") (param $bytes i32) (result i32))
     (func $Convert.FromBase64String (import "Convert" "FromBase64String") (param $text i32) (result i32))
@@ -87,7 +88,7 @@
     ;; A global object manager for create user object in WebAssembly
     ;; Its initialize value is the total size of the string data
     ;; of this webassembly module
-    (global $WATMemoryBufferSize (mut i32) (i32.const 1432))
+    (global $WATMemoryBufferSize (mut i32) (i32.const 1440))
 
         
     ;; memory allocate in javascript runtime
@@ -131,11 +132,11 @@
     ;; String from 0d000000 with 64 bytes in memory
     (data (i32.const 13) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\00")
         
-    ;; String from 50000000 with 2 bytes in memory
-    (data (i32.const 80) "==\00")
+    ;; String from 50000000 with 0 bytes in memory
+    (data (i32.const 80) "\00")
         
-    ;; String from 58000000 with 1 bytes in memory
-    (data (i32.const 88) "=\00")
+    ;; String from 58000000 with 2 bytes in memory
+    (data (i32.const 88) "==\00")
         
     ;; String from 60000000 with 1 bytes in memory
     (data (i32.const 96) "=\00")
@@ -158,181 +159,184 @@
     ;; String from 90000000 with 1 bytes in memory
     (data (i32.const 144) "=\00")
         
-    ;; String from 98000000 with 34 bytes in memory
-    (data (i32.const 152) "========== \e7\bb\8f\e5\85\b8\e7\a4\ba\e4\be\8b ==========\00")
+    ;; String from 98000000 with 1 bytes in memory
+    (data (i32.const 152) "=\00")
         
-    ;; String from c0000000 with 3 bytes in memory
-    (data (i32.const 192) "Man\00")
+    ;; String from a0000000 with 34 bytes in memory
+    (data (i32.const 160) "========== \e7\bb\8f\e5\85\b8\e7\a4\ba\e4\be\8b ==========\00")
         
-    ;; String from c8000000 with 2 bytes in memory
-    (data (i32.const 200) "Ma\00")
+    ;; String from c8000000 with 3 bytes in memory
+    (data (i32.const 200) "Man\00")
         
-    ;; String from d0000000 with 1 bytes in memory
-    (data (i32.const 208) "M\00")
+    ;; String from d0000000 with 2 bytes in memory
+    (data (i32.const 208) "Ma\00")
         
-    ;; String from d8000000 with 48 bytes in memory
-    (data (i32.const 216) "========== \e4\b8\ad\e6\96\87\ef\bc\88UTF-8 \e5\a4\9a\e5\ad\97\e8\8a\82\ef\bc\89==========\00")
+    ;; String from d8000000 with 1 bytes in memory
+    (data (i32.const 216) "M\00")
         
-    ;; String from 10010000 with 18 bytes in memory
-    (data (i32.const 272) "\e4\bd\a0\e5\a5\bd\ef\bc\8cBase64\ef\bc\81\00")
+    ;; String from e0000000 with 48 bytes in memory
+    (data (i32.const 224) "========== \e4\b8\ad\e6\96\87\ef\bc\88UTF-8 \e5\a4\9a\e5\ad\97\e8\8a\82\ef\bc\89==========\00")
         
-    ;; String from 28010000 with 34 bytes in memory
-    (data (i32.const 296) "========== \e8\be\b9\e7\95\8c\e6\83\85\e5\86\b5 ==========\00")
+    ;; String from 18010000 with 18 bytes in memory
+    (data (i32.const 280) "\e4\bd\a0\e5\a5\bd\ef\bc\8cBase64\ef\bc\81\00")
         
-    ;; String from 50010000 with 0 bytes in memory
-    (data (i32.const 336) "\00")
+    ;; String from 30010000 with 34 bytes in memory
+    (data (i32.const 304) "========== \e8\be\b9\e7\95\8c\e6\83\85\e5\86\b5 ==========\00")
         
-    ;; String from 58010000 with 55 bytes in memory
-    (data (i32.const 344) "========== \e4\b8\8e .NET \e5\86\85\e7\bd\ae\e5\ae\9e\e7\8e\b0\e4\ba\a4\e5\8f\89\e9\aa\8c\e8\af\81 ==========\00")
+    ;; String from 58010000 with 0 bytes in memory
+    (data (i32.const 344) "\00")
         
-    ;; String from 90010000 with 7 bytes in memory
-    (data (i32.const 400) "\e9\95\bf\e5\ba\a6 \00")
+    ;; String from 60010000 with 55 bytes in memory
+    (data (i32.const 352) "========== \e4\b8\8e .NET \e5\86\85\e7\bd\ae\e5\ae\9e\e7\8e\b0\e4\ba\a4\e5\8f\89\e9\aa\8c\e8\af\81 ==========\00")
         
-    ;; String from 98010000 with 31 bytes in memory
-    (data (i32.const 408) " \e7\9a\84\e7\bb\93\e6\9e\9c\e4\b8\8e\e6\a0\87\e5\87\86\e4\b8\8d\e4\b8\80\e8\87\b4\ef\bc\81\00")
+    ;; String from 98010000 with 7 bytes in memory
+    (data (i32.const 408) "\e9\95\bf\e5\ba\a6 \00")
         
-    ;; String from b8010000 with 48 bytes in memory
-    (data (i32.const 440) "\e9\95\bf\e5\ba\a6 0~60 \e5\85\b1 61 \e7\bb\84\e9\9a\8f\e6\9c\ba\e6\95\b0\e6\8d\ae\e5\85\a8\e9\83\a8\e9\80\9a\e8\bf\87: \00")
+    ;; String from a0010000 with 31 bytes in memory
+    (data (i32.const 416) " \e7\9a\84\e7\bb\93\e6\9e\9c\e4\b8\8e\e6\a0\87\e5\87\86\e4\b8\8d\e4\b8\80\e8\87\b4\ef\bc\81\00")
         
-    ;; String from f0010000 with 14 bytes in memory
-    (data (i32.const 496) "\e5\8e\9f\e6\96\87     : [\00")
+    ;; String from c0010000 with 48 bytes in memory
+    (data (i32.const 448) "\e9\95\bf\e5\ba\a6 0~60 \e5\85\b1 61 \e7\bb\84\e9\9a\8f\e6\9c\ba\e6\95\b0\e6\8d\ae\e5\85\a8\e9\83\a8\e9\80\9a\e8\bf\87: \00")
         
-    ;; String from 00020000 with 1 bytes in memory
-    (data (i32.const 512) "]\00")
+    ;; String from f8010000 with 14 bytes in memory
+    (data (i32.const 504) "\e5\8e\9f\e6\96\87     : [\00")
         
-    ;; String from 08020000 with 12 bytes in memory
-    (data (i32.const 520) "Base64   : [\00")
+    ;; String from 08020000 with 1 bytes in memory
+    (data (i32.const 520) "]\00")
         
-    ;; String from 18020000 with 1 bytes in memory
-    (data (i32.const 536) "]\00")
+    ;; String from 10020000 with 12 bytes in memory
+    (data (i32.const 528) "Base64   : [\00")
         
-    ;; String from 20020000 with 16 bytes in memory
-    (data (i32.const 544) "\e8\a7\a3\e7\a0\81\e8\bf\98\e5\8e\9f : [\00")
+    ;; String from 20020000 with 1 bytes in memory
+    (data (i32.const 544) "]\00")
         
-    ;; String from 38020000 with 1 bytes in memory
-    (data (i32.const 568) "]\00")
+    ;; String from 28020000 with 16 bytes in memory
+    (data (i32.const 552) "\e8\a7\a3\e7\a0\81\e8\bf\98\e5\8e\9f : [\00")
         
-    ;; String from 40020000 with 15 bytes in memory
-    (data (i32.const 576) "\e8\bf\98\e5\8e\9f\e4\b8\80\e8\87\b4 : \00")
+    ;; String from 40020000 with 1 bytes in memory
+    (data (i32.const 576) "]\00")
         
-    ;; String from 50020000 with 1 bytes in memory
-    (data (i32.const 592) "-\00")
+    ;; String from 48020000 with 15 bytes in memory
+    (data (i32.const 584) "\e8\bf\98\e5\8e\9f\e4\b8\80\e8\87\b4 : \00")
+        
+    ;; String from 58020000 with 1 bytes in memory
+    (data (i32.const 600) "-\00")
     
     ;; AssemblyInfo.vb
         
-    ;; String from 58020000 with 531 bytes in memory
-    (data (i32.const 600) "d15:AssemblyCompany22:https://vanillavb.app/17:AssemblyCopyright22:https://vanillavb.app/19:AssemblyDescription46:WebAssembly Compiler for Microsoft VisualBasic19:AssemblyFileVersion0:16:AssemblyFullName6:base6428:AssemblyInformationalVersion0:15:AssemblyProduct22:https://vanillavb.app/13:AssemblyTitle46:WebAssembly Compiler for Microsoft VisualBasic17:AssemblyTrademark22:https://vanillavb.app/15:AssemblyVersion0:9:BuiltTime0:10:ComVisible5:False4:Guid36:3fe6aa80-cce0-40ae-89ca-a1ab4a7880704:Name0:15:TargetFramework7:net10.0e\00")
+    ;; String from 60020000 with 531 bytes in memory
+    (data (i32.const 608) "d15:AssemblyCompany22:https://vanillavb.app/17:AssemblyCopyright22:https://vanillavb.app/19:AssemblyDescription46:WebAssembly Compiler for Microsoft VisualBasic19:AssemblyFileVersion0:16:AssemblyFullName6:base6428:AssemblyInformationalVersion0:15:AssemblyProduct22:https://vanillavb.app/13:AssemblyTitle46:WebAssembly Compiler for Microsoft VisualBasic17:AssemblyTrademark22:https://vanillavb.app/15:AssemblyVersion0:9:BuiltTime0:10:ComVisible5:False4:Guid36:04f4830b-69db-4f6d-85c4-504097243bf84:Name0:15:TargetFramework7:net10.0e\00")
 
     (func $AssemblyInfo (result i32)
-        (return (i32.const 600))    
+        (return (i32.const 608))    
     )
 
     (export "AssemblyInfo" (func $AssemblyInfo)) 
 
     ;; AssemblyInfo fields (consumed by the javascript runtime)
         
-    ;; String from 70040000 with 46 bytes in memory
-    (data (i32.const 1136) "WebAssembly Compiler for Microsoft VisualBasic\00")
+    ;; String from 78040000 with 46 bytes in memory
+    (data (i32.const 1144) "WebAssembly Compiler for Microsoft VisualBasic\00")
     (func $AssemblyInfo.AssemblyTitle (result i32)
-        (return (i32.const 1136))
+        (return (i32.const 1144))
     )
     (export "AssemblyInfo.AssemblyTitle" (func $AssemblyInfo.AssemblyTitle))
         
-    ;; String from a0040000 with 46 bytes in memory
-    (data (i32.const 1184) "WebAssembly Compiler for Microsoft VisualBasic\00")
+    ;; String from a8040000 with 46 bytes in memory
+    (data (i32.const 1192) "WebAssembly Compiler for Microsoft VisualBasic\00")
     (func $AssemblyInfo.AssemblyDescription (result i32)
-        (return (i32.const 1184))
+        (return (i32.const 1192))
     )
     (export "AssemblyInfo.AssemblyDescription" (func $AssemblyInfo.AssemblyDescription))
         
-    ;; String from d0040000 with 22 bytes in memory
-    (data (i32.const 1232) "https://vanillavb.app/\00")
+    ;; String from d8040000 with 22 bytes in memory
+    (data (i32.const 1240) "https://vanillavb.app/\00")
     (func $AssemblyInfo.AssemblyCompany (result i32)
-        (return (i32.const 1232))
+        (return (i32.const 1240))
     )
     (export "AssemblyInfo.AssemblyCompany" (func $AssemblyInfo.AssemblyCompany))
         
-    ;; String from e8040000 with 22 bytes in memory
-    (data (i32.const 1256) "https://vanillavb.app/\00")
+    ;; String from f0040000 with 22 bytes in memory
+    (data (i32.const 1264) "https://vanillavb.app/\00")
     (func $AssemblyInfo.AssemblyProduct (result i32)
-        (return (i32.const 1256))
+        (return (i32.const 1264))
     )
     (export "AssemblyInfo.AssemblyProduct" (func $AssemblyInfo.AssemblyProduct))
         
-    ;; String from 00050000 with 22 bytes in memory
-    (data (i32.const 1280) "https://vanillavb.app/\00")
+    ;; String from 08050000 with 22 bytes in memory
+    (data (i32.const 1288) "https://vanillavb.app/\00")
     (func $AssemblyInfo.AssemblyCopyright (result i32)
-        (return (i32.const 1280))
+        (return (i32.const 1288))
     )
     (export "AssemblyInfo.AssemblyCopyright" (func $AssemblyInfo.AssemblyCopyright))
         
-    ;; String from 18050000 with 22 bytes in memory
-    (data (i32.const 1304) "https://vanillavb.app/\00")
+    ;; String from 20050000 with 22 bytes in memory
+    (data (i32.const 1312) "https://vanillavb.app/\00")
     (func $AssemblyInfo.AssemblyTrademark (result i32)
-        (return (i32.const 1304))
+        (return (i32.const 1312))
     )
     (export "AssemblyInfo.AssemblyTrademark" (func $AssemblyInfo.AssemblyTrademark))
         
-    ;; String from 30050000 with 0 bytes in memory
-    (data (i32.const 1328) "\00")
+    ;; String from 38050000 with 0 bytes in memory
+    (data (i32.const 1336) "\00")
     (func $AssemblyInfo.AssemblyInformationalVersion (result i32)
-        (return (i32.const 1328))
+        (return (i32.const 1336))
     )
     (export "AssemblyInfo.AssemblyInformationalVersion" (func $AssemblyInfo.AssemblyInformationalVersion))
         
-    ;; String from 38050000 with 7 bytes in memory
-    (data (i32.const 1336) "net10.0\00")
+    ;; String from 40050000 with 7 bytes in memory
+    (data (i32.const 1344) "net10.0\00")
     (func $AssemblyInfo.TargetFramework (result i32)
-        (return (i32.const 1336))
+        (return (i32.const 1344))
     )
     (export "AssemblyInfo.TargetFramework" (func $AssemblyInfo.TargetFramework))
         
-    ;; String from 40050000 with 5 bytes in memory
-    (data (i32.const 1344) "False\00")
+    ;; String from 48050000 with 5 bytes in memory
+    (data (i32.const 1352) "False\00")
     (func $AssemblyInfo.ComVisible (result i32)
-        (return (i32.const 1344))
+        (return (i32.const 1352))
     )
     (export "AssemblyInfo.ComVisible" (func $AssemblyInfo.ComVisible))
         
-    ;; String from 48050000 with 0 bytes in memory
-    (data (i32.const 1352) "\00")
+    ;; String from 50050000 with 0 bytes in memory
+    (data (i32.const 1360) "\00")
     (func $AssemblyInfo.Name (result i32)
-        (return (i32.const 1352))
+        (return (i32.const 1360))
     )
     (export "AssemblyInfo.Name" (func $AssemblyInfo.Name))
         
-    ;; String from 50050000 with 36 bytes in memory
-    (data (i32.const 1360) "3fe6aa80-cce0-40ae-89ca-a1ab4a788070\00")
+    ;; String from 58050000 with 36 bytes in memory
+    (data (i32.const 1368) "04f4830b-69db-4f6d-85c4-504097243bf8\00")
     (func $AssemblyInfo.Guid (result i32)
-        (return (i32.const 1360))
+        (return (i32.const 1368))
     )
     (export "AssemblyInfo.Guid" (func $AssemblyInfo.Guid))
         
-    ;; String from 78050000 with 0 bytes in memory
-    (data (i32.const 1400) "\00")
+    ;; String from 80050000 with 0 bytes in memory
+    (data (i32.const 1408) "\00")
     (func $AssemblyInfo.AssemblyVersion (result i32)
-        (return (i32.const 1400))
+        (return (i32.const 1408))
     )
     (export "AssemblyInfo.AssemblyVersion" (func $AssemblyInfo.AssemblyVersion))
         
-    ;; String from 80050000 with 0 bytes in memory
-    (data (i32.const 1408) "\00")
+    ;; String from 88050000 with 0 bytes in memory
+    (data (i32.const 1416) "\00")
     (func $AssemblyInfo.AssemblyFileVersion (result i32)
-        (return (i32.const 1408))
+        (return (i32.const 1416))
     )
     (export "AssemblyInfo.AssemblyFileVersion" (func $AssemblyInfo.AssemblyFileVersion))
         
-    ;; String from 88050000 with 6 bytes in memory
-    (data (i32.const 1416) "base64\00")
+    ;; String from 90050000 with 6 bytes in memory
+    (data (i32.const 1424) "base64\00")
     (func $AssemblyInfo.AssemblyFullName (result i32)
-        (return (i32.const 1416))
+        (return (i32.const 1424))
     )
     (export "AssemblyInfo.AssemblyFullName" (func $AssemblyInfo.AssemblyFullName))
         
-    ;; String from 90050000 with 0 bytes in memory
-    (data (i32.const 1424) "\00")
+    ;; String from 98050000 with 0 bytes in memory
+    (data (i32.const 1432) "\00")
     (func $AssemblyInfo.BuiltTime (result i32)
-        (return (i32.const 1424))
+        (return (i32.const 1432))
     )
     (export "AssemblyInfo.BuiltTime" (func $AssemblyInfo.BuiltTime))
 
@@ -358,7 +362,7 @@
 
     ;; Global variables in this module
     (global $Alphabet (mut i32) (i32.const 0))
-    (global $ObjectManager.HeapSize (mut i32) (i32.const 1432))
+    (global $ObjectManager.HeapSize (mut i32) (i32.const 1440))
 
     ;; Export methods of this module
     (export "Base64Codec.EncodeText" (func $base64.Base64Codec.EncodeText))
@@ -402,18 +406,18 @@
         
     (if (i32.add (i32.eq (get_local $data) (i32.const 0)) (i32.eq (call $Array.length (get_local $data)) (i32.const 0))) 
         (then
-                    (return (call $string.i32.toString (i32.const 0)))
+                    (return (i32.const 80))
         ) 
     )
         (set_local $sb (call $StringBuilder.New ))
         (set_local $i (i32.const 0))
         
-    (block $WASMClosure_br_abe7432a8b6bc93e 
-        (loop $loop_tmp863060894eda5d8b
+    (block $WASMClosure_br_0d9aee009d9d0f56 
+        (loop $loop_tmp33999a91bec3b774
 
                         
     ;; while ((boolean) (i32) ((i32) (i + (i32.const 3)) <= VanillaBasic.WebAssembly.Syntax.FunctionInvoke))
-                (br_if $WASMClosure_br_abe7432a8b6bc93e (i32.eqz (i32.le_s (i32.add (get_local $i) (i32.const 3)) (call $Array.length (get_local $data)))))
+                (br_if $WASMClosure_br_0d9aee009d9d0f56 (i32.eqz (i32.le_s (i32.add (get_local $i) (i32.const 3)) (call $Array.length (get_local $data)))))
             (set_local $b1 (call $Array.get.i32 (get_local $data) (get_local $i)))
             (set_local $b2 (call $Array.get.i32 (get_local $data) (i32.add (get_local $i) (i32.const 1))))
             (set_local $b3 (call $Array.get.i32 (get_local $data) (i32.add (get_local $i) (i32.const 2))))
@@ -423,7 +427,7 @@
             (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (i32.shr_s (get_local $combined) (i32.const 6)) (i32.const 63)))))
             (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (get_local $combined) (i32.const 63)))))
             (set_local $i (i32.add (get_local $i) (i32.const 3)))
-            (br $loop_tmp863060894eda5d8b)
+            (br $loop_tmp33999a91bec3b774)
 
         )
     )
@@ -435,7 +439,7 @@
         (set_local $combined (i32.shl (get_local $b1) (i32.const 16)))
         (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (i32.shr_s (get_local $combined) (i32.const 18)) (i32.const 63)))))
         (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (i32.shr_s (get_local $combined) (i32.const 12)) (i32.const 63)))))
-        (drop (call $StringBuilder.Append (get_local $sb) (i32.const 80)))
+        (drop (call $StringBuilder.Append (get_local $sb) (i32.const 88)))
         ) (else
                     
     (if (i32.eq (get_local $remaining) (i32.const 2)) 
@@ -446,12 +450,12 @@
         (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (i32.shr_s (get_local $combined) (i32.const 18)) (i32.const 63)))))
         (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (i32.shr_s (get_local $combined) (i32.const 12)) (i32.const 63)))))
         (drop (call $StringBuilder.Append (get_local $sb) (call $string.charAt (get_global $Alphabet) (i32.and (i32.shr_s (get_local $combined) (i32.const 6)) (i32.const 63)))))
-        (drop (call $StringBuilder.Append (get_local $sb) (i32.const 88)))
+        (drop (call $StringBuilder.Append (get_local $sb) (i32.const 96)))
         ) 
     )
     )
     )
-        (return (call $string.i32.toString (i32.const 0)))
+        (return (call $string.i32.toString (get_local $sb)))
     )
 
     ;; Public Function base64.Base64Codec.DecodeBytes(base64 As System.String) As System.Int32
@@ -493,35 +497,35 @@
     ;; For j As Integer = 0 To base64.Length - 3
     (set_local $j (i32.const 0))
     
-    (block $WASMClosure_br_0f4aa3b7cfc8cb08 
-        (loop $loop_tmp81fede7672383fcf
+    (block $WASMClosure_br_fa0599bb3d117809 
+        (loop $loop_tmpcbb345a1c7ce7ca8
 
                         
-    ;; (boolean) (boolean) (i32) (j = (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 3)))
-                (br_if $WASMClosure_br_0f4aa3b7cfc8cb08 (i32.eq (get_local $j) (i32.sub (call $string.length (get_local $base64)) (i32.const 3))))
+    ;; (boolean) (boolean) (i32) (j > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 3)))
+                (br_if $WASMClosure_br_fa0599bb3d117809 (i32.gt_s (get_local $j) (i32.sub (call $string.length (get_local $base64)) (i32.const 3))))
             
-    (if (call $string.equals (call $string.charAt (get_local $base64) (get_local $j)) (i32.const 96)) 
+    (if (call $string.equals (call $string.charAt (get_local $base64) (get_local $j)) (i32.const 104)) 
         (then
             
         ) 
     )
                         ;;For loop control step: (i32.const 1)
             (set_local $j (i32.add (get_local $j) (i32.const 1)))
-            (br $loop_tmp81fede7672383fcf)
-                        ;;For Loop Next On loop_tmp81fede7672383fcf
+            (br $loop_tmpcbb345a1c7ce7ca8)
+                        ;;For Loop Next On loop_tmpcbb345a1c7ce7ca8
 
         )
     )
     
         (set_local $padCount (i32.const 0))
         
-    (if (call $string.equals (call $string.charAt (get_local $base64) (i32.sub (call $string.length (get_local $base64)) (i32.const 1))) (i32.const 104)) 
+    (if (call $string.equals (call $string.charAt (get_local $base64) (i32.sub (call $string.length (get_local $base64)) (i32.const 1))) (i32.const 112)) 
         (then
                     (set_local $padCount (i32.add (get_local $padCount) (i32.const 1)))
         ) 
     )
         
-    (if (i32.mul (i32.ge_s (get_local $padCount) (i32.const 1)) (call $string.equals (call $string.charAt (get_local $base64) (i32.sub (call $string.length (get_local $base64)) (i32.const 2))) (i32.const 112))) 
+    (if (i32.mul (i32.ge_s (get_local $padCount) (i32.const 1)) (call $string.equals (call $string.charAt (get_local $base64) (i32.sub (call $string.length (get_local $base64)) (i32.const 2))) (i32.const 120))) 
         (then
                     (set_local $padCount (i32.add (get_local $padCount) (i32.const 1)))
         ) 
@@ -531,37 +535,37 @@
         (set_local $outPos (i32.const 0))
         (set_local $i (i32.const 0))
         
-    (block $WASMClosure_br_c71ec2975ee359d2 
-        (loop $loop_tmp7b454c1bc15c6527
+    (block $WASMClosure_br_b4f87db31894b708 
+        (loop $loop_tmp09875296ac2864a2
 
                         
     ;; while ((boolean) (i32) (i < VanillaBasic.WebAssembly.Syntax.FunctionInvoke))
-                (br_if $WASMClosure_br_c71ec2975ee359d2 (i32.eqz (i32.lt_s (get_local $i) (call $string.length (get_local $base64)))))
+                (br_if $WASMClosure_br_b4f87db31894b708 (i32.eqz (i32.lt_s (get_local $i) (call $string.length (get_local $base64)))))
             (set_local $v1 (call $base64.Base64Codec.CharToValue (call $string.charAt (get_local $base64) (get_local $i))))
             (set_local $v2 (call $base64.Base64Codec.CharToValue (call $string.charAt (get_local $base64) (i32.add (get_local $i) (i32.const 1)))))
             (set_local $c3 (call $string.charAt (get_local $base64) (i32.add (get_local $i) (i32.const 2))))
             (set_local $c4 (call $string.charAt (get_local $base64) (i32.add (get_local $i) (i32.const 3))))
-            (set_local $v3 (select (i32.const 0) (call $base64.Base64Codec.CharToValue (get_local $c3)) (call $string.equals (get_local $c3) (i32.const 120))))
-            (set_local $v4 (select (i32.const 0) (call $base64.Base64Codec.CharToValue (get_local $c4)) (call $string.equals (get_local $c4) (i32.const 128))))
+            (set_local $v3 (select (i32.const 0) (call $base64.Base64Codec.CharToValue (get_local $c3)) (call $string.equals (get_local $c3) (i32.const 128))))
+            (set_local $v4 (select (i32.const 0) (call $base64.Base64Codec.CharToValue (get_local $c4)) (call $string.equals (get_local $c4) (i32.const 136))))
             (set_local $combined (i32.or (i32.or (i32.or (i32.shl (get_local $v1) (i32.const 18)) (i32.shl (get_local $v2) (i32.const 12))) (i32.shl (get_local $v3) (i32.const 6))) (get_local $v4)))
-            (drop (i32.const 0))
+            (drop (call $Array.set.i32 (get_local $result) (get_local $outPos) (i32.and (i32.shr_s (get_local $combined) (i32.const 16)) (i32.const 255))))
             (set_local $outPos (i32.add (get_local $outPos) (i32.const 1)))
             
-    (if (i32.eqz (call $string.equals (get_local $c3) (i32.const 136))) 
+    (if (i32.eqz (call $string.equals (get_local $c3) (i32.const 144))) 
         (then
-                    (drop (i32.const 0))
+                    (drop (call $Array.set.i32 (get_local $result) (get_local $outPos) (i32.and (i32.shr_s (get_local $combined) (i32.const 8)) (i32.const 255))))
         (set_local $outPos (i32.add (get_local $outPos) (i32.const 1)))
         ) 
     )
             
-    (if (i32.eqz (call $string.equals (get_local $c4) (i32.const 144))) 
+    (if (i32.eqz (call $string.equals (get_local $c4) (i32.const 152))) 
         (then
-                    (drop (i32.const 0))
+                    (drop (call $Array.set.i32 (get_local $result) (get_local $outPos) (i32.and (get_local $combined) (i32.const 255))))
         (set_local $outPos (i32.add (get_local $outPos) (i32.const 1)))
         ) 
     )
             (set_local $i (i32.add (get_local $i) (i32.const 4)))
-            (br $loop_tmp7b454c1bc15c6527)
+            (br $loop_tmp09875296ac2864a2)
 
         )
     )
@@ -577,12 +581,12 @@
     ;; For i As Integer = 0 To Alphabet.Length - 1
     (set_local $i (i32.const 0))
     
-    (block $WASMClosure_br_683ebefa5ced04ca 
-        (loop $loop_tmpd67a50314f66a0a7
+    (block $WASMClosure_br_b3ef0b6b49bf8e1c 
+        (loop $loop_tmp541b468253d93931
 
                         
-    ;; (boolean) (boolean) (i32) (i = (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
-                (br_if $WASMClosure_br_683ebefa5ced04ca (i32.eq (get_local $i) (i32.sub (call $string.length (get_global $Alphabet)) (i32.const 1))))
+    ;; (boolean) (boolean) (i32) (i > (i32) (VanillaBasic.WebAssembly.Syntax.FunctionInvoke - (i32.const 1)))
+                (br_if $WASMClosure_br_b3ef0b6b49bf8e1c (i32.gt_s (get_local $i) (i32.sub (call $string.length (get_global $Alphabet)) (i32.const 1))))
             
     (if (call $string.equals (call $string.charAt (get_global $Alphabet) (get_local $i)) (get_local $c)) 
         (then
@@ -591,8 +595,8 @@
     )
                         ;;For loop control step: (i32.const 1)
             (set_local $i (i32.add (get_local $i) (i32.const 1)))
-            (br $loop_tmpd67a50314f66a0a7)
-                        ;;For Loop Next On loop_tmpd67a50314f66a0a7
+            (br $loop_tmp541b468253d93931)
+                        ;;For Loop Next On loop_tmp541b468253d93931
 
         )
     )
@@ -616,66 +620,66 @@
     (local $mine i32)
     (local $standard i32)
 
-        (call $Console.WriteLine (i32.const 152))
-        (call $base64.Program.ShowDemo (i32.const 192))
+        (call $Console.WriteLine (i32.const 160))
         (call $base64.Program.ShowDemo (i32.const 200))
         (call $base64.Program.ShowDemo (i32.const 208))
-        (call $Console.WriteLine (i32.const 216))
-        (call $base64.Program.ShowDemo (i32.const 272))
-        (call $Console.WriteLine (i32.const 296))
-        (call $base64.Program.ShowDemo (i32.const 336))
-        (call $Console.WriteLine (i32.const 344))
+        (call $base64.Program.ShowDemo (i32.const 216))
+        (call $Console.WriteLine (i32.const 224))
+        (call $base64.Program.ShowDemo (i32.const 280))
+        (call $Console.WriteLine (i32.const 304))
+        (call $base64.Program.ShowDemo (i32.const 344))
+        (call $Console.WriteLine (i32.const 352))
         (set_local $rnd (call $Random.New (i32.const 2026)))
         (set_local $allPass (i32.const 1))
             
     ;; For len As Integer = 0 To 60
     (set_local $len (i32.const 0))
     
-    (block $WASMClosure_br_5f4d183adc442d39 
-        (loop $loop_tmp1637b3b8c35f33d9
+    (block $WASMClosure_br_9aba8588ce9c3073 
+        (loop $loop_tmp69ca1c9211eaa2f3
 
                         
-    ;; (boolean) (boolean) (i32) (len = (i32.const 60))
-                (br_if $WASMClosure_br_5f4d183adc442d39 (i32.eq (get_local $len) (i32.const 60)))
+    ;; (boolean) (boolean) (i32) (len > (i32.const 60))
+                (br_if $WASMClosure_br_9aba8588ce9c3073 (i32.gt_s (get_local $len) (i32.const 60)))
             (set_local $sb (call $StringBuilder.New ))
                 
     ;; For k As Integer = 1 To len
     (set_local $k (i32.const 1))
     
-    (block $WASMClosure_br_19f7c0e293278314 
-        (loop $loop_tmpa4a420da431add1b
+    (block $WASMClosure_br_6a615ffb4e35b32f 
+        (loop $loop_tmp4e20bc788a1967b0
 
                                 
-    ;; (boolean) (boolean) (i32) (k = len)
-                        (br_if $WASMClosure_br_19f7c0e293278314 (i32.eq (get_local $k) (get_local $len)))
+    ;; (boolean) (boolean) (i32) (k > len)
+                        (br_if $WASMClosure_br_6a615ffb4e35b32f (i32.gt_s (get_local $k) (get_local $len)))
                     (drop (call $StringBuilder.Append (get_local $sb) (call $Strings.ChrW (call $Random.Next (get_local $rnd) (i32.const 32) (i32.const 55295)))))
                                         ;;For loop control step: (i32.const 1)
                     (set_local $k (i32.add (get_local $k) (i32.const 1)))
-                    (br $loop_tmpa4a420da431add1b)
-                                        ;;For Loop Next On loop_tmpa4a420da431add1b
+                    (br $loop_tmp4e20bc788a1967b0)
+                                        ;;For Loop Next On loop_tmp4e20bc788a1967b0
 
         )
     )
     
-            (set_local $text (call $string.i32.toString (i32.const 0)))
+            (set_local $text (call $string.i32.toString (get_local $sb)))
             (set_local $mine (call $base64.Base64Codec.EncodeText (get_local $text)))
             (set_local $standard (call $Convert.ToBase64String (call $Encoding.UTF8.GetBytes (get_local $text))))
             
     (if (i32.add (i32.eqz (call $string.equals (get_local $mine) (get_local $standard))) (i32.eqz (call $string.equals (call $base64.Base64Codec.DecodeText (get_local $mine)) (get_local $text)))) 
         (then
                     (set_local $allPass (i32.const 0))
-        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 400) (call $string.i32.toString (get_local $len))) (i32.const 408)))
+        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 408) (call $string.i32.toString (get_local $len))) (i32.const 416)))
         ) 
     )
                         ;;For loop control step: (i32.const 1)
             (set_local $len (i32.add (get_local $len) (i32.const 1)))
-            (br $loop_tmp1637b3b8c35f33d9)
-                        ;;For Loop Next On loop_tmp1637b3b8c35f33d9
+            (br $loop_tmp69ca1c9211eaa2f3)
+                        ;;For Loop Next On loop_tmp69ca1c9211eaa2f3
 
         )
     )
     
-        (call $Console.WriteLine (call $string.add (i32.const 440) (call $string.i32.toString (i32.const 0))))
+        (call $Console.WriteLine (call $string.add (i32.const 448) (call $string.bool.toString (get_local $allPass))))
     )
 
     ;; Public Function base64.Program.ShowDemo(text As System.String) As System.Void
@@ -686,11 +690,11 @@
 
         (set_local $encoded (call $base64.Base64Codec.EncodeText (get_local $text)))
         (set_local $decoded (call $base64.Base64Codec.DecodeText (get_local $encoded)))
-        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 496) (get_local $text)) (i32.const 512)))
-        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 520) (get_local $encoded)) (i32.const 536)))
-        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 544) (get_local $decoded)) (i32.const 568)))
-        (call $Console.WriteLine (call $string.add (i32.const 576) (call $string.i32.toString (i32.const 0))))
-        (call $Console.WriteLine (call $Strings.NewString (i32.const 592) (i32.const 46)))
+        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 504) (get_local $text)) (i32.const 520)))
+        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 528) (get_local $encoded)) (i32.const 544)))
+        (call $Console.WriteLine (call $string.add (call $string.add (i32.const 552) (get_local $decoded)) (i32.const 576)))
+        (call $Console.WriteLine (call $string.add (i32.const 584) (call $string.bool.toString (call $string.equals (get_local $decoded) (get_local $text)))))
+        (call $Console.WriteLine (call $Strings.NewString (i32.const 600) (i32.const 46)))
     )
 
 

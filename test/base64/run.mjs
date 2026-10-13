@@ -35,18 +35,19 @@ globalThis.console = {
 // ---------------- 载入并实例化 ----------------
 const app = await Vanilla.run(fs.readFileSync(wasmPath));
 
-// 让 .NET 侧 Console.WriteLine 输出到真实终端
-globalThis.console = nativeConsole;
-
 nativeConsole.log(`=== base64 demo (runtime: ${runtimeName}) ===`);
 nativeConsole.log(`exports: ${Object.keys(app.exports).join(', ')}`);
 
-// ---------------- 运行 Program.Main() ----------------
+// ---------------- 运行 Program.Main()（保持 console 捕获） ----------------
 const main = app.exports['Program.Main'];
 if (typeof main !== 'function') {
     throw new Error('wasm module 之中没有导出 Program.Main');
 }
 const exitCode = main();
+
+// 恢复真实终端输出，并把 wasm 侧控制台输出回显
+globalThis.console = nativeConsole;
+
 nativeConsole.log(`Program.Main() returned ${exitCode}`);
 nativeConsole.log('---- console output from wasm ----');
 for (const [, line] of captured) {

@@ -103,6 +103,18 @@ Namespace VBLanguageParser
 
         Private Function TryStaticPath(expr As ExpressionSyntax, context As Environment, ByRef path As String) As Boolean
             Select Case expr.GetType
+                Case GetType(PredefinedTypeSyntax)
+                    ' Roslyn 会把 ``String.Empty`` / ``Integer.MaxValue`` / ``Double.MinValue``
+                    ' 这类预定义类型上的共享成员访问解析为 PredefinedTypeSyntax 作为接收者，
+                    ' 例如 ``String`` 在 ``String.Empty`` 之中并不是 IdentifierNameSyntax。
+                    Dim name As String = DirectCast(expr, PredefinedTypeSyntax).Keyword.ValueText
+
+                    If Array.IndexOf(staticRoots, name) >= 0 OrElse IsKnownType(name, context) Then
+                        path = name
+                        Return True
+                    Else
+                        Return False
+                    End If
                 Case GetType(IdentifierNameSyntax)
                     Dim name As String = DirectCast(expr, IdentifierNameSyntax).objectName
 
@@ -206,10 +218,11 @@ Namespace VBLanguageParser
             Dim isArray As Boolean = TypeOf recvType Is ArrayType
             Dim isFloat As Boolean = Not recvType Is Nothing AndAlso
                 (recvType.UnderlyingWATType = WATElements.f32 OrElse recvType.UnderlyingWATType = WATElements.f64)
-            Dim isNumeric As Boolean = Not recvType Is Nothing AndAlso
-                (recvType.UnderlyingWATType = WATElements.i32 OrElse recvType.UnderlyingWATType = WATElements.i64 OrElse
-                 recvType.UnderlyingWATType = WATElements.f32 OrElse recvType.UnderlyingWATType = WATElements.f64 OrElse
-                 recvType.UnderlyingWATType = WATElements.boolean)
+            ' NOTE: 这里必须判断接收者底层的 CLR 类型是否真的是数值类型。
+            ' 仅仅判断 wasm 基本类型是不够的，因为像 StringBuilder / Random 这类
+            ' 对象引用在 wasm 之中同样也是 i32 指针，但它们不是数值类型
+            ' （``sb.ToString()`` 必须映射到 StringBuilder.ToString 而不是数值格式化）。
+            Dim isNumeric As Boolean = IsNumericType(recvType)
 
             Select Case memberName
                 Case "Length"
@@ -246,6 +259,30 @@ Namespace VBLanguageParser
                 Case "Next" : Return InstanceMethod("Random.Next", WATType.i32, receiver)
                 Case "NextDouble" : Return InstanceMethod("Random.NextDouble", WATType.f64, receiver)
                 Case Else : Return Nothing
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' 判断一个 <see cref="WATType"/> 是否对应于 CLR 的数值类型
+        ''' </summary>
+        Private Function IsNumericType(type As WATType) As Boolean
+            If type Is Nothing OrElse type.UnderlyingVBType Is Nothing Then
+                Return False
+            End If
+
+            Dim clr As Type = type.UnderlyingVBType.Type
+
+            If clr Is Nothing Then
+                Return False
+            End If
+
+            Select Case Type.GetTypeCode(clr)
+                Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16,
+                     TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,
+                     TypeCode.Single, TypeCode.Double, TypeCode.Decimal, TypeCode.Boolean
+                    Return True
+                Case Else
+                    Return False
             End Select
         End Function
 
