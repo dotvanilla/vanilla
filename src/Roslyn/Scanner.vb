@@ -2,7 +2,7 @@ Imports System.IO
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 Imports Microsoft.VisualBasic.ApplicationServices.Development
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.Language
 Imports VanillaBasic.Roslyn.VBLanguageParser
 Imports VanillaBasic.WebAssembly.CodeAnalysis
@@ -16,7 +16,7 @@ Public NotInheritable Class Scanner
 
     Public ReadOnly Property Workspace As Workspace
 
-    Sub New(proj As vbproj.Project)
+    Sub New(proj As VBProject)
         Workspace = New Workspace(proj.RootNamespace) With {.MSIL = AddressOf MSIL.ParseMSIL}
         Workspace.AssemblyInfo = proj.AssemblyInfo
     End Sub

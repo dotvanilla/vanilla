@@ -64,7 +64,7 @@ Namespace Compiler
                 End Select
 
                 rtvl = New ReturnValue(New LiteralValue(value))
-                buildBody.Add(rtvl.ToSExpression(Nothing, ""))
+                buildBody = c(buildBody, {rtvl.ToSExpression(Nothing, "")}).ToArray
             End If
         End Sub
 

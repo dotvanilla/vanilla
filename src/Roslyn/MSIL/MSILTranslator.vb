@@ -2,6 +2,7 @@
 Imports System.Reflection.Emit
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.IL
 Imports Microsoft.VisualBasic.Language
+Imports VanillaBasic.WebAssembly
 Imports VanillaBasic.WebAssembly.CodeAnalysis
 Imports VanillaBasic.WebAssembly.Syntax
 
@@ -100,7 +101,7 @@ Namespace MSIL
                 Case "add", "add.ovf"
                     Dim op2 As WATSyntax = DirectCast(stack.PopFromStack(), WATSyntax)
                     Dim op1 As WATSyntax = DirectCast(stack.PopFromStack(), WATSyntax)
-                    Dim add As New BinaryOperator With {
+                    Dim add As New Syntax.BinaryOperator With {
                         .[operator] = "+",
                         .left = CastToSymbolReference(op1),
                         .right = CastToSymbolReference(op2),

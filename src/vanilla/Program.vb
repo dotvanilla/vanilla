@@ -86,7 +86,7 @@ Module Program
             out = args("/out") Or file.ChangeSuffix("wasm")
         Else
             Dim profile$ = args("/profile") Or "Release|AnyCPU"
-            Dim vbproj As Project = file.LoadXml(Of Project)
+            Dim vbproj As VBProject = file.LoadXml(Of VBProject)
 
             project = New Scanner(vbproj)
             vbproj.EnumerateSourceFiles(fullName:=True).DoEach(AddressOf project.AddModules)
@@ -119,14 +119,14 @@ Module Program
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Private Function GetOutputWasm(vbproj As Project, Optional profile$ = "Release|AnyCPU") As String
+    Private Function GetOutputWasm(vbproj As VBProject, Optional profile$ = "Release|AnyCPU") As String
         Return $"{vbproj.GetOutputDirectory(profile)}/{vbproj.GetOutputName}.wasm"
     End Function
 
     Private Function AutoSearchRoutine() As Integer
         Dim vbprojs = App.CurrentDirectory _
             .EnumerateFiles("*.vbproj") _
-            .Select(AddressOf LoadXml(Of Project)) _
+            .Select(AddressOf LoadXml(Of VBProject)) _
             .ToArray
         Dim out$
         Dim moduleSymbol As Scanner
@@ -136,7 +136,7 @@ Module Program
 
             Throw New NotImplementedException
         Else
-            For Each proj As Project In vbprojs
+            For Each proj As VBProject In vbprojs
                 out = proj.GetOutputWasm()
                 moduleSymbol = New Scanner(proj)
 
